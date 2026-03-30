@@ -9,7 +9,7 @@
   css.textContent =
     '.site-layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:0;max-width:1440px;margin:0 auto;padding:24px 24px 24px 0}' +
     '.site-nav{position:sticky;top:24px;align-self:start;padding:16px 12px;font-size:13px;max-height:calc(100vh - 48px);overflow-y:auto}' +
-    '.site-nav a{display:block;padding:5px 10px;color:#6b6b6b;text-decoration:none;border-radius:4px;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
+    '.site-nav a{display:block;padding:5px 10px;color:#6b6b6b;text-decoration:none;border-radius:4px;line-height:1.5}' +
     '.site-nav a:hover{background:#e8e6e1;color:#1a1a1a}' +
     '.site-nav a.nav-active{color:#E8423F;font-weight:700}' +
     '.site-nav .nav-sep{border:none;border-top:1px solid #e8e6e1;margin:8px 10px}' +
@@ -52,9 +52,7 @@
     sections.forEach(function (el, i) {
       var id = 'sec-' + i;
       el.id = id;
-      var text = el.textContent.trim();
-      // Shorten long labels
-      if (text.length > 24) text = text.substring(0, 22) + '…';
+      var text = el.textContent.trim().replace(/\s*（[^）]*）/g, '').replace(/\s*\([^)]*\)/g, '');
       links += '<a href="#' + id + '">' + text + '</a>';
     });
     links += '<hr class="nav-sep">';
@@ -70,8 +68,7 @@
     sections.forEach(function (el, i) {
       var id = 'sec-' + i;
       el.id = id;
-      var text = el.textContent.trim();
-      if (text.length > 24) text = text.substring(0, 22) + '…';
+      var text = el.textContent.trim().replace(/\s*（[^）]*）/g, '').replace(/\s*\([^)]*\)/g, '');
       links += '<a href="#' + id + '">' + text + '</a>';
     });
     links += '<hr class="nav-sep">';
