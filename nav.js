@@ -53,6 +53,11 @@
       var id = 'sec-' + i;
       el.id = id;
       var text = el.textContent.trim().replace(/\s*（[^）]*）/g, '').replace(/\s*\([^)]*\)/g, '');
+      var renames = {
+        'AIが月曜朝に出す施策リストのフォーマット': '分析フォーマット',
+        '2025年の学び — 勝ち/負けパターン': '参考）2025年施策の学び'
+      };
+      if (renames[text]) text = renames[text];
       links += '<a href="#' + id + '">' + text + '</a>';
     });
     links += '<hr class="nav-sep">';
