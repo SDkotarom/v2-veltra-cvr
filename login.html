@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ログイン — V2 CVR Analysis</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#E8423F;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1}
+body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;align-items:center;justify-content:center;min-height:100vh}
+.login-card{background:var(--card);border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,.04);padding:48px;text-align:center;max-width:400px;width:90%}
+.logo{font-family:'DM Sans';font-weight:900;font-size:26px;color:var(--red);letter-spacing:.04em;border:2px solid var(--red);padding:4px 14px;border-radius:5px;display:inline-block;margin-bottom:24px}
+.login-card h1{font-size:20px;font-weight:700;margin-bottom:8px}
+.login-card p{font-size:15px;color:var(--text2);margin-bottom:32px;line-height:1.7}
+#g_id_onload,#g_btn{display:flex;justify-content:center}
+.error{color:var(--red);font-size:14px;margin-top:16px;display:none}
+</style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+<div class="login-card">
+  <div class="logo">V2</div>
+  <h1>ログインが必要です</h1>
+  <p>Googleアカウントでサインインしてください</p>
+  <div id="g_id_onload"
+       data-client_id="454478601729-sl1q6ra7epc29kr46kn48850tnltha6m.apps.googleusercontent.com"
+       data-callback="onSignIn"
+       data-auto_prompt="false">
+  </div>
+  <div id="g_btn" class="g_id_signin"
+       data-type="standard"
+       data-size="large"
+       data-theme="outline"
+       data-text="sign_in_with"
+       data-shape="rectangular"
+       data-logo_alignment="left"
+       data-width="300">
+  </div>
+  <div class="error" id="error">認証に失敗しました。もう一度お試しください。</div>
+</div>
+<script>
+function onSignIn(response) {
+  if (response.credential) {
+    var parts = response.credential.split('.');
+    var payload = JSON.parse(atob(parts[1].replace(/-/g,'+').replace(/_/g,'/')));
+    sessionStorage.setItem('gauth_user', JSON.stringify({
+      email: payload.email,
+      name: payload.name,
+      exp: payload.exp
+    }));
+    var redirect = sessionStorage.getItem('auth_redirect') || '/';
+    sessionStorage.removeItem('auth_redirect');
+    location.replace(redirect);
+  } else {
+    document.getElementById('error').style.display = 'block';
+  }
+}
+</script>
+</body>
+</html>
