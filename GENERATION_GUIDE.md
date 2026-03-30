@@ -32,23 +32,96 @@ Vercel 自動デプロイ → https://v2.veltra-cvr.vercel.app/
 
 ```
 v2-veltra-cvr/
-├── index.html                          ← フレームワーク（トップ・不変）
+├── index.html                          ← トップページ（コンセプト + 週次アーカイブ）
+├── login.html                          ← Google認証ログインページ
+├── auth.js                             ← 認証チェック（全ページの<head>に配置）
+├── nav.js                              ← サイドバーナビゲーション（自動注入）
+├── funnel-def.js                       ← ファネル定義テーブル（折りたたみ式・自動注入）
+├── prototype-tabs.js                   ← 施策A/B/Cタブ切り替え（詳細ページのみ）
+├── archive-meta.json                   ← アーカイブ更新日時（トップページがfetchで読み込み）
 ├── reports/
 │   ├── 2026-w14/                       ← Week 14 (3/30〜4/5)
-│   │   ├── data.json                   ← GA4から取得した生データ
-│   │   ├── index.html                  ← #1 詳細 + サマリーテーブル
-│   │   ├── bottleneck-2.html
+│   │   ├── data.json                   ← GA4から取得した生データ + 分析結果
+│   │   ├── index.html                  ← ベースライン + #1詳細分析 + #2〜#10サマリーテーブル
+│   │   ├── bottleneck-2.html           ← #2〜#4: 仮説カード3枚 + 施策タブ
+│   │   ├── bottleneck-3.html
+│   │   ├── bottleneck-4.html
+│   │   ├── bottleneck-5.html           ← #5〜#10: 主要仮説callout + 施策タブ
 │   │   ├── ...
 │   │   └── bottleneck-10.html
-│   ├── 2026-w15/                       ← Week 15 (4/6〜4/12)
+│   ├── 2026-w15/                       ← Week 15 (4/6〜4/12) ※生成後に追加
 │   │   ├── data.json
 │   │   ├── index.html
 │   │   └── ...
 │   └── ...
-├── templates/                          ← HTMLテンプレート（後述）
-│   ├── report-main.html
-│   └── bottleneck-detail.html
+├── GENERATION_GUIDE.md                 ← この生成指示書
+├── DEPLOY_INSTRUCTIONS.md              ← Vercelデプロイ手順
 └── README.md
+```
+
+**注意:**
+- `bottleneck-1.html` は存在しない。#1の詳細分析は `reports/YYYY-wWW/index.html` に埋め込まれている。
+- テンプレートディレクトリは存在しない。HTMLは毎週Claude が直接生成する。
+
+---
+
+## 2.5. 共有JSコンポーネント
+
+全ページ共通で使用するJavaScript/JSONファイル。生成時にHTMLに正しく組み込む必要がある。
+
+### auth.js — 認証ゲート
+
+- **配置場所**: `<head>` 内（`<script src="/auth.js"></script>`）
+- **動作**: 本番環境（localhost以外）でのみ動作。`sessionStorage` に `gauth_user` がなければ `/login.html` にリダイレクト。
+- **全HTMLページに必須。**
+
+### nav.js — サイドバーナビゲーション
+
+- **配置場所**: `</body>` 直前（`<script src="/nav.js"></script>`）
+- **動作**: ページのURLパスから種別を自動判定し、左サイドバーのナビゲーションを注入する。
+  - **トップページ** (`/`, `/index.html`): セクションリンク + W14レポートリンク
+  - **週次サマリー** (`/reports/YYYY-wWW/`): セクションリンク + ボトルネック#2〜#10リンク
+  - **ボトルネック詳細** (`/bottleneck-N.html`): サマリーへの戻りリンク + 現在ページをハイライト
+- **レスポンシブ**: 画面幅900px未満ではナビを非表示。
+- **全HTMLページに必須。**
+
+### funnel-def.js — ファネル定義テーブル
+
+- **配置場所**: `</body>` 直前、nav.jsの後（`<script src="/funnel-def.js"></script>`）
+- **動作**: ページ内のフッター付近に、折りたたみ式の「ファネル指標定義」テーブルを自動注入する。`<details>` 要素で初期状態は閉じている。
+- **GA4イベント名と計算式を表示**: session_start, view_item, calendar_view, form_start, purchase の定義。
+- **全HTMLページに必須。**
+
+### prototype-tabs.js — 施策A/B/Cタブ
+
+- **配置場所**: `</body>` 直前、nav.jsの前（`<script src="/prototype-tabs.js"></script>`）
+- **動作**: ページ内の `.proto-tabs-target` クラスを持つ要素を検出し、施策A/B/Cの3タブUIを注入する。
+- **ボトルネック詳細ページ（bottleneck-N.html）のみに含める。**
+- **HTML側の要件**: 各詳細ページに `<div class="proto-tabs-target"></div>` を配置する。
+
+### archive-meta.json — アーカイブ更新日時
+
+- **配置場所**: ルート直下 `/archive-meta.json`
+- **フォーマット**: `{"updatedAt": "2026-03-30T09:00:00+09:00"}`
+- **動作**: トップページ (`index.html`) がインラインスクリプトで `fetch('/archive-meta.json')` し、アーカイブセクションに最終更新日時を表示。
+- **週次レポート生成時に `updatedAt` を更新する。**
+
+### HTMLでの読み込み順序（まとめ）
+
+```html
+<head>
+  <script src="/auth.js"></script>      <!-- 必須: 認証チェック -->
+</head>
+<body>
+  <!-- ページ本文 -->
+
+  <!-- ボトルネック詳細ページのみ ↓ -->
+  <script src="/prototype-tabs.js"></script>
+
+  <!-- 全ページ共通 ↓ -->
+  <script src="/nav.js"></script>
+  <script src="/funnel-def.js"></script>
+</body>
 ```
 
 ---
@@ -280,10 +353,16 @@ Step 3: 結果をdata.jsonスキーマに整形
 Step 4: ボトルネック特定ロジック（Section 5）を実行
 Step 5: 上位10件に対し原因仮説・打ち手・プロトタイプを生成
 Step 6: #1のボトルネックに対し競合調査を実行
-Step 7: HTMLを生成（テンプレート + data.json）
+Step 7: HTMLを生成（data.jsonベース、Section 2.5のJS組み込み必須）
+        - 全ページ: <head>に/auth.js、</body>前に/nav.js + /funnel-def.js
+        - 詳細ページ: 追加で/prototype-tabs.js + <div class="proto-tabs-target"></div>
+        - index.html: #1詳細分析を埋め込み + #2〜#10サマリーテーブル
+        - bottleneck-2〜10.html: 各詳細ページ（#1用のファイルは不要）
 Step 8: reports/YYYY-wWW/ ディレクトリに出力
 Step 9: index.htmlのアーカイブセクションに新エントリ追加
-Step 10: git commit & push
+Step 10: archive-meta.jsonのupdatedAtを現在日時(JST)に更新
+Step 11: 全ページのフッター日付を統一（generated_atと一致させる）
+Step 12: git commit & push
 ```
 
 ---
@@ -292,10 +371,11 @@ Step 10: git commit & push
 
 | ファイル | 内容 |
 |---------|------|
-| `reports/YYYY-wWW/data.json` | GA4生データ + 分析結果 |
-| `reports/YYYY-wWW/index.html` | #1詳細分析 + #2〜#10サマリー |
-| `reports/YYYY-wWW/bottleneck-2.html` 〜 `bottleneck-10.html` | 各ボトルネック詳細 |
+| `reports/YYYY-wWW/data.json` | GA4生データ + 分析結果（全ボトルネック・仮説・打ち手を含む） |
+| `reports/YYYY-wWW/index.html` | ベースライン + #1詳細分析（仮説・打ち手・プロトタイプ・競合調査）+ #2〜#10サマリーテーブル |
+| `reports/YYYY-wWW/bottleneck-2.html` 〜 `bottleneck-10.html` | 各ボトルネック詳細（#2〜#4は仮説カード3枚、#5〜#10は主要仮説callout） |
 | `index.html` | トップページのアーカイブに新週追加（差分更新） |
+| `archive-meta.json` | `updatedAt` を生成日時に更新 |
 
 ---
 
@@ -349,7 +429,9 @@ data.jsonを出力してください。」
    出力はJSONのみ。説明文不要。
    ```
 
-7. **プロトタイプのHTMLは#1のみフル生成**: #2〜#4は仮説カード+プレースホルダー、#5〜#10はプレースホルダーのみ。全件フル生成しない。
+7. **プロトタイプのHTMLは#1のみフル生成**: #2〜#4は仮説カード3枚+`prototype-tabs.js`で自動タブ生成、#5〜#10は主要仮説callout+`prototype-tabs.js`。全件フル生成しない。
+
+8. **共有JSは生成不要**: `auth.js`, `nav.js`, `funnel-def.js`, `prototype-tabs.js` はルートに配置済み。HTMLに `<script src="/xxx.js"></script>` を含めるだけでよい。
 
 ### GA4 MCP クエリの注意事項
 
@@ -366,10 +448,28 @@ data.jsonを出力してください。」
 
 ## 10. 品質チェックリスト（生成後）
 
+### データ整合性
 - [ ] data.json の sessions / purchases が GA4 UI の数値と概ね一致するか（±10%以内）
 - [ ] ファネルの各段階が単調減少しているか（session > view_item > calendar > form > purchase）
 - [ ] ボトルネック10件が全て gap -20%以上かつ10,000セッション以上か
+- [ ] data.json が valid JSON であるか（`python3 -m json.tool` で検証）
+
+### コンテンツ品質
 - [ ] #1のプロトタイプのBeforeがVELTRAの実際のACページ構造と一致しているか
 - [ ] 競合調査がMobile視点で記述されているか
+
+### リンク・ナビゲーション
 - [ ] 全HTMLのリンク（前後ページ、サマリーへの戻り）が正しく機能するか
 - [ ] index.html のアーカイブに新週が追加されているか
+- [ ] bottleneck-2.htmlの「前へ」リンクが `./`（サマリーページ=#1）を指しているか
+
+### 共有JSコンポーネント
+- [ ] 全HTMLの `<head>` に `/auth.js` が含まれているか
+- [ ] 全HTMLの `</body>` 直前に `/nav.js` と `/funnel-def.js` が含まれているか
+- [ ] ボトルネック詳細ページ（bottleneck-N.html）に `/prototype-tabs.js` が含まれているか
+- [ ] ボトルネック詳細ページに `<div class="proto-tabs-target"></div>` が配置されているか
+- [ ] `archive-meta.json` の `updatedAt` が更新されているか
+
+### 日付・メタ情報
+- [ ] 全ページのフッター日付が統一されているか（data.json の generated_at と一致）
+- [ ] 週次レポートのヘッダー日付が正しいか（WEEK_LABEL と一致）
