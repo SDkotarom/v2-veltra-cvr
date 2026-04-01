@@ -19,16 +19,50 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .callout{background:var(--red-light);border-left:4px solid var(--red);padding:20px 28px;margin:0 44px 32px;border-radius:0 8px 8px 0}
 .callout .ct{font-size:16px;font-weight:700;color:var(--red);margin-bottom:8px}
 .callout .cb{font-size:16px;color:var(--text2);line-height:1.8}
+.callout-green{background:var(--green-light);border-left:4px solid var(--green)}
+.callout-green .ct{color:var(--green)}
+.callout-amber{background:var(--amber-light);border-left:4px solid var(--amber)}
+.callout-amber .ct{color:var(--amber)}
 .footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
 .bn-tag{font-size:13px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid var(--border)}
 .bn-tag.red{background:var(--red-light);border-color:var(--red);color:var(--red)}
 .nav-bar{padding:16px 44px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
 .nav-bar a{font-size:14px;color:var(--red);text-decoration:none;font-weight:600}
 .nav-bar a:hover{text-decoration:underline}
-.placeholder{padding:60px 44px;text-align:center;color:var(--text3)}
-.placeholder .ph-icon{font-size:48px;margin-bottom:16px}
-.placeholder .ph-title{font-size:20px;font-weight:700;color:var(--text2);margin-bottom:8px}
-.placeholder .ph-desc{font-size:15px;line-height:1.7}
+.funnel-compare{padding:0 44px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fc-cell{border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.fc-cell.alert{border-color:var(--red);background:var(--red-light)}
+.fc-label{font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.fc-stage{font-size:15px;font-weight:700;margin:6px 0 4px}
+.fc-val{font-family:'DM Sans';font-size:20px;font-weight:700}
+.fc-val-label{font-size:11px;color:var(--text3)}
+.hypo-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.hypo-card{border:1px solid var(--border);border-radius:12px;padding:20px 24px;position:relative}
+.hypo-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:12px 0 0 12px}
+.hypo-card.h1::before{background:var(--red)}
+.hypo-card.h2::before{background:var(--amber)}
+.hypo-card.h3::before{background:var(--text3)}
+.hypo-num{font-family:'DM Sans';font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.hypo-card.h1 .hypo-num{color:var(--red)}
+.hypo-card.h2 .hypo-num{color:var(--amber)}
+.hypo-card.h3 .hypo-num{color:var(--text3)}
+.hypo-title{font-size:17px;font-weight:700;margin-bottom:8px;line-height:1.4}
+.hypo-body{font-size:14px;color:var(--text2);line-height:1.7}
+.hypo-evidence{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:13px}
+.hypo-evidence strong{color:var(--text);display:block;margin-bottom:4px}
+.action-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.action-card{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.action-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.action-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.action-impact{font-family:'DM Sans';font-size:14px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px}
+.action-body{padding:16px 20px}
+.action-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.action-desc{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.action-spec{background:var(--bg);border-radius:6px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6}
+.action-spec strong{color:var(--text);display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+@media(max-width:768px){
+  .funnel-compare,.hypo-grid,.action-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -36,7 +70,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div class="card">
   <div class="header-band">
     <div class="logo">V2</div>
-    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">← サマリーに戻る</a>
+    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">&larr; サマリーに戻る</a>
     <div class="right">ボトルネック #10 / 10</div>
   </div>
 
@@ -44,37 +78,262 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
       <div style="font-family:'DM Sans';font-size:56px;font-weight:900;color:var(--red);line-height:1">#10</div>
       <div>
-        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Paid Other × Mobile — AC到達率の低さ</div>
+        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Paid Other &times; Mobile &mdash; AC到達率の低さ</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="bn-tag red">①→② 回遊段階</span>
-          <span class="bn-tag">Paid Other / Mobile</span>
+          <span class="bn-tag">Paid Other</span>
+          <span class="bn-tag">Mobile</span>
         </div>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:16px;margin-top:16px">
       <div style="font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase">全体平均との乖離</div>
       <div style="font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red)">-50%</div>
+      <div style="font-size:14px;color:var(--text3)">影響セッション: 40,768 / 月</div>
     </div>
   </div>
 
   <hr class="divider">
 
-
-  <div class="proto-tabs-target"></div>
-
-  <div style="padding:0 44px 32px">
-    <div class="callout" style="margin:0">
-      <div class="ct">主要仮説（暫定）</div>
-      <div class="cb">ディスプレイ・動画広告のモバイルLP不適合。①→②が13.0%で、同チャネルのデスクトップ（41.3%）と比較して大幅に低く、モバイル向け広告のLP設計がデスクトップ前提になっている可能性。</div>
+  <!-- Tier 1 comparison -->
+  <div style="padding:24px 44px 12px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Step 2-3 &mdash; Tier 1 比較：①→② AC到達率</div>
+  </div>
+  <div class="funnel-compare">
+    <div class="fc-cell">
+      <div class="fc-label">全体平均</div>
+      <div class="fc-stage">①→② 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">26.1%</div>
+      <div class="fc-val-label">ベースライン</div>
+    </div>
+    <div class="fc-cell alert">
+      <div class="fc-label" style="color:var(--red)">Paid Other &times; Mobile</div>
+      <div class="fc-stage">①→② 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px;color:var(--red)">13.0%</div>
+      <div class="fc-val-label" style="color:var(--red)">-50% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Paid Other &times; Desktop</div>
+      <div class="fc-stage">①→② 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">41.3%</div>
+      <div class="fc-val-label">+58% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Paid Social &times; Mobile</div>
+      <div class="fc-stage">①→② 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">3.4%</div>
+      <div class="fc-val-label">-87% vs 全体</div>
     </div>
   </div>
 
+  <!-- Tier 2-3 drill down -->
+  <div style="padding:0 44px 20px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Step 4-5 &mdash; Tier 2-3 深掘り</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">Paid Other内のデバイス比較</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          Paid Other &times; <strong style="color:var(--red)">Mobile ①→②: 13.0%</strong>（全体比 -50%）<br>
+          Paid Other &times; Desktop ①→②: 41.3%（全体比 +58%）
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ 同一チャネルでMobile vs Desktopの差が28pt。モバイルLP設計の根本的な問題。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">Paid Otherチャネル内での比較</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          Paid Other 全体 ①→②: 27.2%（全体平均並み）<br>
+          うち <strong style="color:var(--red)">Mobile: 13.0%</strong> / Desktop: 41.3%
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ チャネル全体は平均並みだが、MobileとDesktopで二極化している。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:0">
+    <div class="ct">特定結果</div>
+    <div class="cb"><strong>Paid Other Mobile ①→②</strong> が <strong>13.0%</strong>（全体平均 26.1% の <strong>-50%</strong>）。同チャネルDesktop（41.3%）との28pt差が顕著。ディスプレイ広告やアフィリエイト等のLP設計がデスクトップ前提になっており、モバイルでの商品到達が極めて困難な状態と推定される。</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Hypotheses -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Step 6 &mdash; 原因仮説 &times; 3</div>
+    <div style="font-size:15px;color:var(--text2)">なぜ Paid Other Mobile の ①→② AC到達率が低いか？</div>
+  </div>
+  <div class="hypo-grid">
+    <div class="hypo-card h1">
+      <div class="hypo-num">仮説 1（有力）</div>
+      <div class="hypo-title">ディスプレイ広告のモバイルLP不適合</div>
+      <div class="hypo-body">Desktop（41.3%）との28pt差は、ディスプレイ広告やアフィリエイトのLP設計がデスクトップ前提になっていることを強く示す。レスポンシブ対応が不十分で、モバイルで商品カードや予約ボタンが適切に表示されず、ユーザーが商品詳細に到達できずに離脱している。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Paid Other Mobile ①→②: 13.0% / Desktop: 41.3%（28pt差）<br>
+        デスクトップLPのモバイル表示での商品到達困難<br>
+        モバイルファーストLP未整備の可能性
+      </div>
+    </div>
+    <div class="hypo-card h2">
+      <div class="hypo-num">仮説 2</div>
+      <div class="hypo-title">モバイルディスプレイ広告の誤タップ</div>
+      <div class="hypo-body">13.0%という低率はインテンショナルなクリックではない誤タップが多数含まれている可能性がある。モバイルでのバナー広告は誤タップ率が高く、遷移後に商品詳細を見ることなく即離脱するユーザーが多い。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        モバイルバナー広告の誤タップ率は業界平均で30〜50%とされる<br>
+        ①→②: 13.0%（遷移後即離脱が多い数値）<br>
+        デスクトップは意図的なクリックが多く41.3%と高い
+      </div>
+    </div>
+    <div class="hypo-card h3">
+      <div class="hypo-num">仮説 3</div>
+      <div class="hypo-title">動画広告の自動再生からの意図しない遷移</div>
+      <div class="hypo-body">動画広告やリッチメディア広告の自動再生中に誤ってタップしてサイトへ遷移するケースがある。広告を視聴していただけのユーザーが意図せずサイトに来訪するため、①→②の到達率が極端に低くなっている可能性がある。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        動画広告配信比率が高い場合、意図しない遷移が増加<br>
+        ①→②が13.0%と極端に低い（純粋な到達困難ではなく意図しない流入の可能性）<br>
+        エンゲージメント指標（滞在時間・直帰率）の確認が必要
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Actions -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説1-2に対する施策）</div>
+    <div style="font-size:15px;color:var(--text2)">Paid Other Mobile の ①→② AC到達率を改善</div>
+  </div>
+  <div class="action-grid">
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--red)">施策 A</div>
+        <div class="action-impact">①→② +4pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">モバイル専用LP作成</div>
+        <div class="action-desc">レスポンシブデザインではなく、モバイルファーストで設計された専用LPを作成する。商品カードを縦スクロールに最適化し、高速ロードと直感的な商品到達を実現することで①→②の改善を図る。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・モバイルファーストLP（デスクトップ流用不可）<br>
+          ・商品カード: 縦スクロール最適化・画像重視レイアウト<br>
+          ・ページ速度: LCP 2.5秒以内（Core Web Vitals準拠）<br>
+          ・Paid Other（ディスプレイ/アフィリエイト）の全広告LPに適用
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--amber)">施策 B</div>
+        <div class="action-impact">①→② +2pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">広告フォーマットの見直し</div>
+        <div class="action-desc">誤タップを防ぐクリエイティブ設計に変更し、インタラクティブ広告でLP遷移なしにエンゲージメントを計測できるフォーマットを導入する。意図的なクリックのみをLPへ誘導することで質の高いトラフィックに絞り込む。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・誤タップ防止: バナー周囲にクリック不感帯を設置<br>
+          ・インタラクティブ広告: スワイプ・タップで商品閲覧が完結する形式<br>
+          ・エンゲージメント計測: 広告内での商品タップ数・滞在時間<br>
+          ・LPへの遷移は「予約する」明示タップのみに限定
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--text3)">施策 C</div>
+        <div class="action-impact">①→② +1pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">ディスプレイ広告のターゲティング精度改善</div>
+        <div class="action-desc">コンバージョン最適化入札への切り替えとプレースメント除外リストの整備により、広告配信の質を向上させる。誤タップが多い広告掲載面を除外し、購買意欲の高いユーザーへの配信を優先する。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・入札戦略: クリック最適化からコンバージョン最適化に変更<br>
+          ・プレースメント除外リスト: ゲームアプリ・子供向けサイト等を除外<br>
+          ・モバイルWebとアプリ内広告を分離して効果測定<br>
+          ・除外後の配信量減少を許容してCPA改善を優先
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Verification -->
+  <div class="callout-amber callout">
+    <div class="ct">検証方法</div>
+    <div class="cb">LP変更テスト 2週間。対象: Paid Other Mobile。<br>
+    主要指標: ①→② AC到達率（現状 13.0% → 目標 20%）。<br>
+    副次指標: 直帰率、滞在時間、CPA、商品詳細到達数。<br>
+    施策A（モバイル専用LP）を先行実施し、LPの問題を解消した上で施策B・Cのターゲティング改善に着手。</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Competitive Analysis -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のディスプレイ広告モバイルLP比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">Paid Other Mobile視点</span></div>
+    <div style="font-size:15px;color:var(--text2)">ボトルネックが「Paid Other Mobile ①→②」のため、ディスプレイ広告のモバイルLP設計を中心に比較。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Klook</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          ディスプレイ広告からモバイル専用LPへ遷移。アプリDL訴求をLPに組み込み、アプリへの誘導も同時実施。商品カルーセルがモバイルに最適化されており、スワイプで複数商品をブラウズ可能。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: モバイル専用LP+アプリDL訴求でLTV最大化を両立。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">GetYourGuide</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          ディスプレイ広告から商品詳細に直結するLP設計。モバイルでのCore Web Vitalsスコアを最適化し、2秒以内にファーストビューが表示される。商品画像フルスクリーン表示で没入感を高める。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 高速ロード+商品直結LPでモバイル離脱を防止。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Viator</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          リターゲティング広告専用のモバイルLPを用意。過去閲覧商品を表示したパーソナライズLPで再来訪ユーザーの関心を即座に刺激。CTA「前回の続きから」で購買意欲を再点火。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: リターゲティング専用パーソナライズLPで再訪CVRを最大化。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">KKday</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          ディスプレイ広告からアプリへのディープリンク誘導を優先。アプリユーザーはモバイルWeb比で①→②が高いため、ディスプレイ広告をアプリDLの入口として活用。アプリ非導入ユーザーはモバイルWebLPへ振り分け。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: アプリディープリンクでモバイルUXを最適化しLP離脱を回避。</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin:20px 0 0">
+      <div class="ct">競合比較から得られる示唆</div>
+      <div class="cb">競合4社すべてがディスプレイ広告のモバイルLPをデスクトップと分離して設計している。VELTRAのPaid Other MobileはLP設計がデスクトップ流用と推定され、施策A（モバイル専用LP）は最優先で実施すべき施策。KlookとKKdayのアプリディープリンク戦略はアプリ普及率が高まれば中長期的な差別化施策として参考になる。</div>
+    </div>
+  </div>
+
+  <!-- Team review -->
+  <div style="padding:0 44px 32px">
+    <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
+      <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;font-size:14px;color:var(--text3)">
+        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">判断<br><strong style="font-size:18px">◎ / △ / ×</strong></div>
+        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">優先度<br><strong style="font-size:18px">高 / 中 / 低</strong></div>
+        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">担当<br><strong style="font-size:18px">_____</strong></div>
+        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">コメント<br><strong style="font-size:18px">_____</strong></div>
+      </div>
+    </div>
+  </div>
 
   <div class="nav-bar">
-    <a href="bottleneck-9.html">← #9 に戻る</a>
+    <a href="bottleneck-9.html">&larr; #9 へ戻る</a>
     <a href="./">サマリーに戻る</a>
-    <a href="./">サマリーへ →</a>
+    <a href="./">サマリーに戻る &rarr;</a>
   </div>
+
 </div>
 
 <div class="card">
