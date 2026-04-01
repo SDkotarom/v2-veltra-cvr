@@ -317,11 +317,11 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
     <!-- Area panel -->
     <div class="seg-panel" id="seg-area">
-      <table class="seg-table">
-        <thead><tr><th>エリア</th><th>CVR</th><th colspan="4" style="text-align:center;font-style:italic;color:var(--text3)">ファネル段階データなし</th></tr></thead>
+      <table class="seg-table" id="seg-area-table">
+        <thead id="seg-area-thead"><tr><th>エリア</th><th>CVR</th><th colspan="4" style="text-align:center;font-style:italic;color:var(--text3)">ファネルデータ取得中…</th></tr></thead>
         <tbody id="seg-area-body"></tbody>
       </table>
-      <div class="seg-note">※ エリア別CVR（全チャネル・全デバイス合算）。ファネル段階別データは現在未取得。</div>
+      <div class="seg-note" id="seg-area-note">※ エリア別データ読み込み中。</div>
     </div>
 
   </div>
@@ -658,22 +658,42 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     }
     document.getElementById('seg-nr-body').innerHTML = nrRows.filter(Boolean).join('');
 
-    // Area (CVRのみ)
+    // Area — full funnel if rates present, CVR-only fallback
     var baselineCvr = window._currentWeekBaseline ? window._currentWeekBaseline.cvr : null;
-    var areaRows = [];
     var areaOrder = [['Hawaii', 'hawaii'], ['Bali', 'bali'], ['Europe', 'europe'], ['Japan', 'japan'], ['その他', 'other']];
+    var areaHasFunnel = segs.area && Object.keys(segs.area).some(function(k) {
+      return segs.area[k].rates != null;
+    });
+    // Update table header and note based on data availability
+    var areaThead = document.getElementById('seg-area-thead');
+    var areaNote  = document.getElementById('seg-area-note');
+    if (areaHasFunnel) {
+      areaThead.innerHTML = '<tr><th>エリア</th><th>CVR</th><th>①→②</th><th>②→③</th><th>③→④</th><th>④→⑤</th></tr>';
+      areaNote.textContent = '※ エリア別ファネル通過率（全チャネル・全デバイス合算）。';
+    } else {
+      areaThead.innerHTML = '<tr><th>エリア</th><th>CVR</th><th colspan="4" style="text-align:center;font-style:italic;color:var(--text3)">ファネル段階データ未取得 — HANDOFF_AREA_FUNNEL.md 参照</th></tr>';
+      areaNote.textContent = '※ エリア別CVRのみ表示中。ファネル段階データはVELTRAアカウントのGA4 MCP接続で取得予定。';
+    }
+    var areaRows = [];
     if (segs.area) {
       areaOrder.forEach(function(a) {
         var seg = segs.area[a[1]];
-        if (seg && seg.cvr != null) {
+        if (!seg) return;
+        if (areaHasFunnel && seg.rates) {
+          areaRows.push(segRowFromRates(a[0], seg.rates, blRates));
+        } else if (seg.cvr != null) {
           var g = baselineCvr ? (seg.cvr - baselineCvr) / baselineCvr : null;
           var gapSpan = g != null ? '<span class="rate-gap ' + (Math.abs(g) < 0.03 ? 'gap-neut' : g > 0 ? 'gap-pos' : 'gap-neg') + '">' + gapLabel(g) + '</span>' : '';
-          areaRows.push('<tr><td class="seg-name">' + a[0] + '</td><td class="cvr-cell">' + fmtPct(seg.cvr, 2) + gapSpan + '</td><td colspan="4" style="color:var(--text3);font-size:12px">—</td></tr>');
+          areaRows.push('<tr><td class="seg-name">' + a[0] + '</td><td class="cvr-cell">' + fmtPct(seg.cvr, 2) + gapSpan + '</td><td colspan="4" style="color:var(--text3)">—</td></tr>');
         }
       });
-      if (baselineCvr) areaRows.push('<tr><td class="seg-name">全体（ベースライン）</td><td class="cvr-cell">基準</td><td colspan="4"></td></tr>');
+      if (areaHasFunnel) {
+        areaRows.push(segRowFromRates('全体（ベースライン）', blRates, null));
+      } else if (baselineCvr) {
+        areaRows.push('<tr><td class="seg-name">全体（ベースライン）</td><td class="cvr-cell">基準</td><td colspan="4"></td></tr>');
+      }
     }
-    document.getElementById('seg-area-body').innerHTML = areaRows.join('');
+    document.getElementById('seg-area-body').innerHTML = areaRows.filter(Boolean).join('');
   }
 
   // ── Graph ─────────────────────────────────────────
