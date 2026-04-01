@@ -1,5 +1,71 @@
 # WEEKLY REPORT PLAYBOOK
 
+## プロジェクト基礎知識（新規セッション向け）
+
+### このリポジトリは何か
+VELTRAのCVR改善プロジェクト「V2」の週次ボトルネック分析レポートを管理するリポジトリ。
+GA4データからファネル×セグメントの転換率を分析し、ボトルネック10件を特定、各件に仮説・打ち手・プロトタイプを生成する。
+
+### リポジトリ構成
+```
+v2-veltra-cvr/
+├── WEEKLY_REPORT_PLAYBOOK.md   ← このファイル。全フェーズの手順書
+├── auth.js                     ← 認証（ログインページへリダイレクト）
+├── nav.js                      ← レポートページ共通ナビゲーション
+├── funnel-def.js               ← ファネル定義
+├── prototype-tabs.js           ← プロトタイプタブUI
+├── archive-meta.json           ← 過去レポートのメタ情報
+├── reports/
+│   └── {YEAR}-w{WEEK}/
+│       ├── data.json           ← GA4から取得した実データ
+│       ├── index.html          ← サマリーページ（ベースライン + #1ハイライト + #2〜#10テーブル）
+│       ├── bottleneck-1.html   ← #1フル分析（仮説×3 / 打ち手×3 / プロトタイプ / 競合比較）
+│       ├── bottleneck-2.html   ← #2〜#3: プロトあり
+│       ├── ...
+│       ├── bottleneck-7.html   ← #4〜#7: 仮説+打ち手
+│       ├── bottleneck-8.html   ← #8〜#10: プレースホルダー
+│       └── bottleneck-10.html
+```
+
+### デプロイ
+- **ホスティング**: Vercel（mainブランチへのpushで自動デプロイ）
+- **URL**: https://v2-veltra-cvr.vercel.app/
+- **認証**: auth.jsによるログイン必須（403が返る場合は認証が必要）
+- **レポートURL例**: https://v2-veltra-cvr.vercel.app/reports/2026-w14/
+
+### ファネル定義（5段階）
+1. **①流入** — session_start（sessions）
+2. **②AC到達** — ac_page_reach（商品詳細ページ到達）
+3. **③検討** — GA4_vtjp_ex_yokka_view_booking_calendar（カレンダー表示）
+4. **④意向** — form_start（予約フォーム開始）
+5. **⑤完了** — purchase（購入完了）
+
+### ボトルネック個別ページの分量ルール
+- **#1**: フル分析（Tier比較 / 深掘り / 仮説×3 / 打ち手×3 / プロトタイプBefore/After / 競合比較6社 / 検証方法 / チームレビュー欄）
+- **#2〜#3**: プロトあり（仮説×3カード / プロトタイプタブ / チームレビュー欄）
+- **#4〜#7**: 仮説+打ち手（仮説×3カード / チームレビュー欄 / プロトタイプなし）
+- **#8〜#10**: プレースホルダー（主要仮説callout1つのみ / ナビバー）
+
+### CSS・デザイン
+- 全ページ共通のCSS変数を各HTMLの`<style>`にインライン記述（外部CSSなし）
+- フォント: Noto Sans JP + DM Sans
+- カラー: --red:#E8423F / --bg:#f5f4f0 / --card:#fff
+- 既存のデザイン・CSS・レイアウトは変更しない
+
+### Git運用
+- **メインブランチ**: main（デプロイ対象）
+- **作業ブランチ**: claude/* で作業し、完了後mainにマージ
+- **コミットメッセージ**: 英語、conventional commits形式（feat: / fix: / refactor:）
+
+### 週次レポート生成の全体フロー
+1. **Phase 1 — データ取得**: GA4 APIから8本のクエリを実行 → data.json生成
+2. **Phase 2 — HTML生成**: data.jsonを元にindex.html + bottleneck-1〜10.htmlを生成
+3. **Phase 3 — コミット・デプロイ**: git add → commit → push origin main（Vercel自動デプロイ）
+
+---
+
+## Phase 1 — データ取得
+
 対象週: 2026-w15 として以下を実行してください。
 
 ## ルール
@@ -129,7 +195,26 @@ reports/{YEAR}-w{WEEK}/data.json に保存してください。
 - /japan/ /tokyo/ /osaka/ 含む → "japan"
 - それ以外 → "other"
 
-## 完了後の作業
+## Phase 2 — HTML生成
+
+### 生成手順
+1. `reports/{YEAR}-w{WEEK}/data.json` を読み込む
+2. 既存の直近週のHTMLをテンプレートとして参照（CSS・レイアウトを踏襲）
+3. index.html を生成（ベースライン + #1ハイライト + #2〜#10サマリーテーブル）
+4. bottleneck-1.html を生成（#1フル分析）
+5. bottleneck-2〜10.html を分量ルールに従い生成
+6. 「仮想データ」等のプロトタイプ表記は使わない
+
+### 大きなHTMLを書く際の注意
+- 1回のレスポンスでタイムアウトしないよう、3分割で書く:
+  - Part 1: CSS + ヘッダー + データセクション
+  - Part 2: 仮説 + 打ち手
+  - Part 3: プロトタイプ + 競合比較 + フッター
+- Agentへの委任より分割書き込みの方がトークン効率が良い
+
+## Phase 3 — コミット・デプロイ
+
+### 完了後の作業
 生成したreports/{YEAR}-w{WEEK}/data.json に加え、
 以下のファイルもリポジトリに保存してください。
 
