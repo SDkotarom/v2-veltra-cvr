@@ -1,29 +1,39 @@
 (function () {
   var css = document.createElement('style');
   css.textContent =
-    '.site-layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:0;max-width:1500px;margin:0 auto;padding:24px 24px 24px 0}' +
-    '.site-nav{position:sticky;top:24px;align-self:start;padding:12px 8px;font-size:13px;max-height:calc(100vh - 48px);overflow-y:auto}' +
-    '.site-nav a{display:block;padding:5px 10px;color:#6b6b6b;text-decoration:none;border-radius:4px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
-    '.site-nav a:hover{background:#e8e6e1;color:#1a1a1a}' +
-    '.site-nav a.nav-active{color:#E8423F;font-weight:700}' +
-    '.site-nav .nav-sep{border:none;border-top:1px solid #e8e6e1;margin:8px 10px}' +
-    '.site-nav .nav-section{font-size:12px;font-weight:700;color:#1a1a1a;padding:8px 10px 4px;letter-spacing:.02em}' +
-    '.site-nav .nav-section a{display:inline;padding:0;color:#1a1a1a;font-weight:700;font-size:12px;white-space:normal;overflow:visible}' +
-    '.site-nav .nav-section a:hover{background:none;color:var(--red,#E8423F)}' +
-    '.site-nav .nav-section a.nav-active{color:#E8423F}' +
-    '.site-nav .nav-week-row{display:flex;align-items:center;gap:4px;padding:5px 10px;cursor:pointer;border-radius:4px;user-select:none}' +
-    '.site-nav .nav-week-row:hover{background:#e8e6e1}' +
-    '.site-nav .nav-week-toggle{font-size:10px;color:#aaa;flex-shrink:0;transition:transform .15s;line-height:1}' +
+    '.site-layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:0;max-width:1500px;margin:0 auto;padding:20px 24px 24px 16px}' +
+    '.site-nav{position:sticky;top:20px;align-self:start;padding:12px 10px 16px;max-height:calc(100vh - 40px);overflow-y:auto;background:#f0ede8;border-radius:16px}' +
+    /* Logo area */
+    '.site-nav .nav-logo{padding:10px 10px 12px;display:flex;align-items:center;gap:8px}' +
+    '.site-nav .nav-logo img{width:28px;height:28px;object-fit:contain}' +
+    '.site-nav .nav-logo-text{font-size:11px;font-weight:700;color:#1a1a1a;line-height:1.3;letter-spacing:.03em}' +
+    '.site-nav .nav-logo-sub{font-size:9px;font-weight:400;color:#999;letter-spacing:.05em}' +
+    /* Section label */
+    '.site-nav .nav-label{font-size:10px;font-weight:700;color:#aaa;padding:10px 12px 4px;letter-spacing:.08em;text-transform:uppercase}' +
+    /* Top-level nav items */
+    '.site-nav .nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;margin:1px 0;text-decoration:none;color:#666;font-size:14px;line-height:1.3;transition:background .12s}' +
+    '.site-nav .nav-item:hover{background:rgba(255,255,255,.6);color:#1a1a1a}' +
+    '.site-nav .nav-item.nav-active{background:#fff;color:#1a1a1a;font-weight:700;box-shadow:0 1px 6px rgba(0,0,0,.09)}' +
+    '.site-nav .nav-item .nav-icon{flex-shrink:0;width:20px;height:20px;opacity:.45}' +
+    '.site-nav .nav-item.nav-active .nav-icon{opacity:1}' +
+    /* Separator */
+    '.site-nav .nav-sep{border:none;border-top:1px solid rgba(0,0,0,.08);margin:6px 10px}' +
+    /* Week accordion */
+    '.site-nav .nav-week-row{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;cursor:pointer;margin:1px 0;transition:background .12s}' +
+    '.site-nav .nav-week-row:hover{background:rgba(255,255,255,.6)}' +
+    '.site-nav .nav-week-toggle{font-size:9px;color:#bbb;flex-shrink:0;transition:transform .15s;line-height:1}' +
     '.site-nav .nav-week-toggle.open{transform:rotate(90deg)}' +
-    '.site-nav .nav-week-id{font-family:"DM Sans",sans-serif;font-size:13px;font-weight:700;color:#E8423F;flex-shrink:0}' +
-    '.site-nav .nav-week-label{font-size:11px;color:#aaa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
-    '.site-nav .nav-week-badge{font-size:10px;font-weight:700;background:#E8423F;color:#fff;padding:1px 6px;border-radius:8px;flex-shrink:0;margin-left:auto}' +
-    '.site-nav .nav-bn-list{padding-left:6px}' +
-    '.site-nav .nav-bn-item a{padding:3px 10px 3px 14px;font-size:12px;color:#6b6b6b;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none;border-radius:4px;line-height:1.5}' +
-    '.site-nav .nav-bn-item a:hover{background:#e8e6e1;color:#1a1a1a}' +
-    '.site-nav .nav-bn-item a.nav-active{color:#E8423F;font-weight:700}' +
-    '.site-nav .nav-bn-item .bn-num{font-family:"DM Sans",sans-serif;font-weight:700;color:#aaa;margin-right:4px;font-size:11px}' +
+    '.site-nav .nav-week-id{font-size:13px;font-weight:700;color:#E8423F;flex-shrink:0;font-family:"DM Sans",sans-serif}' +
+    '.site-nav .nav-week-label{font-size:11px;color:#aaa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}' +
+    '.site-nav .nav-week-badge{font-size:9px;font-weight:700;background:#E8423F;color:#fff;padding:2px 7px;border-radius:8px;flex-shrink:0;white-space:nowrap}' +
+    /* Bottleneck items */
+    '.site-nav .nav-bn-list{padding-left:4px;margin-bottom:2px}' +
+    '.site-nav .nav-bn-item a{display:flex;align-items:center;gap:6px;padding:7px 10px 7px 16px;font-size:13px;color:#777;border-radius:8px;text-decoration:none;line-height:1.4;transition:background .12s}' +
+    '.site-nav .nav-bn-item a:hover{background:rgba(255,255,255,.7);color:#1a1a1a}' +
+    '.site-nav .nav-bn-item a.nav-active{background:#fff;color:#E8423F;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.07)}' +
+    '.site-nav .nav-bn-item .bn-num{font-family:"DM Sans",sans-serif;font-weight:700;color:#ccc;font-size:11px;flex-shrink:0}' +
     '.site-nav .nav-bn-item a.nav-active .bn-num{color:#E8423F}' +
+    /* Main area */
     '.site-main{min-width:0}' +
     '@media(max-width:900px){.site-layout{grid-template-columns:1fr;padding:0}.site-nav{display:none}.site-main{padding:0}}';
   document.head.appendChild(css);
@@ -71,14 +81,79 @@
   }
 
   // ── Expand state ─────────────────────────────────
-  // latest week always expanded; current week expanded on report pages
   var expandedWeeks = {};
 
-  // ── Render helpers ───────────────────────────────
-  function weekLinkHref(w) {
-    return w.path;
+  // ── SVG icons ────────────────────────────────────
+  function icon(d, vb) {
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', vb || '0 0 20 20');
+    svg.setAttribute('fill', 'currentColor');
+    svg.className.baseVal = 'nav-icon';
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', d);
+    svg.appendChild(path);
+    return svg;
   }
 
+  var ICONS = {
+    summary: 'M3 3h6v6H3V3zm0 8h6v6H3v-6zm8-8h6v6h-6V3zm0 8h6v6h-6v-6z',
+    bottleneck: 'M2 14h3v3H2v-3zm4-4h3v7H6v-7zm4-4h3v11h-3V6zm4-6h3v17h-3V0z',
+    cycle: 'M10 2a8 8 0 1 0 0 16A8 8 0 0 0 10 2zm1 11.93V15a1 1 0 1 1-2 0v-1.07A6.002 6.002 0 0 1 4 8a1 1 0 0 1 2 0 4 4 0 0 0 4 4 1 1 0 0 1 1 1.93zM10 6a1 1 0 0 1 1 1v3.586l1.707 1.707a1 1 0 0 1-1.414 1.414l-2-2A1 1 0 0 1 9 11V7a1 1 0 0 1 1-1z',
+  };
+
+  // Better icons using clip paths
+  function makeIcon(type) {
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '2');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.className.baseVal = 'nav-icon';
+
+    function addPath(d) {
+      var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p.setAttribute('d', d);
+      svg.appendChild(p);
+    }
+    function addRect(x, y, w, h, rx) {
+      var r = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      r.setAttribute('x', x); r.setAttribute('y', y);
+      r.setAttribute('width', w); r.setAttribute('height', h);
+      if (rx) r.setAttribute('rx', rx);
+      svg.appendChild(r);
+    }
+    function addLine(x1, y1, x2, y2) {
+      var l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', x1); l.setAttribute('y1', y1);
+      l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+      svg.appendChild(l);
+    }
+    function addPolyline(pts) {
+      var pl = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+      pl.setAttribute('points', pts);
+      svg.appendChild(pl);
+    }
+
+    if (type === 'summary') {
+      // Grid 2×2
+      addRect(3,3,7,7,1); addRect(14,3,7,7,1);
+      addRect(3,14,7,7,1); addRect(14,14,7,7,1);
+    } else if (type === 'bottleneck') {
+      // Bar chart ascending
+      addLine(18,20,18,10); addLine(12,20,12,4); addLine(6,20,6,14);
+      addPolyline('2,20 22,20');
+    } else if (type === 'cycle') {
+      // Refresh arrows
+      addPath('M23 4v6h-6');
+      addPath('M1 20v-6h6');
+      addPath('M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15');
+    }
+    return svg;
+  }
+
+  // ── Render helpers ───────────────────────────────
   function bnLinkHref(w, n) {
     return w.path + 'bottleneck-' + n + '.html';
   }
@@ -92,7 +167,6 @@
     div.className = 'nav-week-block';
     div.dataset.weekId = w.week_id;
 
-    // Week header row
     var header = document.createElement('div');
     header.className = 'nav-week-row';
 
@@ -106,10 +180,9 @@
 
     var labelEl = document.createElement('span');
     labelEl.className = 'nav-week-label';
-    // "3/30〜4/5" format
     var ds = w.date_start ? w.date_start.slice(5).replace('-', '/') : '';
     var de = w.date_end   ? w.date_end.slice(5).replace('-', '/') : '';
-    labelEl.textContent = ds && de ? '(' + ds + '〜' + de + ')' : w.week_label;
+    labelEl.textContent = ds && de ? ds + '〜' + de : w.week_label;
 
     header.appendChild(toggle);
     header.appendChild(idEl);
@@ -122,7 +195,6 @@
       header.appendChild(badge);
     }
 
-    // Bottleneck list
     var bnList = document.createElement('div');
     bnList.className = 'nav-bn-list';
     bnList.style.display = expanded ? 'block' : 'none';
@@ -143,9 +215,8 @@
         bnList.appendChild(item);
       });
     } else {
-      // Placeholder while loading
       var loading = document.createElement('div');
-      loading.style.cssText = 'padding:3px 14px;font-size:11px;color:#bbb';
+      loading.style.cssText = 'padding:6px 16px;font-size:11px;color:#bbb';
       loading.textContent = '読み込み中...';
       loading.dataset.placeholder = '1';
       bnList.appendChild(loading);
@@ -167,45 +238,55 @@
   function buildNav(weeks, weekDataMap) {
     nav.innerHTML = '';
 
+    // Logo
+    var logoArea = document.createElement('div');
+    logoArea.className = 'nav-logo';
+    var logoImg = document.createElement('img');
+    logoImg.src = '/veltra-logo.png';
+    logoImg.onerror = function() { this.style.display='none'; };
+    var logoText = document.createElement('div');
+    logoText.className = 'nav-logo-text';
+    logoText.innerHTML = 'VELTRA CVR REPORT<br><span class="nav-logo-sub">BOOKING BEHAVIOR ANALYSIS</span>';
+    logoArea.appendChild(logoImg);
+    logoArea.appendChild(logoText);
+    nav.appendChild(logoArea);
+
+    nav.appendChild(makeSep());
+
     // ■ サマリー
-    var sumSection = document.createElement('div');
-    sumSection.className = 'nav-section';
     var sumA = document.createElement('a');
     sumA.href = '/';
-    sumA.textContent = '■ サマリー';
-    if (isTop) sumA.className = 'nav-active';
-    sumSection.appendChild(sumA);
-    nav.appendChild(sumSection);
+    sumA.className = 'nav-item' + (isTop ? ' nav-active' : '');
+    sumA.appendChild(makeIcon('summary'));
+    sumA.appendChild(document.createTextNode('サマリー'));
+    nav.appendChild(sumA);
 
     nav.appendChild(makeSep());
 
     // ■ ボトルネック分析
-    var bnSection = document.createElement('div');
-    bnSection.className = 'nav-section';
-    bnSection.textContent = '■ ボトルネック分析';
-    nav.appendChild(bnSection);
+    var bnLabel = document.createElement('div');
+    bnLabel.className = 'nav-label';
+    bnLabel.textContent = 'ボトルネック分析';
+    nav.appendChild(bnLabel);
 
     if (weeks && weeks.length) {
-      var sorted = weeks.slice().reverse(); // latest first
+      var sorted = weeks.slice().reverse();
       sorted.forEach(function (w, i) {
         var isLatest = i === 0;
         var bns = weekDataMap[w.week_id] || null;
-        var block = renderWeekBlock(w, bns, isLatest);
-        nav.appendChild(block);
+        nav.appendChild(renderWeekBlock(w, bns, isLatest));
       });
     }
 
     nav.appendChild(makeSep());
 
     // ■ CVR改善サイクル
-    var cycleSection = document.createElement('div');
-    cycleSection.className = 'nav-section';
     var cycleA = document.createElement('a');
     cycleA.href = '/cycle.html';
-    cycleA.textContent = '■ CVR改善サイクル';
-    if (isCycle) cycleA.className = 'nav-active';
-    cycleSection.appendChild(cycleA);
-    nav.appendChild(cycleSection);
+    cycleA.className = 'nav-item' + (isCycle ? ' nav-active' : '');
+    cycleA.appendChild(makeIcon('cycle'));
+    cycleA.appendChild(document.createTextNode('CVR改善サイクル'));
+    nav.appendChild(cycleA);
 
     // Smooth scroll for hash links
     nav.addEventListener('click', function (e) {
@@ -225,16 +306,14 @@
     return hr;
   }
 
-  // ── Update bottleneck list for a week after data loads ──
+  // ── Update bottleneck list after data loads ──────
   function updateWeekBnList(weekId, bns) {
     var block = nav.querySelector('[data-week-id="' + weekId + '"]');
     if (!block) return;
     var bnList = block.querySelector('.nav-bn-list');
     if (!bnList) return;
-    // Remove placeholder
     var placeholder = bnList.querySelector('[data-placeholder]');
     if (placeholder) bnList.removeChild(placeholder);
-    // Add items if list is still empty
     if (!bnList.children.length) {
       var wInfo = null;
       if (reportsIndex) {
@@ -268,17 +347,14 @@
       reportsIndex = idx;
       var weeks = idx.weeks || [];
 
-      // Determine which weeks to expand by default
       if (weeks.length) {
         var latestId = weeks[weeks.length - 1].week_id;
         expandedWeeks[latestId] = true;
         if (currentWeekId) expandedWeeks[currentWeekId] = true;
       }
 
-      // Initial render (without bottleneck titles yet)
       buildNav(weeks, weekDataMap);
 
-      // Load data.json for each week
       weeks.forEach(function (w) {
         fetch(w.data_path)
           .then(function (r) { return r.json(); })
