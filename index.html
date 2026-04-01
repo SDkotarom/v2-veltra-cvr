@@ -57,6 +57,18 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .status-ng{background:var(--red-light);color:var(--red)}
 .status-close{background:#fffbeb;color:var(--amber)}
 
+/* Bot monitoring */
+.bot-row{display:flex;align-items:center;justify-content:space-between;padding:18px 36px;gap:24px}
+.bot-cell{flex:1}
+.bot-label{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.bot-val{font-family:'DM Sans';font-size:28px;font-weight:900;color:var(--text);line-height:1}
+.bot-val.alert{color:var(--red)}
+.bot-note{font-size:12px;color:var(--text3);margin-top:4px}
+.bot-alert-cell{text-align:right;flex-shrink:0}
+.bot-alert-label{font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.bot-alert-val{font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--text3)}
+.bot-alert-val.alert{color:var(--red)}
+
 /* Annual graph */
 .graph-wrap{padding:24px 44px 32px;position:relative}
 .graph-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px}
@@ -73,6 +85,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .graph-axis-r{position:absolute;right:0;top:0;height:100%;display:flex;flex-direction:column;justify-content:space-between;font-size:11px;color:#8b7355;font-family:'DM Sans';text-align:left;width:40px;padding-left:4px}
 .graph-labels-x{display:flex;margin-top:8px;font-size:11px;color:var(--text3);font-family:'DM Sans'}
 
+/* Funnel mode toggle */
+.funnel-mode-toggle{display:flex;background:var(--bg);border-radius:8px;padding:3px;gap:2px;border:1px solid var(--border)}
+.fmt-btn{font-size:12px;font-weight:700;padding:5px 14px;border-radius:6px;border:none;cursor:pointer;transition:background .12s,color .12s;font-family:inherit}
+.fmt-btn.active{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.fmt-btn.inactive{background:transparent;color:var(--text3)}
+
 /* Funnel */
 .funnel-bar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:28px 44px}
 .funnel-bar-cell{padding:0 16px;border-right:1px solid var(--border)}
@@ -80,7 +98,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .funnel-bar-cell:last-child{border-right:none;padding-right:0}
 .fbc-label{font-size:13px;font-weight:700;color:var(--text3);letter-spacing:.06em;margin-bottom:10px}
 .fbc-stages{font-size:16px;font-weight:700;margin-bottom:8px}
-.fbc-rate{font-family:'DM Sans';font-size:32px;font-weight:900;color:var(--text);line-height:1;margin-bottom:8px}
+.fbc-rate-row{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.fbc-rate{font-family:'DM Sans';font-size:32px;font-weight:900;color:var(--text);line-height:1}
+.fbc-wow{font-size:12px;font-weight:700;font-family:'DM Sans';padding:2px 6px;border-radius:4px;line-height:1.4;white-space:nowrap}
+.fbc-wow.wow-up{color:#1a8c4e;background:#e6f7ee}
+.fbc-wow.wow-down{color:#c0392b;background:#fdecea}
+.fbc-wow.wow-alert{color:#fff;background:#c0392b;font-weight:900}
+.fbc-wow.wow-neut{color:var(--text3);background:var(--bg)}
 .fbc-bar-bg{height:6px;background:var(--border);border-radius:3px;margin-bottom:6px}
 .fbc-bar-fill{height:6px;border-radius:3px;background:var(--red)}
 .fbc-counts{font-size:13px;color:var(--text3);line-height:1.6}
@@ -207,6 +231,21 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       </div>
     </div>
   </div>
+
+  <hr class="divider-solid">
+
+  <!-- Bot monitoring -->
+  <div class="bot-row" id="bot-row">
+    <div class="bot-cell">
+      <div class="bot-label">非bot比率（Organic PC WoW）</div>
+      <div class="bot-val" id="bot-ratio">—</div>
+      <div class="bot-note">目標 ≥ 90%　|　Organic PC セッション急増でbotリスク検知</div>
+    </div>
+    <div class="bot-alert-cell" id="bot-alert-cell">
+      <div class="bot-alert-label">Organic PC WoW</div>
+      <div class="bot-alert-val" id="bot-wow">—</div>
+    </div>
+  </div>
 </div>
 
 <!-- Annual trend graph -->
@@ -233,7 +272,14 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
 <!-- Funnel pass rates -->
 <div class="card">
-  <div class="sec-label">ファネル通過率</div>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:28px 44px 12px">
+    <div class="sec-label" style="padding:0">ファネル通過率</div>
+    <div class="funnel-mode-toggle" id="funnel-mode-toggle">
+      <button class="fmt-btn active" id="fmt-28d" onclick="setFunnelMode('28d')">28日ローリング</button>
+      <button class="fmt-btn inactive" id="fmt-7d" onclick="setFunnelMode('7d')">7日WoW比較</button>
+    </div>
+  </div>
+  <div id="funnel-mode-note" style="padding:0 44px 10px;font-size:12px;color:var(--text3)">水準把握用（28日移動平均）</div>
   <hr class="divider-solid">
 
   <!-- Funnel overview counts -->
@@ -252,28 +298,28 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div class="funnel-bar-cell">
       <div class="fbc-label">①→②</div>
       <div class="fbc-stages">流入 → AC到達</div>
-      <div class="fbc-rate" id="rate-1-2">—</div>
+      <div class="fbc-rate-row"><div class="fbc-rate" id="rate-1-2">—</div><div class="fbc-wow" id="wow-1-2"></div></div>
       <div class="fbc-bar-bg"><div class="fbc-bar-fill" id="bar-1-2" style="width:0%"></div></div>
       <div class="fbc-counts" id="cnt-1-2"></div>
     </div>
     <div class="funnel-bar-cell">
       <div class="fbc-label">②→③</div>
       <div class="fbc-stages">AC到達 → 検討</div>
-      <div class="fbc-rate" id="rate-2-3">—</div>
+      <div class="fbc-rate-row"><div class="fbc-rate" id="rate-2-3">—</div><div class="fbc-wow" id="wow-2-3"></div></div>
       <div class="fbc-bar-bg"><div class="fbc-bar-fill" id="bar-2-3" style="width:0%"></div></div>
       <div class="fbc-counts" id="cnt-2-3"></div>
     </div>
     <div class="funnel-bar-cell">
       <div class="fbc-label">③→④</div>
       <div class="fbc-stages">検討 → 意向</div>
-      <div class="fbc-rate" id="rate-3-4">—</div>
+      <div class="fbc-rate-row"><div class="fbc-rate" id="rate-3-4">—</div><div class="fbc-wow" id="wow-3-4"></div></div>
       <div class="fbc-bar-bg"><div class="fbc-bar-fill" id="bar-3-4" style="width:0%"></div></div>
       <div class="fbc-counts" id="cnt-3-4"></div>
     </div>
     <div class="funnel-bar-cell">
       <div class="fbc-label">④→⑤</div>
       <div class="fbc-stages">意向 → 完了</div>
-      <div class="fbc-rate" id="rate-4-5">—</div>
+      <div class="fbc-rate-row"><div class="fbc-rate" id="rate-4-5">—</div><div class="fbc-wow" id="wow-4-5"></div></div>
       <div class="fbc-bar-bg"><div class="fbc-bar-fill" id="bar-4-5" style="width:0%"></div></div>
       <div class="fbc-counts" id="cnt-4-5"></div>
     </div>
@@ -349,6 +395,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <script>
 (function() {
   var mode = 'week'; // 'week' or 'month'
+  var funnelMode = '28d'; // '28d' or '7d'
   var reportsIndex = null;
   var weekDataCache = {};
   var currentData = null; // aggregated or single week
@@ -500,8 +547,10 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     if (mode === 'week') {
       currentData = weekDataCache[latest.week_id].baseline;
       var meta = weekDataCache[latest.week_id].meta;
-      document.getElementById('period-label').textContent = meta.week_label + '（' + meta.date_start + ' 〜 ' + meta.date_end + '）';
-      document.getElementById('data-note').textContent = meta.note || '';
+      var ds28 = meta.date_start ? meta.date_start.slice(5).replace('-', '/') : '';
+      var de28 = meta.date_end   ? meta.date_end.slice(5).replace('-', '/') : '';
+      document.getElementById('period-label').textContent = latest.week_label;
+      document.getElementById('data-note').textContent = '28日ローリング参考値（' + ds28 + '〜' + de28 + '）';
       renderKPI(currentData);
       renderFunnel(currentData, weekDataCache[latest.week_id]);
     } else {
@@ -518,10 +567,88 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     renderGraph();
   }
 
+  // ── Funnel mode toggle (28d / 7d) ───────────────
+  window.setFunnelMode = function(m) {
+    funnelMode = m;
+    document.getElementById('fmt-28d').className = 'fmt-btn ' + (m === '28d' ? 'active' : 'inactive');
+    document.getElementById('fmt-7d').className  = 'fmt-btn ' + (m === '7d'  ? 'active' : 'inactive');
+    var noteEl = document.getElementById('funnel-mode-note');
+    if (noteEl) noteEl.textContent = m === '28d' ? '水準把握用（28日移動平均）' : '異常検知用（今週 vs 先週）';
+    // Re-render funnel with selected mode
+    var weeks = reportsIndex ? reportsIndex.weeks : [];
+    var latest = weeks.length ? weeks[weeks.length - 1] : null;
+    if (!latest) return;
+    var weekObj = weekDataCache[latest.week_id];
+    if (!weekObj) return;
+    var funnelData = (m === '7d' && weekObj.funnel_7d)
+      ? { funnel: weekObj.funnel_7d.funnel, conversion_rates: weekObj.funnel_7d.conversion_rates }
+      : { funnel: weekObj.baseline.funnel, conversion_rates: weekObj.baseline.conversion_rates };
+    // Update foc counts and rate bars only (not segments)
+    var f = funnelData.funnel;
+    var r = funnelData.conversion_rates;
+    var keys = ['session_start_users','ac_page_reach_users','calendar_view','form_start','purchase'];
+    keys.forEach(function(k, i) {
+      var el = document.getElementById('foc-' + (i + 1));
+      if (el) el.textContent = f && f[k] != null ? fmt(f[k]) : '—';
+    });
+    var rates = [
+      { id: '1-2', key: '1_to_2', to: 'ac_page_reach_users' },
+      { id: '2-3', key: '2_to_3', to: 'calendar_view' },
+      { id: '3-4', key: '3_to_4', to: 'form_start' },
+      { id: '4-5', key: '4_to_5', to: 'purchase' }
+    ];
+    var wow = r ? (r.wow_pp || {}) : {};
+    rates.forEach(function(rd) {
+      var v = r ? r[rd.key] : null;
+      document.getElementById('rate-' + rd.id).textContent = fmtPct(v, 1);
+      document.getElementById('bar-' + rd.id).style.width = (v != null ? Math.min(v * 100, 100) : 0) + '%';
+      var toVal = f ? f[rd.to] : null;
+      document.getElementById('cnt-' + rd.id).textContent = toVal != null ? fmt(toVal) : '';
+      var wowEl = document.getElementById('wow-' + rd.id);
+      if (wowEl) {
+        var pp = wow[rd.key];
+        if (m === '7d' && pp == null && weekObj.funnel_7d) {
+          wowEl.textContent = '前週データなし'; wowEl.className = 'fbc-wow wow-neut';
+        } else if (pp == null) {
+          wowEl.textContent = ''; wowEl.className = 'fbc-wow';
+        } else {
+          var sign = pp >= 0 ? '+' : '';
+          wowEl.textContent = 'WoW ' + sign + pp.toFixed(1) + 'pp';
+          var absPp = Math.abs(pp);
+          wowEl.className = 'fbc-wow ' + (absPp >= 3 ? (pp < 0 ? 'wow-alert' : 'wow-up') : absPp >= 1 ? (pp < 0 ? 'wow-down' : 'wow-up') : 'wow-neut');
+        }
+      }
+    });
+  };
+
+
   function renderKPI(data) {
     document.getElementById('kpi-sessions').textContent = fmt(data.sessions);
     document.getElementById('kpi-cv').textContent = fmt(data.purchases);
     document.getElementById('kpi-cvr').textContent = fmtPct(data.cvr, 2);
+    // Bot monitoring
+    var bm = data.bot_monitoring;
+    var botRatioEl = document.getElementById('bot-ratio');
+    var botWowEl = document.getElementById('bot-wow');
+    var botAlertCell = document.getElementById('bot-alert-cell');
+    if (bm && bm.organic_pc_sessions != null) {
+      var wowPct = bm.organic_pc_sessions_wow_pct;
+      var isAlert = bm.alert || (wowPct != null && Math.abs(wowPct) >= 20);
+      botRatioEl.textContent = bm.non_bot_ratio != null ? fmtPct(bm.non_bot_ratio, 1) : 'Organic PC 監視中';
+      botRatioEl.className = 'bot-val' + (bm.non_bot_ratio != null && bm.non_bot_ratio < 0.90 ? ' alert' : '');
+      if (wowPct != null) {
+        var sign = wowPct >= 0 ? '+' : '';
+        botWowEl.textContent = sign + wowPct.toFixed(1) + '%';
+        botWowEl.className = 'bot-alert-val' + (isAlert ? ' alert' : '');
+        if (isAlert && botAlertCell) botAlertCell.style.background = 'var(--red-light)';
+      } else {
+        botWowEl.textContent = '前週データなし';
+        botWowEl.className = 'bot-alert-val';
+      }
+    } else {
+      botRatioEl.textContent = 'データなし';
+      botWowEl.textContent = '—';
+    }
   }
 
   function renderTargets() {
@@ -564,6 +691,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       { id: '3-4', key: '3_to_4', to: 'form_start' },
       { id: '4-5', key: '4_to_5', to: 'purchase' }
     ];
+    var wow = r.wow_pp || {};
     rates.forEach(function(rd) {
       var v = r[rd.key];
       document.getElementById('rate-' + rd.id).textContent = fmtPct(v, 1);
@@ -571,6 +699,22 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       document.getElementById('bar-' + rd.id).style.width = barPct + '%';
       var toVal = f[rd.to];
       document.getElementById('cnt-' + rd.id).textContent = toVal != null ? fmt(toVal) : '';
+      // WoW badge
+      var wowEl = document.getElementById('wow-' + rd.id);
+      if (wowEl) {
+        var pp = wow[rd.key];
+        if (pp == null) {
+          wowEl.textContent = '前週データなし';
+          wowEl.className = 'fbc-wow wow-neut';
+        } else {
+          var absPp = Math.abs(pp);
+          var sign = pp >= 0 ? '+' : '';
+          wowEl.textContent = 'WoW ' + sign + pp.toFixed(1) + 'pp';
+          if (absPp >= 3) wowEl.className = pp < 0 ? 'fbc-wow wow-alert' : 'fbc-wow wow-up';
+          else if (absPp >= 1) wowEl.className = pp < 0 ? 'fbc-wow wow-down' : 'fbc-wow wow-up';
+          else wowEl.className = 'fbc-wow wow-neut';
+        }
+      }
     });
     // Segment panels — use latest week data always (segments are week-level)
     var segWeekObj = weekObj;

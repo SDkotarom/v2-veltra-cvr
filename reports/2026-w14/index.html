@@ -33,10 +33,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .bn-segment{display:flex;gap:8px;flex-wrap:wrap}
 .bn-tag{font-size:13px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid var(--border)}
 .bn-tag.red{background:var(--red-light);border-color:var(--red);color:var(--red)}
-.bn-metrics{text-align:right}
-.bn-metrics .metric-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
-.bn-metrics .metric-value{font-family:'DM Sans';font-size:36px;font-weight:900;line-height:1.1}
-.bn-metrics .metric-value.neg{color:var(--red)}
+.bn-metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;min-width:260px}
+.bmg-cell{padding:12px 16px;background:var(--bg);border-radius:8px;border:1px solid var(--border)}
+.bmg-cell.alert{border-color:var(--red);background:var(--red-light)}
+.bmg-label{font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.bmg-val{font-family:'DM Sans';font-size:26px;font-weight:900;line-height:1;color:var(--text)}
+.bmg-val.neg{color:var(--red)}
+.bmg-pp{font-size:13px;font-weight:400;color:var(--text3);margin-left:4px}
 
 /* Funnel comparison */
 .funnel-compare{padding:0 44px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
@@ -64,6 +67,15 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .hypo-body{font-size:14px;color:var(--text2);line-height:1.7}
 .hypo-evidence{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:13px}
 .hypo-evidence strong{color:var(--text);display:block;margin-bottom:4px}
+.hypo-tactics{margin-top:14px;padding-top:14px;border-top:1px dashed var(--border)}
+.hypo-tactics-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:8px}
+.hypo-tactic{padding:9px 12px;background:#fff;border-radius:6px;border:1px solid var(--border);margin-bottom:6px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.hypo-tactic:last-child{margin-bottom:0}
+.ht-left{flex:1;min-width:0}
+.ht-id{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:2px}
+.ht-title{font-size:13px;font-weight:700;line-height:1.4}
+.ht-effort{font-size:11px;color:var(--text3);margin-top:2px}
+.ht-impact{font-size:12px;font-weight:700;color:var(--red);white-space:nowrap;flex-shrink:0}
 
 /* Action cards */
 .action-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
@@ -145,7 +157,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
 @media(max-width:768px){
   .bn-header{grid-template-columns:1fr}
-  .bn-metrics{text-align:left;margin-top:12px}
+  .bn-metrics-grid{grid-template-columns:1fr 1fr;margin-top:12px}
   .funnel-compare,.hypo-grid,.action-grid{grid-template-columns:1fr}
   .ba-grid{grid-template-columns:1fr}
   .ba-col:first-child{border-right:none;border-bottom:2px dashed var(--border-dash)}
@@ -166,7 +178,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   <div style="padding:32px 44px">
     <div style="font-size:15px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-weight:500;margin-bottom:12px">これはAIが月曜朝に生成するレポートの雛形です</div>
     <div style="font-size:20px;font-weight:700;margin-bottom:12px">ファネル × セグメントの転換率を比較し、ボトルネック10件を特定。<br>各ボトルネックに対し原因仮説 × 3、打ち手 × 3、開発仕様 + プロトタイプを生成。</div>
-    <div style="font-size:15px;color:var(--text2);line-height:1.7">データソース: GA4 Property 347074845（仮想データ）/ 対象期間: 直近28日</div>
+    <div style="font-size:15px;color:var(--text2);line-height:1.7">データソース: GA4 Property 347074845（仮想データ）/ 対象期間: W14（3/30〜4/5）/ データ: 28日ローリング（3/3〜3/31）</div>
   </div>
 </div>
 
@@ -227,10 +239,23 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         </div>
       </div>
     </div>
-    <div class="bn-metrics">
-      <div class="metric-label">全体平均との乖離</div>
-      <div class="metric-value neg">-38%</div>
-      <div style="font-size:14px;color:var(--text3);margin-top:4px">影響セッション: 840K / 月</div>
+    <div class="bn-metrics-grid">
+      <div class="bmg-cell">
+        <div class="bmg-label">ベースライン（全体平均）</div>
+        <div class="bmg-val">18.3%</div>
+      </div>
+      <div class="bmg-cell alert">
+        <div class="bmg-label">今週実績</div>
+        <div class="bmg-val neg">11.3%</div>
+      </div>
+      <div class="bmg-cell alert">
+        <div class="bmg-label">Gap</div>
+        <div class="bmg-val neg">-38%<span class="bmg-pp">（-7.0pp）</span></div>
+      </div>
+      <div class="bmg-cell">
+        <div class="bmg-label">影響セッション</div>
+        <div class="bmg-val">840K<span class="bmg-pp">/月</span></div>
+      </div>
     </div>
   </div>
 
@@ -305,7 +330,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div>
   <div class="hypo-grid">
     <div class="hypo-card h1">
-      <div class="hypo-num">仮説 1（有力）</div>
+      <div class="hypo-num">仮説 A（有力）</div>
       <div class="hypo-title">カレンダーの読み込みが遅く、スクロール前に離脱している</div>
       <div class="hypo-body">Mobileでカレンダーコンポーネントの初期表示に3秒以上かかっている。新規ユーザーは待たない。Organicは検索結果から来るため「すぐ情報がほしい」意図が強い。</div>
       <div class="hypo-evidence">
@@ -314,9 +339,28 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         カレンダーセクションの表示完了: Mobile 4.8s / Desktop 1.2s<br>
         Mobile × Organic の平均滞在時間: 18s（Desktop: 52s）
       </div>
+      <div class="hypo-tactics">
+        <div class="hypo-tactics-label">施策</div>
+        <div class="hypo-tactic">
+          <div class="ht-left">
+            <div class="ht-id">T-A1</div>
+            <div class="ht-title">カレンダーの遅延ロード + スケルトンUI</div>
+            <div class="ht-effort">工数: M ／ 開発仕様: IntersectionObserver遅延読込・スケルトン高さ280px・目標TTFB 1.5s以下</div>
+          </div>
+          <div class="ht-impact">②→③ +8pp</div>
+        </div>
+        <div class="hypo-tactic">
+          <div class="ht-left">
+            <div class="ht-id">T-A2</div>
+            <div class="ht-title">「日程を確認」フローティングCTA追加</div>
+            <div class="ht-effort">工数: S ／ 開発仕様: position:sticky CTAバー・カレンダー到達で非表示・文言「空き日程を確認する」</div>
+          </div>
+          <div class="ht-impact">②→③ +3pp</div>
+        </div>
+      </div>
     </div>
     <div class="hypo-card h2">
-      <div class="hypo-num">仮説 2</div>
+      <div class="hypo-num">仮説 B</div>
       <div class="hypo-title">ACページの情報量が多すぎて、カレンダーまでスクロールされない</div>
       <div class="hypo-body">ACページ上部に商品説明・写真ギャラリー・含まれるもの・注意事項が並び、カレンダーがファーストビューから遠い。新規ユーザーは全体像が掴めず、途中で離脱。</div>
       <div class="hypo-evidence">
@@ -325,79 +369,39 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         68%到達率: Mobile 31% / Desktop 72%<br>
         2025年「ハイライト非表示」で+3.8%の実績あり
       </div>
+      <div class="hypo-tactics">
+        <div class="hypo-tactics-label">施策</div>
+        <div class="hypo-tactic">
+          <div class="ht-left">
+            <div class="ht-id">T-B1</div>
+            <div class="ht-title">ACページ上部の情報を折りたたみ化</div>
+            <div class="ht-effort">工数: M ／ 開発仕様: 「含まれるもの」「注意事項」をアコーディオン化・Mobile限定・カレンダー位置68%→40%</div>
+          </div>
+          <div class="ht-impact">②→③ +5pp</div>
+        </div>
+      </div>
     </div>
     <div class="hypo-card h3">
-      <div class="hypo-num">仮説 3</div>
+      <div class="hypo-num">仮説 C</div>
       <div class="hypo-title">Hawaii商品の在庫切れが多く、カレンダーを見ても空きがない</div>
-      <div class="hypo-body">Hawaii商品は人気が高く、直近の日程は満席が多い。カレンダーを開いても「空きなし」表示が並び、予約意欲が下がる。ただしこの場合はカレンダー「表示」自体はされるはずなので、表示率には影響しない可能性。</div>
+      <div class="hypo-body">Hawaii商品は人気が高く、直近の日程は満席が多い。カレンダーを開いても「空きなし」表示が並び、予約意欲が下がる。ただしカレンダー「表示」自体はされるはずなので②→③の主因ではなさそう。</div>
       <div class="hypo-evidence">
         <strong>裏付けデータ:</strong>
         Hawaii商品の14日以内空き率: 32%（全エリア平均: 61%）<br>
-        ※この仮説は③→④（フォーム遷移率）に効いている可能性が高い。②→③の主因ではなさそう。
+        ※この仮説は③→④（フォーム遷移率）に効く可能性が高い。別ボトルネックとして追跡推奨。
       </div>
-    </div>
-  </div>
-
-  <hr class="divider">
-
-  <!-- Actions × 3 -->
-  <div style="padding:24px 44px 16px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 × 3（仮説1に対する施策）</div>
-    <div style="font-size:15px;color:var(--text2)">カレンダー読み込み遅延 + 情報過多への対策</div>
-  </div>
-  <div class="action-grid">
-
-    <div class="action-card">
-      <div class="action-header">
-        <div class="action-label" style="color:var(--red)">施策 A</div>
-        <div class="action-impact">②→③ +8pt</div>
-      </div>
-      <div class="action-body">
-        <div class="action-title">カレンダーの遅延ロード + スケルトンUI</div>
-        <div class="action-desc">カレンダーをIntersectionObserverで遅延読み込みに変更。表示前はスケルトンUIでスペースを確保し、ページ全体の初期表示を高速化。</div>
-        <div class="action-spec">
-          <strong>開発仕様</strong>
-          ・カレンダーコンポーネントにlazy loading実装<br>
-          ・スケルトンUIコンポーネント追加（高さ280px固定）<br>
-          ・目標: TTFB 3.2s → 1.5s以下
+      <div class="hypo-tactics">
+        <div class="hypo-tactics-label">施策</div>
+        <div class="hypo-tactic">
+          <div class="ht-left">
+            <div class="ht-id">T-C1</div>
+            <div class="ht-title">カレンダー前に「残り僅か」バッジ + 代替日程サジェスト表示</div>
+            <div class="ht-effort">工数: L ／ 在庫データAPI連携が必要 ／ ③→④改善施策として再分類推奨</div>
+          </div>
+          <div class="ht-impact">③→④ +2pp</div>
         </div>
       </div>
     </div>
-
-    <div class="action-card">
-      <div class="action-header">
-        <div class="action-label" style="color:var(--amber)">施策 B</div>
-        <div class="action-impact">②→③ +5pt</div>
-      </div>
-      <div class="action-body">
-        <div class="action-title">ACページ上部の情報を折りたたみ化</div>
-        <div class="action-desc">「含まれるもの」「注意事項」をアコーディオンに格納し、カレンダーをファーストビューに近づける。2025年の「タブ化+2%」の横展開。</div>
-        <div class="action-spec">
-          <strong>開発仕様</strong>
-          ・「含まれるもの」「注意事項」をaccordionコンポーネント化<br>
-          ・Mobileのみ適用（Desktopは現状維持）<br>
-          ・目標: カレンダー位置を68% → 40%に引き上げ
-        </div>
-      </div>
-    </div>
-
-    <div class="action-card">
-      <div class="action-header">
-        <div class="action-label" style="color:var(--text3)">施策 C</div>
-        <div class="action-impact">②→③ +3pt</div>
-      </div>
-      <div class="action-body">
-        <div class="action-title">「日程を確認」フローティングCTA追加</div>
-        <div class="action-desc">画面下部に固定CTAボタンを表示し、タップでカレンダーセクションにスムーススクロール。2025年の「フローティングナビ化」の知見を活用。</div>
-        <div class="action-spec">
-          <strong>開発仕様</strong>
-          ・position:stickyのCTAバー実装（高さ56px）<br>
-          ・スクロール連動: カレンダーセクション到達で非表示<br>
-          ・文言: 「空き日程を確認する」（CTA文言+3%の実績ベース）
-        </div>
-      </div>
-    </div>
-
   </div>
 
   <hr class="divider">
