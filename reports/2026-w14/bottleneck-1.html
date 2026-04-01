@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#E8423F;--red-light:#FFF5F5;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1;--border-dash:#d0cec8;--green:#16a34a;--green-light:#f0fdf4;--amber:#d97706;--amber-light:#fffbeb}
+body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);padding:48px 32px;max-width:1200px;margin:0 auto;font-size:18px}
+.card{background:var(--card);border-radius:16px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.header-band{background:var(--red);padding:24px 44px;display:flex;justify-content:space-between;align-items:center}
+.header-band .logo{font-family:'DM Sans';font-weight:900;font-size:26px;color:#fff;letter-spacing:.04em;border:2px solid rgba(255,255,255,.6);padding:4px 14px;border-radius:5px}
+.header-band .right{color:rgba(255,255,255,.8);font-size:14px}
+.sec-label{padding:28px 44px 12px;font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
+.divider-solid{border:none;border-top:1px solid var(--border);margin:0}
+.divider{border:none;border-top:1px dashed var(--border-dash);margin:0 44px}
+.callout{background:var(--red-light);border-left:4px solid var(--red);padding:20px 28px;margin:0 44px 32px;border-radius:0 8px 8px 0}
+.callout .ct{font-size:16px;font-weight:700;color:var(--red);margin-bottom:8px}
+.callout .cb{font-size:16px;color:var(--text2);line-height:1.8}
+.callout-green{background:var(--green-light);border-left:4px solid var(--green)}
+.callout-green .ct{color:var(--green)}
+.callout-amber{background:var(--amber-light);border-left:4px solid var(--amber)}
+.callout-amber .ct{color:var(--amber)}
+.footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
+.bn-tag{font-size:13px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid var(--border)}
+.bn-tag.red{background:var(--red-light);border-color:var(--red);color:var(--red)}
+.nav-bar{padding:16px 44px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
+.nav-bar a{font-size:14px;color:var(--red);text-decoration:none;font-weight:600}
+.nav-bar a:hover{text-decoration:underline}
+.funnel-compare{padding:0 44px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fc-cell{border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.fc-cell.alert{border-color:var(--red);background:var(--red-light)}
+.fc-label{font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.fc-stage{font-size:15px;font-weight:700;margin:6px 0 4px}
+.fc-val{font-family:'DM Sans';font-size:20px;font-weight:700}
+.fc-val-label{font-size:11px;color:var(--text3)}
+.hypo-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.hypo-card{border:1px solid var(--border);border-radius:12px;padding:20px 24px;position:relative}
+.hypo-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:12px 0 0 12px}
+.hypo-card.h1::before{background:var(--red)}
+.hypo-card.h2::before{background:var(--amber)}
+.hypo-card.h3::before{background:var(--text3)}
+.hypo-num{font-family:'DM Sans';font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.hypo-card.h1 .hypo-num{color:var(--red)}
+.hypo-card.h2 .hypo-num{color:var(--amber)}
+.hypo-card.h3 .hypo-num{color:var(--text3)}
+.hypo-title{font-size:17px;font-weight:700;margin-bottom:8px;line-height:1.4}
+.hypo-body{font-size:14px;color:var(--text2);line-height:1.7}
+.hypo-evidence{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:13px}
+.hypo-evidence strong{color:var(--text);display:block;margin-bottom:4px}
+.action-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.action-card{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.action-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.action-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.action-impact{font-family:'DM Sans';font-size:14px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px}
+.action-body{padding:16px 20px}
+.action-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.action-desc{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.action-spec{background:var(--bg);border-radius:6px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6}
+.action-spec strong{color:var(--text);display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+@media(max-width:768px){
+  .funnel-compare,.hypo-grid,.action-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header-band">
+    <div class="logo">V2</div>
+    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">&larr; サマリーに戻る</a>
+    <div class="right">ボトルネック #1 / 10</div>
+  </div>
+
+  <div style="padding:32px 44px">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
+      <div style="font-family:'DM Sans';font-size:56px;font-weight:900;color:var(--red);line-height:1">#1</div>
+      <div>
+        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Organic Search &times; 新規 &mdash; AC到達率の低さ</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="bn-tag red">①→② 回遊段階</span>
+          <span class="bn-tag">Organic Search</span>
+          <span class="bn-tag">新規ユーザー</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px;margin-top:16px">
+      <div style="font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase">全体平均との乖離</div>
+      <div style="font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red)">-33%</div>
+      <div style="font-size:14px;color:var(--text3)">影響セッション: 723K / 月</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Step 2-3: Tier 1 comparison -->
+  <div style="padding:24px 44px 12px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Step 2-3 &mdash; Tier 1 比較：①→② AC到達率</div>
+  </div>
+  <div class="funnel-compare">
+    <div class="fc-cell">
+      <div class="fc-label">全体平均</div>
+      <div class="fc-stage">①→② 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">26.1%</div>
+      <div class="fc-val-label">ベースライン</div>
+    </div>
+    <div class="fc-cell alert">
+      <div class="fc-label" style="color:var(--red)">Organic &times; 新規</div>
+      <div class="fc-stage">①→② 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px;color:var(--red)">17.5%</div>
+      <div class="fc-val-label" style="color:var(--red)">-33% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Organic &times; リピーター</div>
+      <div class="fc-stage">①→② 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">36.3%</div>
+      <div class="fc-val-label">+39% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Paid Search &times; 新規</div>
+      <div class="fc-stage">①→② 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">31.5%</div>
+      <div class="fc-val-label">+21% vs 全体</div>
+    </div>
+  </div>
+
+  <!-- Step 4-5: Tier 2-3 drill down -->
+  <div style="padding:0 44px 20px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Step 4-5 &mdash; Tier 2-3 深掘り</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">新規 vs リピーターで分解</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          Organic &times; <strong style="color:var(--red)">新規: 17.5%</strong>（全体比 -33%）<br>
+          Organic &times; リピーター: 36.3%（全体比 +39%）
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ 新規ユーザーに問題が集中。リピーターはベースラインを大幅に上回る。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">デバイスで分解</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          Organic &times; <strong style="color:var(--red)">Mobile: 22.0%</strong>（全体比 -16%）— 923Kセッション<br>
+          Organic &times; Desktop: 25.8%（全体比 -1%）— 301K<br>
+          Organic &times; Tablet: 25.7%（全体比 -2%）— 21K
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ Mobileが最もAC到達率が低く、かつ最大ボリューム。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:0">
+    <div class="ct">特定結果</div>
+    <div class="cb"><strong>Organic Search &times; 新規</strong> の ①→② AC到達率が <strong>17.5%</strong>（全体平均 26.1% の <strong>-33%</strong>）。<br>月間 723Kセッション。最大チャネル（43%）&times; 最大ユーザー層（54%）の掛け合わせであり、改善インパクトが最も大きい。<br>リピーターの36.3%と比較して半分以下。新規ユーザーがSEOランディングページから商品詳細に辿り着けていない。</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Step 6: Hypotheses -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Step 6 &mdash; 原因仮説 &times; 3</div>
+    <div style="font-size:15px;color:var(--text2)">なぜ Organic Search &times; 新規のAC到達率が低いか？</div>
+  </div>
+  <div class="hypo-grid">
+    <div class="hypo-card h1">
+      <div class="hypo-num">仮説 1（有力）</div>
+      <div class="hypo-title">SEOランディングページから商品詳細への導線が弱い</div>
+      <div class="hypo-body">新規ユーザーはエリアページやブログ記事に着地するが、そこから個別商品（ACページ）への遷移導線が不十分。ファーストビューに商品リストがなく、テキスト情報が占有している。リピーターは直接商品URLを知っているため影響が小さい。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Organic &times; 新規 ①→②: 17.5% / リピーター: 36.3%（2倍以上の差）<br>
+        Paid Search &times; 新規: 31.5%（広告は商品ページ直リンクのため高い）<br>
+        Organic Mobileが22.0%と最低 — スマホではスクロール量が増え、商品到達前に離脱
+      </div>
+    </div>
+    <div class="hypo-card h2">
+      <div class="hypo-num">仮説 2</div>
+      <div class="hypo-title">検索意図とランディングページのミスマッチ</div>
+      <div class="hypo-body">「ハワイ 観光」「バリ島 おすすめ」等の情報収集系クエリで流入した新規ユーザーに対し、ランディングページが予約前提の構成になっている。情報収集段階のユーザーは商品詳細まで進まず離脱する。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Organic Search全体のCVR: 0.74%（全チャネル中で最低レベル）<br>
+        Paid Searchの新規①→②: 31.5%（検索広告は購買意図が明確なクエリに出稿）<br>
+        → Organicは情報系クエリが多く、購買意図が薄い層が含まれる
+      </div>
+    </div>
+    <div class="hypo-card h3">
+      <div class="hypo-num">仮説 3</div>
+      <div class="hypo-title">サイト内検索・フィルターのUXが弱く、商品を見つけられない</div>
+      <div class="hypo-body">エリアページに着地した新規ユーザーが、自分の旅行日程・予算・興味に合う商品を絞り込めない。商品数が多いエリア（Japan: 368K sessions）では特にナビゲーションの問題が深刻。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Japan（最大エリア）: CVR 1.48% — Other（2.62%）やHawaii（2.53%）より低い<br>
+        Japan は商品数が最も多く、選択肢過多で迷子になりやすい<br>
+        Direct &times; 新規の①→②も8.4%と極端に低い — 目的なくサイトに来た新規は商品に到達できない
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Actions -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説1に対する施策）</div>
+    <div style="font-size:15px;color:var(--text2)">SEOランディングページ → 商品詳細への遷移率を改善</div>
+  </div>
+  <div class="action-grid">
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--red)">施策 A</div>
+        <div class="action-impact">①→② +5pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">エリアページのファーストビューに人気商品カルーセルを配置</div>
+        <div class="action-desc">エリアページ上部のテキスト説明を圧縮し、「このエリアの人気アクティビティ TOP5」カルーセルをファーストビューに配置。新規ユーザーがスクロールなしで商品カードをタップできる導線を作る。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・エリアページテンプレートにカルーセルコンポーネント追加<br>
+          ・データソース: エリア内の予約数TOP5商品を動的取得<br>
+          ・カード: 画像 + 商品名 + 価格 + 評価（横スクロール）<br>
+          ・目標: ファーストビュー内に商品カードを3枚以上表示
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--amber)">施策 B</div>
+        <div class="action-impact">①→② +3pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">クイックフィルター（日程・カテゴリ・予算）の追加</div>
+        <div class="action-desc">エリアページの商品一覧にフィルターUIを追加。「日程から探す」「カテゴリから探す」「予算から探す」の3軸で絞り込み。商品数が多いJapanエリアで特に効果が期待できる。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・フィルターバー: sticky配置（スクロール追従）<br>
+          ・日程フィルター: カレンダーピッカー → 空きがある商品のみ表示<br>
+          ・カテゴリ: 既存タグを利用したチップUI<br>
+          ・予算: 価格帯スライダー（~5千/~1万/~2万/2万~）
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--text3)">施策 C</div>
+        <div class="action-impact">①→② +2pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">情報収集系ユーザー向け「おすすめ診断」CTA</div>
+        <div class="action-desc">「何をしたいか決まっていない」新規ユーザー向けに、3問の簡易診断（旅行スタイル/予算/人数）から最適な商品3件をレコメンド。エリアページとブログ記事にCTAを配置。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・3ステップモーダルUI（旅行スタイル→予算→人数）<br>
+          ・レコメンドロジック: 既存の商品タグ + 予約数でスコアリング<br>
+          ・結果画面: 商品カード3枚 + 「もっと見る」リンク<br>
+          ・CTA文言: 「あなたにぴったりの体験を見つける」
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Verification -->
+  <div class="callout-amber callout">
+    <div class="ct">検証方法</div>
+    <div class="cb">ABテスト 2週間。対象: Organic Search &times; 新規ユーザー（全エリアページ）。<br>
+    主要指標: ①→② AC到達率（現状 17.5% → 目標 22%以上）。<br>
+    副次指標: ②→③ カレンダー表示率への影響、直帰率、ページ滞在時間。<br>
+    優先エリア: Japan（368Kセッション、CVR最低）から開始し、成功後に全エリア展開。</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Competitive Analysis -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のエリアページ比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">SEO流入視点</span></div>
+    <div style="font-size:15px;color:var(--text2)">ボトルネックが「Organic Search &times; 新規」のため、SEOランディングページから商品への導線を中心に比較。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Klook</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          エリアページのファーストビューに「人気アクティビティ」カルーセル。商品カード（画像+価格+評価）が即座に目に入る。カテゴリフィルターがstickyで常時表示。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 商品到達までのクリック数が最小。テキスト説明は折りたたみ。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">GetYourGuide</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          エリアページに「Top things to do」セクション。日程ピッカーがページ上部に固定。フィルター（カテゴリ/価格/評価/時間帯）が充実。検索結果のソート機能あり。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 日程フィルターにより「空きあり」商品だけ表示。無駄なクリックを排除。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Viator</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          エリアページにTripAdvisorレビュー統合。「Travelers' Choice」バッジで信頼構築。カテゴリが大きなビジュアルタイルで表示され、直感的にブラウズ可能。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 新規ユーザーの不安を解消する社会的証明（レビュー数・評価）が強い。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">KKday</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          エリアページに「おすすめプラン」セクション + ランキング表示。価格帯フィルターが目立つ位置に配置。割引率の表示で購買動機を喚起。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 割引表示とランキングで「迷い」を減らす設計。情報収集段階のユーザーを商品に誘導。</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin:20px 0 0">
+      <div class="ct">競合比較から得られる示唆</div>
+      <div class="cb">主要競合4社すべてがエリアページのファーストビューに商品カード/カルーセルを配置している。VELTRAのエリアページはテキスト説明が上部を占め、商品リストまでスクロールが必要。施策A（人気商品カルーセル）と施策B（フィルターUI）は競合のベストプラクティスと方向性が一致。特にGetYourGuideの「日程フィルター」は差別化要素として参考になる。</div>
+    </div>
+  </div>
+
+  <!-- Team review -->
+  <div style="padding:0 44px 32px">
+    <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
+      <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;font-size:14px;color:var(--text3)">
+        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">判断<br><strong style="font-size:18px">◎ / △ / ×</strong></div>
+        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">優先度<br><strong style="font-size:18px">高 / 中 / 低</strong></div>
+        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">担当<br><strong style="font-size:18px">_____</strong></div>
+        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">コメント<br><strong style="font-size:18px">_____</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <a href="./">&larr; サマリーに戻る</a>
+    <a href="./">サマリーに戻る</a>
+    <a href="bottleneck-2.html">#2 へ進む →</a>
+  </div>
+
+</div>
+
+<div class="card">
+  <div class="footer">
+    <span>VELTRA CVR改善チーム</span>
+    <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+    <span>2026-04-01</span>
+  </div>
+</div>
+
+<script src="/prototype-tabs.js"></script>
+<script src="/nav.js"></script>
+<script src="/funnel-def.js"></script>
+</body>
+</html>
