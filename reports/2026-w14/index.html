@@ -119,13 +119,29 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .ba-label{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);padding:4px 16px;border-radius:20px;font-size:12px;font-weight:700;color:var(--text3);z-index:1;text-transform:uppercase;letter-spacing:.06em}
 .ba-label.after{background:var(--green-light);border-color:var(--green);color:var(--green)}
 
-/* Summary list */
-.summary-table{width:100%;border-collapse:collapse;font-size:15px}
-.summary-table th{text-align:left;font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:12px 16px;border-bottom:2px solid var(--text)}
-.summary-table td{padding:14px 16px;border-bottom:1px solid var(--border);vertical-align:top}
-.summary-table .rank{font-family:'DM Sans';font-size:20px;font-weight:900;color:var(--red)}
-.summary-table .gap{font-family:'DM Sans';font-weight:700}
-.summary-table .gap.neg{color:var(--red)}
+/* Bottleneck accordion */
+.bn-acc{padding:0 0 8px}
+.bn-acc-item{border-bottom:1px solid var(--border)}
+.bn-acc-item:last-child{border-bottom:none}
+.bn-acc-header{display:flex;align-items:center;padding:16px 44px;cursor:pointer;gap:16px;transition:background .12s;user-select:none}
+.bn-acc-header:hover{background:var(--bg)}
+.bn-acc-rank{font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);width:44px;flex-shrink:0;line-height:1}
+.bn-acc-body{flex:1;min-width:0}
+.bn-acc-title{font-size:15px;font-weight:700;margin-bottom:6px;line-height:1.4}
+.bn-acc-tags{display:flex;gap:6px;flex-wrap:wrap}
+.bn-acc-tag{font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid var(--border);color:var(--text2);white-space:nowrap}
+.bn-acc-tag.red{background:var(--red-light);border-color:var(--red);color:var(--red)}
+.bn-acc-meta{text-align:right;flex-shrink:0;min-width:70px}
+.bn-acc-gap{font-family:'DM Sans';font-size:24px;font-weight:900;color:var(--red);line-height:1}
+.bn-acc-gap-label{font-size:11px;color:var(--text3);margin-bottom:2px}
+.bn-acc-chevron{color:var(--text3);font-size:10px;flex-shrink:0;transition:transform .2s;margin-left:4px}
+.bn-acc-item.open .bn-acc-chevron{transform:rotate(90deg)}
+.bn-acc-detail{display:none;padding:0 44px 20px 104px;animation:fadeIn .15s ease}
+.bn-acc-item.open .bn-acc-detail{display:block}
+.bn-acc-hypo{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:12px;padding:14px 18px;background:var(--bg);border-radius:8px}
+.bn-acc-link{display:inline-block;font-size:13px;font-weight:700;color:var(--red);text-decoration:none;padding:6px 14px;border:1px solid var(--red);border-radius:20px;transition:background .12s}
+.bn-acc-link:hover{background:var(--red-light)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 
 @media(max-width:768px){
   .bn-header{grid-template-columns:1fr}
@@ -634,96 +650,152 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div class="card">
   <div class="sec-label">ボトルネック #2〜#10（サマリー）</div>
   <hr class="divider-solid">
-  <div style="padding:24px 44px 12px">
-    <div style="font-size:15px;color:var(--text2);margin-bottom:16px">各ボトルネックの詳細分析（仮説×3 + 打ち手×3 + プロトタイプ）は個別ページに展開。ここではサマリーのみ。</div>
-  </div>
-  <div style="padding:0 44px 32px">
-    <table class="summary-table">
-      <thead>
-        <tr>
-          <th style="width:40px">#</th>
-          <th>ボトルネック</th>
-          <th>ファネル段階</th>
-          <th>セグメント</th>
-          <th style="width:80px">乖離</th>
-          <th>主要仮説</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="rank"><a href="bottleneck-2.html" style="color:var(--red);text-decoration:none">#2</a></td>
-          <td style="font-weight:600"><a href="bottleneck-2.html" style="color:var(--text);text-decoration:none">Desktop × Paid — フォーム完了率の低さ</a></td>
-          <td>④→⑤</td>
-          <td>Desktop / Paid Search</td>
-          <td class="gap neg">-29%</td>
-          <td style="font-size:14px;color:var(--text2)">フォームの入力項目が多い。Paid経由は比較検討中のユーザーが多く、入力途中の離脱率が高い。</td>
-        </tr>
-        <tr>
-          <td class="rank"><a href="bottleneck-3.html" style="color:var(--red);text-decoration:none">#3</a></td>
-          <td style="font-weight:600"><a href="bottleneck-3.html" style="color:var(--text);text-decoration:none">Mobile × Direct — AC到達率の低さ</a></td>
-          <td>①→②</td>
-          <td>Mobile / Direct</td>
-          <td class="gap neg">-25%</td>
-          <td style="font-size:14px;color:var(--text2)">リピーターがトップページから商品に到達できていない。検索UI・お気に入り機能の不足。</td>
-        </tr>
-        <tr>
-          <td class="rank"><a href="bottleneck-4.html" style="color:var(--red);text-decoration:none">#4</a></td>
-          <td style="font-weight:600"><a href="bottleneck-4.html" style="color:var(--text);text-decoration:none">Organic × 新規 — AC到達率の低さ</a></td>
-          <td>①→②</td>
-          <td>Organic / 新規</td>
-          <td class="gap neg">-24%</td>
-          <td style="font-size:14px;color:var(--text2)">SEOランディングページ（エリアページ）から商品への導線が弱い。カテゴリ構造の問題。</td>
-        </tr>
-        <tr>
-          <td class="rank"><a href="bottleneck-5.html" style="color:var(--red);text-decoration:none">#5</a></td>
-          <td style="font-weight:600"><a href="bottleneck-5.html" style="color:var(--text);text-decoration:none">Mobile × Organic × Bali — カレンダー表示率</a></td>
-          <td>②→③</td>
-          <td>Mobile / Organic / Bali</td>
-          <td class="gap neg">-22%</td>
-          <td style="font-size:14px;color:var(--text2)">#1と同根（速度 + 情報過多）。Baliは商品数が多くACページが特に長い。</td>
-        </tr>
-        <tr>
-          <td class="rank"><a href="bottleneck-6.html" style="color:var(--red);text-decoration:none">#6</a></td>
-          <td style="font-weight:600"><a href="bottleneck-6.html" style="color:var(--text);text-decoration:none">Desktop × Organic — フォーム遷移率</a></td>
-          <td>③→④</td>
-          <td>Desktop / Organic</td>
-          <td class="gap neg">-21%</td>
-          <td style="font-size:14px;color:var(--text2)">カレンダーは見るが予約に進まない。料金体系が複雑で比較中の離脱。即確定/リクエスト制の表記が分かりにくい。</td>
-        </tr>
-        <tr>
-          <td class="rank"><a href="bottleneck-7.html" style="color:var(--red);text-decoration:none">#7</a></td>
-          <td style="font-weight:600"><a href="bottleneck-7.html" style="color:var(--text);text-decoration:none">Mobile × Paid × 新規 — 完了率</a></td>
-          <td>④→⑤</td>
-          <td>Mobile / Paid / 新規</td>
-          <td class="gap neg">-19%</td>
-          <td style="font-size:14px;color:var(--text2)">Mobileフォームの入力UX。新規は会員登録の壁。ゲスト購入への導線不足。</td>
-        </tr>
-        <tr>
-          <td class="rank"><a href="bottleneck-8.html" style="color:var(--red);text-decoration:none">#8</a></td>
-          <td style="font-weight:600"><a href="bottleneck-8.html" style="color:var(--text);text-decoration:none">Desktop × Direct × リピーター — カレンダー表示率</a></td>
-          <td>②→③</td>
-          <td>Desktop / Direct / リピーター</td>
-          <td class="gap neg">-16%</td>
-          <td style="font-size:14px;color:var(--text2)">リピーターが「前回と同じ商品」を再予約したいが、ACページに過去予約との接続がない。</td>
-        </tr>
-        <tr>
-          <td class="rank"><a href="bottleneck-9.html" style="color:var(--red);text-decoration:none">#9</a></td>
-          <td style="font-weight:600"><a href="bottleneck-9.html" style="color:var(--text);text-decoration:none">Mobile × Organic × Europe — AC到達率</a></td>
-          <td>①→②</td>
-          <td>Mobile / Organic / Europe</td>
-          <td class="gap neg">-15%</td>
-          <td style="font-size:14px;color:var(--text2)">Europeはエリア・都市・商品の階層が深く、カテゴリページから商品に到達するまでのステップが多い。</td>
-        </tr>
-        <tr>
-          <td class="rank"><a href="bottleneck-10.html" style="color:var(--red);text-decoration:none">#10</a></td>
-          <td style="font-weight:600"><a href="bottleneck-10.html" style="color:var(--text);text-decoration:none">Mobile × Unassigned — 全段階で異常値</a></td>
-          <td>全段階</td>
-          <td>Mobile / Unassigned</td>
-          <td class="gap neg">???</td>
-          <td style="font-size:14px;color:var(--text2)">CVR 4.10%と異常に高い。アプリ経由のトラッキング設計を確認し、実態を把握してから判断。</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="bn-acc" id="bn-acc-list">
+
+    <div class="bn-acc-item">
+      <div class="bn-acc-header" onclick="toggleBnAcc(this)">
+        <div class="bn-acc-rank">#2</div>
+        <div class="bn-acc-body">
+          <div class="bn-acc-title">Desktop × Paid — フォーム完了率の低さ</div>
+          <div class="bn-acc-tags"><span class="bn-acc-tag red">④→⑤ 完了段階</span><span class="bn-acc-tag">Desktop</span><span class="bn-acc-tag">Paid Search</span></div>
+        </div>
+        <div class="bn-acc-meta"><div class="bn-acc-gap-label">全体比乖離</div><div class="bn-acc-gap">-29%</div></div>
+        <div class="bn-acc-chevron">▶</div>
+      </div>
+      <div class="bn-acc-detail">
+        <div class="bn-acc-hypo">フォームの入力項目が多い。Paid経由は比較検討中のユーザーが多く、入力途中の離脱率が高い。ゲスト購入導線やフォーム簡略化が施策候補。</div>
+        <a class="bn-acc-link" href="bottleneck-2.html">詳細分析を見る →</a>
+      </div>
+    </div>
+
+    <div class="bn-acc-item">
+      <div class="bn-acc-header" onclick="toggleBnAcc(this)">
+        <div class="bn-acc-rank">#3</div>
+        <div class="bn-acc-body">
+          <div class="bn-acc-title">Mobile × Direct — AC到達率の低さ</div>
+          <div class="bn-acc-tags"><span class="bn-acc-tag red">①→② 回遊段階</span><span class="bn-acc-tag">Mobile</span><span class="bn-acc-tag">Direct</span></div>
+        </div>
+        <div class="bn-acc-meta"><div class="bn-acc-gap-label">全体比乖離</div><div class="bn-acc-gap">-25%</div></div>
+        <div class="bn-acc-chevron">▶</div>
+      </div>
+      <div class="bn-acc-detail">
+        <div class="bn-acc-hypo">リピーターがトップページから商品に到達できていない。検索UI・お気に入り機能の不足。</div>
+        <a class="bn-acc-link" href="bottleneck-3.html">詳細分析を見る →</a>
+      </div>
+    </div>
+
+    <div class="bn-acc-item">
+      <div class="bn-acc-header" onclick="toggleBnAcc(this)">
+        <div class="bn-acc-rank">#4</div>
+        <div class="bn-acc-body">
+          <div class="bn-acc-title">Organic × 新規 — AC到達率の低さ</div>
+          <div class="bn-acc-tags"><span class="bn-acc-tag red">①→② 回遊段階</span><span class="bn-acc-tag">Organic</span><span class="bn-acc-tag">新規ユーザー</span></div>
+        </div>
+        <div class="bn-acc-meta"><div class="bn-acc-gap-label">全体比乖離</div><div class="bn-acc-gap">-24%</div></div>
+        <div class="bn-acc-chevron">▶</div>
+      </div>
+      <div class="bn-acc-detail">
+        <div class="bn-acc-hypo">SEOランディングページ（エリアページ）から商品への導線が弱い。カテゴリ構造の問題。</div>
+        <a class="bn-acc-link" href="bottleneck-4.html">詳細分析を見る →</a>
+      </div>
+    </div>
+
+    <div class="bn-acc-item">
+      <div class="bn-acc-header" onclick="toggleBnAcc(this)">
+        <div class="bn-acc-rank">#5</div>
+        <div class="bn-acc-body">
+          <div class="bn-acc-title">Mobile × Organic × Bali — カレンダー表示率</div>
+          <div class="bn-acc-tags"><span class="bn-acc-tag red">②→③ 検討段階</span><span class="bn-acc-tag">Mobile</span><span class="bn-acc-tag">Organic</span><span class="bn-acc-tag">Bali</span></div>
+        </div>
+        <div class="bn-acc-meta"><div class="bn-acc-gap-label">全体比乖離</div><div class="bn-acc-gap">-22%</div></div>
+        <div class="bn-acc-chevron">▶</div>
+      </div>
+      <div class="bn-acc-detail">
+        <div class="bn-acc-hypo">#1と同根（速度 + 情報過多）。Baliは商品数が多くACページが特に長い。</div>
+        <a class="bn-acc-link" href="bottleneck-5.html">詳細分析を見る →</a>
+      </div>
+    </div>
+
+    <div class="bn-acc-item">
+      <div class="bn-acc-header" onclick="toggleBnAcc(this)">
+        <div class="bn-acc-rank">#6</div>
+        <div class="bn-acc-body">
+          <div class="bn-acc-title">Desktop × Organic — フォーム遷移率</div>
+          <div class="bn-acc-tags"><span class="bn-acc-tag red">③→④ 意向段階</span><span class="bn-acc-tag">Desktop</span><span class="bn-acc-tag">Organic</span></div>
+        </div>
+        <div class="bn-acc-meta"><div class="bn-acc-gap-label">全体比乖離</div><div class="bn-acc-gap">-21%</div></div>
+        <div class="bn-acc-chevron">▶</div>
+      </div>
+      <div class="bn-acc-detail">
+        <div class="bn-acc-hypo">カレンダーは見るが予約に進まない。料金体系が複雑で比較中の離脱。即確定/リクエスト制の表記が分かりにくい。</div>
+        <a class="bn-acc-link" href="bottleneck-6.html">詳細分析を見る →</a>
+      </div>
+    </div>
+
+    <div class="bn-acc-item">
+      <div class="bn-acc-header" onclick="toggleBnAcc(this)">
+        <div class="bn-acc-rank">#7</div>
+        <div class="bn-acc-body">
+          <div class="bn-acc-title">Mobile × Paid × 新規 — 完了率</div>
+          <div class="bn-acc-tags"><span class="bn-acc-tag red">④→⑤ 完了段階</span><span class="bn-acc-tag">Mobile</span><span class="bn-acc-tag">Paid</span><span class="bn-acc-tag">新規ユーザー</span></div>
+        </div>
+        <div class="bn-acc-meta"><div class="bn-acc-gap-label">全体比乖離</div><div class="bn-acc-gap">-19%</div></div>
+        <div class="bn-acc-chevron">▶</div>
+      </div>
+      <div class="bn-acc-detail">
+        <div class="bn-acc-hypo">Mobileフォームの入力UX。新規は会員登録の壁。ゲスト購入への導線不足。</div>
+        <a class="bn-acc-link" href="bottleneck-7.html">詳細分析を見る →</a>
+      </div>
+    </div>
+
+    <div class="bn-acc-item">
+      <div class="bn-acc-header" onclick="toggleBnAcc(this)">
+        <div class="bn-acc-rank">#8</div>
+        <div class="bn-acc-body">
+          <div class="bn-acc-title">Desktop × Direct × リピーター — カレンダー表示率</div>
+          <div class="bn-acc-tags"><span class="bn-acc-tag red">②→③ 検討段階</span><span class="bn-acc-tag">Desktop</span><span class="bn-acc-tag">Direct</span><span class="bn-acc-tag">リピーター</span></div>
+        </div>
+        <div class="bn-acc-meta"><div class="bn-acc-gap-label">全体比乖離</div><div class="bn-acc-gap">-16%</div></div>
+        <div class="bn-acc-chevron">▶</div>
+      </div>
+      <div class="bn-acc-detail">
+        <div class="bn-acc-hypo">リピーターが「前回と同じ商品」を再予約したいが、ACページに過去予約との接続がない。</div>
+        <a class="bn-acc-link" href="bottleneck-8.html">詳細分析を見る →</a>
+      </div>
+    </div>
+
+    <div class="bn-acc-item">
+      <div class="bn-acc-header" onclick="toggleBnAcc(this)">
+        <div class="bn-acc-rank">#9</div>
+        <div class="bn-acc-body">
+          <div class="bn-acc-title">Mobile × Organic × Europe — AC到達率</div>
+          <div class="bn-acc-tags"><span class="bn-acc-tag red">①→② 回遊段階</span><span class="bn-acc-tag">Mobile</span><span class="bn-acc-tag">Organic</span><span class="bn-acc-tag">Europe</span></div>
+        </div>
+        <div class="bn-acc-meta"><div class="bn-acc-gap-label">全体比乖離</div><div class="bn-acc-gap">-15%</div></div>
+        <div class="bn-acc-chevron">▶</div>
+      </div>
+      <div class="bn-acc-detail">
+        <div class="bn-acc-hypo">Europeはエリア・都市・商品の階層が深く、カテゴリページから商品に到達するまでのステップが多い。</div>
+        <a class="bn-acc-link" href="bottleneck-9.html">詳細分析を見る →</a>
+      </div>
+    </div>
+
+    <div class="bn-acc-item">
+      <div class="bn-acc-header" onclick="toggleBnAcc(this)">
+        <div class="bn-acc-rank">#10</div>
+        <div class="bn-acc-body">
+          <div class="bn-acc-title">Mobile × Unassigned — 全段階で異常値</div>
+          <div class="bn-acc-tags"><span class="bn-acc-tag red">全段階</span><span class="bn-acc-tag">Mobile</span><span class="bn-acc-tag">Unassigned</span></div>
+        </div>
+        <div class="bn-acc-meta"><div class="bn-acc-gap-label">全体比乖離</div><div class="bn-acc-gap" style="color:var(--amber)">要確認</div></div>
+        <div class="bn-acc-chevron">▶</div>
+      </div>
+      <div class="bn-acc-detail">
+        <div class="bn-acc-hypo">CVR 4.10%と異常に高い。アプリ経由のトラッキング設計を確認し、実態を把握してから判断。</div>
+        <a class="bn-acc-link" href="bottleneck-10.html">詳細分析を見る →</a>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -738,5 +810,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
 <script src="/nav.js"></script>
 <script src="/funnel-def.js"></script>
+<script>
+function toggleBnAcc(header) {
+  var item = header.parentElement;
+  var isOpen = item.classList.contains('open');
+  item.classList.toggle('open', !isOpen);
+}
+</script>
 </body>
 </html>
