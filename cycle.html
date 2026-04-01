@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CVR改善サイクル — VELTRA CVR REPORT</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#E8423F;--red-light:#FFF5F5;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1;--border-dash:#d0cec8}
+body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);padding:48px 32px;max-width:1200px;margin:0 auto;font-size:18px}
+.card{background:var(--card);border-radius:16px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.header-band{background:var(--red);padding:24px 44px;display:flex;justify-content:space-between;align-items:center}
+.header-band .logo{font-family:'DM Sans';font-weight:900;font-size:26px;color:#fff;letter-spacing:.04em;border:2px solid rgba(255,255,255,.6);padding:4px 14px;border-radius:5px}
+.header-band .title{font-family:'DM Sans';font-size:22px;font-weight:500;color:rgba(255,255,255,.9)}
+.divider{border:none;border-top:1px dashed var(--border-dash);margin:0 44px}
+.divider-solid{border:none;border-top:1px solid var(--border);margin:0}
+.sec-label{padding:28px 44px 12px;font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
+.funnel-row{display:grid;grid-template-columns:repeat(5,1fr)}
+.funnel-cell{padding:28px 20px;text-align:center;border-right:1px solid var(--border);position:relative}
+.funnel-cell:last-child{border-right:none}
+.funnel-cell .sn{font-family:'DM Sans';font-size:44px;font-weight:900;color:var(--red);line-height:1}
+.funnel-cell .nm{font-size:17px;font-weight:700;margin:10px 0 4px}
+.funnel-cell .ev{font-size:14px;font-family:'DM Sans',monospace;color:var(--text3)}
+.funnel-cell .kp{font-size:15px;color:var(--text2);margin-top:8px;font-weight:500}
+.funnel-cell:not(:last-child)::after{content:'→';position:absolute;right:-9px;top:36px;font-size:18px;color:var(--border-dash);z-index:1;background:var(--card);padding:2px}
+.callout{background:var(--red-light);border-left:4px solid var(--red);padding:20px 28px;margin:0 44px 32px;border-radius:0 8px 8px 0}
+.callout .ct{font-size:16px;font-weight:700;color:var(--red);margin-bottom:8px}
+.callout .cb{font-size:16px;color:var(--text2);line-height:1.8}
+.tier-section{padding:32px 44px}
+.seg-detail{margin-top:12px;background:var(--bg);border-radius:8px;padding:18px 20px;font-size:15px;line-height:1.7;color:var(--text2)}
+.seg-detail .seg-row{display:flex;gap:10px;padding:4px 0}
+.seg-detail .seg-label{font-weight:700;color:var(--text);min-width:100px;flex-shrink:0;font-size:14px}
+.seg-detail .seg-val{color:var(--text2)}
+.seg-detail .seg-head{font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;margin-top:14px}
+.seg-detail .seg-head:first-child{margin-top:0}
+.seg-channels{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.seg-ch{border:1px solid var(--border);border-radius:6px;padding:14px 16px;background:var(--card)}
+.seg-ch .ch-name{font-size:15px;font-weight:700;color:var(--text)}
+.seg-ch .ch-data{font-size:13px;color:var(--text3);margin-top:3px}
+.seg-ch .ch-note{font-size:13px;color:var(--text2);margin-top:5px;line-height:1.5}
+.seg-action{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:14px}
+.seg-action strong{color:var(--red);font-weight:700}
+.tier-block{margin-bottom:28px}
+.tier-header{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.tbadge{font-family:'DM Sans';font-size:15px;font-weight:700;letter-spacing:.06em;padding:5px 14px;border-radius:5px;text-transform:uppercase}
+.tbadge.t1{background:var(--red);color:#fff}
+.tbadge.t2{background:var(--text);color:#fff}
+.tbadge.t3{background:var(--border);color:var(--text2)}
+.tier-header .td{font-size:16px;color:var(--text2)}
+.tier-items{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tier-items.three{grid-template-columns:1fr 1fr 1fr}
+.ti{border:1px solid var(--border);border-radius:8px;padding:18px 20px}
+.ti .tn{font-size:18px;font-weight:700;margin-bottom:5px}
+.ti .tds{font-size:15px;color:var(--text3);line-height:1.6}
+.process-step{display:flex;align-items:flex-start;gap:20px;padding:24px 44px;border-bottom:1px solid var(--border)}
+.process-step:last-child{border-bottom:none}
+.sc{width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Sans';font-size:17px;font-weight:700;flex-shrink:0}
+.process-step .st{font-size:18px;font-weight:700;margin-bottom:4px}
+.process-step .sd{font-size:16px;color:var(--text2);line-height:1.6}
+.fmt-table{width:100%;border-collapse:collapse;font-size:16px}
+.fmt-table th{text-align:left;font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:14px 20px;border-bottom:2px solid var(--text)}
+.fmt-table td{padding:16px 20px;border-bottom:1px solid var(--border);vertical-align:top}
+.fmt-table td:first-child{font-weight:600}
+.wl-grid{display:grid;grid-template-columns:1fr 1fr}
+.wl-col{padding:28px 32px}
+.wl-col:first-child{border-right:1px solid var(--border)}
+.wl-col .wll{font-size:15px;font-weight:700;letter-spacing:.06em;margin-bottom:14px}
+.wl-col .wll.win{color:#16a34a}
+.wl-col .wll.lose{color:var(--red)}
+.wl-col .wli{font-size:16px;color:var(--text2);padding:6px 0;line-height:1.6}
+.footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
+@media(max-width:768px){.funnel-row{grid-template-columns:1fr}.funnel-cell::after{display:none}.funnel-cell{border-right:none;border-bottom:1px solid var(--border)}.wl-grid{grid-template-columns:1fr}.wl-col:first-child{border-right:none;border-bottom:1px solid var(--border)}.tier-items,.tier-items.three{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header-band">
+    <div class="logo">V2</div>
+    <div class="title">CVR改善サイクルの流れ</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+
+    <!-- Left: Concept copy -->
+    <div style="padding:44px;border-right:1px solid var(--border)">
+      <div style="font-size:15px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:16px">CVR改善のコンセプト</div>
+      <h1 style="font-size:28px;font-weight:900;line-height:1.5;margin-bottom:20px">
+        CVRを5段階のファネルと<br>4軸のセグメントで分解する。<br><br>
+        <span style="color:var(--red)">どこで・誰が・なぜ</span><br>
+        落ちているかを特定し、<br>インパクト順に改善する。
+      </h1>
+      <div style="font-size:15px;color:var(--text2);line-height:1.8;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">
+        ファネル全体を分析対象とし、改善はACページから着手。<br>
+        分析の結果「上流の問題が大きい」と分かればそちらを優先。
+      </div>
+    </div>
+
+    <!-- Right: Funnel × Segment diagram -->
+    <div style="padding:44px;background:var(--bg)">
+      <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:14px">ファネル 5段階</div>
+      <div style="display:flex;flex-direction:column;gap:0">
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px 8px 0 0">
+          <span style="font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);min-width:28px">①</span>
+          <span style="font-size:15px;font-weight:700;min-width:72px">流入</span>
+          <span style="font-size:13px;font-family:'DM Sans',monospace;color:var(--text3)">sessions</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-top:none">
+          <span style="font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);min-width:28px">②</span>
+          <span style="font-size:15px;font-weight:700;min-width:72px">AC到達</span>
+          <span style="font-size:13px;font-family:'DM Sans',monospace;color:var(--text3)">ac_page_reach</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-top:none">
+          <span style="font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);min-width:28px">③</span>
+          <span style="font-size:15px;font-weight:700;min-width:72px">検討</span>
+          <span style="font-size:13px;font-family:'DM Sans',monospace;color:var(--text3)">calendar_view</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-top:none">
+          <span style="font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);min-width:28px">④</span>
+          <span style="font-size:15px;font-weight:700;min-width:72px">意向</span>
+          <span style="font-size:13px;font-family:'DM Sans',monospace;color:var(--text3)">form_start</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px">
+          <span style="font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);min-width:28px">⑤</span>
+          <span style="font-size:15px;font-weight:700;min-width:72px">完了</span>
+          <span style="font-size:13px;font-family:'DM Sans',monospace;color:var(--text3)">purchase</span>
+        </div>
+      </div>
+
+      <div style="text-align:center;font-size:22px;color:var(--text3);margin:16px 0;font-family:'DM Sans';font-weight:700">×</div>
+
+      <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:14px">セグメント 4軸</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;border-left:3px solid var(--red)">
+          <div style="font-size:14px;font-weight:700">チャネル</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:2px">Organic / Paid / Direct</div>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;border-left:3px solid var(--red)">
+          <div style="font-size:14px;font-weight:700">デバイス</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:2px">mobile / desktop</div>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;border-left:3px solid var(--text)">
+          <div style="font-size:14px;font-weight:700">新規 / リピーター</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:2px">信頼構築 vs 再購入</div>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;border-left:3px solid var(--text)">
+          <div style="font-size:14px;font-weight:700">エリア</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:2px">Hawaii / Bali / Europe…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="sec-label">改善サイクル</div>
+  <hr class="divider-solid">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+
+    <div style="padding:32px;border-right:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Sans';font-weight:700;font-size:14px;flex-shrink:0">AI</div>
+        <div>
+          <div style="font-size:20px;font-weight:900">AIドリブン生成</div>
+          <div style="font-size:14px;color:var(--text3)">週次・自動実行 → 月曜朝に納品</div>
+        </div>
+      </div>
+      <div style="background:var(--bg);border-radius:8px;padding:18px 20px;font-size:15px;line-height:2;color:var(--text2)">
+        <strong style="color:var(--text)">❶ ボトルネック 10件を特定</strong><br>
+        <span style="padding-left:20px">ファネル × セグメントの転換率比較</span><br>
+        <strong style="color:var(--text)">❷ 各ボトルネックに原因仮説 × 3</strong><br>
+        <span style="padding-left:20px">リサーチ + 数字の裏付け + 打ち手と期待効果</span><br>
+        <strong style="color:var(--text)">❸ 各打ち手に開発仕様 + プロトタイプ × 3</strong><br>
+        <span style="padding-left:20px">既存画面ベースの改修案 + ビジュアル</span>
+      </div>
+      <div style="margin-top:14px;font-size:13px;color:var(--text3);line-height:1.6">
+        分析 → 仮説 → 施策 → 仕様 → プロトタイプまで一括生成。<br>
+        人間はレビューと判断に集中する。
+      </div>
+    </div>
+
+    <div style="padding:32px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--text);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Sans';font-weight:700;font-size:14px;flex-shrink:0">人</div>
+        <div>
+          <div style="font-size:20px;font-weight:900">チームレビュー &amp; 実行</div>
+          <div style="font-size:14px;color:var(--text3)">月曜レビュー → 火〜木実行 → 金曜共有</div>
+        </div>
+      </div>
+      <div style="font-size:15px;line-height:2;color:var(--text2)">
+        <strong style="color:var(--text)">月曜</strong>　施策リストの内容評価・やる/やらない・担当アサイン<br>
+        <strong style="color:var(--text)">火〜木</strong>　AIドラフトをもとにデザイナー/エンジニアが仕上げ<br>
+        <strong style="color:var(--text)">金曜</strong>　Slackで進捗と成果を共有
+      </div>
+      <div style="margin-top:18px;padding:14px 18px;border:1px dashed var(--border-dash);border-radius:8px;font-size:14px;color:var(--text3);line-height:1.7">
+        <strong style="color:var(--text2)">火〜木の実行：</strong>AIがデザインカンプ・実装コードの下書き・ABテスト設計をドラフト。デザイナー・FE/BEエンジニアがレビュー・仕上げ・統合。<br><br>
+        <strong style="color:var(--text2)">将来目標：</strong>Claude Code経由でデザイン→実装まで一気通貫。現時点はAIドラフト→人間トスの併用。
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="sec-label">基本のファネル（5段階）</div>
+  <hr class="divider-solid">
+  <div class="funnel-row">
+    <div class="funnel-cell"><div class="sn">①</div><div class="nm">流入</div><div class="ev">sessions</div><div class="kp">セッション数</div></div>
+    <div class="funnel-cell"><div class="sn">②</div><div class="nm">AC到達</div><div class="ev">ac_page_reach</div><div class="kp">AC訪問率</div></div>
+    <div class="funnel-cell"><div class="sn">③</div><div class="nm">検討</div><div class="ev">calendar_view</div><div class="kp">カレンダー表示率</div></div>
+    <div class="funnel-cell"><div class="sn">④</div><div class="nm">意向</div><div class="ev">form_start</div><div class="kp">フォーム遷移率</div></div>
+    <div class="funnel-cell"><div class="sn">⑤</div><div class="nm">完了</div><div class="ev">purchase</div><div class="kp">予約完了率</div></div>
+  </div>
+  <div class="callout" style="margin-top:20px"><div class="ct">判定基準</div><div class="cb">各段階の転換率を全体平均と比較し、セグメント間で相対的に低い箇所を「ボトルネック」と判定。絶対値ではなく相対比較が基本。</div></div>
+</div>
+
+<div class="card">
+  <div class="sec-label">セグメント軸（分析の順序）</div>
+  <hr class="divider-solid">
+  <div class="tier-section">
+
+    <div class="tier-block">
+      <div class="tier-header"><div class="tbadge t1">Tier 1-A</div><div class="td">チャネル別 — ファネル通過率を比較</div></div>
+      <div class="ti" style="margin-bottom:12px">
+        <div class="tn">チャネル（sessionDefaultChannelGroup）</div>
+        <div class="tds">CVR差 4倍。この差がファネルのどの段階で生まれるかを特定する。</div>
+        <div class="seg-detail">
+          <div class="seg-head">見る対象（4チャネル）</div>
+          <div class="seg-channels">
+            <div class="seg-ch"><div class="ch-name">Organic Search</div><div class="ch-data">セッション47% / CVR 0.70%</div><div class="ch-note">最大ボリューム。意図が薄い流入が多い可能性。bot混入も疑う。</div></div>
+            <div class="seg-ch"><div class="ch-name">Paid Search</div><div class="ch-data">セッション23% / CVR 1.42%</div><div class="ch-note">キーワードの質とLPの出し分け。低CVRキーワードの特定。</div></div>
+            <div class="seg-ch"><div class="ch-name">Direct</div><div class="ch-data">セッション10% / CVR 2.98%</div><div class="ch-note">リピーター/ブランド指名。この層の体験を最優先で守る。</div></div>
+            <div class="seg-ch"><div class="ch-name">Unassigned / Other</div><div class="ch-data">セッション7% / CVR 4.10%</div><div class="ch-note">CVR異常値。アプリ経由・パラメータ欠損の可能性。実態把握が先。</div></div>
+          </div>
+          <div class="seg-head">分析方法</div>
+          <div class="seg-row"><div class="seg-label">GA4クエリ</div><div class="seg-val">sessionDefaultChannelGroup × 各ファネルイベントのeventCount</div></div>
+          <div class="seg-row"><div class="seg-label">比較方法</div><div class="seg-val">チャネルごとに ①→② / ②→③ / ③→④ / ④→⑤ の転換率を算出し、全体平均と比較</div></div>
+          <div class="seg-row"><div class="seg-label">判定基準</div><div class="seg-val">全体平均より -20%以上 乖離 かつ セッション数 1万以上 → ボトルネック候補</div></div>
+          <div class="seg-action"><strong>分かったらどうする？ →</strong> 例：Organicの②→③が-30%なら「Organic経由のACページでカレンダーまで到達しない」問題。LP設計 or 情報整理の施策候補へ。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tier-block">
+      <div class="tier-header"><div class="tbadge t1">Tier 1-B</div><div class="td">デバイス別 — 同じファネルでもUIが全く違う</div></div>
+      <div class="ti" style="margin-bottom:12px">
+        <div class="tn">デバイス（deviceCategory）</div>
+        <div class="tds">mobile / desktop / tablet。打ち手が根本的に変わる軸。</div>
+        <div class="seg-detail">
+          <div class="seg-head">見る対象</div>
+          <div class="seg-channels">
+            <div class="seg-ch"><div class="ch-name">mobile</div><div class="ch-note">セッション比率最大。カレンダーUI・フォーム入力のUX問題が出やすい。速度（TTFB）も要確認。</div></div>
+            <div class="seg-ch"><div class="ch-name">desktop</div><div class="ch-note">CVRは高いはず。もし低い段階があれば、情報設計の問題（迷い・ノイズ）を疑う。</div></div>
+          </div>
+          <div class="seg-head">分析方法</div>
+          <div class="seg-row"><div class="seg-label">GA4クエリ</div><div class="seg-val">deviceCategory × 各ファネルイベントのeventCount</div></div>
+          <div class="seg-row"><div class="seg-label">比較方法</div><div class="seg-val">mobile vs desktop で各段階の転換率を並べて、差が大きい段階を特定</div></div>
+          <div class="seg-row"><div class="seg-label">注目点</div><div class="seg-val">③カレンダー表示率と④フォーム遷移率。mobileで特に差がつきやすい。</div></div>
+          <div class="seg-action"><strong>分かったらどうする？ →</strong> 例：mobileの③→④が-40%なら「mobileでカレンダー見た後にフォームに行かない」問題。CTA配置・遅延読み込み・スクロール量の施策候補へ。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tier-block">
+      <div class="tier-header"><div class="tbadge t2">Tier 2-A</div><div class="td">新規 / リピーター — 行動パターンが根本的に異なる</div></div>
+      <div class="ti" style="margin-bottom:12px">
+        <div class="tn">新規 / リピーター（newVsReturning）</div>
+        <div class="tds">Tier 1で見つけたボトルネックが、新規の問題かリピーターの問題かを切り分ける。</div>
+        <div class="seg-detail">
+          <div class="seg-head">使い方</div>
+          <div class="seg-row"><div class="seg-label">新規が低い</div><div class="seg-val">→ 信頼構築の問題。体験談・保証・キャンセルポリシーの見せ方。初回割引の効果検証。</div></div>
+          <div class="seg-row"><div class="seg-label">リピーターが低い</div><div class="seg-val">→ UX摩擦の問題。過去の予約情報の活用不足。再購入フローの最適化。</div></div>
+          <div class="seg-row"><div class="seg-label">GA4クエリ</div><div class="seg-val">newVsReturning × Tier 1で特定したボトルネック段階のイベント</div></div>
+          <div class="seg-action"><strong>分かったらどうする？ →</strong> 例：Organic × mobile × 新規の②→③が特に低い → 「初めてACページに来た新規mobileユーザーが、カレンダーを見る前に離脱」→ 信頼構築UIの施策候補へ。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tier-block">
+      <div class="tier-header"><div class="tbadge t2">Tier 2-B</div><div class="td">エリア（旅行先）— 商品構成が根本的に異なる</div></div>
+      <div class="ti" style="margin-bottom:12px">
+        <div class="tn">エリア（landingPage から推定）</div>
+        <div class="tds">Hawaii, Bali, Singapore 等。エリアごとに在庫・即確定率・季節性が違うため、同じファネルでも特性が変わる。</div>
+        <div class="seg-detail">
+          <div class="seg-head">推定方法</div>
+          <div class="seg-row"><div class="seg-label">GA4</div><div class="seg-val">landingPage に /hawaii/, /bali/ 等のパスを含むかで分類</div></div>
+          <div class="seg-row"><div class="seg-label">注意</div><div class="seg-val">カスタムディメンションがAPI経由で取得不可のため、パスベースの推定。精度に限界あり。</div></div>
+          <div class="seg-head">見るポイント</div>
+          <div class="seg-row"><div class="seg-label">③が低い</div><div class="seg-val">→ 在庫切れ / カレンダー表示時の「空き無し」が多い可能性。サプライ側の問題。</div></div>
+          <div class="seg-row"><div class="seg-label">④が低い</div><div class="seg-val">→ 料金の出し方 / リクエスト制の多さが障壁。即確定商品の露出を上げる施策。</div></div>
+          <div class="seg-action"><strong>分かったらどうする？ →</strong> 例：Hawaiiの③→④が-50%なら「Hawaii商品はカレンダー見ても予約に進まない」→ 在庫確認UI改善 or 即確定商品の優先表示の施策候補へ。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tier-block">
+      <div class="tier-header"><div class="tbadge t3">Tier 3</div><div class="td">掛け合わせ — 原因セグメントを1つに絞る</div></div>
+      <div class="tier-items three">
+        <div class="ti"><div class="tn">チャネル × デバイス</div><div class="tds">Organic + mobile の③が低い？→ mobile向けSEOランディング体験の問題。</div></div>
+        <div class="ti"><div class="tn">チャネル × 新規</div><div class="tds">Organic + 新規 の②が低い？→ 検索意図と商品マッチングの問題。</div></div>
+        <div class="ti"><div class="tn">エリア × デバイス</div><div class="tds">Hawaii + mobile の④が低い？→ Hawaii商品のmobileフォーム体験。</div></div>
+      </div>
+      <div class="callout" style="margin:16px 0 0"><div class="ct">Tier 3 の使い方</div><div class="cb">Tier 1-2で見つけたボトルネックに対して「なぜそのセグメントだけ低いのか？」を掛け合わせで特定する。最終的に「Mobile × Organic × 新規 の ②→③ が全体比 -40%」レベルまで絞り込むのがゴール。</div></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="sec-label">AIの分析プロセス（❶ ボトルネック特定の内部ロジック）</div>
+  <hr class="divider-solid">
+  <div class="process-step"><div class="sc">1</div><div><div class="st">ベースライン取得</div><div class="sd">ファネル全体の転換率を算出。①→② 何%、②→③ 何%…の全体平均を出す。</div></div></div>
+  <div class="process-step"><div class="sc">2</div><div><div class="st">Tier 1 で4分割</div><div class="sd">チャネル別 × デバイス別で分割。全体平均より低い箇所をマーク。</div></div></div>
+  <div class="process-step"><div class="sc">3</div><div><div class="st">ボトルネック特定</div><div class="sd">インパクト順（セッション数 × 転換率ギャップ）でランク付け。</div></div></div>
+  <div class="process-step"><div class="sc">4</div><div><div class="st">Tier 2 で深掘り</div><div class="sd">新規/リピーター、エリアで更に分解。問題の解像度を上げる。</div></div></div>
+  <div class="process-step"><div class="sc">5</div><div><div class="st">Tier 3 で原因特定</div><div class="sd">掛け合わせで最も影響が大きいセグメントを絞り込む。</div></div></div>
+  <div class="process-step"><div class="sc">6</div><div><div class="st">原因仮説 → 数字で裏付け</div><div class="sd">なぜ低いか？の仮説を立て、追加データ・競合リサーチで裏付ける。→ 打ち手・プロトタイプの生成へ。</div></div></div>
+</div>
+
+<div class="card">
+  <div class="sec-label">AIが月曜朝に出す施策リストのフォーマット</div>
+  <hr class="divider-solid">
+  <div style="padding:24px 44px 36px">
+    <table class="fmt-table">
+      <thead><tr><th>項目</th><th>内容</th><th>例</th></tr></thead>
+      <tbody>
+        <tr><td>ボトルネック</td><td>ファネル段階 × セグメント</td><td>②→③ Mobile × Organic × 新規</td></tr>
+        <tr><td>転換率</td><td>現状値 / 全体平均 / ギャップ</td><td>18% / 30% / -40%</td></tr>
+        <tr><td>原因仮説（×3）</td><td>なぜ低いかの仮説</td><td>①カレンダー読み込み遅延 ②情報過多 ③CTA不明確</td></tr>
+        <tr><td>裏付けデータ</td><td>仮説を支持する数字</td><td>Mobile TTFB 3.2s / Desktop 0.8s</td></tr>
+        <tr><td>打ち手（×3）</td><td>具体的な改善施策</td><td>遅延ロード / 情報の引き算 / CTA固定化</td></tr>
+        <tr><td>開発仕様</td><td>具体的な実装内容</td><td>カレンダーコンポーネントをIntersectionObserver化</td></tr>
+        <tr><td>プロトタイプ</td><td>既存画面の改修案ビジュアル</td><td>HTML or Figma リンク</td></tr>
+        <tr><td>期待効果 / 検証方法</td><td>想定インパクト or 測り方</td><td>②→③ +5pt → CVR +0.07% / ABテスト2週間</td></tr>
+        <tr><td style="color:var(--red);font-weight:700">判断（人間）</td><td>チームレビュー結果</td><td>◎やる / △要修正 / ×やらない / 担当: Sachie</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="sec-label">2025年の学び — 勝ち/負けパターン</div>
+  <hr class="divider-solid">
+  <div class="wl-grid">
+    <div class="wl-col"><div class="wll win">✓ 勝ちパターン</div><div class="wli">情報のシンプル化（ハイライト非表示 +3.8%）</div><div class="wli">並走型UIへの変更（タブ化 +2%）</div><div class="wli">行動喚起の明確化（CTA文言 +3%）</div><div class="wli">構造の統一（Area UI標準化）</div></div>
+    <div class="wl-col"><div class="wll lose">✗ 負けパターン</div><div class="wli">ノイズになる機能追加（ランキング・プラン表示）</div><div class="wli">意思決定に影響しない細部（ボタン色・テキスト）</div><div class="wli">比較対象を増やして迷いを増大</div><div class="wli">個別パーツの最適化</div></div>
+  </div>
+  <div class="callout"><div class="ct">施策立案時の3つの問い</div><div class="cb">① このページの役割を強化するか？ → Yes なら進める<br>② ユーザーの意思決定にノイズを加えないか？ → No なら止める<br>③ 引き算で同じ効果が得られないか？ → 得られるなら引き算を優先</div></div>
+</div>
+
+<div class="card">
+  <div class="footer">
+    <span>VELTRA CVR改善チーム — UIUX Design Squad</span>
+    <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+    <span>2026-03-27</span>
+  </div>
+</div>
+
+<script src="/nav.js"></script>
+<script src="/funnel-def.js"></script>
+</body>
+</html>

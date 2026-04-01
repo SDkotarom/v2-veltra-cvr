@@ -1,0 +1,376 @@
+{
+  "meta": {
+    "week_id": "2026-w14",
+    "week_label": "26年4月 Week1（3/30〜4/5）",
+    "date_start": "2026-03-30",
+    "date_end": "2026-04-05",
+    "data_period": "28daysAgo ~ yesterday",
+    "generated_at": "2026-03-30T09:00:00+09:00",
+    "property_id": "347074845",
+    "note": "仮想データ（GA4 MCP接続前のプロトタイプ）"
+  },
+  "baseline": {
+    "sessions": 3017970,
+    "purchases": 43760,
+    "cvr": 0.0145,
+    "funnel": {
+      "session_start": 3017970,
+      "view_item": 1364122,
+      "calendar_view": 401052,
+      "form_start": 36095,
+      "purchase": 43760
+    },
+    "conversion_rates": {
+      "1_to_2": 0.452,
+      "2_to_3": 0.294,
+      "3_to_4": 0.090,
+      "4_to_5": 1.213
+    }
+  },
+  "segments": {
+    "tier1_comparison_2_to_3": {
+      "description": "②→③ カレンダー表示率のTier1比較",
+      "baseline": 0.294,
+      "mobile_organic": 0.182,
+      "desktop_organic": 0.347,
+      "mobile_direct": 0.413
+    },
+    "tier2_new_returning_mobile_organic_2_to_3": {
+      "description": "Mobile × Organic の新規/リピーター分解",
+      "new_user": 0.148,
+      "new_user_vs_baseline": -0.50,
+      "returning": 0.261,
+      "returning_vs_baseline": -0.11
+    },
+    "tier2_area_mobile_organic_2_to_3": {
+      "description": "Mobile × Organic のエリア別分解",
+      "hawaii": 0.123,
+      "hawaii_vs_baseline": -0.58,
+      "bali": 0.169,
+      "bali_vs_baseline": -0.43,
+      "europe": 0.225,
+      "europe_vs_baseline": -0.23
+    }
+  },
+  "bottlenecks": [
+    {
+      "rank": 1,
+      "title": "Mobile × Organic — カレンダー表示率の低さ",
+      "funnel_stage": "2_to_3",
+      "funnel_label": "②→③ 検討段階",
+      "segments": ["Mobile", "Organic Search", "新規ユーザー"],
+      "current_rate": 0.182,
+      "baseline_rate": 0.294,
+      "gap_pct": -0.38,
+      "impact_sessions": 840000,
+      "deepest_segment": {
+        "label": "Mobile × Organic × 新規 × Hawaii",
+        "rate": 0.123,
+        "gap_vs_baseline": -0.58,
+        "monthly_sessions": 120000,
+        "cvr_improvement_potential": 0.0005
+      },
+      "hypotheses": [
+        {
+          "id": "h1",
+          "title": "カレンダーの読み込みが遅く、スクロール前に離脱している",
+          "confidence": "high",
+          "body": "Mobileでカレンダーコンポーネントの初期表示に3秒以上かかっている。新規ユーザーは待たない。Organicは検索結果から来るため「すぐ情報がほしい」意図が強い。",
+          "evidence": {
+            "mobile_ttfb": "3.2s",
+            "desktop_ttfb": "0.8s",
+            "calendar_display_mobile": "4.8s",
+            "calendar_display_desktop": "1.2s",
+            "avg_session_duration_mobile_organic": "18s",
+            "avg_session_duration_desktop": "52s"
+          },
+          "actions": [
+            {
+              "id": "a1",
+              "label": "施策 A",
+              "title": "カレンダーの遅延ロード + スケルトンUI",
+              "expected_impact": "+8pt",
+              "description": "カレンダーをIntersectionObserverで遅延読み込みに変更。表示前はスケルトンUIでスペースを確保し、ページ全体の初期表示を高速化。",
+              "spec": [
+                "カレンダーコンポーネントにlazy loading実装",
+                "スケルトンUIコンポーネント追加（高さ280px固定）",
+                "目標: TTFB 3.2s → 1.5s以下"
+              ]
+            },
+            {
+              "id": "a2",
+              "label": "施策 B",
+              "title": "ACページ上部の情報を折りたたみ化",
+              "expected_impact": "+5pt",
+              "description": "「含まれるもの」「注意事項」をアコーディオンに格納し、カレンダーをファーストビューに近づける。2025年の「タブ化+2%」の横展開。",
+              "spec": [
+                "「含まれるもの」「注意事項」をaccordionコンポーネント化",
+                "Mobileのみ適用（Desktopは現状維持）",
+                "目標: カレンダー位置を68% → 40%に引き上げ"
+              ]
+            },
+            {
+              "id": "a3",
+              "label": "施策 C",
+              "title": "「日程を確認」フローティングCTA追加",
+              "expected_impact": "+3pt",
+              "description": "画面下部に固定CTAボタンを表示し、タップでカレンダーセクションにスムーススクロール。2025年の「フローティングナビ化」の知見を活用。",
+              "spec": [
+                "position:stickyのCTAバー実装（高さ56px）",
+                "スクロール連動: カレンダーセクション到達で非表示",
+                "文言: 「空き日程を確認する」（CTA文言+3%の実績ベース）"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "h2",
+          "title": "ACページの情報量が多すぎて、カレンダーまでスクロールされない",
+          "confidence": "medium",
+          "body": "ACページ上部に商品説明・写真ギャラリー・含まれるもの・注意事項が並び、カレンダーがファーストビューから遠い。新規ユーザーは全体像が掴めず、途中で離脱。",
+          "evidence": {
+            "scroll_depth_to_calendar": "平均68%地点",
+            "reach_rate_68pct_mobile": "31%",
+            "reach_rate_68pct_desktop": "72%",
+            "past_result": "2025年「ハイライト非表示」で+3.8%の実績あり"
+          }
+        },
+        {
+          "id": "h3",
+          "title": "Hawaii商品の在庫切れが多く、カレンダーを見ても空きがない",
+          "confidence": "low",
+          "body": "Hawaii商品は人気が高く、直近の日程は満席が多い。カレンダーを開いても「空きなし」表示が並び、予約意欲が下がる。ただしこの場合はカレンダー「表示」自体はされるはずなので、表示率には影響しない可能性。",
+          "evidence": {
+            "hawaii_14day_availability": "32%",
+            "all_area_14day_availability": "61%",
+            "note": "この仮説は③→④（フォーム遷移率）に効いている可能性が高い。②→③の主因ではなさそう。"
+          }
+        }
+      ],
+      "prototype": {
+        "target_page": "Hawaii ACページ（Mobile）",
+        "example_url": "veltra.com/jp/hawaii/oahu/a/7499",
+        "product_name": "ダイヤモンドヘッド日の出ハイキングツアー",
+        "before_summary": "カレンダーまでスクロール深度約68%。プラン選択→含まれるもの→注意事項→スケジュールの後にカレンダー。",
+        "after_summary": "施策A+B+C統合適用。タブ化で「日程・料金」がファーストビュー直下。フローティングCTA追加。"
+      },
+      "verification": {
+        "method": "ABテスト 2週間",
+        "target_segment": "Mobile × Organic × 新規（Hawaii ACページ）",
+        "primary_kpi": "②→③ カレンダー表示率（現状 12.3% → 目標 20%以上）",
+        "secondary_kpi": ["④フォーム遷移率", "⑤完了率への影響", "ページ速度（TTFB）"]
+      },
+      "competitive_analysis": {
+        "perspective": "Mobile視点",
+        "competitors": [
+          {
+            "name": "Klook",
+            "mobile": "カレンダーがファーストビュー直下。ヒーロー画像→価格→日付選択の順序で、スクロール不要でカレンダーに到達。",
+            "desktop": "右カラムに日付選択を固定表示。左カラムに商品情報。",
+            "insight": "Mobile/Desktop共に日付選択 → プラン選択 → 人数 の順序（VELTRAと逆）"
+          },
+          {
+            "name": "KKday",
+            "mobile": "フローティング価格バーが常時表示。タップでカレンダーが展開。商品情報はアコーディオン形式で折りたたまれており、カレンダー到達を妨げない。",
+            "desktop": "右カラムに価格+カレンダーを固定。情報は左カラムでスクロール。",
+            "insight": "Mobile/Desktop共に情報のデフォルト折りたたみ。展開は任意。"
+          },
+          {
+            "name": "GetYourGuide",
+            "mobile": "画面下部にフローティングCTA「Check availability」を常時表示。タップでカレンダーモーダル。本文をどこまでスクロールしても予約動線が見える。",
+            "desktop": "右サイドバーに日付選択を固定表示。スクロールに追従。",
+            "insight": "Mobile/Desktop共に予約動線が画面から消えない設計"
+          },
+          {
+            "name": "Viator",
+            "mobile": "ヒーロー直下に「Check availability」ボタン。タップでカレンダーがモーダル展開。ページ内スクロール不要で日程確認可能。",
+            "desktop": "右カラムにカレンダー+価格を固定。Tripadvisorレビュー統合で信頼構築。",
+            "insight": "Mobileはモーダル表示（ページ内インラインではない）。新規ユーザーの離脱を防ぐ設計。"
+          },
+          {
+            "name": "asoview!",
+            "mobile": "フローティング「予約する」ボタンを常時表示。カレンダーは「プランを選ぶ」セクションに統合されており、プラン選択と日程選択が一体化。",
+            "desktop": "右カラムに予約ウィジェット固定。プラン→日付→人数がステップ形式。",
+            "insight": "Mobileでプラン選択と日程選択が一体化。ステップが少ない。"
+          },
+          {
+            "name": "NEWT",
+            "mobile": "アプリファースト設計。Webは情報提示に徹し「アプリで予約」へ誘導。Web単体では予約フローが完結しにくい。",
+            "desktop": "パッケージツアー型。商品詳細→出発日選択→フォームの流れ。比較対象としては参考程度。",
+            "insight": "アプリファーストの思想。Mobile Webでの予約完結率は低いと推測。"
+          }
+        ],
+        "summary": "主要競合5社中4社が「カレンダー/日程選択をファーストビューまたはフローティングで常時アクセス可能」にしている。VELTRAの現状は「プラン選択→含まれるもの→注意事項→スケジュール…の後にカレンダー」という構造で、カレンダー到達までのスクロール量が競合比で最も多い。施策B（情報の折りたたみ化）と施策C（フローティングCTA）は競合のベストプラクティスと方向性が一致。"
+      }
+    },
+    {
+      "rank": 2,
+      "title": "Desktop × Paid — フォーム完了率の低さ",
+      "funnel_stage": "4_to_5",
+      "funnel_label": "④→⑤ 完了段階",
+      "segments": ["Desktop", "Paid Search"],
+      "gap_pct": -0.29,
+      "hypotheses": [
+        {
+          "id": "h1",
+          "title": "フォームの入力項目が多い。Paid経由は比較検討中のユーザーが多く、入力途中で離脱。ゲスト購入導線やフォーム簡略化が施策候補。",
+          "confidence": "high",
+          "evidence_note": "本番データ接続後に生成"
+        },
+        {
+          "id": "h2",
+          "title": "追加仮説はGA4データ分析後に生成",
+          "confidence": "pending"
+        },
+        {
+          "id": "h3",
+          "title": "競合比較から導出予定",
+          "confidence": "pending"
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "title": "Mobile × Direct — AC到達率の低さ",
+      "funnel_stage": "1_to_2",
+      "funnel_label": "①→② 回遊段階",
+      "segments": ["Mobile", "Direct"],
+      "gap_pct": -0.25,
+      "hypotheses": [
+        {
+          "id": "h1",
+          "title": "リピーターがトップページから商品に到達できていない。検索UIの改善、お気に入り・閲覧履歴からの再アクセス導線が施策候補。",
+          "confidence": "high",
+          "evidence_note": "本番データ接続後に生成"
+        },
+        {
+          "id": "h2",
+          "title": "追加仮説はGA4データ分析後に生成",
+          "confidence": "pending"
+        },
+        {
+          "id": "h3",
+          "title": "競合比較から導出予定",
+          "confidence": "pending"
+        }
+      ]
+    },
+    {
+      "rank": 4,
+      "title": "Organic × 新規 — AC到達率の低さ",
+      "funnel_stage": "1_to_2",
+      "funnel_label": "①→② 回遊段階",
+      "segments": ["Organic", "新規"],
+      "gap_pct": -0.24,
+      "hypotheses": [
+        {
+          "id": "h1",
+          "title": "SEOランディングページ（エリアページ）から商品への導線が弱い。カテゴリ構造の整理、ファーストビューでの商品露出強化が施策候補。",
+          "confidence": "high",
+          "evidence_note": "本番データ接続後に生成"
+        },
+        {
+          "id": "h2",
+          "title": "追加仮説はGA4データ分析後に生成",
+          "confidence": "pending"
+        },
+        {
+          "id": "h3",
+          "title": "競合比較から導出予定",
+          "confidence": "pending"
+        }
+      ]
+    },
+    {
+      "rank": 5,
+      "title": "Mobile × Organic × Bali — カレンダー表示率",
+      "funnel_stage": "2_to_3",
+      "funnel_label": "②→③ 検討段階",
+      "segments": ["Mobile", "Organic", "Bali"],
+      "gap_pct": -0.22,
+      "hypotheses": [
+        {
+          "id": "h1",
+          "title": "#1と同根（速度 + 情報過多）。Baliは商品数が多くACページが特に長い。#1の施策横展開が有効。",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "rank": 6,
+      "title": "Desktop × Organic — フォーム遷移率",
+      "funnel_stage": "3_to_4",
+      "funnel_label": "③→④ 意向段階",
+      "segments": ["Desktop", "Organic"],
+      "gap_pct": -0.21,
+      "hypotheses": [
+        {
+          "id": "h1",
+          "title": "カレンダーは見るが予約に進まない。料金体系が複雑で比較中の離脱。即確定/リクエスト制の表記が分かりにくい。",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "rank": 7,
+      "title": "Mobile × Paid × 新規 — 完了率",
+      "funnel_stage": "4_to_5",
+      "funnel_label": "④→⑤ 完了段階",
+      "segments": ["Mobile", "Paid", "新規"],
+      "gap_pct": -0.19,
+      "hypotheses": [
+        {
+          "id": "h1",
+          "title": "Mobileフォームの入力UX。新規は会員登録の壁。ゲスト購入への導線不足。",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "rank": 8,
+      "title": "Desktop × Direct × リピーター — カレンダー表示率",
+      "funnel_stage": "2_to_3",
+      "funnel_label": "②→③ 検討段階",
+      "segments": ["Desktop", "Direct", "リピーター"],
+      "gap_pct": -0.16,
+      "hypotheses": [
+        {
+          "id": "h1",
+          "title": "リピーターが「前回と同じ商品」を再予約したいが、ACページに過去予約との接続がない。",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "rank": 9,
+      "title": "Mobile × Organic × Europe — AC到達率",
+      "funnel_stage": "1_to_2",
+      "funnel_label": "①→② 回遊段階",
+      "segments": ["Mobile", "Organic", "Europe"],
+      "gap_pct": -0.15,
+      "hypotheses": [
+        {
+          "id": "h1",
+          "title": "Europeはエリア・都市・商品の階層が深く、カテゴリページから商品に到達するまでのステップが多い。",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "rank": 10,
+      "title": "Mobile × Unassigned — 全段階で異常値",
+      "funnel_stage": "all",
+      "funnel_label": "全段階",
+      "segments": ["Mobile", "Unassigned"],
+      "gap_pct": null,
+      "note": "CVR 4.10%と異常に高い。アプリ経由のトラッキング設計を確認し、実態を把握してから判断。分析対象外の可能性も。",
+      "hypotheses": [
+        {
+          "id": "h1",
+          "title": "CVR 4.10%と異常に高い。アプリ経由のトラッキング設計を確認し、実態を把握してから判断。分析対象外の可能性も。",
+          "confidence": "investigation_needed"
+        }
+      ]
+    }
+  ]
+}
