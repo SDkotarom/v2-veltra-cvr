@@ -6,10 +6,10 @@
     /* Logo area */
     '.site-nav .nav-logo{padding:10px 10px 12px;display:flex;align-items:center;gap:8px}' +
     '.site-nav .nav-logo img{width:28px;height:28px;object-fit:contain}' +
-    '.site-nav .nav-logo-text{font-size:11px;font-weight:700;color:#1a1a1a;line-height:1.3;letter-spacing:.03em}' +
-    '.site-nav .nav-logo-sub{font-size:9px;font-weight:400;color:#999;letter-spacing:.05em}' +
+    '.site-nav .nav-logo-text{font-size:13px;font-weight:700;color:#1a1a1a;line-height:1.3;letter-spacing:.03em}' +
+    '.site-nav .nav-logo-sub{font-size:11px;font-weight:400;color:#999;letter-spacing:.05em}' +
     /* Section label */
-    '.site-nav .nav-label{font-size:10px;font-weight:700;color:#aaa;padding:10px 12px 4px;letter-spacing:.08em;text-transform:uppercase}' +
+    '.site-nav .nav-label{font-size:12px;font-weight:700;color:#aaa;padding:10px 12px 4px;letter-spacing:.05em}' +
     /* Top-level nav items */
     '.site-nav .nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;margin:1px 0;text-decoration:none;color:#666;font-size:14px;line-height:1.3;transition:background .12s}' +
     '.site-nav .nav-item:hover{background:rgba(255,255,255,.6);color:#1a1a1a}' +
@@ -23,15 +23,15 @@
     '.site-nav .nav-week-row:hover{background:rgba(255,255,255,.6)}' +
     '.site-nav .nav-week-toggle{font-size:9px;color:#bbb;flex-shrink:0;transition:transform .15s;line-height:1}' +
     '.site-nav .nav-week-toggle.open{transform:rotate(90deg)}' +
-    '.site-nav .nav-week-id{font-size:13px;font-weight:700;color:#E8423F;flex-shrink:0;font-family:"DM Sans",sans-serif}' +
-    '.site-nav .nav-week-label{font-size:11px;color:#aaa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}' +
-    '.site-nav .nav-week-badge{font-size:9px;font-weight:700;background:#E8423F;color:#fff;padding:2px 7px;border-radius:8px;flex-shrink:0;white-space:nowrap}' +
+    '.site-nav .nav-week-id{font-size:15px;font-weight:700;color:#E8423F;flex-shrink:0;font-family:"DM Sans",sans-serif}' +
+    '.site-nav .nav-week-label{font-size:12px;color:#aaa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}' +
+    '.site-nav .nav-week-badge{font-size:11px;font-weight:700;background:#E8423F;color:#fff;padding:2px 8px;border-radius:8px;flex-shrink:0;white-space:nowrap}' +
     /* Bottleneck items */
     '.site-nav .nav-bn-list{padding-left:4px;margin-bottom:2px}' +
-    '.site-nav .nav-bn-item a{display:flex;align-items:center;gap:6px;padding:7px 10px 7px 16px;font-size:13px;color:#777;border-radius:8px;text-decoration:none;line-height:1.4;transition:background .12s}' +
+    '.site-nav .nav-bn-item a{display:flex;align-items:center;gap:6px;padding:7px 10px 7px 16px;font-size:14px;color:#777;border-radius:8px;text-decoration:none;line-height:1.4;transition:background .12s}' +
     '.site-nav .nav-bn-item a:hover{background:rgba(255,255,255,.7);color:#1a1a1a}' +
     '.site-nav .nav-bn-item a.nav-active{background:#fff;color:#E8423F;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.07)}' +
-    '.site-nav .nav-bn-item .bn-num{font-family:"DM Sans",sans-serif;font-weight:700;color:#ccc;font-size:11px;flex-shrink:0}' +
+    '.site-nav .nav-bn-item .bn-num{font-family:"DM Sans",sans-serif;font-weight:700;color:#ccc;font-size:12px;flex-shrink:0}' +
     '.site-nav .nav-bn-item a.nav-active .bn-num{color:#E8423F}' +
     /* Main area */
     '.site-main{min-width:0}' +
