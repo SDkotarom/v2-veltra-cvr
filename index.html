@@ -104,7 +104,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .seg-table th:first-child{text-align:left}
 .seg-table td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle;text-align:right}
 .seg-table td:first-child{text-align:left}
-.seg-table tr:last-child td{border-bottom:none;background:var(--bg);font-style:italic}
+.seg-table tr.baseline-row td{border-top:1px solid var(--border);background:var(--bg);color:var(--text3);font-style:normal}
+.seg-table tr.baseline-row .seg-name{font-weight:400;font-size:14px}
+.seg-table tr.baseline-row .rate-cell,.seg-table tr.baseline-row .cvr-cell{font-size:14px;font-weight:400;color:var(--text3)}
 .seg-table .seg-name{font-weight:700;font-size:16px;white-space:nowrap}
 .seg-table .rate-cell{font-family:'DM Sans';font-weight:700;font-size:17px;color:var(--text)}
 .seg-table .rate-cell .rate-gap{display:block;font-size:12px;font-weight:700;font-family:inherit;letter-spacing:.02em;margin-top:2px}
@@ -597,16 +599,14 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       return '<td class="rate-cell">' + fmtPct(val, 1) + gapSpan(val, blVal) + '</td>';
     }
     var isBaseline = (blRates === null);
-    var cvrCell = isBaseline
-      ? '<td class="cvr-cell">基準</td>'
-      : '<td class="cvr-cell">' + fmtPct(rates.cvr, 2) + gapSpan(rates.cvr, blRates ? blRates.cvr : null) + '</td>';
-    return '<tr>' +
+    var cvrCell = '<td class="cvr-cell' + (isBaseline ? ' baseline-row' : '') + '">' + fmtPct(rates.cvr, 2) + (isBaseline ? '' : gapSpan(rates.cvr, blRates ? blRates.cvr : null)) + '</td>';
+    return '<tr' + (isBaseline ? ' class="baseline-row"' : '') + '>' +
       '<td class="seg-name">' + name + '</td>' +
       cvrCell +
-      (isBaseline ? '<td class="rate-cell">基準</td>' : cell(rates['1_to_2'], blRates && blRates['1_to_2'])) +
-      (isBaseline ? '<td class="rate-cell">基準</td>' : cell(rates['2_to_3'], blRates && blRates['2_to_3'])) +
-      (isBaseline ? '<td class="rate-cell">基準</td>' : cell(rates['3_to_4'], blRates && blRates['3_to_4'])) +
-      (isBaseline ? '<td class="rate-cell">基準</td>' : cell(rates['4_to_5'], blRates && blRates['4_to_5'])) +
+      cell(rates['1_to_2'], isBaseline ? null : (blRates && blRates['1_to_2'])) +
+      cell(rates['2_to_3'], isBaseline ? null : (blRates && blRates['2_to_3'])) +
+      cell(rates['3_to_4'], isBaseline ? null : (blRates && blRates['3_to_4'])) +
+      cell(rates['4_to_5'], isBaseline ? null : (blRates && blRates['4_to_5'])) +
       '</tr>';
   }
 
