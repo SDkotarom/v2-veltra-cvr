@@ -21,6 +21,14 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .callout .cb{font-size:14px;color:var(--text2);line-height:1.7}
 .footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
 
+/* Sticky header */
+#sticky-hdr{position:fixed;top:0;left:0;right:0;z-index:900;background:var(--red);display:flex;align-items:center;justify-content:space-between;padding:8px 32px;box-shadow:0 2px 12px rgba(0,0,0,.18);transform:translateY(-110%);transition:transform .2s ease;pointer-events:none}
+#sticky-hdr.is-visible{transform:translateY(0);pointer-events:auto}
+#sticky-hdr .sh-logo{font-family:'DM Sans';font-weight:900;font-size:16px;color:#fff;letter-spacing:.04em;border:2px solid rgba(255,255,255,.6);padding:2px 10px;border-radius:4px;flex-shrink:0}
+#sticky-hdr .sh-title{font-family:'DM Sans';font-size:15px;font-weight:500;color:rgba(255,255,255,.9);margin-left:12px;flex:1}
+#sticky-hdr .toggle-wrap{gap:6px}
+#sticky-hdr .toggle-btn{font-size:12px;padding:4px 14px}
+
 /* Toggle */
 .toggle-wrap{display:flex;align-items:center;gap:8px}
 .toggle-btn{font-family:'DM Sans';font-size:13px;font-weight:700;padding:6px 16px;border-radius:20px;border:none;cursor:pointer;transition:background .15s,color .15s}
@@ -119,8 +127,18 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 </head>
 <body>
 
+<!-- Sticky header (appears when original scrolls out of view) -->
+<div id="sticky-hdr">
+  <div class="sh-logo">V2</div>
+  <div class="sh-title">VELTRA CVR REPORT</div>
+  <div class="toggle-wrap">
+    <button class="toggle-btn active" id="sticky-btn-week" onclick="setMode('week')">最新週</button>
+    <button class="toggle-btn inactive" id="sticky-btn-month" onclick="setMode('month')">月次累計</button>
+  </div>
+</div>
+
 <div class="card">
-  <div class="header-band">
+  <div class="header-band" id="main-header-band">
     <div style="display:flex;align-items:center;gap:16px">
       <div class="logo">V2</div>
       <div class="title">VELTRA CVR REPORT</div>
@@ -351,10 +369,30 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   // ── Mode toggle ─────────────────────────────────
   window.setMode = function(m) {
     mode = m;
-    document.getElementById('btn-week').className = 'toggle-btn ' + (m === 'week' ? 'active' : 'inactive');
-    document.getElementById('btn-month').className = 'toggle-btn ' + (m === 'month' ? 'active' : 'inactive');
+    ['btn-week', 'sticky-btn-week'].forEach(function(id) {
+      var el = document.getElementById(id); if (el) el.className = 'toggle-btn ' + (m === 'week' ? 'active' : 'inactive');
+    });
+    ['btn-month', 'sticky-btn-month'].forEach(function(id) {
+      var el = document.getElementById(id); if (el) el.className = 'toggle-btn ' + (m === 'month' ? 'active' : 'inactive');
+    });
     renderAll();
   };
+
+  // ── Sticky header on scroll ──────────────────────
+  (function() {
+    var band = document.getElementById('main-header-band');
+    var sticky = document.getElementById('sticky-hdr');
+    if (!band || !sticky || !('IntersectionObserver' in window)) return;
+    var obs = new IntersectionObserver(function(entries) {
+      var visible = entries[0].isIntersecting;
+      if (!visible) {
+        sticky.classList.add('is-visible');
+      } else {
+        sticky.classList.remove('is-visible');
+      }
+    }, { threshold: 0 });
+    obs.observe(band);
+  })();
 
   // ── Segment tabs ─────────────────────────────────
   window.showSeg = function(panel) {
