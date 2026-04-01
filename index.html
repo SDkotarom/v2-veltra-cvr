@@ -294,10 +294,10 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <!-- Area panel -->
     <div class="seg-panel" id="seg-area">
       <table class="seg-table">
-        <thead><tr><th>エリア</th><th>②→③ 転換率</th><th>全体比</th><th class="bar-cell">相対値</th></tr></thead>
+        <thead><tr><th>エリア</th><th>CVR</th><th>全体比</th><th class="bar-cell">相対値</th></tr></thead>
         <tbody id="seg-area-body"></tbody>
       </table>
-      <div class="seg-note">※ Mobile × Organic × エリア別分解。</div>
+      <div class="seg-note">※ エリア別CVR（全チャネル・全デバイス合算）。</div>
     </div>
 
   </div>
@@ -527,66 +527,71 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     });
     // Segment panels
     if (weekObj && weekObj.segments) {
+      window._currentWeekBaseline = weekObj.baseline || null;
       renderSegmentPanels(weekObj.segments, r['2_to_3']);
     }
   }
 
   function renderSegmentPanels(segs, baseline23) {
-    var tier1 = segs.tier1_comparison_2_to_3;
-    var bl = tier1 ? (tier1.baseline || baseline23) : baseline23;
+    var bl = baseline23;
 
-    // Device tab: compare Mobile vs Desktop (Organic経由)
+    // Device tab
     var deviceRows = [];
-    if (tier1) {
-      deviceRows = [
-        { name: 'Mobile', rate: tier1.mobile_organic, gap: tier1.mobile_organic != null ? (tier1.mobile_organic - bl) / bl : null },
-        { name: 'Desktop', rate: tier1.desktop_organic, gap: tier1.desktop_organic != null ? (tier1.desktop_organic - bl) / bl : null },
-        { name: '全体（ベースライン）', rate: bl, gap: 0 }
-      ];
+    var devMap = [['Mobile', 'mobile'], ['Desktop', 'desktop'], ['Tablet', 'tablet']];
+    if (segs.device) {
+      devMap.forEach(function(d) {
+        var seg = segs.device[d[1]];
+        if (seg && seg.rates && seg.rates['2_to_3'] != null) {
+          deviceRows.push({ name: d[0], rate: seg.rates['2_to_3'], gap: (seg.rates['2_to_3'] - bl) / bl });
+        }
+      });
+      deviceRows.push({ name: '全体（ベースライン）', rate: bl, gap: 0 });
     }
     renderSegTable('seg-device-body', deviceRows, bl);
 
-    // Channel tab: compare Organic vs Direct (Mobile経由)
+    // Channel tab: top channels by sessions
     var channelRows = [];
-    if (tier1) {
-      channelRows = [
-        { name: 'Organic Search', rate: tier1.mobile_organic, gap: tier1.mobile_organic != null ? (tier1.mobile_organic - bl) / bl : null },
-        { name: 'Direct', rate: tier1.mobile_direct, gap: tier1.mobile_direct != null ? (tier1.mobile_direct - bl) / bl : null },
-        { name: '全体（ベースライン）', rate: bl, gap: 0 }
-      ];
+    if (segs.channel) {
+      var chList = Object.keys(segs.channel).map(function(k) {
+        return { name: k, data: segs.channel[k] };
+      }).filter(function(c) {
+        return c.data.rates && c.data.rates['2_to_3'] != null && c.data.sessions > 10000;
+      }).sort(function(a, b) { return b.data.sessions - a.data.sessions; }).slice(0, 6);
+      chList.forEach(function(c) {
+        channelRows.push({ name: c.name, rate: c.data.rates['2_to_3'], gap: (c.data.rates['2_to_3'] - bl) / bl });
+      });
+      channelRows.push({ name: '全体（ベースライン）', rate: bl, gap: 0 });
     }
     renderSegTable('seg-channel-body', channelRows, bl);
 
     // New vs Returning
     var nrRows = [];
-    var tier2nr = segs.tier2_new_returning_mobile_organic_2_to_3;
-    if (tier2nr) {
-      var bl2 = baseline23;
-      nrRows = [
-        { name: '新規ユーザー', rate: tier2nr.new_user, gap: tier2nr.new_user_vs_baseline },
-        { name: 'リピーター', rate: tier2nr.returning, gap: tier2nr.returning_vs_baseline },
-        { name: '全体（ベースライン）', rate: bl2, gap: 0 }
-      ];
+    if (segs.new_returning) {
+      var nr = segs.new_returning;
+      if (nr['new'] && nr['new'].rates) nrRows.push({ name: '新規ユーザー', rate: nr['new'].rates['2_to_3'], gap: (nr['new'].rates['2_to_3'] - bl) / bl });
+      if (nr['returning'] && nr['returning'].rates) nrRows.push({ name: 'リピーター', rate: nr['returning'].rates['2_to_3'], gap: (nr['returning'].rates['2_to_3'] - bl) / bl });
+      nrRows.push({ name: '全体（ベースライン）', rate: bl, gap: 0 });
     }
     renderSegTable('seg-nr-body', nrRows, baseline23);
 
-    // Area
+    // Area (CVRベース)
     var areaRows = [];
-    var tier2area = segs.tier2_area_mobile_organic_2_to_3;
-    if (tier2area) {
-      var areaMap = [
-        { label: 'Hawaii', key: 'hawaii', gapKey: 'hawaii_vs_baseline' },
-        { label: 'Bali', key: 'bali', gapKey: 'bali_vs_baseline' },
-        { label: 'Europe', key: 'europe', gapKey: 'europe_vs_baseline' }
-      ];
-      areaMap.forEach(function(a) {
-        if (tier2area[a.key] != null) {
-          areaRows.push({ name: a.label, rate: tier2area[a.key], gap: tier2area[a.gapKey] });
+    var baselineCvr = (function() {
+      var w = window._currentWeekBaseline;
+      return w ? w.cvr : null;
+    })();
+    var areaOrder = [['Hawaii', 'hawaii'], ['Bali', 'bali'], ['Europe', 'europe'], ['Japan', 'japan'], ['その他', 'other']];
+    if (segs.area) {
+      areaOrder.forEach(function(a) {
+        var seg = segs.area[a[1]];
+        if (seg && seg.cvr != null) {
+          var gapVal = baselineCvr ? (seg.cvr - baselineCvr) / baselineCvr : null;
+          areaRows.push({ name: a[0], rate: seg.cvr, gap: gapVal });
         }
       });
-      areaRows.push({ name: '全体（ベースライン）', rate: baseline23, gap: 0 });
+      if (baselineCvr) areaRows.push({ name: '全体（ベースライン）', rate: baselineCvr, gap: 0 });
     }
-    renderSegTable('seg-area-body', areaRows, baseline23);
+    renderSegTable('seg-area-body', areaRows, baselineCvr || bl);
   }
 
   function renderSegTable(tbodyId, rows, baseline) {
