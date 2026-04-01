@@ -19,16 +19,50 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .callout{background:var(--red-light);border-left:4px solid var(--red);padding:20px 28px;margin:0 44px 32px;border-radius:0 8px 8px 0}
 .callout .ct{font-size:16px;font-weight:700;color:var(--red);margin-bottom:8px}
 .callout .cb{font-size:16px;color:var(--text2);line-height:1.8}
+.callout-green{background:var(--green-light);border-left:4px solid var(--green)}
+.callout-green .ct{color:var(--green)}
+.callout-amber{background:var(--amber-light);border-left:4px solid var(--amber)}
+.callout-amber .ct{color:var(--amber)}
 .footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
 .bn-tag{font-size:13px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid var(--border)}
 .bn-tag.red{background:var(--red-light);border-color:var(--red);color:var(--red)}
 .nav-bar{padding:16px 44px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
 .nav-bar a{font-size:14px;color:var(--red);text-decoration:none;font-weight:600}
 .nav-bar a:hover{text-decoration:underline}
-.placeholder{padding:60px 44px;text-align:center;color:var(--text3)}
-.placeholder .ph-icon{font-size:48px;margin-bottom:16px}
-.placeholder .ph-title{font-size:20px;font-weight:700;color:var(--text2);margin-bottom:8px}
-.placeholder .ph-desc{font-size:15px;line-height:1.7}
+.funnel-compare{padding:0 44px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fc-cell{border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.fc-cell.alert{border-color:var(--red);background:var(--red-light)}
+.fc-label{font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.fc-stage{font-size:15px;font-weight:700;margin:6px 0 4px}
+.fc-val{font-family:'DM Sans';font-size:20px;font-weight:700}
+.fc-val-label{font-size:11px;color:var(--text3)}
+.hypo-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.hypo-card{border:1px solid var(--border);border-radius:12px;padding:20px 24px;position:relative}
+.hypo-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:12px 0 0 12px}
+.hypo-card.h1::before{background:var(--red)}
+.hypo-card.h2::before{background:var(--amber)}
+.hypo-card.h3::before{background:var(--text3)}
+.hypo-num{font-family:'DM Sans';font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.hypo-card.h1 .hypo-num{color:var(--red)}
+.hypo-card.h2 .hypo-num{color:var(--amber)}
+.hypo-card.h3 .hypo-num{color:var(--text3)}
+.hypo-title{font-size:17px;font-weight:700;margin-bottom:8px;line-height:1.4}
+.hypo-body{font-size:14px;color:var(--text2);line-height:1.7}
+.hypo-evidence{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:13px}
+.hypo-evidence strong{color:var(--text);display:block;margin-bottom:4px}
+.action-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.action-card{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.action-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.action-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.action-impact{font-family:'DM Sans';font-size:14px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px}
+.action-body{padding:16px 20px}
+.action-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.action-desc{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.action-spec{background:var(--bg);border-radius:6px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6}
+.action-spec strong{color:var(--text);display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+@media(max-width:768px){
+  .funnel-compare,.hypo-grid,.action-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -36,7 +70,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div class="card">
   <div class="header-band">
     <div class="logo">V2</div>
-    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">← サマリーに戻る</a>
+    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">&larr; サマリーに戻る</a>
     <div class="right">ボトルネック #7 / 10</div>
   </div>
 
@@ -44,7 +78,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
       <div style="font-family:'DM Sans';font-size:56px;font-weight:900;color:var(--red);line-height:1">#7</div>
       <div>
-        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Paid Search — 検討から意向への転換率低下</div>
+        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Paid Search &mdash; 検討から意向への転換率低下</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="bn-tag red">③→④ 意向段階</span>
           <span class="bn-tag">Paid Search</span>
@@ -54,73 +88,234 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div style="display:flex;align-items:center;gap:16px;margin-top:16px">
       <div style="font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase">全体平均との乖離</div>
       <div style="font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red)">-20%</div>
-      <div style="font-size:14px;color:var(--text3)">対象セッション: 682,687</div>
+      <div style="font-size:14px;color:var(--text3)">影響セッション: 682,687 / 月</div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <div style="padding:24px 44px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">原因仮説</div>
+  <!-- Tier 1 comparison -->
+  <div style="padding:24px 44px 12px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Step 2-3 &mdash; Tier 1 比較：③→④ 意向転換率</div>
+  </div>
+  <div class="funnel-compare">
+    <div class="fc-cell">
+      <div class="fc-label">全体平均</div>
+      <div class="fc-stage">③→④ 意向</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">86.6%</div>
+      <div class="fc-val-label">ベースライン</div>
+    </div>
+    <div class="fc-cell alert">
+      <div class="fc-label" style="color:var(--red)">Paid Search</div>
+      <div class="fc-stage">③→④ 意向</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px;color:var(--red)">69.5%</div>
+      <div class="fc-val-label" style="color:var(--red)">-20% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Organic</div>
+      <div class="fc-stage">③→④ 意向</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">60.2%</div>
+      <div class="fc-val-label">参考値</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Direct</div>
+      <div class="fc-stage">③→④ 意向</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">80.1%</div>
+      <div class="fc-val-label">-8% vs 全体</div>
+    </div>
+  </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:24px">
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--red)">
-        <div style="font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;margin-bottom:6px">仮説 1（有力）</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:8px">広告経由ユーザーの価格感度の高さ</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">価格比較意識が高くカレンダーで価格確認後に他サイトへ。広告クリック時点で競合比較を前提としているユーザーが多い。</div>
+  <!-- Tier 2-3 drill down -->
+  <div style="padding:0 44px 20px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Step 4-5 &mdash; Tier 2-3 深掘り</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">デバイスで分解</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          Paid Search &times; <strong style="color:var(--red)">Mobile ③→④: 60.1%</strong>（全体比 -31%）<br>
+          Paid Search &times; Desktop ③→④: 96.6%（全体比 +12%）
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ Mobileが極端に低く、Desktopとの差は36pt。モバイル広告LPの導線に課題。</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--amber)">
-        <div style="font-size:12px;font-weight:700;color:var(--amber);text-transform:uppercase;margin-bottom:6px">仮説 2</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:8px">モバイルPaid Searchの③→④が60.1%と特に低い</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">モバイル広告LPの導線問題。スマートフォンからの広告流入でカレンダー選択後のフォーム遷移に大きな障壁がある。</div>
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">新規 / リピーターで分解</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          Paid Search &times; <strong style="color:var(--red)">新規 ③→④: 60.6%</strong>（全体比 -30%）<br>
+          Paid Search &times; リピーター ③→④: 74.6%（全体比 -14%）
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ 新規・リピーター双方で低下しており、価格感度の高い広告流入の構造的問題。</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--text3)">
-        <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:6px">仮説 3</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:8px">リスティング広告の商品と実際の空き状況のミスマッチ</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">希望日程に空きがなく離脱。広告で訴求した日程・プランが実際には予約不可で、ユーザーの期待に応えられていない。</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:0">
+    <div class="ct">特定結果</div>
+    <div class="cb"><strong>Paid Search Mobile ③→④</strong> が <strong>60.1%</strong> と最も低い。515Kモバイルセッションのうち多くがカレンダー確認後に離脱。Desktop（96.6%）との36pt差は、モバイル広告LPのカレンダー→フォーム導線に構造的な問題があることを示している。</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Hypotheses -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Step 6 &mdash; 原因仮説 &times; 3</div>
+    <div style="font-size:15px;color:var(--text2)">なぜ Paid Search の ③→④ 意向転換率が低いか？</div>
+  </div>
+  <div class="hypo-grid">
+    <div class="hypo-card h1">
+      <div class="hypo-num">仮説 1（有力）</div>
+      <div class="hypo-title">広告経由ユーザーの価格感度の高さ</div>
+      <div class="hypo-body">検索広告からの流入ユーザーは価格比較意識が高く、カレンダーで価格を確認した後に他サイトと比較して離脱する傾向がある。価格の優位性が明示されていないため、カレンダー段階での離脱が多発している。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Paid Search ③→④: 69.5%（全体比 -20%）<br>
+        Direct ③→④: 80.1%（比較意識の低いDirect流入は高い）<br>
+        カレンダー表示後の離脱が転換率低下の主因と推定
+      </div>
+    </div>
+    <div class="hypo-card h2">
+      <div class="hypo-num">仮説 2</div>
+      <div class="hypo-title">モバイルPaid ③→④が60.1%と特に低い</div>
+      <div class="hypo-body">Desktop（96.6%）との36pt差は、モバイル広告LPにおけるカレンダー→フォーム遷移の導線設計に問題があることを示す。スマートフォンでのカレンダーUI操作後、予約フォームへの誘導が分かりにくく離脱を招いている。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Paid Mobile ③→④: 60.1% / Desktop: 96.6%（36pt差）<br>
+        515KモバイルセッションのうちPaid比率が高い<br>
+        モバイル広告LPのカレンダー→フォーム導線のUX課題
+      </div>
+    </div>
+    <div class="hypo-card h3">
+      <div class="hypo-num">仮説 3</div>
+      <div class="hypo-title">広告商品と空き状況のミスマッチ</div>
+      <div class="hypo-body">広告で訴求した商品の希望日程に空きがなく、ユーザーがカレンダーで「満員」を確認して離脱するケースが発生している。在庫のない商品への広告配信がコンバージョンの機会損失を生んでいる。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        カレンダー到達後の離脱率が高い（③→④ = 69.5%）<br>
+        在庫連動型広告配信が未整備の場合、空き切れ商品への配信継続<br>
+        日程ミスマッチによる代替商品提案機能が未実装
       </div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <div style="padding:24px 44px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">打ち手候補</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 A</div>
-          <div style="font-family:'DM Sans';font-size:18px;font-weight:900;color:var(--green)">+3pt</div>
-        </div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">カレンダー画面での最安値保証・価格訴求の強化</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">「このサイトが最安値」「〇〇円割引」などの価格優位性をカレンダー画面上で強調し、他サイトへの離脱を抑制する。</div>
+  <!-- Actions -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説1-2に対する施策）</div>
+    <div style="font-size:15px;color:var(--text2)">カレンダー段階での離脱を防ぎ ③→④ 意向転換率を改善</div>
+  </div>
+  <div class="action-grid">
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--red)">施策 A</div>
+        <div class="action-impact">③→④ +3pt</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 B</div>
-          <div style="font-family:'DM Sans';font-size:18px;font-weight:900;color:var(--green)">+2pt</div>
+      <div class="action-body">
+        <div class="action-title">最安値保証・価格訴求強化</div>
+        <div class="action-desc">カレンダー画面に最安値保証バッジと価格比較表示を追加し、他サイトへの流出を防ぐ。「他社より高ければ全額返金」などの安心訴求で価格比較ユーザーを引き留める。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・最安値保証バッジをカレンダー画面上部に常時表示<br>
+          ・競合価格との比較表示（主要OTAとの差額表示）<br>
+          ・カレンダー選択後のフォーム遷移ボタンに価格強調CTA<br>
+          ・Paid Search経由セッションを対象に優先展開
         </div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">空き状況に応じた広告配信の最適化</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">リアルタイム在庫と連携した広告入稿で、空きのある商品・日程のみを広告表示し、到達後の離脱率を下げる。</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 C</div>
-          <div style="font-family:'DM Sans';font-size:18px;font-weight:900;color:var(--green)">+2pt</div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--amber)">施策 B</div>
+        <div class="action-impact">③→④ +2pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">空き状況連動広告配信</div>
+        <div class="action-desc">在庫情報と広告配信を連動させ、空きのない商品への広告配信を自動停止する。空き状況に応じて代替商品の広告を自動差し替えし、カレンダー到達後の「満員離脱」をゼロにする。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・在庫連動型広告フィード作成（リアルタイム在庫取得）<br>
+          ・空きなし商品の配信自動停止ルール設定<br>
+          ・代替商品の自動差し替えロジック実装<br>
+          ・Google Ads / Yahoo!広告 APIとの連携
         </div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">モバイル向けカレンダー→フォームの1タップ遷移</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">日程選択と同時に予約フォームへ1タップで遷移できる導線を実装し、モバイル広告流入の③→④転換率を改善する。</div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--text3)">施策 C</div>
+        <div class="action-impact">③→④ +2pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">モバイル1タップフォーム遷移</div>
+        <div class="action-desc">日程選択後にワンタップで予約フォームへ遷移できる導線を実装。人数選択をカレンダーUIに統合し、ステップ数を削減することでモバイルでの離脱を大幅に低減する。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・日程選択後のフローティングCTA（「予約に進む」）をカレンダー内に配置<br>
+          ・人数選択UIをカレンダーポップアップ内に統合<br>
+          ・③→④のステップ数を現状から2ステップ削減<br>
+          ・モバイルPaid Search流入セッションで優先テスト
+        </div>
       </div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <div class="proto-tabs-target"></div>
+  <!-- Verification -->
+  <div class="callout-amber callout">
+    <div class="ct">検証方法</div>
+    <div class="cb">ABテスト 2週間。対象: Paid Search（Mobile優先）。<br>
+    主要指標: ③→④ 意向転換率（現状 69.5% → 目標 75%）。<br>
+    副次指標: カレンダー滞在時間、フォーム開始率、最終CVR。<br>
+    施策Aから優先実施し、効果確認後に施策C（モバイル導線改善）を追加展開。</div>
+  </div>
 
   <hr class="divider">
 
-  <div style="padding:24px 44px 32px">
+  <!-- Competitive Analysis -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のカレンダー/価格訴求比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">Paid Search流入視点</span></div>
+    <div style="font-size:15px;color:var(--text2)">ボトルネックが「Paid Search ③→④」のため、カレンダー画面の価格訴求と予約誘導を中心に比較。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Klook</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          カレンダー内に日別価格を表示。最安日程がハイライトされ、価格比較がその場で完結する。「今すぐ予約」ボタンがカレンダー選択と同一画面に表示され、即予約導線が最短。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: カレンダー内価格表示と即予約ボタンで③→④の離脱を最小化。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">GetYourGuide</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          最安値保証バッジをカレンダー画面全体で表示。フローティングCTAがスクロールしても常時表示。日程選択後すぐに合計金額が確定表示され、価格の透明性が高い。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 最安値保証+フローティングCTAで価格比較離脱を防止。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Viator</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          「ベストプライス保証」バッジをカレンダー上部に常時表示。他社で安い価格を見つけた場合の差額返金を明記。広告流入ユーザーの価格不安を解消する設計。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: ベストプライス保証バッジで価格感度の高いPaid Search流入に対応。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">KKday</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          タイムセール表示でカレンダー画面に緊急性を演出。「残り〇席」「〇時間限定価格」の表示でユーザーの決断を促す。広告経由ユーザー向けに特別割引コードを表示。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: タイムセール+残席表示で緊急性を演出し、カレンダー離脱を防止。</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin:20px 0 0">
+      <div class="ct">競合比較から得られる示唆</div>
+      <div class="cb">主要競合4社すべてがカレンダー画面で価格保証や緊急性訴求を実施している。VELTRAはカレンダー画面での価格訴求が弱く、価格比較意識の高いPaid Search流入ユーザーが他サイトへ流出しやすい状態。施策A（最安値保証バッジ）はKlook・GYG・Viatorのベストプラクティスと方向性が一致。施策C（1タップフォーム遷移）はKlookの「カレンダー内即予約」を参考に実装可能。</div>
+    </div>
+  </div>
+
+  <!-- Team review -->
+  <div style="padding:0 44px 32px">
     <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
       <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;font-size:14px;color:var(--text3)">
@@ -133,10 +328,11 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div>
 
   <div class="nav-bar">
-    <a href="bottleneck-6.html">← #6 に戻る</a>
+    <a href="bottleneck-6.html">&larr; #6 へ戻る</a>
     <a href="./">サマリーに戻る</a>
-    <a href="bottleneck-8.html">#8 へ進む →</a>
+    <a href="bottleneck-8.html">#8 へ進む &rarr;</a>
   </div>
+
 </div>
 
 <div class="card">

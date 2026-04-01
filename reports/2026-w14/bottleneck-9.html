@@ -19,16 +19,50 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .callout{background:var(--red-light);border-left:4px solid var(--red);padding:20px 28px;margin:0 44px 32px;border-radius:0 8px 8px 0}
 .callout .ct{font-size:16px;font-weight:700;color:var(--red);margin-bottom:8px}
 .callout .cb{font-size:16px;color:var(--text2);line-height:1.8}
+.callout-green{background:var(--green-light);border-left:4px solid var(--green)}
+.callout-green .ct{color:var(--green)}
+.callout-amber{background:var(--amber-light);border-left:4px solid var(--amber)}
+.callout-amber .ct{color:var(--amber)}
 .footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
 .bn-tag{font-size:13px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid var(--border)}
 .bn-tag.red{background:var(--red-light);border-color:var(--red);color:var(--red)}
 .nav-bar{padding:16px 44px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
 .nav-bar a{font-size:14px;color:var(--red);text-decoration:none;font-weight:600}
 .nav-bar a:hover{text-decoration:underline}
-.placeholder{padding:60px 44px;text-align:center;color:var(--text3)}
-.placeholder .ph-icon{font-size:48px;margin-bottom:16px}
-.placeholder .ph-title{font-size:20px;font-weight:700;color:var(--text2);margin-bottom:8px}
-.placeholder .ph-desc{font-size:15px;line-height:1.7}
+.funnel-compare{padding:0 44px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fc-cell{border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.fc-cell.alert{border-color:var(--red);background:var(--red-light)}
+.fc-label{font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.fc-stage{font-size:15px;font-weight:700;margin:6px 0 4px}
+.fc-val{font-family:'DM Sans';font-size:20px;font-weight:700}
+.fc-val-label{font-size:11px;color:var(--text3)}
+.hypo-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.hypo-card{border:1px solid var(--border);border-radius:12px;padding:20px 24px;position:relative}
+.hypo-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:12px 0 0 12px}
+.hypo-card.h1::before{background:var(--red)}
+.hypo-card.h2::before{background:var(--amber)}
+.hypo-card.h3::before{background:var(--text3)}
+.hypo-num{font-family:'DM Sans';font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.hypo-card.h1 .hypo-num{color:var(--red)}
+.hypo-card.h2 .hypo-num{color:var(--amber)}
+.hypo-card.h3 .hypo-num{color:var(--text3)}
+.hypo-title{font-size:17px;font-weight:700;margin-bottom:8px;line-height:1.4}
+.hypo-body{font-size:14px;color:var(--text2);line-height:1.7}
+.hypo-evidence{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:13px}
+.hypo-evidence strong{color:var(--text);display:block;margin-bottom:4px}
+.action-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.action-card{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.action-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.action-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.action-impact{font-family:'DM Sans';font-size:14px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px}
+.action-body{padding:16px 20px}
+.action-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.action-desc{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.action-spec{background:var(--bg);border-radius:6px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6}
+.action-spec strong{color:var(--text);display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+@media(max-width:768px){
+  .funnel-compare,.hypo-grid,.action-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -36,7 +70,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div class="card">
   <div class="header-band">
     <div class="logo">V2</div>
-    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">← サマリーに戻る</a>
+    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">&larr; サマリーに戻る</a>
     <div class="right">ボトルネック #9 / 10</div>
   </div>
 
@@ -44,7 +78,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
       <div style="font-family:'DM Sans';font-size:56px;font-weight:900;color:var(--red);line-height:1">#9</div>
       <div>
-        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Email — 購入完了率の低さ</div>
+        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Email &mdash; 購入完了率の低さ</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="bn-tag red">④→⑤ 完了段階</span>
           <span class="bn-tag">Email</span>
@@ -54,27 +88,251 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div style="display:flex;align-items:center;gap:16px;margin-top:16px">
       <div style="font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase">全体平均との乖離</div>
       <div style="font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red)">-27%</div>
+      <div style="font-size:14px;color:var(--text3)">影響セッション: 158,299 / 月</div>
     </div>
   </div>
 
   <hr class="divider">
 
-
-  <div class="proto-tabs-target"></div>
-
-  <div style="padding:0 44px 32px">
-    <div class="callout" style="margin:0">
-      <div class="ct">主要仮説（暫定）</div>
-      <div class="cb">メール経由ユーザーのフォーム離脱。フォーム開始32,321人のうち購入完了は2,968人（9.2%）にとどまる。フォーム入力中の離脱が多く、メール内リンクからの遷移でログイン状態が切れている可能性もある。</div>
+  <!-- Tier 1 comparison -->
+  <div style="padding:24px 44px 12px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Step 2-3 &mdash; Tier 1 比較：④→⑤ 購入完了率</div>
+  </div>
+  <div class="funnel-compare">
+    <div class="fc-cell">
+      <div class="fc-label">全体平均</div>
+      <div class="fc-stage">④→⑤ 完了</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">12.7%</div>
+      <div class="fc-val-label">ベースライン</div>
+    </div>
+    <div class="fc-cell alert">
+      <div class="fc-label" style="color:var(--red)">Email</div>
+      <div class="fc-stage">④→⑤ 完了</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px;color:var(--red)">9.2%</div>
+      <div class="fc-val-label" style="color:var(--red)">-27% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Direct</div>
+      <div class="fc-stage">④→⑤ 完了</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">21.1%</div>
+      <div class="fc-val-label">+66% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Paid Search</div>
+      <div class="fc-stage">④→⑤ 完了</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">12.3%</div>
+      <div class="fc-val-label">-3% vs 全体</div>
     </div>
   </div>
 
+  <!-- Tier 2-3 drill down -->
+  <div style="padding:0 44px 20px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Step 4-5 &mdash; Tier 2-3 深掘り</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">新規 / リピーターで分解</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          Email &times; <strong style="color:var(--red)">新規 ④→⑤: 5.5%</strong>（全体比 -57%）<br>
+          Email &times; リピーター ④→⑤: 9.5%（全体比 -25%）
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ 新規の5.5%が特に低い。初回購入のフォーム煩雑さが離脱の主因と推定。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">デバイスで分解</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          Email &times; <strong style="color:var(--red)">Mobile ④→⑤: 8.4%</strong>（全体比 -34%）<br>
+          Email &times; Desktop ④→⑤: 11.1%（全体比 -13%）
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ Mobileがより低く、モバイルでのフォーム入力体験に課題。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:0">
+    <div class="ct">特定結果</div>
+    <div class="cb"><strong>Email ④→⑤</strong> が <strong>9.2%</strong>（全体平均 12.7% の <strong>-27%</strong>）。フォーム開始 32,321人のうち購入完了は 2,968人のみ。約 29,000人がフォーム途中で離脱している。メールリンクからの遷移でセッションが切れてログインを要求される可能性が高く、これが離脱の最大要因と推定される。</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Hypotheses -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Step 6 &mdash; 原因仮説 &times; 3</div>
+    <div style="font-size:15px;color:var(--text2)">なぜ Email の ④→⑤ 購入完了率が低いか？</div>
+  </div>
+  <div class="hypo-grid">
+    <div class="hypo-card h1">
+      <div class="hypo-num">仮説 1（有力）</div>
+      <div class="hypo-title">メール遷移後のログイン切れ</div>
+      <div class="hypo-body">メールリンクからサイトへ遷移するとセッションが切れ、フォーム入力段階で再ログインを要求される。ログインフローへの強制遷移でユーザーの購買意欲が途切れ、離脱につながっている。メール既読後の時間経過でセッション有効期限が切れるケースも多い。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Email ④→⑤: 9.2%（全体比 -27%）<br>
+        Direct ④→⑤: 21.1%（ログイン済みユーザーが多いDirectは高い）<br>
+        メール→フォーム段階でのセッション切れによる再ログイン要求
+      </div>
+    </div>
+    <div class="hypo-card h2">
+      <div class="hypo-num">仮説 2</div>
+      <div class="hypo-title">フォーム入力の煩雑さ（特に新規）</div>
+      <div class="hypo-body">新規ユーザーの④→⑤が5.5%と極端に低い。初回購入で必要な個人情報・支払い情報の入力項目が多く、フォームの途中で離脱している。モバイルでの文字入力の煩雑さも重なり、Mobile（8.4%）がDesktop（11.1%）より低い要因になっている。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Email &times; 新規 ④→⑤: 5.5%（リピーター 9.5% より4pt低い）<br>
+        Mobile ④→⑤: 8.4% / Desktop: 11.1%（3pt差）<br>
+        初回購入フォームの入力項目数が多い構造
+      </div>
+    </div>
+    <div class="hypo-card h3">
+      <div class="hypo-num">仮説 3</div>
+      <div class="hypo-title">メール内容と実際の在庫・価格のタイムラグ</div>
+      <div class="hypo-body">メール配信時点での商品情報（価格・空き状況）と、ユーザーが実際に閲覧・フォーム入力する時点での情報に差異がある。「メールに書いてあった価格と違う」「希望日程が満員」という状況がフォーム段階での離脱を引き起こしている。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        メール配信→閲覧までのタイムラグ（数時間〜数日）<br>
+        価格変動・在庫変動がある商品でのフォーム離脱率が高い傾向<br>
+        期待と実態の乖離によるフォーム入力中断
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Actions -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説1-2に対する施策）</div>
+    <div style="font-size:15px;color:var(--text2)">フォーム段階の離脱を防ぎ Email ④→⑤ 購入完了率を改善</div>
+  </div>
+  <div class="action-grid">
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--red)">施策 A</div>
+        <div class="action-impact">④→⑤ +2pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">メールリンクからのシームレスログイン</div>
+        <div class="action-desc">メール内のリンクにトークン付きURLを採用し、クリック時に自動ログイン処理を行う。フォーム入力中にセッションが切れても自動的にセッションを維持し、ユーザーがログイン操作なしに購入を完了できる導線を構築する。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・メールリンクに署名付きトークンパラメータを付与<br>
+          ・トークン有効期限: 72時間（メール開封→購入のリードタイムを考慮）<br>
+          ・自動ログイン処理: トークン検証→セッション発行<br>
+          ・フォーム入力中のセッション延長処理（アクティブ時は自動更新）
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--amber)">施策 B</div>
+        <div class="action-impact">④→⑤ +1.5pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">フォーム簡略化（ゲスト購入）</div>
+        <div class="action-desc">新規ユーザー向けにゲスト購入導線を追加し、アカウント作成を必須としない購入フローを提供する。必須入力項目を最小限（氏名・メール・支払い情報のみ）に削減し、プログレスバーでフォームの残りステップを可視化する。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・ゲスト購入ボタンをフォーム入口に追加（ログイン/会員登録と並列）<br>
+          ・必須項目削減: 氏名・メールアドレス・支払い情報のみ<br>
+          ・プログレスバー: ステップ1/3形式で残量を表示<br>
+          ・購入完了後にアカウント作成を促すオプション表示
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--text3)">施策 C</div>
+        <div class="action-impact">④→⑤ +1pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">リアルタイム在庫連動メール</div>
+        <div class="action-desc">メール配信時に在庫・価格情報をリアルタイムで取得し、売り切れや価格変動があった場合は代替商品を自動提案するダイナミックコンテンツに切り替える。フォーム段階での「期待外れ」による離脱をゼロにする。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・メール開封時に在庫・価格APIを呼び出すダイナミックコンテンツ<br>
+          ・売り切れ商品: 類似商品3件を自動差し替え表示<br>
+          ・価格変動: 現在価格を動的表示（メール内で最新価格を反映）<br>
+          ・ESP（メール配信システム）のダイナミックコンテンツ機能を活用
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Verification -->
+  <div class="callout-amber callout">
+    <div class="ct">検証方法</div>
+    <div class="cb">ABテスト 2週間。対象: Email 全体。<br>
+    主要指標: ④→⑤ 購入完了率（現状 9.2% → 目標 11%）。<br>
+    副次指標: フォーム離脱率、ログイン離脱率、ゲスト購入比率。<br>
+    施策A（シームレスログイン）を最優先で実施。ログイン課題が解消されれば施策B（ゲスト購入）の効果検証に移行。</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Competitive Analysis -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のメール→購入完了フロー比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">Email流入視点</span></div>
+    <div style="font-size:15px;color:var(--text2)">ボトルネックが「Email ④→⑤」のため、メールからの購入フロー簡略化とログイン設計を中心に比較。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Klook</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          メールリンクからワンクリックで予約フォームへ直結。メール内に「今すぐ予約」ボタンを配置し、クリック時に自動ログイン処理。フォームは3ステップ以内に圧縮されており、モバイルでも入力負荷が少ない。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: メール→1クリック予約で④→⑤の離脱を最小化。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">GetYourGuide</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          メール内でそのまま日付選択が可能なインタラクティブコンテンツを採用。日付選択後にサイトへ遷移するため、フォームの入力ステップが1つ削減される。メール開封時に最新の空き状況を動的表示。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: メール内日付選択でフォームステップを削減。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Viator</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          ゲスト購入フローを全面採用。メールリンクからの遷移でもログイン不要でそのまま購入できる。購入完了後にアカウント作成を促す設計で、コンバージョンを優先した設計。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: ゲスト購入標準化でログイン離脱をゼロに。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">asoview!</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          LINE連携による再購入フローを簡略化。LINEからの遷移では既にLINEログイン済みのため、フォーム入力が大幅に削減される。メール配信もLINEと並列で活用し、ユーザーが最も使いやすいチャネルで完了できる設計。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: LINE連携でログイン・フォーム入力の摩擦を最小化。</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin:20px 0 0">
+      <div class="ct">競合比較から得られる示唆</div>
+      <div class="cb">競合4社すべてがメールから購入完了までのステップを削減する設計を採用している。特にViatorのゲスト購入標準化とKlookのワンクリック予約は施策AおよびBと方向性が一致。GetYourGuideのメール内日付選択はより高度な実装だが、将来的な差別化施策として参考にできる。VELTRAは施策Aのシームレスログインが最も即効性が高く、ログイン離脱の解消だけで目標達成の可能性がある。</div>
+    </div>
+  </div>
+
+  <!-- Team review -->
+  <div style="padding:0 44px 32px">
+    <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
+      <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;font-size:14px;color:var(--text3)">
+        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">判断<br><strong style="font-size:18px">◎ / △ / ×</strong></div>
+        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">優先度<br><strong style="font-size:18px">高 / 中 / 低</strong></div>
+        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">担当<br><strong style="font-size:18px">_____</strong></div>
+        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">コメント<br><strong style="font-size:18px">_____</strong></div>
+      </div>
+    </div>
+  </div>
 
   <div class="nav-bar">
-    <a href="bottleneck-8.html">← #8 に戻る</a>
+    <a href="bottleneck-8.html">&larr; #8 へ戻る</a>
     <a href="./">サマリーに戻る</a>
-    <a href="bottleneck-10.html">#10 へ進む →</a>
+    <a href="bottleneck-10.html">#10 へ進む &rarr;</a>
   </div>
+
 </div>
 
 <div class="card">
