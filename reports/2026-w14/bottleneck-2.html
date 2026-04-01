@@ -19,16 +19,50 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .callout{background:var(--red-light);border-left:4px solid var(--red);padding:20px 28px;margin:0 44px 32px;border-radius:0 8px 8px 0}
 .callout .ct{font-size:16px;font-weight:700;color:var(--red);margin-bottom:8px}
 .callout .cb{font-size:16px;color:var(--text2);line-height:1.8}
+.callout-green{background:var(--green-light);border-left:4px solid var(--green)}
+.callout-green .ct{color:var(--green)}
+.callout-amber{background:var(--amber-light);border-left:4px solid var(--amber)}
+.callout-amber .ct{color:var(--amber)}
 .footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
 .bn-tag{font-size:13px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid var(--border)}
 .bn-tag.red{background:var(--red-light);border-color:var(--red);color:var(--red)}
 .nav-bar{padding:16px 44px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
 .nav-bar a{font-size:14px;color:var(--red);text-decoration:none;font-weight:600}
 .nav-bar a:hover{text-decoration:underline}
-.placeholder{padding:60px 44px;text-align:center;color:var(--text3)}
-.placeholder .ph-icon{font-size:48px;margin-bottom:16px}
-.placeholder .ph-title{font-size:20px;font-weight:700;color:var(--text2);margin-bottom:8px}
-.placeholder .ph-desc{font-size:15px;line-height:1.7}
+.funnel-compare{padding:0 44px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fc-cell{border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.fc-cell.alert{border-color:var(--red);background:var(--red-light)}
+.fc-label{font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.fc-stage{font-size:15px;font-weight:700;margin:6px 0 4px}
+.fc-val{font-family:'DM Sans';font-size:20px;font-weight:700}
+.fc-val-label{font-size:11px;color:var(--text3)}
+.hypo-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.hypo-card{border:1px solid var(--border);border-radius:12px;padding:20px 24px;position:relative}
+.hypo-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:12px 0 0 12px}
+.hypo-card.h1::before{background:var(--red)}
+.hypo-card.h2::before{background:var(--amber)}
+.hypo-card.h3::before{background:var(--text3)}
+.hypo-num{font-family:'DM Sans';font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.hypo-card.h1 .hypo-num{color:var(--red)}
+.hypo-card.h2 .hypo-num{color:var(--amber)}
+.hypo-card.h3 .hypo-num{color:var(--text3)}
+.hypo-title{font-size:17px;font-weight:700;margin-bottom:8px;line-height:1.4}
+.hypo-body{font-size:14px;color:var(--text2);line-height:1.7}
+.hypo-evidence{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:13px}
+.hypo-evidence strong{color:var(--text);display:block;margin-bottom:4px}
+.action-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.action-card{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.action-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.action-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.action-impact{font-family:'DM Sans';font-size:14px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px}
+.action-body{padding:16px 20px}
+.action-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.action-desc{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.action-spec{background:var(--bg);border-radius:6px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6}
+.action-spec strong{color:var(--text);display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+@media(max-width:768px){
+  .funnel-compare,.hypo-grid,.action-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -36,7 +70,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div class="card">
   <div class="header-band">
     <div class="logo">V2</div>
-    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">← サマリーに戻る</a>
+    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">&larr; サマリーに戻る</a>
     <div class="right">ボトルネック #2 / 10</div>
   </div>
 
@@ -44,51 +78,196 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
       <div style="font-family:'DM Sans';font-size:56px;font-weight:900;color:var(--red);line-height:1">#2</div>
       <div>
-        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Desktop × Paid — フォーム完了率の低さ</div>
+        <div style="font-size:22px;font-weight:900;margin-bottom:8px">新規ユーザー全体 &mdash; カレンダー表示率の低さ</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <span class="bn-tag red">④→⑤ 完了段階</span>
-          <span class="bn-tag">Desktop / Paid Search</span>
+          <span class="bn-tag red">②→③ 検討段階</span>
+          <span class="bn-tag">新規ユーザー</span>
         </div>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:16px;margin-top:16px">
       <div style="font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase">全体平均との乖離</div>
-      <div style="font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red)">-29%</div>
+      <div style="font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red)">-48%</div>
+      <div style="font-size:14px;color:var(--text3)">影響セッション: 1,562,822 / 月</div>
     </div>
   </div>
 
   <hr class="divider">
 
+  <!-- Tier 1 比較 -->
+  <div style="padding:24px 44px 12px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Tier 1 比較：②→③ カレンダー表示率</div>
+  </div>
+  <div class="funnel-compare">
+    <div class="fc-cell">
+      <div class="fc-label">全体平均</div>
+      <div class="fc-stage">②→③ 検討</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">75.0%</div>
+      <div class="fc-val-label">ベースライン</div>
+    </div>
+    <div class="fc-cell alert">
+      <div class="fc-label" style="color:var(--red)">新規ユーザー</div>
+      <div class="fc-stage">②→③ 検討</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px;color:var(--red)">38.9%</div>
+      <div class="fc-val-label" style="color:var(--red)">-48% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">リピーター</div>
+      <div class="fc-stage">②→③ 検討</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">130.7%</div>
+      <div class="fc-val-label">+74% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">新規 ①→②</div>
+      <div class="fc-stage">① 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">19.4%</div>
+      <div class="fc-val-label">AC到達率</div>
+    </div>
+  </div>
 
-  <div style="padding:24px 44px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">原因仮説</div>
-    <div style="font-size:16px;color:var(--text2);line-height:1.8;margin-bottom:20px">フォームの入力項目が多い。Paid経由は比較検討中のユーザーが多く、入力途中で離脱。ゲスト購入導線やフォーム簡略化が施策候補。</div>
+  <!-- Tier 2-3 深掘り -->
+  <div style="padding:0 44px 20px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Tier 2-3 深掘り</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">新規 vs リピーターで分解</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          <strong style="color:var(--red)">新規: 38.9%</strong>（全体比 -48%）<br>
+          リピーター: 130.7%（全体比 +74%）
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ リピーターはサイト構造を熟知しており②→③が100%超。新規のみに問題が集中。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">デバイスで分解（③→④）</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          <strong style="color:var(--red)">Mobile ③→④: 83.1%</strong><br>
+          Desktop ③→④: 96.3%<br>
+          新規1.56Mのうち約54%がモバイル
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ モバイルでカレンダーUI到達後の次ステップ遷移も低く、スクロール量の多さが影響。</div>
+      </div>
+    </div>
+  </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:24px">
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--red)">
-        <div style="font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;margin-bottom:6px">仮説 1（有力）</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">フォームの入力項目が多い。Paid経由は比較検討中のユーザーが多く、入力途中で離脱。ゲスト購入導線やフォーム簡略化が施策候補。</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">裏付けデータと詳細分析は本番データ接続後に生成</div>
+  <div class="callout" style="margin-top:0">
+    <div class="ct">特定結果</div>
+    <div class="cb"><strong>新規ユーザー全体</strong> の ②→③ カレンダー表示率が <strong>38.9%</strong>（全体平均 75.0% の <strong>-48%</strong>）。<br>
+    AC到達302,132人のうち約109,000人がカレンダー未到達で離脱。月間影響セッション1.56M。<br>
+    リピーターの130.7%と比べ3分の1以下。新規ユーザーが商品詳細でカレンダーに到達できていない。</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 仮説 -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">原因仮説 &times; 3</div>
+    <div style="font-size:15px;color:var(--text2)">なぜ新規ユーザーのカレンダー表示率が低いか？</div>
+  </div>
+  <div class="hypo-grid">
+    <div class="hypo-card h1">
+      <div class="hypo-num">仮説 1（有力）</div>
+      <div class="hypo-title">商品詳細ページでの情報不足による離脱</div>
+      <div class="hypo-body">新規ユーザーはカレンダーの存在や位置を認識できていない。リピーターは②→③が130.7%と高くサイト構造を理解済みで迷わず到達できるが、新規はページ構成を把握していないためカレンダーに気づかず離脱する。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        新規38.9% vs リピーター130.7%（3倍以上の差）<br>
+        AC到達302,132人のうち約109,000人がカレンダー未到達で離脱<br>
+        新規①→②=19.4%と低く、到達ユーザーの質が高いにも関わらず②→③が低い
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--amber)">
-        <div style="font-size:12px;font-weight:700;color:var(--amber);text-transform:uppercase;margin-bottom:6px">仮説 2</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">追加仮説はGA4データ分析後に生成</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">セグメント深掘りの結果に基づいて特定</div>
+    </div>
+    <div class="hypo-card h2">
+      <div class="hypo-num">仮説 2</div>
+      <div class="hypo-title">商品比較・回遊行動による単一ページ完結の不成立</div>
+      <div class="hypo-body">複数商品を比較閲覧するため1商品のカレンダーまでコミットしない。新規ユーザーは商品への理解・信頼構築に時間がかかり、比較段階で離脱する。リピーターは既知の商品を再訪するためカレンダーに即到達。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        新規①→②=19.4%と低く、到達してもカレンダー率38.9%<br>
+        リピーター①→②=42.9%かつ②→③=130.7%（連続してベースライン超過）<br>
+        → 新規は「選ぶ」プロセスに時間を要する
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--text3)">
-        <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:6px">仮説 3</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">競合比較から導出予定</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">該当セグメントの競合UIを調査して生成</div>
+    </div>
+    <div class="hypo-card h3">
+      <div class="hypo-num">仮説 3</div>
+      <div class="hypo-title">カレンダーUIの視認性・到達導線の弱さ</div>
+      <div class="hypo-body">カレンダーがファーストビュー外に配置されており、特にモバイルでスクロール量が多い。新規ユーザーはページのどこにカレンダーがあるか知らないため、スクロールせずに離脱する可能性が高い。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        モバイル③→④=83.1% vs デスクトップ96.3%（カレンダー到達後も差が続く）<br>
+        新規1.56Mのうち約54%がモバイル<br>
+        → モバイルでのカレンダー到達・操作に摩擦が存在
       </div>
     </div>
   </div>
 
   <hr class="divider">
 
+  <!-- 打ち手 -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説1に対する施策）</div>
+    <div style="font-size:15px;color:var(--text2)">新規ユーザーのカレンダー到達率を改善</div>
+  </div>
+  <div class="action-grid">
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--red)">施策 A</div>
+        <div class="action-impact">②→③ +8pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">「日程を選ぶ」フローティングCTA導入</div>
+        <div class="action-desc">商品詳細ページに position:fixed のCTAバーを配置。スクロールに追従し「日程を選ぶ」ボタンをカレンダーセクションへアンカーリンク。新規ユーザーのみ表示するためリピーターのUXに影響しない。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・position:fixed、bottom:0、全幅CTAバー<br>
+          ・IntersectionObserver（IO）でカレンダー表示時に自動非表示<br>
+          ・表示条件: 新規ユーザーのみ（GA4 user_type判定）<br>
+          ・タップ先: #calendar-section へスムーズスクロール
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--amber)">施策 B</div>
+        <div class="action-impact">②→③ +5pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">カレンダーのファーストビュー近接配置</div>
+        <div class="action-desc">モバイルでは画像直下にカレンダーを配置。デスクトップでは右カラムにstickyで固定。スクロール量を減らしカレンダーを早期に視界に入れることで自然な到達を促す。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・Mobile: ヒーロー画像の直下にカレンダーコンポーネント移動<br>
+          ・Desktop: 右カラム sticky top:80px<br>
+          ・A/Bテスト: 現行レイアウトとのCVR比較<br>
+          ・対象: 新規ユーザーセッションに限定して実験
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--text3)">施策 C</div>
+        <div class="action-impact">②→③ +3pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">新規向けオンボーディングツールチップ</div>
+        <div class="action-desc">初回訪問の新規ユーザーにのみ表示するツールチップで「日程を選んで予約できます」とカレンダーを案内。ステッププログレスバーで「①商品選択→②日程選択→③予約完了」の流れを可視化。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・表示条件: sessionStorage「onboarding_shown」未設定の新規のみ<br>
+          ・ツールチップ: カレンダーセクションを矢印で指示<br>
+          ・ステッププログレスバー: 3ステップ、現在位置ハイライト<br>
+          ・「次へ」タップでカレンダーへスクロール
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- proto-tabs-target プレースホルダー -->
   <div class="proto-tabs-target"></div>
 
   <hr class="divider">
 
+  <!-- チームレビュー欄 -->
   <div style="padding:24px 44px 32px">
     <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
       <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
@@ -101,19 +280,19 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     </div>
   </div>
 
-
   <div class="nav-bar">
-    <a href="./">← #1 に戻る</a>
+    <a href="bottleneck-1.html">&larr; #1 に戻る</a>
     <a href="./">サマリーに戻る</a>
     <a href="bottleneck-3.html">#3 へ進む →</a>
   </div>
+
 </div>
 
 <div class="card">
   <div class="footer">
     <span>VELTRA CVR改善チーム</span>
-    <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a>（仮想データ）</span>
-    <span>2026-03-30</span>
+    <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+    <span>2026-04-01</span>
   </div>
 </div>
 

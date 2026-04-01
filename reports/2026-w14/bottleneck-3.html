@@ -19,16 +19,50 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .callout{background:var(--red-light);border-left:4px solid var(--red);padding:20px 28px;margin:0 44px 32px;border-radius:0 8px 8px 0}
 .callout .ct{font-size:16px;font-weight:700;color:var(--red);margin-bottom:8px}
 .callout .cb{font-size:16px;color:var(--text2);line-height:1.8}
+.callout-green{background:var(--green-light);border-left:4px solid var(--green)}
+.callout-green .ct{color:var(--green)}
+.callout-amber{background:var(--amber-light);border-left:4px solid var(--amber)}
+.callout-amber .ct{color:var(--amber)}
 .footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
 .bn-tag{font-size:13px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid var(--border)}
 .bn-tag.red{background:var(--red-light);border-color:var(--red);color:var(--red)}
 .nav-bar{padding:16px 44px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
 .nav-bar a{font-size:14px;color:var(--red);text-decoration:none;font-weight:600}
 .nav-bar a:hover{text-decoration:underline}
-.placeholder{padding:60px 44px;text-align:center;color:var(--text3)}
-.placeholder .ph-icon{font-size:48px;margin-bottom:16px}
-.placeholder .ph-title{font-size:20px;font-weight:700;color:var(--text2);margin-bottom:8px}
-.placeholder .ph-desc{font-size:15px;line-height:1.7}
+.funnel-compare{padding:0 44px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fc-cell{border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.fc-cell.alert{border-color:var(--red);background:var(--red-light)}
+.fc-label{font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.fc-stage{font-size:15px;font-weight:700;margin:6px 0 4px}
+.fc-val{font-family:'DM Sans';font-size:20px;font-weight:700}
+.fc-val-label{font-size:11px;color:var(--text3)}
+.hypo-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.hypo-card{border:1px solid var(--border);border-radius:12px;padding:20px 24px;position:relative}
+.hypo-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:12px 0 0 12px}
+.hypo-card.h1::before{background:var(--red)}
+.hypo-card.h2::before{background:var(--amber)}
+.hypo-card.h3::before{background:var(--text3)}
+.hypo-num{font-family:'DM Sans';font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.hypo-card.h1 .hypo-num{color:var(--red)}
+.hypo-card.h2 .hypo-num{color:var(--amber)}
+.hypo-card.h3 .hypo-num{color:var(--text3)}
+.hypo-title{font-size:17px;font-weight:700;margin-bottom:8px;line-height:1.4}
+.hypo-body{font-size:14px;color:var(--text2);line-height:1.7}
+.hypo-evidence{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:13px}
+.hypo-evidence strong{color:var(--text);display:block;margin-bottom:4px}
+.action-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.action-card{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.action-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.action-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.action-impact{font-family:'DM Sans';font-size:14px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px}
+.action-body{padding:16px 20px}
+.action-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.action-desc{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.action-spec{background:var(--bg);border-radius:6px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6}
+.action-spec strong{color:var(--text);display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+@media(max-width:768px){
+  .funnel-compare,.hypo-grid,.action-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -36,7 +70,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div class="card">
   <div class="header-band">
     <div class="logo">V2</div>
-    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">← サマリーに戻る</a>
+    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">&larr; サマリーに戻る</a>
     <div class="right">ボトルネック #3 / 10</div>
   </div>
 
@@ -44,51 +78,197 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
       <div style="font-family:'DM Sans';font-size:56px;font-weight:900;color:var(--red);line-height:1">#3</div>
       <div>
-        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Mobile × Direct — AC到達率の低さ</div>
+        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Direct流入 &mdash; AC到達率の極端な低さ</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="bn-tag red">①→② 回遊段階</span>
-          <span class="bn-tag">Mobile / Direct</span>
+          <span class="bn-tag">Direct</span>
         </div>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:16px;margin-top:16px">
       <div style="font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase">全体平均との乖離</div>
-      <div style="font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red)">-25%</div>
+      <div style="font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red)">-53%</div>
+      <div style="font-size:14px;color:var(--text3)">影響セッション: 376,324 / 月</div>
     </div>
   </div>
 
   <hr class="divider">
 
+  <!-- Tier 1 比較 -->
+  <div style="padding:24px 44px 12px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Tier 1 比較：①→② AC到達率</div>
+  </div>
+  <div class="funnel-compare">
+    <div class="fc-cell">
+      <div class="fc-label">全体平均</div>
+      <div class="fc-stage">①→② 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">26.1%</div>
+      <div class="fc-val-label">ベースライン</div>
+    </div>
+    <div class="fc-cell alert">
+      <div class="fc-label" style="color:var(--red)">Direct</div>
+      <div class="fc-stage">①→② 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px;color:var(--red)">12.2%</div>
+      <div class="fc-val-label" style="color:var(--red)">-53% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Direct ②→③</div>
+      <div class="fc-stage">②→③ 検討</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">131.2%</div>
+      <div class="fc-val-label">AC到達後は高意向</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Direct CVR</div>
+      <div class="fc-stage">④→⑤ 完了</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">2.12%</div>
+      <div class="fc-val-label">ベースライン 1.46%</div>
+    </div>
+  </div>
 
-  <div style="padding:24px 44px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">原因仮説</div>
-    <div style="font-size:16px;color:var(--text2);line-height:1.8;margin-bottom:20px">リピーターがトップページから商品に到達できていない。検索UIの改善、お気に入り・閲覧履歴からの再アクセス導線が施策候補。</div>
+  <!-- Tier 2-3 深掘り -->
+  <div style="padding:0 44px 20px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Tier 2-3 深掘り</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">Direct内ファネル全段階</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          ①→②: <strong style="color:var(--red)">12.2%</strong>（ベースライン半分以下）<br>
+          ②→③: 131.2%（ベースライン+74%）<br>
+          ④→⑤: 21.1%（ベースライン12.7%の+66%）
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ AC到達さえすれば非常に高CVR。問題はAC到達前の段階に完全に集中している。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">デバイスで分解（①→②）</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          <strong style="color:var(--red)">Direct Desktop: 3.7%</strong>（異常に低い）<br>
+          Direct Mobile: 推計16〜18%<br>
+          全体 Desktop ①→②: ベースライン水準
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ Desktop Directの3.7%は計測問題の可能性。GA4イベント実装要確認。</div>
+      </div>
+    </div>
+  </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:24px">
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--red)">
-        <div style="font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;margin-bottom:6px">仮説 1（有力）</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">リピーターがトップページから商品に到達できていない。検索UIの改善、お気に入り・閲覧履歴からの再アクセス導線が施策候補。</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">裏付けデータと詳細分析は本番データ接続後に生成</div>
+  <div class="callout" style="margin-top:0">
+    <div class="ct">特定結果</div>
+    <div class="cb"><strong>Direct流入</strong> の ①→② AC到達率が <strong>12.2%</strong>（全体平均 26.1% の <strong>-53%</strong>）。<br>
+    月間376,324セッション。AC到達後のCVRは2.12%と全体平均1.46%を大幅に上回り、「AC到達さえすれば買う」ユーザーが多数存在する。<br>
+    ②→③=131.2%、④→⑤=21.1%とAC以降は高意向。トップページ・マイページからの商品導線改善で大きな改善余地がある。</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 仮説 -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">原因仮説 &times; 3</div>
+    <div style="font-size:15px;color:var(--text2)">なぜ Direct流入のAC到達率が極端に低いか？</div>
+  </div>
+  <div class="hypo-grid">
+    <div class="hypo-card h1">
+      <div class="hypo-num">仮説 1（有力）</div>
+      <div class="hypo-title">トップページ・マイページ滞留による商品詳細未到達</div>
+      <div class="hypo-body">ブックマーク・URL直接入力でトップページやマイページに着地するが、そこから商品詳細（AC）への導線が弱い。トップページは汎用コンテンツが多くパーソナライズ不足。個人の旅行履歴に基づく商品レコメンドがないためホームから離脱する。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Direct①→②=12.2%でベースライン半分以下<br>
+        CVR=2.12%とベースライン1.46%より高く、AC到達さえすれば高CVR<br>
+        → トップ滞留ユーザーを商品に誘導できれば大きなCVR改善が見込める
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--amber)">
-        <div style="font-size:12px;font-weight:700;color:var(--amber);text-transform:uppercase;margin-bottom:6px">仮説 2</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">追加仮説はGA4データ分析後に生成</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">セグメント深掘りの結果に基づいて特定</div>
+    </div>
+    <div class="hypo-card h2">
+      <div class="hypo-num">仮説 2</div>
+      <div class="hypo-title">予約確認・マイページ目的のセッション混入</div>
+      <div class="hypo-body">新規商品を閲覧する意図なく、過去の予約確認やマイページ操作を目的にDirectでアクセスするセッションが混入している。これらのセッションは定義上①→②（AC到達）に進まないため、統計として①→②を大きく押し下げている。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        ②→③=131.2%、④→⑤=21.1%とベースライン12.7%を大幅上回る<br>
+        少数の「本気で購入意図のある」ユーザーが非常に高意向<br>
+        → マイページ目的セッションを除外すると実質的①→②は改善される可能性
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--text3)">
-        <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:6px">仮説 3</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">競合比較から導出予定</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">該当セグメントの競合UIを調査して生成</div>
+    </div>
+    <div class="hypo-card h3">
+      <div class="hypo-num">仮説 3</div>
+      <div class="hypo-title">アプリ・PWA経由のセッションカウント問題</div>
+      <div class="hypo-body">アプリやPWA（ホーム画面追加）経由のアクセスがDirect流入として計上され、GA4のイベント計測が不完全な可能性がある。特にSPA遷移でpage_viewイベントが二重発火またはスキップされているケースが疑われる。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Direct Desktop①→②=3.7%と数値として異常に低く計測問題を疑う水準<br>
+        他チャネルのDesktop①→②はベースライン水準<br>
+        → GTMデバッグモードでSPA遷移時のイベント発火を要確認
       </div>
     </div>
   </div>
 
   <hr class="divider">
 
+  <!-- 打ち手 -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説1に対する施策）</div>
+    <div style="font-size:15px;color:var(--text2)">Direct流入ユーザーの商品詳細到達率を改善</div>
+  </div>
+  <div class="action-grid">
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--red)">施策 A</div>
+        <div class="action-impact">①→② +4pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">トップページのパーソナライズレコメンド強化</div>
+        <div class="action-desc">Direct流入ユーザーのトップページに、閲覧履歴ベースのパーソナライズカルーセルを配置。履歴がない場合はエリア別人気ランキングを表示。ファーストビュー内に商品カードを見せることで即時の商品詳細遷移を促す。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・閲覧履歴あり: 「あなたが見た商品に似たおすすめ」カルーセル<br>
+          ・閲覧履歴なし: 「今週の人気ランキング」Top 8<br>
+          ・表示条件: Direct流入かつトップページ着地<br>
+          ・データソース: GA4 user_id紐付けの閲覧履歴 + 予約数ランキング
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--amber)">施策 B</div>
+        <div class="action-impact">①→② +2pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">マイページからの商品詳細誘導バナー</div>
+        <div class="action-desc">マイページの予約済みエリア下部に「次の旅行はいかがですか？」セクションを追加し、関連商品3件を表示。マイページ目的で来訪したユーザーの商品閲覧を自然に誘導し、①→②の遷移を促す。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・設置場所: マイページ「予約一覧」セクションの直下<br>
+          ・表示商品: 直近予約のエリアに関連する商品3件<br>
+          ・カード: 画像 + 商品名 + 価格 + 「詳細を見る」リンク<br>
+          ・計測: クリック率 + その後のAC到達率をGA4でトラッキング
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--text3)">施策 C</div>
+        <div class="action-impact">①→② +2pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">Direct流入のGA4計測精度改善</div>
+        <div class="action-desc">GTMデバッグモードでDirect流入セッションのイベント発火状況を確認。SPA遷移時のpage_viewイベントスキップ・二重発火を修正し、実態を反映した計測を実現。Desktop Directの3.7%という異常値の原因を特定・解消する。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・GTMデバッグモードでDirect &times; Desktop セッションを記録・検証<br>
+          ・SPA遷移（history.pushState）時のpage_view発火ロジック確認<br>
+          ・PWA/ホーム追加セッションのUTM付与ルール整備<br>
+          ・修正後: Direct Desktop ①→②の再計測と前後比較
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- proto-tabs-target プレースホルダー -->
   <div class="proto-tabs-target"></div>
 
   <hr class="divider">
 
+  <!-- チームレビュー欄 -->
   <div style="padding:24px 44px 32px">
     <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
       <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
@@ -101,19 +281,19 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     </div>
   </div>
 
-
   <div class="nav-bar">
-    <a href="bottleneck-2.html">← #2 に戻る</a>
+    <a href="bottleneck-2.html">&larr; #2 に戻る</a>
     <a href="./">サマリーに戻る</a>
     <a href="bottleneck-4.html">#4 へ進む →</a>
   </div>
+
 </div>
 
 <div class="card">
   <div class="footer">
     <span>VELTRA CVR改善チーム</span>
-    <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a>（仮想データ）</span>
-    <span>2026-03-30</span>
+    <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+    <span>2026-04-01</span>
   </div>
 </div>
 
