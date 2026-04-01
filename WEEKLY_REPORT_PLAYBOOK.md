@@ -8,6 +8,12 @@
 - date_range: start_date="28daysAgo", end_date="yesterday"
 - エラーが出たクエリはスキップし、該当フィールドをnullにする
 
+## week_idとラベルの計算ルール
+- week_idは「28daysAgo〜yesterdayが実際にカバーする期間」に対応する週番号
+- date_startは28daysAgoの実際の日付、date_endはyesterdayの実際の日付
+- 例：実行日が4/1なら date_start=2026-03-03、date_end=2026-03-31、week_id=2026-w14
+- 「対象週」として渡されたweek_idをそのまま使わない。必ず実際のデータ期間から計算すること
+
 ## 取得するクエリ（8本）
 
 ### Query 1: ベースライン
