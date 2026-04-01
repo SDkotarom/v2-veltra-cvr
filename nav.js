@@ -2,7 +2,7 @@
   var css = document.createElement('style');
   css.textContent =
     '.site-layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:0;max-width:1500px;margin:0 auto;padding:20px 24px 24px 16px}' +
-    '.site-nav{position:sticky;top:20px;align-self:start;padding:12px 10px 16px;max-height:calc(100vh - 40px);overflow-y:auto;background:#f0ede8;border-radius:16px}' +
+    '.site-nav{position:sticky;top:20px;align-self:start;padding:48px 10px 16px;max-height:calc(100vh - 40px);overflow-y:auto;background:#f0ede8;border-radius:16px}' +
     /* Logo area */
     '.site-nav .nav-logo{padding:10px 10px 12px;display:flex;align-items:center;gap:8px}' +
     '.site-nav .nav-logo img{width:28px;height:28px;object-fit:contain}' +
