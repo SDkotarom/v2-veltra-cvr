@@ -4,541 +4,695 @@
 <meta charset="UTF-8">
 <script src="/auth.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>サマリー — VELTRA CVR REPORT</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--red:#E8423F;--red-light:#FFF5F5;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1;--border-dash:#d0cec8}
+:root{--red:#E8423F;--red-light:#FFF5F5;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1;--border-dash:#d0cec8;--green:#16a34a;--green-light:#f0fdf4;--amber:#d97706}
 body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);padding:48px 32px;max-width:1200px;margin:0 auto;font-size:18px}
 .card{background:var(--card);border-radius:16px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.header-band{background:var(--red);padding:24px 44px;display:flex;justify-content:space-between;align-items:center}
+.header-band{background:var(--red);padding:20px 44px;display:flex;justify-content:space-between;align-items:center}
 .header-band .logo{font-family:'DM Sans';font-weight:900;font-size:26px;color:#fff;letter-spacing:.04em;border:2px solid rgba(255,255,255,.6);padding:4px 14px;border-radius:5px}
 .header-band .title{font-family:'DM Sans';font-size:22px;font-weight:500;color:rgba(255,255,255,.9)}
-.principle{padding:48px 44px}
-.eyebrow{font-size:15px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
-.principle h1{font-size:34px;font-weight:900;line-height:1.4;margin-bottom:20px}
-.principle .sub{font-size:17px;color:var(--text2);line-height:1.8}
-.divider{border:none;border-top:1px dashed var(--border-dash);margin:0 44px}
 .divider-solid{border:none;border-top:1px solid var(--border);margin:0}
 .sec-label{padding:28px 44px 12px;font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
-.icon-row{display:flex;gap:40px;padding:28px 44px}
-.icon-item{text-align:center}
-.icon-circle{width:48px;height:48px;border:1.5px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:20px}
-.icon-label{font-size:14px;color:var(--text3);font-weight:500}
-.phase-row{display:grid;grid-template-columns:1fr 1fr 1fr}
-.phase-cell{padding:32px;border-right:1px solid var(--border)}
-.phase-cell:last-child{border-right:none}
-.phase-cell .pid{font-family:'DM Sans';font-size:40px;font-weight:900;color:var(--red);line-height:1;margin-bottom:10px}
-.phase-cell h3{font-size:20px;font-weight:700;margin-bottom:12px}
-.phase-cell p{font-size:16px;color:var(--text2);line-height:1.7}
-.phase-cell .otag{margin-top:16px;font-size:15px;color:var(--red);font-weight:500;padding-top:14px;border-top:1px solid var(--border)}
-.funnel-row{display:grid;grid-template-columns:repeat(5,1fr)}
-.funnel-cell{padding:28px 20px;text-align:center;border-right:1px solid var(--border);position:relative}
-.funnel-cell:last-child{border-right:none}
-.funnel-cell .sn{font-family:'DM Sans';font-size:44px;font-weight:900;color:var(--red);line-height:1}
-.funnel-cell .nm{font-size:17px;font-weight:700;margin:10px 0 4px}
-.funnel-cell .ev{font-size:14px;font-family:'DM Sans',monospace;color:var(--text3)}
-.funnel-cell .kp{font-size:15px;color:var(--text2);margin-top:8px;font-weight:500}
-.funnel-cell:not(:last-child)::after{content:'→';position:absolute;right:-9px;top:36px;font-size:18px;color:var(--border-dash);z-index:1;background:var(--card);padding:2px}
-.callout{background:var(--red-light);border-left:4px solid var(--red);padding:20px 28px;margin:0 44px 32px;border-radius:0 8px 8px 0}
-.callout .ct{font-size:16px;font-weight:700;color:var(--red);margin-bottom:8px}
-.callout .cb{font-size:16px;color:var(--text2);line-height:1.8}
-.tier-section{padding:32px 44px}
-.seg-detail{margin-top:12px;background:var(--bg);border-radius:8px;padding:18px 20px;font-size:15px;line-height:1.7;color:var(--text2)}
-.seg-detail .seg-row{display:flex;gap:10px;padding:4px 0}
-.seg-detail .seg-label{font-weight:700;color:var(--text);min-width:100px;flex-shrink:0;font-size:14px}
-.seg-detail .seg-val{color:var(--text2)}
-.seg-detail .seg-head{font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;margin-top:14px}
-.seg-detail .seg-head:first-child{margin-top:0}
-.seg-channels{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.seg-ch{border:1px solid var(--border);border-radius:6px;padding:14px 16px;background:var(--card)}
-.seg-ch .ch-name{font-size:15px;font-weight:700;color:var(--text)}
-.seg-ch .ch-data{font-size:13px;color:var(--text3);margin-top:3px}
-.seg-ch .ch-note{font-size:13px;color:var(--text2);margin-top:5px;line-height:1.5}
-.seg-action{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:14px}
-.seg-action strong{color:var(--red);font-weight:700}
-.tier-block{margin-bottom:28px}
-.tier-header{display:flex;align-items:center;gap:14px;margin-bottom:14px}
-.tbadge{font-family:'DM Sans';font-size:15px;font-weight:700;letter-spacing:.06em;padding:5px 14px;border-radius:5px;text-transform:uppercase}
-.tbadge.t1{background:var(--red);color:#fff}
-.tbadge.t2{background:var(--text);color:#fff}
-.tbadge.t3{background:var(--border);color:var(--text2)}
-.tier-header .td{font-size:16px;color:var(--text2)}
-.tier-items{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.tier-items.three{grid-template-columns:1fr 1fr 1fr}
-.ti{border:1px solid var(--border);border-radius:8px;padding:18px 20px}
-.ti .tn{font-size:18px;font-weight:700;margin-bottom:5px}
-.ti .tds{font-size:15px;color:var(--text3);line-height:1.6}
-.process-step{display:flex;align-items:flex-start;gap:20px;padding:24px 44px;border-bottom:1px solid var(--border)}
-.process-step:last-child{border-bottom:none}
-.sc{width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Sans';font-size:17px;font-weight:700;flex-shrink:0}
-.process-step .st{font-size:18px;font-weight:700;margin-bottom:4px}
-.process-step .sd{font-size:16px;color:var(--text2);line-height:1.6}
-.week-row{display:grid;grid-template-columns:repeat(5,1fr)}
-.wc{padding:22px 16px;text-align:center;border-right:1px solid var(--border)}
-.wc:last-child{border-right:none}
-.wc.active{background:var(--red);color:#fff}
-.wc .wd{font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;opacity:.5}
-.wc.active .wd{opacity:.7}
-.wc .wt{font-size:16px;font-weight:600;line-height:1.5}
-.wc .ws{font-size:14px;opacity:.6;margin-top:6px;line-height:1.4}
-.fmt-table{width:100%;border-collapse:collapse;font-size:16px}
-.fmt-table th{text-align:left;font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:14px 20px;border-bottom:2px solid var(--text)}
-.fmt-table td{padding:16px 20px;border-bottom:1px solid var(--border);vertical-align:top}
-.fmt-table td:first-child{font-weight:600}
-.wl-grid{display:grid;grid-template-columns:1fr 1fr}
-.wl-col{padding:28px 32px}
-.wl-col:first-child{border-right:1px solid var(--border)}
-.wl-col .wll{font-size:15px;font-weight:700;letter-spacing:.06em;margin-bottom:14px}
-.wl-col .wll.win{color:#16a34a}
-.wl-col .wll.lose{color:var(--red)}
-.wl-col .wli{font-size:16px;color:var(--text2);padding:6px 0;line-height:1.6}
+.callout{background:var(--red-light);border-left:4px solid var(--red);padding:16px 24px;margin:0 44px 24px;border-radius:0 8px 8px 0}
+.callout .ct{font-size:14px;font-weight:700;color:var(--red);margin-bottom:4px}
+.callout .cb{font-size:14px;color:var(--text2);line-height:1.7}
 .footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
-@media(max-width:768px){.phase-row,.funnel-row,.week-row{grid-template-columns:1fr}.funnel-cell::after{display:none}.phase-cell,.wc{border-right:none;border-bottom:1px solid var(--border)}.wl-grid{grid-template-columns:1fr}.wl-col:first-child{border-right:none;border-bottom:1px solid var(--border)}.tier-items,.tier-items.three{grid-template-columns:1fr}}
+
+/* Toggle */
+.toggle-wrap{display:flex;align-items:center;gap:8px}
+.toggle-btn{font-family:'DM Sans';font-size:13px;font-weight:700;padding:6px 16px;border-radius:20px;border:none;cursor:pointer;transition:background .15s,color .15s}
+.toggle-btn.active{background:#fff;color:var(--red)}
+.toggle-btn.inactive{background:rgba(255,255,255,.2);color:rgba(255,255,255,.7)}
+.toggle-btn:hover.inactive{background:rgba(255,255,255,.3);color:#fff}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.kpi-cell{padding:32px 36px;border-right:1px solid var(--border)}
+.kpi-cell:last-child{border-right:none}
+.kpi-cell .kl{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:10px}
+.kpi-cell .kv{font-family:'DM Sans';font-size:40px;font-weight:900;color:var(--text);line-height:1}
+.kpi-cell .ks{font-size:14px;color:var(--text3);margin-top:6px}
+.kpi-cell.highlight .kv{color:var(--red)}
+
+/* Target CVR */
+.target-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.target-cell{padding:24px 36px;border-right:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:16px}
+.target-cell:last-child{border-right:none}
+.target-cell .tl{font-size:13px;font-weight:700;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.target-cell .tv{font-family:'DM Sans';font-size:28px;font-weight:900}
+.target-cell .ts{font-size:13px;margin-top:4px}
+.status-badge{font-size:12px;font-weight:700;padding:4px 12px;border-radius:12px;white-space:nowrap;flex-shrink:0}
+.status-ok{background:var(--green-light);color:var(--green)}
+.status-ng{background:var(--red-light);color:var(--red)}
+.status-close{background:#fffbeb;color:var(--amber)}
+
+/* Annual graph */
+.graph-wrap{padding:28px 44px 36px;position:relative}
+.graph-title{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:20px}
+.graph-area{position:relative;height:160px;border-bottom:1px solid var(--border);border-left:1px solid var(--border)}
+.graph-svg{width:100%;height:100%;overflow:visible}
+.graph-labels-x{display:flex;justify-content:space-around;margin-top:8px;font-size:12px;color:var(--text3);font-family:'DM Sans'}
+.graph-labels-y{position:absolute;left:-36px;top:0;height:100%;display:flex;flex-direction:column;justify-content:space-between;font-size:11px;color:var(--text3);font-family:'DM Sans';text-align:right}
+.graph-legend{display:flex;gap:20px;margin-top:12px;font-size:13px;color:var(--text2)}
+.graph-legend .lg-item{display:flex;align-items:center;gap:6px}
+.graph-legend .lg-dot{width:10px;height:10px;border-radius:50%}
+.graph-legend .lg-line{width:20px;height:2px;border-top:2px dashed var(--text3)}
+
+/* Funnel */
+.funnel-bar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:28px 44px}
+.funnel-bar-cell{padding:0 16px;border-right:1px solid var(--border)}
+.funnel-bar-cell:first-child{padding-left:0}
+.funnel-bar-cell:last-child{border-right:none;padding-right:0}
+.fbc-label{font-size:13px;font-weight:700;color:var(--text3);letter-spacing:.06em;margin-bottom:10px}
+.fbc-stages{font-size:16px;font-weight:700;margin-bottom:8px}
+.fbc-rate{font-family:'DM Sans';font-size:32px;font-weight:900;color:var(--text);line-height:1;margin-bottom:8px}
+.fbc-bar-bg{height:6px;background:var(--border);border-radius:3px;margin-bottom:6px}
+.fbc-bar-fill{height:6px;border-radius:3px;background:var(--red)}
+.fbc-counts{font-size:13px;color:var(--text3);line-height:1.6}
+
+/* Funnel overview row */
+.funnel-ov-row{display:grid;grid-template-columns:repeat(5,1fr);padding:0 44px 28px;gap:0}
+.funnel-ov-cell{text-align:center;padding:0 8px;position:relative}
+.funnel-ov-cell:not(:last-child)::after{content:'→';position:absolute;right:-8px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--border-dash)}
+.foc-num{font-family:'DM Sans';font-size:12px;font-weight:700;color:var(--red);letter-spacing:.06em;margin-bottom:4px}
+.foc-name{font-size:13px;font-weight:700;margin-bottom:2px}
+.foc-val{font-family:'DM Sans';font-size:18px;font-weight:700;color:var(--text)}
+
+/* Segment section */
+.seg-section{padding:28px 44px}
+.seg-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:20px;width:fit-content}
+.seg-tab{font-size:13px;font-weight:700;padding:8px 18px;cursor:pointer;background:var(--bg);color:var(--text3);border-right:1px solid var(--border);transition:background .15s,color .15s}
+.seg-tab:last-child{border-right:none}
+.seg-tab.active{background:var(--text);color:#fff}
+.seg-table{width:100%;border-collapse:collapse;font-size:15px}
+.seg-table th{text-align:left;font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;padding:10px 14px;border-bottom:2px solid var(--text);white-space:nowrap}
+.seg-table td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+.seg-table tr:last-child td{border-bottom:none}
+.seg-table .seg-name{font-weight:700;font-size:15px}
+.seg-table .rate-val{font-family:'DM Sans';font-weight:700;font-size:16px}
+.seg-table .gap-pos{color:var(--green);font-weight:700}
+.seg-table .gap-neg{color:var(--red);font-weight:700}
+.seg-table .gap-neut{color:var(--text3)}
+.seg-table .bar-cell{width:120px}
+.seg-bar-bg{height:6px;background:var(--border);border-radius:3px;position:relative}
+.seg-bar-fill{height:6px;border-radius:3px;position:absolute;top:0;left:0}
+.seg-panel{display:none}
+.seg-panel.active{display:block}
+.seg-note{font-size:13px;color:var(--text3);margin-top:12px;line-height:1.6}
+
+/* Archive / Bottleneck links */
+.bn-list{padding:8px 44px 28px}
+.bn-week{margin-bottom:16px}
+.bn-week-header{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--bg);border-radius:8px;margin-bottom:8px}
+.bn-week-id{font-family:'DM Sans';font-size:16px;font-weight:900;color:var(--red)}
+.bn-week-label{font-size:14px;color:var(--text2)}
+.bn-week-badge{font-size:11px;font-weight:700;background:var(--red);color:#fff;padding:2px 8px;border-radius:10px;margin-left:auto}
+.bn-week-link{font-size:13px;font-weight:700;color:var(--red);text-decoration:none;margin-left:8px;border:1px solid var(--red);padding:3px 10px;border-radius:4px}
+.bn-week-link:hover{background:var(--red-light)}
+
+@media(max-width:768px){.kpi-grid,.target-grid{grid-template-columns:1fr}.kpi-cell,.target-cell{border-right:none;border-bottom:1px solid var(--border)}.funnel-bar-grid{grid-template-columns:1fr 1fr}.funnel-ov-row{grid-template-columns:1fr}.funnel-ov-cell::after{display:none}}
 </style>
 </head>
 <body>
 
 <div class="card">
   <div class="header-band">
-    <div class="logo">V2</div>
-    <div class="title">VELTRA CVR REPORT</div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <div class="logo">V2</div>
+      <div class="title">VELTRA CVR REPORT</div>
+    </div>
+    <div class="toggle-wrap">
+      <button class="toggle-btn active" id="btn-week" onclick="setMode('week')">最新週</button>
+      <button class="toggle-btn inactive" id="btn-month" onclick="setMode('month')">月次累計</button>
+    </div>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
 
-    <!-- Left: Concept copy -->
-    <div style="padding:44px;border-right:1px solid var(--border)">
-      <div class="eyebrow">CVR改善のコンセプト</div>
-      <h1 style="font-size:28px;font-weight:900;line-height:1.5;margin-bottom:20px">
-        CVRを5段階のファネルと<br>4軸のセグメントで分解する。<br><br>
-        <span style="color:var(--red)">どこで・誰が・なぜ</span><br>
-        落ちているかを特定し、<br>インパクト順に改善する。
-      </h1>
-      <div style="font-size:15px;color:var(--text2);line-height:1.8;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">
-        ファネル全体を分析対象とし、改善はACページから着手。<br>
-        分析の結果「上流の問題が大きい」と分かればそちらを優先。
+  <!-- Period label -->
+  <div style="padding:12px 44px;background:var(--bg);border-bottom:1px solid var(--border);font-size:13px;color:var(--text2)">
+    <span id="period-label">読み込み中...</span>
+    <span style="margin-left:16px;font-size:12px;color:var(--text3)" id="data-note"></span>
+  </div>
+
+  <!-- KPI -->
+  <div class="kpi-grid">
+    <div class="kpi-cell">
+      <div class="kl">セッション数</div>
+      <div class="kv" id="kpi-sessions">—</div>
+      <div class="ks" id="kpi-sessions-sub"></div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kl">CV数（予約完了）</div>
+      <div class="kv" id="kpi-cv">—</div>
+      <div class="ks" id="kpi-cv-sub"></div>
+    </div>
+    <div class="kpi-cell highlight">
+      <div class="kl">CVR</div>
+      <div class="kv" id="kpi-cvr">—</div>
+      <div class="ks" id="kpi-cvr-sub"></div>
+    </div>
+  </div>
+
+  <hr class="divider-solid">
+
+  <!-- Target CVR -->
+  <div class="target-grid">
+    <div class="target-cell">
+      <div>
+        <div class="tl">月次目標CVR</div>
+        <div class="tv" id="target-monthly-val" style="color:var(--text3)">—</div>
+        <div style="font-size:13px;color:var(--text2);margin-top:6px" id="target-monthly-current"></div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div class="status-badge" id="target-monthly-badge"></div>
+        <div id="target-monthly-gap" style="font-family:'DM Sans';font-size:22px;font-weight:900;margin-top:8px;line-height:1"></div>
       </div>
     </div>
-
-    <!-- Right: Funnel × Segment diagram -->
-    <div style="padding:44px;background:var(--bg)">
-
-      <!-- Funnel: 5 stages -->
-      <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:14px">ファネル 5段階</div>
-      <div style="display:flex;flex-direction:column;gap:0">
-        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px 8px 0 0">
-          <span style="font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);min-width:28px">①</span>
-          <span style="font-size:15px;font-weight:700;min-width:72px">流入</span>
-          <span style="font-size:13px;font-family:'DM Sans',monospace;color:var(--text3)">sessions</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-top:none">
-          <span style="font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);min-width:28px">②</span>
-          <span style="font-size:15px;font-weight:700;min-width:72px">AC到達</span>
-          <span style="font-size:13px;font-family:'DM Sans',monospace;color:var(--text3)">view_item</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-top:none">
-          <span style="font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);min-width:28px">③</span>
-          <span style="font-size:15px;font-weight:700;min-width:72px">検討</span>
-          <span style="font-size:13px;font-family:'DM Sans',monospace;color:var(--text3)">calendar_view</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-top:none">
-          <span style="font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);min-width:28px">④</span>
-          <span style="font-size:15px;font-weight:700;min-width:72px">意向</span>
-          <span style="font-size:13px;font-family:'DM Sans',monospace;color:var(--text3)">form_start</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px">
-          <span style="font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);min-width:28px">⑤</span>
-          <span style="font-size:15px;font-weight:700;min-width:72px">完了</span>
-          <span style="font-size:13px;font-family:'DM Sans',monospace;color:var(--text3)">purchase</span>
-        </div>
+    <div class="target-cell">
+      <div>
+        <div class="tl">年間目標CVR</div>
+        <div class="tv" id="target-annual-val" style="color:var(--text3)">—</div>
+        <div style="font-size:13px;color:var(--text2);margin-top:6px" id="target-annual-current"></div>
       </div>
-
-      <!-- Multiplier -->
-      <div style="text-align:center;font-size:22px;color:var(--text3);margin:16px 0;font-family:'DM Sans';font-weight:700">×</div>
-
-      <!-- Segments: 4 axes -->
-      <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:14px">セグメント 4軸</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;border-left:3px solid var(--red)">
-          <div style="font-size:14px;font-weight:700">チャネル</div>
-          <div style="font-size:12px;color:var(--text3);margin-top:2px">Organic / Paid / Direct</div>
-        </div>
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;border-left:3px solid var(--red)">
-          <div style="font-size:14px;font-weight:700">デバイス</div>
-          <div style="font-size:12px;color:var(--text3);margin-top:2px">mobile / desktop</div>
-        </div>
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;border-left:3px solid var(--text)">
-          <div style="font-size:14px;font-weight:700">新規 / リピーター</div>
-          <div style="font-size:12px;color:var(--text3);margin-top:2px">信頼構築 vs 再購入</div>
-        </div>
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;border-left:3px solid var(--text)">
-          <div style="font-size:14px;font-weight:700">エリア</div>
-          <div style="font-size:12px;color:var(--text3);margin-top:2px">Hawaii / Bali / Europe…</div>
-        </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div class="status-badge" id="target-annual-badge"></div>
+        <div id="target-annual-gap" style="font-family:'DM Sans';font-size:22px;font-weight:900;margin-top:8px;line-height:1"></div>
       </div>
-
     </div>
   </div>
 </div>
 
+<!-- Annual trend graph -->
 <div class="card">
-  <div class="sec-label" style="display:flex;justify-content:space-between;align-items:baseline">週次レポートアーカイブ<span id="archive-updated" style="font-size:12px;font-weight:500;letter-spacing:normal;text-transform:none"></span></div>
-  <hr class="divider-solid">
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0">
-    <div style="padding:24px 28px;border-right:1px solid var(--border)">
-      <div style="font-family:'DM Sans';font-size:28px;font-weight:900;color:var(--red);margin-bottom:8px">W14</div>
-      <div style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px">26年4月 Week1（3/30〜4/5）<br>ボトルネック10件 / 仮想データ</div>
-      <a href="reports/2026-w14/" style="font-size:13px;font-weight:700;color:var(--red);text-decoration:none;border:1px solid var(--red);padding:4px 12px;border-radius:4px">詳細をみる →</a>
+  <div class="graph-wrap">
+    <div class="graph-title">週別 CVR 推移</div>
+    <div style="position:relative;padding-left:42px">
+      <div class="graph-labels-y" id="graph-y-labels"></div>
+      <div class="graph-area" id="graph-area">
+        <svg class="graph-svg" id="graph-svg" viewBox="0 0 800 160" preserveAspectRatio="none"></svg>
+      </div>
+      <div class="graph-labels-x" id="graph-x-labels"></div>
     </div>
-    <div style="padding:24px 28px;border-right:1px solid var(--border)">
-      <div style="font-family:'DM Sans';font-size:28px;font-weight:900;color:var(--text3);margin-bottom:8px">W13</div>
-      <div style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px">26年3月 Week5（3/23〜3/29）<br>GA4 MCP接続後に自動生成</div>
-      <span style="font-size:13px;font-weight:600;color:var(--text3)">未生成</span>
-    </div>
-    <div style="padding:24px 28px;border-right:1px solid var(--border)">
-      <div style="font-family:'DM Sans';font-size:28px;font-weight:900;color:var(--text3);margin-bottom:8px">W12</div>
-      <div style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px">26年3月 Week4（3/16〜3/22）<br>GA4 MCP接続後に自動生成</div>
-      <span style="font-size:13px;font-weight:600;color:var(--text3)">未生成</span>
-    </div>
-    <div style="padding:24px 28px">
-      <div style="font-family:'DM Sans';font-size:28px;font-weight:900;color:var(--text3);margin-bottom:8px">W11</div>
-      <div style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px">26年3月 Week3（3/9〜3/15）<br>GA4 MCP接続後に自動生成</div>
-      <span style="font-size:13px;font-weight:600;color:var(--text3)">未生成</span>
+    <div class="graph-legend">
+      <div class="lg-item"><div class="lg-dot" style="background:var(--red)"></div>週次CVR</div>
+      <div class="lg-item"><div class="lg-line"></div>年間目標CVR</div>
     </div>
   </div>
 </div>
 
+<!-- Funnel pass rates -->
 <div class="card">
-  <div class="sec-label">改善サイクル</div>
+  <div class="sec-label">ファネル通過率</div>
   <hr class="divider-solid">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
 
-    <!-- Left: AI-driven -->
-    <div style="padding:32px;border-right:1px solid var(--border)">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-        <div style="width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Sans';font-weight:700;font-size:14px;flex-shrink:0">AI</div>
-        <div>
-          <div style="font-size:20px;font-weight:900">AIドリブン生成</div>
-          <div style="font-size:14px;color:var(--text3)">週次・自動実行 → 月曜朝に納品</div>
-        </div>
-      </div>
+  <!-- Funnel overview counts -->
+  <div class="funnel-ov-row" id="funnel-ov-row">
+    <div class="funnel-ov-cell"><div class="foc-num">①</div><div class="foc-name">流入</div><div class="foc-val" id="foc-1">—</div></div>
+    <div class="funnel-ov-cell"><div class="foc-num">②</div><div class="foc-name">AC到達</div><div class="foc-val" id="foc-2">—</div></div>
+    <div class="funnel-ov-cell"><div class="foc-num">③</div><div class="foc-name">検討</div><div class="foc-val" id="foc-3">—</div></div>
+    <div class="funnel-ov-cell"><div class="foc-num">④</div><div class="foc-name">意向</div><div class="foc-val" id="foc-4">—</div></div>
+    <div class="funnel-ov-cell"><div class="foc-num">⑤</div><div class="foc-name">完了</div><div class="foc-val" id="foc-5">—</div></div>
+  </div>
 
-      <div style="background:var(--bg);border-radius:8px;padding:18px 20px;font-size:15px;line-height:2;color:var(--text2)">
-        <strong style="color:var(--text)">❶ ボトルネック 10件を特定</strong><br>
-        <span style="padding-left:20px">ファネル × セグメントの転換率比較</span><br>
-        <strong style="color:var(--text)">❷ 各ボトルネックに原因仮説 × 3</strong><br>
-        <span style="padding-left:20px">リサーチ + 数字の裏付け + 打ち手と期待効果</span><br>
-        <strong style="color:var(--text)">❸ 各打ち手に開発仕様 + プロトタイプ × 3</strong><br>
-        <span style="padding-left:20px">既存画面ベースの改修案 + ビジュアル</span>
-      </div>
+  <hr class="divider-solid">
 
-      <div style="margin-top:14px;font-size:13px;color:var(--text3);line-height:1.6">
-        分析 → 仮説 → 施策 → 仕様 → プロトタイプまで一括生成。<br>
-        人間はレビューと判断に集中する。
-      </div>
+  <!-- Conversion rates between stages -->
+  <div class="funnel-bar-grid">
+    <div class="funnel-bar-cell">
+      <div class="fbc-label">①→②</div>
+      <div class="fbc-stages">流入 → AC到達</div>
+      <div class="fbc-rate" id="rate-1-2">—</div>
+      <div class="fbc-bar-bg"><div class="fbc-bar-fill" id="bar-1-2" style="width:0%"></div></div>
+      <div class="fbc-counts" id="cnt-1-2"></div>
     </div>
-
-    <!-- Right: Team -->
-    <div style="padding:32px">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-        <div style="width:36px;height:36px;border-radius:50%;background:var(--text);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Sans';font-weight:700;font-size:14px;flex-shrink:0">人</div>
-        <div>
-          <div style="font-size:20px;font-weight:900">チームレビュー & 実行</div>
-          <div style="font-size:14px;color:var(--text3)">月曜レビュー → 火〜木実行 → 金曜共有</div>
-        </div>
-      </div>
-
-      <div style="font-size:15px;line-height:2;color:var(--text2)">
-        <strong style="color:var(--text)">月曜</strong>　施策リストの内容評価・やる/やらない・担当アサイン<br>
-        <strong style="color:var(--text)">火〜木</strong>　AIドラフトをもとにデザイナー/エンジニアが仕上げ<br>
-        <strong style="color:var(--text)">金曜</strong>　Slackで進捗と成果を共有
-      </div>
-
-      <div style="margin-top:18px;padding:14px 18px;border:1px dashed var(--border-dash);border-radius:8px;font-size:14px;color:var(--text3);line-height:1.7">
-        <strong style="color:var(--text2)">火〜木の実行：</strong>AIがデザインカンプ・実装コードの下書き・ABテスト設計をドラフト。デザイナー・FE/BEエンジニアがレビュー・仕上げ・統合。<br><br>
-        <strong style="color:var(--text2)">将来目標：</strong>Claude Code経由でデザイン→実装まで一気通貫。現時点はAIドラフト→人間トスの併用。
-      </div>
+    <div class="funnel-bar-cell">
+      <div class="fbc-label">②→③</div>
+      <div class="fbc-stages">AC到達 → 検討</div>
+      <div class="fbc-rate" id="rate-2-3">—</div>
+      <div class="fbc-bar-bg"><div class="fbc-bar-fill" id="bar-2-3" style="width:0%"></div></div>
+      <div class="fbc-counts" id="cnt-2-3"></div>
     </div>
-
+    <div class="funnel-bar-cell">
+      <div class="fbc-label">③→④</div>
+      <div class="fbc-stages">検討 → 意向</div>
+      <div class="fbc-rate" id="rate-3-4">—</div>
+      <div class="fbc-bar-bg"><div class="fbc-bar-fill" id="bar-3-4" style="width:0%"></div></div>
+      <div class="fbc-counts" id="cnt-3-4"></div>
+    </div>
+    <div class="funnel-bar-cell">
+      <div class="fbc-label">④→⑤</div>
+      <div class="fbc-stages">意向 → 完了</div>
+      <div class="fbc-rate" id="rate-4-5">—</div>
+      <div class="fbc-bar-bg"><div class="fbc-bar-fill" id="bar-4-5" style="width:0%"></div></div>
+      <div class="fbc-counts" id="cnt-4-5"></div>
+    </div>
   </div>
 </div>
 
+<!-- Segment breakdown -->
 <div class="card">
-  <div class="sec-label">基本のファネル（5段階）</div>
+  <div class="sec-label">セグメント別 ②→③ 転換率</div>
   <hr class="divider-solid">
-  <div class="funnel-row">
-    <div class="funnel-cell"><div class="sn">①</div><div class="nm">流入</div><div class="ev">sessions</div><div class="kp">セッション数</div></div>
-    <div class="funnel-cell"><div class="sn">②</div><div class="nm">AC到達</div><div class="ev">view_item</div><div class="kp">AC訪問率</div></div>
-    <div class="funnel-cell"><div class="sn">③</div><div class="nm">検討</div><div class="ev">calendar_view</div><div class="kp">カレンダー表示率</div></div>
-    <div class="funnel-cell"><div class="sn">④</div><div class="nm">意向</div><div class="ev">form_start</div><div class="kp">フォーム遷移率</div></div>
-    <div class="funnel-cell"><div class="sn">⑤</div><div class="nm">完了</div><div class="ev">purchase</div><div class="kp">予約完了率</div></div>
-  </div>
-  <div class="callout" style="margin-top:20px"><div class="ct">判定基準</div><div class="cb">各段階の転換率を全体平均と比較し、セグメント間で相対的に低い箇所を「ボトルネック」と判定。絶対値ではなく相対比較が基本。</div></div>
-</div>
+  <div class="seg-section">
 
-<div class="card">
-  <div class="sec-label">セグメント軸（分析の順序）</div>
-  <hr class="divider-solid">
-  <div class="tier-section">
-
-    <!-- TIER 1: Channel -->
-    <div class="tier-block">
-      <div class="tier-header"><div class="tbadge t1">Tier 1-A</div><div class="td">チャネル別 — ファネル通過率を比較</div></div>
-      <div class="ti" style="margin-bottom:12px">
-        <div class="tn">チャネル（sessionDefaultChannelGroup）</div>
-        <div class="tds">CVR差 4倍。この差がファネルのどの段階で生まれるかを特定する。</div>
-        <div class="seg-detail">
-          <div class="seg-head">見る対象（4チャネル）</div>
-          <div class="seg-channels">
-            <div class="seg-ch"><div class="ch-name">Organic Search</div><div class="ch-data">セッション47% / CVR 0.70%</div><div class="ch-note">最大ボリューム。意図が薄い流入が多い可能性。bot混入も疑う。</div></div>
-            <div class="seg-ch"><div class="ch-name">Paid Search</div><div class="ch-data">セッション23% / CVR 1.42%</div><div class="ch-note">キーワードの質とLPの出し分け。低CVRキーワードの特定。</div></div>
-            <div class="seg-ch"><div class="ch-name">Direct</div><div class="ch-data">セッション10% / CVR 2.98%</div><div class="ch-note">リピーター/ブランド指名。この層の体験を最優先で守る。</div></div>
-            <div class="seg-ch"><div class="ch-name">Unassigned / Other</div><div class="ch-data">セッション7% / CVR 4.10%</div><div class="ch-note">CVR異常値。アプリ経由・パラメータ欠損の可能性。実態把握が先。</div></div>
-          </div>
-          <div class="seg-head">分析方法</div>
-          <div class="seg-row"><div class="seg-label">GA4クエリ</div><div class="seg-val">sessionDefaultChannelGroup × 各ファネルイベントのeventCount</div></div>
-          <div class="seg-row"><div class="seg-label">比較方法</div><div class="seg-val">チャネルごとに ①→② / ②→③ / ③→④ / ④→⑤ の転換率を算出し、全体平均と比較</div></div>
-          <div class="seg-row"><div class="seg-label">判定基準</div><div class="seg-val">全体平均より -20%以上 乖離 かつ セッション数 1万以上 → ボトルネック候補</div></div>
-          <div class="seg-action"><strong>分かったらどうする？ →</strong> 例：Organicの②→③が-30%なら「Organic経由のACページでカレンダーまで到達しない」問題。LP設計 or 情報整理の施策候補へ。</div>
-        </div>
-      </div>
+    <div class="seg-tabs">
+      <div class="seg-tab active" onclick="showSeg('device')">デバイス</div>
+      <div class="seg-tab" onclick="showSeg('channel')">チャネル</div>
+      <div class="seg-tab" onclick="showSeg('new-returning')">新規 / リピーター</div>
+      <div class="seg-tab" onclick="showSeg('area')">エリア</div>
     </div>
 
-    <!-- TIER 1: Device -->
-    <div class="tier-block">
-      <div class="tier-header"><div class="tbadge t1">Tier 1-B</div><div class="td">デバイス別 — 同じファネルでもUIが全く違う</div></div>
-      <div class="ti" style="margin-bottom:12px">
-        <div class="tn">デバイス（deviceCategory）</div>
-        <div class="tds">mobile / desktop / tablet。打ち手が根本的に変わる軸。</div>
-        <div class="seg-detail">
-          <div class="seg-head">見る対象</div>
-          <div class="seg-channels">
-            <div class="seg-ch"><div class="ch-name">mobile</div><div class="ch-note">セッション比率最大。カレンダーUI・フォーム入力のUX問題が出やすい。速度（TTFB）も要確認。</div></div>
-            <div class="seg-ch"><div class="ch-name">desktop</div><div class="ch-note">CVRは高いはず。もし低い段階があれば、情報設計の問題（迷い・ノイズ）を疑う。</div></div>
-          </div>
-          <div class="seg-head">分析方法</div>
-          <div class="seg-row"><div class="seg-label">GA4クエリ</div><div class="seg-val">deviceCategory × 各ファネルイベントのeventCount</div></div>
-          <div class="seg-row"><div class="seg-label">比較方法</div><div class="seg-val">mobile vs desktop で各段階の転換率を並べて、差が大きい段階を特定</div></div>
-          <div class="seg-row"><div class="seg-label">注目点</div><div class="seg-val">③カレンダー表示率と④フォーム遷移率。mobileで特に差がつきやすい。</div></div>
-          <div class="seg-action"><strong>分かったらどうする？ →</strong> 例：mobileの③→④が-40%なら「mobileでカレンダー見た後にフォームに行かない」問題。CTA配置・遅延読み込み・スクロール量の施策候補へ。</div>
-        </div>
-      </div>
+    <!-- Device panel -->
+    <div class="seg-panel active" id="seg-device">
+      <table class="seg-table">
+        <thead><tr><th>デバイス</th><th>②→③ 転換率</th><th>全体比</th><th class="bar-cell">相対値</th></tr></thead>
+        <tbody id="seg-device-body"></tbody>
+      </table>
+      <div class="seg-note">※ Organic Search 経由での比較。</div>
     </div>
 
-    <!-- TIER 2: New vs Returning -->
-    <div class="tier-block">
-      <div class="tier-header"><div class="tbadge t2">Tier 2-A</div><div class="td">新規 / リピーター — 行動パターンが根本的に異なる</div></div>
-      <div class="ti" style="margin-bottom:12px">
-        <div class="tn">新規 / リピーター（newVsReturning）</div>
-        <div class="tds">Tier 1で見つけたボトルネックが、新規の問題かリピーターの問題かを切り分ける。</div>
-        <div class="seg-detail">
-          <div class="seg-head">使い方</div>
-          <div class="seg-row"><div class="seg-label">新規が低い</div><div class="seg-val">→ 信頼構築の問題。体験談・保証・キャンセルポリシーの見せ方。初回割引の効果検証。</div></div>
-          <div class="seg-row"><div class="seg-label">リピーターが低い</div><div class="seg-val">→ UX摩擦の問題。過去の予約情報の活用不足。再購入フローの最適化。</div></div>
-          <div class="seg-row"><div class="seg-label">GA4クエリ</div><div class="seg-val">newVsReturning × Tier 1で特定したボトルネック段階のイベント</div></div>
-          <div class="seg-action"><strong>分かったらどうする？ →</strong> 例：Organic × mobile × 新規の②→③が特に低い → 「初めてACページに来た新規mobileユーザーが、カレンダーを見る前に離脱」→ 信頼構築UIの施策候補へ。</div>
-        </div>
-      </div>
+    <!-- Channel panel -->
+    <div class="seg-panel" id="seg-channel">
+      <table class="seg-table">
+        <thead><tr><th>チャネル</th><th>②→③ 転換率</th><th>全体比</th><th class="bar-cell">相対値</th></tr></thead>
+        <tbody id="seg-channel-body"></tbody>
+      </table>
+      <div class="seg-note">※ Mobile 経由での比較。</div>
     </div>
 
-    <!-- TIER 2: Area -->
-    <div class="tier-block">
-      <div class="tier-header"><div class="tbadge t2">Tier 2-B</div><div class="td">エリア（旅行先）— 商品構成が根本的に異なる</div></div>
-      <div class="ti" style="margin-bottom:12px">
-        <div class="tn">エリア（landingPagePath から推定）</div>
-        <div class="tds">Hawaii, Bali, Singapore 等。エリアごとに在庫・即確定率・季節性が違うため、同じファネルでも特性が変わる。</div>
-        <div class="seg-detail">
-          <div class="seg-head">推定方法</div>
-          <div class="seg-row"><div class="seg-label">GA4</div><div class="seg-val">landingPagePath に /jp/hawaii/, /jp/asia/bali/ 等のパスを含むかで分類</div></div>
-          <div class="seg-row"><div class="seg-label">注意</div><div class="seg-val">カスタムディメンションがAPI経由で取得不可のため、パスベースの推定。精度に限界あり。</div></div>
-          <div class="seg-head">見るポイント</div>
-          <div class="seg-row"><div class="seg-label">③が低い</div><div class="seg-val">→ 在庫切れ / カレンダー表示時の「空き無し」が多い可能性。サプライ側の問題。</div></div>
-          <div class="seg-row"><div class="seg-label">④が低い</div><div class="seg-val">→ 料金の出し方 / リクエスト制の多さが障壁。即確定商品の露出を上げる施策。</div></div>
-          <div class="seg-action"><strong>分かったらどうする？ →</strong> 例：Hawaiiの③→④が-50%なら「Hawaii商品はカレンダー見ても予約に進まない」→ 在庫確認UI改善 or 即確定商品の優先表示の施策候補へ。</div>
-        </div>
-      </div>
+    <!-- New vs Returning panel -->
+    <div class="seg-panel" id="seg-new-returning">
+      <table class="seg-table">
+        <thead><tr><th>ユーザー種別</th><th>②→③ 転換率</th><th>全体比</th><th class="bar-cell">相対値</th></tr></thead>
+        <tbody id="seg-nr-body"></tbody>
+      </table>
+      <div class="seg-note">※ Mobile × Organic の新規 / リピーター分解。</div>
     </div>
 
-    <!-- TIER 3: Cross -->
-    <div class="tier-block">
-      <div class="tier-header"><div class="tbadge t3">Tier 3</div><div class="td">掛け合わせ — 原因セグメントを1つに絞る</div></div>
-      <div class="tier-items three">
-        <div class="ti"><div class="tn">チャネル × デバイス</div><div class="tds">Organic + mobile の③が低い？→ mobile向けSEOランディング体験の問題。</div></div>
-        <div class="ti"><div class="tn">チャネル × 新規</div><div class="tds">Organic + 新規 の②が低い？→ 検索意図と商品マッチングの問題。</div></div>
-        <div class="ti"><div class="tn">エリア × デバイス</div><div class="tds">Hawaii + mobile の④が低い？→ Hawaii商品のmobileフォーム体験。</div></div>
-      </div>
-      <div class="callout" style="margin:16px 0 0"><div class="ct">Tier 3 の使い方</div><div class="cb">Tier 1-2で見つけたボトルネックに対して「なぜそのセグメントだけ低いのか？」を掛け合わせで特定する。最終的に「Mobile × Organic × 新規 の ②→③ が全体比 -40%」レベルまで絞り込むのがゴール。</div></div>
+    <!-- Area panel -->
+    <div class="seg-panel" id="seg-area">
+      <table class="seg-table">
+        <thead><tr><th>エリア</th><th>②→③ 転換率</th><th>全体比</th><th class="bar-cell">相対値</th></tr></thead>
+        <tbody id="seg-area-body"></tbody>
+      </table>
+      <div class="seg-note">※ Mobile × Organic × エリア別分解。</div>
     </div>
 
   </div>
 </div>
 
+<!-- Bottleneck archive -->
 <div class="card">
-  <div class="sec-label">AIの分析プロセス（❶ ボトルネック特定の内部ロジック）</div>
+  <div class="sec-label" style="display:flex;justify-content:space-between;align-items:baseline">ボトルネック分析<span id="archive-updated" style="font-size:12px;font-weight:500;letter-spacing:normal;text-transform:none;color:var(--text3)"></span></div>
   <hr class="divider-solid">
-  <div class="process-step"><div class="sc">1</div><div><div class="st">ベースライン取得</div><div class="sd">ファネル全体の転換率を算出。①→② 何%、②→③ 何%…の全体平均を出す。</div></div></div>
-  <div class="process-step"><div class="sc">2</div><div><div class="st">Tier 1 で4分割</div><div class="sd">チャネル別 × デバイス別で分割。全体平均より低い箇所をマーク。</div></div></div>
-  <div class="process-step"><div class="sc">3</div><div><div class="st">ボトルネック特定</div><div class="sd">インパクト順（セッション数 × 転換率ギャップ）でランク付け。</div></div></div>
-  <div class="process-step"><div class="sc">4</div><div><div class="st">Tier 2 で深掘り</div><div class="sd">新規/リピーター、エリアで更に分解。問題の解像度を上げる。</div></div></div>
-  <div class="process-step"><div class="sc">5</div><div><div class="st">Tier 3 で原因特定</div><div class="sd">掛け合わせで最も影響が大きいセグメントを絞り込む。</div></div></div>
-  <div class="process-step"><div class="sc">6</div><div><div class="st">原因仮説 → 数字で裏付け</div><div class="sd">なぜ低いか？の仮説を立て、追加データ・競合リサーチで裏付ける。→ 打ち手・プロトタイプの生成へ。</div></div></div>
-  <div style="padding:20px 44px 28px">
-    <a href="reports/2026-w14/" style="display:block;border:2px solid var(--red);border-radius:10px;padding:20px 28px;text-decoration:none;color:var(--text);transition:background .2s" onmouseover="this.style.background='var(--red-light)'" onmouseout="this.style.background='transparent'">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">具体例を見る</div>
-          <div style="font-size:18px;font-weight:700">週次ボトルネック分析レポート — 仮想データによる雛形</div>
-          <div style="font-size:14px;color:var(--text2);margin-top:4px">ベースライン → Tier 1-3 比較 → 原因仮説×3 → 打ち手×3 → 開発仕様 → Before/Afterプロトタイプ → チームレビュー欄</div>
-        </div>
-        <div style="font-size:24px;color:var(--red)">→</div>
-      </div>
-    </a>
+  <div class="bn-list" id="bn-list">
+    <div style="padding:20px 0;color:var(--text3);font-size:14px">読み込み中...</div>
   </div>
-
-  <hr class="divider">
-
-  <!-- Weekly Reports Archive -->
-  <div style="padding:20px 44px 28px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px">週次レポートアーカイブ</div>
-
-    <a href="reports/2026-w14/" style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);margin-bottom:8px;transition:background .2s" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='transparent'">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div style="font-family:'DM Sans';font-size:14px;font-weight:700;color:var(--red);min-width:60px">W14</div>
-        <div>
-          <div style="font-size:16px;font-weight:600">26年4月 Week1（3/30〜4/5）</div>
-          <div style="font-size:13px;color:var(--text3)">ボトルネック10件 / 仮想データ</div>
-        </div>
-      </div>
-      <div style="font-size:12px;color:var(--text3);padding:3px 10px;border:1px solid var(--border);border-radius:4px">雛形</div>
-    </a>
-
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border:1px dashed var(--border-dash);border-radius:8px;color:var(--text3);margin-bottom:8px">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div style="font-family:'DM Sans';font-size:14px;font-weight:700;min-width:60px">W13</div>
-        <div>
-          <div style="font-size:16px;font-weight:600;color:var(--text3)">26年3月 Week5（3/23〜3/29）</div>
-          <div style="font-size:13px">GA4 MCP接続後に自動生成</div>
-        </div>
-      </div>
-      <div style="font-size:12px;padding:3px 10px;border:1px dashed var(--border-dash);border-radius:4px">未生成</div>
-    </div>
-
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border:1px dashed var(--border-dash);border-radius:8px;color:var(--text3)">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div style="font-family:'DM Sans';font-size:14px;font-weight:700;min-width:60px">W12</div>
-        <div>
-          <div style="font-size:16px;font-weight:600;color:var(--text3)">26年3月 Week4（3/16〜3/22）</div>
-          <div style="font-size:13px">GA4 MCP接続後に自動生成</div>
-        </div>
-      </div>
-      <div style="font-size:12px;padding:3px 10px;border:1px dashed var(--border-dash);border-radius:4px">未生成</div>
-    </div>
-
-  </div>
-</div>
-
-
-<!-- ======================== AI OUTPUT FORMAT ======================== -->
-<div class="card">
-  <div class="sec-label">AIが月曜朝に出す施策リストのフォーマット</div>
-  <hr class="divider-solid">
-  <div style="padding:24px 44px 36px">
-    <table class="fmt-table">
-      <thead><tr><th>項目</th><th>内容</th><th>例</th></tr></thead>
-      <tbody>
-        <tr><td>ボトルネック</td><td>ファネル段階 × セグメント</td><td>②→③ Mobile × Organic × 新規</td></tr>
-        <tr><td>転換率</td><td>現状値 / 全体平均 / ギャップ</td><td>18% / 30% / -40%</td></tr>
-        <tr><td>原因仮説（×3）</td><td>なぜ低いかの仮説</td><td>①カレンダー読み込み遅延 ②情報過多 ③CTA不明確</td></tr>
-        <tr><td>裏付けデータ</td><td>仮説を支持する数字</td><td>Mobile TTFB 3.2s / Desktop 0.8s</td></tr>
-        <tr><td>打ち手（×3）</td><td>具体的な改善施策</td><td>遅延ロード / 情報の引き算 / CTA固定化</td></tr>
-        <tr><td>開発仕様</td><td>具体的な実装内容</td><td>カレンダーコンポーネントをIntersectionObserver化</td></tr>
-        <tr><td>プロトタイプ</td><td>既存画面の改修案ビジュアル</td><td>HTML or Figma リンク</td></tr>
-        <tr><td>期待効果 / 検証方法</td><td>想定インパクト or 測り方</td><td>②→③ +5pt → CVR +0.07% / ABテスト2週間</td></tr>
-        <tr><td style="color:var(--red);font-weight:700">判断（人間）</td><td>チームレビュー結果</td><td>◎やる / △要修正 / ×やらない / 担当: Sachie</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ======================== DASHBOARD ======================== -->
-<div class="card">
-  <div class="sec-label">常時参照ダッシュボード（veltra-cvr.vercel.app）</div>
-  <hr class="divider-solid">
-  <div style="padding:28px 44px">
-    <div style="font-size:16px;color:var(--text2);margin-bottom:20px;line-height:1.7">詳細なレポートを作ることが目的ではない。<br>チームが「今どうなっているか」を把握するための最小限のダッシュボード。</div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-
-      <div style="border:1px solid var(--border);border-radius:10px;padding:20px 24px">
-        <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red);margin-bottom:10px">画面1：全体概況</div>
-        <div style="font-size:18px;font-weight:700;margin-bottom:10px">Session / CV / CVR</div>
-        <div style="font-size:15px;color:var(--text2);line-height:1.7">
-          ・全体セッション数<br>
-          ・コンバージョン数（予約完了）<br>
-          ・CVR（= CV ÷ Session）<br>
-          ・週次推移がわかれば十分
-        </div>
-      </div>
-
-      <div style="border:1px solid var(--border);border-radius:10px;padding:20px 24px">
-        <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red);margin-bottom:10px">画面2：ファネル × Tier</div>
-        <div style="font-size:18px;font-weight:700;margin-bottom:10px">ファネル通過率 × セグメント</div>
-        <div style="font-size:15px;color:var(--text2);line-height:1.7">
-          ・ファネル各段階の数値推移<br>
-          ・Tier 1（チャネル別 / デバイス別）のファネル数値<br>
-          ・Tier 2（新規リピーター / エリア）のファネル数値<br>
-          ・グラフはあとでいくらでもブラッシュアップ
-        </div>
-      </div>
-
-    </div>
-
-    <div style="border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-top:20px">
-      <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red);margin-bottom:10px">画面3：施策一覧</div>
-      <div style="font-size:18px;font-weight:700;margin-bottom:10px">施策バックログ + ステータス</div>
-      <div style="font-size:15px;color:var(--text2);line-height:1.7">
-        ・AIが生成した施策リスト<br>
-        ・チームレビュー結果（◎△×）<br>
-        ・進捗ステータス<br>
-        ・ABテスト結果（あれば）<br>
-        ・GASでスプレッドシートにもワンクリック出力
-      </div>
-    </div>
-
-    <div class="callout" style="margin:16px 0 0">
-      <div class="ct">ダッシュボードの原則</div>
-      <div class="cb">数字をきれいに見せることが目的ではない。「今どこが落ちているか」「何をやっているか」「結果どうだったか」の3つが分かればOK。あとはいくらでも後から足せる。</div>
-    </div>
-  </div>
-</div>
-
-<div class="card">
-  <div class="sec-label">2025年の学び — 勝ち/負けパターン</div>
-  <hr class="divider-solid">
-  <div class="wl-grid">
-    <div class="wl-col"><div class="wll win">✓ 勝ちパターン</div><div class="wli">情報のシンプル化（ハイライト非表示 +3.8%）</div><div class="wli">並走型UIへの変更（タブ化 +2%）</div><div class="wli">行動喚起の明確化（CTA文言 +3%）</div><div class="wli">構造の統一（Area UI標準化）</div></div>
-    <div class="wl-col"><div class="wll lose">✗ 負けパターン</div><div class="wli">ノイズになる機能追加（ランキング・プラン表示）</div><div class="wli">意思決定に影響しない細部（ボタン色・テキスト）</div><div class="wli">比較対象を増やして迷いを増大</div><div class="wli">個別パーツの最適化</div></div>
-  </div>
-  <div class="callout"><div class="ct">施策立案時の3つの問い</div><div class="cb">① このページの役割を強化するか？ → Yes なら進める<br>② ユーザーの意思決定にノイズを加えないか？ → No なら止める<br>③ 引き算で同じ効果が得られないか？ → 得られるなら引き算を優先</div></div>
 </div>
 
 <div class="card">
   <div class="footer">
     <span>VELTRA CVR改善チーム — UIUX Design Squad</span>
     <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
-    <span>2026-03-27</span>
+    <a href="/cycle.html" style="color:var(--text3);text-decoration:none;font-weight:600">CVR改善サイクル →</a>
   </div>
 </div>
 
 <script>
-fetch('/archive-meta.json').then(function(r){return r.json()}).then(function(d){
-  var el=document.getElementById('archive-updated');
-  if(el&&d.updatedAt){
-    var dt=new Date(d.updatedAt);
-    el.textContent='更新: '+dt.getFullYear()+'/'+(dt.getMonth()+1)+'/'+dt.getDate()+' '+dt.getHours()+':'+String(dt.getMinutes()).padStart(2,'0');
+(function() {
+  var mode = 'week'; // 'week' or 'month'
+  var reportsIndex = null;
+  var weekDataCache = {};
+  var currentData = null; // aggregated or single week
+  var targets = { monthly_cvr: 0.018, annual_cvr: 0.020 };
+
+  // ── Utility ─────────────────────────────────────
+  function fmt(n) {
+    if (n == null) return '—';
+    return n.toLocaleString('ja-JP');
   }
-});
+  function fmtPct(v, decimals) {
+    if (v == null) return '—';
+    decimals = decimals != null ? decimals : 1;
+    return (v * 100).toFixed(decimals) + '%';
+  }
+  function gapClass(v) {
+    if (v == null) return 'gap-neut';
+    if (v > 0.02) return 'gap-pos';
+    if (v < -0.02) return 'gap-neg';
+    return 'gap-neut';
+  }
+  function gapLabel(v) {
+    if (v == null) return '—';
+    var s = v > 0 ? '+' : '';
+    return s + (v * 100).toFixed(0) + '%';
+  }
+
+  // ── Mode toggle ─────────────────────────────────
+  window.setMode = function(m) {
+    mode = m;
+    document.getElementById('btn-week').className = 'toggle-btn ' + (m === 'week' ? 'active' : 'inactive');
+    document.getElementById('btn-month').className = 'toggle-btn ' + (m === 'month' ? 'active' : 'inactive');
+    renderAll();
+  };
+
+  // ── Segment tabs ─────────────────────────────────
+  window.showSeg = function(panel) {
+    var panels = ['device', 'channel', 'new-returning', 'area'];
+    document.querySelectorAll('.seg-tab').forEach(function(t, i) {
+      t.className = 'seg-tab' + (panels[i] === panel ? ' active' : '');
+    });
+    document.querySelectorAll('.seg-panel').forEach(function(p) {
+      p.className = 'seg-panel' + (p.id === 'seg-' + panel ? ' active' : '');
+    });
+  };
+
+  // ── Load ──────────────────────────────────────────
+  fetch('/reports-index.json').then(function(r) { return r.json(); }).then(function(idx) {
+    reportsIndex = idx;
+    targets = idx.targets || targets;
+    renderTargets();
+    renderArchive();
+    loadLatestWeek();
+    loadAllWeeks();
+    renderArchiveUpdated();
+  }).catch(function(e) {
+    console.error('reports-index.json load error', e);
+  });
+
+  function loadLatestWeek() {
+    if (!reportsIndex || !reportsIndex.weeks || !reportsIndex.weeks.length) return;
+    var latest = reportsIndex.weeks[reportsIndex.weeks.length - 1];
+    loadWeekData(latest.data_path, function(d) {
+      weekDataCache[latest.week_id] = d;
+      renderAll();
+    });
+  }
+
+  function loadAllWeeks() {
+    if (!reportsIndex || !reportsIndex.weeks) return;
+    reportsIndex.weeks.forEach(function(w) {
+      if (!weekDataCache[w.week_id]) {
+        loadWeekData(w.data_path, function(d) {
+          weekDataCache[w.week_id] = d;
+          renderGraph();
+        });
+      }
+    });
+  }
+
+  function loadWeekData(path, cb) {
+    fetch(path).then(function(r) { return r.json(); }).then(cb).catch(function(e) {
+      console.error('data.json load error', path, e);
+    });
+  }
+
+  // ── Aggregate months ──────────────────────────────
+  function aggregateMonthly() {
+    var weeks = reportsIndex ? reportsIndex.weeks : [];
+    var sessions = 0, purchases = 0;
+    var funnelSums = { session_start: 0, view_item: 0, calendar_view: 0, form_start: 0, purchase: 0 };
+    var count = 0;
+    weeks.forEach(function(w) {
+      var d = weekDataCache[w.week_id];
+      if (!d) return;
+      sessions += d.baseline.sessions;
+      purchases += d.baseline.purchases;
+      Object.keys(funnelSums).forEach(function(k) {
+        if (d.baseline.funnel[k]) funnelSums[k] += d.baseline.funnel[k];
+      });
+      count++;
+    });
+    if (count === 0) return null;
+    var cvr = sessions > 0 ? purchases / sessions : 0;
+    var f = funnelSums;
+    return {
+      sessions: sessions,
+      purchases: purchases,
+      cvr: cvr,
+      funnel: funnelSums,
+      conversion_rates: {
+        '1_to_2': f.session_start > 0 ? f.view_item / f.session_start : null,
+        '2_to_3': f.view_item > 0 ? f.calendar_view / f.view_item : null,
+        '3_to_4': f.calendar_view > 0 ? f.form_start / f.calendar_view : null,
+        '4_to_5': f.form_start > 0 ? f.purchase / f.form_start : null
+      },
+      _weekCount: count
+    };
+  }
+
+  // ── Render all ────────────────────────────────────
+  function renderAll() {
+    if (!reportsIndex) return;
+    var weeks = reportsIndex.weeks;
+    if (!weeks || !weeks.length) return;
+    var latest = weeks[weeks.length - 1];
+    if (!weekDataCache[latest.week_id]) return;
+
+    if (mode === 'week') {
+      currentData = weekDataCache[latest.week_id].baseline;
+      var meta = weekDataCache[latest.week_id].meta;
+      document.getElementById('period-label').textContent = meta.week_label + '（' + meta.date_start + ' 〜 ' + meta.date_end + '）';
+      document.getElementById('data-note').textContent = meta.note || '';
+      renderKPI(currentData);
+      renderFunnel(currentData, weekDataCache[latest.week_id]);
+    } else {
+      var agg = aggregateMonthly();
+      if (!agg) return;
+      currentData = agg;
+      document.getElementById('period-label').textContent = '月次累計（' + agg._weekCount + '週分の合算）';
+      document.getElementById('data-note').textContent = '';
+      renderKPI(agg);
+      renderFunnel(agg, null);
+    }
+
+    renderCVRStatus(currentData.cvr);
+    renderGraph();
+  }
+
+  function renderKPI(data) {
+    document.getElementById('kpi-sessions').textContent = fmt(data.sessions);
+    document.getElementById('kpi-cv').textContent = fmt(data.purchases);
+    document.getElementById('kpi-cvr').textContent = fmtPct(data.cvr, 2);
+  }
+
+  function renderTargets() {
+    document.getElementById('target-monthly-val').textContent = fmtPct(targets.monthly_cvr, 1);
+    document.getElementById('target-annual-val').textContent = fmtPct(targets.annual_cvr, 1);
+  }
+
+  function renderCVRStatus(cvr) {
+    if (!cvr) return;
+    function applyStatus(diff, badgeId, gapId, currentId) {
+      var badge = document.getElementById(badgeId);
+      var gap = document.getElementById(gapId);
+      var current = document.getElementById(currentId);
+      var absPt = Math.abs(diff * 100).toFixed(2);
+      var sign = diff >= 0 ? '▲' : '▼';
+      var color = diff >= 0 ? 'var(--green)' : diff >= -0.003 ? 'var(--amber)' : 'var(--red)';
+      badge.textContent = diff >= 0 ? '達成' : diff >= -0.003 ? '惜しい' : '未達';
+      badge.className = 'status-badge ' + (diff >= 0 ? 'status-ok' : diff >= -0.003 ? 'status-close' : 'status-ng');
+      if (current) current.textContent = '現状 ' + fmtPct(cvr, 2);
+      gap.textContent = sign + ' ' + absPt + 'pt';
+      gap.style.color = color;
+    }
+    applyStatus(cvr - targets.monthly_cvr, 'target-monthly-badge', 'target-monthly-gap', 'target-monthly-current');
+    applyStatus(cvr - targets.annual_cvr,  'target-annual-badge',  'target-annual-gap',  'target-annual-current');
+  }
+
+  function renderFunnel(data, weekObj) {
+    var f = data.funnel;
+    var r = data.conversion_rates;
+    // Overview counts
+    var keys = ['session_start','view_item','calendar_view','form_start','purchase'];
+    keys.forEach(function(k, i) {
+      var el = document.getElementById('foc-' + (i + 1));
+      if (el) el.textContent = fmt(f[k]);
+    });
+    // Rate bars
+    var rates = [
+      { id: '1-2', key: '1_to_2', from: 'session_start', to: 'view_item' },
+      { id: '2-3', key: '2_to_3', from: 'view_item', to: 'calendar_view' },
+      { id: '3-4', key: '3_to_4', from: 'calendar_view', to: 'form_start' },
+      { id: '4-5', key: '4_to_5', from: 'form_start', to: 'purchase' }
+    ];
+    rates.forEach(function(rd) {
+      var v = r[rd.key];
+      document.getElementById('rate-' + rd.id).textContent = fmtPct(v, 1);
+      var barPct = v != null ? Math.min(v * 100, 100) : 0;
+      document.getElementById('bar-' + rd.id).style.width = barPct + '%';
+      document.getElementById('cnt-' + rd.id).textContent = fmt(f[rd.from]) + ' → ' + fmt(f[rd.to]);
+    });
+    // Segment panels
+    if (weekObj && weekObj.segments) {
+      renderSegmentPanels(weekObj.segments, r['2_to_3']);
+    }
+  }
+
+  function renderSegmentPanels(segs, baseline23) {
+    var tier1 = segs.tier1_comparison_2_to_3;
+    var bl = tier1 ? (tier1.baseline || baseline23) : baseline23;
+
+    // Device tab: compare Mobile vs Desktop (Organic経由)
+    var deviceRows = [];
+    if (tier1) {
+      deviceRows = [
+        { name: 'Mobile', rate: tier1.mobile_organic, gap: tier1.mobile_organic != null ? (tier1.mobile_organic - bl) / bl : null },
+        { name: 'Desktop', rate: tier1.desktop_organic, gap: tier1.desktop_organic != null ? (tier1.desktop_organic - bl) / bl : null },
+        { name: '全体（ベースライン）', rate: bl, gap: 0 }
+      ];
+    }
+    renderSegTable('seg-device-body', deviceRows, bl);
+
+    // Channel tab: compare Organic vs Direct (Mobile経由)
+    var channelRows = [];
+    if (tier1) {
+      channelRows = [
+        { name: 'Organic Search', rate: tier1.mobile_organic, gap: tier1.mobile_organic != null ? (tier1.mobile_organic - bl) / bl : null },
+        { name: 'Direct', rate: tier1.mobile_direct, gap: tier1.mobile_direct != null ? (tier1.mobile_direct - bl) / bl : null },
+        { name: '全体（ベースライン）', rate: bl, gap: 0 }
+      ];
+    }
+    renderSegTable('seg-channel-body', channelRows, bl);
+
+    // New vs Returning
+    var nrRows = [];
+    var tier2nr = segs.tier2_new_returning_mobile_organic_2_to_3;
+    if (tier2nr) {
+      var bl2 = baseline23;
+      nrRows = [
+        { name: '新規ユーザー', rate: tier2nr.new_user, gap: tier2nr.new_user_vs_baseline },
+        { name: 'リピーター', rate: tier2nr.returning, gap: tier2nr.returning_vs_baseline },
+        { name: '全体（ベースライン）', rate: bl2, gap: 0 }
+      ];
+    }
+    renderSegTable('seg-nr-body', nrRows, baseline23);
+
+    // Area
+    var areaRows = [];
+    var tier2area = segs.tier2_area_mobile_organic_2_to_3;
+    if (tier2area) {
+      var areaMap = [
+        { label: 'Hawaii', key: 'hawaii', gapKey: 'hawaii_vs_baseline' },
+        { label: 'Bali', key: 'bali', gapKey: 'bali_vs_baseline' },
+        { label: 'Europe', key: 'europe', gapKey: 'europe_vs_baseline' }
+      ];
+      areaMap.forEach(function(a) {
+        if (tier2area[a.key] != null) {
+          areaRows.push({ name: a.label, rate: tier2area[a.key], gap: tier2area[a.gapKey] });
+        }
+      });
+      areaRows.push({ name: '全体（ベースライン）', rate: baseline23, gap: 0 });
+    }
+    renderSegTable('seg-area-body', areaRows, baseline23);
+  }
+
+  function renderSegTable(tbodyId, rows, baseline) {
+    var tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    tbody.innerHTML = rows.map(function(row) {
+      var barPct = baseline > 0 && row.rate != null ? Math.min((row.rate / baseline) * 50, 100) : 0;
+      var barColor = row.gap < -0.05 ? 'var(--red)' : row.gap > 0.05 ? 'var(--green)' : 'var(--text3)';
+      var gapTxt = row.gap === 0 ? '基準' : gapLabel(row.gap);
+      var gapCls = row.gap === 0 ? 'gap-neut' : gapClass(row.gap);
+      return '<tr><td class="seg-name">' + row.name + '</td>' +
+        '<td class="rate-val">' + fmtPct(row.rate, 1) + '</td>' +
+        '<td class="' + gapCls + '">' + gapTxt + '</td>' +
+        '<td class="bar-cell"><div class="seg-bar-bg"><div class="seg-bar-fill" style="width:' + barPct + '%;background:' + barColor + '"></div></div></td></tr>';
+    }).join('');
+  }
+
+  // ── Graph ─────────────────────────────────────────
+  function renderGraph() {
+    if (!reportsIndex) return;
+    var weeks = reportsIndex.weeks;
+    var points = [];
+    weeks.forEach(function(w) {
+      var d = weekDataCache[w.week_id];
+      if (d) points.push({ label: w.week_id.replace('2026-', ''), cvr: d.baseline.cvr });
+    });
+    if (!points.length) return;
+
+    var svg = document.getElementById('graph-svg');
+    var W = 800, H = 160, pad = { l: 10, r: 10, t: 20, b: 20 };
+    var maxCVR = Math.max(targets.annual_cvr * 1.3, Math.max.apply(null, points.map(function(p){ return p.cvr; })) * 1.15);
+    var minCVR = 0;
+
+    function xPos(i) { return points.length === 1 ? W / 2 : pad.l + (i / (points.length - 1)) * (W - pad.l - pad.r); }
+    function yPos(v) { return H - pad.b - ((v - minCVR) / (maxCVR - minCVR)) * (H - pad.t - pad.b); }
+
+    var pathD = points.map(function(p, i) { return (i === 0 ? 'M' : 'L') + xPos(i) + ',' + yPos(p.cvr); }).join(' ');
+    var targetY = yPos(targets.annual_cvr);
+    var targetYm = yPos(targets.monthly_cvr);
+
+    svg.innerHTML =
+      // Grid lines
+      '<line x1="' + pad.l + '" y1="' + yPos(targets.annual_cvr) + '" x2="' + (W - pad.r) + '" y2="' + yPos(targets.annual_cvr) + '" stroke="var(--border-dash)" stroke-width="1.5" stroke-dasharray="6,4"/>' +
+      '<line x1="' + pad.l + '" y1="' + yPos(targets.monthly_cvr) + '" x2="' + (W - pad.r) + '" y2="' + yPos(targets.monthly_cvr) + '" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,4"/>' +
+      // Area fill
+      (points.length > 1 ? '<path d="' + pathD + ' L' + xPos(points.length - 1) + ',' + (H - pad.b) + ' L' + xPos(0) + ',' + (H - pad.b) + ' Z" fill="rgba(232,66,63,0.07)"/>' : '') +
+      // Line
+      '<path d="' + pathD + '" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>' +
+      // Dots
+      points.map(function(p, i) {
+        return '<circle cx="' + xPos(i) + '" cy="' + yPos(p.cvr) + '" r="5" fill="var(--red)" stroke="#fff" stroke-width="2"/>' +
+          '<text x="' + xPos(i) + '" y="' + (yPos(p.cvr) - 10) + '" text-anchor="middle" font-size="11" font-family="DM Sans" font-weight="700" fill="var(--red)">' + fmtPct(p.cvr, 2) + '</text>';
+      }).join('') +
+      // Target labels
+      '<text x="' + (W - pad.r - 2) + '" y="' + (targetY - 4) + '" text-anchor="end" font-size="10" font-family="DM Sans" fill="var(--text3)">年間目標 ' + fmtPct(targets.annual_cvr, 1) + '</text>' +
+      '<text x="' + (W - pad.r - 2) + '" y="' + (targetYm - 4) + '" text-anchor="end" font-size="10" font-family="DM Sans" fill="var(--text3)">月次目標 ' + fmtPct(targets.monthly_cvr, 1) + '</text>';
+
+    // X labels
+    var xlabels = document.getElementById('graph-x-labels');
+    xlabels.innerHTML = '';
+    points.forEach(function(p) {
+      var el = document.createElement('span');
+      el.textContent = p.label;
+      xlabels.appendChild(el);
+    });
+
+    // Y labels
+    var ylabels = document.getElementById('graph-y-labels');
+    ylabels.innerHTML = '';
+    [maxCVR, (maxCVR + minCVR) / 2, minCVR].forEach(function(v) {
+      var el = document.createElement('span');
+      el.textContent = fmtPct(v, 1);
+      ylabels.appendChild(el);
+    });
+  }
+
+  // ── Archive block ─────────────────────────────────
+  function renderArchive() {
+    if (!reportsIndex) return;
+    var list = document.getElementById('bn-list');
+    var weeks = reportsIndex.weeks.slice().reverse();
+    list.innerHTML = weeks.map(function(w, i) {
+      var badge = i === 0 ? '<span class="bn-week-badge">最新週</span>' : '';
+      return '<div class="bn-week">' +
+        '<div class="bn-week-header">' +
+        '<span class="bn-week-id">' + w.week_id.replace('2026-', '') + '</span>' +
+        '<span class="bn-week-label">' + w.week_label + '</span>' +
+        badge +
+        '<a class="bn-week-link" href="' + w.path + '">レポートを見る →</a>' +
+        '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  function renderArchiveUpdated() {
+    fetch('/archive-meta.json').then(function(r) { return r.json(); }).then(function(d) {
+      var el = document.getElementById('archive-updated');
+      if (el && d.updatedAt) {
+        var dt = new Date(d.updatedAt);
+        el.textContent = '更新: ' + dt.getFullYear() + '/' + (dt.getMonth() + 1) + '/' + dt.getDate();
+      }
+    });
+  }
+
+})();
 </script>
 <script src="/nav.js"></script>
-<script src="/funnel-def.js"></script>
 </body>
 </html>
