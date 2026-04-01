@@ -87,18 +87,19 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .seg-tab{font-size:13px;font-weight:700;padding:8px 18px;cursor:pointer;background:var(--bg);color:var(--text3);border-right:1px solid var(--border);transition:background .15s,color .15s}
 .seg-tab:last-child{border-right:none}
 .seg-tab.active{background:var(--text);color:#fff}
-.seg-table{width:100%;border-collapse:collapse;font-size:15px}
-.seg-table th{text-align:left;font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;padding:10px 14px;border-bottom:2px solid var(--text);white-space:nowrap}
-.seg-table td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
-.seg-table tr:last-child td{border-bottom:none}
-.seg-table .seg-name{font-weight:700;font-size:15px}
-.seg-table .rate-val{font-family:'DM Sans';font-weight:700;font-size:16px}
-.seg-table .gap-pos{color:var(--green);font-weight:700}
-.seg-table .gap-neg{color:var(--red);font-weight:700}
-.seg-table .gap-neut{color:var(--text3)}
-.seg-table .bar-cell{width:120px}
-.seg-bar-bg{height:6px;background:var(--border);border-radius:3px;position:relative}
-.seg-bar-fill{height:6px;border-radius:3px;position:absolute;top:0;left:0}
+.seg-table{width:100%;border-collapse:collapse;font-size:14px}
+.seg-table th{text-align:right;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;padding:8px 12px;border-bottom:2px solid var(--text);white-space:nowrap}
+.seg-table th:first-child{text-align:left}
+.seg-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;text-align:right}
+.seg-table td:first-child{text-align:left}
+.seg-table tr:last-child td{border-bottom:none;background:var(--bg);font-style:italic}
+.seg-table .seg-name{font-weight:700;font-size:14px;white-space:nowrap}
+.seg-table .rate-cell{font-family:'DM Sans';font-weight:700;font-size:15px;color:var(--text)}
+.seg-table .rate-cell .rate-gap{display:block;font-size:10px;font-weight:700;font-family:inherit;letter-spacing:.02em;margin-top:1px}
+.seg-table .rate-cell .gap-pos{color:var(--green)}
+.seg-table .rate-cell .gap-neg{color:var(--red)}
+.seg-table .rate-cell .gap-neut{color:var(--text3)}
+.seg-table .cvr-cell{font-family:'DM Sans';font-weight:900;font-size:15px;color:var(--red)}
 .seg-panel{display:none}
 .seg-panel.active{display:block}
 .seg-note{font-size:13px;color:var(--text3);margin-top:12px;line-height:1.6}
@@ -253,7 +254,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
 <!-- Segment breakdown -->
 <div class="card">
-  <div class="sec-label">セグメント別 ②→③ 転換率</div>
+  <div class="sec-label">セグメント別 ファネル通過率</div>
   <hr class="divider-solid">
   <div class="seg-section">
 
@@ -267,37 +268,34 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <!-- Device panel -->
     <div class="seg-panel active" id="seg-device">
       <table class="seg-table">
-        <thead><tr><th>デバイス</th><th>②→③ 転換率</th><th>全体比</th><th class="bar-cell">相対値</th></tr></thead>
+        <thead><tr><th>デバイス</th><th>CVR</th><th>①→②</th><th>②→③</th><th>③→④</th><th>④→⑤</th></tr></thead>
         <tbody id="seg-device-body"></tbody>
       </table>
-      <div class="seg-note">※ Organic Search 経由での比較。</div>
     </div>
 
     <!-- Channel panel -->
     <div class="seg-panel" id="seg-channel">
       <table class="seg-table">
-        <thead><tr><th>チャネル</th><th>②→③ 転換率</th><th>全体比</th><th class="bar-cell">相対値</th></tr></thead>
+        <thead><tr><th>チャネル</th><th>CVR</th><th>①→②</th><th>②→③</th><th>③→④</th><th>④→⑤</th></tr></thead>
         <tbody id="seg-channel-body"></tbody>
       </table>
-      <div class="seg-note">※ Mobile 経由での比較。</div>
     </div>
 
     <!-- New vs Returning panel -->
     <div class="seg-panel" id="seg-new-returning">
       <table class="seg-table">
-        <thead><tr><th>ユーザー種別</th><th>②→③ 転換率</th><th>全体比</th><th class="bar-cell">相対値</th></tr></thead>
+        <thead><tr><th>ユーザー種別</th><th>CVR</th><th>①→②</th><th>②→③</th><th>③→④</th><th>④→⑤</th></tr></thead>
         <tbody id="seg-nr-body"></tbody>
       </table>
-      <div class="seg-note">※ Mobile × Organic の新規 / リピーター分解。</div>
     </div>
 
     <!-- Area panel -->
     <div class="seg-panel" id="seg-area">
       <table class="seg-table">
-        <thead><tr><th>エリア</th><th>CVR</th><th>全体比</th><th class="bar-cell">相対値</th></tr></thead>
+        <thead><tr><th>エリア</th><th>CVR</th><th colspan="4" style="text-align:center;font-style:italic;color:var(--text3)">ファネル段階データなし</th></tr></thead>
         <tbody id="seg-area-body"></tbody>
       </table>
-      <div class="seg-note">※ エリア別CVR（全チャネル・全デバイス合算）。</div>
+      <div class="seg-note">※ エリア別CVR（全チャネル・全デバイス合算）。ファネル段階別データは現在未取得。</div>
     </div>
 
   </div>
@@ -532,81 +530,96 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     }
   }
 
+  function segRowFromRates(name, rates, blRates) {
+    if (!rates) return null;
+    function gapSpan(val, blVal) {
+      if (val == null || blVal == null || blVal === 0) return '';
+      var g = (val - blVal) / blVal;
+      var cls = Math.abs(g) < 0.03 ? 'gap-neut' : g > 0 ? 'gap-pos' : 'gap-neg';
+      return '<span class="rate-gap ' + cls + '">' + gapLabel(g) + '</span>';
+    }
+    function cell(val, blVal) {
+      if (val == null) return '<td class="rate-cell" style="color:var(--text3)">—</td>';
+      return '<td class="rate-cell">' + fmtPct(val, 1) + gapSpan(val, blVal) + '</td>';
+    }
+    var isBaseline = (blRates === null);
+    var cvrCell = isBaseline
+      ? '<td class="cvr-cell">基準</td>'
+      : '<td class="cvr-cell">' + fmtPct(rates.cvr, 2) + gapSpan(rates.cvr, blRates ? blRates.cvr : null) + '</td>';
+    return '<tr>' +
+      '<td class="seg-name">' + name + '</td>' +
+      cvrCell +
+      (isBaseline ? '<td class="rate-cell">基準</td>' : cell(rates['1_to_2'], blRates && blRates['1_to_2'])) +
+      (isBaseline ? '<td class="rate-cell">基準</td>' : cell(rates['2_to_3'], blRates && blRates['2_to_3'])) +
+      (isBaseline ? '<td class="rate-cell">基準</td>' : cell(rates['3_to_4'], blRates && blRates['3_to_4'])) +
+      (isBaseline ? '<td class="rate-cell">基準</td>' : cell(rates['4_to_5'], blRates && blRates['4_to_5'])) +
+      '</tr>';
+  }
+
   function renderSegmentPanels(segs, baseline23) {
-    var bl = baseline23;
+    var blRates = window._currentWeekBaseline ? window._currentWeekBaseline.conversion_rates : null;
+    if (blRates) {
+      blRates = {
+        cvr: window._currentWeekBaseline.cvr,
+        '1_to_2': blRates['1_to_2'],
+        '2_to_3': blRates['2_to_3'],
+        '3_to_4': blRates['3_to_4'],
+        '4_to_5': blRates['4_to_5']
+      };
+    }
 
     // Device tab
-    var deviceRows = [];
+    var devRows = [];
     var devMap = [['Mobile', 'mobile'], ['Desktop', 'desktop'], ['Tablet', 'tablet']];
     if (segs.device) {
       devMap.forEach(function(d) {
         var seg = segs.device[d[1]];
-        if (seg && seg.rates && seg.rates['2_to_3'] != null) {
-          deviceRows.push({ name: d[0], rate: seg.rates['2_to_3'], gap: (seg.rates['2_to_3'] - bl) / bl });
-        }
+        if (seg && seg.rates) devRows.push(segRowFromRates(d[0], seg.rates, blRates));
       });
-      deviceRows.push({ name: '全体（ベースライン）', rate: bl, gap: 0 });
+      devRows.push(segRowFromRates('全体（ベースライン）', blRates, null));
     }
-    renderSegTable('seg-device-body', deviceRows, bl);
+    document.getElementById('seg-device-body').innerHTML = devRows.filter(Boolean).join('');
 
     // Channel tab: top channels by sessions
-    var channelRows = [];
+    var chRows = [];
     if (segs.channel) {
-      var chList = Object.keys(segs.channel).map(function(k) {
+      Object.keys(segs.channel).map(function(k) {
         return { name: k, data: segs.channel[k] };
       }).filter(function(c) {
-        return c.data.rates && c.data.rates['2_to_3'] != null && c.data.sessions > 10000;
-      }).sort(function(a, b) { return b.data.sessions - a.data.sessions; }).slice(0, 6);
-      chList.forEach(function(c) {
-        channelRows.push({ name: c.name, rate: c.data.rates['2_to_3'], gap: (c.data.rates['2_to_3'] - bl) / bl });
+        return c.data.rates && c.data.sessions > 10000;
+      }).sort(function(a, b) { return b.data.sessions - a.data.sessions; }).slice(0, 6).forEach(function(c) {
+        chRows.push(segRowFromRates(c.name, c.data.rates, blRates));
       });
-      channelRows.push({ name: '全体（ベースライン）', rate: bl, gap: 0 });
+      chRows.push(segRowFromRates('全体（ベースライン）', blRates, null));
     }
-    renderSegTable('seg-channel-body', channelRows, bl);
+    document.getElementById('seg-channel-body').innerHTML = chRows.filter(Boolean).join('');
 
     // New vs Returning
     var nrRows = [];
     if (segs.new_returning) {
       var nr = segs.new_returning;
-      if (nr['new'] && nr['new'].rates) nrRows.push({ name: '新規ユーザー', rate: nr['new'].rates['2_to_3'], gap: (nr['new'].rates['2_to_3'] - bl) / bl });
-      if (nr['returning'] && nr['returning'].rates) nrRows.push({ name: 'リピーター', rate: nr['returning'].rates['2_to_3'], gap: (nr['returning'].rates['2_to_3'] - bl) / bl });
-      nrRows.push({ name: '全体（ベースライン）', rate: bl, gap: 0 });
+      if (nr['new'] && nr['new'].rates) nrRows.push(segRowFromRates('新規ユーザー', nr['new'].rates, blRates));
+      if (nr['returning'] && nr['returning'].rates) nrRows.push(segRowFromRates('リピーター', nr['returning'].rates, blRates));
+      nrRows.push(segRowFromRates('全体（ベースライン）', blRates, null));
     }
-    renderSegTable('seg-nr-body', nrRows, baseline23);
+    document.getElementById('seg-nr-body').innerHTML = nrRows.filter(Boolean).join('');
 
-    // Area (CVRベース)
+    // Area (CVRのみ)
+    var baselineCvr = window._currentWeekBaseline ? window._currentWeekBaseline.cvr : null;
     var areaRows = [];
-    var baselineCvr = (function() {
-      var w = window._currentWeekBaseline;
-      return w ? w.cvr : null;
-    })();
     var areaOrder = [['Hawaii', 'hawaii'], ['Bali', 'bali'], ['Europe', 'europe'], ['Japan', 'japan'], ['その他', 'other']];
     if (segs.area) {
       areaOrder.forEach(function(a) {
         var seg = segs.area[a[1]];
         if (seg && seg.cvr != null) {
-          var gapVal = baselineCvr ? (seg.cvr - baselineCvr) / baselineCvr : null;
-          areaRows.push({ name: a[0], rate: seg.cvr, gap: gapVal });
+          var g = baselineCvr ? (seg.cvr - baselineCvr) / baselineCvr : null;
+          var gapSpan = g != null ? '<span class="rate-gap ' + (Math.abs(g) < 0.03 ? 'gap-neut' : g > 0 ? 'gap-pos' : 'gap-neg') + '">' + gapLabel(g) + '</span>' : '';
+          areaRows.push('<tr><td class="seg-name">' + a[0] + '</td><td class="cvr-cell">' + fmtPct(seg.cvr, 2) + gapSpan + '</td><td colspan="4" style="color:var(--text3);font-size:12px">—</td></tr>');
         }
       });
-      if (baselineCvr) areaRows.push({ name: '全体（ベースライン）', rate: baselineCvr, gap: 0 });
+      if (baselineCvr) areaRows.push('<tr><td class="seg-name">全体（ベースライン）</td><td class="cvr-cell">基準</td><td colspan="4"></td></tr>');
     }
-    renderSegTable('seg-area-body', areaRows, baselineCvr || bl);
-  }
-
-  function renderSegTable(tbodyId, rows, baseline) {
-    var tbody = document.getElementById(tbodyId);
-    if (!tbody) return;
-    tbody.innerHTML = rows.map(function(row) {
-      var barPct = baseline > 0 && row.rate != null ? Math.min((row.rate / baseline) * 50, 100) : 0;
-      var barColor = row.gap < -0.05 ? 'var(--red)' : row.gap > 0.05 ? 'var(--green)' : 'var(--text3)';
-      var gapTxt = row.gap === 0 ? '基準' : gapLabel(row.gap);
-      var gapCls = row.gap === 0 ? 'gap-neut' : gapClass(row.gap);
-      return '<tr><td class="seg-name">' + row.name + '</td>' +
-        '<td class="rate-val">' + fmtPct(row.rate, 1) + '</td>' +
-        '<td class="' + gapCls + '">' + gapTxt + '</td>' +
-        '<td class="bar-cell"><div class="seg-bar-bg"><div class="seg-bar-fill" style="width:' + barPct + '%;background:' + barColor + '"></div></div></td></tr>';
-    }).join('');
+    document.getElementById('seg-area-body').innerHTML = areaRows.join('');
   }
 
   // ── Graph ─────────────────────────────────────────
