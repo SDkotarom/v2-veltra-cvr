@@ -796,24 +796,47 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     document.getElementById('seg-area-body').innerHTML = areaRows.filter(Boolean).join('');
   }
 
-  // ── Graph (monthly from summary-data.json) ───────
+  // ── Graph (monthly from summary-data.json, weekly from weekDataCache) ──
   var _summaryCache = null;
   function renderGraph() {
-    if (_summaryCache) { _renderGraphData(_summaryCache); return; }
+    if (graphMode === 'weekly') {
+      _renderWeeklyGraph();
+      return;
+    }
+    if (_summaryCache) { _renderGraphPoints(_summaryCache); return; }
     fetch('/summary-data.json').then(function(r){ return r.json(); }).then(function(data){
       _summaryCache = data;
-      _renderGraphData(data);
+      _renderGraphPoints(data);
     }).catch(function(e){ console.error('summary-data.json load error', e); });
   }
-  function _renderGraphData(data) {
+
+  function _renderWeeklyGraph() {
+    if (!reportsIndex || !reportsIndex.weeks) return;
+    var points = [];
+    reportsIndex.weeks.forEach(function(w) {
+      var d = weekDataCache[w.week_id];
+      if (!d) return;
+      var wid = w.week_id; // e.g. "2026-W09"
+      var sessions = d.baseline.sessions;
+      var cvr = d.baseline.cvr;
+      points.push({ label: wid.replace(/^\d{4}-/, ''), cvr: cvr, sessions: sessions, fullLabel: wid });
+    });
+    if (!points.length) return;
+    _drawGraph(points, _summaryCache ? (_summaryCache.targets || targets) : targets);
+  }
+
+  function _renderGraphPoints(data) {
     var monthly = data.monthly || [];
     var graphTargets = data.targets || targets;
     var points = monthly.map(function(m) {
       var parts = m.month.split('-');
-      return { label: parts[0].slice(2) + '/' + parts[1], cvr: m.cvr, sessions: m.sessions };
+      return { label: parts[0].slice(2) + '/' + parts[1], cvr: m.cvr, sessions: m.sessions, fullLabel: m.month };
     });
     if (!points.length) return;
+    _drawGraph(points, graphTargets);
+  }
 
+  function _drawGraph(points, graphTargets) {
     var svg = document.getElementById('graph-svg');
     var W = 800, H = 200;
     var pad = { l: 8, r: 8, t: 24, b: 4 };
@@ -870,8 +893,39 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
           (showLabel ? '<text x="' + cx + '" y="' + (cy - 9) + '" text-anchor="middle" font-size="' + (n > 8 ? 9 : 11) + '" font-family="DM Sans" font-weight="700" fill="var(--red)">' + fmtPct(p.cvr, 2) + '</text>' : '');
       }).join('');
 
+    // Invisible hit areas for hover tooltips
+    var hitSvg = points.map(function(p, i) {
+      var cx = xCenter(i);
+      var hitX = cx - slotW / 2;
+      return '<rect x="' + hitX + '" y="0" width="' + slotW + '" height="' + H + '" fill="transparent" data-idx="' + i + '" style="cursor:crosshair"/>';
+    }).join('');
+
     svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-    svg.innerHTML = gridSvg + targetSvg + barSvg + lineSvg;
+    svg.innerHTML = gridSvg + targetSvg + barSvg + lineSvg + hitSvg;
+
+    // Tooltip interaction
+    var tooltip = document.getElementById('graph-tooltip');
+    var gtLabel = document.getElementById('gt-label');
+    var gtSessions = document.getElementById('gt-sessions');
+    var gtCvr = document.getElementById('gt-cvr');
+    svg.querySelectorAll('rect[data-idx]').forEach(function(el) {
+      el.addEventListener('mouseover', function() {
+        var idx = parseInt(el.getAttribute('data-idx'));
+        var p = points[idx];
+        if (!p) return;
+        gtLabel.textContent = p.fullLabel || p.label;
+        gtSessions.textContent = 'Sessions: ' + fmt(p.sessions);
+        gtCvr.textContent = 'CVR: ' + fmtPct(p.cvr, 2);
+        tooltip.style.display = 'block';
+      });
+      el.addEventListener('mousemove', function(e) {
+        tooltip.style.left = (e.clientX + 14) + 'px';
+        tooltip.style.top = (e.clientY - 10) + 'px';
+      });
+      el.addEventListener('mouseout', function() {
+        tooltip.style.display = 'none';
+      });
+    });
 
     // X labels
     var xl = document.getElementById('graph-x-labels');
