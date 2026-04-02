@@ -19,16 +19,50 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .callout{background:var(--red-light);border-left:4px solid var(--red);padding:20px 28px;margin:0 44px 32px;border-radius:0 8px 8px 0}
 .callout .ct{font-size:16px;font-weight:700;color:var(--red);margin-bottom:8px}
 .callout .cb{font-size:16px;color:var(--text2);line-height:1.8}
+.callout-green{background:var(--green-light);border-left:4px solid var(--green)}
+.callout-green .ct{color:var(--green)}
+.callout-amber{background:var(--amber-light);border-left:4px solid var(--amber)}
+.callout-amber .ct{color:var(--amber)}
 .footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
 .bn-tag{font-size:13px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid var(--border)}
 .bn-tag.red{background:var(--red-light);border-color:var(--red);color:var(--red)}
 .nav-bar{padding:16px 44px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
 .nav-bar a{font-size:14px;color:var(--red);text-decoration:none;font-weight:600}
 .nav-bar a:hover{text-decoration:underline}
-.placeholder{padding:60px 44px;text-align:center;color:var(--text3)}
-.placeholder .ph-icon{font-size:48px;margin-bottom:16px}
-.placeholder .ph-title{font-size:20px;font-weight:700;color:var(--text2);margin-bottom:8px}
-.placeholder .ph-desc{font-size:15px;line-height:1.7}
+.funnel-compare{padding:0 44px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fc-cell{border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.fc-cell.alert{border-color:var(--red);background:var(--red-light)}
+.fc-label{font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.fc-stage{font-size:15px;font-weight:700;margin:6px 0 4px}
+.fc-val{font-family:'DM Sans';font-size:20px;font-weight:700}
+.fc-val-label{font-size:11px;color:var(--text3)}
+.hypo-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.hypo-card{border:1px solid var(--border);border-radius:12px;padding:20px 24px;position:relative}
+.hypo-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:12px 0 0 12px}
+.hypo-card.h1::before{background:var(--red)}
+.hypo-card.h2::before{background:var(--amber)}
+.hypo-card.h3::before{background:var(--text3)}
+.hypo-num{font-family:'DM Sans';font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.hypo-card.h1 .hypo-num{color:var(--red)}
+.hypo-card.h2 .hypo-num{color:var(--amber)}
+.hypo-card.h3 .hypo-num{color:var(--text3)}
+.hypo-title{font-size:17px;font-weight:700;margin-bottom:8px;line-height:1.4}
+.hypo-body{font-size:14px;color:var(--text2);line-height:1.7}
+.hypo-evidence{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:13px}
+.hypo-evidence strong{color:var(--text);display:block;margin-bottom:4px}
+.action-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.action-card{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.action-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.action-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.action-impact{font-family:'DM Sans';font-size:14px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px}
+.action-body{padding:16px 20px}
+.action-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.action-desc{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.action-spec{background:var(--bg);border-radius:6px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6}
+.action-spec strong{color:var(--text);display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+@media(max-width:768px){
+  .funnel-compare,.hypo-grid,.action-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -36,7 +70,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div class="card">
   <div class="header-band">
     <div class="logo">V2</div>
-    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">← サマリーに戻る</a>
+    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">&larr; サマリーに戻る</a>
     <div class="right">ボトルネック #5 / 10</div>
   </div>
 
@@ -44,7 +78,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
       <div style="font-family:'DM Sans';font-size:56px;font-weight:900;color:var(--red);line-height:1">#5</div>
       <div>
-        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Organic Search — 検討から意向への転換率低下</div>
+        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Organic Search &mdash; 検討から意向への転換率低下</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="bn-tag red">③→④ 意向段階</span>
           <span class="bn-tag">Organic Search</span>
@@ -54,73 +88,225 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div style="display:flex;align-items:center;gap:16px;margin-top:16px">
       <div style="font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase">全体平均との乖離</div>
       <div style="font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red)">-30%</div>
-      <div style="font-size:14px;color:var(--text3)">対象セッション: 1,245,762</div>
+      <div style="font-size:14px;color:var(--text3)">影響セッション: 1,245,762 / 月</div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <div style="padding:24px 44px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">原因仮説</div>
+  <!-- Tier 1 比較 -->
+  <div style="padding:24px 44px 12px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Step 2-3 &mdash; Tier 1 比較：③→④ 意向転換率</div>
+  </div>
+  <div class="funnel-compare">
+    <div class="fc-cell">
+      <div class="fc-label">全体平均</div>
+      <div class="fc-stage">③→④ 意向</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">86.6%</div>
+      <div class="fc-val-label">ベースライン</div>
+    </div>
+    <div class="fc-cell alert">
+      <div class="fc-label" style="color:var(--red)">Organic Search</div>
+      <div class="fc-stage">③→④ 意向</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px;color:var(--red)">60.2%</div>
+      <div class="fc-val-label" style="color:var(--red)">-30% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Paid Search</div>
+      <div class="fc-stage">③→④ 意向</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">69.5%</div>
+      <div class="fc-val-label">vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Direct</div>
+      <div class="fc-stage">③→④ 意向</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">80.1%</div>
+      <div class="fc-val-label">vs 全体</div>
+    </div>
+  </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:24px">
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--red)">
-        <div style="font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;margin-bottom:6px">仮説 1（有力）</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:8px">カレンダー表示後の価格・空き状況による離脱</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">希望日程の空きなし、価格が期待と異なる。カレンダー到達後の実情報との不一致が意向段階への進行を阻んでいる。</div>
+  <!-- Tier 2 深掘り -->
+  <div style="padding:0 44px 20px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Step 4-5 &mdash; Tier 2-3 深掘り</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">デバイスで分解（Tier 2A）</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          Org &times; <strong style="color:var(--red)">Mobile ③→④: 50.4%</strong><br>
+          Org &times; Desktop ③→④: 83.4%
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ モバイルがデスクトップより33pt低く、問題がモバイルに集中。Mobile比率74%（923K/1,246K）と高い。</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--amber)">
-        <div style="font-size:12px;font-weight:700;color:var(--amber);text-transform:uppercase;margin-bottom:6px">仮説 2</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:8px">モバイル比率の高さとモバイルUIのフォーム遷移障壁</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">モバイル③→④が50.4%と大幅に低い。カレンダー選択からフォーム入力への導線がモバイルで特に機能していない。</div>
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">新規 / リピーターで分解（Tier 2B）</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          Org &times; <strong style="color:var(--red)">新規 ③→④: 52.7%</strong><br>
+          Org &times; リピーター ③→④: 63.9%
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ 新規・リピーターともに低水準。新規の方がさらに11pt低く比較行動が多いと推測。</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--text3)">
-        <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:6px">仮説 3</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:8px">比較検討のための複数タブ閲覧行動</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">複数商品を比較しフォームに進まない。SEO流入ユーザーの回遊・比較行動がフォーム到達を後回しにさせている。</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:0">
+    <div class="ct">特定結果</div>
+    <div class="cb"><strong>Organic Mobile ③→④ = 50.4%</strong>。カレンダーを見た <strong>84,916人</strong> のうち半数がフォームに進まず離脱。Mobile比率 <strong>74%</strong>（923K / 1,246K）と高く、モバイルのUX課題がチャネル全体の転換率を大きく押し下げている。全体平均 86.6% との乖離は <strong>-30%</strong>（全チャネル中最大）。</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Step 6: 仮説 -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Step 6 &mdash; 原因仮説 &times; 3</div>
+    <div style="font-size:15px;color:var(--text2)">なぜ Organic Search の ③→④ 意向転換率が低いか？</div>
+  </div>
+  <div class="hypo-grid">
+    <div class="hypo-card h1">
+      <div class="hypo-num">仮説 1（有力）</div>
+      <div class="hypo-title">カレンダー表示後の価格・空き状況による離脱</div>
+      <div class="hypo-body">Organicユーザーはカレンダーで日程・価格を確認した後フォームに進まず離脱。希望日程の空きなし、または価格が期待と異なるケースが多い。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        ③→④のgapが全チャネル中最大（-30%）。カレンダーで価格確認後に他サイトへ流出。Organic CVR=0.74%と全チャネル最低レベル。
+      </div>
+    </div>
+    <div class="hypo-card h2">
+      <div class="hypo-num">仮説 2</div>
+      <div class="hypo-title">モバイルUIのフォーム遷移障壁</div>
+      <div class="hypo-body">Organic Searchのモバイル比率は74%（923K/1246K）と高く、モバイルの③→④が50.4%とデスクトップ83.4%より33pt低い。モバイルでのカレンダー操作→フォーム遷移のUI障壁が大きい。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Mobile50.4% vs Desktop83.4%で33pt差。カレンダー選択→人数選択→フォーム遷移のステップ数がモバイルで障壁。
+      </div>
+    </div>
+    <div class="hypo-card h3">
+      <div class="hypo-num">仮説 3</div>
+      <div class="hypo-title">比較検討のための複数タブ閲覧</div>
+      <div class="hypo-body">Organic経由ユーザーは複数商品を比較するため、カレンダーを確認しても即座にフォームに進まず、他商品の日程・価格を確認する回遊行動をとっている。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Organic新規52.7% vs リピーター63.9%。新規は比較行動が多く、カレンダー確認=ブックマーク的行動の可能性。
       </div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <div style="padding:24px 44px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">打ち手候補</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 A</div>
-          <div style="font-family:'DM Sans';font-size:18px;font-weight:900;color:var(--green)">+5pt</div>
-        </div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">カレンダー表示時の空き状況・価格の視認性改善</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">空き状況・最低価格をカレンダー上で明示し、日程選択の判断を即時に行えるよう情報提示を最適化する。</div>
+  <!-- 打ち手 -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説1〜3に対する施策）</div>
+    <div style="font-size:15px;color:var(--text2)">カレンダー → フォーム遷移率を改善し、③→④を引き上げる</div>
+  </div>
+  <div class="action-grid">
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--red)">施策 A</div>
+        <div class="action-impact">③→④ +5pt</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 B</div>
-          <div style="font-family:'DM Sans';font-size:18px;font-weight:900;color:var(--green)">+4pt</div>
+      <div class="action-body">
+        <div class="action-title">空き状況・価格の視認性改善</div>
+        <div class="action-desc">カレンダー上で価格・空き情報をリアルタイム表示し、ユーザーが希望日程で即座に予約判断できるようにする。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・カレンダー上で日別価格を表示（最安日ハイライト）<br>
+          ・空きなし日程にはワンタップで代替日・代替商品を提案<br>
+          ・「この日程で予約可能」のリアルタイム表示
         </div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">モバイルカレンダー→フォーム遷移のUX改善</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">日程選択後のCTAを大型化・固定表示にし、スクロールなしでフォームへ進める導線をモバイルに最適化する。</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 C</div>
-          <div style="font-family:'DM Sans';font-size:18px;font-weight:900;color:var(--green)">+2pt</div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--amber)">施策 B</div>
+        <div class="action-impact">③→④ +4pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">モバイルカレンダー→フォームUX改善</div>
+        <div class="action-desc">モバイルでのカレンダー選択からフォーム入力までのステップ数を削減し、タップ数を最小化する。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・日程選択後に即フォーム入力画面へ自動遷移<br>
+          ・人数選択をカレンダー画面内に統合（タップ数削減）<br>
+          ・プログレスバー表示で完了までのステップを可視化
         </div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">お気に入り保存機能の強化と比較ビュー</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">複数商品をお気に入り保存し並べて比較できるビューを提供することで、回遊後のフォーム到達を促進する。</div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--text3)">施策 C</div>
+        <div class="action-impact">③→④ +2pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">お気に入り保存と比較ビュー</div>
+        <div class="action-desc">複数商品を比較検討するユーザーのために、カレンダー確認済み商品をワンタップで保存し、横並び比較→フォームへ直接遷移できる導線を作る。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・カレンダー確認済み商品のお気に入り保存をワンタップ化<br>
+          ・比較ビューから各商品の日程・価格を横並び表示<br>
+          ・比較ビューからフォームへの直接遷移ボタン設置
+        </div>
       </div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <div class="proto-tabs-target"></div>
+  <!-- 検証 -->
+  <div class="callout-amber callout">
+    <div class="ct">検証方法</div>
+    <div class="cb">ABテスト 2週間。対象: Organic Search 全体（Mobile優先）。<br>
+    主要指標: ③→④ 意向転換率（現状 60.2% → 目標 70%以上）。<br>
+    副次指標: ②→③ への影響、直帰率。<br>
+    施策Aと施策Bを優先実施し、効果確認後に施策Cへ展開。</div>
+  </div>
 
   <hr class="divider">
 
-  <div style="padding:24px 44px 32px">
+  <!-- 競合分析 -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のカレンダー→フォーム遷移比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">Organic Mobile 視点</span></div>
+    <div style="font-size:15px;color:var(--text2)">ボトルネックが「Organic Search &times; モバイル ③→④」のため、カレンダー〜フォーム遷移のUXを中心に比較。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Klook</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          カレンダーに日別価格を表示。日程選択後は即フォーム遷移。人数選択はカレンダー画面内で完結するため離脱ポイントがない。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: カレンダーに日別価格表示。選択→即フォーム遷移。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">GetYourGuide</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          空きなし日程を選択すると代替日が自動提案される。フローティングCTAボタンがカレンダー下部に常時表示され、フォームへ直結。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 空きなし→代替日自動提案。フローティングCTAでフォーム直結。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Viator</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          日付選択から1ステップでフォーム完了。ゲスト購入（アカウント不要）に対応しており、モバイルでの離脱要因を最小化。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 日付選択→1ステップでフォーム完了。ゲスト購入対応。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">KKday</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          比較リスト機能を搭載し、複数商品のカレンダー・価格を横並びで確認できる。カレンダー内で人数選択が完結するため遷移ステップが少ない。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 比較リスト機能。カレンダー内で人数選択完結。</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin:20px 0 0">
+      <div class="ct">競合比較から得られる示唆</div>
+      <div class="cb">競合4社はカレンダー→フォーム遷移のステップ数を最小化している。VELTRAはカレンダー選択後に人数・プラン再選択が必要で遷移が長い。施策A（価格・空き視認性）・施策B（モバイルUX改善）・施策C（比較ビュー）はいずれも競合のベストプラクティスと方向性が一致。特にKlookとGetYourGuideのカレンダーUI改善が最優先の参考事例。</div>
+    </div>
+  </div>
+
+  <!-- チームレビュー -->
+  <div style="padding:0 44px 32px">
     <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
       <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;font-size:14px;color:var(--text3)">
@@ -133,10 +319,11 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div>
 
   <div class="nav-bar">
-    <a href="bottleneck-4.html">← #4 に戻る</a>
+    <a href="bottleneck-4.html">&larr; #4 へ戻る</a>
     <a href="./">サマリーに戻る</a>
-    <a href="bottleneck-6.html">#6 へ進む →</a>
+    <a href="bottleneck-6.html">#6 へ進む &rarr;</a>
   </div>
+
 </div>
 
 <div class="card">
