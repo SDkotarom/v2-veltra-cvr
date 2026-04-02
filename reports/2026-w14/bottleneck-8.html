@@ -270,6 +270,220 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   <hr class="divider">
 
+  <!-- Prototype tabs -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">プロトタイプ &mdash; Before / After</div>
+    <div style="font-size:15px;color:var(--text2)">SNS広告 → LP SP版。Paid Social ①→② AC到達率の改善を狙う。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <!-- Tab bar -->
+    <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px">
+      <button onclick="switchProtoTab(this,'p8-tab-a')" class="proto-tab-btn active" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;border-bottom:2px solid var(--red);margin-bottom:-2px">施策 A</button>
+      <button onclick="switchProtoTab(this,'p8-tab-b')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 B</button>
+      <button onclick="switchProtoTab(this,'p8-tab-c')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 C</button>
+    </div>
+
+    <!-- ===== TAB A: 広告LP→商品詳細直リンク化 ===== -->
+    <div id="p8-tab-a" class="proto-panel" style="display:block">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase">施策 A</span><span style="font-size:15px;font-weight:700;margin-left:8px">広告LP→商品詳細直リンク化</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +5pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <!-- SNS広告 -->
+            <div style="background:linear-gradient(135deg,#1877f2,#42a5f5);padding:10px 16px;display:flex;align-items:center;gap:8px">
+              <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff">f</div>
+              <div style="font-size:12px;color:#fff;font-weight:700">Facebook広告</div>
+              <div style="margin-left:auto;background:rgba(255,255,255,.9);color:#1877f2;font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px">今すぐ予約</div>
+            </div>
+            <div style="height:160px;background:linear-gradient(135deg,#e3f2fd,#bbdefb);display:flex;align-items:center;justify-content:center">
+              <div style="text-align:center;color:#90a4ae;font-size:12px">広告クリエイティブ<br>（商品写真）</div>
+            </div>
+            <!-- TOPページへ遷移 -->
+            <div style="padding:10px 16px;border-bottom:1px solid #f0f0f0;background:linear-gradient(135deg,#E8423F,#f06060);display:flex;align-items:center;justify-content:space-between">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:16px;color:#fff">VELTRA</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.8)">TOPページ</div>
+            </div>
+            <div style="padding:12px 16px">
+              <div style="background:#f5f5f5;border-radius:6px;padding:8px 12px;font-size:12px;color:#999;margin-bottom:10px">行きたいエリアや体験を探す 🔍</div>
+              <div style="font-size:12px;font-weight:700;margin-bottom:6px">おすすめ特集</div>
+              <div style="display:flex;gap:6px;overflow:hidden">
+                <div style="min-width:80px;height:60px;border-radius:6px;background:#f0f0f0;flex-shrink:0"></div>
+                <div style="min-width:80px;height:60px;border-radius:6px;background:#f0f0f0;flex-shrink:0"></div>
+                <div style="min-width:80px;height:60px;border-radius:6px;background:#f0f0f0;flex-shrink:0"></div>
+              </div>
+            </div>
+            <div style="padding:4px 16px 10px;font-size:10px;color:var(--red);text-align:center;font-weight:500">広告→TOPページ。商品まで複数タップ必要。</div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策A適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <!-- SNS広告 -->
+            <div style="background:linear-gradient(135deg,#1877f2,#42a5f5);padding:10px 16px;display:flex;align-items:center;gap:8px">
+              <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff">f</div>
+              <div style="font-size:12px;color:#fff;font-weight:700">Facebook広告</div>
+              <div style="margin-left:auto;background:rgba(255,255,255,.9);color:#1877f2;font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px">今すぐ予約</div>
+            </div>
+            <div style="height:160px;background:linear-gradient(135deg,#e3f2fd,#bbdefb);display:flex;align-items:center;justify-content:center">
+              <div style="text-align:center;color:#90a4ae;font-size:12px">広告クリエイティブ<br>（商品写真）</div>
+            </div>
+            <!-- ACページへ直結 -->
+            <div style="height:100px;background:linear-gradient(135deg,#1a237e,#283593);display:flex;align-items:center;justify-content:center">
+              <div style="text-align:center;color:rgba(255,255,255,.7);font-size:11px">商品ヒーロー画像</div>
+            </div>
+            <div style="padding:10px 16px">
+              <div style="font-size:14px;font-weight:900;margin-bottom:4px;line-height:1.3">東京スカイツリー お台場クルーズ</div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+                <span style="color:#FFB300;font-size:12px">★ 4.74</span>
+                <span style="font-size:11px;color:var(--text3)">(86件)</span>
+                <span style="font-size:11px;color:var(--green);font-weight:700">空き◎</span>
+              </div>
+              <div style="font-size:18px;font-weight:900;color:var(--red);margin-bottom:8px">¥13,000〜</div>
+              <div style="background:var(--red);color:#fff;padding:10px;border-radius:8px;font-size:14px;font-weight:700;text-align:center">今すぐ予約する</div>
+            </div>
+            <div style="padding:4px 16px 10px;font-size:10px;color:var(--green);text-align:center;font-weight:500">広告→ACページ直結。商品画像+価格+予約CTA即表示。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB B: SNS専用LP ===== -->
+    <div id="p8-tab-b" class="proto-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--amber);text-transform:uppercase">施策 B</span><span style="font-size:15px;font-weight:700;margin-left:8px">SNS専用LP作成</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +3pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:10px 16px;display:flex;align-items:center;justify-content:space-between">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:16px;color:#fff">VELTRA</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.8)">通常ACページ</div>
+            </div>
+            <div style="height:120px;background:linear-gradient(135deg,#eceff1,#cfd8dc);display:flex;align-items:center;justify-content:center">
+              <div style="font-size:11px;color:#90a4ae">ヒーロー画像</div>
+            </div>
+            <div style="padding:12px 16px">
+              <div style="font-size:13px;font-weight:900;margin-bottom:6px;line-height:1.4">東京スカイツリー お台場クルーズ（詳細説明付き）</div>
+              <div style="font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:8px">東京の定番観光スポット、スカイツリーとお台場を船でめぐる特別なクルーズ体験です。添乗員付きで…（テキスト続く）</div>
+              <div style="font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:8px">料金に含まれるもの: ガイド料・乗船料・記念撮影…</div>
+              <div style="font-size:11px;color:var(--text3)">↓ さらにスクロールでプラン・カレンダー</div>
+            </div>
+            <div style="padding:4px 16px 10px;font-size:10px;color:var(--red);text-align:center;font-weight:500">通常ACページ。テキスト多く、SNSユーザーに不向き。</div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策B適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <!-- ビジュアルリッチLP -->
+            <div style="height:180px;background:linear-gradient(160deg,#1a237e 0%,#283593 50%,#0d47a1 100%);position:relative;display:flex;align-items:flex-end;padding:12px">
+              <div>
+                <div style="font-size:16px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:4px">東京スカイツリー<br>お台場クルーズ</div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="color:#FFB300;font-size:12px">★ 4.74</span>
+                  <span style="font-size:11px;color:rgba(255,255,255,.7)">(86件のレビュー)</span>
+                </div>
+              </div>
+            </div>
+            <div style="padding:12px 16px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                <div style="font-size:22px;font-weight:900;color:var(--red)">¥13,000〜</div>
+                <span style="font-size:11px;color:var(--green);font-weight:700;background:var(--green-light);padding:3px 8px;border-radius:12px">空きあり</span>
+              </div>
+              <!-- レビュー抜粋 -->
+              <div style="background:#f9f9f9;border-radius:8px;padding:8px 10px;margin-bottom:10px;font-size:11px;color:var(--text2);line-height:1.5">
+                <span style="color:#FFB300">★★★★★</span> 「最高の思い出になりました！」<br>
+                <span style="color:var(--text3)">— 田中さん（2026年3月）</span>
+              </div>
+              <!-- 折りたたみ -->
+              <div style="font-size:11px;color:var(--red);text-align:center;margin-bottom:10px">▼ 詳細を見る（料金・プラン・注意事項）</div>
+              <div style="background:var(--red);color:#fff;padding:12px;border-radius:8px;font-size:15px;font-weight:700;text-align:center">今すぐ予約する</div>
+            </div>
+            <div style="padding:4px 16px 10px;font-size:10px;color:var(--green);text-align:center;font-weight:500">大型写真+価格+レビュー+CTA。情報は折りたたみ。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB C: ターゲティング精度改善 ===== -->
+    <div id="p8-tab-c" class="proto-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 C</span><span style="font-size:15px;font-weight:700;margin-left:8px">ターゲティング精度改善</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +2pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff;padding:16px">
+            <div style="font-size:13px;font-weight:700;margin-bottom:12px;text-align:center">広告配信設定（現状）</div>
+            <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+              <div style="background:#f5f5f5;padding:8px 12px;font-size:11px;font-weight:700;color:var(--text3)">キャンペーン（統合）</div>
+              <div style="padding:10px 12px">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                  <div style="width:8px;height:8px;border-radius:50%;background:#9e9e9e;flex-shrink:0"></div>
+                  <div style="font-size:11px;color:var(--text2)">認知・検討・購入 <strong style="color:var(--red)">混在</strong></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                  <div style="width:8px;height:8px;border-radius:50%;background:#9e9e9e;flex-shrink:0"></div>
+                  <div style="font-size:11px;color:var(--text2)">ターゲット: 興味関心ベース（広範囲）</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="width:8px;height:8px;border-radius:50%;background:#9e9e9e;flex-shrink:0"></div>
+                  <div style="font-size:11px;color:var(--text2)">同一クリエイティブを全ステージに配信</div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:10px;font-size:10px;color:var(--red);text-align:center;font-weight:500">認知/検討/購入が混在。購買意欲ゼロのユーザーにも配信。</div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策C適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff;padding:16px">
+            <div style="font-size:13px;font-weight:700;margin-bottom:12px;text-align:center">キャンペーン分離（改善後）</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="border:1px solid #e3f2fd;border-radius:8px;padding:8px 12px;background:#e3f2fd">
+                <div style="font-size:11px;font-weight:700;color:#1565c0;margin-bottom:4px">認知キャンペーン</div>
+                <div style="font-size:10px;color:#1565c0">ブランド動画広告 / 広範囲リーチ</div>
+              </div>
+              <div style="border:1px solid #fff3e0;border-radius:8px;padding:8px 12px;background:#fff3e0">
+                <div style="font-size:11px;font-weight:700;color:#e65100;margin-bottom:4px">検討キャンペーン</div>
+                <div style="font-size:10px;color:#e65100">カルーセル広告 / エンゲージメント層</div>
+              </div>
+              <div style="border:1px solid var(--green-light);border-radius:8px;padding:8px 12px;background:var(--green-light)">
+                <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:4px">購入キャンペーン</div>
+                <div style="font-size:10px;color:var(--green)">リターゲティング / 購入者ベースLookalike</div>
+              </div>
+            </div>
+            <div style="margin-top:10px;font-size:10px;color:var(--green);text-align:center;font-weight:500">ステージ別配信でCVR最大化。購入意欲層にリターゲティング集中。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function switchProtoTab(btn,panelId){
+    btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.color='var(--text2)';b.style.borderBottomColor='transparent'});
+    btn.style.color='var(--red)';btn.style.borderBottomColor='var(--red)';
+    btn.closest('.card').querySelectorAll('.proto-panel').forEach(function(p){p.style.display='none'});
+    document.getElementById(panelId).style.display='block';
+  }
+  </script>
+
+  <hr class="divider">
+
   <!-- Competitive Analysis -->
   <div style="padding:24px 44px 16px">
     <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のSNS広告LP比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">Paid Social流入視点</span></div>
@@ -277,7 +491,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div>
 
   <div style="padding:0 44px 32px">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
       <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
         <div style="font-size:16px;font-weight:700;margin-bottom:10px">Klook</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
