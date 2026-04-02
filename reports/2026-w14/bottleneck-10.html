@@ -271,6 +271,220 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   <hr class="divider">
 
+  <!-- Prototype tabs -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">プロトタイプ &mdash; Before / After</div>
+    <div style="font-size:15px;color:var(--text2)">ディスプレイ広告 → LP SP版。Paid Other &times; Mobile ①→② AC到達率の改善を狙う。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <!-- Tab bar -->
+    <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px">
+      <button onclick="switchProtoTab(this,'p10-tab-a')" class="proto-tab-btn active" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;border-bottom:2px solid var(--red);margin-bottom:-2px">施策 A</button>
+      <button onclick="switchProtoTab(this,'p10-tab-b')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 B</button>
+      <button onclick="switchProtoTab(this,'p10-tab-c')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 C</button>
+    </div>
+
+    <!-- ===== TAB A: モバイル専用LP作成 ===== -->
+    <div id="p10-tab-a" class="proto-panel" style="display:block">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase">施策 A</span><span style="font-size:15px;font-weight:700;margin-left:8px">モバイル専用LP作成</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +4pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <!-- ディスプレイ広告 -->
+            <div style="background:linear-gradient(135deg,#4a148c,#7b1fa2);padding:10px 16px;display:flex;align-items:center;justify-content:space-between">
+              <div style="font-size:12px;color:#fff;font-weight:700">ディスプレイ広告</div>
+              <div style="background:rgba(255,255,255,.9);color:#4a148c;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px">詳しく見る</div>
+            </div>
+            <div style="height:100px;background:linear-gradient(135deg,#e8eaf6,#c5cae9);display:flex;align-items:center;justify-content:center">
+              <div style="font-size:10px;color:#7986cb;text-align:center">バナークリエイティブ</div>
+            </div>
+            <!-- 通常ページ（デスクトップ設計の縮小版） -->
+            <div style="padding:10px 16px;border-bottom:1px solid #f0f0f0;background:linear-gradient(135deg,#E8423F,#f06060);display:flex;align-items:center;justify-content:space-between">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:16px;color:#fff">VELTRA</div>
+              <div style="font-size:10px;color:rgba(255,255,255,.8)">通常ページ</div>
+            </div>
+            <div style="padding:10px 16px">
+              <div style="display:flex;gap:8px;font-size:10px;color:#999;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:8px">
+                <span>TOP</span><span>&gt;</span><span>東京</span><span>&gt;</span><span>観光</span><span>&gt;</span><span>ツアー</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+                <div style="height:50px;background:#f0f0f0;border-radius:4px"></div>
+                <div style="height:50px;background:#f0f0f0;border-radius:4px"></div>
+                <div style="height:50px;background:#f0f0f0;border-radius:4px"></div>
+                <div style="height:50px;background:#f0f0f0;border-radius:4px"></div>
+              </div>
+              <div style="font-size:10px;color:var(--red);text-align:center;font-weight:500">デスクトップ設計の縮小版。画像小・テキスト多・CTA見えない。</div>
+            </div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策A適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <!-- ディスプレイ広告 -->
+            <div style="background:linear-gradient(135deg,#4a148c,#7b1fa2);padding:10px 16px;display:flex;align-items:center;justify-content:space-between">
+              <div style="font-size:12px;color:#fff;font-weight:700">ディスプレイ広告</div>
+              <div style="background:rgba(255,255,255,.9);color:#4a148c;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px">詳しく見る</div>
+            </div>
+            <div style="height:100px;background:linear-gradient(135deg,#e8eaf6,#c5cae9);display:flex;align-items:center;justify-content:center">
+              <div style="font-size:10px;color:#7986cb;text-align:center">バナークリエイティブ</div>
+            </div>
+            <!-- モバイル専用LP -->
+            <div style="height:140px;background:linear-gradient(160deg,#1a237e 0%,#0d47a1 100%);display:flex;align-items:flex-end;padding:12px;position:relative">
+              <div>
+                <div style="font-size:15px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:4px">東京スカイツリー<br>お台場クルーズ</div>
+                <div style="font-size:11px;color:rgba(255,255,255,.8)"><span style="color:#FFB300">★</span> 4.74 (86件)</div>
+              </div>
+            </div>
+            <div style="padding:12px 16px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                <div style="font-size:20px;font-weight:900;color:var(--red)">¥13,000〜</div>
+                <span style="font-size:11px;color:var(--green);font-weight:700;background:var(--green-light);padding:3px 8px;border-radius:12px">空きあり</span>
+              </div>
+              <div style="background:var(--red);color:#fff;padding:12px;border-radius:8px;font-size:15px;font-weight:700;text-align:center">今すぐ予約する</div>
+            </div>
+            <div style="padding:4px 16px 10px;font-size:10px;color:var(--green);text-align:center;font-weight:500">大型画像+価格+CTA。読み込み高速（LCP 2.5秒以内）。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB B: 広告フォーマット見直し ===== -->
+    <div id="p10-tab-b" class="proto-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--amber);text-transform:uppercase">施策 B</span><span style="font-size:15px;font-weight:700;margin-left:8px">広告フォーマット見直し</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +2pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="padding:16px">
+              <div style="font-size:12px;font-weight:700;margin-bottom:10px;text-align:center">バナー広告（現状）</div>
+              <!-- バナー広告イメージ -->
+              <div style="border:1px solid #ddd;border-radius:8px;overflow:hidden;margin-bottom:8px">
+                <div style="height:120px;background:linear-gradient(135deg,#e3f2fd,#bbdefb);display:flex;align-items:center;justify-content:center;position:relative">
+                  <div style="text-align:center;color:#90a4ae;font-size:11px">バナー広告（静止画）<br>クリック領域が広い</div>
+                  <div style="position:absolute;top:0;left:0;right:0;bottom:0;border:3px dashed var(--red);border-radius:6px;opacity:0.5"></div>
+                </div>
+              </div>
+              <div style="background:var(--red-light);border:1px solid var(--red);border-radius:6px;padding:8px;font-size:11px;color:var(--red);text-align:center;margin-bottom:6px">
+                誤タップが多発 → 意図しないLP遷移
+              </div>
+              <div style="font-size:10px;color:var(--red);text-align:center;font-weight:500">静止画バナー。誤タップで品質の低いトラフィック流入。</div>
+            </div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策B適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="padding:16px">
+              <div style="font-size:12px;font-weight:700;margin-bottom:10px;text-align:center">インタラクティブ広告（改善後）</div>
+              <!-- インタラクティブ広告 -->
+              <div style="border:1px solid var(--green);border-radius:8px;overflow:hidden;margin-bottom:8px">
+                <div style="height:100px;background:linear-gradient(135deg,#1a237e,#0d47a1);display:flex;align-items:center;justify-content:center;position:relative">
+                  <div style="text-align:center;color:rgba(255,255,255,.8);font-size:11px">← スワイプで商品閲覧 →</div>
+                  <div style="position:absolute;bottom:8px;display:flex;gap:4px">
+                    <div style="width:16px;height:4px;border-radius:2px;background:#fff"></div>
+                    <div style="width:8px;height:4px;border-radius:2px;background:rgba(255,255,255,.4)"></div>
+                    <div style="width:8px;height:4px;border-radius:2px;background:rgba(255,255,255,.4)"></div>
+                  </div>
+                </div>
+                <div style="padding:8px 10px;background:#fff">
+                  <div style="font-size:11px;font-weight:700;margin-bottom:4px">東京スカイツリー お台場クルーズ</div>
+                  <div style="display:flex;align-items:center;justify-content:space-between">
+                    <div style="font-size:12px;font-weight:900;color:var(--red)">¥13,000〜</div>
+                    <div style="background:var(--red);color:#fff;padding:4px 10px;border-radius:4px;font-size:11px;font-weight:700">予約する</div>
+                  </div>
+                </div>
+              </div>
+              <div style="background:var(--green-light);border:1px solid var(--green);border-radius:6px;padding:8px;font-size:11px;color:var(--green);text-align:center;margin-bottom:6px">
+                「予約する」明示タップのみLP遷移
+              </div>
+              <div style="font-size:10px;color:var(--green);text-align:center;font-weight:500">スワイプで商品閲覧。誤タップゼロ、意図的クリックのみ。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB C: ターゲティング精度改善 ===== -->
+    <div id="p10-tab-c" class="proto-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 C</span><span style="font-size:15px;font-weight:700;margin-left:8px">ターゲティング精度改善</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +1pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff;padding:16px">
+            <div style="font-size:13px;font-weight:700;margin-bottom:12px;text-align:center">広告配信設定（現状）</div>
+            <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+              <div style="background:#f5f5f5;padding:8px 12px;font-size:11px;font-weight:700;color:var(--text3)">ディスプレイキャンペーン</div>
+              <div style="padding:10px 12px">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                  <div style="width:8px;height:8px;border-radius:50%;background:#9e9e9e;flex-shrink:0"></div>
+                  <div style="font-size:11px;color:var(--text2)">全ユーザーに <strong style="color:var(--red)">同一クリエイティブ</strong> を配信</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                  <div style="width:8px;height:8px;border-radius:50%;background:#9e9e9e;flex-shrink:0"></div>
+                  <div style="font-size:11px;color:var(--text2)">ゲームアプリ・子供向けサイトにも配信</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="width:8px;height:8px;border-radius:50%;background:#9e9e9e;flex-shrink:0"></div>
+                  <div style="font-size:11px;color:var(--text2)">クリック最適化入札（誤タップ多発）</div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:10px;font-size:10px;color:var(--red);text-align:center;font-weight:500">配信面の選別なし。購買意欲ゼロのユーザーにも大量配信。</div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策C適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff;padding:16px">
+            <div style="font-size:13px;font-weight:700;margin-bottom:12px;text-align:center">コンバージョン最適化（改善後）</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="border:1px solid var(--green-light);border-radius:8px;padding:8px 12px;background:var(--green-light)">
+                <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:4px">配信ターゲット</div>
+                <div style="font-size:10px;color:var(--green)">購入者ベースLookalike + 過去閲覧者リターゲティング</div>
+              </div>
+              <div style="border:1px solid #fff3e0;border-radius:8px;padding:8px 12px;background:#fff3e0">
+                <div style="font-size:11px;font-weight:700;color:#e65100;margin-bottom:4px">プレースメント除外</div>
+                <div style="font-size:10px;color:#e65100">ゲームアプリ・子供向けサイト・低品質サイトを除外</div>
+              </div>
+              <div style="border:1px solid #e3f2fd;border-radius:8px;padding:8px 12px;background:#e3f2fd">
+                <div style="font-size:11px;font-weight:700;color:#1565c0;margin-bottom:4px">入札戦略</div>
+                <div style="font-size:10px;color:#1565c0">コンバージョン最適化（CPA重視）に変更</div>
+              </div>
+            </div>
+            <div style="margin-top:10px;font-size:10px;color:var(--green);text-align:center;font-weight:500">購入者ベースLookalike+プレースメント除外でCPA改善。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function switchProtoTab(btn,panelId){
+    btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.color='var(--text2)';b.style.borderBottomColor='transparent'});
+    btn.style.color='var(--red)';btn.style.borderBottomColor='var(--red)';
+    btn.closest('.card').querySelectorAll('.proto-panel').forEach(function(p){p.style.display='none'});
+    document.getElementById(panelId).style.display='block';
+  }
+  </script>
+
+  <hr class="divider">
+
   <!-- Competitive Analysis -->
   <div style="padding:24px 44px 16px">
     <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のディスプレイ広告モバイルLP比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">Paid Other Mobile視点</span></div>
@@ -278,7 +492,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div>
 
   <div style="padding:0 44px 32px">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
       <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
         <div style="font-size:16px;font-weight:700;margin-bottom:10px">Klook</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
@@ -307,24 +521,25 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         </div>
         <div style="font-size:12px;color:var(--text3)">注目点: アプリディープリンクでモバイルUXを最適化しLP離脱を回避。</div>
       </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Activity Japan</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          ディスプレイ広告から商品詳細へ直結し、ページ上部に在庫リアルタイム表示と日付指定UIを固定配置。「空きあり」「残りわずか」バッジが即座に確認でき、モバイルでの購買意欲を逃さない設計。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 在庫リアルタイム表示と日付指定固定配置でモバイル流入ユーザーのAC到達を促進。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">アソビュー！</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          モバイルファースト設計のLP。「今日/明日遊べる」フィルターをファーストビュー内に配置し、スクロール1回で商品カードに到達できる導線。大型画像+価格+評価の3要素でモバイルでの購買判断を完結させる。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 「今日/明日遊べる」FVフィルターとモバイルファースト設計が施策Aのモバイル専用LP設計と方向性が一致。</div>
+      </div>
     </div>
 
     <div class="callout" style="margin:20px 0 0">
       <div class="ct">競合比較から得られる示唆</div>
-      <div class="cb">競合4社すべてがディスプレイ広告のモバイルLPをデスクトップと分離して設計している。VELTRAのPaid Other MobileはLP設計がデスクトップ流用と推定され、施策A（モバイル専用LP）は最優先で実施すべき施策。KlookとKKdayのアプリディープリンク戦略はアプリ普及率が高まれば中長期的な差別化施策として参考になる。</div>
-    </div>
-  </div>
-
-  <!-- Team review -->
-  <div style="padding:0 44px 32px">
-    <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
-      <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;font-size:14px;color:var(--text3)">
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">判断<br><strong style="font-size:18px">◎ / △ / ×</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">優先度<br><strong style="font-size:18px">高 / 中 / 低</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">担当<br><strong style="font-size:18px">_____</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">コメント<br><strong style="font-size:18px">_____</strong></div>
-      </div>
+      <div class="cb">競合6社すべてがディスプレイ広告のモバイルLPをデスクトップと分離して設計している。VELTRAのPaid Other MobileはLP設計がデスクトップ流用と推定され、施策A（モバイル専用LP）は最優先で実施すべき施策。Activity Japanの在庫リアルタイム表示とアソビューの「今日/明日遊べる」FVフィルターは、モバイル流入ユーザーの離脱防止に直結する参考事例として施策Aのコンテンツ設計に応用できる。</div>
     </div>
   </div>
 
