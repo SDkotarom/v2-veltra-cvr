@@ -264,10 +264,12 @@
     nav.appendChild(makeSep());
 
     // ■ ボトルネック分析
-    var bnLabel = document.createElement('div');
-    bnLabel.className = 'nav-label';
-    bnLabel.textContent = 'ボトルネック分析';
-    nav.appendChild(bnLabel);
+    var bnA = document.createElement('a');
+    bnA.href = currentWeekId ? '/reports/' + currentWeekId + '/' : (weeks && weeks.length ? weeks[weeks.length-1].path : '/');
+    bnA.className = 'nav-item' + (isWeekSummary ? ' nav-active' : '');
+    bnA.appendChild(makeIcon('bottleneck'));
+    bnA.appendChild(document.createTextNode('ボトルネック分析'));
+    nav.appendChild(bnA);
 
     if (weeks && weeks.length) {
       var sorted = weeks.slice().reverse();
