@@ -263,21 +263,278 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   <hr class="divider">
 
-  <!-- proto-tabs-target プレースホルダー -->
-  <div class="proto-tabs-target"></div>
+  <!-- Prototype tabs -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">プロトタイプ &mdash; Before / After</div>
+    <div style="font-size:15px;color:var(--text2)">TOPページ・マイページのSP版。Direct流入の①→②改善を狙う。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <!-- Tab bar -->
+    <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px">
+      <button onclick="switchProtoTab(this,'tab3-a')" class="proto-tab-btn active" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;border-bottom:2px solid var(--red);margin-bottom:-2px">施策 A</button>
+      <button onclick="switchProtoTab(this,'tab3-b')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 B</button>
+      <button onclick="switchProtoTab(this,'tab3-c')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 C</button>
+    </div>
+
+    <!-- ===== TAB A: パーソナライズレコメンド ===== -->
+    <div id="tab3-a" class="proto-panel" style="display:block">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase">施策 A</span><span style="font-size:15px;font-weight:700;margin-left:8px">TOPページのパーソナライズレコメンド強化</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +4pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:10px 16px;display:flex;align-items:center;gap:8px">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:16px;color:#fff">VELTRA</div>
+            </div>
+            <div style="padding:10px 16px;border-bottom:1px solid #f0f0f0">
+              <div style="background:#f5f5f5;border-radius:6px;padding:8px 12px;font-size:12px;color:#999">どこへ行きますか？ 🔍</div>
+            </div>
+            <div style="padding:10px 16px;border-bottom:1px solid #f0f0f0">
+              <div style="height:80px;background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#999">バナー</div>
+            </div>
+            <div style="padding:10px 16px;border-bottom:1px solid #f0f0f0">
+              <div style="font-size:12px;font-weight:700;margin-bottom:6px">最近チェックした商品</div>
+              <div style="display:flex;gap:8px;overflow:hidden">
+                <div style="min-width:100px;height:70px;border-radius:6px;background:#f0f0f0"></div>
+                <div style="min-width:100px;height:70px;border-radius:6px;background:#f0f0f0"></div>
+              </div>
+            </div>
+            <div style="padding:8px 16px 12px;font-size:10px;color:var(--red);text-align:center;font-weight:500">バナー → 最近チェック → 汎用おすすめの順。AC誘導が弱い</div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策A適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:10px 16px;display:flex;align-items:center;gap:8px">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:16px;color:#fff">VELTRA</div>
+            </div>
+            <div style="padding:10px 16px;border-bottom:1px solid #f0f0f0">
+              <div style="background:#f5f5f5;border-radius:6px;padding:8px 12px;font-size:12px;color:#999">どこへ行きますか？ 🔍</div>
+            </div>
+            <!-- Personalized carousel -->
+            <div style="padding:10px 16px;background:linear-gradient(to bottom,#fff5f5,#fff)">
+              <div style="font-size:13px;font-weight:900;color:var(--red);margin-bottom:8px">あなたへのおすすめ</div>
+              <div style="display:flex;gap:10px;overflow:hidden">
+                <div style="min-width:150px;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1);background:#fff">
+                  <div style="height:90px;background:linear-gradient(135deg,#e3f2fd,#bbdefb);position:relative">
+                    <span style="position:absolute;top:5px;left:5px;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px">閲覧履歴</span>
+                  </div>
+                  <div style="padding:6px 8px">
+                    <div style="font-size:10px;font-weight:700;line-height:1.3;margin-bottom:2px">東京スカイツリー お台場クルーズ</div>
+                    <div style="font-size:10px;color:var(--red);font-weight:900">¥13,000〜</div>
+                  </div>
+                </div>
+                <div style="min-width:150px;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1);background:#fff">
+                  <div style="height:90px;background:linear-gradient(135deg,#f3e5f5,#e1bee7)">
+                  </div>
+                  <div style="padding:6px 8px">
+                    <div style="font-size:10px;font-weight:700;line-height:1.3;margin-bottom:2px">浅草 人力車 120分コース</div>
+                    <div style="font-size:10px;color:var(--red);font-weight:900">¥5,000〜</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500">FVに閲覧履歴ベースのカルーセル → 即AC到達</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB B: マイページ誘導バナー ===== -->
+    <div id="tab3-b" class="proto-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--amber);text-transform:uppercase">施策 B</span><span style="font-size:15px;font-weight:700;margin-left:8px">マイページからの商品詳細誘導バナー</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +2pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:10px 16px">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:14px;color:#fff">マイページ</div>
+            </div>
+            <div style="padding:12px 16px;border-bottom:1px solid #f0f0f0">
+              <div style="font-size:12px;font-weight:700;margin-bottom:8px">予約一覧</div>
+              <div style="border:1px solid #eee;border-radius:8px;padding:10px">
+                <div style="font-size:11px;font-weight:700;margin-bottom:4px">東京スカイツリーツアー</div>
+                <div style="font-size:10px;color:#999">2026年3月15日 | 2名</div>
+                <div style="font-size:10px;color:var(--green);margin-top:2px">予約確定</div>
+              </div>
+            </div>
+            <div style="padding:12px 16px;border-bottom:1px solid #f0f0f0">
+              <div style="font-size:12px;font-weight:700;margin-bottom:4px">レビューを書く</div>
+              <div style="font-size:11px;color:#999">過去の体験を評価</div>
+            </div>
+            <div style="padding:8px 16px 12px;font-size:10px;color:var(--red);text-align:center;font-weight:500">予約一覧のみ。次の旅行への誘導がない</div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策B適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:10px 16px">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:14px;color:#fff">マイページ</div>
+            </div>
+            <div style="padding:12px 16px;border-bottom:1px solid #f0f0f0">
+              <div style="font-size:12px;font-weight:700;margin-bottom:8px">予約一覧</div>
+              <div style="border:1px solid #eee;border-radius:8px;padding:10px">
+                <div style="font-size:11px;font-weight:700;margin-bottom:4px">東京スカイツリーツアー</div>
+                <div style="font-size:10px;color:#999">2026年3月15日 | 2名</div>
+              </div>
+            </div>
+            <!-- Recommendation section -->
+            <div style="padding:12px 16px;background:var(--red-light)">
+              <div style="font-size:12px;font-weight:900;color:var(--red);margin-bottom:8px">旅行をもっと楽しむ</div>
+              <div style="display:flex;gap:8px;overflow:hidden">
+                <div style="min-width:100px;border-radius:8px;overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)">
+                  <div style="height:60px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9)"></div>
+                  <div style="padding:5px 6px">
+                    <div style="font-size:9px;font-weight:700;line-height:1.3">はとバス 東京観光</div>
+                    <div style="font-size:9px;color:var(--red);font-weight:900">¥2,000〜</div>
+                  </div>
+                </div>
+                <div style="min-width:100px;border-radius:8px;overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)">
+                  <div style="height:60px;background:linear-gradient(135deg,#fff3e0,#ffe0b2)"></div>
+                  <div style="padding:5px 6px">
+                    <div style="font-size:9px;font-weight:700;line-height:1.3">浅草 人力車 120分</div>
+                    <div style="font-size:9px;color:var(--red);font-weight:900">¥5,000〜</div>
+                  </div>
+                </div>
+                <div style="min-width:100px;border-radius:8px;overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)">
+                  <div style="height:60px;background:linear-gradient(135deg,#f3e5f5,#e1bee7)"></div>
+                  <div style="padding:5px 6px">
+                    <div style="font-size:9px;font-weight:700;line-height:1.3">東京ナイトクルーズ</div>
+                    <div style="font-size:9px;color:var(--red);font-weight:900">¥8,000〜</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500">関連エリア商品3件で次の旅行への遷移を促進</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB C: GA4計測改善 ===== -->
+    <div id="tab3-c" class="proto-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 C</span><span style="font-size:15px;font-weight:700;margin-left:8px">Direct流入のGA4計測精度改善</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +2pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（計測フロー）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff;padding:20px">
+            <div style="font-size:12px;font-weight:700;margin-bottom:12px;color:var(--text3)">現状の計測フロー</div>
+            <!-- Flow diagram -->
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="background:#f5f5f5;border-radius:6px;padding:8px 12px;font-size:11px;font-weight:700;text-align:center">session_start</div>
+              <div style="text-align:center;font-size:14px;color:#999">↓</div>
+              <div style="background:#f5f5f5;border-radius:6px;padding:8px 12px;font-size:11px;font-weight:700;text-align:center">page_view（TOP）</div>
+              <div style="text-align:center;font-size:14px;color:#999">↓</div>
+              <div style="background:var(--red-light);border:1px solid var(--red);border-radius:6px;padding:8px 12px;font-size:11px;font-weight:700;text-align:center;color:var(--red)">⚠️ ac_page_reach 欠落<br><span style="font-size:9px;font-weight:400">SPA遷移でpage_view未発火</span></div>
+              <div style="text-align:center;font-size:14px;color:#999">↓</div>
+              <div style="background:#f5f5f5;border-radius:6px;padding:8px 12px;font-size:11px;font-weight:700;text-align:center">calendar_view（計測できていない）</div>
+            </div>
+            <div style="margin-top:10px;font-size:10px;color:var(--red);text-align:center;font-weight:500">SPA遷移時のイベント欠損で①→②が過小計測</div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（計測修正後）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff;padding:20px">
+            <div style="font-size:12px;font-weight:700;margin-bottom:12px;color:var(--text3)">修正後の計測フロー</div>
+            <!-- Flow diagram fixed -->
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="background:#f5f5f5;border-radius:6px;padding:8px 12px;font-size:11px;font-weight:700;text-align:center">session_start</div>
+              <div style="text-align:center;font-size:14px;color:#999">↓</div>
+              <div style="background:#f5f5f5;border-radius:6px;padding:8px 12px;font-size:11px;font-weight:700;text-align:center">page_view（TOP）</div>
+              <div style="text-align:center;font-size:14px;color:#999">↓</div>
+              <div style="background:var(--green-light);border:1px solid var(--green);border-radius:6px;padding:8px 12px;font-size:11px;font-weight:700;text-align:center;color:var(--green)">✅ ac_page_reach 発火<br><span style="font-size:9px;font-weight:400">SPA history.pushState対応済み</span></div>
+              <div style="text-align:center;font-size:14px;color:#999">↓</div>
+              <div style="background:var(--green-light);border:1px solid var(--green);border-radius:6px;padding:8px 12px;font-size:11px;font-weight:700;text-align:center;color:var(--green)">✅ calendar_view 発火<br><span style="font-size:9px;font-weight:400">全イベント正常計測</span></div>
+            </div>
+            <div style="margin-top:10px;font-size:10px;color:var(--green);text-align:center;font-weight:500">SPA遷移対応でイベント全発火 → 実態を反映した計測</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function switchProtoTab(btn,panelId){
+    btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.color='var(--text2)';b.style.borderBottomColor='transparent'});
+    btn.style.color='var(--red)';btn.style.borderBottomColor='var(--red)';
+    btn.closest('.card').querySelectorAll('.proto-panel').forEach(function(p){p.style.display='none'});
+    document.getElementById(panelId).style.display='block';
+  }
+  </script>
 
   <hr class="divider">
 
-  <!-- チームレビュー欄 -->
-  <div style="padding:24px 44px 32px">
-    <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
-      <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;font-size:14px;color:var(--text3)">
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">判断<br><strong style="font-size:18px">◎ / △ / ×</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">優先度<br><strong style="font-size:18px">高 / 中 / 低</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">担当<br><strong style="font-size:18px">_____</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">コメント<br><strong style="font-size:18px">_____</strong></div>
+  <!-- Competitive Analysis -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のTOPページ比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">Direct流入視点</span></div>
+    <div style="font-size:15px;color:var(--text2)">ボトルネックが「Direct &times; 新規」のため、TOPページからACへの導線設計を中心に比較。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Klook</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          TOPページFVにパーソナライズカルーセル（閲覧・予約履歴ベース）。ログイン済みユーザーには「あなたへのおすすめ」が最上部に表示される。検索バーと同列にカテゴリ選択タブを配置。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: パーソナライズがFVを占有。Direct流入リピーターのAC到達率が高い設計。施策Aのモデルケース。</div>
       </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">GetYourGuide</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          TOPページに「Continue exploring」セクション。最近閲覧した商品・エリアへの再アクセスを促す。マイページにも「Saved」タブで商品ブックマーク機能を提供。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 閲覧継続の動線を複数用意。TOPとマイページの両方から商品へのショートカットが存在。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Viator</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          TOPページに「Recently viewed」カルーセルをFV内に配置。マイページ（My bookings）では過去予約エリアの関連商品をレコメンド表示。TripAdvisor連携で個人旅行プランに最適化した提案。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 過去予約情報をレコメンドに活用。施策Bのマイページ誘導バナーと設計思想が近い。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">KKday</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          TOPページFVに人気目的地タイル + 「今週のおすすめ」カルーセル。マイページには「あなたが好きそうなツアー」セクションを配置。価格帯フィルターをTOP段階から提供。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: マイページを単なる予約確認から商品発見の場として機能させている。施策Bの参考事例。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Activity Japan</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          TOPページに「よく見られているエリア」大型カードを配置。マイページには予約履歴に紐づく「このエリアの他のツアー」3件を表示。在庫リアルタイム表示で「今すぐ予約できる」商品を優先表示。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: マイページからの商品誘導とリアルタイム在庫表示の組み合わせが施策A+Bの複合実装として参考になる。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">アソビュー！</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          TOPページFVに「今日/明日遊べる」クイックフィルター + エリア別ランキングカルーセル。ログイン後TOPは「あなたへのおすすめ」がFVを占有。マイページに「次はどこへ行く？」レコメンドセクションを設置。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: Direct流入の既存ユーザーに対するパーソナライズが最も充実。施策A・Bの両方に対応した設計の好例。</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin:20px 0 0">
+      <div class="ct">競合比較から得られる示唆</div>
+      <div class="cb">主要競合6社すべてがTOPページとマイページに閲覧・予約履歴ベースのパーソナライズレコメンドを実装している。VELTRAのTOPは汎用おすすめのみで個人化が弱く、マイページは予約確認機能のみ。Direct流入（主にリピーター・アプリ起動）に対して商品への導線が薄いことがAC到達率の低さに直結している。施策A（パーソナライズレコメンド）・施策B（マイページ誘導）は競合全社が実装済みのベストプラクティスであり、優先度が高い。施策C（GA4計測改善）は実態把握のために先行して対応することで、施策A・Bの効果検証精度も向上する。</div>
     </div>
   </div>
 

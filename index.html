@@ -141,6 +141,18 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .bn-week-link{font-size:13px;font-weight:700;color:var(--red);text-decoration:none;margin-left:8px;border:1px solid var(--red);padding:3px 10px;border-radius:4px}
 .bn-week-link:hover{background:var(--red-light)}
 
+/* KPI tooltips */
+.kpi-tip{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--border);color:var(--text3);font-size:10px;font-weight:700;cursor:help;margin-left:6px;position:relative;vertical-align:middle}
+.kpi-tip:hover .kpi-tooltip{display:block}
+.kpi-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:10px 14px;border-radius:8px;font-size:12px;font-weight:400;line-height:1.6;white-space:nowrap;z-index:10;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.kpi-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--text)}
+
+/* Graph tooltip */
+.graph-tooltip{display:none;position:fixed;background:var(--text);color:#fff;padding:8px 14px;border-radius:8px;font-size:12px;line-height:1.5;z-index:100;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.graph-tooltip .gt-label{font-weight:700;margin-bottom:2px}
+.graph-tooltip .gt-row{display:flex;align-items:center;gap:6px}
+.graph-tooltip .gt-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
 @media(max-width:768px){.kpi-grid,.target-grid{grid-template-columns:1fr}.kpi-cell,.target-cell{border-right:none;border-bottom:1px solid var(--border)}.funnel-bar-grid{grid-template-columns:1fr 1fr}.funnel-ov-row{grid-template-columns:1fr}.funnel-ov-cell::after{display:none}}
 </style>
 </head>
@@ -150,10 +162,6 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div id="sticky-hdr">
   <div class="sh-logo">V2</div>
   <div class="sh-title">VELTRA CVR REPORT</div>
-  <div class="toggle-wrap">
-    <button class="toggle-btn active" id="sticky-btn-week" onclick="setMode('week')">最新週</button>
-    <button class="toggle-btn inactive" id="sticky-btn-month" onclick="setMode('month')">月次累計</button>
-  </div>
 </div>
 
 <div class="card">
@@ -162,31 +170,26 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="logo">V2</div>
       <div class="title">VELTRA CVR REPORT</div>
     </div>
-    <div class="toggle-wrap">
-      <button class="toggle-btn active" id="btn-week" onclick="setMode('week')">最新週</button>
-      <button class="toggle-btn inactive" id="btn-month" onclick="setMode('month')">月次累計</button>
-    </div>
   </div>
 
   <!-- Period label -->
-  <div style="padding:12px 44px;background:var(--bg);border-bottom:1px solid var(--border);font-size:13px;color:var(--text2)">
-    主要KPIサマリー　|　<span id="period-label">読み込み中...</span>
-  </div>
+  <div class="sec-label" style="padding-bottom:12px">主要KPIサマリー <span style="font-size:13px;font-weight:400;color:var(--text3);letter-spacing:0;text-transform:none;margin-left:12px" id="period-label">読み込み中...</span></div>
+  <hr class="divider-solid">
 
   <!-- KPI -->
   <div class="kpi-grid">
     <div class="kpi-cell">
-      <div class="kl">セッション数</div>
+      <div class="kl">セッション数 <span class="kpi-tip">?<span class="kpi-tooltip">GA4 metric: sessions<br>サイト訪問の総数（30分無操作でリセット）</span></span></div>
       <div class="kv" id="kpi-sessions">—</div>
       <div class="ks" id="kpi-sessions-sub"></div>
     </div>
     <div class="kpi-cell">
-      <div class="kl">CV数（予約完了）</div>
+      <div class="kl">CV数（予約完了） <span class="kpi-tip">?<span class="kpi-tooltip">GA4 event: purchase<br>予約完了イベントの発生数</span></span></div>
       <div class="kv" id="kpi-cv">—</div>
       <div class="ks" id="kpi-cv-sub"></div>
     </div>
     <div class="kpi-cell highlight">
-      <div class="kl">CVR</div>
+      <div class="kl">CVR <span class="kpi-tip">?<span class="kpi-tooltip">計算式: purchases ÷ sessions<br>セッションあたりの予約完了率</span></span></div>
       <div class="kv" id="kpi-cvr">—</div>
       <div class="ks" id="kpi-cvr-sub"></div>
     </div>
@@ -198,7 +201,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   <div class="target-grid">
     <div class="target-cell">
       <div>
-        <div class="tl">月次目標CVR</div>
+        <div class="tl">月次目標CVR <span class="kpi-tip">?<span class="kpi-tooltip">当月のCVR目標値<br>reports-index.json で設定</span></span></div>
         <div class="tv" id="target-monthly-val" style="color:var(--text3)">—</div>
         <div style="font-size:13px;color:var(--text2);margin-top:6px" id="target-monthly-current"></div>
       </div>
@@ -209,7 +212,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     </div>
     <div class="target-cell">
       <div>
-        <div class="tl">年間目標CVR</div>
+        <div class="tl">年間目標CVR <span class="kpi-tip">?<span class="kpi-tooltip">年間累計のCVR目標値<br>reports-index.json で設定</span></span></div>
         <div class="tv" id="target-annual-val" style="color:var(--text3)">—</div>
         <div style="font-size:13px;color:var(--text2);margin-top:6px" id="target-annual-current"></div>
       </div>
@@ -226,9 +229,15 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
 <!-- Annual trend graph -->
 <div class="card">
-  <div class="graph-wrap">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:28px 44px 12px">
+    <div class="sec-label" style="padding:0">セッション数 &amp; CVR推移</div>
+    <div class="funnel-mode-toggle">
+      <button class="fmt-btn active" id="graph-mode-monthly" onclick="setGraphMode('monthly')">月次</button>
+      <button class="fmt-btn inactive" id="graph-mode-weekly" onclick="setGraphMode('weekly')">週次</button>
+    </div>
+  </div>
+  <div class="graph-wrap" style="padding-top:12px">
     <div class="graph-header">
-      <div class="graph-title">セッション数 &amp; CVR推移</div>
       <div class="graph-legend">
         <div class="lg-item"><div class="lg-bar" style="background:rgba(232,66,63,0.22);border:1.5px solid rgba(232,66,63,0.5)"></div>セッション数</div>
         <div class="lg-item"><div class="lg-dot" style="background:var(--red)"></div>CVR</div>
@@ -244,6 +253,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="graph-labels-x" id="graph-x-labels"></div>
     </div>
   </div>
+</div>
+
+<!-- Graph hover tooltip -->
+<div class="graph-tooltip" id="graph-tooltip">
+  <div class="gt-label" id="gt-label"></div>
+  <div class="gt-row"><div class="gt-dot" style="background:rgba(232,66,63,0.4)"></div><span id="gt-sessions"></span></div>
+  <div class="gt-row"><div class="gt-dot" style="background:var(--red)"></div><span id="gt-cvr"></span></div>
 </div>
 
 <!-- Funnel pass rates -->
@@ -370,8 +386,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
 <script>
 (function() {
-  var mode = 'week'; // 'week' or 'month'
   var funnelMode = '28d'; // '28d' or '7d'
+  var graphMode = 'monthly'; // 'monthly' or 'weekly'
   var reportsIndex = null;
   var weekDataCache = {};
   var currentData = null; // aggregated or single week
@@ -399,16 +415,14 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     return s + (v * 100).toFixed(0) + '%';
   }
 
-  // ── Mode toggle ─────────────────────────────────
-  window.setMode = function(m) {
-    mode = m;
-    ['btn-week', 'sticky-btn-week'].forEach(function(id) {
-      var el = document.getElementById(id); if (el) el.className = 'toggle-btn ' + (m === 'week' ? 'active' : 'inactive');
-    });
-    ['btn-month', 'sticky-btn-month'].forEach(function(id) {
-      var el = document.getElementById(id); if (el) el.className = 'toggle-btn ' + (m === 'month' ? 'active' : 'inactive');
-    });
-    renderAll();
+  // ── Graph mode toggle ────────────────────────────
+  window.setGraphMode = function(m) {
+    graphMode = m;
+    var mBtn = document.getElementById('graph-mode-monthly');
+    var wBtn = document.getElementById('graph-mode-weekly');
+    if (mBtn) mBtn.className = 'fmt-btn ' + (m === 'monthly' ? 'active' : 'inactive');
+    if (wBtn) wBtn.className = 'fmt-btn ' + (m === 'weekly' ? 'active' : 'inactive');
+    renderGraph();
   };
 
   // ── Sticky header on scroll ──────────────────────
@@ -520,22 +534,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     var latest = weeks[weeks.length - 1];
     if (!weekDataCache[latest.week_id]) return;
 
-    if (mode === 'week') {
-      currentData = weekDataCache[latest.week_id].baseline;
-      var meta = weekDataCache[latest.week_id].meta;
-      var ds = meta.date_start ? meta.date_start.replace(/-/g, '/').replace(/\/0/g, '/') : '';
-      var de = meta.date_end   ? meta.date_end.replace(/-/g, '/').replace(/\/0/g, '/')   : '';
-      document.getElementById('period-label').textContent = '対象期間：' + ds + '〜' + de;
-      renderKPI(currentData);
-      renderFunnel(currentData, weekDataCache[latest.week_id]);
-    } else {
-      var agg = aggregateMonthly();
-      if (!agg) return;
-      currentData = agg;
-      document.getElementById('period-label').textContent = '月次累計（' + agg._weekCount + '週分の合算）';
-      renderKPI(agg);
-      renderFunnel(agg, null);
-    }
+    currentData = weekDataCache[latest.week_id].baseline;
+    var meta = weekDataCache[latest.week_id].meta;
+    var ds = meta.date_start ? meta.date_start.replace(/-/g, '/').replace(/\/0/g, '/') : '';
+    var de = meta.date_end   ? meta.date_end.replace(/-/g, '/').replace(/\/0/g, '/')   : '';
+    document.getElementById('period-label').textContent = '対象期間：' + ds + '〜' + de;
+    renderKPI(currentData);
+    renderFunnel(currentData, weekDataCache[latest.week_id]);
 
     renderCVRStatus(currentData.cvr);
     renderGraph();

@@ -270,6 +270,223 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   <hr class="divider">
 
+  <!-- Prototype tabs -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">プロトタイプ &mdash; Before / After</div>
+    <div style="font-size:15px;color:var(--text2)">メール → 予約フォーム SP版。Email ④→⑤ 購入完了率の改善を狙う。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <!-- Tab bar -->
+    <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px">
+      <button onclick="switchProtoTab(this,'p9-tab-a')" class="proto-tab-btn active" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;border-bottom:2px solid var(--red);margin-bottom:-2px">施策 A</button>
+      <button onclick="switchProtoTab(this,'p9-tab-b')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 B</button>
+      <button onclick="switchProtoTab(this,'p9-tab-c')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 C</button>
+    </div>
+
+    <!-- ===== TAB A: シームレスログイン ===== -->
+    <div id="p9-tab-a" class="proto-panel" style="display:block">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase">施策 A</span><span style="font-size:15px;font-weight:700;margin-left:8px">シームレスログイン</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">④→⑤ +2pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <!-- メール -->
+            <div style="background:linear-gradient(135deg,#37474f,#546e7a);padding:10px 16px;display:flex;align-items:center;gap:8px">
+              <div style="width:24px;height:24px;border-radius:4px;background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff">✉</div>
+              <div style="font-size:12px;color:#fff;font-weight:700">VELTRAからのメール</div>
+            </div>
+            <div style="padding:12px 16px;border-bottom:1px solid #f0f0f0">
+              <div style="font-size:12px;font-weight:700;margin-bottom:6px">東京スカイツリーお台場クルーズをチェックしました</div>
+              <div style="font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:10px">まだ予約がお済みでないですか？今なら空きがあります。</div>
+              <div style="background:var(--red);color:#fff;padding:10px;border-radius:8px;font-size:13px;font-weight:700;text-align:center">今すぐ予約する →</div>
+            </div>
+            <!-- ログイン画面 -->
+            <div style="padding:12px 16px;background:#fafafa;border-bottom:1px solid #f0f0f0">
+              <div style="font-size:12px;font-weight:700;margin-bottom:8px;color:var(--text)">ログイン</div>
+              <div style="background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px 10px;font-size:11px;color:#999;margin-bottom:6px">メールアドレス</div>
+              <div style="background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px 10px;font-size:11px;color:#999;margin-bottom:8px">パスワード</div>
+              <div style="background:#555;color:#fff;padding:8px;border-radius:6px;font-size:12px;font-weight:700;text-align:center">ログイン</div>
+            </div>
+            <!-- フォーム -->
+            <div style="padding:8px 16px 12px">
+              <div style="font-size:11px;color:var(--text3);margin-bottom:4px">ログイン後 → 予約フォームへ</div>
+              <div style="font-size:10px;color:var(--red);font-weight:500">メール → ログイン → フォーム（3ステップ）</div>
+            </div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策A適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <!-- メール -->
+            <div style="background:linear-gradient(135deg,#37474f,#546e7a);padding:10px 16px;display:flex;align-items:center;gap:8px">
+              <div style="width:24px;height:24px;border-radius:4px;background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff">✉</div>
+              <div style="font-size:12px;color:#fff;font-weight:700">VELTRAからのメール</div>
+            </div>
+            <div style="padding:12px 16px;border-bottom:1px solid #f0f0f0">
+              <div style="font-size:12px;font-weight:700;margin-bottom:6px">東京スカイツリーお台場クルーズをチェックしました</div>
+              <div style="font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:10px">まだ予約がお済みでないですか？今なら空きがあります。</div>
+              <div style="background:var(--red);color:#fff;padding:10px;border-radius:8px;font-size:13px;font-weight:700;text-align:center">今すぐ予約する（ログイン不要）→</div>
+              <div style="font-size:10px;color:var(--text3);text-align:center;margin-top:4px">トークン付きURLで自動ログイン</div>
+            </div>
+            <!-- 直接フォーム -->
+            <div style="padding:12px 16px;background:#f0fdf4">
+              <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:8px">予約フォーム（自動ログイン済み）</div>
+              <div style="background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px 10px;font-size:11px;color:#888;margin-bottom:6px">参加日: 2026年4月15日</div>
+              <div style="background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px 10px;font-size:11px;color:#888;margin-bottom-8px">参加人数: 大人2名</div>
+              <div style="background:var(--red);color:#fff;padding:10px;border-radius:8px;font-size:13px;font-weight:700;text-align:center;margin-top:8px">予約を確定する</div>
+            </div>
+            <div style="padding:4px 16px 10px;font-size:10px;color:var(--green);text-align:center;font-weight:500">メール → フォーム直結（1ステップ）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB B: フォーム簡略化（ゲスト購入）===== -->
+    <div id="p9-tab-b" class="proto-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--amber);text-transform:uppercase">施策 B</span><span style="font-size:15px;font-weight:700;margin-left:8px">フォーム簡略化（ゲスト購入）</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">④→⑤ +1.5pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:10px 16px;display:flex;align-items:center;justify-content:space-between">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:16px;color:#fff">VELTRA</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.8)">予約フォーム</div>
+            </div>
+            <div style="padding:12px 16px">
+              <div style="font-size:12px;font-weight:700;margin-bottom:8px">お客様情報の入力</div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="background:#f5f5f5;border-radius:6px;padding:7px 10px;font-size:11px;color:#888">お名前（必須）</div>
+                <div style="background:#f5f5f5;border-radius:6px;padding:7px 10px;font-size:11px;color:#888">メールアドレス（必須）</div>
+                <div style="background:#f5f5f5;border-radius:6px;padding:7px 10px;font-size:11px;color:#888">電話番号（必須）</div>
+                <div style="background:#f5f5f5;border-radius:6px;padding:7px 10px;font-size:11px;color:#888">住所（必須）</div>
+                <div style="background:#f5f5f5;border-radius:6px;padding:7px 10px;font-size:11px;color:#888">パスワード（必須）</div>
+                <div style="background:#f5f5f5;border-radius:6px;padding:7px 10px;font-size:11px;color:#888">会員登録に同意する</div>
+              </div>
+              <div style="font-size:10px;color:var(--red);text-align:center;margin-top:8px;font-weight:500">入力項目多い。会員登録必須で離脱多発。</div>
+            </div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策B適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:10px 16px;display:flex;align-items:center;justify-content:space-between">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:16px;color:#fff">VELTRA</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.8)">ゲスト購入</div>
+            </div>
+            <!-- プログレスバー -->
+            <div style="padding:10px 16px;background:#f9f9f9;border-bottom:1px solid #eee">
+              <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px">
+                <div style="flex:1;height:4px;border-radius:2px;background:var(--red)"></div>
+                <div style="flex:1;height:4px;border-radius:2px;background:#ddd"></div>
+                <div style="flex:1;height:4px;border-radius:2px;background:#ddd"></div>
+              </div>
+              <div style="font-size:10px;color:var(--text3)">ステップ 1/3 — お客様情報</div>
+            </div>
+            <div style="padding:12px 16px">
+              <div style="font-size:12px;font-weight:700;margin-bottom:8px">ゲスト購入（会員登録不要）</div>
+              <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
+                <div style="background:#f5f5f5;border-radius:6px;padding:7px 10px;font-size:11px;color:#888">お名前（必須）</div>
+                <div style="background:#f5f5f5;border-radius:6px;padding:7px 10px;font-size:11px;color:#888">メールアドレス（必須）</div>
+              </div>
+              <div style="background:var(--red);color:#fff;padding:10px;border-radius:8px;font-size:13px;font-weight:700;text-align:center">次へ（支払い情報）→</div>
+              <div style="font-size:10px;color:var(--text3);text-align:center;margin-top:6px">購入後にアカウント作成できます</div>
+            </div>
+            <div style="padding:4px 16px 10px;font-size:10px;color:var(--green);text-align:center;font-weight:500">名前+メールのみ。プログレスバーで残量可視化。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB C: リアルタイム在庫連動メール ===== -->
+    <div id="p9-tab-c" class="proto-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 C</span><span style="font-size:15px;font-weight:700;margin-left:8px">リアルタイム在庫連動メール</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">④→⑤ +1pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="background:linear-gradient(135deg,#37474f,#546e7a);padding:10px 16px;display:flex;align-items:center;gap:8px">
+              <div style="width:24px;height:24px;border-radius:4px;background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff">✉</div>
+              <div style="font-size:12px;color:#fff;font-weight:700">VELTRAからのメール</div>
+            </div>
+            <div style="padding:12px 16px">
+              <div style="font-size:12px;font-weight:700;margin-bottom:8px">おすすめのアクティビティ</div>
+              <div style="border:1px solid #eee;border-radius:8px;overflow:hidden;margin-bottom:8px">
+                <div style="height:80px;background:linear-gradient(135deg,#e3f2fd,#bbdefb);display:flex;align-items:center;justify-content:center">
+                  <div style="font-size:10px;color:#90a4ae">商品画像（固定）</div>
+                </div>
+                <div style="padding:8px">
+                  <div style="font-size:11px;font-weight:700;margin-bottom:4px">東京スカイツリー お台場クルーズ</div>
+                  <div style="font-size:12px;font-weight:900;color:var(--red)">¥13,000〜</div>
+                </div>
+              </div>
+              <div style="background:var(--red);color:#fff;padding:8px;border-radius:6px;font-size:12px;font-weight:700;text-align:center">予約する</div>
+              <div style="font-size:10px;color:var(--red);text-align:center;margin-top:6px;font-weight:500">固定コンテンツ。クリック時に売切れの可能性。</div>
+            </div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策C適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="background:linear-gradient(135deg,#37474f,#546e7a);padding:10px 16px;display:flex;align-items:center;gap:8px">
+              <div style="width:24px;height:24px;border-radius:4px;background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff">✉</div>
+              <div style="font-size:12px;color:#fff;font-weight:700">VELTRAからのメール</div>
+            </div>
+            <div style="padding:12px 16px">
+              <div style="font-size:12px;font-weight:700;margin-bottom:8px">今すぐ予約できるアクティビティ</div>
+              <div style="border:1px solid var(--green);border-radius:8px;overflow:hidden;margin-bottom:8px">
+                <div style="height:80px;background:linear-gradient(135deg,#e3f2fd,#bbdefb);display:flex;align-items:center;justify-content:center;position:relative">
+                  <div style="font-size:10px;color:#90a4ae">商品画像</div>
+                  <span style="position:absolute;top:6px;right:6px;background:var(--green);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px">空きあり</span>
+                </div>
+                <div style="padding:8px">
+                  <div style="font-size:11px;font-weight:700;margin-bottom:4px">東京スカイツリー お台場クルーズ</div>
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <div style="font-size:12px;font-weight:900;color:var(--red)">¥13,000〜</div>
+                    <span style="font-size:10px;color:var(--green);font-weight:700">リアルタイム価格</span>
+                  </div>
+                </div>
+              </div>
+              <div style="font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px">こちらもおすすめ（代替提案）</div>
+              <div style="border:1px solid #eee;border-radius:6px;padding:6px 8px;display:flex;gap:8px;align-items:center;margin-bottom:8px">
+                <div style="width:40px;height:40px;border-radius:4px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);flex-shrink:0"></div>
+                <div style="font-size:10px"><strong>はとバス 東京観光</strong><br><span style="color:var(--red)">¥2,000〜</span> <span style="color:var(--green)">空きあり</span></div>
+              </div>
+              <div style="background:var(--red);color:#fff;padding:8px;border-radius:6px;font-size:12px;font-weight:700;text-align:center">予約する</div>
+            </div>
+            <div style="padding:4px 16px 10px;font-size:10px;color:var(--green);text-align:center;font-weight:500">「空きあり」バッジ+代替提案+リアルタイム価格表示。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function switchProtoTab(btn,panelId){
+    btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.color='var(--text2)';b.style.borderBottomColor='transparent'});
+    btn.style.color='var(--red)';btn.style.borderBottomColor='var(--red)';
+    btn.closest('.card').querySelectorAll('.proto-panel').forEach(function(p){p.style.display='none'});
+    document.getElementById(panelId).style.display='block';
+  }
+  </script>
+
+  <hr class="divider">
+
   <!-- Competitive Analysis -->
   <div style="padding:24px 44px 16px">
     <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のメール→購入完了フロー比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">Email流入視点</span></div>
@@ -277,7 +494,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div>
 
   <div style="padding:0 44px 32px">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
       <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
         <div style="font-size:16px;font-weight:700;margin-bottom:10px">Klook</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
@@ -300,30 +517,31 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         <div style="font-size:12px;color:var(--text3)">注目点: ゲスト購入標準化でログイン離脱をゼロに。</div>
       </div>
       <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="font-size:16px;font-weight:700;margin-bottom:10px">asoview!</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">KKday</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
           LINE連携による再購入フローを簡略化。LINEからの遷移では既にLINEログイン済みのため、フォーム入力が大幅に削減される。メール配信もLINEと並列で活用し、ユーザーが最も使いやすいチャネルで完了できる設計。
         </div>
         <div style="font-size:12px;color:var(--text3)">注目点: LINE連携でログイン・フォーム入力の摩擦を最小化。</div>
       </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Activity Japan</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          メールから商品詳細ページへ直結し、ページ上部に在庫リアルタイム表示と日付指定UIを固定配置。「空きあり」「残りわずか」バッジがページ到達直後に確認でき、フォームへの移行を後押し。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 在庫リアルタイム表示と日付指定固定配置でメール→フォーム離脱を防止。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">アソビュー！</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          モバイルファーストのメール設計でスクロールなしにCTAを表示。メール本文内に在庫状況バッジと現在価格を動的表示し、クリック前から購買判断を完了させる設計。フォームはゲスト購入を標準として会員登録を任意化。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: メール内リアルタイム在庫表示+ゲスト購入標準化で施策B・Cとの方向性が一致。</div>
+      </div>
     </div>
 
     <div class="callout" style="margin:20px 0 0">
       <div class="ct">競合比較から得られる示唆</div>
-      <div class="cb">競合4社すべてがメールから購入完了までのステップを削減する設計を採用している。特にViatorのゲスト購入標準化とKlookのワンクリック予約は施策AおよびBと方向性が一致。GetYourGuideのメール内日付選択はより高度な実装だが、将来的な差別化施策として参考にできる。VELTRAは施策Aのシームレスログインが最も即効性が高く、ログイン離脱の解消だけで目標達成の可能性がある。</div>
-    </div>
-  </div>
-
-  <!-- Team review -->
-  <div style="padding:0 44px 32px">
-    <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
-      <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;font-size:14px;color:var(--text3)">
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">判断<br><strong style="font-size:18px">◎ / △ / ×</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">優先度<br><strong style="font-size:18px">高 / 中 / 低</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">担当<br><strong style="font-size:18px">_____</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">コメント<br><strong style="font-size:18px">_____</strong></div>
-      </div>
+      <div class="cb">競合6社すべてがメールから購入完了までのステップを削減する設計を採用している。特にViatorのゲスト購入標準化とKlookのワンクリック予約は施策AおよびBと方向性が一致。Activity Japanの在庫リアルタイム表示とアソビューのメール内動的コンテンツは施策Cの実装参考として有力。GetYourGuideのメール内日付選択はより高度な実装だが、将来的な差別化施策として参考にできる。</div>
     </div>
   </div>
 
