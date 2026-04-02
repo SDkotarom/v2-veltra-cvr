@@ -244,7 +244,6 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="graph-legend">
         <div class="lg-item"><div class="lg-bar" style="background:rgba(232,66,63,0.22);border:1.5px solid rgba(232,66,63,0.5)"></div>セッション数</div>
         <div class="lg-item"><div class="lg-dot" style="background:var(--red)"></div>CVR</div>
-        <div class="lg-item"><div class="lg-dash" style="border-color:#bbb"></div>目標CVR</div>
       </div>
     </div>
     <div class="graph-body">
@@ -912,13 +911,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     }).join('');
 
     // Target dashed lines
-    var tAnnualY = yCVR(graphTargets.annual_cvr);
-    var tMonthY  = yCVR(graphTargets.monthly_cvr);
-    var targetSvg =
-      '<line x1="' + pad.l + '" y1="' + tAnnualY + '" x2="' + (W - pad.r) + '" y2="' + tAnnualY + '" stroke="#bbb" stroke-width="1.5" stroke-dasharray="6,4"/>' +
-      '<text x="' + (W - pad.r - 2) + '" y="' + (tAnnualY - 4) + '" text-anchor="end" font-size="10" font-family="DM Sans" fill="#bbb">年間目標 ' + fmtPct(graphTargets.annual_cvr, 1) + '</text>' +
-      '<line x1="' + pad.l + '" y1="' + tMonthY + '" x2="' + (W - pad.r) + '" y2="' + tMonthY + '" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>' +
-      '<text x="' + (W - pad.r - 2) + '" y="' + (tMonthY - 4) + '" text-anchor="end" font-size="10" font-family="DM Sans" fill="#ccc">月次目標 ' + fmtPct(graphTargets.monthly_cvr, 1) + '</text>';
+    var targetSvg = '';
 
     // Bars (sessions)
     var barSvg = points.map(function(p, i) {
@@ -996,6 +989,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     // Right Y axis (sessions 万)
     var axR = document.getElementById('graph-axis-r');
     axR.innerHTML = [maxSess, maxSess * 0.75, maxSess * 0.5, maxSess * 0.25, 0].map(function(v) {
+      if (v === 0) return '<span>0</span>';
       return '<span>' + (v >= 10000 ? Math.round(v / 10000) + '万' : Math.round(v / 1000) + '千') + '</span>';
     }).join('');
   }
