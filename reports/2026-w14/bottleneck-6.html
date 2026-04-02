@@ -262,6 +262,266 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   <hr class="divider">
 
+  <!-- Prototype tabs -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">プロトタイプ &mdash; Before / After</div>
+    <div style="font-size:15px;color:var(--text2)">カテゴリ一覧ページ PC版（Desktop①→② 改善）。2カラムレイアウトで表現。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <!-- Tab bar -->
+    <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px">
+      <button onclick="switchProtoTab(this,'b6-tab-a')" class="proto-tab-btn active" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;border-bottom:2px solid var(--red);margin-bottom:-2px">施策 A</button>
+      <button onclick="switchProtoTab(this,'b6-tab-b')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 B</button>
+      <button onclick="switchProtoTab(this,'b6-tab-c')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 C</button>
+    </div>
+
+    <!-- ===== TAB A: クイックビュー機能 ===== -->
+    <div id="b6-tab-a" class="proto-panel" style="display:block">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase">施策 A</span><span style="font-size:15px;font-weight:700;margin-left:8px">クイックビュー機能</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +3pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <!-- PC 2-col layout mock -->
+          <div style="border:2px solid var(--border);border-radius:12px;overflow:hidden;background:#fff">
+            <!-- Header bar -->
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:8px 16px;display:flex;align-items:center;justify-content:space-between">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:14px;color:#fff">VELTRA</div>
+              <div style="display:flex;gap:12px;font-size:11px;color:rgba(255,255,255,.8)"><span>東京</span><span>カテゴリ</span><span>日程</span><span>マイページ</span></div>
+            </div>
+            <!-- 2-col: sidebar + cards -->
+            <div style="display:grid;grid-template-columns:140px 1fr;gap:0">
+              <!-- Sidebar -->
+              <div style="background:#f9fafb;border-right:1px solid #e5e7eb;padding:12px">
+                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:8px">カテゴリ</div>
+                <div style="font-size:11px;color:#666;padding:4px 0;border-bottom:1px solid #f0f0f0">すべて</div>
+                <div style="font-size:11px;color:var(--red);font-weight:700;padding:4px 0;border-bottom:1px solid #f0f0f0">観光ツアー</div>
+                <div style="font-size:11px;color:#666;padding:4px 0;border-bottom:1px solid #f0f0f0">マリンスポーツ</div>
+                <div style="font-size:11px;color:#666;padding:4px 0;border-bottom:1px solid #f0f0f0">グルメ体験</div>
+                <div style="font-size:11px;color:#666;padding:4px 0">文化体験</div>
+              </div>
+              <!-- Card list -->
+              <div style="padding:12px">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                  <div style="border:1px solid #eee;border-radius:6px;overflow:hidden">
+                    <div style="height:60px;background:linear-gradient(135deg,#e3f2fd,#bbdefb)"></div>
+                    <div style="padding:6px;font-size:10px"><div style="font-weight:700;line-height:1.3;margin-bottom:3px">東京スカイツリー 夜景ツアー</div><div><span style="color:#FFB300">★</span>4.74</div><div style="color:var(--red);font-weight:700">¥13,000〜</div></div>
+                  </div>
+                  <div style="border:1px solid #eee;border-radius:6px;overflow:hidden">
+                    <div style="height:60px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9)"></div>
+                    <div style="padding:6px;font-size:10px"><div style="font-weight:700;line-height:1.3;margin-bottom:3px">浅草人力車 観光ツアー</div><div><span style="color:#FFB300">★</span>4.60</div><div style="color:var(--red);font-weight:700">¥4,000〜</div></div>
+                  </div>
+                </div>
+                <div style="font-size:10px;color:var(--red);text-align:center;margin-top:8px">カードクリック → 別ページに遷移してから詳細確認</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策A適用）</div>
+          <div style="border:2px solid var(--green);border-radius:12px;overflow:hidden;background:#fff;position:relative">
+            <!-- Header bar -->
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:8px 16px;display:flex;align-items:center;justify-content:space-between">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:14px;color:#fff">VELTRA</div>
+              <div style="display:flex;gap:12px;font-size:11px;color:rgba(255,255,255,.8)"><span>東京</span><span>カテゴリ</span><span>日程</span><span>マイページ</span></div>
+            </div>
+            <!-- 2-col: sidebar + cards -->
+            <div style="display:grid;grid-template-columns:140px 1fr;gap:0">
+              <!-- Sidebar -->
+              <div style="background:#f9fafb;border-right:1px solid #e5e7eb;padding:12px">
+                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:8px">カテゴリ</div>
+                <div style="font-size:11px;color:#666;padding:4px 0;border-bottom:1px solid #f0f0f0">すべて</div>
+                <div style="font-size:11px;color:var(--red);font-weight:700;padding:4px 0;border-bottom:1px solid #f0f0f0">観光ツアー</div>
+                <div style="font-size:11px;color:#666;padding:4px 0;border-bottom:1px solid #f0f0f0">マリンスポーツ</div>
+                <div style="font-size:11px;color:#666;padding:4px 0;border-bottom:1px solid #f0f0f0">グルメ体験</div>
+                <div style="font-size:11px;color:#666;padding:4px 0">文化体験</div>
+              </div>
+              <!-- Card list with hover popup overlay -->
+              <div style="padding:12px;position:relative">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                  <!-- Card 1 with hover popup -->
+                  <div style="border:2px solid var(--green);border-radius:6px;overflow:hidden;position:relative">
+                    <div style="height:60px;background:linear-gradient(135deg,#e3f2fd,#bbdefb)"></div>
+                    <div style="padding:6px;font-size:10px"><div style="font-weight:700;line-height:1.3;margin-bottom:3px">東京スカイツリー 夜景ツアー</div><div><span style="color:#FFB300">★</span>4.74</div><div style="color:var(--red);font-weight:700">¥13,000〜</div></div>
+                    <!-- Quick view popup -->
+                    <div style="position:absolute;top:-4px;right:-4px;background:#fff;border:1.5px solid var(--green);border-radius:8px;padding:8px 10px;font-size:10px;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:10;min-width:130px">
+                      <div style="font-size:9px;font-weight:700;color:var(--green);margin-bottom:4px">クイックビュー ✓</div>
+                      <div style="height:36px;background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-radius:4px;margin-bottom:4px"></div>
+                      <div style="font-weight:700;margin-bottom:2px;line-height:1.3">スカイツリー 夜景</div>
+                      <div><span style="color:#FFB300">★</span>4.74 (86件)</div>
+                      <div style="color:var(--red);font-weight:700">¥13,000〜</div>
+                      <div style="color:#16a34a;font-size:9px">空き◎</div>
+                      <div style="background:var(--red);color:#fff;border-radius:4px;padding:3px;text-align:center;margin-top:4px;font-weight:700">詳細を見る →</div>
+                    </div>
+                  </div>
+                  <div style="border:1px solid #eee;border-radius:6px;overflow:hidden">
+                    <div style="height:60px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9)"></div>
+                    <div style="padding:6px;font-size:10px"><div style="font-weight:700;line-height:1.3;margin-bottom:3px">浅草人力車 観光ツアー</div><div><span style="color:#FFB300">★</span>4.60</div><div style="color:var(--red);font-weight:700">¥4,000〜</div></div>
+                  </div>
+                </div>
+                <div style="font-size:10px;color:var(--green);text-align:center;margin-top:8px">ホバーでポップアップ → ページ遷移なしに詳細確認</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB B: 検索・フィルタUI改善 ===== -->
+    <div id="b6-tab-b" class="proto-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--amber);text-transform:uppercase">施策 B</span><span style="font-size:15px;font-weight:700;margin-left:8px">検索・フィルタUI改善</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +2pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:12px;overflow:hidden;background:#fff">
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:8px 16px;display:flex;align-items:center;justify-content:space-between">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:14px;color:#fff">VELTRA</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.8)">東京 / 観光ツアー</div>
+            </div>
+            <div style="display:grid;grid-template-columns:140px 1fr;gap:0">
+              <!-- Text-based sidebar filter -->
+              <div style="background:#f9fafb;border-right:1px solid #e5e7eb;padding:12px">
+                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:6px">カテゴリ</div>
+                <div style="font-size:10px;color:#666;padding:3px 0;border-bottom:1px solid #f0f0f0">すべて(342)</div>
+                <div style="font-size:10px;color:var(--red);font-weight:700;padding:3px 0;border-bottom:1px solid #f0f0f0">観光(89)</div>
+                <div style="font-size:10px;color:#666;padding:3px 0;border-bottom:1px solid #f0f0f0">マリン(45)</div>
+                <div style="font-size:10px;color:#666;padding:3px 0;border-bottom:1px solid #f0f0f0">グルメ(38)</div>
+                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-top:8px;margin-bottom:4px">価格</div>
+                <div style="font-size:10px;color:#666;padding:2px 0">〜¥3,000</div>
+                <div style="font-size:10px;color:#666;padding:2px 0">¥3,000〜¥10,000</div>
+                <div style="font-size:10px;color:#666;padding:2px 0">¥10,000〜</div>
+              </div>
+              <div style="padding:12px">
+                <div style="font-size:10px;color:var(--red);margin-bottom:8px">テキストベースのみ。評価・日程フィルタなし。</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+                  <div style="height:50px;background:#f0f0f0;border-radius:6px"></div>
+                  <div style="height:50px;background:#f0f0f0;border-radius:6px"></div>
+                  <div style="height:50px;background:#f0f0f0;border-radius:6px"></div>
+                  <div style="height:50px;background:#f0f0f0;border-radius:6px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策B適用）</div>
+          <div style="border:2px solid var(--green);border-radius:12px;overflow:hidden;background:#fff">
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:8px 16px;display:flex;align-items:center;justify-content:space-between">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:14px;color:#fff">VELTRA</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.8)">東京 / 観光ツアー</div>
+            </div>
+            <div style="display:grid;grid-template-columns:160px 1fr;gap:0">
+              <!-- Visual sidebar filter -->
+              <div style="background:#f9fafb;border-right:1px solid #e5e7eb;padding:12px">
+                <!-- Category tiles -->
+                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:6px">カテゴリ</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px">
+                  <div style="background:var(--red-light);border:1.5px solid var(--red);border-radius:6px;padding:4px;text-align:center;font-size:9px;font-weight:700;color:var(--red)">観光</div>
+                  <div style="background:#f5f5f5;border:1px solid #ddd;border-radius:6px;padding:4px;text-align:center;font-size:9px;color:#666">マリン</div>
+                  <div style="background:#f5f5f5;border:1px solid #ddd;border-radius:6px;padding:4px;text-align:center;font-size:9px;color:#666">グルメ</div>
+                  <div style="background:#f5f5f5;border:1px solid #ddd;border-radius:6px;padding:4px;text-align:center;font-size:9px;color:#666">文化</div>
+                </div>
+                <!-- Price slider -->
+                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:4px">価格帯</div>
+                <div style="background:#e5e7eb;height:4px;border-radius:2px;position:relative;margin-bottom:8px">
+                  <div style="position:absolute;left:10%;right:40%;height:4px;background:var(--red);border-radius:2px"></div>
+                  <div style="position:absolute;left:10%;top:-4px;width:10px;height:10px;background:var(--red);border-radius:50%"></div>
+                  <div style="position:absolute;right:40%;top:-4px;width:10px;height:10px;background:var(--red);border-radius:50%"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:9px;color:#666;margin-bottom:6px"><span>¥0</span><span>〜¥10,000</span></div>
+                <!-- Rating stars -->
+                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:4px">評価</div>
+                <div style="display:flex;gap:3px;margin-bottom:8px">
+                  <span style="font-size:12px;color:#FFB300">★★★★★</span>
+                </div>
+                <!-- Date picker -->
+                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:4px">日程</div>
+                <div style="background:#fff;border:1px solid #e5e7eb;border-radius:4px;padding:4px 6px;font-size:10px;color:#666">4月8日〜4月15日</div>
+              </div>
+              <div style="padding:12px">
+                <div style="font-size:10px;color:var(--green);margin-bottom:8px">絞り込み結果: 23件</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+                  <div style="border:1px solid #eee;border-radius:6px;overflow:hidden">
+                    <div style="height:50px;background:linear-gradient(135deg,#e3f2fd,#bbdefb)"></div>
+                    <div style="padding:5px;font-size:9px"><div style="font-weight:700">スカイツリー夜景</div><div><span style="color:#FFB300">★</span>4.74 <span style="color:#16a34a">空き◎</span></div><div style="color:var(--red);font-weight:700">¥13,000</div></div>
+                  </div>
+                  <div style="border:1px solid #eee;border-radius:6px;overflow:hidden">
+                    <div style="height:50px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9)"></div>
+                    <div style="padding:5px;font-size:9px"><div style="font-weight:700">人力車観光</div><div><span style="color:#FFB300">★</span>4.60 <span style="color:#16a34a">空き◎</span></div><div style="color:var(--red);font-weight:700">¥4,000</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB C: Direct×Desktop計測調査 ===== -->
+    <div id="b6-tab-c" class="proto-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 C</span><span style="font-size:15px;font-weight:700;margin-left:8px">Direct&times;Desktop 計測調査</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +1pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;padding:16px">
+            <div style="font-size:12px;font-weight:700;margin-bottom:10px;color:var(--text2)">計測フロー（現状）</div>
+            <!-- Flow diagram -->
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center">ユーザーがURLを直接入力<br><span style="font-size:10px;color:#999">(Direct &times; Desktop)</span></div>
+              <div style="text-align:center;font-size:14px;color:#aaa">↓</div>
+              <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center">SPAルーティング（history.pushState）</div>
+              <div style="text-align:center;font-size:14px;color:#aaa">↓</div>
+              <div style="background:#fff8f8;border:1px solid #fca5a5;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center;color:var(--red)">ac_page_reach 未発火<br><span style="font-size:10px">GTMトリガー条件が旧URL構造</span></div>
+              <div style="text-align:center;font-size:14px;color:var(--red)">↓</div>
+              <div style="background:#fff8f8;border:1px solid #fca5a5;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center;color:var(--red)">①→② = 3.7%（異常値）</div>
+            </div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策C適用）</div>
+          <div style="border:2px solid var(--green);border-radius:12px;overflow:hidden;background:#fff;padding:16px">
+            <div style="font-size:12px;font-weight:700;margin-bottom:10px;color:var(--text2)">計測フロー（修正後）</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center">ユーザーがURLを直接入力<br><span style="font-size:10px;color:#999">(Direct &times; Desktop)</span></div>
+              <div style="text-align:center;font-size:14px;color:#aaa">↓</div>
+              <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center">SPAルーティング（history.pushState）</div>
+              <div style="text-align:center;font-size:14px;color:var(--green)">↓</div>
+              <div style="background:#f0fdf4;border:1px solid #16a34a;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center;color:#16a34a">SPA対応イベント発火確認<br><span style="font-size:10px">GTMトリガー修正+デバッグモード検証</span></div>
+              <div style="text-align:center;font-size:14px;color:var(--green)">↓</div>
+              <div style="background:#f0fdf4;border:1px solid #16a34a;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center;color:#16a34a">ac_page_reach 正常発火<br><span style="font-size:10px">実態反映後の正確な①→② 把握</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function switchProtoTab(btn,panelId){
+    btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.color='var(--text2)';b.style.borderBottomColor='transparent'});
+    btn.style.color='var(--red)';btn.style.borderBottomColor='var(--red)';
+    btn.closest('.card').querySelectorAll('.proto-panel').forEach(function(p){p.style.display='none'});
+    document.getElementById(panelId).style.display='block';
+  }
+  </script>
+
+  <hr class="divider">
+
   <!-- Competitive Analysis -->
   <div style="padding:24px 44px 16px">
     <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のDesktop商品発見体験比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">Desktop UX視点</span></div>
@@ -269,7 +529,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div>
 
   <div style="padding:0 44px 32px">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
       <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
         <div style="font-size:16px;font-weight:700;margin-bottom:10px">Klook</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
@@ -292,30 +552,31 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         <div style="font-size:12px;color:var(--text3)">注目点: ホバーでの情報提示によりページ遷移コストを最小化。</div>
       </div>
       <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="font-size:16px;font-weight:700;margin-bottom:10px">asoview!</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">KKday</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
-          カテゴリを大型ビジュアルタイルで表示、直感的ブラウジング。トップページから各カテゴリへの遷移が視覚的で分かりやすく、目的のジャンルに素早く到達できる。
+          Desktopのカテゴリ一覧ページで大型画像カードを活用し視覚的な商品発見体験を提供。割引バッジ・残席数・評価を1カード内に集約しており、比較検討に必要な情報がスキャン可能。フィルタサイドバーがstickyで絞り込み結果を即座に反映。
         </div>
-        <div style="font-size:12px;color:var(--text3)">注目点: 大型タイルUIで選択肢過多による迷子を防ぐ設計。</div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 大型カードと割引表示でDesktopでの回遊離脱を防止。サイドバーstickyで施策Bの参考。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Activity Japan</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          カテゴリ一覧ページで商品カードに在庫状況をリアルタイム表示。PCではサイドバーフィルタが常時展開され、エリア×カテゴリの絞り込みが即座に反映される。日付指定ウィジェットがページ上部に固定されており、全画面幅を活かした2〜3カラムのカードグリッドが特徴的。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 在庫リアルタイム表示とPC向け常時展開サイドバーが施策A・Bの参考事例。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">アソビュー！</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          「ランキング」「新着」「割引あり」のタブ切り替えを一覧ページ上部に配置し、比較行動ユーザーの離脱を防ぐ。モバイルファーストだがPC版も2カラムレイアウトで商品カードを大きく表示。カード上に割引率バッジと評価を目立たせ、クリック意欲を高める設計。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: タブ切り替えで選択肢整理とビジュアルフィルタが施策Bのカテゴリタイル設計と一致。</div>
       </div>
     </div>
 
     <div class="callout" style="margin:20px 0 0">
       <div class="ct">競合比較から得られる示唆</div>
-      <div class="cb">競合4社はDesktopで「商品発見→詳細確認」のステップを最小化している。VELTRAはテキストベースの一覧が中心で視覚的な商品発見体験が弱い。施策A（クイックビュー）はViator、施策B（フィルタUI）はGetYourGuideとasoview!のベストプラクティスに対応。Klookの右カラムウィジェットも予約意図の早期捕捉という観点で参考になる。</div>
-    </div>
-  </div>
-
-  <!-- Team review -->
-  <div style="padding:0 44px 32px">
-    <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
-      <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;font-size:14px;color:var(--text3)">
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">判断<br><strong style="font-size:18px">◎ / △ / ×</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">優先度<br><strong style="font-size:18px">高 / 中 / 低</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">担当<br><strong style="font-size:18px">_____</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">コメント<br><strong style="font-size:18px">_____</strong></div>
-      </div>
+      <div class="cb">競合6社はDesktopで「商品発見→詳細確認」のステップを最小化している。VELTRAはテキストベースの一覧が中心で視覚的な商品発見体験が弱い。施策A（クイックビュー）はViatorのホバープレビュー、施策B（フィルタUI）はGetYourGuide・Activity Japanのサイドバー常時展開とアソビューのタブ切り替えが参考。施策C（計測調査）はDirect×Desktop=3.7%という異常値の根拠確認に直結し、他施策より先に着手すべき前提条件。</div>
     </div>
   </div>
 

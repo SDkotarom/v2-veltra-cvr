@@ -270,6 +270,213 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   <hr class="divider">
 
+  <!-- Prototype tabs -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">プロトタイプ &mdash; Before / After</div>
+    <div style="font-size:15px;color:var(--text2)">ACページ カレンダー〜フォーム遷移のSP版。Paid Search &times; モバイル ③→④ 改善を狙う。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <!-- Tab bar -->
+    <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px">
+      <button onclick="switchProtoTab(this,'b7-tab-a')" class="proto-tab-btn active" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;border-bottom:2px solid var(--red);margin-bottom:-2px">施策 A</button>
+      <button onclick="switchProtoTab(this,'b7-tab-b')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 B</button>
+      <button onclick="switchProtoTab(this,'b7-tab-c')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 C</button>
+    </div>
+
+    <!-- ===== TAB A: 最安値保証・価格訴求強化 ===== -->
+    <div id="b7-tab-a" class="proto-panel" style="display:block">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase">施策 A</span><span style="font-size:15px;font-weight:700;margin-left:8px">最安値保証・価格訴求強化</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">③→④ +3pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:10px 16px;display:flex;align-items:center;justify-content:space-between">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:16px;color:#fff">VELTRA</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.8)">沖縄シュノーケリングツアー</div>
+            </div>
+            <!-- Calendar without price -->
+            <div style="padding:12px 16px">
+              <div style="font-size:13px;font-weight:700;margin-bottom:8px">日程を選択</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <span style="font-size:12px;color:#999">&lt; 2026年4月</span>
+                <span style="font-size:12px;color:#999">5月 &gt;</span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;margin-bottom:8px">
+                <div style="font-size:9px;color:#aaa;padding:2px">日</div><div style="font-size:9px;color:#aaa;padding:2px">月</div><div style="font-size:9px;color:#aaa;padding:2px">火</div><div style="font-size:9px;color:#aaa;padding:2px">水</div><div style="font-size:9px;color:#aaa;padding:2px">木</div><div style="font-size:9px;color:#aaa;padding:2px">金</div><div style="font-size:9px;color:#aaa;padding:2px">土</div>
+                <div></div><div></div><div style="font-size:11px;padding:4px">1</div><div style="font-size:11px;padding:4px;background:var(--red-light);border-radius:4px;color:var(--red)">2</div><div style="font-size:11px;padding:4px">3</div><div style="font-size:11px;padding:4px">4</div><div style="font-size:11px;padding:4px">5</div>
+                <div style="font-size:11px;padding:4px">6</div><div style="font-size:11px;padding:4px">7</div><div style="font-size:11px;padding:4px">8</div><div style="font-size:11px;padding:4px">9</div><div style="font-size:11px;padding:4px">10</div><div style="font-size:11px;padding:4px">11</div><div style="font-size:11px;padding:4px">12</div>
+              </div>
+              <div style="font-size:11px;color:#999;padding:8px;background:#f9f9f9;border-radius:6px;text-align:center">価格表示なし。他社との比較不明。</div>
+            </div>
+            <div style="padding:4px 16px 12px;font-size:10px;color:var(--red);text-align:center;font-weight:500">価格不明 → 他社サイトで比較 → 離脱</div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策A適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:10px 16px;display:flex;align-items:center;justify-content:space-between">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:16px;color:#fff">VELTRA</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.8)">沖縄シュノーケリングツアー</div>
+            </div>
+            <!-- Best price banner -->
+            <div style="background:#fef3c7;border-bottom:1px solid #fbbf24;padding:8px 16px;display:flex;align-items:center;gap:8px">
+              <span style="background:#d97706;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px">最安値保証</span>
+              <span style="font-size:11px;color:#92400e">他社より高ければ差額を全額返金</span>
+            </div>
+            <!-- Calendar with prices -->
+            <div style="padding:10px 16px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <span style="font-size:12px;color:#999">&lt; 2026年4月</span>
+                <span style="font-size:12px;color:#999">5月 &gt;</span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;margin-bottom:8px">
+                <div style="font-size:9px;color:#aaa;padding:2px">日</div><div style="font-size:9px;color:#aaa;padding:2px">月</div><div style="font-size:9px;color:#aaa;padding:2px">火</div><div style="font-size:9px;color:#aaa;padding:2px">水</div><div style="font-size:9px;color:#aaa;padding:2px">木</div><div style="font-size:9px;color:#aaa;padding:2px">金</div><div style="font-size:9px;color:#aaa;padding:2px">土</div>
+                <div></div><div></div>
+                <div style="font-size:9px;padding:3px;border-radius:4px;background:#f0fdf4;border:1px solid #16a34a;line-height:1.3"><span style="display:block;font-weight:700;color:#16a34a">1</span><span style="color:#16a34a;font-size:7px">¥6,500</span></div>
+                <div style="font-size:9px;padding:3px;border-radius:4px;background:var(--red-light);border:1px solid var(--red);line-height:1.3"><span style="display:block;font-weight:700;color:var(--red)">2</span><span style="color:var(--red);font-size:7px">今日</span></div>
+                <div style="font-size:9px;padding:3px;border-radius:4px;background:#f5f5f5;border:1px solid #ddd;line-height:1.3"><span style="display:block;font-weight:700">3</span><span style="color:#666;font-size:7px">¥7,800</span></div>
+                <div style="font-size:9px;padding:3px;border-radius:4px;background:#f5f5f5;border:1px solid #ddd;line-height:1.3"><span style="display:block;font-weight:700">4</span><span style="color:#666;font-size:7px">¥7,800</span></div>
+                <div style="font-size:9px;padding:3px;border-radius:4px;background:#f5f5f5;border:1px solid #ddd;line-height:1.3"><span style="display:block;font-weight:700">5</span><span style="color:#666;font-size:7px">¥7,800</span></div>
+                <div style="font-size:9px;padding:3px;border-radius:4px;background:#f0fdf4;border:1px solid #16a34a;line-height:1.3"><span style="display:block;font-weight:700;color:#16a34a">6</span><span style="color:#16a34a;font-size:7px">¥6,500</span></div>
+                <div style="font-size:9px;padding:3px;border-radius:4px;background:#f5f5f5;border:1px solid #ddd;line-height:1.3"><span style="display:block;font-weight:700">7</span><span style="color:#666;font-size:7px">¥7,800</span></div>
+              </div>
+              <div style="background:var(--green);color:#fff;border-radius:8px;padding:10px;text-align:center;font-size:13px;font-weight:700">4月1日（水）¥6,500 で予約する →</div>
+            </div>
+            <div style="padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500">最安値保証バッジ + 日別価格 → 他社比較不要</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB B: 空き状況連動広告配信 ===== -->
+    <div id="b7-tab-b" class="proto-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--amber);text-transform:uppercase">施策 B</span><span style="font-size:15px;font-weight:700;margin-left:8px">空き状況連動広告配信</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">③→④ +2pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;padding:16px">
+            <div style="font-size:12px;font-weight:700;margin-bottom:10px;color:var(--text2)">広告配信フロー（現状）</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center">Google 広告<br><span style="font-size:10px;color:#999">「沖縄 シュノーケリング」検索</span></div>
+              <div style="text-align:center;font-size:14px;color:#aaa">↓ 在庫確認なしで配信</div>
+              <div style="background:#fff8f8;border:1px solid #fca5a5;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center;color:var(--red)">空きなし商品のACページへ着地</div>
+              <div style="text-align:center;font-size:14px;color:var(--red)">↓</div>
+              <div style="background:#fff8f8;border:1px solid #fca5a5;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center;color:var(--red)">カレンダーで「満員」確認 → 即離脱<br><span style="font-size:10px">広告費のムダ + ③→④ 低下</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策B適用）</div>
+          <div style="border:2px solid var(--green);border-radius:12px;overflow:hidden;background:#fff;padding:16px">
+            <div style="font-size:12px;font-weight:700;margin-bottom:10px;color:var(--text2)">在庫連動フロー（改善後）</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center">Google 広告<br><span style="font-size:10px;color:#999">「沖縄 シュノーケリング」検索</span></div>
+              <div style="text-align:center;font-size:14px;color:var(--green)">↓ リアルタイム在庫フィード確認</div>
+              <div style="background:#f0fdf4;border:1px solid #16a34a;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center;color:#16a34a">空きあり商品のみ広告配信<br><span style="font-size:10px">空き切れ商品は配信自動停止</span></div>
+              <div style="text-align:center;font-size:14px;color:#aaa">↓ 空きなし商品の場合</div>
+              <div style="background:#f0fdf4;border:1px solid #16a34a;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center;color:#16a34a">代替商品を自動差し替えて配信継続<br><span style="font-size:10px">ユーザーが「満員」に遭遇しない</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB C: モバイル1タップフォーム遷移 ===== -->
+    <div id="b7-tab-c" class="proto-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 C</span><span style="font-size:15px;font-weight:700;margin-left:8px">モバイル1タップフォーム遷移</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">③→④ +2pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:10px 16px;display:flex;align-items:center;justify-content:space-between">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:16px;color:#fff">VELTRA</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.8)">予約フロー</div>
+            </div>
+            <div style="padding:12px 16px">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+                <div style="width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+                <div style="font-size:13px;font-weight:700">日程選択（カレンダー）</div>
+              </div>
+              <div style="border-left:2px dashed #ddd;margin-left:12px;padding-left:16px;padding-bottom:10px">
+                <div style="font-size:11px;color:#999">4月6日を選択</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+                <div style="width:24px;height:24px;border-radius:50%;background:#ddd;color:#666;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+                <div style="font-size:13px;font-weight:700;color:#666">人数選択（<span style="color:var(--red)">別画面</span>）</div>
+              </div>
+              <div style="border-left:2px dashed #ddd;margin-left:12px;padding-left:16px;padding-bottom:10px">
+                <div style="font-size:11px;color:#999">大人 1名</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px">
+                <div style="width:24px;height:24px;border-radius:50%;background:#ddd;color:#666;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+                <div style="font-size:13px;font-weight:700;color:#666">フォーム（<span style="color:var(--red)">さらに別画面</span>）</div>
+              </div>
+            </div>
+            <div style="padding:4px 16px 12px;font-size:10px;color:var(--red);text-align:center;font-weight:500">3ステップ・2回画面遷移 → Paid流入ユーザーが途中離脱</div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策C適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:10px 16px;display:flex;align-items:center;justify-content:space-between">
+              <div style="font-family:'DM Sans';font-weight:900;font-size:16px;color:#fff">VELTRA</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.8)">予約フロー（改善後）</div>
+            </div>
+            <div style="padding:12px 16px">
+              <!-- Integrated date+pax step -->
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+                <div style="width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+                <div style="font-size:13px;font-weight:700">日程タップ → 人数選択が<span style="color:var(--green)">統合表示</span></div>
+              </div>
+              <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px 12px;margin-bottom:10px">
+                <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:6px">4月6日（日）選択済み ✓ ¥6,500</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;margin-bottom:4px">
+                  <span>大人</span>
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <span style="width:22px;height:22px;border-radius:50%;background:#E8423F;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">−</span>
+                    <span style="font-weight:700">1</span>
+                    <span style="width:22px;height:22px;border-radius:50%;background:#E8423F;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">＋</span>
+                  </div>
+                </div>
+              </div>
+              <!-- One-tap to form -->
+              <div style="background:var(--green);color:#fff;border-radius:10px;padding:12px;text-align:center;font-size:14px;font-weight:700">予約フォームへ（1タップ）→</div>
+              <div style="font-size:10px;color:var(--green);text-align:center;margin-top:6px">合計 ¥6,500</div>
+            </div>
+            <div style="padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500">日程タップ → 人数統合 → ワンタップでフォーム</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function switchProtoTab(btn,panelId){
+    btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.color='var(--text2)';b.style.borderBottomColor='transparent'});
+    btn.style.color='var(--red)';btn.style.borderBottomColor='var(--red)';
+    btn.closest('.card').querySelectorAll('.proto-panel').forEach(function(p){p.style.display='none'});
+    document.getElementById(panelId).style.display='block';
+  }
+  </script>
+
+  <hr class="divider">
+
   <!-- Competitive Analysis -->
   <div style="padding:24px 44px 16px">
     <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のカレンダー/価格訴求比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">Paid Search流入視点</span></div>
@@ -277,7 +484,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div>
 
   <div style="padding:0 44px 32px">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
       <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
         <div style="font-size:16px;font-weight:700;margin-bottom:10px">Klook</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
@@ -306,24 +513,25 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         </div>
         <div style="font-size:12px;color:var(--text3)">注目点: タイムセール+残席表示で緊急性を演出し、カレンダー離脱を防止。</div>
       </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Activity Japan</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          ACページのカレンダーに在庫状況をリアルタイム表示し「残り〇席」を可視化。日付指定ウィジェットがページ上部に固定されており、空きなし日程を選んだ場合は隣接する空き日程が自動サジェストされる。Paid Search流入ユーザーの「満員離脱」を防ぐ設計。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: リアルタイム在庫表示と空き日程自動サジェストが施策B（在庫連動広告）の参考事例。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">アソビュー！</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          「今日/明日遊べる」フィルターをFV内に配置し、空きあり商品に最短でアクセスできる。モバイルファーストの設計でカレンダー→フォーム遷移が最短ステップ。ランキング/新着/割引タブ切り替えで価格比較意識の高い広告流入ユーザーを商品ページに引き留める。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 「今日/明日」クイックフィルターとモバイルファースト設計が施策C（1タップフォーム遷移）の参考事例。</div>
+      </div>
     </div>
 
     <div class="callout" style="margin:20px 0 0">
       <div class="ct">競合比較から得られる示唆</div>
-      <div class="cb">主要競合4社すべてがカレンダー画面で価格保証や緊急性訴求を実施している。VELTRAはカレンダー画面での価格訴求が弱く、価格比較意識の高いPaid Search流入ユーザーが他サイトへ流出しやすい状態。施策A（最安値保証バッジ）はKlook・GYG・Viatorのベストプラクティスと方向性が一致。施策C（1タップフォーム遷移）はKlookの「カレンダー内即予約」を参考に実装可能。</div>
-    </div>
-  </div>
-
-  <!-- Team review -->
-  <div style="padding:0 44px 32px">
-    <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
-      <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;font-size:14px;color:var(--text3)">
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">判断<br><strong style="font-size:18px">◎ / △ / ×</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">優先度<br><strong style="font-size:18px">高 / 中 / 低</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">担当<br><strong style="font-size:18px">_____</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">コメント<br><strong style="font-size:18px">_____</strong></div>
-      </div>
+      <div class="cb">競合6社すべてがカレンダー画面で価格保証・緊急性・空き可視化のいずれかを実施しており、Paid Search流入ユーザーの比較離脱を防いでいる。VELTRAはカレンダー画面での価格訴求が弱く、価格比較意識の高いPaid流入が他サイトへ流出しやすい。施策A（最安値保証バッジ）はKlook・GYG・Viatorのベストプラクティスと一致。施策B（在庫連動広告）はActivity Japanのリアルタイム在庫表示が先行事例。施策C（1タップ遷移）はKlookとアソビューのモバイルファースト設計が参考。</div>
     </div>
   </div>
 
