@@ -262,6 +262,194 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   <hr class="divider">
 
+  <!-- Prototype tabs -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">プロトタイプ &mdash; Before / After</div>
+    <div style="font-size:15px;color:var(--text2)">広告LP（ACページ）のSP版。Paid Search &times; 新規ユーザーの②→③改善を狙う。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <!-- Tab bar -->
+    <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px">
+      <button onclick="switchProtoTab(this,'tab4-a')" class="proto-tab-btn active" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;border-bottom:2px solid var(--red);margin-bottom:-2px">施策 A</button>
+      <button onclick="switchProtoTab(this,'tab4-b')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 B</button>
+      <button onclick="switchProtoTab(this,'tab4-c')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 C</button>
+    </div>
+
+    <!-- ===== TAB A: 検索意図別LP出し分け ===== -->
+    <div id="tab4-a" class="proto-panel" style="display:block">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase">施策 A</span><span style="font-size:15px;font-weight:700;margin-left:8px">検索意図別LP出し分け</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">②→③ +6pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <!-- Ad query -->
+            <div style="padding:10px 16px;background:#f5f5f5;border-bottom:1px solid #eee">
+              <div style="font-size:10px;color:#999;margin-bottom:4px">検索クエリ</div>
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <div style="padding:4px 8px;background:#fff;border-radius:4px;font-size:11px;font-weight:700;border:1px solid #ddd">「東京 観光 スポット」（情報系）</div>
+                <div style="padding:4px 8px;background:#fff;border-radius:4px;font-size:11px;font-weight:700;border:1px solid #ddd">「東京 観光ツアー 予約」（購入系）</div>
+              </div>
+            </div>
+            <div style="padding:8px 16px;text-align:center;font-size:14px;color:#666">↓ すべて同じACページへ</div>
+            <!-- Same LP -->
+            <div style="border:2px solid var(--red);margin:0 12px 12px;border-radius:8px;overflow:hidden">
+              <div style="height:80px;background:linear-gradient(135deg,#b2dfdb,#80cbc4);display:flex;align-items:center;justify-content:center">
+                <div style="color:#fff;font-size:11px;font-weight:700">ACページ（共通）</div>
+              </div>
+              <div style="padding:8px 10px;font-size:10px;color:var(--red);font-weight:700">情報収集中の人も購入直前の人も同じLP</div>
+            </div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策A適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="padding:10px 16px;background:#f5f5f5;border-bottom:1px solid #eee">
+              <div style="font-size:10px;color:#999;margin-bottom:4px">クエリ意図で出し分け</div>
+            </div>
+            <!-- Info query -->
+            <div style="padding:10px 12px">
+              <div style="font-size:10px;font-weight:700;color:var(--text3);margin-bottom:4px">「東京 観光 スポット」(情報系) →</div>
+              <div style="border:1px solid #eee;border-radius:8px;padding:8px;background:#f9f9ff">
+                <div style="font-size:11px;font-weight:700;color:#3f51b5;margin-bottom:2px">東京おすすめアクティビティまとめLP</div>
+                <div style="font-size:10px;color:#999">ランキング + カテゴリ一覧 + 読み物コンテンツ</div>
+              </div>
+            </div>
+            <!-- Purchase query -->
+            <div style="padding:0 12px 10px">
+              <div style="font-size:10px;font-weight:700;color:var(--text3);margin-bottom:4px">「東京 観光ツアー 予約」(購入系) →</div>
+              <div style="border:1px solid var(--green);border-radius:8px;padding:8px;background:var(--green-light)">
+                <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:2px">ACページ直結（カレンダーFV配置）</div>
+                <div style="font-size:10px;color:#999">信頼バッジ + 日程選択を即表示</div>
+              </div>
+            </div>
+            <div style="padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500">購入意図ユーザーを直接カレンダーへ誘導</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB B: 信頼性バッジ強化 ===== -->
+    <div id="tab4-b" class="proto-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--amber);text-transform:uppercase">施策 B</span><span style="font-size:15px;font-weight:700;margin-left:8px">ACページの信頼性バッジ強化</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">②→③ +3pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="height:120px;background:linear-gradient(135deg,#b2dfdb,#80cbc4);display:flex;align-items:center;justify-content:center">
+              <div style="color:#fff;font-size:11px;font-weight:700">ヒーロー画像</div>
+            </div>
+            <div style="padding:12px 16px">
+              <div style="font-size:15px;font-weight:900;margin-bottom:4px">東京スカイツリー お台場クルーズ</div>
+              <div style="font-size:12px;color:#FFB300;margin-bottom:8px">★ 4.74 (86件)</div>
+              <div style="font-size:12px;font-weight:700;margin-bottom:6px">プラン選択</div>
+              <div style="border:1px solid #eee;border-radius:6px;padding:8px;font-size:11px;color:#666;margin-bottom:8px">大人1名 ¥13,000〜</div>
+            </div>
+            <div style="padding:4px 16px 12px;font-size:10px;color:var(--red);text-align:center;font-weight:500">信頼構築バッジなし。初回訪問者の不安を解消する要素が不足</div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策B適用）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <div style="height:120px;background:linear-gradient(135deg,#b2dfdb,#80cbc4);display:flex;align-items:center;justify-content:center">
+              <div style="color:#fff;font-size:11px;font-weight:700">ヒーロー画像</div>
+            </div>
+            <!-- Trust badges -->
+            <div style="padding:8px 16px;background:var(--red-light);border-bottom:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
+              <div style="padding:4px 8px;background:var(--red);border-radius:4px;font-size:10px;color:#fff;font-weight:700">予約実績 10万件+</div>
+              <div style="padding:4px 8px;background:#1565c0;border-radius:4px;font-size:10px;color:#fff;font-weight:700">満足度 96%</div>
+              <div style="padding:4px 8px;background:#fff;border:1px solid #ddd;border-radius:4px;font-size:10px;color:#555;font-weight:700;display:flex;align-items:center;gap:3px"><span style="color:#4285F4">G</span> 4.8 / 5</div>
+            </div>
+            <div style="padding:10px 16px">
+              <div style="font-size:14px;font-weight:900;margin-bottom:4px">東京スカイツリー お台場クルーズ</div>
+              <div style="font-size:12px;color:#FFB300;margin-bottom:6px">★ 4.74 (86件)</div>
+              <div style="font-size:12px;font-weight:700;margin-bottom:4px">プラン選択</div>
+              <div style="border:1px solid #eee;border-radius:6px;padding:8px;font-size:11px;color:#666">大人1名 ¥13,000〜</div>
+            </div>
+            <div style="padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500">FVに信頼バッジ → 初回訪問者の不安を即解消</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB C: メッセージマッチ改善 ===== -->
+    <div id="tab4-c" class="proto-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><span style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 C</span><span style="font-size:15px;font-weight:700;margin-left:8px">広告 &times; LPのメッセージマッチ改善</span></div>
+        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">②→③ +2pt</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Before -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（不一致）</div>
+          <div style="border:2px solid var(--border);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <!-- Ad -->
+            <div style="padding:10px 14px;background:#e8f0fe;border-bottom:1px solid #c5d3f5">
+              <div style="font-size:9px;color:#4285F4;font-weight:700;margin-bottom:4px">Google 広告</div>
+              <div style="font-size:12px;font-weight:700;color:#1a0dab;margin-bottom:2px">東京 観光ツアー | VELTRAで予約</div>
+              <div style="font-size:10px;color:#006621">veltra.com</div>
+              <div style="font-size:11px;color:#545454;margin-top:3px">東京 観光ツアーならVELTRA。豊富な体験から厳選。</div>
+            </div>
+            <!-- Mismatch indicator -->
+            <div style="padding:6px 14px;background:var(--red-light);text-align:center;font-size:10px;color:var(--red);font-weight:700">⚠️ 広告文とLP見出しが不一致</div>
+            <!-- LP -->
+            <div style="height:80px;background:linear-gradient(135deg,#b2dfdb,#80cbc4);display:flex;align-items:center;justify-content:center">
+              <div style="color:#fff;font-size:10px;font-weight:700">ヒーロー画像</div>
+            </div>
+            <div style="padding:10px 14px">
+              <div style="font-size:13px;font-weight:900;color:#333">オープントップバスで東京を一周！<br>定番観光スポット巡り</div>
+              <div style="font-size:10px;color:var(--red);margin-top:6px;font-weight:500">「東京 観光ツアー」と検索したのに別の商品名が表示</div>
+            </div>
+          </div>
+        </div>
+        <!-- After -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（メッセージ一致）</div>
+          <div style="border:2px solid var(--green);border-radius:16px;overflow:hidden;max-width:375px;margin:0 auto;background:#fff">
+            <!-- Ad -->
+            <div style="padding:10px 14px;background:#e8f0fe;border-bottom:1px solid #c5d3f5">
+              <div style="font-size:9px;color:#4285F4;font-weight:700;margin-bottom:4px">Google 広告</div>
+              <div style="font-size:12px;font-weight:700;color:#1a0dab;margin-bottom:2px">東京 観光ツアー | VELTRAで予約</div>
+              <div style="font-size:10px;color:#006621">veltra.com</div>
+              <div style="font-size:11px;color:#545454;margin-top:3px">東京 観光ツアーならVELTRA。豊富な体験から厳選。</div>
+            </div>
+            <!-- Match indicator -->
+            <div style="padding:6px 14px;background:var(--green-light);text-align:center;font-size:10px;color:var(--green);font-weight:700">✅ 広告文とLP見出しが一致</div>
+            <!-- LP matched -->
+            <div style="height:80px;background:linear-gradient(135deg,#b2dfdb,#80cbc4);display:flex;align-items:center;justify-content:center">
+              <div style="color:#fff;font-size:10px;font-weight:700">ヒーロー画像</div>
+            </div>
+            <div style="padding:10px 14px">
+              <div style="font-size:13px;font-weight:900;color:#333">東京 観光ツアー<br><span style="font-size:11px;font-weight:400;color:#555">人気の観光スポットをガイドと巡る</span></div>
+              <div style="font-size:10px;color:var(--green);margin-top:6px;font-weight:500">広告文と見出しが動的に一致 → 安心感でカレンダーへ誘導</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function switchProtoTab(btn,panelId){
+    btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.color='var(--text2)';b.style.borderBottomColor='transparent'});
+    btn.style.color='var(--red)';btn.style.borderBottomColor='var(--red)';
+    btn.closest('.card').querySelectorAll('.proto-panel').forEach(function(p){p.style.display='none'});
+    document.getElementById(panelId).style.display='block';
+  }
+  </script>
+
+  <hr class="divider">
+
   <!-- Competitive Analysis -->
   <div style="padding:24px 44px 16px">
     <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のPaid Search LP比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">広告流入視点</span></div>
@@ -269,7 +457,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div>
 
   <div style="padding:0 44px 32px">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
       <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
         <div style="font-size:16px;font-weight:700;margin-bottom:10px">Klook</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
@@ -298,24 +486,25 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         </div>
         <div style="font-size:12px;color:var(--text3)">注目点: お得感訴求。割引率とランキングで「この商品で決めて良い」という確信を与える。</div>
       </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Activity Japan</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          広告LP = エリアページFVに人気ランキング大型カードを配置。在庫リアルタイム表示（空き/残りわずか）で購入緊迫感を演出。日付指定がページ上部に固定されカレンダー到達が容易。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 在庫リアルタイム表示が購買決断を加速。「今日予約できる」訴求がPaid Search新規ユーザーに有効。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">アソビュー！</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          広告LP = 「今日/明日遊べる」クイックフィルターをFV内に配置。大型画像 + 価格 + 評価のカードで一目で判断可能。広告文とLP見出しを動的に一致させるメッセージマッチ機能を実装。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: メッセージマッチが施策Cの参考事例。広告クエリに応じてLP見出しを動的変更し、離脱率を低減。</div>
+      </div>
     </div>
 
     <div class="callout" style="margin:20px 0 0">
       <div class="ct">競合比較から得られる示唆</div>
-      <div class="cb">競合4社はPaid Search LPで「信頼 &times; 即予約」の設計を徹底している。VELTRAは通常の商品詳細をそのままLPにしており、新規向けの信頼構築要素が不足。カレンダーの視認性も低く、広告費に見合った日程選択率を実現できていない。施策A（LP出し分け）・施策B（信頼バッジ）はKlook・GetYourGuideのベストプラクティスと方向性が一致。</div>
-    </div>
-  </div>
-
-  <!-- Team review -->
-  <div style="padding:0 44px 32px">
-    <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
-      <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;font-size:14px;color:var(--text3)">
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">判断<br><strong style="font-size:18px">◎ / △ / &times;</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">優先度<br><strong style="font-size:18px">高 / 中 / 低</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">担当<br><strong style="font-size:18px">_____</strong></div>
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">コメント<br><strong style="font-size:18px">_____</strong></div>
-      </div>
+      <div class="cb">主要競合6社はPaid Search LPで「信頼 &times; 即予約」の設計を徹底している。VELTRAは通常の商品詳細をそのままLPにしており、新規向けの信頼構築要素が不足。カレンダーの視認性も低く、広告費に見合った日程選択率を実現できていない。施策A（LP出し分け）・施策B（信頼バッジ）はKlook・GetYourGuideのベストプラクティスと方向性が一致。アソビューのメッセージマッチ機能は施策Cの直接的な参考事例として有力。Activity Japanの在庫リアルタイム表示はカレンダー操作への動機づけとしても機能する。</div>
     </div>
   </div>
 
