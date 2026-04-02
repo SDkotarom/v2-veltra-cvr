@@ -195,6 +195,70 @@ reports/{YEAR}-w{WEEK}/data.json に保存してください。
 - /japan/ /tokyo/ /osaka/ 含む → "japan"
 - それ以外 → "other"
 
+## Phase 1b — サマリーデータ取得（summary-data.json）
+
+サマリーページ（/index.html）のグラフ・KPI用データ。月次の実績を蓄積する。
+
+### 目的
+- 月次のsessions・purchases・CVRの推移グラフ表示
+- 主要KPIの表示
+
+### Property ID: 347074845
+
+### 取得するクエリ（月ごとに1本 × 対象月数）
+
+各月について以下を実行:
+```
+dimensions: []
+metrics: [sessions, ecommercePurchases]
+dateRanges: [{ startDate: "YYYY-MM-01", endDate: "YYYY-MM-末日" }]
+```
+
+対象期間: **2025年1月〜当月の前月末** まで。
+（例: 実行日が2026年4月なら、2025-01〜2026-03の15ヶ月分）
+
+当月（実行月）は月途中のため含めない。
+
+### 出力スキーマ
+
+`/summary-data.json` に保存:
+
+```json
+{
+  "generated_at": "<ISO8601>",
+  "property_id": "347074845",
+  "monthly": [
+    {
+      "month": "2025-01",
+      "sessions": <number>,
+      "purchases": <number>,
+      "cvr": <purchases / sessions>
+    },
+    ...
+  ],
+  "targets": {
+    "monthly_cvr": 0.018,
+    "annual_cvr": 0.020
+  }
+}
+```
+
+### 注意
+- CVRは `purchases / sessions` で計算
+- purchasesは `ecommercePurchases` メトリクスを使用
+- 月の末日は28/29/30/31を正しく計算すること
+- 既存のsummary-data.jsonがあれば上書き
+- targets値はreports-index.jsonと同じ値を使用
+
+### 完了後
+```bash
+git add summary-data.json
+git commit -m "feat: update summary-data.json with real GA4 monthly data"
+git push origin main
+```
+
+---
+
 ## Phase 2 — HTML生成
 
 ### 生成手順
