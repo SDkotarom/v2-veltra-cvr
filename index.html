@@ -893,11 +893,15 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
           (showLabel ? '<text x="' + cx + '" y="' + (cy - 9) + '" text-anchor="middle" font-size="' + (n > 8 ? 9 : 11) + '" font-family="DM Sans" font-weight="700" fill="var(--red)">' + fmtPct(p.cvr, 2) + '</text>' : '');
       }).join('');
 
-    // Invisible hit areas for hover tooltips
+    // Invisible hit areas — bar rects + dot circles only (not full slot width)
     var hitSvg = points.map(function(p, i) {
       var cx = xCenter(i);
-      var hitX = cx - slotW / 2;
-      return '<rect x="' + hitX + '" y="0" width="' + slotW + '" height="' + H + '" fill="transparent" data-idx="' + i + '" style="cursor:crosshair"/>';
+      var bh = (p.sessions / maxSess) * plotH;
+      var by = H - pad.b - bh;
+      var cy = yCVR(p.cvr);
+      var dotR = n > 8 ? 8 : 12;
+      return '<rect x="' + (cx - barW / 2) + '" y="' + by + '" width="' + barW + '" height="' + bh + '" fill="transparent" data-idx="' + i + '" style="cursor:pointer"/>' +
+        '<circle cx="' + cx + '" cy="' + cy + '" r="' + dotR + '" fill="transparent" data-idx="' + i + '" style="cursor:pointer"/>';
     }).join('');
 
     svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
