@@ -274,9 +274,16 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     </div>
   </div>
   <div id="funnel-mode-note" style="padding:0 44px 10px;font-size:12px;color:var(--text3)">水準把握用（28日移動平均）</div>
+  <div id="funnel-nodata" style="display:none;padding:20px 44px;text-align:center">
+    <div style="background:var(--amber-light,#fffbeb);border:1px solid #d97706;border-radius:8px;padding:16px 24px;display:inline-block">
+      <div style="font-size:14px;font-weight:700;color:#d97706;margin-bottom:4px">7日データ未取得</div>
+      <div style="font-size:13px;color:var(--text2)">Phase 1 で <code>funnel_7d</code> クエリを実行するとWoW比較が表示されます</div>
+    </div>
+  </div>
   <hr class="divider-solid">
 
   <!-- Funnel overview counts -->
+  <div id="funnel-content">
   <div class="funnel-ov-row" id="funnel-ov-row">
     <div class="funnel-ov-cell"><div class="foc-num">①</div><div class="foc-name">流入</div><div class="foc-val" id="foc-1">—</div></div>
     <div class="funnel-ov-cell"><div class="foc-num">②</div><div class="foc-name">AC到達</div><div class="foc-val" id="foc-2">—</div></div>
@@ -318,6 +325,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="fbc-counts" id="cnt-4-5"></div>
     </div>
   </div>
+  </div><!-- /funnel-content -->
 </div>
 
 <!-- Segment breakdown -->
@@ -437,6 +445,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     {id:'24m',label:'2年',months:24}
   ];
   var periodOptionsWeekly = [
+    {id:'1m',label:'1ヶ月',months:1},
     {id:'3m',label:'3ヶ月',months:3},
     {id:'6m',label:'半年',months:6},
     {id:'12m',label:'1年',months:12}
@@ -597,13 +606,30 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     document.getElementById('fmt-28d').className = 'fmt-btn ' + (m === '28d' ? 'active' : 'inactive');
     document.getElementById('fmt-7d').className  = 'fmt-btn ' + (m === '7d'  ? 'active' : 'inactive');
     var noteEl = document.getElementById('funnel-mode-note');
-    if (noteEl) noteEl.textContent = m === '28d' ? '水準把握用（28日移動平均）' : '異常検知用（今週 vs 先週）';
+    var noDataEl = document.getElementById('funnel-nodata');
+    var funnelContent = document.getElementById('funnel-content');
+
     // Re-render funnel with selected mode
     var weeks = reportsIndex ? reportsIndex.weeks : [];
     var latest = weeks.length ? weeks[weeks.length - 1] : null;
     if (!latest) return;
     var weekObj = weekDataCache[latest.week_id];
     if (!weekObj) return;
+
+    // Check if 7d data is available
+    if (m === '7d' && !weekObj.funnel_7d) {
+      if (noteEl) noteEl.textContent = '異常検知用（今週 vs 先週）';
+      if (noDataEl) noDataEl.style.display = 'block';
+      if (funnelContent) funnelContent.style.opacity = '0.2';
+      return;
+    }
+
+    // Hide no-data message and restore opacity
+    if (noDataEl) noDataEl.style.display = 'none';
+    if (funnelContent) funnelContent.style.opacity = '1';
+
+    if (noteEl) noteEl.textContent = m === '28d' ? '水準把握用（28日移動平均）' : '異常検知用（今週 vs 先週）';
+
     var funnelData = (m === '7d' && weekObj.funnel_7d)
       ? { funnel: weekObj.funnel_7d.funnel, conversion_rates: weekObj.funnel_7d.conversion_rates }
       : { funnel: weekObj.baseline.funnel, conversion_rates: weekObj.baseline.conversion_rates };
@@ -631,7 +657,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       var wowEl = document.getElementById('wow-' + rd.id);
       if (wowEl) {
         var pp = wow[rd.key];
-        if (m === '7d' && pp == null && weekObj.funnel_7d) {
+        if (m === '7d' && pp == null) {
           wowEl.textContent = '前週データなし'; wowEl.className = 'fbc-wow wow-neut';
         } else if (pp == null) {
           wowEl.textContent = ''; wowEl.className = 'fbc-wow';

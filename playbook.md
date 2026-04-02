@@ -123,6 +123,21 @@ dimensions: [landingPage, deviceCategory]
 metrics: [sessions]
 ※ 注意: landingPagePath は無効。正しいディメンション名は landingPage
 
+### Query 9: 7日間ファネル（WoW比較用）
+**今週（直近7日）**
+dimensions: []
+metrics: [sessions, eventCount, totalUsers]
+dimensionFilter: eventName IN [session_start, ac_page_reach, GA4_vtjp_ex_yokka_view_booking_calendar, form_start, purchase]
+dateRanges: [{ startDate: "7daysAgo", endDate: "yesterday" }]
+
+**先週（8〜14日前）**
+dimensions: []
+metrics: [sessions, eventCount, totalUsers]
+dimensionFilter: eventName IN [session_start, ac_page_reach, GA4_vtjp_ex_yokka_view_booking_calendar, form_start, purchase]
+dateRanges: [{ startDate: "14daysAgo", endDate: "8daysAgo" }]
+
+※ 2本のクエリ結果から今週/先週のファネル通過率を算出し、差分（pp）を計算する
+
 ## data.jsonの出力スキーマ
 
 reports/{YEAR}-w{WEEK}/data.json に保存してください。
@@ -154,6 +169,27 @@ reports/{YEAR}-w{WEEK}/data.json に保存してください。
       "2_to_3": "<calendar_view / ac_page_reach_users>",
       "3_to_4": "<form_start / calendar_view>",
       "4_to_5": "<purchase / form_start>"
+    }
+  },
+  "funnel_7d": {
+    "funnel": {
+      "session_start_users": "<7日間のtotalUsers of session_start>",
+      "ac_page_reach_users": "<7日間のtotalUsers of ac_page_reach>",
+      "calendar_view": "<7日間のeventCount of calendar>",
+      "form_start": "<7日間のeventCount of form_start>",
+      "purchase": "<7日間のeventCount of purchase>"
+    },
+    "conversion_rates": {
+      "1_to_2": "<今週の①→②通過率>",
+      "2_to_3": "<今週の②→③通過率>",
+      "3_to_4": "<今週の③→④通過率>",
+      "4_to_5": "<今週の④→⑤通過率>",
+      "wow_pp": {
+        "1_to_2": "<今週 - 先週 の差分（percentage points）>",
+        "2_to_3": "<同上>",
+        "3_to_4": "<同上>",
+        "4_to_5": "<同上>"
+      }
     }
   },
   "segments": {
