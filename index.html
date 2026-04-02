@@ -855,19 +855,42 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     }).catch(function(e){ console.error('summary-data.json load error', e); });
   }
 
+  var _weeklySummaryCache = null;
+
   function _renderWeeklyGraph() {
-    if (!reportsIndex || !reportsIndex.weeks) return;
-    var points = [];
-    reportsIndex.weeks.forEach(function(w) {
-      var d = weekDataCache[w.week_id];
-      if (!d) return;
-      var wid = w.week_id; // e.g. "2026-W09"
-      var sessions = d.baseline.sessions;
-      var cvr = d.baseline.cvr;
-      points.push({ label: wid.replace(/^\d{4}-/, ''), cvr: cvr, sessions: sessions, fullLabel: wid });
+    if (_weeklySummaryCache) {
+      _drawWeeklyPoints(_weeklySummaryCache);
+      return;
+    }
+    fetch('/weekly-summary.json')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        _weeklySummaryCache = data;
+        _drawWeeklyPoints(data);
+      })
+      .catch(function() {
+        // Fallback: try from weekDataCache
+        if (!reportsIndex || !reportsIndex.weeks) return;
+        var points = [];
+        reportsIndex.weeks.forEach(function(w) {
+          var d = weekDataCache[w.week_id];
+          if (!d) return;
+          points.push({ label: w.week_id.replace(/^\d{4}-/, ''), cvr: d.baseline.cvr, sessions: d.baseline.sessions, fullLabel: w.week_id });
+        });
+        if (points.length) _drawGraph(filterByPeriod(points), targets);
+      });
+  }
+
+  function _drawWeeklyPoints(data) {
+    var weekly = data.weekly || [];
+    var points = weekly.map(function(w) {
+      var yr = w.week.slice(0, 4);
+      var wk = w.week.slice(4);
+      var label = yr.slice(2) + '/W' + wk;
+      return { label: label, cvr: w.cvr, sessions: w.sessions, fullLabel: yr + '-W' + wk };
     });
     if (!points.length) return;
-    _drawGraph(filterByPeriod(points), _summaryCache ? (_summaryCache.targets || targets) : targets);
+    _drawGraph(filterByPeriod(points), data.targets || targets);
   }
 
   function _renderGraphPoints(data) {
