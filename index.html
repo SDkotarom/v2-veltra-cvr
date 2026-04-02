@@ -232,12 +232,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   <div style="display:flex;align-items:center;justify-content:space-between;padding:28px 44px 12px">
     <div class="sec-label" style="padding:0">セッション数 &amp; CVR推移</div>
     <div style="display:flex;align-items:center;gap:12px">
-      <div class="funnel-mode-toggle" id="graph-period-toggle">
-        <button class="fmt-btn inactive" id="gp-3m" onclick="setGraphPeriod('3m')">3M</button>
-        <button class="fmt-btn inactive" id="gp-6m" onclick="setGraphPeriod('6m')">6M</button>
-        <button class="fmt-btn inactive" id="gp-12m" onclick="setGraphPeriod('12m')">1Y</button>
-        <button class="fmt-btn active" id="gp-all" onclick="setGraphPeriod('all')">全期間</button>
-      </div>
+      <div class="funnel-mode-toggle" id="graph-period-toggle"></div>
       <div class="funnel-mode-toggle">
         <button class="fmt-btn active" id="graph-mode-monthly" onclick="setGraphMode('monthly')">月次</button>
         <button class="fmt-btn inactive" id="graph-mode-weekly" onclick="setGraphMode('weekly')">週次</button>
@@ -396,7 +391,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 (function() {
   var funnelMode = '28d'; // '28d' or '7d'
   var graphMode = 'monthly'; // 'monthly' or 'weekly'
-  var graphPeriod = 'all'; // '3m', '6m', '12m', 'all'
+  var graphPeriod = '24m'; // '3m', '6m', '12m', '24m'
   var reportsIndex = null;
   var weekDataCache = {};
   var currentData = null; // aggregated or single week
@@ -431,23 +426,48 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     var wBtn = document.getElementById('graph-mode-weekly');
     if (mBtn) mBtn.className = 'fmt-btn ' + (m === 'monthly' ? 'active' : 'inactive');
     if (wBtn) wBtn.className = 'fmt-btn ' + (m === 'weekly' ? 'active' : 'inactive');
+    buildPeriodButtons();
     renderGraph();
   };
 
   // ── Graph period toggle ──────────────────────────
+  var periodOptionsMonthly = [
+    {id:'3m',label:'3ヶ月',months:3},
+    {id:'6m',label:'半年',months:6},
+    {id:'12m',label:'1年',months:12},
+    {id:'24m',label:'2年',months:24}
+  ];
+  var periodOptionsWeekly = [
+    {id:'3m',label:'3ヶ月',months:3},
+    {id:'6m',label:'半年',months:6},
+    {id:'12m',label:'1年',months:12}
+  ];
+
+  function buildPeriodButtons() {
+    var container = document.getElementById('graph-period-toggle');
+    if (!container) return;
+    var options = graphMode === 'weekly' ? periodOptionsWeekly : periodOptionsMonthly;
+    // Reset period if current selection not available
+    var validIds = options.map(function(o){return o.id});
+    if (validIds.indexOf(graphPeriod) === -1) graphPeriod = options[options.length-1].id;
+    container.innerHTML = options.map(function(o) {
+      return '<button class="fmt-btn ' + (graphPeriod === o.id ? 'active' : 'inactive') + '" onclick="setGraphPeriod(\'' + o.id + '\')">' + o.label + '</button>';
+    }).join('');
+  }
+
   window.setGraphPeriod = function(p) {
     graphPeriod = p;
-    ['3m','6m','12m','all'].forEach(function(id) {
-      var btn = document.getElementById('gp-' + id);
-      if (btn) btn.className = 'fmt-btn ' + (p === id ? 'active' : 'inactive');
-    });
+    buildPeriodButtons();
     renderGraph();
   };
 
   function filterByPeriod(points) {
-    if (graphPeriod === 'all') return points;
-    var months = graphPeriod === '3m' ? 3 : graphPeriod === '6m' ? 6 : 12;
-    return points.slice(-months);
+    var options = graphMode === 'weekly' ? periodOptionsWeekly : periodOptionsMonthly;
+    var opt = options.filter(function(o){return o.id===graphPeriod})[0];
+    if (!opt) return points;
+    // For weekly: ~4.3 weeks per month
+    var count = graphMode === 'weekly' ? Math.round(opt.months * 4.3) : opt.months;
+    return points.slice(-count);
   }
 
   // ── Sticky header on scroll ──────────────────────
@@ -568,6 +588,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     renderFunnel(currentData, weekDataCache[latest.week_id]);
 
     renderCVRStatus(currentData.cvr);
+    buildPeriodButtons();
     renderGraph();
   }
 
