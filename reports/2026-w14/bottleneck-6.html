@@ -19,16 +19,50 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .callout{background:var(--red-light);border-left:4px solid var(--red);padding:20px 28px;margin:0 44px 32px;border-radius:0 8px 8px 0}
 .callout .ct{font-size:16px;font-weight:700;color:var(--red);margin-bottom:8px}
 .callout .cb{font-size:16px;color:var(--text2);line-height:1.8}
+.callout-green{background:var(--green-light);border-left:4px solid var(--green)}
+.callout-green .ct{color:var(--green)}
+.callout-amber{background:var(--amber-light);border-left:4px solid var(--amber)}
+.callout-amber .ct{color:var(--amber)}
 .footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
 .bn-tag{font-size:13px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid var(--border)}
 .bn-tag.red{background:var(--red-light);border-color:var(--red);color:var(--red)}
 .nav-bar{padding:16px 44px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
 .nav-bar a{font-size:14px;color:var(--red);text-decoration:none;font-weight:600}
 .nav-bar a:hover{text-decoration:underline}
-.placeholder{padding:60px 44px;text-align:center;color:var(--text3)}
-.placeholder .ph-icon{font-size:48px;margin-bottom:16px}
-.placeholder .ph-title{font-size:20px;font-weight:700;color:var(--text2);margin-bottom:8px}
-.placeholder .ph-desc{font-size:15px;line-height:1.7}
+.funnel-compare{padding:0 44px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fc-cell{border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.fc-cell.alert{border-color:var(--red);background:var(--red-light)}
+.fc-label{font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.fc-stage{font-size:15px;font-weight:700;margin:6px 0 4px}
+.fc-val{font-family:'DM Sans';font-size:20px;font-weight:700}
+.fc-val-label{font-size:11px;color:var(--text3)}
+.hypo-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.hypo-card{border:1px solid var(--border);border-radius:12px;padding:20px 24px;position:relative}
+.hypo-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:12px 0 0 12px}
+.hypo-card.h1::before{background:var(--red)}
+.hypo-card.h2::before{background:var(--amber)}
+.hypo-card.h3::before{background:var(--text3)}
+.hypo-num{font-family:'DM Sans';font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.hypo-card.h1 .hypo-num{color:var(--red)}
+.hypo-card.h2 .hypo-num{color:var(--amber)}
+.hypo-card.h3 .hypo-num{color:var(--text3)}
+.hypo-title{font-size:17px;font-weight:700;margin-bottom:8px;line-height:1.4}
+.hypo-body{font-size:14px;color:var(--text2);line-height:1.7}
+.hypo-evidence{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:13px}
+.hypo-evidence strong{color:var(--text);display:block;margin-bottom:4px}
+.action-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.action-card{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.action-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.action-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.action-impact{font-family:'DM Sans';font-size:14px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px}
+.action-body{padding:16px 20px}
+.action-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.action-desc{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.action-spec{background:var(--bg);border-radius:6px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6}
+.action-spec strong{color:var(--text);display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+@media(max-width:768px){
+  .funnel-compare,.hypo-grid,.action-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -36,7 +70,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div class="card">
   <div class="header-band">
     <div class="logo">V2</div>
-    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">← サマリーに戻る</a>
+    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">&larr; サマリーに戻る</a>
     <div class="right">ボトルネック #6 / 10</div>
   </div>
 
@@ -44,7 +78,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
       <div style="font-family:'DM Sans';font-size:56px;font-weight:900;color:var(--red);line-height:1">#6</div>
       <div>
-        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Desktop — AC到達率の低さ</div>
+        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Desktop &mdash; AC到達率の低さ</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="bn-tag red">①→② 回遊段階</span>
           <span class="bn-tag">Desktop</span>
@@ -54,73 +88,226 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div style="display:flex;align-items:center;gap:16px;margin-top:16px">
       <div style="font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase">全体平均との乖離</div>
       <div style="font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red)">-16%</div>
-      <div style="font-size:14px;color:var(--text3)">対象セッション: 766,840</div>
+      <div style="font-size:14px;color:var(--text3)">影響セッション: 766,840 / 月</div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <div style="padding:24px 44px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">原因仮説</div>
+  <!-- Step 2-3: Tier 1 comparison -->
+  <div style="padding:24px 44px 12px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Step 2-3 &mdash; Tier 1 比較：①→② AC到達率</div>
+  </div>
+  <div class="funnel-compare">
+    <div class="fc-cell">
+      <div class="fc-label">全体平均</div>
+      <div class="fc-stage">①→② 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">26.1%</div>
+      <div class="fc-val-label">ベースライン</div>
+    </div>
+    <div class="fc-cell alert">
+      <div class="fc-label" style="color:var(--red)">Desktop</div>
+      <div class="fc-stage">①→② 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px;color:var(--red)">21.9%</div>
+      <div class="fc-val-label" style="color:var(--red)">-16% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Mobile</div>
+      <div class="fc-stage">①→② 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">26.5%</div>
+      <div class="fc-val-label">+2% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Tablet</div>
+      <div class="fc-stage">①→② 回遊</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">29.9%</div>
+      <div class="fc-val-label">+15% vs 全体</div>
+    </div>
+  </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:24px">
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--red)">
-        <div style="font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;margin-bottom:6px">仮説 1（有力）</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:8px">デスクトップ版の一覧ページでの回遊離脱</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">ブラウジングが長くなり商品詳細未到達。デスクトップの広い画面で一覧を流し見するだけでセッションが終了するケースが多い。</div>
+  <!-- Step 4-5: Tier 2-3 drill down -->
+  <div style="padding:0 44px 20px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Step 4-5 &mdash; Tier 2-3 深掘り</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">チャネルで分解（Desktop内）</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          Direct &times; <strong style="color:var(--red)">Desktop: 3.7%</strong>（異常値！）<br>
+          Organic &times; Desktop: 25.8%（全体比 -1%）<br>
+          Paid &times; Desktop: 43.2%（全体比 +65%）
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ Direct×Desktopが極端な低率でDesktop全体を牽引。Paid×Desktopは良好。</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--amber)">
-        <div style="font-size:12px;font-weight:700;color:var(--amber);text-transform:uppercase;margin-bottom:6px">仮説 2</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:8px">Direct×Desktopの極端な低率（3.7%）が全体を牽引</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">マイページ・管理画面アクセスの混入。業務利用などの非購買セッションがDirect×Desktopの数値を大幅に押し下げている。</div>
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">新規/リピーターで分解（Desktop内）</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          Desktop &times; <strong style="color:var(--red)">新規: 推定 18%</strong>（全体比 -31%）<br>
+          Desktop &times; リピーター: 推定 28%（全体比 +7%）
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ Desktopの新規ユーザーに問題が集中。リピーターはベースライン並み。</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--text3)">
-        <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:6px">仮説 3</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:8px">デスクトップ版検索・フィルタリングUIの使いにくさ</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">商品到達までの導線が長い。絞り込み機能の操作性が低く、目的の商品に辿り着く前に離脱するユーザーが多い。</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:0">
+    <div class="ct">特定結果</div>
+    <div class="cb"><strong>Direct &times; Desktop</strong> の ①→② AC到達率が <strong>3.7%</strong>（180Kセッションで6,184人しかAC到達していない）。<br>この1セグメントを除くとDesktop全体は約28%でベースライン並み。<br>Organic Desktop=25.8%・Paid Desktop=43.2%は正常〜良好であり、問題はDirect&times;Desktopに集中している。</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Step 6: Hypotheses -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Step 6 &mdash; 原因仮説 &times; 3</div>
+    <div style="font-size:15px;color:var(--text2)">なぜ Desktop のAC到達率が低いか？</div>
+  </div>
+  <div class="hypo-grid">
+    <div class="hypo-card h1">
+      <div class="hypo-num">仮説 1（有力）</div>
+      <div class="hypo-title">Direct×Desktopの極端な低率が全体を牽引</div>
+      <div class="hypo-body">Desktop全体のAC到達率が低い最大の要因はDirect×Desktop（180K sessions、3.7%）。マイページ・管理画面アクセスのセッションが大量に混入し、商品閲覧意図のないセッションが数値を押し下げている。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        DirectDesktop=3.7%を除くとDesktop全体は約28%。OrgDesktop=25.8%、PaidDesktop=43.2%は正常〜良好。問題はDirect×Desktopに集中。
+      </div>
+    </div>
+    <div class="hypo-card h2">
+      <div class="hypo-num">仮説 2</div>
+      <div class="hypo-title">デスクトップ一覧ページでの回遊離脱</div>
+      <div class="hypo-body">デスクトップではブラウジング行動が長くなり、一覧ページでの商品比較に時間を費やした後、商品詳細に到達せずにセッション終了するパターンが多い。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        OrgDesktop25.8%はMobile22.0%より高いが、ベースライン26.1%よりやや低い。情報量が多いDesktopで選択肢過多に。
+      </div>
+    </div>
+    <div class="hypo-card h3">
+      <div class="hypo-num">仮説 3</div>
+      <div class="hypo-title">デスクトップ版検索・フィルタUIの使いにくさ</div>
+      <div class="hypo-body">デスクトップ版の検索機能やカテゴリフィルタリングが最適化されておらず、目的の商品を見つけるまでの導線が長い。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Paid Desktop①→②=43.2%と高く、広告で直接商品に来る場合は問題なし。自力で商品を探す場合の導線に課題。
       </div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <div style="padding:24px 44px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">打ち手候補</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 A</div>
-          <div style="font-family:'DM Sans';font-size:18px;font-weight:900;color:var(--green)">+3pt</div>
-        </div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">デスクトップ一覧ページのクイックビュー機能</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">一覧上でホバー時に商品詳細をポップアップ表示し、詳細ページへの遷移なしに主要情報・カレンダーへの導線を提供する。</div>
+  <!-- Actions -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説1〜2に対する施策）</div>
+    <div style="font-size:15px;color:var(--text2)">Desktop の①→② AC到達率を改善する</div>
+  </div>
+  <div class="action-grid">
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--red)">施策 A</div>
+        <div class="action-impact">①→② +3pt</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 B</div>
-          <div style="font-family:'DM Sans';font-size:18px;font-weight:900;color:var(--green)">+2pt</div>
+      <div class="action-body">
+        <div class="action-title">クイックビュー機能</div>
+        <div class="action-desc">商品一覧でホバー時にポップアップを表示し、商品詳細ページへの遷移なしに主要情報を確認できるようにする。Desktopユーザーの一覧ページ離脱を減らし、AC到達率を改善する。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・商品一覧でホバー時にポップアップ（画像+価格+評価+空き状況+CTA）<br>
+          ・ポップアップから直接カレンダーにアクセス可能<br>
+          ・クリックで商品詳細に遷移
         </div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">デスクトップ版検索・フィルタUI改善</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">サイドバーフィルターの視認性・操作性を向上させ、目的の商品へ最短距離で到達できる検索体験を実現する。</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 C</div>
-          <div style="font-family:'DM Sans';font-size:18px;font-weight:900;color:var(--green)">+1pt</div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--amber)">施策 B</div>
+        <div class="action-impact">①→② +2pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">検索・フィルタUI改善</div>
+        <div class="action-desc">デスクトップ向けにサイドバーフィルタと検索サジェストを強化し、ユーザーが目的の商品に素早く到達できる導線を整備する。カテゴリナビゲーションを視覚的に刷新する。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・サイドバーフィルタ（カテゴリ/価格帯/評価/空き日程）の常時表示<br>
+          ・検索サジェスト強化（商品名+エリア+カテゴリの横断検索）<br>
+          ・カテゴリナビゲーションの再設計（大型ビジュアルタイル化）
         </div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">Direct×Desktopの計測精度調査と改善</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">マイページ等の非購買URLを計測対象から除外し、購買フローのみを正確に把握できるよう計測設計を見直す。</div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--text3)">施策 C</div>
+        <div class="action-impact">①→② +1pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">Direct×Desktop計測精度調査</div>
+        <div class="action-desc">Direct×Desktopの3.7%という極端な低率が計測上の問題によるものか、実際の行動によるものかを切り分ける。GTMおよびSPA遷移の実装を精査する。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・GTMのac_page_reachトリガー条件をデバッグモードで検証<br>
+          ・SPA遷移時のhistory changeイベントとの連携確認<br>
+          ・Desktop Direct流入のランディングページ分布分析
+        </div>
       </div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <div class="proto-tabs-target"></div>
+  <!-- Verification -->
+  <div class="callout-amber callout">
+    <div class="ct">検証方法</div>
+    <div class="cb">計測調査（1週間）+ ABテスト 2週間。対象: Desktop全体。<br>
+    主要指標: ①→② AC到達率（現状 21.9% → 目標 24%以上）。<br>
+    副次指標: Direct×Desktopの計測精度（GTMデバッグで実態把握）、②→③ カレンダー表示率への影響。<br>
+    まず施策Cで計測上の問題を除外してから施策A・Bを展開する。</div>
+  </div>
 
   <hr class="divider">
 
-  <div style="padding:24px 44px 32px">
+  <!-- Competitive Analysis -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のDesktop商品発見体験比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">Desktop UX視点</span></div>
+    <div style="font-size:15px;color:var(--text2)">ボトルネックが「Desktop①→②」のため、デスクトップでの商品一覧から詳細への導線を中心に比較。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Klook</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          Desktop右カラムにクイック予約ウィジェット常時表示。商品一覧のカードに価格・評価・空き状況を集約。一覧からワンクリックで予約フローへ誘導できる設計。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 一覧ページを離れずに予約意思を固められるUX。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">GetYourGuide</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          充実したフィルタUI+地図連動検索。サイドバーフィルタがstickyで常時表示。地図上で商品位置を確認しながら絞り込みが可能。デスクトップの広い画面を最大活用。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 地図+フィルタの連動で目的の商品への最短経路を提供。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Viator</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          商品カードのホバープレビュー+TripAdvisor評価表示。一覧カード上にマウスを乗せると画像がスライドし概要が拡大表示される。詳細ページ遷移前に情報収集が完結。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: ホバーでの情報提示によりページ遷移コストを最小化。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">asoview!</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          カテゴリを大型ビジュアルタイルで表示、直感的ブラウジング。トップページから各カテゴリへの遷移が視覚的で分かりやすく、目的のジャンルに素早く到達できる。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 大型タイルUIで選択肢過多による迷子を防ぐ設計。</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin:20px 0 0">
+      <div class="ct">競合比較から得られる示唆</div>
+      <div class="cb">競合4社はDesktopで「商品発見→詳細確認」のステップを最小化している。VELTRAはテキストベースの一覧が中心で視覚的な商品発見体験が弱い。施策A（クイックビュー）はViator、施策B（フィルタUI）はGetYourGuideとasoview!のベストプラクティスに対応。Klookの右カラムウィジェットも予約意図の早期捕捉という観点で参考になる。</div>
+    </div>
+  </div>
+
+  <!-- Team review -->
+  <div style="padding:0 44px 32px">
     <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
       <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;font-size:14px;color:var(--text3)">
@@ -133,10 +320,11 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div>
 
   <div class="nav-bar">
-    <a href="bottleneck-5.html">← #5 に戻る</a>
+    <a href="bottleneck-5.html">&larr; #5 へ戻る</a>
     <a href="./">サマリーに戻る</a>
     <a href="bottleneck-7.html">#7 へ進む →</a>
   </div>
+
 </div>
 
 <div class="card">
