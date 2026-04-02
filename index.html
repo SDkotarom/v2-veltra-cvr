@@ -231,9 +231,17 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div class="card">
   <div style="display:flex;align-items:center;justify-content:space-between;padding:28px 44px 12px">
     <div class="sec-label" style="padding:0">セッション数 &amp; CVR推移</div>
-    <div class="funnel-mode-toggle">
-      <button class="fmt-btn active" id="graph-mode-monthly" onclick="setGraphMode('monthly')">月次</button>
-      <button class="fmt-btn inactive" id="graph-mode-weekly" onclick="setGraphMode('weekly')">週次</button>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="funnel-mode-toggle" id="graph-period-toggle">
+        <button class="fmt-btn inactive" id="gp-3m" onclick="setGraphPeriod('3m')">3M</button>
+        <button class="fmt-btn inactive" id="gp-6m" onclick="setGraphPeriod('6m')">6M</button>
+        <button class="fmt-btn inactive" id="gp-12m" onclick="setGraphPeriod('12m')">1Y</button>
+        <button class="fmt-btn active" id="gp-all" onclick="setGraphPeriod('all')">全期間</button>
+      </div>
+      <div class="funnel-mode-toggle">
+        <button class="fmt-btn active" id="graph-mode-monthly" onclick="setGraphMode('monthly')">月次</button>
+        <button class="fmt-btn inactive" id="graph-mode-weekly" onclick="setGraphMode('weekly')">週次</button>
+      </div>
     </div>
   </div>
   <div class="graph-wrap" style="padding-top:12px">
@@ -388,6 +396,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 (function() {
   var funnelMode = '28d'; // '28d' or '7d'
   var graphMode = 'monthly'; // 'monthly' or 'weekly'
+  var graphPeriod = 'all'; // '3m', '6m', '12m', 'all'
   var reportsIndex = null;
   var weekDataCache = {};
   var currentData = null; // aggregated or single week
@@ -424,6 +433,22 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     if (wBtn) wBtn.className = 'fmt-btn ' + (m === 'weekly' ? 'active' : 'inactive');
     renderGraph();
   };
+
+  // ── Graph period toggle ──────────────────────────
+  window.setGraphPeriod = function(p) {
+    graphPeriod = p;
+    ['3m','6m','12m','all'].forEach(function(id) {
+      var btn = document.getElementById('gp-' + id);
+      if (btn) btn.className = 'fmt-btn ' + (p === id ? 'active' : 'inactive');
+    });
+    renderGraph();
+  };
+
+  function filterByPeriod(points) {
+    if (graphPeriod === 'all') return points;
+    var months = graphPeriod === '3m' ? 3 : graphPeriod === '6m' ? 6 : 12;
+    return points.slice(-months);
+  }
 
   // ── Sticky header on scroll ──────────────────────
   (function() {
@@ -822,7 +847,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       points.push({ label: wid.replace(/^\d{4}-/, ''), cvr: cvr, sessions: sessions, fullLabel: wid });
     });
     if (!points.length) return;
-    _drawGraph(points, _summaryCache ? (_summaryCache.targets || targets) : targets);
+    _drawGraph(filterByPeriod(points), _summaryCache ? (_summaryCache.targets || targets) : targets);
   }
 
   function _renderGraphPoints(data) {
@@ -833,7 +858,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       return { label: parts[0].slice(2) + '/' + parts[1], cvr: m.cvr, sessions: m.sessions, fullLabel: m.month };
     });
     if (!points.length) return;
-    _drawGraph(points, graphTargets);
+    _drawGraph(filterByPeriod(points), graphTargets);
   }
 
   function _drawGraph(points, graphTargets) {
