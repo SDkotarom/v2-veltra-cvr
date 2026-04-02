@@ -63,7 +63,8 @@
   var path = location.pathname;
   var isTop    = (path === '/' || path === '/index.html');
   var isCycle  = (path === '/cycle.html');
-  var isWeekSummary = /\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path);
+  var isArchive = (path === '/reports/' || path === '/reports/index.html');
+  var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
   var isBottleneck  = /bottleneck-\d+\.html$/.test(path);
 
   var weekDir = '';
@@ -265,8 +266,8 @@
 
     // ■ ボトルネック分析
     var bnA = document.createElement('a');
-    bnA.href = currentWeekId ? '/reports/' + currentWeekId + '/' : (weeks && weeks.length ? weeks[weeks.length-1].path : '/');
-    bnA.className = 'nav-item' + (isWeekSummary ? ' nav-active' : '');
+    bnA.href = '/reports/';
+    bnA.className = 'nav-item' + (isArchive || isWeekSummary || isBottleneck ? ' nav-active' : '');
     bnA.appendChild(makeIcon('bottleneck'));
     bnA.appendChild(document.createTextNode('ボトルネック分析'));
     nav.appendChild(bnA);

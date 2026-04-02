@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>週次アーカイブ — VELTRA CVR REPORT</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#E8423F;--red-light:#FFF5F5;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1;--border-dash:#d0cec8;--green:#16a34a;--green-light:#f0fdf4;--amber:#d97706;--amber-light:#fffbeb}
+body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);padding:48px 32px;max-width:1200px;margin:0 auto;font-size:18px}
+.card{background:var(--card);border-radius:16px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.header-band{background:var(--red);padding:24px 44px;display:flex;justify-content:space-between;align-items:center}
+.header-band .logo{font-family:'DM Sans';font-weight:900;font-size:26px;color:#fff;letter-spacing:.04em;border:2px solid rgba(255,255,255,.6);padding:4px 14px;border-radius:5px}
+.header-band .right{text-align:right;color:rgba(255,255,255,.8);font-size:14px}
+.header-band .right strong{display:block;font-size:20px;color:#fff}
+.sec-label{padding:28px 44px 12px;font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
+.divider-solid{border:none;border-top:1px solid var(--border);margin:0}
+.footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
+.week-list{padding:0 44px 32px}
+.week-card{display:flex;align-items:center;gap:24px;padding:24px;border:1px solid var(--border);border-radius:12px;margin-bottom:12px;text-decoration:none;color:var(--text);transition:box-shadow .15s,border-color .15s}
+.week-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);border-color:var(--red)}
+.week-card.latest{border:2px solid var(--red);background:var(--red-light)}
+.week-id{font-family:'DM Sans';font-size:28px;font-weight:900;color:var(--red);flex-shrink:0;min-width:80px}
+.week-info{flex:1}
+.week-period{font-size:15px;font-weight:700;margin-bottom:4px}
+.week-meta{font-size:13px;color:var(--text3);line-height:1.6}
+.week-kpi{display:flex;gap:20px;flex-shrink:0}
+.week-kpi-item{text-align:center}
+.week-kpi-label{font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.week-kpi-val{font-family:'DM Sans';font-size:22px;font-weight:900;margin-top:2px}
+.week-badge{font-size:12px;font-weight:700;background:var(--red);color:#fff;padding:4px 12px;border-radius:12px;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header-band">
+    <div class="logo">V2</div>
+    <div class="right">
+      ボトルネック分析<br>
+      <strong>週次アーカイブ</strong>
+    </div>
+  </div>
+  <div class="sec-label">レポート一覧</div>
+  <hr class="divider-solid">
+  <div class="week-list" id="week-list">
+    <div style="padding:40px;text-align:center;color:var(--text3)">読み込み中...</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="footer">
+    <span>VELTRA CVR改善チーム</span>
+    <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+  </div>
+</div>
+
+<script src="/nav.js"></script>
+<script src="/funnel-def.js"></script>
+<script>
+(function(){
+  fetch('/reports-index.json')
+    .then(function(r){return r.json()})
+    .then(function(idx){
+      var weeks = (idx.weeks||[]).slice().reverse();
+      var container = document.getElementById('week-list');
+      container.innerHTML = '';
+      if(!weeks.length){container.innerHTML='<div style="padding:40px;text-align:center;color:var(--text3)">レポートがありません</div>';return}
+      weeks.forEach(function(w,i){
+        var isLatest = i===0;
+        fetch(w.data_path).then(function(r){return r.json()}).then(function(d){
+          var a = document.createElement('a');
+          a.href = w.path;
+          a.className = 'week-card' + (isLatest?' latest':'');
+
+          var id = document.createElement('div');
+          id.className = 'week-id';
+          id.textContent = w.week_id.replace('2026-','').toUpperCase();
+
+          var info = document.createElement('div');
+          info.className = 'week-info';
+          var period = document.createElement('div');
+          period.className = 'week-period';
+          var ds = w.date_start||''; var de = w.date_end||'';
+          period.textContent = ds.slice(5).replace('-','/')+' \u301C '+de.slice(5).replace('-','/');
+          var meta = document.createElement('div');
+          meta.className = 'week-meta';
+          var bns = d.bottlenecks||[];
+          meta.textContent = '\u30DC\u30C8\u30EB\u30CD\u30C3\u30AF '+bns.length+'\u4EF6';
+          if(bns.length) meta.textContent += ' | #1: '+bns[0].title;
+          info.appendChild(period);
+          info.appendChild(meta);
+
+          var kpi = document.createElement('div');
+          kpi.className = 'week-kpi';
+          function addKpi(label,val){
+            var item = document.createElement('div');
+            item.className = 'week-kpi-item';
+            var l = document.createElement('div');l.className='week-kpi-label';l.textContent=label;
+            var v = document.createElement('div');v.className='week-kpi-val';v.textContent=val;
+            item.appendChild(l);item.appendChild(v);kpi.appendChild(item);
+          }
+          if(d.baseline){
+            var s = d.baseline.sessions;
+            addKpi('Sessions', s>=1e6?(s/1e6).toFixed(2)+'M':s>=1e3?(s/1e3).toFixed(0)+'K':s.toString());
+            addKpi('CVR', (d.baseline.cvr*100).toFixed(2)+'%');
+          }
+
+          a.appendChild(id);
+          a.appendChild(info);
+          a.appendChild(kpi);
+          if(isLatest){var badge=document.createElement('span');badge.className='week-badge';badge.textContent='\u6700\u65B0';a.appendChild(badge)}
+          container.appendChild(a);
+        }).catch(function(){});
+      });
+    }).catch(function(){
+      document.getElementById('week-list').innerHTML='<div style="padding:40px;text-align:center;color:var(--text3)">\u8AAD\u307F\u8FBC\u307F\u30A8\u30E9\u30FC</div>';
+    });
+})();
+</script>
+</body>
+</html>
