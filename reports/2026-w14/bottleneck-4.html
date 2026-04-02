@@ -19,16 +19,50 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .callout{background:var(--red-light);border-left:4px solid var(--red);padding:20px 28px;margin:0 44px 32px;border-radius:0 8px 8px 0}
 .callout .ct{font-size:16px;font-weight:700;color:var(--red);margin-bottom:8px}
 .callout .cb{font-size:16px;color:var(--text2);line-height:1.8}
+.callout-green{background:var(--green-light);border-left:4px solid var(--green)}
+.callout-green .ct{color:var(--green)}
+.callout-amber{background:var(--amber-light);border-left:4px solid var(--amber)}
+.callout-amber .ct{color:var(--amber)}
 .footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
 .bn-tag{font-size:13px;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid var(--border)}
 .bn-tag.red{background:var(--red-light);border-color:var(--red);color:var(--red)}
 .nav-bar{padding:16px 44px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
 .nav-bar a{font-size:14px;color:var(--red);text-decoration:none;font-weight:600}
 .nav-bar a:hover{text-decoration:underline}
-.placeholder{padding:60px 44px;text-align:center;color:var(--text3)}
-.placeholder .ph-icon{font-size:48px;margin-bottom:16px}
-.placeholder .ph-title{font-size:20px;font-weight:700;color:var(--text2);margin-bottom:8px}
-.placeholder .ph-desc{font-size:15px;line-height:1.7}
+.funnel-compare{padding:0 44px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fc-cell{border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.fc-cell.alert{border-color:var(--red);background:var(--red-light)}
+.fc-label{font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.fc-stage{font-size:15px;font-weight:700;margin:6px 0 4px}
+.fc-val{font-family:'DM Sans';font-size:20px;font-weight:700}
+.fc-val-label{font-size:11px;color:var(--text3)}
+.hypo-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.hypo-card{border:1px solid var(--border);border-radius:12px;padding:20px 24px;position:relative}
+.hypo-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:12px 0 0 12px}
+.hypo-card.h1::before{background:var(--red)}
+.hypo-card.h2::before{background:var(--amber)}
+.hypo-card.h3::before{background:var(--text3)}
+.hypo-num{font-family:'DM Sans';font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.hypo-card.h1 .hypo-num{color:var(--red)}
+.hypo-card.h2 .hypo-num{color:var(--amber)}
+.hypo-card.h3 .hypo-num{color:var(--text3)}
+.hypo-title{font-size:17px;font-weight:700;margin-bottom:8px;line-height:1.4}
+.hypo-body{font-size:14px;color:var(--text2);line-height:1.7}
+.hypo-evidence{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:13px}
+.hypo-evidence strong{color:var(--text);display:block;margin-bottom:4px}
+.action-grid{padding:0 44px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.action-card{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.action-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.action-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.action-impact{font-family:'DM Sans';font-size:14px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px}
+.action-body{padding:16px 20px}
+.action-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.action-desc{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.action-spec{background:var(--bg);border-radius:6px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6}
+.action-spec strong{color:var(--text);display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+@media(max-width:768px){
+  .funnel-compare,.hypo-grid,.action-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -36,7 +70,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div class="card">
   <div class="header-band">
     <div class="logo">V2</div>
-    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">← サマリーに戻る</a>
+    <a href="./" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">&larr; サマリーに戻る</a>
     <div class="right">ボトルネック #4 / 10</div>
   </div>
 
@@ -44,87 +78,240 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
       <div style="font-family:'DM Sans';font-size:56px;font-weight:900;color:var(--red);line-height:1">#4</div>
       <div>
-        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Paid Search × 新規 — カレンダー表示率の低さ</div>
+        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Paid Search &times; 新規 &mdash; カレンダー表示率の低さ</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="bn-tag red">②→③ 検討段階</span>
-          <span class="bn-tag">Paid Search / 新規</span>
+          <span class="bn-tag">Paid Search</span>
+          <span class="bn-tag">新規ユーザー</span>
         </div>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:16px;margin-top:16px">
       <div style="font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase">全体平均との乖離</div>
       <div style="font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red)">-55%</div>
-      <div style="font-size:14px;color:var(--text3)">対象セッション: 386,301</div>
+      <div style="font-size:14px;color:var(--text3)">影響セッション: 386,301 / 月</div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <div style="padding:24px 44px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">原因仮説</div>
+  <!-- Step 2-3: Tier 1 comparison -->
+  <div style="padding:24px 44px 12px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Step 2-3 &mdash; Tier 1 比較：②→③ カレンダー表示率</div>
+  </div>
+  <div class="funnel-compare">
+    <div class="fc-cell">
+      <div class="fc-label">全体平均</div>
+      <div class="fc-stage">②→③ 検討</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">75.0%</div>
+      <div class="fc-val-label">ベースライン</div>
+    </div>
+    <div class="fc-cell alert">
+      <div class="fc-label" style="color:var(--red)">Paid Search &times; 新規</div>
+      <div class="fc-stage">②→③ 検討</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px;color:var(--red)">33.8%</div>
+      <div class="fc-val-label" style="color:var(--red)">-55% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Paid Search &times; リピーター</div>
+      <div class="fc-stage">②→③ 検討</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">89.9%</div>
+      <div class="fc-val-label">+20% vs 全体</div>
+    </div>
+    <div class="fc-cell">
+      <div class="fc-label">Organic &times; 新規</div>
+      <div class="fc-stage">②→③ 検討</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">31.5%</div>
+      <div class="fc-val-label">-58% vs 全体</div>
+    </div>
+  </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:24px">
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--red)">
-        <div style="font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;margin-bottom:6px">仮説 1（有力）</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:8px">広告のLP期待値と商品詳細ページのミスマッチ</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">広告文で訴求した内容と遷移先の情報構成にギャップ。ユーザーの期待に応えられずカレンダーへの到達前に離脱している。</div>
+  <!-- Step 4-5: Tier 2-3 drill down -->
+  <div style="padding:0 44px 20px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Step 4-5 &mdash; Tier 2-3 深掘り</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">デバイスで分解（Paid Search 新規）</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          Paid Search &times; <strong style="color:var(--red)">Mobile ②→③ 推定: 30%</strong>（最大ボリューム）<br>
+          Paid Search &times; Desktop ②→③ 推定: 40%
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ MobileがDesktopをさらに下回る。スマホでのカレンダー到達が特に困難。</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--amber)">
-        <div style="font-size:12px;font-weight:700;color:var(--amber);text-transform:uppercase;margin-bottom:6px">仮説 2</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:8px">情報収集段階のユーザーへの商品ページ直接遷移</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">情報収集系クエリに商品詳細を直接表示。購買意欲が高まる前段階のユーザーにとって詳細ページは離脱の起点となりやすい。</div>
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">全新規との比較</div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.7">
+          新規全体 ②→③: 38.9%<br>
+          Paid Search &times; <strong style="color:var(--red)">新規 ②→③: 33.8%</strong>（-5.1pt）
+        </div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ Paid Search経由の新規は新規全体の中でもさらに低い。広告流入特有の問題が存在。</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--text3)">
-        <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:6px">仮説 3</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:8px">新規ユーザーの信頼構築不足による早期離脱</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">口コミ・運営会社情報を確認後にカレンダーまで進まず離脱。初回訪問ユーザーへの信頼性シグナルが不十分。</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:0">
+    <div class="ct">特定結果</div>
+    <div class="cb"><strong>Paid Search &times; 新規</strong> の ②→③ カレンダー表示率が <strong>33.8%</strong>（全体平均 75.0% の <strong>-55%</strong>）。<br>AC到達 121,534人のうち約50,000人がカレンダー未到達。広告費を投下して商品ページまで誘導できているにもかかわらず、日程選択ステップで大量離脱している。リピーターの89.9%と比較して56pt差。</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Step 6: Hypotheses -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Step 6 &mdash; 原因仮説 &times; 3</div>
+    <div style="font-size:15px;color:var(--text2)">なぜ Paid Search &times; 新規の②→③ カレンダー表示率が低いか？</div>
+  </div>
+  <div class="hypo-grid">
+    <div class="hypo-card h1">
+      <div class="hypo-num">仮説 1（有力）</div>
+      <div class="hypo-title">広告LP期待値とページのミスマッチ</div>
+      <div class="hypo-body">広告文で訴求した内容と遷移先のACページ構成にギャップ。新規は期待した情報を得られずカレンダー前に離脱。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Paid Search ①→②=31.5%と高い（広告→商品直リンク）のに②→③で急落。広告の約束とページ体験の不一致。
+      </div>
+    </div>
+    <div class="hypo-card h2">
+      <div class="hypo-num">仮説 2</div>
+      <div class="hypo-title">情報収集段階ユーザーへの商品直接遷移</div>
+      <div class="hypo-body">「ハワイ アクティビティ おすすめ」等の情報収集系クエリに商品詳細を直接表示。購入検討前のユーザーが大量流入。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        Organic 新規②→③も31.5%と同水準。情報収集意図のユーザーが商品ページに直接来ている構造的問題。
+      </div>
+    </div>
+    <div class="hypo-card h3">
+      <div class="hypo-num">仮説 3</div>
+      <div class="hypo-title">新規の信頼構築不足</div>
+      <div class="hypo-body">初めてVELTRAを訪問する広告ユーザーはサイトの信頼性を確認する段階にあり、カレンダーまで進まず離脱。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+        リピーター89.9%との差が56pt。初回訪問時の口コミ・運営情報確認で離脱するパターン。
       </div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <div style="padding:24px 44px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">打ち手候補</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 A</div>
-          <div style="font-family:'DM Sans';font-size:18px;font-weight:900;color:var(--green)">+6pt</div>
-        </div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">検索意図別ランディングページの出し分け</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">クエリの検索意図（情報収集 / 比較検討 / 購買）に応じてLPを切り替え、ユーザーの期待値に合った情報を提示する。</div>
+  <!-- Actions -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説1に対する施策）</div>
+    <div style="font-size:15px;color:var(--text2)">Paid Search LP &rarr; カレンダー表示率を改善</div>
+  </div>
+  <div class="action-grid">
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--red)">施策 A</div>
+        <div class="action-impact">②→③ +6pt</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 B</div>
-          <div style="font-family:'DM Sans';font-size:18px;font-weight:900;color:var(--green)">+3pt</div>
+      <div class="action-body">
+        <div class="action-title">検索意図別LP出し分け</div>
+        <div class="action-desc">クエリの検索意図を分類し、情報収集系と購買系で遷移先LPを切り替え。適切なページへ誘導することで離脱を防ぐ。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・情報系クエリ &rarr; エリアまとめページをLP設定<br>
+          ・購入系クエリ &rarr; 商品詳細ページをLP設定<br>
+          ・クエリ分類ロジック: キーワードカテゴリ &times; 入札戦略で自動分類
         </div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">信頼性バッジ・社会的証明の強化</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">口コミ件数・評価スコア・受付実績をファーストビューに配置し、新規ユーザーが早期に信頼を形成できるよう促す。</div>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 C</div>
-          <div style="font-family:'DM Sans';font-size:18px;font-weight:900;color:var(--green)">+2pt</div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--amber)">施策 B</div>
+        <div class="action-impact">②→③ +3pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">信頼性バッジ・社会的証明強化</div>
+        <div class="action-desc">商品ページのファーストビューに信頼構築要素を追加し、初回訪問ユーザーの不安を解消してカレンダーへの到達を促す。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・ファーストビューに「予約実績○万件」「満足度○%」バッジ配置<br>
+          ・Google口コミ連携のリッチスニペット表示<br>
+          ・新規ユーザーのみ表示（Cookie判定）
         </div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">広告文とLPの一貫性改善</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.6">広告のコピーとLPの見出し・ビジュアルを統一し、遷移時のメッセージの連続性を高めることで離脱率を低減する。</div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--text3)">施策 C</div>
+        <div class="action-impact">②→③ +2pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">広告文とLPの一貫性改善</div>
+        <div class="action-desc">広告グループ別にLPの見出しや訴求内容を統一し、広告クリック後のユーザー期待値とページ体験のギャップを解消する。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・広告グループ別にLP見出しを動的変更（DKI活用）<br>
+          ・メッセージマッチスコアを測定・モニタリング<br>
+          ・広告文&rarr;LP&rarr;CTA文言の一貫性チェックリスト作成
+        </div>
       </div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <div class="proto-tabs-target"></div>
+  <!-- Verification -->
+  <div class="callout-amber callout">
+    <div class="ct">検証方法</div>
+    <div class="cb">ABテスト 2週間。対象: Paid Search &times; 新規ユーザー。<br>
+    主要指標: ②→③ カレンダー表示率（現状 33.8% &rarr; 目標 40%以上）。<br>
+    副次指標: ①→②への影響、CPA変動。<br>
+    施策Aから優先実施し、LP出し分けによる検索品質スコアへの影響も合わせてモニタリング。</div>
+  </div>
 
   <hr class="divider">
 
-  <div style="padding:24px 44px 32px">
+  <!-- Competitive Analysis -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のPaid Search LP比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">広告流入視点</span></div>
+    <div style="font-size:15px;color:var(--text2)">ボトルネックが「Paid Search &times; 新規」のため、広告LPから日程選択（カレンダー）への導線を中心に比較。</div>
+  </div>
+
+  <div style="padding:0 44px 32px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Klook</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          広告LP = 日付選択付き商品ページ。カレンダーがファーストビュー直下に配置され、到達までスクロールが不要。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 広告クリック &rarr; 即カレンダー表示の設計。日程選択を離脱前に完了させる。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">GetYourGuide</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          広告LP = レビュー強調 + 即予約ボタン。信頼構築を優先しつつ、CTAで素早く日程選択へ誘導。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 信頼構築重視。レビュー数・評価を大きく表示して初回訪問者の不安を除去。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">Viator</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          広告LP = 最安値保証バッジ表示。価格訴求で購買意欲を刺激し、日程選択への心理的ハードルを下げる。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: 価格訴求。「今すぐ予約が最安」を前面に出し、検討から決断への移行を加速。</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:10px">KKday</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+          広告LP = 割引表示 + ランキング。お得感訴求とランキングによる社会的証明で意思決定を後押し。
+        </div>
+        <div style="font-size:12px;color:var(--text3)">注目点: お得感訴求。割引率とランキングで「この商品で決めて良い」という確信を与える。</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin:20px 0 0">
+      <div class="ct">競合比較から得られる示唆</div>
+      <div class="cb">競合4社はPaid Search LPで「信頼 &times; 即予約」の設計を徹底している。VELTRAは通常の商品詳細をそのままLPにしており、新規向けの信頼構築要素が不足。カレンダーの視認性も低く、広告費に見合った日程選択率を実現できていない。施策A（LP出し分け）・施策B（信頼バッジ）はKlook・GetYourGuideのベストプラクティスと方向性が一致。</div>
+    </div>
+  </div>
+
+  <!-- Team review -->
+  <div style="padding:0 44px 32px">
     <div style="border:2px dashed var(--border-dash);border-radius:10px;padding:24px;text-align:center">
       <div style="font-size:16px;font-weight:700;color:var(--text3);margin-bottom:8px">チームレビュー欄（月曜に記入）</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;font-size:14px;color:var(--text3)">
-        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">判断<br><strong style="font-size:18px">◎ / △ / ×</strong></div>
+        <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">判断<br><strong style="font-size:18px">◎ / △ / &times;</strong></div>
         <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">優先度<br><strong style="font-size:18px">高 / 中 / 低</strong></div>
         <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">担当<br><strong style="font-size:18px">_____</strong></div>
         <div style="padding:12px;border:1px dashed var(--border-dash);border-radius:6px">コメント<br><strong style="font-size:18px">_____</strong></div>
@@ -133,10 +320,11 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div>
 
   <div class="nav-bar">
-    <a href="bottleneck-3.html">← #3 に戻る</a>
+    <a href="bottleneck-3.html">&larr; #3 へ戻る</a>
     <a href="./">サマリーに戻る</a>
-    <a href="bottleneck-5.html">#5 へ進む →</a>
+    <a href="bottleneck-5.html">#5 へ進む &rarr;</a>
   </div>
+
 </div>
 
 <div class="card">
