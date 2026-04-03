@@ -1,326 +1,227 @@
-# WEEKLY REPORT PLAYBOOK
+# Weekly Report Playbook — VELTRA CVR Bottleneck Analysis
 
-## プロジェクト基礎知識（新規セッション向け）
+> **このファイルは週次レポート生成の唯一の運用マニュアルです。**
+> 新しいセッションでは最初にこのファイルを読み込んでください。
+> デザインルール: `veltra-design-system.md` / URL構造: `veltra-url-structure.md`
 
-### このリポジトリは何か
-VELTRAのCVR改善プロジェクト「V2」の週次ボトルネック分析レポートを管理するリポジトリ。
-GA4データからファネル×セグメントの転換率を分析し、ボトルネック10件を特定、各件に仮説・打ち手・プロトタイプを生成する。
+---
 
-### リポジトリ構成
+## 1. プロジェクト概要
+
+- **目的**: VELTRAのCVR改善。ファネル×セグメントで転換率を分析し、ボトルネック10件を特定、各件に仮説・打ち手・プロトタイプを生成
+- **ホスティング**: Vercel（mainブランチ push → 自動デプロイ）
+- **URL**: https://v2-veltra-cvr.vercel.app/
+- **認証**: auth.js による Google OAuth（sessionStorage `gauth_user`）
+- **GA4 Property**: `347074845`
+
+---
+
+## 2. リポジトリ構成
+
 ```
 v2-veltra-cvr/
-├── WEEKLY_REPORT_PLAYBOOK.md   ← このファイル。全フェーズの手順書
-├── auth.js                     ← 認証（ログインページへリダイレクト）
-├── nav.js                      ← レポートページ共通ナビゲーション
-├── funnel-def.js               ← ファネル定義
-├── prototype-tabs.js           ← プロトタイプタブUI
-├── archive-meta.json           ← 過去レポートのメタ情報
-├── reports/
-│   └── {YEAR}-w{WEEK}/
-│       ├── data.json           ← GA4から取得した実データ
-│       ├── index.html          ← サマリーページ（ベースライン + #1ハイライト + #2〜#10テーブル）
-│       ├── bottleneck-1.html   ← #1フル分析（仮説×3 / 打ち手×3 / プロトタイプ / 競合比較）
-│       ├── bottleneck-2.html   ← #2〜#3: プロトあり
-│       ├── ...
-│       ├── bottleneck-7.html   ← #4〜#7: 仮説+打ち手
-│       ├── bottleneck-8.html   ← #8〜#10: プレースホルダー
-│       └── bottleneck-10.html
+├── playbook.md                 ← このファイル（運用マニュアル）
+├── veltra-design-system.md     ← VELTRAサイトのデザインルール
+├── veltra-url-structure.md     ← VELTRA URL階層（エリア定義）
+├── prd-template.md             ← PRDテンプレート（汎用）
+├── scripts/
+│   └── generate-week.py        ← 週次スキャフォールド（ディレクトリ・JSONスケルトン生成）
+├── auth.js / nav.js / funnel-def.js  ← 共通JS
+├── index.html                  ← ダッシュボード
+├── summary-data.json           ← 月次KPI（24ヶ月）
+├── weekly-summary.json         ← 週次KPI（66週〜）
+├── reports-index.json          ← レポート一覧メタデータ
+├── archive-meta.json           ← 最終更新タイムスタンプ
+└── reports/{YYYY}-w{WW}/
+    ├── data.json               ← GA4実データ（ファネル・セグメント・ボトルネック）
+    ├── index.html              ← 週次サマリー
+    └── bottleneck-{1-10}.html  ← ボトルネック詳細
 ```
-
-### デプロイ
-- **ホスティング**: Vercel（mainブランチへのpushで自動デプロイ）
-- **URL**: https://v2-veltra-cvr.vercel.app/
-- **認証**: auth.jsによるログイン必須（403が返る場合は認証が必要）
-- **レポートURL例**: https://v2-veltra-cvr.vercel.app/reports/2026-w14/
-
-### ファネル定義（5段階）
-1. **①流入** — session_start（sessions）
-2. **②AC到達** — ac_page_reach（商品詳細ページ到達）
-3. **③検討** — GA4_vtjp_ex_yokka_view_booking_calendar（カレンダー表示）
-4. **④意向** — form_start（予約フォーム開始）
-5. **⑤完了** — purchase（購入完了）
-
-### ボトルネック個別ページの分量ルール
-- **#1**: フル分析（Tier比較 / 深掘り / 仮説×3 / 打ち手×3 / プロトタイプBefore/After / 競合比較6社 / 検証方法 / チームレビュー欄）
-- **#2〜#3**: プロトあり（仮説×3カード / プロトタイプタブ / チームレビュー欄）
-- **#4〜#7**: 仮説+打ち手（仮説×3カード / チームレビュー欄 / プロトタイプなし）
-- **#8〜#10**: プレースホルダー（主要仮説callout1つのみ / ナビバー）
-
-### CSS・デザイン
-- 全ページ共通のCSS変数を各HTMLの`<style>`にインライン記述（外部CSSなし）
-- フォント: Noto Sans JP + DM Sans
-- カラー: --red:#E8423F / --bg:#f5f4f0 / --card:#fff
-- 既存のデザイン・CSS・レイアウトは変更しない
-
-### Git運用
-- **メインブランチ**: main（デプロイ対象）
-- **作業ブランチ**: claude/* で作業し、完了後mainにマージ
-- **コミットメッセージ**: 英語、conventional commits形式（feat: / fix: / refactor:）
-
-### 週次レポート生成の全体フロー
-1. **Phase 1 — データ取得**: GA4 APIから8本のクエリを実行 → data.json生成
-2. **Phase 2 — HTML生成**: data.jsonを元にindex.html + bottleneck-1〜10.htmlを生成
-3. **Phase 3 — コミット・デプロイ**: git add → commit → push origin main（Vercel自動デプロイ）
 
 ---
 
-## Phase 1 — データ取得
+## 3. ファネル定義（5段階）
 
-対象週: 2026-w15 として以下を実行してください。
+| 段階 | ラベル | GA4イベント/条件 | 通過率 |
+|------|--------|-----------------|--------|
+| ① | 流入 | 全セッション数 | — |
+| ② | AC到達 | pagePath に `/a/` を含むセッション | ①→② |
+| ③ | 検討 | `GA4_vtjp_ex_yokka_view_booking_calendar` イベント | ②→③ |
+| ④ | 意向 | pagePath に `/jp/booking` を含むセッション | ③→④ |
+| ⑤ | 完了 | `purchase` イベント | ④→⑤ |
 
-## ルール
-- 確認不要。出力はファイルのみ。説明文不要。
-- Property ID: 347074845
-- date_range: start_date="28daysAgo", end_date="yesterday"
-- エラーが出たクエリはスキップし、該当フィールドをnullにする
+**通過率計算**: `rates.1_to_2 = funnel.ac_page_reach_users / funnel.session_start_users`（以下同様）
+**CVR**: `purchase / session_start_users`
 
-## week_idとラベルの計算ルール
-- week_idは「28daysAgo〜yesterdayが実際にカバーする期間」に対応する週番号
-- date_startは28daysAgoの実際の日付、date_endはyesterdayの実際の日付
-- 例：実行日が4/1なら date_start=2026-03-03、date_end=2026-03-31、week_id=2026-w14
-- 「対象週」として渡されたweek_idをそのまま使わない。必ず実際のデータ期間から計算すること
+---
 
-## 取得するクエリ（8本）
+## 4. 週次サイクル（3フェーズ）
 
-### Query 1: ベースライン
-dimensions: []
-metrics: [sessions, totalUsers, eventCount]
-dimensionFilter: eventName IN [session_start, ac_page_reach, GA4_vtjp_ex_yokka_view_booking_calendar, form_start, purchase]
+### Phase 1: データ取得（Sonnet + GA4 MCP）
 
-### Query 2: チャネル別ファネル
-dimensions: [sessionDefaultChannelGroup, eventName]
-metrics: [eventCount, totalUsers]
-dimensionFilter: eventName IN [session_start, ac_page_reach, GA4_vtjp_ex_yokka_view_booking_calendar, form_start, purchase]
-
-### Query 3: デバイス別ファネル
-dimensions: [deviceCategory, eventName]
-metrics: [eventCount, totalUsers]
-dimensionFilter: eventName IN [session_start, ac_page_reach, GA4_vtjp_ex_yokka_view_booking_calendar, form_start, purchase]
-
-### Query 4: 新規/リピーター別
-dimensions: [newVsReturning, eventName]
-metrics: [eventCount, totalUsers]
-dimensionFilter: eventName IN [session_start, ac_page_reach, GA4_vtjp_ex_yokka_view_booking_calendar, form_start, purchase]
-
-### Query 5: エリア別（sessionsとpurchasesは別クエリで取得）
-5a: dimensions: [landingPage], metrics: [sessions]
-5b: dimensions: [landingPage], metrics: [ecommercePurchases]
-※ sessionsとlandingPageを同一クエリに入れると不正確なため必ず分離
-※ 注意: landingPagePath は無効。正しいディメンション名は landingPage
-
-### Query 6: チャネル × デバイス
-dimensions: [sessionDefaultChannelGroup, deviceCategory, eventName]
-metrics: [eventCount, totalUsers]
-dimensionFilter: eventName IN [session_start, ac_page_reach, GA4_vtjp_ex_yokka_view_booking_calendar, form_start, purchase]
-
-### Query 7: チャネル × 新規/リピーター
-dimensions: [sessionDefaultChannelGroup, newVsReturning, eventName]
-metrics: [eventCount, totalUsers]
-dimensionFilter: eventName IN [session_start, ac_page_reach, GA4_vtjp_ex_yokka_view_booking_calendar, form_start, purchase]
-
-### Query 8: エリア × デバイス（sessionsのみ）
-dimensions: [landingPage, deviceCategory]
-metrics: [sessions]
-※ 注意: landingPagePath は無効。正しいディメンション名は landingPage
-
-### Query 9: 7日間ファネル（WoW比較用）
-**今週（直近7日）**
-dimensions: []
-metrics: [sessions, eventCount, totalUsers]
-dimensionFilter: eventName IN [session_start, ac_page_reach, GA4_vtjp_ex_yokka_view_booking_calendar, form_start, purchase]
-dateRanges: [{ startDate: "7daysAgo", endDate: "yesterday" }]
-
-**先週（8〜14日前）**
-dimensions: []
-metrics: [sessions, eventCount, totalUsers]
-dimensionFilter: eventName IN [session_start, ac_page_reach, GA4_vtjp_ex_yokka_view_booking_calendar, form_start, purchase]
-dateRanges: [{ startDate: "14daysAgo", endDate: "8daysAgo" }]
-
-※ 2本のクエリ結果から今週/先週のファネル通過率を算出し、差分（pp）を計算する
-
-## data.jsonの出力スキーマ
-
-reports/{YEAR}-w{WEEK}/data.json に保存してください。
-
-```json
-{
-  "meta": {
-    "week_id": "2026-w15",
-    "week_label": "26年4月 Week2（4/6〜4/12）",
-    "date_start": "2026-04-06",
-    "date_end": "2026-04-12",
-    "data_period": "28daysAgo ~ yesterday",
-    "generated_at": "<ISO8601>",
-    "property_id": "347074845"
-  },
-  "baseline": {
-    "sessions": "<number>",
-    "purchases": "<number>",
-    "cvr": "<purchases/sessions>",
-    "funnel": {
-      "session_start_users": "<totalUsers of session_start>",
-      "ac_page_reach_users": "<totalUsers of ac_page_reach>",
-      "calendar_view": "<eventCount of GA4_vtjp_ex_yokka_view_booking_calendar>",
-      "form_start": "<eventCount of form_start>",
-      "purchase": "<eventCount of purchase>"
-    },
-    "conversion_rates": {
-      "1_to_2": "<ac_page_reach_users / session_start_users>",
-      "2_to_3": "<calendar_view / ac_page_reach_users>",
-      "3_to_4": "<form_start / calendar_view>",
-      "4_to_5": "<purchase / form_start>"
-    }
-  },
-  "funnel_7d": {
-    "funnel": {
-      "session_start_users": "<7日間のtotalUsers of session_start>",
-      "ac_page_reach_users": "<7日間のtotalUsers of ac_page_reach>",
-      "calendar_view": "<7日間のeventCount of calendar>",
-      "form_start": "<7日間のeventCount of form_start>",
-      "purchase": "<7日間のeventCount of purchase>"
-    },
-    "conversion_rates": {
-      "1_to_2": "<今週の①→②通過率>",
-      "2_to_3": "<今週の②→③通過率>",
-      "3_to_4": "<今週の③→④通過率>",
-      "4_to_5": "<今週の④→⑤通過率>",
-      "wow_pp": {
-        "1_to_2": "<今週 - 先週 の差分（percentage points）>",
-        "2_to_3": "<同上>",
-        "3_to_4": "<同上>",
-        "4_to_5": "<同上>"
-      }
-    }
-  },
-  "segments": {
-    "channel": {
-      "<channel_name>": {
-        "sessions": "<number>",
-        "share": "<sessions/total_sessions>",
-        "funnel": { "ac_page_reach_users": "N", "calendar_view": "N", "form_start": "N", "purchase": "N" },
-        "rates": { "1_to_2": "N", "2_to_3": "N", "3_to_4": "N", "4_to_5": "N", "cvr": "N" }
-      }
-    },
-    "device": {},
-    "new_returning": {},
-    "area": {
-      "<area_slug>": {
-        "sessions": "<number>",
-        "share": "<number>",
-        "purchases": "<number>",
-        "cvr": "<number>"
-      }
-    },
-    "channel_x_device": {
-      "<channel>_<device>": {
-        "sessions": "<number>",
-        "funnel": { "ac_page_reach_users": "N", "calendar_view": "N", "form_start": "N", "purchase": "N" },
-        "rates": { "1_to_2": "N", "2_to_3": "N", "3_to_4": "N", "4_to_5": "N", "cvr": "N" }
-      }
-    },
-    "channel_x_new_returning": {}
-  },
-  "bottlenecks": []
-}
-```
-
-## エリアの判定ルール
-- /hawaii/ /oahu/ /maui/ 含む → "hawaii"
-- /bali/ 含む → "bali"
-- /europe/ /paris/ /rome/ /barcelona/ 等含む → "europe"
-- /japan/ /tokyo/ /osaka/ 含む → "japan"
-- それ以外 → "other"
-
-## Phase 1b — サマリーデータ取得（summary-data.json）
-
-サマリーページ（/index.html）のグラフ・KPI用データ。月次の実績を蓄積する。
-
-### 目的
-- 月次のsessions・purchases・CVRの推移グラフ表示
-- 主要KPIの表示
-
-### Property ID: 347074845
-
-### 取得するクエリ（月ごとに1本 × 対象月数）
-
-各月について以下を実行:
-```
-dimensions: []
-metrics: [sessions, ecommercePurchases]
-dateRanges: [{ startDate: "YYYY-MM-01", endDate: "YYYY-MM-末日" }]
-```
-
-対象期間: **2025年1月〜当月の前月末** まで。
-（例: 実行日が2026年4月なら、2025-01〜2026-03の15ヶ月分）
-
-当月（実行月）は月途中のため含めない。
-
-### 出力スキーマ
-
-`/summary-data.json` に保存:
-
-```json
-{
-  "generated_at": "<ISO8601>",
-  "property_id": "347074845",
-  "monthly": [
-    {
-      "month": "2025-01",
-      "sessions": <number>,
-      "purchases": <number>,
-      "cvr": <purchases / sessions>
-    },
-    ...
-  ],
-  "targets": {
-    "monthly_cvr": 0.018,
-    "annual_cvr": 0.020
-  }
-}
-```
-
-### 注意
-- CVRは `purchases / sessions` で計算
-- purchasesは `ecommercePurchases` メトリクスを使用
-- 月の末日は28/29/30/31を正しく計算すること
-- 既存のsummary-data.jsonがあれば上書き
-- targets値はreports-index.jsonと同じ値を使用
-
-### 完了後
 ```bash
-git add summary-data.json
-git commit -m "feat: update summary-data.json with real GA4 monthly data"
-git push origin main
+# Step 0: スキャフォールド生成
+python3 scripts/generate-week.py --week {YYYY}-w{WW}
+```
+
+以下のクエリを GA4 MCP で実行し、`data.json` に格納:
+
+| Query | 内容 | dimensions | metrics | 格納先 |
+|-------|------|-----------|---------|--------|
+| Q1 | ベースラインファネル | — | sessions, 各ファネルイベント | `baseline` |
+| Q2 | チャネル別 | sessionDefaultChannelGroup | 同上 | `segments.channel` |
+| Q3 | デバイス別 | deviceCategory | 同上 | `segments.device` |
+| Q4 | 新規/リピーター | newVsReturning | 同上 | `segments.new_returning` |
+| Q5 | チャネル×デバイス | channel + device | 同上 | `segments.channel_device` |
+| Q6 | チャネル×新規リピーター | channel + newVsReturning | 同上 | `segments.channel_new_returning` |
+| Q7 | エリア別（20エリア） | landingPage フィルタ | 同上 | `segments.area` |
+| Q8 | 「その他」内訳（上位5） | landingPage（Q7除外） | sessions, purchases | `segments.area.other.sub_areas` |
+| Q9 | サマリー（月次/週次） | — | sessions, purchases, cvr | `summary-data.json`, `weekly-summary.json` |
+| Q10 | 7日ファネル（WoW） | — | 今週+先週のファネル | `funnel_7d` |
+
+**共通条件**:
+- Property: `347074845`
+- 期間: 直近28日間（Q10のみ7日）
+- rates は小数（42.35% → `0.4235`）
+
+### Phase 2: 分析 & HTML生成（Opus）
+
+1. **ボトルネック特定**: `data.json` のセグメント間比較から、インパクト順（sessions × 乖離率）で10件ランキング
+2. **#1 フル分析**: 仮説×3 → 打ち手×3（仮説ごと）→ プロトタイプ Before/After → 競合比較6社
+3. **#2〜#10**: 仮説×3 + 打ち手×3 + 競合比較
+4. **HTML生成**: アコーディオン型ドリルダウンUI（仮説 → 打ち手 → プロトタイプ）
+
+**デザインルール**: `veltra-design-system.md` 参照
+- プロトタイプのモックアップはVELTRAサイトデザイン準拠（`#1B82C5` blue CTA, `#F2F5F8` bg）
+- レポートページは V2 テーマ（`--red:#E8423F`, `--bg:#f5f4f0`）
+
+### Phase 3: デプロイ（Sonnet）
+
+```bash
+git add reports/{YYYY}-w{WW}/ summary-data.json weekly-summary.json reports-index.json archive-meta.json
+git commit -m "feat: W{WW} bottleneck analysis report"
+git push -u origin main
+```
+
+Vercel が自動デプロイ。
+
+---
+
+## 5. データスキーマ
+
+### data.json
+
+```json
+{
+  "meta": { "week_id", "date_start", "date_end", "rolling_start", "rolling_end", "ga4_property", "generated_at" },
+  "baseline": {
+    "sessions": number,
+    "purchases": number,
+    "cvr": number,
+    "funnel": { "session_start_users", "ac_page_reach_users", "calendar_view", "form_start", "purchase" },
+    "conversion_rates": { "1_to_2", "2_to_3", "3_to_4", "4_to_5", "wow_pp": { "1_to_2", ... } }
+  },
+  "funnel_7d": null | { "funnel": {...}, "conversion_rates": {...} },
+  "segments": {
+    "channel": { "Organic Search": { "sessions", "share", "purchases", "cvr", "funnel": {...}, "rates": {...} }, ... },
+    "device": { "mobile": {...}, "desktop": {...}, ... },
+    "new_returning": { "new": {...}, "returning": {...} },
+    "area": {
+      "hawaii": { "sessions", "share", "purchases", "cvr", "funnel": {...}, "rates": {...} },
+      ... (20エリア),
+      "other": { ..., "sub_areas": [{ "name", "key", "sessions", "purchases", "cvr" }] }
+    }
+  },
+  "bottlenecks": [{ "rank", "title", "stage", "segment", "gap", "impact_sessions" }, ...]
+}
+```
+
+### summary-data.json / weekly-summary.json
+
+```json
+{ "monthly": [{ "month": "2026-03", "sessions": N, "purchases": N, "cvr": 0.0N }], "targets": { "monthly_cvr": 0.018, "annual_cvr": 0.020 } }
+{ "weekly": [{ "week": "202614", "sessions": N, "purchases": N, "cvr": 0.0N }] }
 ```
 
 ---
 
-## Phase 2 — HTML生成
+## 6. エリア定義（20セグメント）
 
-### 生成手順
-1. `reports/{YEAR}-w{WEEK}/data.json` を読み込む
-2. 既存の直近週のHTMLをテンプレートとして参照（CSS・レイアウトを踏襲）
-3. index.html を生成（ベースライン + #1ハイライト + #2〜#10サマリーテーブル）
-4. bottleneck-1.html を生成（#1フル分析）
-5. bottleneck-2〜10.html を分量ルールに従い生成
-6. 「仮想データ」等のプロトタイプ表記は使わない
+| キー | 表示名 | VELTRAパス | GA4フィルタ |
+|------|--------|-----------|------------|
+| `hawaii` | ハワイ | `/jp/hawaii/` | `/hawaii/` |
+| `bali` | バリ | `/jp/asia/indonesia/bali/` | `/bali/` |
+| `guam` | グアム | `/jp/beach_resort/guam/` | `/guam/` |
+| `cebu` | セブ | `/jp/asia/philippines/cebu/` | `/cebu/` |
+| `singapore` | シンガポール | `/jp/asia/singapore/` | `/singapore/` |
+| `taiwan` | 台湾 | `/jp/asia/taiwan/` | `/taiwan/` |
+| `hongkong` | 香港・マカオ | `/jp/asia/hongkong/` | `/hongkong/` |
+| `thailand` | タイ | `/jp/asia/thailand/` | `/thailand/` |
+| `vietnam` | ベトナム | `/jp/asia/vietnam/` | `/vietnam/` |
+| `europe` | ヨーロッパ | `/jp/europe/` | `/europe/` |
+| `australia` | オーストラリア | `/jp/oceania/australia/` | `/australia/` |
+| `okinawa` | 沖縄 | `/jp/japan/okinawa/` | `/okinawa/` |
+| `tokyo` | 東京 | `/jp/japan/tokyo/` | `/tokyo/` |
+| `osaka` | 大阪 | `/jp/japan/osaka/` | `/osaka/` |
+| `kyoto` | 京都 | `/jp/japan/kyoto/` | `/kyoto/` |
+| `hokkaido` | 北海道 | `/jp/japan/hokkaido/` | `/hokkaido/` |
+| `kanto` | 関東 | `/jp/japan/kanto/` | `/kanto/` |
+| `kyushu` | 九州 | `/jp/japan/kyushu/` | `/kyushu/` |
+| `ishigaki_miyako` | 石垣島・宮古島 | `/jp/japan/okinawa/ishigaki_yaeyama/` | `/ishigaki/` or `/miyako/` |
+| `other` | その他 | — | 上記以外 |
 
-### 大きなHTMLを書く際の注意
-- 1回のレスポンスでタイムアウトしないよう、3分割で書く:
-  - Part 1: CSS + ヘッダー + データセクション
-  - Part 2: 仮説 + 打ち手
-  - Part 3: プロトタイプ + 競合比較 + フッター
-- Agentへの委任より分割書き込みの方がトークン効率が良い
+---
 
-## Phase 3 — コミット・デプロイ
+## 7. AIモデル使い分けガイド
 
-### 完了後の作業
-生成したreports/{YEAR}-w{WEEK}/data.json に加え、
-以下のファイルもリポジトリに保存してください。
+| タスク | モデル | 理由 |
+|--------|--------|------|
+| スキャフォールド生成 | **Python スクリプト** | 定型処理、AIコスト不要 |
+| GA4 クエリ実行 | **Sonnet** | MCP操作は定型、判断不要 |
+| data.json 組み立て | **Sonnet** | クエリ結果の整形 |
+| summary/weekly JSON 更新 | **Sonnet** | 追記のみ |
+| ボトルネック分析（ランキング） | **Opus** | セグメント間の相対比較に判断力が必要 |
+| 仮説生成 | **Opus** | ドメイン知識 + 創造性 |
+| 施策立案 | **Opus** | デザインシステム理解 + 実装提案 |
+| プロトタイプ設計 | **Opus** | UI/UX判断 |
+| 競合比較 | **Opus** | 市場理解 |
+| HTML テンプレート生成 | **Sonnet** | 定型HTML、Opusは過剰 |
+| CSS / レイアウト修正 | **Sonnet** | 定型作業 |
+| git commit & push | **Sonnet** | 定型 |
 
-1. WEEKLY_REPORT_PLAYBOOK.md（このファイル全体）を
-   リポジトリルートに保存
+**コスト最適化**: Phase 1 は全て Sonnet。Phase 2 の分析部分のみ Opus。Phase 3 は Sonnet。
 
-2. git add WEEKLY_REPORT_PLAYBOOK.md reports/{YEAR}-w{WEEK}/data.json
-3. git commit -m "feat: add w{WEEK} data.json + update playbook"
-4. git push origin main
+---
+
+## 8. 品質チェックリスト
+
+- [ ] data.json の `baseline.sessions` と KPI セクションの値が一致
+- [ ] ファネル通過率の用語が統一（①→② 流入→AC到達 / ②→③ AC到達→検討 / ③→④ 検討→意向 / ④→⑤ 意向→完了）
+- [ ] 「仮想データ」表記が残っていない
+- [ ] 全エリア（20件）のファネルデータが入っている
+- [ ] reports-index.json に新しい週が追加されている
+- [ ] weekly-summary.json に新しい週が追加されている
+- [ ] archive-meta.json の updatedAt が更新されている
+- [ ] プロトタイプがVELTRAデザインシステム準拠（`#1B82C5` blue CTA）
+- [ ] 競合分析のファビコンが正しい URL
+
+---
+
+## 9. 週次スケジュール
+
+**毎週日曜 AM 4:00 JST に自動実行**
+
+```
+Phase 1 (Sonnet): スキャフォールド → GA4 クエリ → data.json 生成    ~15分
+Phase 2 (Opus):   ボトルネック分析 → HTML生成                        ~30分
+Phase 3 (Sonnet): commit & push → Vercel自動デプロイ                  ~5分
+```
+
+Claude Code の `schedule` スキルで設定:
+```
+毎週日曜 04:00 JST に playbook.md を読み、Phase 1→2→3 を順次実行
+```
+
+---
+
+*v2 / 2026年4月 / 統合版*
