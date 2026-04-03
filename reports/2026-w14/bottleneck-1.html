@@ -265,6 +265,124 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     </div>
   </div>
 
+  <!-- Actions for H2 -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説2に対する施策）</div>
+    <div style="font-size:15px;color:var(--text2)">情報収集系クエリからの流入ユーザーに合った導線設計で商品到達率を改善</div>
+  </div>
+  <div class="action-grid">
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--red)">施策 D</div>
+        <div class="action-impact">①→② +4pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">情報収集系LPのFVを「読み物→商品」段階的構成に変更</div>
+        <div class="action-desc">「ハワイ 観光」等のクエリで着地するエリアページのFVを、現在の商品一覧直出しから「エリア概要（3行以内）→ 人気体験ジャンル3選（カテゴリカード）」構成に変更。情報収集ユーザーの期待に沿った導線で自然に商品詳細へ誘導する。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・エリアページFVにカテゴリカード3枚（例: マリンスポーツ/観光ツアー/グルメ）を配置<br>
+          ・カテゴリカードタップでページ内の該当セクションへスムーズスクロール<br>
+          ・既存の長文エリア説明テキストは折りたたみ（デフォルト非表示）に変更<br>
+          ・Organic Search × 新規ユーザーのみ出し分け（リピーターは現行維持）
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--amber)">施策 E</div>
+        <div class="action-impact">①→② +3pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">検索クエリ連動のコンテキストヘッダー表示</div>
+        <div class="action-desc">流入クエリのカテゴリ（情報収集系/比較系/指名系）をUTMまたはリファラから判定し、情報収集系の場合はページ上部に「ハワイで人気の体験 TOP3」等のコンテキストバナーを表示。予約UIを後退させ、まず情報提供から入る。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・クエリ分類ロジック: 「観光」「おすすめ」「楽しみ方」→ 情報収集系と判定<br>
+          ・情報収集系の場合: FV上部に「○○で人気の体験」バナー（商品カード3枚）<br>
+          ・予約ボタン・価格表示の視覚的優先度を下げる（サイズ・色調整）<br>
+          ・分類不能な場合はデフォルト（現行）表示を維持
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--text3)">施策 F</div>
+        <div class="action-impact">①→② +2pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">エリアページ内「旅行ガイド」セクションの削除・簡素化</div>
+        <div class="action-desc">現行エリアページの観光情報テキスト（天気・アクセス・通貨等）を大幅に削除し、商品カードまでのスクロール距離を短縮。2025年ABテストの「情報削減が効く」知見に基づき、ノイズを減らして商品への到達速度を上げる。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・エリアページの観光ガイドセクションを完全削除（またはフッター移動）<br>
+          ・FVから最初の商品カードまでのスクロール距離を50%以上短縮<br>
+          ・モバイルでは特にFV内に商品カードが1枚以上見える状態を担保<br>
+          ・削除対象: 天気情報、通貨情報、アクセス方法、一般的な観光Tips
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions for H3 -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説3に対する施策）</div>
+    <div style="font-size:15px;color:var(--text2)">商品の絞り込み・発見UXを改善し、選択肢過多による離脱を防止</div>
+  </div>
+  <div class="action-grid">
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--red)">施策 G</div>
+        <div class="action-impact">①→② +4pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">エリアページにワンタップ絞り込みチップUIを追加</div>
+        <div class="action-desc">商品一覧上部に「半日ツアー」「1万円以下」「家族向け」等の頻出条件をチップボタンで配置。タップ即フィルターで商品数が多いJapan等のエリアでの迷子を解消。フィルター選択数と結果件数をリアルタイム表示。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・チップUI: 横スクロール、最大8個表示（エリア別に出し分け）<br>
+          ・フィルター適用はページリロードなし（Ajax/クライアントサイド）<br>
+          ・チップ選択時に結果件数をバッジ表示（「12件」等）<br>
+          ・デフォルトチップ: エリア内の予約実績から上位条件を自動選定
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--amber)">施策 H</div>
+        <div class="action-impact">①→② +3pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">日程指定フィルターをエリアページFVに昇格</div>
+        <div class="action-desc">旅行日程が決まっているユーザー向けに、エリアページ最上部にカレンダー式の日程フィルターを配置。日程を選ぶとその日に空きがある商品のみ表示され、「予約できない商品を見て離脱」を防止する。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・日程フィルター: FV内にインラインカレンダー（モバイルはボトムシート）<br>
+          ・空き状況APIと連携し、選択日に催行がある商品のみ表示<br>
+          ・日程未選択時は現行通り全商品表示（デフォルト動作変更なし）<br>
+          ・選択後の商品カードに「○月○日 空きあり」バッジを表示
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-header">
+        <div class="action-label" style="color:var(--text3)">施策 I</div>
+        <div class="action-impact">①→② +2pt</div>
+      </div>
+      <div class="action-body">
+        <div class="action-title">商品一覧のデフォルトソートを「人気順」に変更＋件数表示</div>
+        <div class="action-desc">現行の新着順ソートを人気順（予約数ベース）に変更し、ページ上部に総商品件数を表示。新規ユーザーが最初に見る商品の質を上げることで、スクロール少なく商品詳細へ遷移させる。タブUIでの切替は不要（簡素化原則に従う）。</div>
+        <div class="action-spec">
+          <strong>開発仕様</strong>
+          ・デフォルトソート: 過去30日の予約数降順に変更<br>
+          ・商品一覧上部に「○○件のアクティビティ」件数ラベルを追加<br>
+          ・ソート変更UIは最小限（ドロップダウン1つ、選択肢3つ以下）<br>
+          ・新規ユーザーのみ人気順デフォルト（リピーターは前回ソート維持）
+        </div>
+      </div>
+    </div>
+  </div>
+
   <hr class="divider">
 
   <!-- Verification -->
