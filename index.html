@@ -713,7 +713,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       return '<td class="rate-cell">' + fmtPct(val, 1) + gapHtml + '</td>';
     }
     var cvrCell = '<td class="cvr-cell' + (isBaseline ? ' baseline-row' : '') + '">' + fmtPct(rates.cvr, 2) + (isBaseline ? '' : cvrGapSpan(rates.cvr, blRates ? blRates.cvr : null)) + '</td>';
-    var baselineLabel = isBaseline ? ' <span style="font-size:11px;font-weight:400;color:var(--text3);margin-left:4px">= 比較基準</span>' : '';
+    var baselineLabel = isBaseline ? ' <span class="info-tip" title="全セグメント合算の数値です。&#10;各セグメントの ±X% はこの全体平均との乖離率を示しています。" style="margin-left:6px">?</span>' : '';
     return '<tr' + (isBaseline ? ' class="baseline-row"' : '') + '>' +
       '<td class="seg-name">' + name + baselineLabel + '</td>' +
       cvrCell +
