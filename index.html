@@ -127,6 +127,10 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .seg-table .rate-cell .gap-neg{color:var(--red)}
 .seg-table .rate-cell .gap-neut{color:var(--text3)}
 .seg-table .cvr-cell{font-family:'DM Sans';font-weight:900;font-size:17px;color:var(--red)}
+.seg-table .rate-cell.gap-bg-neg{background:rgba(232,66,63,.06)}
+.seg-table .rate-cell.gap-bg-pos{background:rgba(22,163,74,.06)}
+.info-tip{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--border);color:var(--text2);font-size:11px;font-weight:700;cursor:help;flex-shrink:0;position:relative}
+.info-tip:hover::after{content:attr(title);position:absolute;left:50%;top:calc(100% + 6px);transform:translateX(-50%);background:#333;color:#fff;font-size:12px;font-weight:400;padding:10px 14px;border-radius:6px;white-space:pre-line;width:280px;z-index:100;line-height:1.6;box-shadow:0 4px 12px rgba(0,0,0,.2);pointer-events:none}
 .seg-panel{display:none}
 .seg-panel.active{display:block}
 .seg-note{font-size:13px;color:var(--text3);margin-top:12px;line-height:1.6}
@@ -267,18 +271,11 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <!-- Funnel pass rates -->
 <div class="card">
   <div style="display:flex;align-items:center;justify-content:space-between;padding:28px 44px 12px">
-    <div class="sec-label" style="padding:0">ファネル通過率</div>
-    <div class="funnel-mode-toggle" id="funnel-mode-toggle">
-      <button class="fmt-btn active" id="fmt-28d" onclick="setFunnelMode('28d')">28日ローリング</button>
-      <button class="fmt-btn inactive" id="fmt-7d" onclick="setFunnelMode('7d')">7日WoW比較</button>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="sec-label" style="padding:0">ファネル通過率</div>
+      <span class="info-tip" title="直近28日間（3/3〜3/31）の全セッションから算出したファネル各段階の通過率です。&#10;&#10;各バーの下の「前週比」は、前週同期間との差分（pp = パーセントポイント）です。">?</span>
     </div>
-  </div>
-  <div id="funnel-mode-note" style="padding:0 44px 10px;font-size:12px;color:var(--text3)">水準把握用（28日移動平均）</div>
-  <div id="funnel-nodata" style="display:none;padding:20px 44px;text-align:center">
-    <div style="background:var(--amber-light,#fffbeb);border:1px solid #d97706;border-radius:8px;padding:16px 24px;display:inline-block">
-      <div style="font-size:14px;font-weight:700;color:#d97706;margin-bottom:4px">7日データ未取得</div>
-      <div style="font-size:13px;color:var(--text2)">Phase 1 で <code>funnel_7d</code> クエリを実行するとWoW比較が表示されます</div>
-    </div>
+    <div style="font-size:12px;color:var(--text3)">対象: 直近28日間</div>
   </div>
   <hr class="divider-solid">
 
@@ -330,7 +327,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
 <!-- Segment breakdown -->
 <div class="card">
-  <div class="sec-label">セグメント別 ファネル通過率</div>
+  <div style="display:flex;align-items:center;gap:8px;padding:28px 44px 12px"><div class="sec-label" style="padding:0">セグメント別 ファネル通過率</div><span class="info-tip" title="各セグメントのファネル通過率を全体平均と比較しています。&#10;&#10;CVR列の「vs全体 ±X%」は全体平均CVRとの乖離率です。&#10;ファネル各段階のセルは背景色で全体平均との差を示します：&#10;　赤 = 全体より10%以上低い&#10;　緑 = 全体より10%以上高い&#10;　白 = ほぼ全体平均と同じ">?</span></div>
   <hr class="divider-solid">
   <div class="seg-section">
 
@@ -600,76 +597,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     renderGraph();
   }
 
-  // ── Funnel mode toggle (28d / 7d) ───────────────
-  window.setFunnelMode = function(m) {
-    funnelMode = m;
-    document.getElementById('fmt-28d').className = 'fmt-btn ' + (m === '28d' ? 'active' : 'inactive');
-    document.getElementById('fmt-7d').className  = 'fmt-btn ' + (m === '7d'  ? 'active' : 'inactive');
-    var noteEl = document.getElementById('funnel-mode-note');
-    var noDataEl = document.getElementById('funnel-nodata');
-    var funnelContent = document.getElementById('funnel-content');
-
-    // Re-render funnel with selected mode
-    var weeks = reportsIndex ? reportsIndex.weeks : [];
-    var latest = weeks.length ? weeks[weeks.length - 1] : null;
-    if (!latest) return;
-    var weekObj = weekDataCache[latest.week_id];
-    if (!weekObj) return;
-
-    // Check if 7d data is available
-    if (m === '7d' && !weekObj.funnel_7d) {
-      if (noteEl) noteEl.textContent = '異常検知用（今週 vs 先週）';
-      if (noDataEl) noDataEl.style.display = 'block';
-      if (funnelContent) funnelContent.style.opacity = '0.2';
-      return;
-    }
-
-    // Hide no-data message and restore opacity
-    if (noDataEl) noDataEl.style.display = 'none';
-    if (funnelContent) funnelContent.style.opacity = '1';
-
-    if (noteEl) noteEl.textContent = m === '28d' ? '水準把握用（28日移動平均）' : '異常検知用（今週 vs 先週）';
-
-    var funnelData = (m === '7d' && weekObj.funnel_7d)
-      ? { funnel: weekObj.funnel_7d.funnel, conversion_rates: weekObj.funnel_7d.conversion_rates }
-      : { funnel: weekObj.baseline.funnel, conversion_rates: weekObj.baseline.conversion_rates };
-    // Update foc counts and rate bars only (not segments)
-    var f = funnelData.funnel;
-    var r = funnelData.conversion_rates;
-    var keys = ['session_start_users','ac_page_reach_users','calendar_view','form_start','purchase'];
-    keys.forEach(function(k, i) {
-      var el = document.getElementById('foc-' + (i + 1));
-      if (el) el.textContent = f && f[k] != null ? fmt(f[k]) : '—';
-    });
-    var rates = [
-      { id: '1-2', key: '1_to_2', to: 'ac_page_reach_users' },
-      { id: '2-3', key: '2_to_3', to: 'calendar_view' },
-      { id: '3-4', key: '3_to_4', to: 'form_start' },
-      { id: '4-5', key: '4_to_5', to: 'purchase' }
-    ];
-    var wow = r ? (r.wow_pp || {}) : {};
-    rates.forEach(function(rd) {
-      var v = r ? r[rd.key] : null;
-      document.getElementById('rate-' + rd.id).textContent = fmtPct(v, 1);
-      document.getElementById('bar-' + rd.id).style.width = (v != null ? Math.min(v * 100, 100) : 0) + '%';
-      var toVal = f ? f[rd.to] : null;
-      document.getElementById('cnt-' + rd.id).textContent = toVal != null ? fmt(toVal) : '';
-      var wowEl = document.getElementById('wow-' + rd.id);
-      if (wowEl) {
-        var pp = wow[rd.key];
-        if (m === '7d' && pp == null) {
-          wowEl.textContent = '前週データなし'; wowEl.className = 'fbc-wow wow-neut';
-        } else if (pp == null) {
-          wowEl.textContent = ''; wowEl.className = 'fbc-wow';
-        } else {
-          var sign = pp >= 0 ? '+' : '';
-          wowEl.textContent = 'WoW ' + sign + pp.toFixed(1) + 'pp';
-          var absPp = Math.abs(pp);
-          wowEl.className = 'fbc-wow ' + (absPp >= 3 ? (pp < 0 ? 'wow-alert' : 'wow-up') : absPp >= 1 ? (pp < 0 ? 'wow-down' : 'wow-up') : 'wow-neut');
-        }
-      }
-    });
-  };
+  // setFunnelMode removed — always show 28-day rolling data
 
 
   function renderKPI(data) {
@@ -726,7 +654,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       document.getElementById('bar-' + rd.id).style.width = barPct + '%';
       var toVal = f[rd.to];
       document.getElementById('cnt-' + rd.id).textContent = toVal != null ? fmt(toVal) : '';
-      // WoW badge
+      // WoW badge — show "前週データなし" when no data, show diff when available
       var wowEl = document.getElementById('wow-' + rd.id);
       if (wowEl) {
         var pp = wow[rd.key];
@@ -736,7 +664,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         } else {
           var absPp = Math.abs(pp);
           var sign = pp >= 0 ? '+' : '';
-          wowEl.textContent = 'WoW ' + sign + pp.toFixed(1) + 'pp';
+          wowEl.textContent = '前週比 ' + sign + pp.toFixed(1) + 'pp';
           if (absPp >= 3) wowEl.className = pp < 0 ? 'fbc-wow wow-alert' : 'fbc-wow wow-up';
           else if (absPp >= 1) wowEl.className = pp < 0 ? 'fbc-wow wow-down' : 'fbc-wow wow-up';
           else wowEl.className = 'fbc-wow wow-neut';
