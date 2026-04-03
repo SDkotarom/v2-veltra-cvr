@@ -128,6 +128,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .seg-table .rate-cell .gap-neut{color:var(--text3)}
 .seg-table .cvr-cell{font-family:'DM Sans';font-weight:900;font-size:17px;color:var(--red)}
 .seg-table .cvr-cell .rate-gap{display:block;font-size:12px;font-weight:700;margin-top:2px}
+.seg-table .cvr-cell .gap-pos{color:var(--green)}
+.seg-table .cvr-cell .gap-neg{color:var(--red)}
+.seg-table .cvr-cell .gap-neut{color:var(--text3)}
 .seg-table .rate-cell.gap-bg-neg{background:rgba(232,66,63,.06)}
 .seg-table .rate-cell.gap-bg-pos{background:rgba(22,163,74,.06)}
 .info-tip{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--border);color:var(--text2);font-size:11px;font-weight:700;cursor:help;flex-shrink:0;position:relative}
@@ -498,6 +501,14 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   })();
 
   // ── Segment tabs ─────────────────────────────────
+  window.toggleOtherSub = function() {
+    var rows = document.querySelectorAll('.other-sub-row');
+    var icon = document.getElementById('other-toggle-icon');
+    var visible = rows.length && rows[0].style.display !== 'none';
+    rows.forEach(function(r) { r.style.display = visible ? 'none' : 'table-row'; });
+    if (icon) icon.textContent = visible ? '▶ 内訳' : '▼ 内訳';
+  };
+
   window.showSeg = function(panel) {
     var panels = ['device', 'channel', 'new-returning', 'area'];
     document.querySelectorAll('.seg-tab').forEach(function(t, i) {
@@ -791,6 +802,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     });
     // Build area list dynamically from data, sorted by impact score
     var areaEntries = [];
+    var otherEntry = null;
     if (segs.area) {
       Object.keys(segs.area).forEach(function(key) {
         var seg = segs.area[key];
@@ -798,8 +810,10 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         var sessions = seg.sessions || 0;
         var cvr = seg.cvr || 0;
         var gapRatio = baselineCvr ? Math.abs(cvr - baselineCvr) / baselineCvr : 0;
-        var impact = sessions * gapRatio; // Impact score: volume × CVR deviation
-        areaEntries.push({ key: key, name: areaNames[key] || key, seg: seg, impact: impact, sessions: sessions });
+        var impact = sessions * gapRatio;
+        var entry = { key: key, name: areaNames[key] || key, seg: seg, impact: impact, sessions: sessions };
+        if (key === 'other') { otherEntry = entry; }
+        else { areaEntries.push(entry); }
       });
       // Sort: impact descending (biggest improvement opportunity first)
       areaEntries.sort(function(a, b) { return b.impact - a.impact; });
@@ -809,26 +823,54 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     var areaNote  = document.getElementById('seg-area-note');
     if (areaHasFunnel) {
       areaThead.innerHTML = '<tr><th>エリア</th><th>CVR</th><th>①→②</th><th>②→③</th><th>③→④</th><th>④→⑤</th></tr>';
-      areaNote.textContent = '※ エリア別ファネル通過率（全チャネル・全デバイス合算）。インパクト順（セッション数×CVR乖離率）で表示。';
+      areaNote.textContent = '※ エリア別ファネル通過率（全チャネル・全デバイス合算）。インパクト順で表示。';
     } else {
       areaThead.innerHTML = '<tr><th>エリア</th><th>CVR</th><th colspan="4" style="text-align:center;font-style:italic;color:var(--text3)">ファネル段階データ未取得 — QUERY_AREA_FUNNEL.md 参照</th></tr>';
-      areaNote.textContent = '※ エリア別CVRのみ表示中。インパクト順（セッション数×CVR乖離率）で表示。';
+      areaNote.textContent = '※ エリア別CVRのみ表示中。インパクト順で表示。';
     }
     var areaRows = [];
-    areaEntries.forEach(function(entry) {
+    // Helper to build a row for area entries
+    function areaRow(entry) {
       var seg = entry.seg;
       if (areaHasFunnel && seg.rates && seg.rates['1_to_2'] != null) {
-        areaRows.push(segRowFromRates(entry.name, seg.rates, blRates));
+        return segRowFromRates(entry.name, seg.rates, blRates);
       } else if (seg.cvr != null) {
         var g = baselineCvr ? (seg.cvr - baselineCvr) / baselineCvr : null;
-        var gapSpan = g != null ? '<span class="rate-gap ' + (Math.abs(g) < 0.03 ? 'gap-neut' : g > 0 ? 'gap-pos' : 'gap-neg') + '">' + gapLabel(g) + '</span>' : '';
-        areaRows.push('<tr><td class="seg-name">' + entry.name + '</td><td class="cvr-cell">' + fmtPct(seg.cvr, 2) + gapSpan + '</td><td colspan="4" style="color:var(--text3)">—</td></tr>');
+        var gs = g != null ? '<span class="rate-gap ' + (Math.abs(g) < 0.03 ? 'gap-neut' : g > 0 ? 'gap-pos' : 'gap-neg') + '">' + gapLabel(g) + '</span>' : '';
+        return '<tr><td class="seg-name">' + entry.name + '</td><td class="cvr-cell">' + fmtPct(seg.cvr, 2) + gs + '</td><td colspan="4" style="color:var(--text3)">—</td></tr>';
       }
-    });
+      return null;
+    }
+    areaEntries.forEach(function(entry) { areaRows.push(areaRow(entry)); });
+    // Baseline row
     if (areaHasFunnel) {
       areaRows.push(segRowFromRates('全体（ベースライン）', blRates, null));
     } else if (baselineCvr) {
       areaRows.push('<tr style="border-top:2px solid var(--text)"><td class="seg-name" style="font-weight:700">全体（ベースライン）</td><td class="cvr-cell">' + fmtPct(baselineCvr, 2) + '</td><td colspan="4"></td></tr>');
+    }
+    // "その他" always at bottom with toggle for sub-areas
+    if (otherEntry) {
+      var otherRow = areaRow(otherEntry);
+      if (otherRow) {
+        // Make "その他" row clickable to toggle sub-areas
+        var subAreas = otherEntry.seg.sub_areas;
+        var hasSubAreas = subAreas && subAreas.length > 0;
+        var toggleIcon = hasSubAreas ? '<span id="other-toggle-icon" style="cursor:pointer;font-size:12px;margin-left:6px;color:var(--text3)">▶ 内訳</span>' : '<span style="font-size:11px;color:var(--text3);margin-left:6px">（内訳データ未取得）</span>';
+        otherRow = otherRow.replace('>その他<', '>その他' + toggleIcon + '<');
+        if (hasSubAreas) {
+          otherRow = otherRow.replace('<tr', '<tr onclick="toggleOtherSub()" style="cursor:pointer"');
+        }
+        areaRows.push(otherRow);
+        // Sub-area rows (hidden by default)
+        if (hasSubAreas) {
+          var subRows = subAreas.slice(0, 5).map(function(s) {
+            var subG = baselineCvr && s.cvr ? (s.cvr - baselineCvr) / baselineCvr : null;
+            var subGs = subG != null ? '<span class="rate-gap ' + (Math.abs(subG) < 0.03 ? 'gap-neut' : subG > 0 ? 'gap-pos' : 'gap-neg') + '">' + gapLabel(subG) + '</span>' : '';
+            return '<tr class="other-sub-row" style="display:none;background:var(--bg)"><td class="seg-name" style="padding-left:28px;font-size:14px;font-weight:400;color:var(--text2)">└ ' + s.name + '</td><td class="cvr-cell" style="font-size:14px">' + fmtPct(s.cvr, 2) + subGs + '</td><td colspan="4" style="font-size:13px;color:var(--text3)">' + fmt(s.sessions) + ' sessions</td></tr>';
+          });
+          areaRows.push(subRows.join(''));
+        }
+      }
     }
     document.getElementById('seg-area-body').innerHTML = areaRows.filter(Boolean).join('');
   }
