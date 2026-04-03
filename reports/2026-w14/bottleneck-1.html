@@ -206,12 +206,23 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   <hr class="divider">
 
-  <!-- Actions -->
+  <!-- Actions (tabbed by hypothesis) -->
   <div style="padding:24px 44px 16px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説1に対する施策）</div>
-    <div style="font-size:15px;color:var(--text2)">SEOランディングページ → 商品詳細への遷移率を改善</div>
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">打ち手 &times; 9（仮説ごとに施策3つ）</div>
+    <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:0">
+      <button onclick="switchActionTab(this,'action-h1')" class="action-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;border-bottom:2px solid var(--red);margin-bottom:-2px">仮説1の打ち手</button>
+      <button onclick="switchActionTab(this,'action-h2')" class="action-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">仮説2の打ち手</button>
+      <button onclick="switchActionTab(this,'action-h3')" class="action-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">仮説3の打ち手</button>
+    </div>
   </div>
-  <div class="action-grid">
+
+  <!-- H1 Actions -->
+  <div id="action-h1" class="action-panel" style="display:block">
+    <div style="padding:12px 44px 16px">
+      <div style="font-size:15px;font-weight:700">SEOランディングページ → 商品詳細への遷移率を改善</div>
+      <div style="font-size:13px;color:var(--text3);margin-top:4px">施策 A〜C</div>
+    </div>
+    <div class="action-grid">
     <div class="action-card">
       <div class="action-header">
         <div class="action-label" style="color:var(--red)">施策 A</div>
@@ -264,13 +275,15 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       </div>
     </div>
   </div>
-
-  <!-- Actions for H2 -->
-  <div style="padding:24px 44px 16px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説2に対する施策）</div>
-    <div style="font-size:15px;color:var(--text2)">情報収集系クエリからの流入ユーザーに合った導線設計で商品到達率を改善</div>
   </div>
-  <div class="action-grid">
+
+  <!-- H2 Actions -->
+  <div id="action-h2" class="action-panel" style="display:none">
+    <div style="padding:12px 44px 16px">
+      <div style="font-size:15px;font-weight:700">情報収集系クエリからの流入ユーザーに合った導線設計で商品到達率を改善</div>
+      <div style="font-size:13px;color:var(--text3);margin-top:4px">施策 D〜F</div>
+    </div>
+    <div class="action-grid">
     <div class="action-card">
       <div class="action-header">
         <div class="action-label" style="color:var(--red)">施策 D</div>
@@ -323,13 +336,15 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       </div>
     </div>
   </div>
-
-  <!-- Actions for H3 -->
-  <div style="padding:24px 44px 16px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説3に対する施策）</div>
-    <div style="font-size:15px;color:var(--text2)">商品の絞り込み・発見UXを改善し、選択肢過多による離脱を防止</div>
   </div>
-  <div class="action-grid">
+
+  <!-- H3 Actions -->
+  <div id="action-h3" class="action-panel" style="display:none">
+    <div style="padding:12px 44px 16px">
+      <div style="font-size:15px;font-weight:700">商品の絞り込み・発見UXを改善し、選択肢過多による離脱を防止</div>
+      <div style="font-size:13px;color:var(--text3);margin-top:4px">施策 G〜I</div>
+    </div>
+    <div class="action-grid">
     <div class="action-card">
       <div class="action-header">
         <div class="action-label" style="color:var(--red)">施策 G</div>
@@ -382,6 +397,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       </div>
     </div>
   </div>
+  </div><!-- /action-h3 -->
 
   <hr class="divider">
 
@@ -640,6 +656,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.color='var(--text2)';b.style.borderBottomColor='transparent'});
     btn.style.color='var(--red)';btn.style.borderBottomColor='var(--red)';
     btn.closest('.card').querySelectorAll('.proto-panel').forEach(function(p){p.style.display='none'});
+    document.getElementById(panelId).style.display='block';
+  }
+  function switchActionTab(btn,panelId){
+    btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.color='var(--text2)';b.style.borderBottomColor='transparent'});
+    btn.style.color='var(--red)';btn.style.borderBottomColor='var(--red)';
+    document.querySelectorAll('.action-panel').forEach(function(p){p.style.display='none'});
     document.getElementById(panelId).style.display='block';
   }
   </script>
