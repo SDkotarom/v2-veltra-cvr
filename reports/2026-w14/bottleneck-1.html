@@ -157,13 +157,19 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   <hr class="divider">
 
-  <!-- Step 6: Hypotheses -->
+  <!-- Step 6: Hypotheses + Actions + Prototypes (Drill-down Accordion) -->
   <div style="padding:24px 44px 16px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Step 6 &mdash; 原因仮説 &times; 3</div>
-    <div style="font-size:15px;color:var(--text2)">なぜ Organic Search &times; 新規のAC到達率が低いか？</div>
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Step 6 &mdash; 原因仮説 &times; 3 &amp; 打ち手 &times; 9</div>
+    <div style="font-size:15px;color:var(--text2)">なぜ Organic Search &times; 新規のAC到達率が低いか？ 仮説をクリックして打ち手・プロトタイプを展開。</div>
   </div>
-  <div class="hypo-grid">
-    <div class="hypo-card h1">
+
+  <div style="padding:0 44px 28px">
+
+  <!-- ============================== -->
+  <!-- HYPOTHESIS 1 ACCORDION         -->
+  <!-- ============================== -->
+  <div class="hypo-accordion" style="margin-bottom:16px">
+    <div class="hypo-card h1" style="cursor:pointer" onclick="toggleHypoActions('hypo-actions-1')">
       <div class="hypo-num">仮説 1（有力）</div>
       <div class="hypo-title">SEOランディングページから商品詳細への導線が弱い</div>
       <div class="hypo-body">新規ユーザーはエリアページやブログ記事に着地するが、そこから個別商品（ACページ）への遷移導線が不十分。ファーストビューに商品リストがなく、テキスト情報が占有している。リピーターは直接商品URLを知っているため影響が小さい。</div>
@@ -175,269 +181,37 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <li>Organic Mobileが22.0%と最低 — スマホではスクロール量が増え、商品到達前に離脱</li>
   </ul>
 </div>
-    </div>
-    <div class="hypo-card h2">
-      <div class="hypo-num">仮説 2</div>
-      <div class="hypo-title">検索意図とランディングページのミスマッチ</div>
-      <div class="hypo-body">「ハワイ 観光」「バリ島 おすすめ」等の情報収集系クエリで流入した新規ユーザーに対し、ランディングページが予約前提の構成になっている。情報収集段階のユーザーは商品詳細まで進まず離脱する。</div>
-      <div class="hypo-evidence">
-        <strong>裏付けデータ:</strong>
-  <ul style="margin:6px 0 0;padding-left:18px;list-style:disc">
-    <li>Organic Search全体のCVR: 0.74%（全チャネル中で最低レベル）</li>
-    <li>Paid Searchの新規①→②: 31.5%（検索広告は購買意図が明確なクエリに出稿）</li>
-    <li>→ Organicは情報系クエリが多く、購買意図が薄い層が含まれる</li>
-  </ul>
-</div>
-    </div>
-    <div class="hypo-card h3">
-      <div class="hypo-num">仮説 3</div>
-      <div class="hypo-title">サイト内検索・フィルターのUXが弱く、商品を見つけられない</div>
-      <div class="hypo-body">エリアページに着地した新規ユーザーが、自分の旅行日程・予算・興味に合う商品を絞り込めない。商品数が多いエリア（Japan: 368K sessions）では特にナビゲーションの問題が深刻。</div>
-      <div class="hypo-evidence">
-        <strong>裏付けデータ:</strong>
-  <ul style="margin:6px 0 0;padding-left:18px;list-style:disc">
-    <li>Japan（最大エリア）: CVR 1.48% — Other（2.62%）やHawaii（2.53%）より低い</li>
-    <li>Japan は商品数が最も多く、選択肢過多で迷子になりやすい</li>
-    <li>Direct &times; 新規の①→②も8.4%と極端に低い — 目的なくサイトに来た新規は商品に到達できない</li>
-  </ul>
-</div>
-    </div>
-  </div>
-
-  <hr class="divider">
-
-  <!-- Actions (tabbed by hypothesis) -->
-  <div style="padding:24px 44px 16px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">打ち手 &times; 9（仮説ごとに施策3つ）</div>
-    <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:0">
-      <button onclick="switchActionTab(this,'action-h1')" class="action-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;border-bottom:2px solid var(--red);margin-bottom:-2px">仮説1の打ち手</button>
-      <button onclick="switchActionTab(this,'action-h2')" class="action-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">仮説2の打ち手</button>
-      <button onclick="switchActionTab(this,'action-h3')" class="action-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">仮説3の打ち手</button>
-    </div>
-  </div>
-
-  <!-- H1 Actions -->
-  <div id="action-h1" class="action-panel" style="display:block">
-    <div style="padding:12px 44px 16px">
-      <div style="font-size:15px;font-weight:700">SEOランディングページ → 商品詳細への遷移率を改善</div>
-      <div style="font-size:13px;color:var(--text3);margin-top:4px">施策 A〜C</div>
-    </div>
-    <div class="action-grid">
-    <div class="action-card">
-      <div class="action-header">
-        <div class="action-label" style="color:var(--red)">施策 A</div>
-        <div class="action-impact">①→② +5pt</div>
+      <div style="padding-top:12px;text-align:center">
+        <span class="hypo-toggle" id="hypo-toggle-1" style="font-size:13px;color:var(--red);font-weight:700;cursor:pointer">&#x1F53B; 打ち手を見る</span>
       </div>
-      <div class="action-body">
-        <div class="action-title">エリアページのファーストビューに人気商品カルーセルを配置</div>
-        <div class="action-desc">エリアページ上部のテキスト説明を圧縮し、「このエリアの人気アクティビティ TOP5」カルーセルをファーストビューに配置。新規ユーザーがスクロールなしで商品カードをタップできる導線を作る。</div>
-        <div class="action-spec">
-          <strong>開発仕様</strong>
+    </div>
+
+    <div id="hypo-actions-1" style="display:none;padding:0 20px 16px;background:#fafaf8;border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;margin-top:-12px">
+
+      <!-- Action A -->
+      <div style="margin-top:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff">
+        <div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleProto('proto-a')">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:var(--red)">施策 A</span>
+            <span style="font-size:14px;font-weight:700;margin-left:8px">エリアページのファーストビューに人気商品カルーセルを配置</span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px;flex-shrink:0;margin-left:12px">①→② +5pt</span>
+        </div>
+        <div style="padding:0 16px 14px">
+          <div style="font-size:13px;color:var(--text2);line-height:1.6">エリアページ上部のテキスト説明を圧縮し、「このエリアの人気アクティビティ TOP5」カルーセルをファーストビューに配置。新規ユーザーがスクロールなしで商品カードをタップできる導線を作る。</div>
+          <div style="margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:6px;font-size:12px;line-height:1.6">
+            <strong>開発仕様</strong>
           ・エリアページテンプレートにカルーセルコンポーネント追加<br>
           ・データソース: エリア内の予約数TOP5商品を動的取得<br>
           ・カード: 画像 + 商品名 + 価格 + 評価（横スクロール）<br>
           ・目標: ファーストビュー内に商品カードを3枚以上表示
+          </div>
+          <div style="text-align:center;margin-top:12px">
+            <span id="proto-toggle-a" style="font-size:12px;color:var(--text2);cursor:pointer;font-weight:600" onclick="event.stopPropagation();toggleProto('proto-a')">&#x1F4D0; プロトタイプを見る &#x25B8;</span>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="action-card">
-      <div class="action-header">
-        <div class="action-label" style="color:var(--amber)">施策 B</div>
-        <div class="action-impact">①→② +3pt</div>
-      </div>
-      <div class="action-body">
-        <div class="action-title">クイックフィルター（日程・カテゴリ・予算）の追加</div>
-        <div class="action-desc">エリアページの商品一覧にフィルターUIを追加。「日程から探す」「カテゴリから探す」「予算から探す」の3軸で絞り込み。商品数が多いJapanエリアで特に効果が期待できる。</div>
-        <div class="action-spec">
-          <strong>開発仕様</strong>
-          ・フィルターバー: sticky配置（スクロール追従）<br>
-          ・日程フィルター: カレンダーピッカー → 空きがある商品のみ表示<br>
-          ・カテゴリ: 既存タグを利用したチップUI<br>
-          ・予算: 価格帯スライダー（~5千/~1万/~2万/2万~）
-        </div>
-      </div>
-    </div>
-    <div class="action-card">
-      <div class="action-header">
-        <div class="action-label" style="color:var(--text3)">施策 C</div>
-        <div class="action-impact">①→② +2pt</div>
-      </div>
-      <div class="action-body">
-        <div class="action-title">情報収集系ユーザー向け「おすすめ診断」CTA</div>
-        <div class="action-desc">「何をしたいか決まっていない」新規ユーザー向けに、3問の簡易診断（旅行スタイル/予算/人数）から最適な商品3件をレコメンド。エリアページとブログ記事にCTAを配置。</div>
-        <div class="action-spec">
-          <strong>開発仕様</strong>
-          ・3ステップモーダルUI（旅行スタイル→予算→人数）<br>
-          ・レコメンドロジック: 既存の商品タグ + 予約数でスコアリング<br>
-          ・結果画面: 商品カード3枚 + 「もっと見る」リンク<br>
-          ・CTA文言: 「あなたにぴったりの体験を見つける」
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
-
-  <!-- H2 Actions -->
-  <div id="action-h2" class="action-panel" style="display:none">
-    <div style="padding:12px 44px 16px">
-      <div style="font-size:15px;font-weight:700">情報収集系クエリからの流入ユーザーに合った導線設計で商品到達率を改善</div>
-      <div style="font-size:13px;color:var(--text3);margin-top:4px">施策 D〜F</div>
-    </div>
-    <div class="action-grid">
-    <div class="action-card">
-      <div class="action-header">
-        <div class="action-label" style="color:var(--red)">施策 D</div>
-        <div class="action-impact">①→② +4pt</div>
-      </div>
-      <div class="action-body">
-        <div class="action-title">情報収集系LPのFVを「読み物→商品」段階的構成に変更</div>
-        <div class="action-desc">「ハワイ 観光」等のクエリで着地するエリアページのFVを、現在の商品一覧直出しから「エリア概要（3行以内）→ 人気体験ジャンル3選（カテゴリカード）」構成に変更。情報収集ユーザーの期待に沿った導線で自然に商品詳細へ誘導する。</div>
-        <div class="action-spec">
-          <strong>開発仕様</strong>
-          ・エリアページFVにカテゴリカード3枚（例: マリンスポーツ/観光ツアー/グルメ）を配置<br>
-          ・カテゴリカードタップでページ内の該当セクションへスムーズスクロール<br>
-          ・既存の長文エリア説明テキストは折りたたみ（デフォルト非表示）に変更<br>
-          ・Organic Search × 新規ユーザーのみ出し分け（リピーターは現行維持）
-        </div>
-      </div>
-    </div>
-    <div class="action-card">
-      <div class="action-header">
-        <div class="action-label" style="color:var(--amber)">施策 E</div>
-        <div class="action-impact">①→② +3pt</div>
-      </div>
-      <div class="action-body">
-        <div class="action-title">検索クエリ連動のコンテキストヘッダー表示</div>
-        <div class="action-desc">流入クエリのカテゴリ（情報収集系/比較系/指名系）をUTMまたはリファラから判定し、情報収集系の場合はページ上部に「ハワイで人気の体験 TOP3」等のコンテキストバナーを表示。予約UIを後退させ、まず情報提供から入る。</div>
-        <div class="action-spec">
-          <strong>開発仕様</strong>
-          ・クエリ分類ロジック: 「観光」「おすすめ」「楽しみ方」→ 情報収集系と判定<br>
-          ・情報収集系の場合: FV上部に「○○で人気の体験」バナー（商品カード3枚）<br>
-          ・予約ボタン・価格表示の視覚的優先度を下げる（サイズ・色調整）<br>
-          ・分類不能な場合はデフォルト（現行）表示を維持
-        </div>
-      </div>
-    </div>
-    <div class="action-card">
-      <div class="action-header">
-        <div class="action-label" style="color:var(--text3)">施策 F</div>
-        <div class="action-impact">①→② +2pt</div>
-      </div>
-      <div class="action-body">
-        <div class="action-title">エリアページ内「旅行ガイド」セクションの削除・簡素化</div>
-        <div class="action-desc">現行エリアページの観光情報テキスト（天気・アクセス・通貨等）を大幅に削除し、商品カードまでのスクロール距離を短縮。2025年ABテストの「情報削減が効く」知見に基づき、ノイズを減らして商品への到達速度を上げる。</div>
-        <div class="action-spec">
-          <strong>開発仕様</strong>
-          ・エリアページの観光ガイドセクションを完全削除（またはフッター移動）<br>
-          ・FVから最初の商品カードまでのスクロール距離を50%以上短縮<br>
-          ・モバイルでは特にFV内に商品カードが1枚以上見える状態を担保<br>
-          ・削除対象: 天気情報、通貨情報、アクセス方法、一般的な観光Tips
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
-
-  <!-- H3 Actions -->
-  <div id="action-h3" class="action-panel" style="display:none">
-    <div style="padding:12px 44px 16px">
-      <div style="font-size:15px;font-weight:700">商品の絞り込み・発見UXを改善し、選択肢過多による離脱を防止</div>
-      <div style="font-size:13px;color:var(--text3);margin-top:4px">施策 G〜I</div>
-    </div>
-    <div class="action-grid">
-    <div class="action-card">
-      <div class="action-header">
-        <div class="action-label" style="color:var(--red)">施策 G</div>
-        <div class="action-impact">①→② +4pt</div>
-      </div>
-      <div class="action-body">
-        <div class="action-title">エリアページにワンタップ絞り込みチップUIを追加</div>
-        <div class="action-desc">商品一覧上部に「半日ツアー」「1万円以下」「家族向け」等の頻出条件をチップボタンで配置。タップ即フィルターで商品数が多いJapan等のエリアでの迷子を解消。フィルター選択数と結果件数をリアルタイム表示。</div>
-        <div class="action-spec">
-          <strong>開発仕様</strong>
-          ・チップUI: 横スクロール、最大8個表示（エリア別に出し分け）<br>
-          ・フィルター適用はページリロードなし（Ajax/クライアントサイド）<br>
-          ・チップ選択時に結果件数をバッジ表示（「12件」等）<br>
-          ・デフォルトチップ: エリア内の予約実績から上位条件を自動選定
-        </div>
-      </div>
-    </div>
-    <div class="action-card">
-      <div class="action-header">
-        <div class="action-label" style="color:var(--amber)">施策 H</div>
-        <div class="action-impact">①→② +3pt</div>
-      </div>
-      <div class="action-body">
-        <div class="action-title">日程指定フィルターをエリアページFVに昇格</div>
-        <div class="action-desc">旅行日程が決まっているユーザー向けに、エリアページ最上部にカレンダー式の日程フィルターを配置。日程を選ぶとその日に空きがある商品のみ表示され、「予約できない商品を見て離脱」を防止する。</div>
-        <div class="action-spec">
-          <strong>開発仕様</strong>
-          ・日程フィルター: FV内にインラインカレンダー（モバイルはボトムシート）<br>
-          ・空き状況APIと連携し、選択日に催行がある商品のみ表示<br>
-          ・日程未選択時は現行通り全商品表示（デフォルト動作変更なし）<br>
-          ・選択後の商品カードに「○月○日 空きあり」バッジを表示
-        </div>
-      </div>
-    </div>
-    <div class="action-card">
-      <div class="action-header">
-        <div class="action-label" style="color:var(--text3)">施策 I</div>
-        <div class="action-impact">①→② +2pt</div>
-      </div>
-      <div class="action-body">
-        <div class="action-title">商品一覧のデフォルトソートを「人気順」に変更＋件数表示</div>
-        <div class="action-desc">現行の新着順ソートを人気順（予約数ベース）に変更し、ページ上部に総商品件数を表示。新規ユーザーが最初に見る商品の質を上げることで、スクロール少なく商品詳細へ遷移させる。タブUIでの切替は不要（簡素化原則に従う）。</div>
-        <div class="action-spec">
-          <strong>開発仕様</strong>
-          ・デフォルトソート: 過去30日の予約数降順に変更<br>
-          ・商品一覧上部に「○○件のアクティビティ」件数ラベルを追加<br>
-          ・ソート変更UIは最小限（ドロップダウン1つ、選択肢3つ以下）<br>
-          ・新規ユーザーのみ人気順デフォルト（リピーターは前回ソート維持）
-        </div>
-      </div>
-    </div>
-  </div>
-  </div><!-- /action-h3 -->
-
-  <hr class="divider">
-
-  <!-- Verification -->
-  <div class="callout-amber callout">
-    <div class="ct">検証方法</div>
-    <div class="cb">ABテスト 2週間。対象: Organic Search &times; 新規ユーザー（全エリアページ）。<br>
-    主要指標: ①→② AC到達率（現状 17.5% → 目標 22%以上）。<br>
-    副次指標: ②→③ カレンダー表示率への影響、直帰率、ページ滞在時間。<br>
-    優先エリア: Japan（368Kセッション、CVR最低）から開始し、成功後に全エリア展開。</div>
-  </div>
-
-  <hr class="divider">
-
-  <!-- Prototype tabs -->
-  <div style="padding:24px 44px 16px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">プロトタイプ &mdash; Before / After</div>
-    <div style="font-size:15px;color:var(--text2)">エリアページ（東京）のSP版。Organic Search &times; 新規ユーザーの①→②改善を狙う。</div>
-  </div>
-
-  <div style="padding:0 44px 32px">
-    <!-- Tab bar -->
-    <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px">
-      <button onclick="switchProtoTab(this,'tab-a')" class="proto-tab-btn active" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;border-bottom:2px solid var(--red);margin-bottom:-2px">施策 A</button>
-      <button onclick="switchProtoTab(this,'tab-b')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 B</button>
-      <button onclick="switchProtoTab(this,'tab-c')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 C</button>
-      <button onclick="switchProtoTab(this,'tab-d')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 D</button>
-      <button onclick="switchProtoTab(this,'tab-e')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 E</button>
-      <button onclick="switchProtoTab(this,'tab-f')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 F</button>
-      <button onclick="switchProtoTab(this,'tab-g')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 G</button>
-      <button onclick="switchProtoTab(this,'tab-h')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 H</button>
-      <button onclick="switchProtoTab(this,'tab-i')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 I</button>
-    </div>
-
-    <!-- ===== TAB A: 人気商品カルーセル ===== -->
-    <div id="tab-a" class="proto-panel" style="display:block">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <div><span style="font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase">施策 A</span><span style="font-size:15px;font-weight:700;margin-left:8px">エリアページ FV に人気商品カルーセル</span></div>
-        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +5pt</span>
-      </div>
+        <!-- Prototype (hidden by default) -->
+        <div id="proto-a" style="display:none;padding:16px;background:var(--bg);border-top:1px solid var(--border)">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
         <!-- Before -->
         <div>
@@ -520,14 +294,32 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- ===== TAB B: クイックフィルター ===== -->
-    <div id="tab-b" class="proto-panel" style="display:none">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <div><span style="font-size:13px;font-weight:700;color:var(--amber);text-transform:uppercase">施策 B</span><span style="font-size:15px;font-weight:700;margin-left:8px">クイックフィルター（日程・カテゴリ・予算）</span></div>
-        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +3pt</span>
+        </div>
       </div>
+      <!-- Action B -->
+      <div style="margin-top:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff">
+        <div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleProto('proto-b')">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:var(--amber)">施策 B</span>
+            <span style="font-size:14px;font-weight:700;margin-left:8px">クイックフィルター（日程・カテゴリ・予算）の追加</span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px;flex-shrink:0;margin-left:12px">①→② +3pt</span>
+        </div>
+        <div style="padding:0 16px 14px">
+          <div style="font-size:13px;color:var(--text2);line-height:1.6">エリアページの商品一覧にフィルターUIを追加。「日程から探す」「カテゴリから探す」「予算から探す」の3軸で絞り込み。商品数が多いJapanエリアで特に効果が期待できる。</div>
+          <div style="margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:6px;font-size:12px;line-height:1.6">
+            <strong>開発仕様</strong>
+          ・フィルターバー: sticky配置（スクロール追従）<br>
+          ・日程フィルター: カレンダーピッカー → 空きがある商品のみ表示<br>
+          ・カテゴリ: 既存タグを利用したチップUI<br>
+          ・予算: 価格帯スライダー（~5千/~1万/~2万/2万~）
+          </div>
+          <div style="text-align:center;margin-top:12px">
+            <span id="proto-toggle-b" style="font-size:12px;color:var(--text2);cursor:pointer;font-weight:600" onclick="event.stopPropagation();toggleProto('proto-b')">&#x1F4D0; プロトタイプを見る &#x25B8;</span>
+          </div>
+        </div>
+        <!-- Prototype (hidden by default) -->
+        <div id="proto-b" style="display:none;padding:16px;background:var(--bg);border-top:1px solid var(--border)">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
         <!-- Before -->
         <div>
@@ -584,14 +376,32 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- ===== TAB C: おすすめ診断 ===== -->
-    <div id="tab-c" class="proto-panel" style="display:none">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <div><span style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 C</span><span style="font-size:15px;font-weight:700;margin-left:8px">情報収集ユーザー向け「おすすめ診断」CTA</span></div>
-        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +2pt</span>
+        </div>
       </div>
+      <!-- Action C -->
+      <div style="margin-top:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff">
+        <div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleProto('proto-c')">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:var(--text3)">施策 C</span>
+            <span style="font-size:14px;font-weight:700;margin-left:8px">情報収集系ユーザー向け「おすすめ診断」CTA</span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px;flex-shrink:0;margin-left:12px">①→② +2pt</span>
+        </div>
+        <div style="padding:0 16px 14px">
+          <div style="font-size:13px;color:var(--text2);line-height:1.6">「何をしたいか決まっていない」新規ユーザー向けに、3問の簡易診断（旅行スタイル/予算/人数）から最適な商品3件をレコメンド。エリアページとブログ記事にCTAを配置。</div>
+          <div style="margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:6px;font-size:12px;line-height:1.6">
+            <strong>開発仕様</strong>
+          ・3ステップモーダルUI（旅行スタイル→予算→人数）<br>
+          ・レコメンドロジック: 既存の商品タグ + 予約数でスコアリング<br>
+          ・結果画面: 商品カード3枚 + 「もっと見る」リンク<br>
+          ・CTA文言: 「あなたにぴったりの体験を見つける」
+          </div>
+          <div style="text-align:center;margin-top:12px">
+            <span id="proto-toggle-c" style="font-size:12px;color:var(--text2);cursor:pointer;font-weight:600" onclick="event.stopPropagation();toggleProto('proto-c')">&#x1F4D0; プロトタイプを見る &#x25B8;</span>
+          </div>
+        </div>
+        <!-- Prototype (hidden by default) -->
+        <div id="proto-c" style="display:none;padding:16px;background:var(--bg);border-top:1px solid var(--border)">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
         <!-- Before -->
         <div>
@@ -654,14 +464,57 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
           </div>
         </div>
       </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ============================== -->
+  <!-- HYPOTHESIS 2 ACCORDION         -->
+  <!-- ============================== -->
+  <div class="hypo-accordion" style="margin-bottom:16px">
+    <div class="hypo-card h2" style="cursor:pointer" onclick="toggleHypoActions('hypo-actions-2')">
+      <div class="hypo-num">仮説 2</div>
+      <div class="hypo-title">検索意図とランディングページのミスマッチ</div>
+      <div class="hypo-body">「ハワイ 観光」「バリ島 おすすめ」等の情報収集系クエリで流入した新規ユーザーに対し、ランディングページが予約前提の構成になっている。情報収集段階のユーザーは商品詳細まで進まず離脱する。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+  <ul style="margin:6px 0 0;padding-left:18px;list-style:disc">
+    <li>Organic Search全体のCVR: 0.74%（全チャネル中で最低レベル）</li>
+    <li>Paid Searchの新規①→②: 31.5%（検索広告は購買意図が明確なクエリに出稿）</li>
+    <li>→ Organicは情報系クエリが多く、購買意図が薄い層が含まれる</li>
+  </ul>
+</div>
+      <div style="padding-top:12px;text-align:center">
+        <span class="hypo-toggle" id="hypo-toggle-2" style="font-size:13px;color:var(--red);font-weight:700;cursor:pointer">&#x1F53B; 打ち手を見る</span>
+      </div>
     </div>
 
-<!-- ===== TAB D: 情報収集系LPのFVを「読み物→商品」段階的構成に変更 ===== -->
-<div id="tab-d" class="proto-panel" style="display:none">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-    <div><span style="font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase">施策 D</span><span style="font-size:15px;font-weight:700;margin-left:8px">情報収集系LPのFVを「読み物→商品」段階的構成に変更</span></div>
-    <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +4pt</span>
-  </div>
+    <div id="hypo-actions-2" style="display:none;padding:0 20px 16px;background:#fafaf8;border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;margin-top:-12px">
+
+      <!-- Action D -->
+      <div style="margin-top:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff">
+        <div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleProto('proto-d')">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:var(--red)">施策 D</span>
+            <span style="font-size:14px;font-weight:700;margin-left:8px">情報収集系LPのFVを「読み物→商品」段階的構成に変更</span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px;flex-shrink:0;margin-left:12px">①→② +4pt</span>
+        </div>
+        <div style="padding:0 16px 14px">
+          <div style="font-size:13px;color:var(--text2);line-height:1.6">「ハワイ 観光」等のクエリで着地するエリアページのFVを、現在の商品一覧直出しから「エリア概要（3行以内）→ 人気体験ジャンル3選（カテゴリカード）」構成に変更。情報収集ユーザーの期待に沿った導線で自然に商品詳細へ誘導する。</div>
+          <div style="margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:6px;font-size:12px;line-height:1.6">
+            <strong>開発仕様</strong>
+          ・エリアページFVにカテゴリカード3枚（例: マリンスポーツ/観光ツアー/グルメ）を配置<br>
+          ・カテゴリカードタップでページ内の該当セクションへスムーズスクロール<br>
+          ・既存の長文エリア説明テキストは折りたたみ（デフォルト非表示）に変更<br>
+          ・Organic Search × 新規ユーザーのみ出し分け（リピーターは現行維持）
+          </div>
+          <div style="text-align:center;margin-top:12px">
+            <span id="proto-toggle-d" style="font-size:12px;color:var(--text2);cursor:pointer;font-weight:600" onclick="event.stopPropagation();toggleProto('proto-d')">&#x1F4D0; プロトタイプを見る &#x25B8;</span>
+          </div>
+        </div>
+        <!-- Prototype (hidden by default) -->
+        <div id="proto-d" style="display:none;padding:16px;background:var(--bg);border-top:1px solid var(--border)">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
     <!-- Before -->
     <div>
@@ -765,14 +618,32 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--green)">✅ カテゴリカードで段階的に探索を促進</div>
     </div>
   </div>
-</div>
-
-<!-- ===== TAB E: 検索クエリ連動のコンテキストヘッダー表示 ===== -->
-<div id="tab-e" class="proto-panel" style="display:none">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-    <div><span style="font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase">施策 E</span><span style="font-size:15px;font-weight:700;margin-left:8px">検索クエリ連動のコンテキストヘッダー表示</span></div>
-    <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +3pt</span>
-  </div>
+        </div>
+      </div>
+      <!-- Action E -->
+      <div style="margin-top:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff">
+        <div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleProto('proto-e')">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:var(--amber)">施策 E</span>
+            <span style="font-size:14px;font-weight:700;margin-left:8px">検索クエリ連動のコンテキストヘッダー表示</span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px;flex-shrink:0;margin-left:12px">①→② +3pt</span>
+        </div>
+        <div style="padding:0 16px 14px">
+          <div style="font-size:13px;color:var(--text2);line-height:1.6">流入クエリのカテゴリ（情報収集系/比較系/指名系）をUTMまたはリファラから判定し、情報収集系の場合はページ上部に「ハワイで人気の体験 TOP3」等のコンテキストバナーを表示。予約UIを後退させ、まず情報提供から入る。</div>
+          <div style="margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:6px;font-size:12px;line-height:1.6">
+            <strong>開発仕様</strong>
+          ・クエリ分類ロジック: 「観光」「おすすめ」「楽しみ方」→ 情報収集系と判定<br>
+          ・情報収集系の場合: FV上部に「○○で人気の体験」バナー（商品カード3枚）<br>
+          ・予約ボタン・価格表示の視覚的優先度を下げる（サイズ・色調整）<br>
+          ・分類不能な場合はデフォルト（現行）表示を維持
+          </div>
+          <div style="text-align:center;margin-top:12px">
+            <span id="proto-toggle-e" style="font-size:12px;color:var(--text2);cursor:pointer;font-weight:600" onclick="event.stopPropagation();toggleProto('proto-e')">&#x1F4D0; プロトタイプを見る &#x25B8;</span>
+          </div>
+        </div>
+        <!-- Prototype (hidden by default) -->
+        <div id="proto-e" style="display:none;padding:16px;background:var(--bg);border-top:1px solid var(--border)">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
     <!-- Before -->
     <div>
@@ -891,14 +762,32 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--green)">✅ 検索意図に合わせた情報提供型レイアウト</div>
     </div>
   </div>
-</div>
-
-<!-- ===== TAB F: エリアページ内「旅行ガイド」セクションの削除・簡素化 ===== -->
-<div id="tab-f" class="proto-panel" style="display:none">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-    <div><span style="font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase">施策 F</span><span style="font-size:15px;font-weight:700;margin-left:8px">エリアページ内「旅行ガイド」セクションの削除・簡素化</span></div>
-    <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +2pt</span>
-  </div>
+        </div>
+      </div>
+      <!-- Action F -->
+      <div style="margin-top:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff">
+        <div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleProto('proto-f')">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:var(--text3)">施策 F</span>
+            <span style="font-size:14px;font-weight:700;margin-left:8px">エリアページ内「旅行ガイド」セクションの削除・簡素化</span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px;flex-shrink:0;margin-left:12px">①→② +2pt</span>
+        </div>
+        <div style="padding:0 16px 14px">
+          <div style="font-size:13px;color:var(--text2);line-height:1.6">現行エリアページの観光情報テキスト（天気・アクセス・通貨等）を大幅に削除し、商品カードまでのスクロール距離を短縮。2025年ABテストの「情報削減が効く」知見に基づき、ノイズを減らして商品への到達速度を上げる。</div>
+          <div style="margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:6px;font-size:12px;line-height:1.6">
+            <strong>開発仕様</strong>
+          ・エリアページの観光ガイドセクションを完全削除（またはフッター移動）<br>
+          ・FVから最初の商品カードまでのスクロール距離を50%以上短縮<br>
+          ・モバイルでは特にFV内に商品カードが1枚以上見える状態を担保<br>
+          ・削除対象: 天気情報、通貨情報、アクセス方法、一般的な観光Tips
+          </div>
+          <div style="text-align:center;margin-top:12px">
+            <span id="proto-toggle-f" style="font-size:12px;color:var(--text2);cursor:pointer;font-weight:600" onclick="event.stopPropagation();toggleProto('proto-f')">&#x1F4D0; プロトタイプを見る &#x25B8;</span>
+          </div>
+        </div>
+        <!-- Prototype (hidden by default) -->
+        <div id="proto-f" style="display:none;padding:16px;background:var(--bg);border-top:1px solid var(--border)">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
     <!-- Before -->
     <div>
@@ -1014,14 +903,57 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--green)">✅ ガイド削除で商品が即座に表示される</div>
     </div>
   </div>
-</div>
-
-<!-- ===== TAB G: エリアページにワンタップ絞り込みチップUIを追加 ===== -->
-<div id="tab-g" class="proto-panel" style="display:none">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-    <div><span style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 G</span><span style="font-size:15px;font-weight:700;margin-left:8px">ワンタップ絞り込みチップUI</span></div>
-    <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +4pt</span>
+        </div>
+      </div>
+    </div>
   </div>
+  <!-- ============================== -->
+  <!-- HYPOTHESIS 3 ACCORDION         -->
+  <!-- ============================== -->
+  <div class="hypo-accordion" style="margin-bottom:16px">
+    <div class="hypo-card h3" style="cursor:pointer" onclick="toggleHypoActions('hypo-actions-3')">
+      <div class="hypo-num">仮説 3</div>
+      <div class="hypo-title">サイト内検索・フィルターのUXが弱く、商品を見つけられない</div>
+      <div class="hypo-body">エリアページに着地した新規ユーザーが、自分の旅行日程・予算・興味に合う商品を絞り込めない。商品数が多いエリア（Japan: 368K sessions）では特にナビゲーションの問題が深刻。</div>
+      <div class="hypo-evidence">
+        <strong>裏付けデータ:</strong>
+  <ul style="margin:6px 0 0;padding-left:18px;list-style:disc">
+    <li>Japan（最大エリア）: CVR 1.48% — Other（2.62%）やHawaii（2.53%）より低い</li>
+    <li>Japan は商品数が最も多く、選択肢過多で迷子になりやすい</li>
+    <li>Direct &times; 新規の①→②も8.4%と極端に低い — 目的なくサイトに来た新規は商品に到達できない</li>
+  </ul>
+</div>
+      <div style="padding-top:12px;text-align:center">
+        <span class="hypo-toggle" id="hypo-toggle-3" style="font-size:13px;color:var(--red);font-weight:700;cursor:pointer">&#x1F53B; 打ち手を見る</span>
+      </div>
+    </div>
+
+    <div id="hypo-actions-3" style="display:none;padding:0 20px 16px;background:#fafaf8;border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;margin-top:-12px">
+
+      <!-- Action G -->
+      <div style="margin-top:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff">
+        <div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleProto('proto-g')">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:var(--red)">施策 G</span>
+            <span style="font-size:14px;font-weight:700;margin-left:8px">エリアページにワンタップ絞り込みチップUIを追加</span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px;flex-shrink:0;margin-left:12px">①→② +4pt</span>
+        </div>
+        <div style="padding:0 16px 14px">
+          <div style="font-size:13px;color:var(--text2);line-height:1.6">商品一覧上部に「半日ツアー」「1万円以下」「家族向け」等の頻出条件をチップボタンで配置。タップ即フィルターで商品数が多いJapan等のエリアでの迷子を解消。フィルター選択数と結果件数をリアルタイム表示。</div>
+          <div style="margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:6px;font-size:12px;line-height:1.6">
+            <strong>開発仕様</strong>
+          ・チップUI: 横スクロール、最大8個表示（エリア別に出し分け）<br>
+          ・フィルター適用はページリロードなし（Ajax/クライアントサイド）<br>
+          ・チップ選択時に結果件数をバッジ表示（「12件」等）<br>
+          ・デフォルトチップ: エリア内の予約実績から上位条件を自動選定
+          </div>
+          <div style="text-align:center;margin-top:12px">
+            <span id="proto-toggle-g" style="font-size:12px;color:var(--text2);cursor:pointer;font-weight:600" onclick="event.stopPropagation();toggleProto('proto-g')">&#x1F4D0; プロトタイプを見る &#x25B8;</span>
+          </div>
+        </div>
+        <!-- Prototype (hidden by default) -->
+        <div id="proto-g" style="display:none;padding:16px;background:var(--bg);border-top:1px solid var(--border)">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
     <!-- Before -->
     <div>
@@ -1158,14 +1090,32 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       </div>
     </div>
   </div>
-</div>
-
-<!-- ===== TAB H: 日程指定フィルターをエリアページFVに昇格 ===== -->
-<div id="tab-h" class="proto-panel" style="display:none">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-    <div><span style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 H</span><span style="font-size:15px;font-weight:700;margin-left:8px">日程フィルターをFVに昇格</span></div>
-    <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +3pt</span>
-  </div>
+        </div>
+      </div>
+      <!-- Action H -->
+      <div style="margin-top:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff">
+        <div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleProto('proto-h')">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:var(--amber)">施策 H</span>
+            <span style="font-size:14px;font-weight:700;margin-left:8px">日程指定フィルターをエリアページFVに昇格</span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px;flex-shrink:0;margin-left:12px">①→② +3pt</span>
+        </div>
+        <div style="padding:0 16px 14px">
+          <div style="font-size:13px;color:var(--text2);line-height:1.6">旅行日程が決まっているユーザー向けに、エリアページ最上部にカレンダー式の日程フィルターを配置。日程を選ぶとその日に空きがある商品のみ表示され、「予約できない商品を見て離脱」を防止する。</div>
+          <div style="margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:6px;font-size:12px;line-height:1.6">
+            <strong>開発仕様</strong>
+          ・日程フィルター: FV内にインラインカレンダー（モバイルはボトムシート）<br>
+          ・空き状況APIと連携し、選択日に催行がある商品のみ表示<br>
+          ・日程未選択時は現行通り全商品表示（デフォルト動作変更なし）<br>
+          ・選択後の商品カードに「○月○日 空きあり」バッジを表示
+          </div>
+          <div style="text-align:center;margin-top:12px">
+            <span id="proto-toggle-h" style="font-size:12px;color:var(--text2);cursor:pointer;font-weight:600" onclick="event.stopPropagation();toggleProto('proto-h')">&#x1F4D0; プロトタイプを見る &#x25B8;</span>
+          </div>
+        </div>
+        <!-- Prototype (hidden by default) -->
+        <div id="proto-h" style="display:none;padding:16px;background:var(--bg);border-top:1px solid var(--border)">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
     <!-- Before -->
     <div>
@@ -1313,14 +1263,32 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       </div>
     </div>
   </div>
-</div>
-
-<!-- ===== TAB I: 商品一覧のデフォルトソートを「人気順」に変更＋件数表示 ===== -->
-<div id="tab-i" class="proto-panel" style="display:none">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-    <div><span style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 I</span><span style="font-size:15px;font-weight:700;margin-left:8px">デフォルトソート「人気順」＋件数表示</span></div>
-    <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +2pt</span>
-  </div>
+        </div>
+      </div>
+      <!-- Action I -->
+      <div style="margin-top:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff">
+        <div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleProto('proto-i')">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:var(--text3)">施策 I</span>
+            <span style="font-size:14px;font-weight:700;margin-left:8px">商品一覧のデフォルトソートを「人気順」に変更＋件数表示</span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px;flex-shrink:0;margin-left:12px">①→② +2pt</span>
+        </div>
+        <div style="padding:0 16px 14px">
+          <div style="font-size:13px;color:var(--text2);line-height:1.6">現行の新着順ソートを人気順（予約数ベース）に変更し、ページ上部に総商品件数を表示。新規ユーザーが最初に見る商品の質を上げることで、スクロール少なく商品詳細へ遷移させる。タブUIでの切替は不要（簡素化原則に従う）。</div>
+          <div style="margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:6px;font-size:12px;line-height:1.6">
+            <strong>開発仕様</strong>
+          ・デフォルトソート: 過去30日の予約数降順に変更<br>
+          ・商品一覧上部に「○○件のアクティビティ」件数ラベルを追加<br>
+          ・ソート変更UIは最小限（ドロップダウン1つ、選択肢3つ以下）<br>
+          ・新規ユーザーのみ人気順デフォルト（リピーターは前回ソート維持）
+          </div>
+          <div style="text-align:center;margin-top:12px">
+            <span id="proto-toggle-i" style="font-size:12px;color:var(--text2);cursor:pointer;font-weight:600" onclick="event.stopPropagation();toggleProto('proto-i')">&#x1F4D0; プロトタイプを見る &#x25B8;</span>
+          </div>
+        </div>
+        <!-- Prototype (hidden by default) -->
+        <div id="proto-i" style="display:none;padding:16px;background:var(--bg);border-top:1px solid var(--border)">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
     <!-- Before -->
     <div>
@@ -1444,26 +1412,50 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       </div>
     </div>
   </div>
-</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
 
+  <hr class="divider">
+
+  <!-- Verification -->
+  <div class="callout-amber callout">
+    <div class="ct">検証方法</div>
+    <div class="cb">ABテスト 2週間。対象: Organic Search &times; 新規ユーザー（全エリアページ）。<br>
+    主要指標: ①→② AC到達率（現状 17.5% → 目標 22%以上）。<br>
+    副次指標: ②→③ カレンダー表示率への影響、直帰率、ページ滞在時間。<br>
+    優先エリア: Japan（368Kセッション、CVR最低）から開始し、成功後に全エリア展開。</div>
   </div>
 
   <script>
-  function switchProtoTab(btn,panelId){
-    btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.color='var(--text2)';b.style.borderBottomColor='transparent'});
-    btn.style.color='var(--red)';btn.style.borderBottomColor='var(--red)';
-    btn.closest('.card').querySelectorAll('.proto-panel').forEach(function(p){p.style.display='none'});
-    document.getElementById(panelId).style.display='block';
+  function toggleHypoActions(id) {
+    var el = document.getElementById(id);
+    var num = id.replace('hypo-actions-', '');
+    var toggleEl = document.getElementById('hypo-toggle-' + num);
+    if (el.style.display === 'none') {
+      el.style.display = 'block';
+      if (toggleEl) toggleEl.innerHTML = '&#x1F53A; 打ち手を閉じる';
+    } else {
+      el.style.display = 'none';
+      if (toggleEl) toggleEl.innerHTML = '&#x1F53B; 打ち手を見る';
+    }
   }
-  function switchActionTab(btn,panelId){
-    btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.color='var(--text2)';b.style.borderBottomColor='transparent'});
-    btn.style.color='var(--red)';btn.style.borderBottomColor='var(--red)';
-    document.querySelectorAll('.action-panel').forEach(function(p){p.style.display='none'});
-    document.getElementById(panelId).style.display='block';
+  function toggleProto(id) {
+    var el = document.getElementById(id);
+    var letter = id.replace('proto-', '');
+    var toggleEl = document.getElementById('proto-toggle-' + letter);
+    if (el.style.display === 'none') {
+      el.style.display = 'block';
+      if (toggleEl) toggleEl.innerHTML = '&#x1F4D0; プロトタイプを閉じる &#x25BE;';
+    } else {
+      el.style.display = 'none';
+      if (toggleEl) toggleEl.innerHTML = '&#x1F4D0; プロトタイプを見る &#x25B8;';
+    }
   }
   </script>
 
-  <hr class="divider">
 
   <!-- Competitive Analysis -->
   <div style="padding:24px 44px 16px">
