@@ -423,7 +423,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   function gapLabel(v) {
     if (v == null) return '—';
     var s = v > 0 ? '+' : '';
-    return s + (v * 100).toFixed(0) + '%';
+    return 'vs全体 ' + s + (v * 100).toFixed(0) + '%';
   }
 
   // ── Graph mode toggle ────────────────────────────
@@ -771,8 +771,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     }
     var isBaseline = (blRates === null);
     var cvrCell = '<td class="cvr-cell' + (isBaseline ? ' baseline-row' : '') + '">' + fmtPct(rates.cvr, 2) + (isBaseline ? '' : gapSpan(rates.cvr, blRates ? blRates.cvr : null)) + '</td>';
+    var baselineLabel = isBaseline ? ' <span style="font-size:11px;font-weight:400;color:var(--text3);margin-left:4px">= 比較基準</span>' : '';
     return '<tr' + (isBaseline ? ' class="baseline-row"' : '') + '>' +
-      '<td class="seg-name">' + name + '</td>' +
+      '<td class="seg-name">' + name + baselineLabel + '</td>' +
       cvrCell +
       cell(rates['1_to_2'], isBaseline ? null : (blRates && blRates['1_to_2'])) +
       cell(rates['2_to_3'], isBaseline ? null : (blRates && blRates['2_to_3'])) +
