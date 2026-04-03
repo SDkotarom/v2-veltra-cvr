@@ -701,16 +701,16 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       var cls = Math.abs(g) < 0.03 ? 'gap-neut' : g > 0 ? 'gap-pos' : 'gap-neg';
       return '<span class="rate-gap ' + cls + '">' + gapLabel(g) + '</span>';
     }
-    // Funnel stage cells: background color only, no gap text
+    // Funnel stage cells: value + gap text below (matching CVR column design)
     function cell(val, blVal) {
       if (val == null) return '<td class="rate-cell" style="color:var(--text3)">—</td>';
-      var bgCls = '';
+      var gapHtml = '';
       if (!isBaseline && blVal != null && blVal > 0) {
         var g = (val - blVal) / blVal;
-        if (g < -0.10) bgCls = ' gap-bg-neg';
-        else if (g > 0.10) bgCls = ' gap-bg-pos';
+        var cls = Math.abs(g) < 0.03 ? 'gap-neut' : g > 0 ? 'gap-pos' : 'gap-neg';
+        gapHtml = '<span class="rate-gap ' + cls + '">' + gapLabel(g) + '</span>';
       }
-      return '<td class="rate-cell' + bgCls + '">' + fmtPct(val, 1) + '</td>';
+      return '<td class="rate-cell">' + fmtPct(val, 1) + gapHtml + '</td>';
     }
     var cvrCell = '<td class="cvr-cell' + (isBaseline ? ' baseline-row' : '') + '">' + fmtPct(rates.cvr, 2) + (isBaseline ? '' : cvrGapSpan(rates.cvr, blRates ? blRates.cvr : null)) + '</td>';
     var baselineLabel = isBaseline ? ' <span style="font-size:11px;font-weight:400;color:var(--text3);margin-left:4px">= 比較基準</span>' : '';
