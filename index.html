@@ -792,8 +792,16 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       australia: 'オーストラリア', okinawa: '沖縄', tokyo: '東京',
       osaka: '大阪', kyoto: '京都', hokkaido: '北海道', kanto: '関東',
       kyushu: '九州', ishigaki_miyako: '石垣島・宮古島', other: 'その他',
-      // Legacy English names
       Japan: 'Japan', Hawaii: 'Hawaii', Bali: 'Bali', Europe: 'Europe'
+    };
+    var areaPaths = {
+      hawaii: '/hawaii/', bali: '/bali/', guam: '/guam/', cebu: '/cebu/',
+      singapore: '/singapore/', taiwan: '/taiwan/', hongkong: '/hongkong/',
+      thailand: '/thailand/', vietnam: '/vietnam/', europe: '/europe/',
+      australia: '/australia/', okinawa: '/japan/okinawa/',
+      tokyo: '/japan/tokyo/', osaka: '/japan/osaka/', kyoto: '/japan/kyoto/',
+      hokkaido: '/japan/hokkaido/', kanto: '/japan/kanto/',
+      kyushu: '/japan/kyushu/', ishigaki_miyako: '/japan/ishigaki/'
     };
     var baselineCvr = window._currentWeekBaseline ? window._currentWeekBaseline.cvr : null;
     var areaHasFunnel = segs.area && Object.keys(segs.area).some(function(k) {
@@ -829,15 +837,22 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       areaNote.textContent = '※ エリア別CVRのみ表示中。インパクト順で表示。';
     }
     var areaRows = [];
+    // Helper to build display name with path subtitle
+    function areaDisplayName(entry) {
+      var path = areaPaths[entry.key];
+      if (!path) return entry.name;
+      return entry.name + '<div style="font-size:11px;font-weight:400;color:var(--text3);margin-top:1px">' + path + '</div>';
+    }
     // Helper to build a row for area entries
     function areaRow(entry) {
       var seg = entry.seg;
+      var displayName = areaDisplayName(entry);
       if (areaHasFunnel && seg.rates && seg.rates['1_to_2'] != null) {
-        return segRowFromRates(entry.name, seg.rates, blRates);
+        return segRowFromRates(displayName, seg.rates, blRates);
       } else if (seg.cvr != null) {
         var g = baselineCvr ? (seg.cvr - baselineCvr) / baselineCvr : null;
         var gs = g != null ? '<span class="rate-gap ' + (Math.abs(g) < 0.03 ? 'gap-neut' : g > 0 ? 'gap-pos' : 'gap-neg') + '">' + gapLabel(g) + '</span>' : '';
-        return '<tr><td class="seg-name">' + entry.name + '</td><td class="cvr-cell">' + fmtPct(seg.cvr, 2) + gs + '</td><td colspan="4" style="color:var(--text3)">—</td></tr>';
+        return '<tr><td class="seg-name">' + displayName + '</td><td class="cvr-cell">' + fmtPct(seg.cvr, 2) + gs + '</td><td colspan="4" style="color:var(--text3)">—</td></tr>';
       }
       return null;
     }
