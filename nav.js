@@ -180,10 +180,17 @@
     var toggle = document.createElement('span');
     toggle.className = 'nav-week-toggle' + (expanded ? ' open' : '');
     toggle.textContent = '▶';
+    toggle.style.cssText = 'flex-shrink:0;padding:4px 6px 4px 0';
+
+    // Week ID + label as link to week summary
+    var weekLink = document.createElement('a');
+    weekLink.href = w.path;
+    weekLink.style.cssText = 'display:flex;align-items:center;gap:6px;flex:1;min-width:0;text-decoration:none;color:inherit';
+    if (isWeekSummary && isCurrentWeek) weekLink.style.fontWeight = '700';
 
     var idEl = document.createElement('span');
     idEl.className = 'nav-week-id';
-    idEl.textContent = wid;
+    idEl.textContent = wid.toUpperCase();
 
     var labelEl = document.createElement('span');
     labelEl.className = 'nav-week-label';
@@ -191,9 +198,11 @@
     var de = w.date_end   ? w.date_end.slice(5).replace('-', '/') : '';
     labelEl.textContent = ds && de ? ds + '〜' + de : w.week_label;
 
+    weekLink.appendChild(idEl);
+    weekLink.appendChild(labelEl);
+
     header.appendChild(toggle);
-    header.appendChild(idEl);
-    header.appendChild(labelEl);
+    header.appendChild(weekLink);
 
     if (isLatest) {
       var badge = document.createElement('span');
@@ -206,7 +215,23 @@
     bnList.className = 'nav-bn-list';
     bnList.style.display = expanded ? 'block' : 'none';
 
+    // "週次サマリー" as first item in the list
+    var summaryItem = document.createElement('div');
+    summaryItem.className = 'nav-bn-item';
+    var summaryA = document.createElement('a');
+    summaryA.href = w.path;
+    if (isWeekSummary && isCurrentWeek) summaryA.className = 'nav-active';
+    summaryA.style.cssText = 'font-weight:600;color:#555';
+    var summaryIcon = document.createElement('span');
+    summaryIcon.style.cssText = 'font-size:11px;color:#bbb;flex-shrink:0';
+    summaryIcon.textContent = '≡';
+    summaryA.appendChild(summaryIcon);
+    summaryA.appendChild(document.createTextNode('週次サマリー'));
+    summaryItem.appendChild(summaryA);
+    bnList.appendChild(summaryItem);
+
     if (bns && bns.length) {
+      bnList.dataset.bnAdded = '1';
       bns.forEach(function (bn) {
         var item = document.createElement('div');
         item.className = 'nav-bn-item';
@@ -229,11 +254,20 @@
       bnList.appendChild(loading);
     }
 
-    header.addEventListener('click', function () {
+    function doToggle() {
       var open = bnList.style.display !== 'none';
       bnList.style.display = open ? 'none' : 'block';
       toggle.className = 'nav-week-toggle' + (open ? '' : ' open');
       expandedWeeks[w.week_id] = !open;
+    }
+    // Arrow: toggle only
+    toggle.addEventListener('click', function (e) { e.stopPropagation(); doToggle(); });
+    // Week link (ID + label): navigate; stop bubble so header doesn't also toggle
+    weekLink.addEventListener('click', function (e) { e.stopPropagation(); });
+    // Rest of header row: toggle
+    header.addEventListener('click', function (e) {
+      if (toggle.contains(e.target) || weekLink.contains(e.target)) return;
+      doToggle();
     });
 
     div.appendChild(header);
@@ -331,27 +365,27 @@
     if (!bnList) return;
     var placeholder = bnList.querySelector('[data-placeholder]');
     if (placeholder) bnList.removeChild(placeholder);
-    if (!bnList.children.length) {
-      var wInfo = null;
-      if (reportsIndex) {
-        reportsIndex.weeks.forEach(function(w){ if(w.week_id===weekId) wInfo=w; });
-      }
-      bns.forEach(function (bn) {
-        var item = document.createElement('div');
-        item.className = 'nav-bn-item';
-        var a = document.createElement('a');
-        var weekPath = wInfo ? wInfo.path : '/reports/' + weekId + '/';
-        a.href = weekPath + 'bottleneck-' + bn.rank + '.html';
-        if (currentWeekId === weekId && bn.rank === bnNum) a.className = 'nav-active';
-        var num = document.createElement('span');
-        num.className = 'bn-num';
-        num.textContent = '#' + bn.rank;
-        a.appendChild(num);
-        a.appendChild(document.createTextNode(bn.title));
-        item.appendChild(a);
-        bnList.appendChild(item);
-      });
+    if (bnList.dataset.bnAdded) return; // already populated
+    bnList.dataset.bnAdded = '1';
+    var wInfo = null;
+    if (reportsIndex) {
+      reportsIndex.weeks.forEach(function(w){ if(w.week_id===weekId) wInfo=w; });
     }
+    bns.forEach(function (bn) {
+      var item = document.createElement('div');
+      item.className = 'nav-bn-item';
+      var a = document.createElement('a');
+      var weekPath = wInfo ? wInfo.path : '/reports/' + weekId + '/';
+      a.href = weekPath + 'bottleneck-' + bn.rank + '.html';
+      if (currentWeekId === weekId && bn.rank === bnNum) a.className = 'nav-active';
+      var num = document.createElement('span');
+      num.className = 'bn-num';
+      num.textContent = '#' + bn.rank;
+      a.appendChild(num);
+      a.appendChild(document.createTextNode(bn.title));
+      item.appendChild(a);
+      bnList.appendChild(item);
+    });
   }
 
   // ── Load data ─────────────────────────────────────
