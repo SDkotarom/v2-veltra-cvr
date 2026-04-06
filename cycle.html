@@ -216,12 +216,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 </div>
 
 <div class="card">
-  <div class="sec-label">セグメント軸（分析の順序）</div>
+  <div class="sec-label">4つの分析軸 × 掛け合わせでボトルネックを特定</div>
   <hr class="divider-solid">
+  <div class="callout" style="margin-top:20px"><div class="ct">分析の考え方</div><div class="cb">4つのセグメント軸すべてと、その掛け合わせでファネルの凹みを探します。<br>見つかった凹みをインパクト順（セッション数 × 乖離率）に並べ、上位10件を仮説 → 打ち手 → プロトタイプまでフル分析します。</div></div>
   <div class="tier-section">
 
     <div class="tier-block">
-      <div class="tier-header"><div class="tbadge t1">Tier 1-A</div><div class="td">チャネル別 — ファネル通過率を比較</div></div>
+      <div class="tier-header"><div class="tbadge t1">分析軸 ①</div><div class="td">チャネル — どこから来たユーザーか</div></div>
       <div class="ti" style="margin-bottom:12px">
         <div class="tn">チャネル（sessionDefaultChannelGroup）</div>
         <div class="tds">CVR差 4倍。この差がファネルのどの段階で生まれるかを特定する。</div>
@@ -243,7 +244,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     </div>
 
     <div class="tier-block">
-      <div class="tier-header"><div class="tbadge t1">Tier 1-B</div><div class="td">デバイス別 — 同じファネルでもUIが全く違う</div></div>
+      <div class="tier-header"><div class="tbadge t1">分析軸 ②</div><div class="td">デバイス — モバイルかPCかでUIが全く変わる</div></div>
       <div class="ti" style="margin-bottom:12px">
         <div class="tn">デバイス（deviceCategory）</div>
         <div class="tds">mobile / desktop / tablet。打ち手が根本的に変わる軸。</div>
@@ -263,22 +264,22 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     </div>
 
     <div class="tier-block">
-      <div class="tier-header"><div class="tbadge t2">Tier 2-A</div><div class="td">新規 / リピーター — 行動パターンが根本的に異なる</div></div>
+      <div class="tier-header"><div class="tbadge t1">分析軸 ③</div><div class="td">新規 / リピーター — 行動パターンが根本的に異なる</div></div>
       <div class="ti" style="margin-bottom:12px">
         <div class="tn">新規 / リピーター（newVsReturning）</div>
-        <div class="tds">Tier 1で見つけたボトルネックが、新規の問題かリピーターの問題かを切り分ける。</div>
+        <div class="tds">ファネルの凹みが、初めて来たユーザーの問題か、リピーターの問題かを切り分ける。</div>
         <div class="seg-detail">
-          <div class="seg-head">使い方</div>
+          <div class="seg-head">読み方</div>
           <div class="seg-row"><div class="seg-label">新規が低い</div><div class="seg-val">→ 信頼構築の問題。体験談・保証・キャンセルポリシーの見せ方。初回割引の効果検証。</div></div>
           <div class="seg-row"><div class="seg-label">リピーターが低い</div><div class="seg-val">→ UX摩擦の問題。過去の予約情報の活用不足。再購入フローの最適化。</div></div>
-          <div class="seg-row"><div class="seg-label">GA4クエリ</div><div class="seg-val">newVsReturning × Tier 1で特定したボトルネック段階のイベント</div></div>
+          <div class="seg-row"><div class="seg-label">GA4クエリ</div><div class="seg-val">newVsReturning × 各ファネルイベント</div></div>
           <div class="seg-action"><strong>分かったらどうする？ →</strong> 例：Organic × mobile × 新規の②→③が特に低い → 「初めてACページに来た新規mobileユーザーが、カレンダーを見る前に離脱」→ 信頼構築UIの施策候補へ。</div>
         </div>
       </div>
     </div>
 
     <div class="tier-block">
-      <div class="tier-header"><div class="tbadge t2">Tier 2-B</div><div class="td">エリア（旅行先）— 商品構成が根本的に異なる</div></div>
+      <div class="tier-header"><div class="tbadge t1">分析軸 ④</div><div class="td">エリア（旅行先）— 商品構成が根本的に異なる</div></div>
       <div class="ti" style="margin-bottom:12px">
         <div class="tn">エリア（landingPage から推定）</div>
         <div class="tds">Hawaii, Bali, Singapore 等。エリアごとに在庫・即確定率・季節性が違うため、同じファネルでも特性が変わる。</div>
@@ -295,13 +296,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     </div>
 
     <div class="tier-block">
-      <div class="tier-header"><div class="tbadge t3">Tier 3</div><div class="td">掛け合わせ — 原因セグメントを1つに絞る</div></div>
+      <div class="tier-header"><div class="tbadge t2">掛け合わせ</div><div class="td">複数軸を組み合わせて、原因セグメントを1つに絞る</div></div>
       <div class="tier-items three">
         <div class="ti"><div class="tn">チャネル × デバイス</div><div class="tds">Organic + mobile の③が低い？→ mobile向けSEOランディング体験の問題。</div></div>
-        <div class="ti"><div class="tn">チャネル × 新規</div><div class="tds">Organic + 新規 の②が低い？→ 検索意図と商品マッチングの問題。</div></div>
+        <div class="ti"><div class="tn">チャネル × 新規/リピーター</div><div class="tds">Organic + 新規 の②が低い？→ 検索意図と商品マッチングの問題。</div></div>
         <div class="ti"><div class="tn">エリア × デバイス</div><div class="tds">Hawaii + mobile の④が低い？→ Hawaii商品のmobileフォーム体験。</div></div>
       </div>
-      <div class="callout" style="margin:16px 0 0"><div class="ct">Tier 3 の使い方</div><div class="cb">Tier 1-2で見つけたボトルネックに対して「なぜそのセグメントだけ低いのか？」を掛け合わせで特定する。最終的に「Mobile × Organic × 新規 の ②→③ が全体比 -40%」レベルまで絞り込むのがゴール。</div></div>
+      <div class="callout" style="margin:16px 0 0"><div class="ct">掛け合わせのゴール</div><div class="cb">「なぜそのセグメントだけ低いのか？」を軸の組み合わせで絞り込む。最終的に「Mobile × Organic × 新規 の ②→③ が全体比 -40%」レベルまで特定できると、仮説の精度が上がる。</div></div>
     </div>
 
   </div>
@@ -310,12 +311,11 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div class="card">
   <div class="sec-label">AIの分析プロセス（❶ ボトルネック特定の内部ロジック）</div>
   <hr class="divider-solid">
-  <div class="process-step"><div class="sc">1</div><div><div class="st">ベースライン取得</div><div class="sd">ファネル全体の転換率を算出。①→② 何%、②→③ 何%…のサイト全体値を出す。</div></div></div>
-  <div class="process-step"><div class="sc">2</div><div><div class="st">Tier 1 で4分割</div><div class="sd">チャネル別 × デバイス別で分割。サイト全体値より低い箇所をマーク。</div></div></div>
-  <div class="process-step"><div class="sc">3</div><div><div class="st">ボトルネック特定</div><div class="sd">インパクト順（セッション数 × 転換率ギャップ）でランク付け。</div></div></div>
-  <div class="process-step"><div class="sc">4</div><div><div class="st">Tier 2 で深掘り</div><div class="sd">新規/リピーター、エリアで更に分解。問題の解像度を上げる。</div></div></div>
-  <div class="process-step"><div class="sc">5</div><div><div class="st">Tier 3 で原因特定</div><div class="sd">掛け合わせで最も影響が大きいセグメントを絞り込む。</div></div></div>
-  <div class="process-step"><div class="sc">6</div><div><div class="st">原因仮説 → 数字で裏付け</div><div class="sd">なぜ低いか？の仮説を立て、追加データ・競合リサーチで裏付ける。→ 打ち手・プロトタイプの生成へ。</div></div></div>
+  <div class="process-step"><div class="sc">1</div><div><div class="st">サイト全体値を算出</div><div class="sd">ファネル全体の転換率を算出。①→② 何%、②→③ 何%…のサイト全体値を出す。</div></div></div>
+  <div class="process-step"><div class="sc">2</div><div><div class="st">4軸 × 掛け合わせで全パターンを分析</div><div class="sd">チャネル・デバイス・新規/リピーター・エリア、およびその掛け合わせで全セグメントのファネル転換率を算出。サイト全体値より低い箇所をマーク。</div></div></div>
+  <div class="process-step"><div class="sc">3</div><div><div class="st">インパクト順にランク付け</div><div class="sd">セッション数 × 転換率ギャップ = 影響ユーザー推計。この値が大きい順に上位10件を選定。</div></div></div>
+  <div class="process-step"><div class="sc">4</div><div><div class="st">原因仮説 × 3 → 数字で裏付け</div><div class="sd">なぜ低いか？の仮説を立て、追加データ・競合リサーチで裏付ける。</div></div></div>
+  <div class="process-step"><div class="sc">5</div><div><div class="st">打ち手 × 9 → プロトタイプ生成</div><div class="sd">仮説ごとに打ち手3つ、開発仕様、Before/Afterプロトタイプまで一括生成。</div></div></div>
 </div>
 
 <div class="card">
