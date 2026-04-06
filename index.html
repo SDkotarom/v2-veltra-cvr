@@ -945,7 +945,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
           if (!d) return;
           points.push({ label: w.week_id.replace(/^\d{4}-/, ''), cvr: d.baseline.cvr, sessions: d.baseline.sessions, fullLabel: w.week_id });
         });
-        if (points.length) _drawGraph(filterByPeriod(points), targets);
+        if (points.length) _drawGraph(filterByPeriod(points), targets, null, 'weekly');
       });
   }
 
@@ -964,7 +964,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       return { label: label, cvr: w.cvr, sessions: w.sessions, fullLabel: yr + '-W' + wk };
     });
     if (!points.length) return;
-    _drawGraph(filterByPeriod(points), data.targets || targets, allWeeklyMap);
+    _drawGraph(filterByPeriod(points), data.targets || targets, allWeeklyMap, 'weekly');
   }
 
   function _renderGraphPoints(data) {
@@ -977,10 +977,10 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       return { label: parts[0].slice(2) + '/' + parts[1], cvr: m.cvr, sessions: m.sessions, fullLabel: m.month };
     });
     if (!points.length) return;
-    _drawGraph(filterByPeriod(points), graphTargets, allMonthlyMap);
+    _drawGraph(filterByPeriod(points), graphTargets, allMonthlyMap, 'monthly');
   }
 
-  function _drawGraph(points, graphTargets, allMap) {
+  function _drawGraph(points, graphTargets, allMap, mode) {
     var svg = document.getElementById('graph-svg');
     var W = 800, H = 200;
     var pad = { l: 8, r: 8, t: 24, b: 4 };
@@ -1063,16 +1063,28 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         gtLabel.textContent = p.fullLabel || p.label;
         gtSessions.textContent = 'Sessions: ' + fmt(p.sessions);
         gtCvr.textContent = 'CVR: ' + fmtPct(p.cvr, 2);
-        var yoyKey = getYoyKey(p.fullLabel);
-        var yoyData = allMap ? allMap[yoyKey] : null;
-        if (yoyData) {
-          var diff = p.cvr - yoyData.cvr;
-          var sign = diff >= 0 ? '▲' : '▼';
-          var color = diff >= 0 ? '#22c55e' : '#ef4444';
-          gtYoyVal.innerHTML = '<span style="color:' + color + '">' + sign + ' ' + Math.abs(diff * 100).toFixed(2) + 'pp</span> vs 前年同月';
+        function diffHtml(diff) {
+          var s = diff >= 0 ? '▲' : '▼';
+          var c = diff >= 0 ? '#22c55e' : '#ef4444';
+          return '<span style="color:' + c + '">' + s + ' ' + Math.abs(diff * 100).toFixed(2) + 'pp</span>';
+        }
+        if (mode === 'weekly') {
+          var wowPrev = idx > 0 ? points[idx - 1] : null;
+          var yoyKey = getYoyKey(p.fullLabel);
+          var yoyData = allMap ? allMap[yoyKey] : null;
+          var wowLine = 'WoW ' + (wowPrev ? diffHtml(p.cvr - wowPrev.cvr) : '<span style="color:var(--text3)">—</span>');
+          var yoyLine = 'YOY ' + (yoyData ? diffHtml(p.cvr - yoyData.cvr) : '<span style="color:var(--text3)">—</span>');
+          gtYoyVal.innerHTML = wowLine + '<br>' + yoyLine;
           gtYoy.style.display = 'flex';
         } else {
-          gtYoy.style.display = 'none';
+          var yoyKey = getYoyKey(p.fullLabel);
+          var yoyData = allMap ? allMap[yoyKey] : null;
+          if (yoyData) {
+            gtYoyVal.innerHTML = 'YOY ' + diffHtml(p.cvr - yoyData.cvr);
+            gtYoy.style.display = 'flex';
+          } else {
+            gtYoy.style.display = 'none';
+          }
         }
         tooltip.style.display = 'block';
       });
@@ -1108,32 +1120,40 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       return '<span>' + (v >= 10000 ? Math.round(v / 10000) + '万' : Math.round(v / 1000) + '千') + '</span>';
     }).join('');
 
-    // YOY comparison table
+    // Comparison table below graph
     var yoyWrap = document.getElementById('graph-yoy-table-wrap');
-    if (yoyWrap && allMap) {
-      var thCells = '<th style="text-align:left;font-size:11px;font-weight:700;color:var(--text3);padding:5px 10px 5px 0;white-space:nowrap;border-bottom:2px solid var(--text)"></th>';
+    if (yoyWrap) {
+      function cellDiff(diff) {
+        if (diff === null) return '<span style="color:var(--text3)">—</span>';
+        var s = diff >= 0 ? '▲' : '▼';
+        var c = diff >= 0 ? 'var(--green)' : 'var(--red)';
+        return '<span style="color:' + c + ';font-weight:700">' + s + Math.abs(diff * 100).toFixed(2) + '</span>';
+      }
+      var thStyle = 'font-size:11px;font-weight:700;color:var(--text3);border-bottom:2px solid var(--text)';
+      var tdStyle = 'font-family:DM Sans;font-size:13px;font-weight:700;color:var(--text);border-bottom:1px solid var(--border)';
+      var tdDiff = 'font-size:12px';
+      var pad = 'padding:5px 8px;text-align:center;white-space:nowrap;';
+      var thCells = '<th style="text-align:left;' + thStyle + ';padding:5px 10px 5px 0"></th>';
       var cvrCells = '<td style="font-size:11px;font-weight:700;color:var(--text3);padding:6px 10px 6px 0;white-space:nowrap;border-bottom:1px solid var(--border)">CVR</td>';
-      var yoyCells = '<td style="font-size:11px;font-weight:700;color:var(--text3);padding:6px 10px 6px 0;white-space:nowrap">前年比</td>';
-      points.forEach(function(p) {
+      var wowCells = mode === 'weekly' ? '<td style="font-size:11px;font-weight:700;color:var(--text3);padding:6px 10px 6px 0;white-space:nowrap;border-bottom:1px solid var(--border)">WoW</td>' : null;
+      var yoyCells = '<td style="font-size:11px;font-weight:700;color:var(--text3);padding:6px 10px 6px 0;white-space:nowrap">' + (mode === 'weekly' ? 'YOY' : 'YOY') + '</td>';
+      points.forEach(function(p, i) {
         var yoyKey = getYoyKey(p.fullLabel);
-        var yoyData = allMap[yoyKey];
-        var diff = yoyData ? p.cvr - yoyData.cvr : null;
-        var yoyHtml;
-        if (diff === null) {
-          yoyHtml = '<span style="color:var(--text3)">—</span>';
-        } else {
-          var sign = diff >= 0 ? '▲' : '▼';
-          var col = diff >= 0 ? 'var(--green)' : 'var(--red)';
-          yoyHtml = '<span style="color:' + col + ';font-weight:700">' + sign + Math.abs(diff * 100).toFixed(2) + 'pp</span>';
+        var yoyData = allMap ? allMap[yoyKey] : null;
+        var yoyDiff = yoyData ? p.cvr - yoyData.cvr : null;
+        thCells += '<th style="' + pad + thStyle + '">' + p.label + '</th>';
+        cvrCells += '<td style="' + pad + tdStyle + '">' + fmtPct(p.cvr, 2) + '</td>';
+        if (mode === 'weekly') {
+          var prev = i > 0 ? points[i - 1] : null;
+          var wowDiff = prev ? p.cvr - prev.cvr : null;
+          wowCells += '<td style="' + pad + tdDiff + '">' + cellDiff(wowDiff) + '</td>';
         }
-        var tdBase = 'style="padding:5px 8px;text-align:center;white-space:nowrap;';
-        thCells += '<th ' + tdBase + 'font-size:11px;font-weight:700;color:var(--text3);border-bottom:2px solid var(--text)">' + p.label + '</th>';
-        cvrCells += '<td ' + tdBase + 'font-family:DM Sans;font-size:13px;font-weight:700;color:var(--text);border-bottom:1px solid var(--border)">' + fmtPct(p.cvr, 2) + '</td>';
-        yoyCells += '<td ' + tdBase + 'font-size:12px">' + yoyHtml + '</td>';
+        yoyCells += '<td style="' + pad + tdDiff + '">' + cellDiff(yoyDiff) + '</td>';
       });
-      yoyWrap.innerHTML = '<table style="border-collapse:collapse;width:max-content;min-width:100%"><thead><tr>' + thCells + '</tr></thead><tbody><tr>' + cvrCells + '</tr><tr>' + yoyCells + '</tr></tbody></table>';
-    } else if (yoyWrap) {
-      yoyWrap.innerHTML = '';
+      var rows = '<tr>' + cvrCells + '</tr>';
+      if (mode === 'weekly') rows += '<tr>' + wowCells + '</tr>';
+      rows += '<tr>' + yoyCells + '</tr>';
+      yoyWrap.innerHTML = '<table style="border-collapse:collapse;width:max-content;min-width:100%"><thead><tr>' + thCells + '</tr></thead><tbody>' + rows + '</tbody></table>';
     }
   }
 
