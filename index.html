@@ -284,6 +284,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   <div class="gt-label" id="gt-label"></div>
   <div class="gt-row"><div class="gt-dot" style="background:rgba(232,66,63,0.4)"></div><span id="gt-sessions"></span></div>
   <div class="gt-row"><div class="gt-dot" style="background:var(--red)"></div><span id="gt-cvr"></span></div>
+  <div class="gt-row" id="gt-yoy" style="display:none"><div class="gt-dot" style="background:transparent"></div><span id="gt-yoy-val" style="font-size:11px"></span></div>
 </div>
 
 <!-- Funnel pass rates -->
@@ -946,6 +947,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   function _drawWeeklyPoints(data) {
     var weekly = data.weekly || [];
+    var allWeeklyMap = {};
+    weekly.forEach(function(w) {
+      var yr = w.week.slice(0, 4);
+      var wk = w.week.slice(4);
+      allWeeklyMap[yr + '-W' + wk] = w;
+    });
     var points = weekly.map(function(w) {
       var yr = w.week.slice(0, 4);
       var wk = w.week.slice(4);
@@ -953,21 +960,23 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       return { label: label, cvr: w.cvr, sessions: w.sessions, fullLabel: yr + '-W' + wk };
     });
     if (!points.length) return;
-    _drawGraph(filterByPeriod(points), data.targets || targets);
+    _drawGraph(filterByPeriod(points), data.targets || targets, allWeeklyMap);
   }
 
   function _renderGraphPoints(data) {
     var monthly = data.monthly || [];
     var graphTargets = data.targets || targets;
+    var allMonthlyMap = {};
+    monthly.forEach(function(m) { allMonthlyMap[m.month] = m; });
     var points = monthly.map(function(m) {
       var parts = m.month.split('-');
       return { label: parts[0].slice(2) + '/' + parts[1], cvr: m.cvr, sessions: m.sessions, fullLabel: m.month };
     });
     if (!points.length) return;
-    _drawGraph(filterByPeriod(points), graphTargets);
+    _drawGraph(filterByPeriod(points), graphTargets, allMonthlyMap);
   }
 
-  function _drawGraph(points, graphTargets) {
+  function _drawGraph(points, graphTargets, allMap) {
     var svg = document.getElementById('graph-svg');
     var W = 800, H = 200;
     var pad = { l: 8, r: 8, t: 24, b: 4 };
@@ -1037,7 +1046,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     var gtLabel = document.getElementById('gt-label');
     var gtSessions = document.getElementById('gt-sessions');
     var gtCvr = document.getElementById('gt-cvr');
-    svg.querySelectorAll('rect[data-idx]').forEach(function(el) {
+    var gtYoy = document.getElementById('gt-yoy');
+    var gtYoyVal = document.getElementById('gt-yoy-val');
+    function getYoyKey(fullLabel) {
+      return fullLabel.replace(/^(\d{4})/, function(_, y) { return String(parseInt(y) - 1); });
+    }
+    svg.querySelectorAll('rect[data-idx], circle[data-idx]').forEach(function(el) {
       el.addEventListener('mouseover', function() {
         var idx = parseInt(el.getAttribute('data-idx'));
         var p = points[idx];
@@ -1045,6 +1059,17 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         gtLabel.textContent = p.fullLabel || p.label;
         gtSessions.textContent = 'Sessions: ' + fmt(p.sessions);
         gtCvr.textContent = 'CVR: ' + fmtPct(p.cvr, 2);
+        var yoyKey = getYoyKey(p.fullLabel);
+        var yoyData = allMap ? allMap[yoyKey] : null;
+        if (yoyData) {
+          var diff = p.cvr - yoyData.cvr;
+          var sign = diff >= 0 ? '▲' : '▼';
+          var color = diff >= 0 ? '#22c55e' : '#ef4444';
+          gtYoyVal.innerHTML = '<span style="color:' + color + '">' + sign + ' ' + Math.abs(diff * 100).toFixed(2) + 'pp</span> vs 前年同月';
+          gtYoy.style.display = 'flex';
+        } else {
+          gtYoy.style.display = 'none';
+        }
         tooltip.style.display = 'block';
       });
       el.addEventListener('mousemove', function(e) {
