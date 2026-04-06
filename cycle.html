@@ -104,7 +104,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px 8px 0 0">
           <span style="font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);min-width:28px">①</span>
           <span style="font-size:15px;font-weight:700;min-width:72px">流入</span>
-          <span style="font-size:13px;font-family:'DM Sans',monospace;color:var(--text3)">sessions</span>
+          <span style="font-size:13px;font-family:'DM Sans',monospace;color:var(--text3)">activeUsers</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-top:none">
           <span style="font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);min-width:28px">②</span>
@@ -206,13 +206,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   <div class="sec-label">基本のファネル（5段階）</div>
   <hr class="divider-solid">
   <div class="funnel-row">
-    <div class="funnel-cell"><div class="sn">①</div><div class="nm">流入</div><div class="ev">sessions</div><div class="kp">セッション数</div></div>
-    <div class="funnel-cell"><div class="sn">②</div><div class="nm">AC到達</div><div class="ev">ac_page_reach</div><div class="kp">AC訪問率</div></div>
+    <div class="funnel-cell"><div class="sn">①</div><div class="nm">流入</div><div class="ev">activeUsers</div><div class="kp">ユニークユーザー数</div></div>
+    <div class="funnel-cell"><div class="sn">②</div><div class="nm">AC到達</div><div class="ev">ac_page_reach</div><div class="kp">ACページ訪問率</div></div>
     <div class="funnel-cell"><div class="sn">③</div><div class="nm">検討</div><div class="ev">calendar_view</div><div class="kp">カレンダー表示率</div></div>
-    <div class="funnel-cell"><div class="sn">④</div><div class="nm">意向</div><div class="ev">form_start</div><div class="kp">フォーム遷移率</div></div>
+    <div class="funnel-cell"><div class="sn">④</div><div class="nm">意向</div><div class="ev">form_start</div><div class="kp">予約フォーム到達率</div></div>
     <div class="funnel-cell"><div class="sn">⑤</div><div class="nm">完了</div><div class="ev">purchase</div><div class="kp">予約完了率</div></div>
   </div>
-  <div class="callout" style="margin-top:20px"><div class="ct">判定基準</div><div class="cb">各段階の転換率を全体平均と比較し、セグメント間で相対的に低い箇所を「ボトルネック」と判定。絶対値ではなく相対比較が基本。</div></div>
+  <div class="callout" style="margin-top:20px"><div class="ct">判定基準</div><div class="cb">各段階の転換率をサイト全体値と比較し、セグメント間で相対的に低い箇所を「ボトルネック」と判定。絶対値ではなく相対比較が基本。</div></div>
 </div>
 
 <div class="card">
@@ -235,8 +235,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
           </div>
           <div class="seg-head">分析方法</div>
           <div class="seg-row"><div class="seg-label">GA4クエリ</div><div class="seg-val">sessionDefaultChannelGroup × 各ファネルイベントのeventCount</div></div>
-          <div class="seg-row"><div class="seg-label">比較方法</div><div class="seg-val">チャネルごとに ①→② / ②→③ / ③→④ / ④→⑤ の転換率を算出し、全体平均と比較</div></div>
-          <div class="seg-row"><div class="seg-label">判定基準</div><div class="seg-val">全体平均より -20%以上 乖離 かつ セッション数 1万以上 → ボトルネック候補</div></div>
+          <div class="seg-row"><div class="seg-label">比較方法</div><div class="seg-val">チャネルごとに ①→② / ②→③ / ③→④ / ④→⑤ の転換率を算出し、サイト全体値と比較</div></div>
+          <div class="seg-row"><div class="seg-label">判定基準</div><div class="seg-val">サイト全体値より -20%以上 乖離 かつ セッション数 1万以上 → ボトルネック候補</div></div>
           <div class="seg-action"><strong>分かったらどうする？ →</strong> 例：Organicの②→③が-30%なら「Organic経由のACページでカレンダーまで到達しない」問題。LP設計 or 情報整理の施策候補へ。</div>
         </div>
       </div>
@@ -310,8 +310,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div class="card">
   <div class="sec-label">AIの分析プロセス（❶ ボトルネック特定の内部ロジック）</div>
   <hr class="divider-solid">
-  <div class="process-step"><div class="sc">1</div><div><div class="st">ベースライン取得</div><div class="sd">ファネル全体の転換率を算出。①→② 何%、②→③ 何%…の全体平均を出す。</div></div></div>
-  <div class="process-step"><div class="sc">2</div><div><div class="st">Tier 1 で4分割</div><div class="sd">チャネル別 × デバイス別で分割。全体平均より低い箇所をマーク。</div></div></div>
+  <div class="process-step"><div class="sc">1</div><div><div class="st">ベースライン取得</div><div class="sd">ファネル全体の転換率を算出。①→② 何%、②→③ 何%…のサイト全体値を出す。</div></div></div>
+  <div class="process-step"><div class="sc">2</div><div><div class="st">Tier 1 で4分割</div><div class="sd">チャネル別 × デバイス別で分割。サイト全体値より低い箇所をマーク。</div></div></div>
   <div class="process-step"><div class="sc">3</div><div><div class="st">ボトルネック特定</div><div class="sd">インパクト順（セッション数 × 転換率ギャップ）でランク付け。</div></div></div>
   <div class="process-step"><div class="sc">4</div><div><div class="st">Tier 2 で深掘り</div><div class="sd">新規/リピーター、エリアで更に分解。問題の解像度を上げる。</div></div></div>
   <div class="process-step"><div class="sc">5</div><div><div class="st">Tier 3 で原因特定</div><div class="sd">掛け合わせで最も影響が大きいセグメントを絞り込む。</div></div></div>
@@ -326,7 +326,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <thead><tr><th>項目</th><th>内容</th><th>例</th></tr></thead>
       <tbody>
         <tr><td>ボトルネック</td><td>ファネル段階 × セグメント</td><td>②→③ Mobile × Organic × 新規</td></tr>
-        <tr><td>転換率</td><td>現状値 / 全体平均 / ギャップ</td><td>18% / 30% / -40%</td></tr>
+        <tr><td>転換率</td><td>現状値 / サイト全体値 / ギャップ</td><td>18% / 30% / -40%</td></tr>
         <tr><td>原因仮説（×3）</td><td>なぜ低いかの仮説</td><td>①カレンダー読み込み遅延 ②情報過多 ③CTA不明確</td></tr>
         <tr><td>裏付けデータ</td><td>仮説を支持する数字</td><td>Mobile TTFB 3.2s / Desktop 0.8s</td></tr>
         <tr><td>打ち手（×3）</td><td>具体的な改善施策</td><td>遅延ロード / 情報の引き算 / CTA固定化</td></tr>
