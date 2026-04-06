@@ -297,7 +297,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="sec-label" style="padding:0">ファネル通過率</div>
       <span class="info-tip" title="直近28日間（3/3〜3/31）の全セッションから算出したファネル各段階の通過率です。&#10;&#10;各バーの下の「前週比」は、前週同期間との差分（pp = パーセントポイント）です。">?</span>
     </div>
-    <div style="font-size:12px;color:var(--text3)">対象: 直近28日間</div>
+    <div style="font-size:12px;color:var(--text3)" id="funnel-period-label">対象: 直近28日間</div>
   </div>
   <hr class="divider-solid">
 
@@ -612,6 +612,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     var ds = meta.date_start ? meta.date_start.replace(/-/g, '/').replace(/\/0/g, '/') : '';
     var de = meta.date_end   ? meta.date_end.replace(/-/g, '/').replace(/\/0/g, '/')   : '';
     document.getElementById('period-label').textContent = '対象期間：' + ds + '〜' + de;
+    var rs = meta.rolling_start ? meta.rolling_start.slice(5).replace('-', '/').replace(/^0/, '') : '';
+    var re = meta.rolling_end   ? meta.rolling_end.slice(5).replace('-', '/').replace(/^0/, '')   : '';
+    if (rs && re) document.getElementById('funnel-period-label').textContent = '対象: 直近28日間（' + rs + '〜' + re + '）';
     renderKPI(currentData);
     renderFunnel(currentData, weekDataCache[latest.week_id]);
 
