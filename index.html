@@ -522,6 +522,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   // ── Load ──────────────────────────────────────────
   fetch('/reports-index.json').then(function(r) { return r.json(); }).then(function(idx) {
     reportsIndex = idx;
+    // 週を時系列順にソート（最新が末尾）
+    if (idx.weeks) idx.weeks.sort(function(a, b) { return a.week_id.localeCompare(b.week_id); });
     targets = idx.targets || targets;
     renderTargets();
     renderArchive();

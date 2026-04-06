@@ -276,6 +276,8 @@ def step_update_reports_index(meta: dict, dry_run: bool) -> None:
         "data_path": f"/reports/{meta['week_id']}/data.json",
     }
     index["weeks"].append(new_entry)
+    # 常に時系列順にソート（古い順 → 最新が末尾）
+    index["weeks"].sort(key=lambda w: w["week_id"])
 
     write_json(REPORTS_INDEX_PATH, index, dry_run)
     if not dry_run:

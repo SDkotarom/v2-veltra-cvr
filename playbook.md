@@ -144,6 +144,39 @@ git push -u origin main
 
 Vercel が自動デプロイ。
 
+### Phase 4: 検証 → 自動修正 → 指示書改善（Sonnet）
+
+Phase 3 完了後に自動実行する。
+
+```bash
+python3 scripts/validate-report.py --week {YYYY}-w{WW}
+```
+
+#### 検証項目（スクリプトが自動チェック）
+1. `reports-index.json` の日付・ラベルが正しいか
+2. サマリーページのベースライン数値が data.json と一致するか
+3. 日付範囲（ローリング期間）が正しいか
+4. 用語統一（回遊段階→流入→AC到達 等）
+5. 全10件の bottleneck HTML が存在するか
+6. weekly-summary.json / archive-meta.json が更新されているか
+7. ファビコンURL が正しいか
+8. 「仮想データ」表記が残っていないか
+
+#### エラー時の対応フロー
+
+```
+validate-report.py 実行
+  ├─ ✅ エラー0件 → 完了
+  └─ ❌ エラーあり
+       ├─ 1. エラー内容を読んで該当HTMLを自動修正
+       ├─ 2. git commit & push（再デプロイ）
+       ├─ 3. validate-report.py を再実行（修正確認）
+       └─ 4. 同じエラーが今後起きないよう playbook.md の
+            品質チェックリストまたは Phase 1-3 の手順を更新
+```
+
+> ⚠️ Phase 4 は「修正して終わり」ではなく、**指示書（playbook.md）自体を改善**して再発防止する。
+
 ---
 
 ## 5. データスキーマ
@@ -240,6 +273,8 @@ Vercel が自動デプロイ。
 - [ ] 全エリア（20件）のファネルデータが入っている
 - [ ] reports-index.json に新しい週が追加され、**date_start/date_end が対象週の月〜日**になっている（ローリング期間ではない）
 - [ ] reports-index.json の week_label が正しい（例: `W14（3/30〜4/5）`）
+- [ ] reports-index.json の weeks が **時系列順（古い→新しい）** に並んでいる（最新が末尾）
+- [ ] `python3 scripts/validate-report.py` がエラー0件で通る
 - [ ] weekly-summary.json に新しい週が追加されている
 - [ ] archive-meta.json の updatedAt が更新されている
 - [ ] w{XX}/index.html のベースライン数値が data.json と一致

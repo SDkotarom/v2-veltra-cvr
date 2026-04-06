@@ -22,4 +22,8 @@ data.json は最新データで更新済みです。
 - data.json の数値を正とする（HTMLにハードコードした値との乖離に注意）
 - 「仮想データ」表記を入れない
 - タイムアウト防止のため、#1はOpusで、#2〜#10はSonnetで並列エージェント推奨
+
+6. Phase 4: デプロイ後に検証スクリプトを実行
+   python3 scripts/validate-report.py --week 2026-w14
+   エラーがあれば修正 → 再デプロイ → playbook.md の手順も改善
 ```
