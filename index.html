@@ -1084,13 +1084,21 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   function renderArchive() {
     if (!reportsIndex) return;
     var list = document.getElementById('bn-list');
-    var weeks = reportsIndex.weeks.slice().reverse();
+    var weeks = reportsIndex.weeks.slice().reverse(); // 新しい順
     list.innerHTML = '';
+    // プレースホルダーを先に作成して順序を保証（fetchは非同期で順不定のため）
+    var placeholders = [];
     weeks.forEach(function(w, i) {
       var isLatest = i === 0;
-      // Load week data for KPI display
-      var dataPath = w.data_path;
-      fetch(dataPath).then(function(r){ return r.json(); }).then(function(d) {
+      var placeholder = document.createElement('div');
+      placeholder.setAttribute('data-week', w.week_id);
+      list.appendChild(placeholder);
+      placeholders.push({ el: placeholder, week: w, isLatest: isLatest });
+    });
+    placeholders.forEach(function(p) {
+      fetch(p.week.data_path).then(function(r){ return r.json(); }).then(function(d) {
+        var w = p.week;
+        var isLatest = p.isLatest;
         var a = document.createElement('a');
         a.href = w.path;
         a.className = 'bn-week-card' + (isLatest ? ' latest' : '');
@@ -1132,7 +1140,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         a.appendChild(info);
         a.appendChild(kpi);
         if (isLatest) { var badge = document.createElement('span'); badge.className = 'bn-week-badge'; badge.textContent = '\u6700\u65B0'; a.appendChild(badge); }
-        list.appendChild(a);
+        p.el.replaceWith(a);
       }).catch(function(){});
     });
   }

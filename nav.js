@@ -363,11 +363,14 @@
     .then(function (idx) {
       reportsIndex = idx;
       var weeks = idx.weeks || [];
+      // 時系列順にソート（古い→新しい。最新が末尾）
+      weeks.sort(function(a, b) { return a.week_id.localeCompare(b.week_id); });
 
       if (weeks.length) {
         var latestId = weeks[weeks.length - 1].week_id;
         expandedWeeks[latestId] = true;
-        if (currentWeekId) expandedWeeks[currentWeekId] = true;
+        // 現在見ているページの週も開く（最新以外のページを直接開いた場合）
+        if (currentWeekId && currentWeekId !== latestId) expandedWeeks[currentWeekId] = true;
       }
 
       buildNav(weeks, weekDataMap);
