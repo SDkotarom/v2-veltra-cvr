@@ -184,6 +184,10 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="logo">V2</div>
       <div class="title">VELTRA CVR REPORT</div>
     </div>
+    <div style="text-align:right;color:rgba(255,255,255,.7);font-size:12px;line-height:1.7">
+      データ更新日<br>
+      <span id="header-updated" style="color:#fff;font-weight:700;font-size:13px">—</span>
+    </div>
   </div>
 
   <!-- Period label -->
@@ -1234,11 +1238,16 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   function renderArchiveUpdated() {
     fetch('/archive-meta.json').then(function(r) { return r.json(); }).then(function(d) {
+      if (!d.updatedAt) return;
+      var dt = new Date(d.updatedAt);
+      var y = dt.getFullYear();
+      var m = dt.getMonth() + 1;
+      var day = dt.getDate();
+      var label = y + '年' + m + '月' + day + '日更新';
       var el = document.getElementById('archive-updated');
-      if (el && d.updatedAt) {
-        var dt = new Date(d.updatedAt);
-        el.textContent = '更新: ' + dt.getFullYear() + '/' + (dt.getMonth() + 1) + '/' + dt.getDate();
-      }
+      if (el) el.textContent = '更新: ' + y + '/' + m + '/' + day;
+      var hel = document.getElementById('header-updated');
+      if (hel) hel.textContent = label;
     });
   }
 
