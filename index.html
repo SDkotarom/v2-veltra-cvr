@@ -277,6 +277,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="graph-labels-x" id="graph-x-labels"></div>
     </div>
   </div>
+  <!-- YOY comparison table -->
+  <div id="graph-yoy-table-wrap" style="overflow-x:auto;padding:20px 44px 28px;border-top:1px solid var(--border);margin-top:8px"></div>
 </div>
 
 <!-- Graph hover tooltip -->
@@ -1103,6 +1105,34 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       if (v === 0) return '<span>0</span>';
       return '<span>' + (v >= 10000 ? Math.round(v / 10000) + '万' : Math.round(v / 1000) + '千') + '</span>';
     }).join('');
+
+    // YOY comparison table
+    var yoyWrap = document.getElementById('graph-yoy-table-wrap');
+    if (yoyWrap && allMap) {
+      var thCells = '<th style="text-align:left;font-size:11px;font-weight:700;color:var(--text3);padding:5px 10px 5px 0;white-space:nowrap;border-bottom:2px solid var(--text)"></th>';
+      var cvrCells = '<td style="font-size:11px;font-weight:700;color:var(--text3);padding:6px 10px 6px 0;white-space:nowrap;border-bottom:1px solid var(--border)">CVR</td>';
+      var yoyCells = '<td style="font-size:11px;font-weight:700;color:var(--text3);padding:6px 10px 6px 0;white-space:nowrap">前年比</td>';
+      points.forEach(function(p) {
+        var yoyKey = getYoyKey(p.fullLabel);
+        var yoyData = allMap[yoyKey];
+        var diff = yoyData ? p.cvr - yoyData.cvr : null;
+        var yoyHtml;
+        if (diff === null) {
+          yoyHtml = '<span style="color:var(--text3)">—</span>';
+        } else {
+          var sign = diff >= 0 ? '▲' : '▼';
+          var col = diff >= 0 ? 'var(--green)' : 'var(--red)';
+          yoyHtml = '<span style="color:' + col + ';font-weight:700">' + sign + Math.abs(diff * 100).toFixed(2) + 'pp</span>';
+        }
+        var tdBase = 'style="padding:5px 8px;text-align:center;white-space:nowrap;';
+        thCells += '<th ' + tdBase + 'font-size:11px;font-weight:700;color:var(--text3);border-bottom:2px solid var(--text)">' + p.label + '</th>';
+        cvrCells += '<td ' + tdBase + 'font-family:DM Sans;font-size:13px;font-weight:700;color:var(--text);border-bottom:1px solid var(--border)">' + fmtPct(p.cvr, 2) + '</td>';
+        yoyCells += '<td ' + tdBase + 'font-size:12px">' + yoyHtml + '</td>';
+      });
+      yoyWrap.innerHTML = '<table style="border-collapse:collapse;width:max-content;min-width:100%"><thead><tr>' + thCells + '</tr></thead><tbody><tr>' + cvrCells + '</tr><tr>' + yoyCells + '</tr></tbody></table>';
+    } else if (yoyWrap) {
+      yoyWrap.innerHTML = '';
+    }
   }
 
   // ── Archive block ─────────────────────────────────
