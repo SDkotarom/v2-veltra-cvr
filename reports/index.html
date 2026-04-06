@@ -68,52 +68,60 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       var container = document.getElementById('week-list');
       container.innerHTML = '';
       if(!weeks.length){container.innerHTML='<div style="padding:40px;text-align:center;color:var(--text3)">レポートがありません</div>';return}
+      // Pre-create cards in correct order (synchronously), then fill async data
+      var weekCards = [];
       weeks.forEach(function(w,i){
         var isLatest = i===0;
-        fetch(w.data_path).then(function(r){return r.json()}).then(function(d){
-          var a = document.createElement('a');
-          a.href = w.path;
-          a.className = 'week-card' + (isLatest?' latest':'');
+        var a = document.createElement('a');
+        a.href = w.path;
+        a.className = 'week-card' + (isLatest?' latest':'');
 
-          var id = document.createElement('div');
-          id.className = 'week-id';
-          id.textContent = w.week_id.replace('2026-','').toUpperCase();
+        var id = document.createElement('div');
+        id.className = 'week-id';
+        id.textContent = w.week_id.replace('2026-','').toUpperCase();
 
-          var info = document.createElement('div');
-          info.className = 'week-info';
-          var period = document.createElement('div');
-          period.className = 'week-period';
-          var ds = w.date_start||''; var de = w.date_end||'';
-          period.textContent = ds.slice(5).replace('-','/')+' \u301C '+de.slice(5).replace('-','/');
-          var meta = document.createElement('div');
-          meta.className = 'week-meta';
+        var info = document.createElement('div');
+        info.className = 'week-info';
+        var period = document.createElement('div');
+        period.className = 'week-period';
+        var ds = w.date_start||''; var de = w.date_end||'';
+        period.textContent = ds.slice(5).replace('-','/')+' \u301C '+de.slice(5).replace('-','/');
+        var meta = document.createElement('div');
+        meta.className = 'week-meta';
+        meta.textContent = '\u8AAD\u307F\u8FBC\u307F\u4E2D\u2026';
+        info.appendChild(period);
+        info.appendChild(meta);
+
+        var kpi = document.createElement('div');
+        kpi.className = 'week-kpi';
+
+        a.appendChild(id);
+        a.appendChild(info);
+        a.appendChild(kpi);
+        if(isLatest){var badge=document.createElement('span');badge.className='week-badge';badge.textContent='\u6700\u65B0';a.appendChild(badge)}
+        container.appendChild(a);
+        weekCards.push({meta:meta, kpi:kpi, w:w});
+      });
+
+      // Fill in async data without changing DOM order
+      weekCards.forEach(function(card){
+        fetch(card.w.data_path).then(function(r){return r.json()}).then(function(d){
           var bns = d.bottlenecks||[];
-          meta.textContent = '\u30DC\u30C8\u30EB\u30CD\u30C3\u30AF '+bns.length+'\u4EF6';
-          if(bns.length) meta.textContent += ' | #1: '+bns[0].title;
-          info.appendChild(period);
-          info.appendChild(meta);
-
-          var kpi = document.createElement('div');
-          kpi.className = 'week-kpi';
+          card.meta.textContent = '\u30DC\u30C8\u30EB\u30CD\u30C3\u30AF '+bns.length+'\u4EF6';
+          if(bns.length) card.meta.textContent += ' | #1: '+bns[0].title;
           function addKpi(label,val){
             var item = document.createElement('div');
             item.className = 'week-kpi-item';
             var l = document.createElement('div');l.className='week-kpi-label';l.textContent=label;
             var v = document.createElement('div');v.className='week-kpi-val';v.textContent=val;
-            item.appendChild(l);item.appendChild(v);kpi.appendChild(item);
+            item.appendChild(l);item.appendChild(v);card.kpi.appendChild(item);
           }
           if(d.baseline){
             var s = d.baseline.sessions;
             addKpi('Sessions', s>=1e6?(s/1e6).toFixed(2)+'M':s>=1e3?(s/1e3).toFixed(0)+'K':s.toString());
             addKpi('CVR', (d.baseline.cvr*100).toFixed(2)+'%');
           }
-
-          a.appendChild(id);
-          a.appendChild(info);
-          a.appendChild(kpi);
-          if(isLatest){var badge=document.createElement('span');badge.className='week-badge';badge.textContent='\u6700\u65B0';a.appendChild(badge)}
-          container.appendChild(a);
-        }).catch(function(){});
+        }).catch(function(){ card.meta.textContent = '\u8AAD\u307F\u8FBC\u307F\u30A8\u30E9\u30FC'; });
       });
     }).catch(function(){
       document.getElementById('week-list').innerHTML='<div style="padding:40px;text-align:center;color:var(--text3)">\u8AAD\u307F\u8FBC\u307F\u30A8\u30E9\u30FC</div>';

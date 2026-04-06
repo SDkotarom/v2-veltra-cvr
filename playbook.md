@@ -122,6 +122,11 @@ python3 scripts/generate-week.py --week {YYYY}-w{WW}
 
 > ⚠️ `reports-index.json` の `date_start` / `date_end` は対象週の月〜日（例: 3/30〜4/5）。
 > ローリング期間（28日）ではないので注意。
+>
+> ⚠️ **`reports-index.json` の `weeks` 配列は「古い順（昇順）」で並べること。**
+> `/reports/` 一覧ページのJSが `.slice().reverse()` して新しい順に表示するため、
+> 配列の末尾に追加した週が「最新」として先頭に表示される。
+> 古い週のエントリより前に新しい週を追加するとW順が逆転するので必ず末尾に追加すること。
 
 ### Phase 2: 分析 & HTML生成（Opus）
 
