@@ -61,8 +61,9 @@
 
   // ── Page type detection ──────────────────────────
   var path = location.pathname;
-  var isTop    = (path === '/' || path === '/index.html');
-  var isCycle  = (path === '/cycle.html');
+  var isTop      = (path === '/' || path === '/index.html');
+  var isCycle    = (path === '/cycle.html');
+  var isAnalysis = (path === '/analysis.html');
   var isArchive = (path === '/reports/' || path === '/reports/index.html');
   var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
   var isBottleneck  = /bottleneck-\d+\.html$/.test(path);
@@ -150,6 +151,11 @@
       addPath('M23 4v6h-6');
       addPath('M1 20v-6h6');
       addPath('M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15');
+    } else if (type === 'analysis') {
+      // Book with magnifier
+      addPath('M4 19.5A2.5 2.5 0 0 1 6.5 17H20');
+      addPath('M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z');
+      addLine(9,7,15,7); addLine(9,11,13,11);
     }
     return svg;
   }
@@ -290,6 +296,14 @@
     cycleA.appendChild(makeIcon('cycle'));
     cycleA.appendChild(document.createTextNode('CVR改善サイクル'));
     nav.appendChild(cycleA);
+
+    // ■ 分析ガイド
+    var analysisA = document.createElement('a');
+    analysisA.href = '/analysis.html';
+    analysisA.className = 'nav-item' + (isAnalysis ? ' nav-active' : '');
+    analysisA.appendChild(makeIcon('analysis'));
+    analysisA.appendChild(document.createTextNode('分析ガイド'));
+    nav.appendChild(analysisA);
 
     // Smooth scroll for hash links
     nav.addEventListener('click', function (e) {

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>分析ガイド — VELTRA CVR REPORT</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#E8423F;--red-light:#FFF5F5;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1;--border-dash:#d0cec8;--green:#16a34a;--green-light:#f0fdf4;--amber:#d97706;--amber-light:#fffbeb}
+body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);padding:48px 32px;max-width:1200px;margin:0 auto;font-size:18px}
+.card{background:var(--card);border-radius:16px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.header-band{background:var(--red);padding:24px 44px;display:flex;justify-content:space-between;align-items:center}
+.header-band .logo{font-family:'DM Sans';font-weight:900;font-size:26px;color:#fff;letter-spacing:.04em;border:2px solid rgba(255,255,255,.6);padding:4px 14px;border-radius:5px}
+.header-band .title{font-family:'DM Sans';font-size:22px;font-weight:500;color:rgba(255,255,255,.9)}
+.divider{border:none;border-top:1px dashed var(--border-dash);margin:0 44px}
+.divider-solid{border:none;border-top:1px solid var(--border);margin:0}
+.sec-label{padding:28px 44px 12px;font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
+.callout{background:var(--red-light);border-left:4px solid var(--red);padding:20px 28px;margin:0 44px 32px;border-radius:0 8px 8px 0}
+.callout .ct{font-size:16px;font-weight:700;color:var(--red);margin-bottom:8px}
+.callout .cb{font-size:16px;color:var(--text2);line-height:1.8}
+.callout-green{background:var(--green-light);border-left:4px solid var(--green)}
+.callout-green .ct{color:var(--green)}
+.callout-amber{background:var(--amber-light);border-left:4px solid var(--amber)}
+.callout-amber .ct{color:var(--amber)}
+
+/* Step list */
+.step-list{padding:0 44px 32px}
+.step-item{display:flex;align-items:flex-start;gap:20px;padding:20px 0;border-bottom:1px solid var(--border)}
+.step-item:last-child{border-bottom:none}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Sans';font-size:17px;font-weight:700;flex-shrink:0;margin-top:2px}
+.step-body{}
+.step-title{font-size:17px;font-weight:700;margin-bottom:6px}
+.step-desc{font-size:15px;color:var(--text2);line-height:1.75}
+.step-code{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-family:'DM Sans',monospace;font-size:13px;color:var(--text);margin-top:10px;line-height:1.7}
+.step-code .comment{color:var(--text3)}
+
+/* Formula */
+.formula-block{margin:0 44px 32px;background:var(--bg);border:2px solid var(--border);border-radius:12px;padding:24px 32px;text-align:center}
+.formula-main{font-family:'DM Sans';font-size:22px;font-weight:700;color:var(--text);margin-bottom:8px}
+.formula-desc{font-size:15px;color:var(--text2);line-height:1.7}
+
+/* Funnel visual */
+.funnel-visual{padding:0 44px 32px;display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.fv-cell{padding:20px 12px;text-align:center;border-right:1px solid var(--border);position:relative}
+.fv-cell:last-child{border-right:none}
+.fv-num{font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red);line-height:1}
+.fv-name{font-size:14px;font-weight:700;margin:8px 0 4px}
+.fv-event{font-size:12px;color:var(--text3);font-family:'DM Sans',monospace}
+.fv-note{font-size:12px;color:var(--text2);margin-top:6px;line-height:1.5}
+.fv-cell:not(:last-child)::after{content:'→';position:absolute;right:-10px;top:24px;font-size:16px;color:var(--border-dash);z-index:1;background:var(--card);padding:2px}
+
+/* Rate explanation */
+.rate-example{margin:0 44px 32px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.re-card{border:1px solid var(--border);border-radius:10px;padding:20px 24px}
+.re-card.alert{border-color:var(--red);background:var(--red-light)}
+.re-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:8px}
+.re-label.red{color:var(--red)}
+.re-rate{font-family:'DM Sans';font-size:40px;font-weight:900;color:var(--text);line-height:1}
+.re-rate.neg{color:var(--red)}
+.re-sub{font-size:14px;color:var(--text2);margin-top:4px;line-height:1.6}
+
+/* Tier table */
+.tier-table{width:100%;border-collapse:collapse;margin:0 0 20px}
+.tier-table th{text-align:left;font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:12px 16px;border-bottom:2px solid var(--text)}
+.tier-table td{padding:14px 16px;border-bottom:1px solid var(--border);vertical-align:top;font-size:15px}
+.tier-table td:first-child{font-weight:600;white-space:nowrap}
+.tier-table tr:last-child td{border-bottom:none}
+
+/* Impact formula visual */
+.impact-vis{margin:0 44px 32px;display:flex;align-items:center;gap:12px;font-size:18px;font-weight:700;flex-wrap:wrap}
+.iv-block{padding:16px 20px;border-radius:10px;text-align:center}
+.iv-block.sessions{background:#e0e7ff;color:#3730a3}
+.iv-block.times{font-size:28px;color:var(--text3)}
+.iv-block.gap{background:#fde8e8;color:var(--red)}
+.iv-block.eq{font-size:28px;color:var(--text3)}
+.iv-block.result{background:var(--red);color:#fff}
+.iv-label{font-size:11px;font-weight:400;color:inherit;opacity:.7;display:block;margin-bottom:4px}
+.iv-val{font-family:'DM Sans';font-size:24px;font-weight:900}
+
+/* Page map */
+.page-map{padding:0 44px 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.pm-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+.pm-rank{font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);line-height:1;margin-bottom:6px}
+.pm-tier{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:8px}
+.pm-items{font-size:13px;color:var(--text2);line-height:1.75}
+.pm-items li{margin-left:14px}
+
+/* Hypothesis flow */
+.hypo-flow{padding:0 44px 32px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.hf-card{border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.hf-head{padding:12px 16px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.hf-head.h1{background:var(--red-light);color:var(--red)}
+.hf-head.h2{background:var(--amber-light);color:var(--amber)}
+.hf-head.h3{background:var(--bg);color:var(--text3)}
+.hf-body{padding:12px 16px;font-size:14px;color:var(--text2);line-height:1.7}
+
+/* Footer */
+.footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
+
+@media(max-width:768px){
+  .funnel-visual{grid-template-columns:1fr}
+  .fv-cell{border-right:none;border-bottom:1px solid var(--border)}
+  .fv-cell::after{display:none}
+  .rate-example{grid-template-columns:1fr}
+  .page-map{grid-template-columns:1fr 1fr}
+  .hypo-flow{grid-template-columns:1fr}
+  .impact-vis{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- ======================== HEADER ======================== -->
+<div class="card">
+  <div class="header-band">
+    <div class="logo">V2</div>
+    <div class="title">分析ガイド — ボトルネック分析のだし方と見方</div>
+  </div>
+  <div style="padding:24px 44px;font-size:15px;color:var(--text2);line-height:1.8">
+    週次ボトルネック分析をどのように作るか、そして各レポートをどう読むかを説明するガイドです。<br>
+    分析の前提・計算ロジック・各ページの構成をまとめています。
+  </div>
+</div>
+
+<!-- ======================== PART 1: だし方 ======================== -->
+<div class="card">
+  <div class="sec-label">Part 1 — ボトルネック分析のだし方</div>
+  <hr class="divider-solid">
+
+  <div style="padding:24px 44px 8px">
+    <div style="font-size:18px;font-weight:700;margin-bottom:8px">全体フロー</div>
+    <div style="font-size:15px;color:var(--text2);line-height:1.8">
+      毎週、以下の3フェーズで自動〜半自動的にレポートを生成します。
+    </div>
+  </div>
+
+  <div class="step-list">
+
+    <!-- Phase 1 -->
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Phase 1 — GA4からデータ取得（data.json 生成）</div>
+        <div class="step-desc">
+          GA4 Property <strong>347074845</strong> に対して 8本のクエリを実行し、ファネルデータを取得します。<br>
+          集計期間は <strong>直近28日間</strong>（28daysAgo〜yesterday）。
+        </div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="border:1px solid var(--border);border-radius:8px;padding:14px 16px">
+            <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">取得するクエリ（8本）</div>
+            <div style="font-size:14px;color:var(--text2);line-height:1.8">
+              Q1: ベースライン（全体）<br>
+              Q2: チャネル別ファネル<br>
+              Q3: デバイス別ファネル<br>
+              Q4: 新規/リピーター別<br>
+              Q5: エリア別 sessions + purchases<br>
+              Q6: チャネル × デバイス<br>
+              Q7: チャネル × 新規/リピーター<br>
+              Q8: エリア × デバイス
+            </div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:14px 16px">
+            <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">取得するイベント（5種）</div>
+            <div style="font-size:14px;color:var(--text2);line-height:1.8">
+              <span style="font-family:'DM Sans',monospace">session_start</span>　← ①流入<br>
+              <span style="font-family:'DM Sans',monospace">ac_page_reach</span>　← ②AC到達<br>
+              <span style="font-family:'DM Sans',monospace">GA4_vtjp_ex_yokka_view_booking_calendar</span>　← ③検討<br>
+              <span style="font-family:'DM Sans',monospace">form_start</span>　← ④意向<br>
+              <span style="font-family:'DM Sans',monospace">purchase</span>　← ⑤完了
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:12px;padding:12px 16px;background:var(--bg);border-radius:8px;font-size:14px;color:var(--text2);line-height:1.7">
+          <strong style="color:var(--text)">出力ファイル:</strong>　<span style="font-family:'DM Sans',monospace">reports/{YEAR}-w{WEEK}/data.json</span><br>
+          ベースライン + 各セグメントのファネル数値 + 転換率を格納します。
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Phase 2 — ボトルネック特定 → HTML生成</div>
+        <div class="step-desc">
+          data.json をもとにボトルネック10件を特定し、各HTMLレポートを生成します。
+        </div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="border:1px solid var(--border);border-radius:8px;padding:14px 16px">
+            <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">生成するファイル</div>
+            <div style="font-size:14px;color:var(--text2);line-height:1.8">
+              <code style="font-family:'DM Sans',monospace;background:var(--bg);padding:1px 6px;border-radius:4px">index.html</code>　サマリー + #2〜10一覧<br>
+              <code style="font-family:'DM Sans',monospace;background:var(--bg);padding:1px 6px;border-radius:4px">bottleneck-1.html</code>　フル分析<br>
+              <code style="font-family:'DM Sans',monospace;background:var(--bg);padding:1px 6px;border-radius:4px">bottleneck-2〜3.html</code>　仮説+プロト<br>
+              <code style="font-family:'DM Sans',monospace;background:var(--bg);padding:1px 6px;border-radius:4px">bottleneck-4〜7.html</code>　仮説+打ち手<br>
+              <code style="font-family:'DM Sans',monospace;background:var(--bg);padding:1px 6px;border-radius:4px">bottleneck-8〜10.html</code>　概要のみ
+            </div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:14px 16px">
+            <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">エージェント割り当て</div>
+            <div style="font-size:14px;color:var(--text2);line-height:1.8">
+              <span style="color:var(--red);font-weight:700">Opus</span>　#1フル分析（重要度高）<br>
+              <span style="color:var(--amber);font-weight:700">Sonnet</span>　index.html 更新<br>
+              <span style="color:var(--amber);font-weight:700">Sonnet ×複数</span>　#2〜10 並列生成<br>
+              <br>
+              タイムアウト防止のため大きなHTMLは<br>3分割（CSS/データ → 仮説 → プロト/フッター）で書く
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Phase 3 — コミット & Vercel デプロイ</div>
+        <div class="step-desc">
+          生成したファイルを git commit し、main ブランチへ push します。<br>
+          push をトリガーに Vercel が自動デプロイします（数分でURLに反映）。
+        </div>
+        <div class="step-code">
+          <span class="comment"># 作業ブランチで変更をコミット</span><br>
+          git add reports/{YEAR}-w{WEEK}/<br>
+          git commit -m "feat: regenerate w{WEEK} Phase 2 bottleneck reports"<br><br>
+          <span class="comment"># worktree から main へ直接 push</span><br>
+          git -C .claude/worktrees/{branch} push origin {branch}:main
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======================== PART 2: 見方 — ファネル ======================== -->
+<div class="card">
+  <div class="sec-label">Part 2 — ボトルネック分析の見方</div>
+  <hr class="divider-solid">
+
+  <!-- 2-1: ファネル定義 -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:18px;font-weight:700;margin-bottom:6px">① ファネルの5段階</div>
+    <div style="font-size:15px;color:var(--text2);line-height:1.8">
+      VELTRAの予約行動を5段階のファネルで分解します。各段階は GA4 の特定イベントに対応します。
+    </div>
+  </div>
+
+  <div class="funnel-visual">
+    <div class="fv-cell">
+      <div class="fv-num">①</div>
+      <div class="fv-name">流入</div>
+      <div class="fv-event">session_start</div>
+      <div class="fv-note">サイトに訪れたセッション。チャネル・デバイス・属性の起点。</div>
+    </div>
+    <div class="fv-cell">
+      <div class="fv-num">②</div>
+      <div class="fv-name">AC到達</div>
+      <div class="fv-event">ac_page_reach</div>
+      <div class="fv-note">商品詳細ページ（Activity Card）に到達。この段階で購買意欲が具体化。</div>
+    </div>
+    <div class="fv-cell">
+      <div class="fv-num">③</div>
+      <div class="fv-name">検討</div>
+      <div class="fv-event">view_booking_calendar</div>
+      <div class="fv-note">日程カレンダーを開いた。予約を具体的に検討しているシグナル。</div>
+    </div>
+    <div class="fv-cell">
+      <div class="fv-num">④</div>
+      <div class="fv-name">意向</div>
+      <div class="fv-event">form_start</div>
+      <div class="fv-note">予約フォームの入力を開始。購入意向が明確になった状態。</div>
+    </div>
+    <div class="fv-cell">
+      <div class="fv-num">⑤</div>
+      <div class="fv-name">完了</div>
+      <div class="fv-event">purchase</div>
+      <div class="fv-note">予約（購入）が完了。最終KPI。</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 2-2: 転換率の読み方 -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:18px;font-weight:700;margin-bottom:6px">② 転換率（Conversion Rate）の読み方</div>
+    <div style="font-size:15px;color:var(--text2);line-height:1.8">
+      各段階間の転換率は <strong>前段のユーザー数 ÷ 次段のイベント数</strong> で計算します。<br>
+      ベースライン（全体平均）との乖離率でボトルネックを判断します。
+    </div>
+  </div>
+
+  <div class="rate-example">
+    <div class="re-card">
+      <div class="re-label">ベースライン（全体平均）③→④</div>
+      <div class="re-rate">86.62%</div>
+      <div class="re-sub">カレンダーを見た人の うち 86.6% がフォーム入力を開始する。<br>これが「健全な状態」の基準値。</div>
+    </div>
+    <div class="re-card alert">
+      <div class="re-label red">Organic × Mobile の③→④</div>
+      <div class="re-rate neg">50.38%</div>
+      <div class="re-sub">同じ段階でも Organic × Mobile は 50.4%。<br>ベースラインと比べて <strong>-36.2pp（-41.8%）</strong> の乖離 → ボトルネック確定。</div>
+    </div>
+  </div>
+
+  <div class="formula-block">
+    <div class="formula-main">乖離率 = ( 実測値 ÷ ベースライン ) − 1</div>
+    <div class="formula-desc">例: ( 50.38% ÷ 86.62% ) − 1 = <strong style="color:var(--red)">−41.8%</strong>　←　これが「全体比乖離」として各レポートに表示される値</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 2-3: インパクト順の考え方 -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:18px;font-weight:700;margin-bottom:6px">③ ボトルネックの優先順位（インパクト順）</div>
+    <div style="font-size:15px;color:var(--text2);line-height:1.8">
+      乖離率が大きくても、対象セッションが少なければ改善効果は限定的。<br>
+      <strong>セッション数 × 乖離pp = 影響ユーザー推計</strong> で並べた順がボトルネックランキングです。
+    </div>
+  </div>
+
+  <div class="impact-vis">
+    <div class="iv-block sessions">
+      <span class="iv-label">セッション数</span>
+      <span class="iv-val">923K</span>
+    </div>
+    <div class="iv-block times">×</div>
+    <div class="iv-block gap">
+      <span class="iv-label">乖離 pp</span>
+      <span class="iv-val">36.2pp</span>
+    </div>
+    <div class="iv-block eq">=</div>
+    <div class="iv-block result">
+      <span class="iv-label">影響ユーザー推計</span>
+      <span class="iv-val">334K</span>
+    </div>
+    <div style="font-size:14px;color:var(--text2);align-self:center">← この値が大きいほど上位にランク</div>
+  </div>
+
+  <div style="padding:0 44px 28px">
+    <table class="tier-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>セグメント</th>
+          <th>問題段階</th>
+          <th>実測値</th>
+          <th>乖離</th>
+          <th>影響ユーザー推計</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--red);font-family:'DM Sans';font-size:18px">#1</td>
+          <td>Organic Search × Mobile</td>
+          <td><span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:13px">③→④ 検討→意向</span></td>
+          <td style="font-family:'DM Sans';font-weight:700;color:var(--red)">50.4%</td>
+          <td style="color:var(--red)">−42%</td>
+          <td style="font-family:'DM Sans';font-weight:700">334K</td>
+        </tr>
+        <tr>
+          <td style="color:var(--red);font-family:'DM Sans';font-size:18px">#2</td>
+          <td>Organic Search × 新規</td>
+          <td><span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:13px">②→③ AC到達→検討</span></td>
+          <td style="font-family:'DM Sans';font-weight:700;color:var(--red)">31.5%</td>
+          <td style="color:var(--red)">−58%</td>
+          <td style="font-family:'DM Sans';font-weight:700">314K</td>
+        </tr>
+        <tr>
+          <td style="color:var(--red);font-family:'DM Sans';font-size:18px">#3</td>
+          <td>Paid Search × 新規</td>
+          <td><span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:13px">②→③ AC到達→検討</span></td>
+          <td style="font-family:'DM Sans';font-weight:700;color:var(--red)">33.8%</td>
+          <td style="color:var(--red)">−55%</td>
+          <td style="font-family:'DM Sans';font-weight:700">159K</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text3);font-family:'DM Sans';font-size:18px">#4〜10</td>
+          <td colspan="4" style="color:var(--text2);font-size:14px">同様にインパクト降順で選定。セッション数が少ない or 乖離が小さいセグメントは下位へ。</td>
+          <td style="color:var(--text3)">137K〜20K</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ======================== PART 3: ページ構成 ======================== -->
+<div class="card">
+  <div class="sec-label">Part 3 — 各ページの構成（読み方）</div>
+  <hr class="divider-solid">
+
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:18px;font-weight:700;margin-bottom:6px">④ ページ分量ルール</div>
+    <div style="font-size:15px;color:var(--text2);line-height:1.8">
+      ランクに応じて分析の深さが異なります。優先度が高いほど詳細な分析・提案が含まれます。
+    </div>
+  </div>
+
+  <div class="page-map">
+    <div class="pm-card" style="border-color:var(--red)">
+      <div class="pm-rank">#1</div>
+      <div class="pm-tier" style="color:var(--red)">フル分析</div>
+      <div class="pm-items">
+        <ul style="list-style:none;padding:0">
+          <li>✅ Tier 1-3 比較</li>
+          <li>✅ 仮説 × 3（有力〜低）</li>
+          <li>✅ 打ち手 × 9（仮説ごと3つ）</li>
+          <li>✅ プロトタイプ Before/After</li>
+          <li>✅ 競合比較 6社</li>
+          <li>✅ 検証方法</li>
+          <li>✅ チームレビュー欄</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pm-card" style="border-color:var(--amber)">
+      <div class="pm-rank">#2〜3</div>
+      <div class="pm-tier" style="color:var(--amber)">標準分析</div>
+      <div class="pm-items">
+        <ul style="list-style:none;padding:0">
+          <li>✅ ファネル比較</li>
+          <li>✅ 仮説 × 3</li>
+          <li>✅ 打ち手（各仮説1つ）</li>
+          <li>✅ プロトタイプ（主要施策）</li>
+          <li>✅ チームレビュー欄</li>
+          <li style="color:var(--text3)">— 競合比較なし</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pm-card">
+      <div class="pm-rank">#4〜7</div>
+      <div class="pm-tier">仮説 + 打ち手</div>
+      <div class="pm-items">
+        <ul style="list-style:none;padding:0">
+          <li>✅ ファネル比較</li>
+          <li>✅ 仮説 × 3</li>
+          <li>✅ 打ち手 × 3</li>
+          <li>✅ チームレビュー欄</li>
+          <li style="color:var(--text3)">— プロトタイプなし</li>
+          <li style="color:var(--text3)">— 競合比較なし</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pm-card" style="border-color:var(--text3);background:var(--bg)">
+      <div class="pm-rank" style="color:var(--text3)">#8〜10</div>
+      <div class="pm-tier">概要のみ</div>
+      <div class="pm-items">
+        <ul style="list-style:none;padding:0">
+          <li>✅ 主要仮説 callout 1つ</li>
+          <li>✅ ナビバー</li>
+          <li style="color:var(--text3)">— 詳細分析は次回以降</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 仮説の色分け -->
+  <div style="padding:24px 44px 16px">
+    <div style="font-size:18px;font-weight:700;margin-bottom:6px">⑤ 仮説カードの色分け</div>
+    <div style="font-size:15px;color:var(--text2);line-height:1.8">
+      各ボトルネックページの仮説は、裏付けの強さで3段階に色分けされています。
+    </div>
+  </div>
+
+  <div class="hypo-flow">
+    <div class="hf-card">
+      <div class="hf-head h1">仮説 1（有力）— 赤</div>
+      <div class="hf-body">
+        データで最も強く裏付けられている仮説。対応する打ち手が最優先。<br><br>
+        <strong>例:</strong> 「Organic × Mobile の ③→④が50.4%なのに Desktop は 83.4%」という定量的根拠がある場合。
+      </div>
+    </div>
+    <div class="hf-card">
+      <div class="hf-head h2">仮説 2（有力）— アンバー</div>
+      <div class="hf-body">
+        関連データがあり可能性が高いが、仮説1ほど直接的な根拠がない。<br><br>
+        <strong>例:</strong> リピーターも同様に低い → セグメント横断の構造問題の可能性。
+      </div>
+    </div>
+    <div class="hf-card">
+      <div class="hf-head h3">仮説 3 — グレー</div>
+      <div class="hf-body">
+        GA4 データからは直接確認できないが、UX観点で考えられる仮説。<br>検証が必要。<br><br>
+        <strong>例:</strong> ページ速度の問題、UIの分かりにくさ等。
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 競合比較の使い方 -->
+  <div style="padding:24px 44px 28px">
+    <div style="font-size:18px;font-weight:700;margin-bottom:12px">⑥ 競合比較の使い方（#1 のみ）</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">比較対象（6社）</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.8">
+          Klook / GetYourGuide / Viator<br>
+          KKday / アソビュー / Activity Japan<br><br>
+          各社のボトルネックに関連するページ<br>（ACページ or エリアページ等）のUIを比較。
+        </div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">読み方のポイント</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.8">
+          「何社がベストプラクティスを採用しているか」を確認。<br>
+          5社中4社が同じUXを採用 → <strong>業界標準</strong>として打ち手の根拠になる。<br><br>
+          VELTRAが唯一採用していないUXパターンが最重要施策候補。
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ======================== PART 4: よくある疑問 ======================== -->
+<div class="card">
+  <div class="sec-label">Part 4 — よくある疑問 &amp; 注意点</div>
+  <hr class="divider-solid">
+
+  <div style="padding:24px 44px 32px;display:flex;flex-direction:column;gap:20px">
+
+    <div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:6px">Q. ②→③の転換率が 100% を超えることがある。バグ？</div>
+      <div style="font-size:15px;color:var(--text2);line-height:1.75">
+        バグではありません。①の <code>session_start</code> はユーザー数ベース、③の <code>calendar_view</code> はイベント数ベースで集計されており、1ユーザーが複数回カレンダーを開くと 100% 超になります。<br>
+        「Unassigned」や「Direct」チャネルでよく見られます。値が極端に高い場合はトラッキング設計の問題（重複カウント等）も確認してください。
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:6px">Q. 同じセグメントが複数のランクに入ることがある（例：#2 と #6 がどちらも Organic × 新規）</div>
+      <div style="font-size:15px;color:var(--text2);line-height:1.75">
+        意図的です。同一セグメントでも <strong>問題のある段階が異なれば別ボトルネック</strong> として扱います。<br>
+        例: Organic × 新規 は「②→③の検討転換（#2）」と「①→②のAC到達（#6）」の両方で課題があります。原因と打ち手が異なるため、分けて分析します。
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:6px">Q. data.json の数値と HTML に書かれている数値が違う場合は？</div>
+      <div style="font-size:15px;color:var(--text2);line-height:1.75">
+        <strong>data.json の数値を正</strong> とします。HTMLはレポート生成時に data.json から引用しますが、古い週のHTMLが残っていたり、手動編集が入った場合に乖離が生じることがあります。<br>
+        疑問を感じたら <code>data.json</code> の実数値を直接確認してください。
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:6px">Q. エリア（bali / hawaii / japan 等）にはファネルデータがない</div>
+      <div style="font-size:15px;color:var(--text2);line-height:1.75">
+        現時点では <code>segments.area</code> に <strong>sessions / purchases / CVR のみ</strong> 格納しています（ファネル中間段階なし）。<br>
+        エリア別ファネルは HANDOFF_AREA_FUNNEL.md に引き継ぎ事項として記載済み。URLパス構造確認後に追加予定。
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<div class="card">
+  <div class="footer">
+    <span>VELTRA CVR改善チーム — UIUX Design Squad</span>
+    <span><a href="/cycle.html" style="color:inherit;text-decoration:underline">CVR改善サイクル</a></span>
+    <span>2026-04-06</span>
+  </div>
+</div>
+
+<script src="/nav.js"></script>
+<script src="/funnel-def.js"></script>
+</body>
+</html>
