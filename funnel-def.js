@@ -7,7 +7,7 @@
     '<table style="width:100%;border-collapse:collapse;margin-top:0;font-size:14px">' +
     '<thead><tr style="border-bottom:2px solid #e8e6e1;text-align:left">' +
     '<th style="padding:8px 12px;font-weight:700;color:#6b6b6b">項目名</th>' +
-    '<th style="padding:8px 12px;font-weight:700;color:#6b6b6b;width:72px">種別</th>' +
+    '<th style="padding:8px 12px;font-weight:700;color:#6b6b6b;width:90px">種別</th>' +
     '<th style="padding:8px 12px;font-weight:700;color:#6b6b6b">集計方法 / 計算式</th></tr></thead>' +
     '<tbody>' +
     '<tr style="border-bottom:1px solid #e8e6e1"><td style="padding:8px 12px">サイト訪問</td><td style="padding:8px 12px;color:#aaa">ファネル</td><td style="padding:8px 12px;font-family:\'DM Sans\',monospace;font-size:13px">activeUsers（ユニークユーザー数）</td></tr>' +
