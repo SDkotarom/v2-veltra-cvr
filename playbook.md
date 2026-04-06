@@ -110,6 +110,19 @@ python3 scripts/generate-week.py --week {YYYY}-w{WW}
 - 期間: 直近28日間（Q10のみ7日）
 - rates は小数（42.35% → `0.4235`）
 
+#### Phase 1 完了時の更新ファイル一覧
+
+| ファイル | 更新内容 |
+|----------|---------|
+| `reports/{W}/data.json` | Q1〜Q10 の全結果 |
+| `summary-data.json` | 当月の月次KPI追記 |
+| `weekly-summary.json` | 当週の週次KPI追記/更新 |
+| `reports-index.json` | **新しい週のエントリ追加（week_label, date_start, date_end を正しい週日付で）** |
+| `archive-meta.json` | updatedAt タイムスタンプ更新 |
+
+> ⚠️ `reports-index.json` の `date_start` / `date_end` は対象週の月〜日（例: 3/30〜4/5）。
+> ローリング期間（28日）ではないので注意。
+
 ### Phase 2: 分析 & HTML生成（Opus）
 
 1. **ボトルネック特定**: `data.json` のセグメント間比較から、インパクト順（sessions × 乖離率）で10件ランキング
@@ -225,9 +238,12 @@ Vercel が自動デプロイ。
 - [ ] ファネル通過率の用語が統一（①→② 流入→AC到達 / ②→③ AC到達→検討 / ③→④ 検討→意向 / ④→⑤ 意向→完了）
 - [ ] 「仮想データ」表記が残っていない
 - [ ] 全エリア（20件）のファネルデータが入っている
-- [ ] reports-index.json に新しい週が追加されている
+- [ ] reports-index.json に新しい週が追加され、**date_start/date_end が対象週の月〜日**になっている（ローリング期間ではない）
+- [ ] reports-index.json の week_label が正しい（例: `W14（3/30〜4/5）`）
 - [ ] weekly-summary.json に新しい週が追加されている
 - [ ] archive-meta.json の updatedAt が更新されている
+- [ ] w{XX}/index.html のベースライン数値が data.json と一致
+- [ ] w{XX}/index.html の「分析対象データ」日付がローリング期間（例: 3/9〜4/5）と一致
 - [ ] プロトタイプがVELTRAデザインシステム準拠（`#1B82C5` blue CTA）
 - [ ] 競合分析のファビコンが正しい URL
 
