@@ -60,6 +60,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .action-desc{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px}
 .action-spec{background:var(--bg);border-radius:6px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6}
 .action-spec strong{color:var(--text);display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.review-section{padding:0 44px 32px}
+.review-card{border:1px solid var(--border);border-radius:12px;padding:24px 28px}
+.review-title{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
+.review-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border-dash);font-size:14px;line-height:1.6}
+.review-item:last-child{border-bottom:none}
+.review-item input[type=checkbox]{width:18px;height:18px;flex-shrink:0;margin-top:2px;accent-color:var(--red);cursor:pointer}
+.review-item label{cursor:pointer;color:var(--text2)}
 @media(max-width:768px){
   .funnel-compare,.hypo-grid,.action-grid{grid-template-columns:1fr}
 }
@@ -78,122 +85,128 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
       <div style="font-family:'DM Sans';font-size:56px;font-weight:900;color:var(--red);line-height:1">#6</div>
       <div>
-        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Desktop &mdash; AC到達率の低さ</div>
+        <div style="font-size:22px;font-weight:900;margin-bottom:8px">Organic Search &times; 新規 &mdash; ①→② AC到達率の低さ</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="bn-tag red">①→② 流入→AC到達</span>
-          <span class="bn-tag">Desktop</span>
+          <span class="bn-tag">Organic Search</span>
+          <span class="bn-tag">新規ユーザー</span>
         </div>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:16px;margin-top:16px">
       <div style="font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase">全体平均との乖離</div>
-      <div style="font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red)">-16%</div>
-      <div style="font-size:14px;color:var(--text3)">影響セッション: 766,840 / 月</div>
+      <div style="font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red)">-33.1%</div>
+      <div style="font-size:14px;color:var(--text3)">影響セッション: 723,479 / 月</div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <!-- Step 2-3: Tier 1 comparison -->
+  <!-- Tier 1 comparison -->
   <div style="padding:24px 44px 12px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Step 2-3 &mdash; Tier 1 比較：①→② AC到達率</div>
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Tier 1 比較：①→② AC到達率</div>
   </div>
   <div class="funnel-compare">
     <div class="fc-cell">
       <div class="fc-label">全体平均</div>
-      <div class="fc-stage">①→② 回遊</div>
-      <div class="fc-val" style="font-size:28px;margin-top:8px">26.1%</div>
+      <div class="fc-stage">①→② 流入→AC到達</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">26.10%</div>
       <div class="fc-val-label">ベースライン</div>
     </div>
     <div class="fc-cell alert">
-      <div class="fc-label" style="color:var(--red)">Desktop</div>
-      <div class="fc-stage">①→② 回遊</div>
-      <div class="fc-val" style="font-size:28px;margin-top:8px;color:var(--red)">21.9%</div>
-      <div class="fc-val-label" style="color:var(--red)">-16% vs 全体</div>
+      <div class="fc-label" style="color:var(--red)">Organic Search &times; 新規</div>
+      <div class="fc-stage">①→② 流入→AC到達</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px;color:var(--red)">17.46%</div>
+      <div class="fc-val-label" style="color:var(--red)">-33.1%（-8.64pp）vs 全体</div>
     </div>
     <div class="fc-cell">
-      <div class="fc-label">Mobile</div>
-      <div class="fc-stage">①→② 回遊</div>
-      <div class="fc-val" style="font-size:28px;margin-top:8px">26.5%</div>
-      <div class="fc-val-label">+2% vs 全体</div>
+      <div class="fc-label">②→③ さらに低い</div>
+      <div class="fc-stage">AC到達→検討</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px;color:var(--amber)">31.49%</div>
+      <div class="fc-val-label">複合ボトルネック（#2と同系）</div>
     </div>
     <div class="fc-cell">
-      <div class="fc-label">Tablet</div>
-      <div class="fc-stage">①→② 回遊</div>
-      <div class="fc-val" style="font-size:28px;margin-top:8px">29.9%</div>
-      <div class="fc-val-label">+15% vs 全体</div>
+      <div class="fc-label">セグメントCVR</div>
+      <div class="fc-stage">コンバージョン率</div>
+      <div class="fc-val" style="font-size:28px;margin-top:8px">0.34%</div>
+      <div class="fc-val-label">全セグメント最低水準</div>
     </div>
   </div>
 
-  <!-- Step 4-5: Tier 2-3 drill down -->
+  <!-- Drill down -->
   <div style="padding:0 44px 20px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Step 4-5 &mdash; Tier 2-3 深掘り</div>
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">深掘り分析</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
       <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
-        <div style="font-size:14px;font-weight:700;margin-bottom:8px">チャネルで分解（Desktop内）</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">複合ボトルネック構造</div>
         <div style="font-size:15px;color:var(--text2);line-height:1.7">
-          Direct &times; <strong style="color:var(--red)">Desktop: 3.7%</strong>（異常値！）<br>
-          Organic &times; Desktop: 25.8%（全体比 -1%）<br>
-          Paid &times; Desktop: 43.2%（全体比 +65%）
+          ①→② <strong style="color:var(--red)">17.46%（-33.1%）</strong><br>
+          ②→③ <strong style="color:var(--amber)">31.49%</strong>（さらに低い）<br>
+          CVR: <strong style="color:var(--red)">0.34%</strong>（最低水準）
         </div>
-        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ Direct×Desktopが極端な低率でDesktop全体を牽引。Paid×Desktopは良好。</div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">&rarr; ①→②と②→③の二段階でボトルネックが発生。#2と同セグメントで複合問題。</div>
       </div>
       <div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px">
-        <div style="font-size:14px;font-weight:700;margin-bottom:8px">新規/リピーターで分解（Desktop内）</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">最大ボリューム×最低CVRの組み合わせ</div>
         <div style="font-size:15px;color:var(--text2);line-height:1.7">
-          Desktop &times; <strong style="color:var(--red)">新規: 推定 18%</strong>（全体比 -31%）<br>
-          Desktop &times; リピーター: 推定 28%（全体比 +7%）
+          月間セッション: <strong>723,479</strong><br>
+          CVR: <strong style="color:var(--red)">0.34%</strong><br>
+          改善余地: ①→②を26.1%に改善すれば CVR が大幅向上
         </div>
-        <div style="font-size:13px;color:var(--text3);margin-top:8px">→ Desktopの新規ユーザーに問題が集中。リピーターはベースライン並み。</div>
+        <div style="font-size:13px;color:var(--text3);margin-top:8px">&rarr; セッションボリュームが最大のため、わずかな改善でも大きなインパクトが期待できる。</div>
       </div>
     </div>
   </div>
 
   <div class="callout" style="margin-top:0">
     <div class="ct">特定結果</div>
-    <div class="cb"><strong>Direct &times; Desktop</strong> の ①→② AC到達率が <strong>3.7%</strong>（180Kセッションで6,184人しかAC到達していない）。<br>この1セグメントを除くとDesktop全体は約28%でベースライン並み。<br>Organic Desktop=25.8%・Paid Desktop=43.2%は正常〜良好であり、問題はDirect&times;Desktopに集中している。</div>
+    <div class="cb"><strong>Organic Search &times; 新規</strong> の ①→② AC到達率が <strong>17.46%</strong>（全体平均 26.10% の <strong>-33.1%、-8.64pp</strong>）。<br>月間 723,479セッション（最大ボリューム）。CVR 0.34%は全セグメント中最低水準。SEOランディングページから商品詳細への内部動線が弱く、情報収集意図ユーザーが商品発見前に離脱している。</div>
   </div>
 
   <hr class="divider">
 
-  <!-- Step 6: Hypotheses -->
+  <!-- Hypotheses -->
   <div style="padding:24px 44px 16px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Step 6 &mdash; 原因仮説 &times; 3</div>
-    <div style="font-size:15px;color:var(--text2)">なぜ Desktop のAC到達率が低いか？</div>
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">原因仮説 &times; 3</div>
+    <div style="font-size:15px;color:var(--text2)">なぜ Organic Search &times; 新規の ①→② AC到達率が低いか？</div>
   </div>
   <div class="hypo-grid">
     <div class="hypo-card h1">
       <div class="hypo-num">仮説 1（有力）</div>
-      <div class="hypo-title">Direct×Desktopの極端な低率が全体を牽引</div>
-      <div class="hypo-body">Desktop全体のAC到達率が低い最大の要因はDirect×Desktop（180K sessions、3.7%）。マイページ・管理画面アクセスのセッションが大量に混入し、商品閲覧意図のないセッションが数値を押し下げている。</div>
+      <div class="hypo-title">SEOランディングページからACページへの内部リンクが弱い</div>
+      <div class="hypo-body">エリアページやブログ記事に着地した新規ユーザーが、個別商品（ACページ）への遷移導線を見つけられない。ファーストビューに商品リストがなくテキスト情報が優勢なため、商品に辿り着く前に離脱する。リピーターは商品URLを直接知っているため影響が小さい。</div>
       <div class="hypo-evidence">
         <strong>裏付けデータ:</strong>
-  <ul style="margin:6px 0 0;padding-left:18px;list-style:disc">
-    <li>DirectDesktop=3.7%を除くとDesktop全体は約28%。OrgDesktop=25.8%、PaidDesktop=43.2%は正常〜良好。問題はDirect×Desktopに集中。</li>
-  </ul>
-</div>
+        <ul style="margin:6px 0 0;padding-left:18px;list-style:disc">
+          <li>Organic &times; 新規 ①→②: 17.46% / Organic &times; リピーター: 36.29%（2倍以上の差）</li>
+          <li>Paid Search &times; 新規: 31.5%（広告は商品ページ直リンクのため高い）</li>
+          <li>②→③も31.49%と低く、到達後もカレンダー未到達が続く複合問題</li>
+        </ul>
+      </div>
     </div>
     <div class="hypo-card h2">
       <div class="hypo-num">仮説 2</div>
-      <div class="hypo-title">デスクトップ一覧ページでの回遊離脱</div>
-      <div class="hypo-body">デスクトップではブラウジング行動が長くなり、一覧ページでの商品比較に時間を費やした後、商品詳細に到達せずにセッション終了するパターンが多い。</div>
+      <div class="hypo-title">情報収集意図ユーザーが購買行動まで到達しない</div>
+      <div class="hypo-body">「○○旅行 おすすめ」「○○ アクティビティ 種類」等の情報収集キーワードで流入した新規ユーザーは購買意欲が低く、商品詳細を閲覧する前にサイトを離脱する。SEO記事の読了後に購買行動につなぐ導線設計が不足している。</div>
       <div class="hypo-evidence">
         <strong>裏付けデータ:</strong>
-  <ul style="margin:6px 0 0;padding-left:18px;list-style:disc">
-    <li>OrgDesktop25.8%はMobile22.0%より高いが、ベースライン26.1%よりやや低い。情報量が多いDesktopで選択肢過多に。</li>
-  </ul>
-</div>
+        <ul style="margin:6px 0 0;padding-left:18px;list-style:disc">
+          <li>CVR 0.34%は全セグメント最低 &rarr; 購買意欲の低いユーザーが大量流入</li>
+          <li>情報収集系クエリはSEO流入の大部分を占める（特に新規ユーザー）</li>
+        </ul>
+      </div>
     </div>
     <div class="hypo-card h3">
       <div class="hypo-num">仮説 3</div>
-      <div class="hypo-title">デスクトップ版検索・フィルタUIの使いにくさ</div>
-      <div class="hypo-body">デスクトップ版の検索機能やカテゴリフィルタリングが最適化されておらず、目的の商品を見つけるまでの導線が長い。</div>
+      <div class="hypo-title">SEOランディングページの速度・UXが低く直帰する</div>
+      <div class="hypo-body">SEO最適化のために作られたエリアページ・ブログ記事のページ速度やモバイルUXが低く、コンテンツを閲覧する前に離脱（直帰）している。ページの読み込み速度やCore Web Vitalsが競合に劣っている可能性がある。</div>
       <div class="hypo-evidence">
         <strong>裏付けデータ:</strong>
-  <ul style="margin:6px 0 0;padding-left:18px;list-style:disc">
-    <li>Paid Desktop①→②=43.2%と高く、広告で直接商品に来る場合は問題なし。自力で商品を探す場合の導線に課題。</li>
-  </ul>
-</div>
+        <ul style="margin:6px 0 0;padding-left:18px;list-style:disc">
+          <li>SEOランディングページへの直帰率が高い場合、速度・UX問題が存在</li>
+          <li>Mobile 経由の Organic 新規は特に速度影響を受けやすい</li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -201,55 +214,58 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   <!-- Actions -->
   <div style="padding:24px 44px 16px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3（仮説1〜2に対する施策）</div>
-    <div style="font-size:15px;color:var(--text2)">Desktop の①→② AC到達率を改善する</div>
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">打ち手 &times; 3</div>
+    <div style="font-size:15px;color:var(--text2)">Organic Search &times; 新規の ①→② AC到達率改善施策</div>
   </div>
   <div class="action-grid">
     <div class="action-card">
       <div class="action-header">
         <div class="action-label" style="color:var(--red)">施策 A</div>
-        <div class="action-impact">①→② +3pt</div>
+        <div class="action-impact">①→② +5pt</div>
       </div>
       <div class="action-body">
-        <div class="action-title">クイックビュー機能</div>
-        <div class="action-desc">商品一覧でホバー時にポップアップを表示し、商品詳細ページへの遷移なしに主要情報を確認できるようにする。Desktopユーザーの一覧ページ離脱を減らし、AC到達率を改善する。</div>
+        <div class="action-title">SEOランディングページFVに人気商品カルーセルを配置</div>
+        <div class="action-desc">エリアページ・ブログ記事のファーストビューに「このエリアの人気アクティビティ TOP5」カルーセルを配置。新規ユーザーがスクロールなしで商品カードをタップでき、直接ACページへ遷移できる導線を作る。</div>
         <div class="action-spec">
           <strong>開発仕様</strong>
-          ・商品一覧でホバー時にポップアップ（画像+価格+評価+空き状況+CTA）<br>
-          ・ポップアップから直接カレンダーにアクセス可能<br>
-          ・クリックで商品詳細に遷移
+          ・SEOランディングページテンプレートにカルーセルコンポーネント追加<br>
+          ・データソース: エリア内の予約数TOP5商品を動的取得<br>
+          ・カード: 画像 + 商品名 + 価格 + 評価（横スクロール、Mobile最適化）<br>
+          ・目標: FV内に商品カードを3枚以上表示
         </div>
       </div>
     </div>
     <div class="action-card">
       <div class="action-header">
         <div class="action-label" style="color:var(--amber)">施策 B</div>
-        <div class="action-impact">①→② +2pt</div>
+        <div class="action-impact">①→② +3pt</div>
       </div>
       <div class="action-body">
-        <div class="action-title">検索・フィルタUI改善</div>
-        <div class="action-desc">デスクトップ向けにサイドバーフィルタと検索サジェストを強化し、ユーザーが目的の商品に素早く到達できる導線を整備する。カテゴリナビゲーションを視覚的に刷新する。</div>
+        <div class="action-title">エリアページに「今すぐ予約できる商品」フィルタービュー追加</div>
+        <div class="action-desc">エリアページの商品一覧に「今日・明日予約可能」フィルタービューを追加。情報収集ユーザーが購買行動に移るトリガーとして、空き枠のある商品を優先表示し即決を促す。</div>
         <div class="action-spec">
           <strong>開発仕様</strong>
-          ・サイドバーフィルタ（カテゴリ/価格帯/評価/空き日程）の常時表示<br>
-          ・検索サジェスト強化（商品名+エリア+カテゴリの横断検索）<br>
-          ・カテゴリナビゲーションの再設計（大型ビジュアルタイル化）
+          ・エリアページ商品一覧上部に「今すぐ予約できる」タブ追加<br>
+          ・在庫 API と連携し当日・翌日空き枠あり商品をフィルタリング<br>
+          ・「残り○枠」バッジで緊急性を可視化<br>
+          ・デフォルトは全商品表示のまま、タブ切り替えで即時フィルター
         </div>
       </div>
     </div>
     <div class="action-card">
       <div class="action-header">
         <div class="action-label" style="color:var(--text3)">施策 C</div>
-        <div class="action-impact">①→② +1pt</div>
+        <div class="action-impact">①→② +2pt</div>
       </div>
       <div class="action-body">
-        <div class="action-title">Direct×Desktop計測精度調査</div>
-        <div class="action-desc">Direct×Desktopの3.7%という極端な低率が計測上の問題によるものか、実際の行動によるものかを切り分ける。GTMおよびSPA遷移の実装を精査する。</div>
+        <div class="action-title">コンテンツ内への商品内部リンクの自然挿入</div>
+        <div class="action-desc">SEOブログ記事・エリアページのコンテンツ内に、文脈に合った商品への内部リンクを自然挿入。「○○を体験するなら → 商品名」形式で読者の流れを途切れさせずにACページへ誘導。SEO評価向上とも両立する。</div>
         <div class="action-spec">
           <strong>開発仕様</strong>
-          ・GTMのac_page_reachトリガー条件をデバッグモードで検証<br>
-          ・SPA遷移時のhistory changeイベントとの連携確認<br>
-          ・Desktop Direct流入のランディングページ分布分析
+          ・CMS で記事テンプレートに「関連商品インライン表示」コンポーネント追加<br>
+          ・商品タグ + エリアタグのマッチングで自動挿入候補を提案<br>
+          ・挿入位置: 記事中盤（読了前の離脱防止）と記事末尾の2箇所<br>
+          ・SEO施策として: 商品ページへの内部リンク強化でランキング改善も期待
         </div>
       </div>
     </div>
@@ -260,336 +276,61 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   <!-- Verification -->
   <div class="callout-amber callout">
     <div class="ct">検証方法</div>
-    <div class="cb">計測調査（1週間）+ ABテスト 2週間。対象: Desktop全体。<br>
-    主要指標: ①→② AC到達率（現状 21.9% → 目標 24%以上）。<br>
-    副次指標: Direct×Desktopの計測精度（GTMデバッグで実態把握）、②→③ カレンダー表示率への影響。<br>
-    まず施策Cで計測上の問題を除外してから施策A・Bを展開する。</div>
+    <div class="cb">ABテスト 2週間。対象: Organic Search &times; 新規ユーザー（全エリアページ・ブログ記事）。<br>
+    主要指標: ①→② AC到達率（現状 17.46% &rarr; 目標 22%以上）。<br>
+    副次指標: ②→③ カレンダー表示率への影響、直帰率、ページ滞在時間、SEO順位変動。<br>
+    施策Aから優先実施。Japan（最大エリア）から開始し成功後に全エリア展開。</div>
   </div>
 
   <hr class="divider">
 
-  <!-- Prototype tabs -->
+  <!-- Team Review -->
   <div style="padding:24px 44px 16px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">プロトタイプ &mdash; Before / After</div>
-    <div style="font-size:15px;color:var(--text2)">カテゴリ一覧ページ PC版（Desktop①→② 改善）。2カラムレイアウトで表現。</div>
+    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">チームレビュー欄</div>
+    <div style="font-size:15px;color:var(--text2)">施策実施前にチームで確認してください。</div>
   </div>
-
-  <div style="padding:0 44px 32px">
-    <!-- Tab bar -->
-    <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px">
-      <button onclick="switchProtoTab(this,'b6-tab-a')" class="proto-tab-btn active" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;border-bottom:2px solid var(--red);margin-bottom:-2px">施策 A</button>
-      <button onclick="switchProtoTab(this,'b6-tab-b')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 B</button>
-      <button onclick="switchProtoTab(this,'b6-tab-c')" class="proto-tab-btn" style="padding:10px 20px;font-size:14px;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px">施策 C</button>
-    </div>
-
-    <!-- ===== TAB A: クイックビュー機能 ===== -->
-    <div id="b6-tab-a" class="proto-panel" style="display:block">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <div><span style="font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase">施策 A</span><span style="font-size:15px;font-weight:700;margin-left:8px">クイックビュー機能</span></div>
-        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +3pt</span>
+  <div class="review-section">
+    <div class="review-card">
+      <div class="review-title">確認チェックリスト</div>
+      <div class="review-item">
+        <input type="checkbox" id="r6-1">
+        <label for="r6-1">データ確認: ①→② 17.46% vs ベースライン 26.10%（-8.64pp）を GA4 で再確認した</label>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-        <!-- Before -->
-        <div>
-          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
-          <!-- PC 2-col layout mock -->
-          <div style="border:2px solid var(--border);border-radius:12px;overflow:hidden;background:#fff">
-            <!-- Header bar -->
-            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:8px 16px;display:flex;align-items:center;justify-content:space-between">
-              <div style="font-family:'DM Sans';font-weight:900;font-size:14px;color:#fff">VELTRA</div>
-              <div style="display:flex;gap:12px;font-size:11px;color:rgba(255,255,255,.8)"><span>東京</span><span>カテゴリ</span><span>日程</span><span>マイページ</span></div>
-            </div>
-            <!-- 2-col: sidebar + cards -->
-            <div style="display:grid;grid-template-columns:140px 1fr;gap:0">
-              <!-- Sidebar -->
-              <div style="background:#f9fafb;border-right:1px solid #e5e7eb;padding:12px">
-                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:8px">カテゴリ</div>
-                <div style="font-size:11px;color:#666;padding:4px 0;border-bottom:1px solid #f0f0f0">すべて</div>
-                <div style="font-size:11px;color:var(--red);font-weight:700;padding:4px 0;border-bottom:1px solid #f0f0f0">観光ツアー</div>
-                <div style="font-size:11px;color:#666;padding:4px 0;border-bottom:1px solid #f0f0f0">マリンスポーツ</div>
-                <div style="font-size:11px;color:#666;padding:4px 0;border-bottom:1px solid #f0f0f0">グルメ体験</div>
-                <div style="font-size:11px;color:#666;padding:4px 0">文化体験</div>
-              </div>
-              <!-- Card list -->
-              <div style="padding:12px">
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-                  <div style="border:1px solid #eee;border-radius:6px;overflow:hidden">
-                    <div style="height:60px;background:linear-gradient(135deg,#e3f2fd,#bbdefb)"></div>
-                    <div style="padding:6px;font-size:10px"><div style="font-weight:700;line-height:1.3;margin-bottom:3px">東京スカイツリー 夜景ツアー</div><div><span style="color:#FFB300">★</span>4.74</div><div style="color:var(--red);font-weight:700">¥13,000〜</div></div>
-                  </div>
-                  <div style="border:1px solid #eee;border-radius:6px;overflow:hidden">
-                    <div style="height:60px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9)"></div>
-                    <div style="padding:6px;font-size:10px"><div style="font-weight:700;line-height:1.3;margin-bottom:3px">浅草人力車 観光ツアー</div><div><span style="color:#FFB300">★</span>4.60</div><div style="color:var(--red);font-weight:700">¥4,000〜</div></div>
-                  </div>
-                </div>
-                <div style="font-size:10px;color:var(--red);text-align:center;margin-top:8px">カードクリック → 別ページに遷移してから詳細確認</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- After -->
-        <div>
-          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策A適用）</div>
-          <div style="border:2px solid var(--green);border-radius:12px;overflow:hidden;background:#fff;position:relative">
-            <!-- Header bar -->
-            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:8px 16px;display:flex;align-items:center;justify-content:space-between">
-              <div style="font-family:'DM Sans';font-weight:900;font-size:14px;color:#fff">VELTRA</div>
-              <div style="display:flex;gap:12px;font-size:11px;color:rgba(255,255,255,.8)"><span>東京</span><span>カテゴリ</span><span>日程</span><span>マイページ</span></div>
-            </div>
-            <!-- 2-col: sidebar + cards -->
-            <div style="display:grid;grid-template-columns:140px 1fr;gap:0">
-              <!-- Sidebar -->
-              <div style="background:#f9fafb;border-right:1px solid #e5e7eb;padding:12px">
-                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:8px">カテゴリ</div>
-                <div style="font-size:11px;color:#666;padding:4px 0;border-bottom:1px solid #f0f0f0">すべて</div>
-                <div style="font-size:11px;color:var(--red);font-weight:700;padding:4px 0;border-bottom:1px solid #f0f0f0">観光ツアー</div>
-                <div style="font-size:11px;color:#666;padding:4px 0;border-bottom:1px solid #f0f0f0">マリンスポーツ</div>
-                <div style="font-size:11px;color:#666;padding:4px 0;border-bottom:1px solid #f0f0f0">グルメ体験</div>
-                <div style="font-size:11px;color:#666;padding:4px 0">文化体験</div>
-              </div>
-              <!-- Card list with hover popup overlay -->
-              <div style="padding:12px;position:relative">
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-                  <!-- Card 1 with hover popup -->
-                  <div style="border:2px solid var(--green);border-radius:6px;overflow:hidden;position:relative">
-                    <div style="height:60px;background:linear-gradient(135deg,#e3f2fd,#bbdefb)"></div>
-                    <div style="padding:6px;font-size:10px"><div style="font-weight:700;line-height:1.3;margin-bottom:3px">東京スカイツリー 夜景ツアー</div><div><span style="color:#FFB300">★</span>4.74</div><div style="color:var(--red);font-weight:700">¥13,000〜</div></div>
-                    <!-- Quick view popup -->
-                    <div style="position:absolute;top:-4px;right:-4px;background:#fff;border:1.5px solid var(--green);border-radius:8px;padding:8px 10px;font-size:10px;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:10;min-width:130px">
-                      <div style="font-size:9px;font-weight:700;color:var(--green);margin-bottom:4px">クイックビュー ✓</div>
-                      <div style="height:36px;background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-radius:4px;margin-bottom:4px"></div>
-                      <div style="font-weight:700;margin-bottom:2px;line-height:1.3">スカイツリー 夜景</div>
-                      <div><span style="color:#FFB300">★</span>4.74 (86件)</div>
-                      <div style="color:var(--red);font-weight:700">¥13,000〜</div>
-                      <div style="color:#16a34a;font-size:9px">空き◎</div>
-                      <div style="background:var(--red);color:#fff;border-radius:4px;padding:3px;text-align:center;margin-top:4px;font-weight:700">詳細を見る →</div>
-                    </div>
-                  </div>
-                  <div style="border:1px solid #eee;border-radius:6px;overflow:hidden">
-                    <div style="height:60px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9)"></div>
-                    <div style="padding:6px;font-size:10px"><div style="font-weight:700;line-height:1.3;margin-bottom:3px">浅草人力車 観光ツアー</div><div><span style="color:#FFB300">★</span>4.60</div><div style="color:var(--red);font-weight:700">¥4,000〜</div></div>
-                  </div>
-                </div>
-                <div style="font-size:10px;color:var(--green);text-align:center;margin-top:8px">ホバーでポップアップ → ページ遷移なしに詳細確認</div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="review-item">
+        <input type="checkbox" id="r6-2">
+        <label for="r6-2">複合問題確認: ②→③ 31.49%（低い）との関係を #2ボトルネック担当と情報共有した</label>
       </div>
-    </div>
-
-    <!-- ===== TAB B: 検索・フィルタUI改善 ===== -->
-    <div id="b6-tab-b" class="proto-panel" style="display:none">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <div><span style="font-size:13px;font-weight:700;color:var(--amber);text-transform:uppercase">施策 B</span><span style="font-size:15px;font-weight:700;margin-left:8px">検索・フィルタUI改善</span></div>
-        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +2pt</span>
+      <div class="review-item">
+        <input type="checkbox" id="r6-3">
+        <label for="r6-3">施策Aレビュー: カルーセル追加によるSEOページの表示速度への影響を技術チームと確認した</label>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-        <!-- Before -->
-        <div>
-          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
-          <div style="border:2px solid var(--border);border-radius:12px;overflow:hidden;background:#fff">
-            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:8px 16px;display:flex;align-items:center;justify-content:space-between">
-              <div style="font-family:'DM Sans';font-weight:900;font-size:14px;color:#fff">VELTRA</div>
-              <div style="font-size:11px;color:rgba(255,255,255,.8)">東京 / 観光ツアー</div>
-            </div>
-            <div style="display:grid;grid-template-columns:140px 1fr;gap:0">
-              <!-- Text-based sidebar filter -->
-              <div style="background:#f9fafb;border-right:1px solid #e5e7eb;padding:12px">
-                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:6px">カテゴリ</div>
-                <div style="font-size:10px;color:#666;padding:3px 0;border-bottom:1px solid #f0f0f0">すべて(342)</div>
-                <div style="font-size:10px;color:var(--red);font-weight:700;padding:3px 0;border-bottom:1px solid #f0f0f0">観光(89)</div>
-                <div style="font-size:10px;color:#666;padding:3px 0;border-bottom:1px solid #f0f0f0">マリン(45)</div>
-                <div style="font-size:10px;color:#666;padding:3px 0;border-bottom:1px solid #f0f0f0">グルメ(38)</div>
-                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-top:8px;margin-bottom:4px">価格</div>
-                <div style="font-size:10px;color:#666;padding:2px 0">〜¥3,000</div>
-                <div style="font-size:10px;color:#666;padding:2px 0">¥3,000〜¥10,000</div>
-                <div style="font-size:10px;color:#666;padding:2px 0">¥10,000〜</div>
-              </div>
-              <div style="padding:12px">
-                <div style="font-size:10px;color:var(--red);margin-bottom:8px">テキストベースのみ。評価・日程フィルタなし。</div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-                  <div style="height:50px;background:#f0f0f0;border-radius:6px"></div>
-                  <div style="height:50px;background:#f0f0f0;border-radius:6px"></div>
-                  <div style="height:50px;background:#f0f0f0;border-radius:6px"></div>
-                  <div style="height:50px;background:#f0f0f0;border-radius:6px"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- After -->
-        <div>
-          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策B適用）</div>
-          <div style="border:2px solid var(--green);border-radius:12px;overflow:hidden;background:#fff">
-            <div style="background:linear-gradient(135deg,#E8423F,#f06060);padding:8px 16px;display:flex;align-items:center;justify-content:space-between">
-              <div style="font-family:'DM Sans';font-weight:900;font-size:14px;color:#fff">VELTRA</div>
-              <div style="font-size:11px;color:rgba(255,255,255,.8)">東京 / 観光ツアー</div>
-            </div>
-            <div style="display:grid;grid-template-columns:160px 1fr;gap:0">
-              <!-- Visual sidebar filter -->
-              <div style="background:#f9fafb;border-right:1px solid #e5e7eb;padding:12px">
-                <!-- Category tiles -->
-                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:6px">カテゴリ</div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px">
-                  <div style="background:var(--red-light);border:1.5px solid var(--red);border-radius:6px;padding:4px;text-align:center;font-size:9px;font-weight:700;color:var(--red)">観光</div>
-                  <div style="background:#f5f5f5;border:1px solid #ddd;border-radius:6px;padding:4px;text-align:center;font-size:9px;color:#666">マリン</div>
-                  <div style="background:#f5f5f5;border:1px solid #ddd;border-radius:6px;padding:4px;text-align:center;font-size:9px;color:#666">グルメ</div>
-                  <div style="background:#f5f5f5;border:1px solid #ddd;border-radius:6px;padding:4px;text-align:center;font-size:9px;color:#666">文化</div>
-                </div>
-                <!-- Price slider -->
-                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:4px">価格帯</div>
-                <div style="background:#e5e7eb;height:4px;border-radius:2px;position:relative;margin-bottom:8px">
-                  <div style="position:absolute;left:10%;right:40%;height:4px;background:var(--red);border-radius:2px"></div>
-                  <div style="position:absolute;left:10%;top:-4px;width:10px;height:10px;background:var(--red);border-radius:50%"></div>
-                  <div style="position:absolute;right:40%;top:-4px;width:10px;height:10px;background:var(--red);border-radius:50%"></div>
-                </div>
-                <div style="display:flex;justify-content:space-between;font-size:9px;color:#666;margin-bottom:6px"><span>¥0</span><span>〜¥10,000</span></div>
-                <!-- Rating stars -->
-                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:4px">評価</div>
-                <div style="display:flex;gap:3px;margin-bottom:8px">
-                  <span style="font-size:12px;color:#FFB300">★★★★★</span>
-                </div>
-                <!-- Date picker -->
-                <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:4px">日程</div>
-                <div style="background:#fff;border:1px solid #e5e7eb;border-radius:4px;padding:4px 6px;font-size:10px;color:#666">4月8日〜4月15日</div>
-              </div>
-              <div style="padding:12px">
-                <div style="font-size:10px;color:var(--green);margin-bottom:8px">絞り込み結果: 23件</div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-                  <div style="border:1px solid #eee;border-radius:6px;overflow:hidden">
-                    <div style="height:50px;background:linear-gradient(135deg,#e3f2fd,#bbdefb)"></div>
-                    <div style="padding:5px;font-size:9px"><div style="font-weight:700">スカイツリー夜景</div><div><span style="color:#FFB300">★</span>4.74 <span style="color:#16a34a">空き◎</span></div><div style="color:var(--red);font-weight:700">¥13,000</div></div>
-                  </div>
-                  <div style="border:1px solid #eee;border-radius:6px;overflow:hidden">
-                    <div style="height:50px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9)"></div>
-                    <div style="padding:5px;font-size:9px"><div style="font-weight:700">人力車観光</div><div><span style="color:#FFB300">★</span>4.60 <span style="color:#16a34a">空き◎</span></div><div style="color:var(--red);font-weight:700">¥4,000</div></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="review-item">
+        <input type="checkbox" id="r6-4">
+        <label for="r6-4">施策Bレビュー: 在庫 API のリアルタイム参照が技術的に実現可能かを確認した</label>
       </div>
-    </div>
-
-    <!-- ===== TAB C: Direct×Desktop計測調査 ===== -->
-    <div id="b6-tab-c" class="proto-panel" style="display:none">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <div><span style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase">施策 C</span><span style="font-size:15px;font-weight:700;margin-left:8px">Direct&times;Desktop 計測調査</span></div>
-        <span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px">①→② +1pt</span>
+      <div class="review-item">
+        <input type="checkbox" id="r6-5">
+        <label for="r6-5">施策Cレビュー: SEO記事への商品リンク挿入がSEO評価に悪影響を与えないかSEO担当がレビューした</label>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-        <!-- Before -->
-        <div>
-          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>
-          <div style="border:2px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;padding:16px">
-            <div style="font-size:12px;font-weight:700;margin-bottom:10px;color:var(--text2)">計測フロー（現状）</div>
-            <!-- Flow diagram -->
-            <div style="display:flex;flex-direction:column;gap:6px">
-              <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center">ユーザーがURLを直接入力<br><span style="font-size:10px;color:#999">(Direct &times; Desktop)</span></div>
-              <div style="text-align:center;font-size:14px;color:#aaa">↓</div>
-              <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center">SPAルーティング（history.pushState）</div>
-              <div style="text-align:center;font-size:14px;color:#aaa">↓</div>
-              <div style="background:#fff8f8;border:1px solid #fca5a5;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center;color:var(--red)">ac_page_reach 未発火<br><span style="font-size:10px">GTMトリガー条件が旧URL構造</span></div>
-              <div style="text-align:center;font-size:14px;color:var(--red)">↓</div>
-              <div style="background:#fff8f8;border:1px solid #fca5a5;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center;color:var(--red)">①→② = 3.7%（異常値）</div>
-            </div>
-          </div>
-        </div>
-        <!-- After -->
-        <div>
-          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策C適用）</div>
-          <div style="border:2px solid var(--green);border-radius:12px;overflow:hidden;background:#fff;padding:16px">
-            <div style="font-size:12px;font-weight:700;margin-bottom:10px;color:var(--text2)">計測フロー（修正後）</div>
-            <div style="display:flex;flex-direction:column;gap:6px">
-              <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center">ユーザーがURLを直接入力<br><span style="font-size:10px;color:#999">(Direct &times; Desktop)</span></div>
-              <div style="text-align:center;font-size:14px;color:#aaa">↓</div>
-              <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center">SPAルーティング（history.pushState）</div>
-              <div style="text-align:center;font-size:14px;color:var(--green)">↓</div>
-              <div style="background:#f0fdf4;border:1px solid #16a34a;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center;color:#16a34a">SPA対応イベント発火確認<br><span style="font-size:10px">GTMトリガー修正+デバッグモード検証</span></div>
-              <div style="text-align:center;font-size:14px;color:var(--green)">↓</div>
-              <div style="background:#f0fdf4;border:1px solid #16a34a;border-radius:6px;padding:8px 10px;font-size:11px;text-align:center;color:#16a34a">ac_page_reach 正常発火<br><span style="font-size:10px">実態反映後の正確な①→② 把握</span></div>
-            </div>
-          </div>
-        </div>
+      <div class="review-item">
+        <input type="checkbox" id="r6-6">
+        <label for="r6-6">ページ速度確認: 現状のSEOランディングページのCore Web Vitals スコアを測定・記録した</label>
       </div>
-    </div>
-  </div>
-
-  <script>
-  function switchProtoTab(btn,panelId){
-    btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.color='var(--text2)';b.style.borderBottomColor='transparent'});
-    btn.style.color='var(--red)';btn.style.borderBottomColor='var(--red)';
-    btn.closest('.card').querySelectorAll('.proto-panel').forEach(function(p){p.style.display='none'});
-    document.getElementById(panelId).style.display='block';
-  }
-  </script>
-
-  <hr class="divider">
-
-  <!-- Competitive Analysis -->
-  <div style="padding:24px 44px 16px">
-    <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">競合のDesktop商品発見体験比較 <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">Desktop UX視点</span></div>
-    <div style="font-size:15px;color:var(--text2)">ボトルネックが「Desktop①→②」のため、デスクトップでの商品一覧から詳細への導線を中心に比較。</div>
-  </div>
-
-  <div style="padding:0 44px 32px">
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px"><img src="https://www.klook.com/favicon.ico" width="20" height="20" style="border-radius:4px" onerror="this.style.display='none'">Klook</div>
-        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
-          Desktop右カラムにクイック予約ウィジェット常時表示。商品一覧のカードに価格・評価・空き状況を集約。一覧からワンクリックで予約フローへ誘導できる設計。
-        </div>
-        <div style="font-size:12px;color:var(--text3)">注目点: 一覧ページを離れずに予約意思を固められるUX。</div>
+      <div class="review-item">
+        <input type="checkbox" id="r6-7">
+        <label for="r6-7">ABテスト設計: 723,479 sessions/月に基づく必要サンプルサイズ・テスト期間を計算した</label>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px"><img src="https://cdn.getyourguide.com/tf/assets/static/favicons/favicon-32x32.png" width="20" height="20" style="border-radius:4px" onerror="this.style.display='none'">GetYourGuide</div>
-        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
-          充実したフィルタUI+地図連動検索。サイドバーフィルタがstickyで常時表示。地図上で商品位置を確認しながら絞り込みが可能。デスクトップの広い画面を最大活用。
-        </div>
-        <div style="font-size:12px;color:var(--text3)">注目点: 地図+フィルタの連動で目的の商品への最短経路を提供。</div>
+      <div class="review-item">
+        <input type="checkbox" id="r6-8">
+        <label for="r6-8">成功指標合意: 目標 ①→② 22%以上、CVR 0.34% &rarr; 0.5%以上をチームで承認した</label>
       </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px"><img src="https://cache.vtrcdn.com/orion/images/favicon.ico" width="20" height="20" style="border-radius:4px" onerror="this.style.display='none'">Viator</div>
-        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
-          商品カードのホバープレビュー+TripAdvisor評価表示。一覧カード上にマウスを乗せると画像がスライドし概要が拡大表示される。詳細ページ遷移前に情報収集が完結。
-        </div>
-        <div style="font-size:12px;color:var(--text3)">注目点: ホバーでの情報提示によりページ遷移コストを最小化。</div>
-      </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px"><img src="https://www.kkday.com/favicon.png" width="20" height="20" style="border-radius:4px" onerror="this.style.display='none'">KKday</div>
-        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
-          Desktopのカテゴリ一覧ページで大型画像カードを活用し視覚的な商品発見体験を提供。割引バッジ・残席数・評価を1カード内に集約しており、比較検討に必要な情報がスキャン可能。フィルタサイドバーがstickyで絞り込み結果を即座に反映。
-        </div>
-        <div style="font-size:12px;color:var(--text3)">注目点: 大型カードと割引表示でDesktopでの回遊離脱を防止。サイドバーstickyで施策Bの参考。</div>
-      </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px"><img src="https://activityjapan.com/favicon.ico" width="20" height="20" style="border-radius:4px" onerror="this.style.display='none'">Activity Japan</div>
-        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
-          カテゴリ一覧ページで商品カードに在庫状況をリアルタイム表示。PCではサイドバーフィルタが常時展開され、エリア×カテゴリの絞り込みが即座に反映される。日付指定ウィジェットがページ上部に固定されており、全画面幅を活かした2〜3カラムのカードグリッドが特徴的。
-        </div>
-        <div style="font-size:12px;color:var(--text3)">注目点: 在庫リアルタイム表示とPC向け常時展開サイドバーが施策A・Bの参考事例。</div>
-      </div>
-      <div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px">
-        <div style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px"><img src="https://image.asoview-media.com/image/production/fundamentals/logo/favicon.ico" width="20" height="20" style="border-radius:4px" onerror="this.style.display='none'">アソビュー！</div>
-        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
-          「ランキング」「新着」「割引あり」のタブ切り替えを一覧ページ上部に配置し、比較行動ユーザーの離脱を防ぐ。モバイルファーストだがPC版も2カラムレイアウトで商品カードを大きく表示。カード上に割引率バッジと評価を目立たせ、クリック意欲を高める設計。
-        </div>
-        <div style="font-size:12px;color:var(--text3)">注目点: タブ切り替えで選択肢整理とビジュアルフィルタが施策Bのカテゴリタイル設計と一致。</div>
-      </div>
-    </div>
-
-    <div class="callout" style="margin:20px 0 0">
-      <div class="ct">競合比較から得られる示唆</div>
-      <div class="cb">競合6社はDesktopで「商品発見→詳細確認」のステップを最小化している。VELTRAはテキストベースの一覧が中心で視覚的な商品発見体験が弱い。施策A（クイックビュー）はViatorのホバープレビュー、施策B（フィルタUI）はGetYourGuide・Activity Japanのサイドバー常時展開とアソビューのタブ切り替えが参考。施策C（計測調査）はDirect×Desktop=3.7%という異常値の根拠確認に直結し、他施策より先に着手すべき前提条件。</div>
     </div>
   </div>
 
   <div class="nav-bar">
     <a href="bottleneck-5.html">&larr; #5 へ戻る</a>
     <a href="./">サマリーに戻る</a>
-    <a href="bottleneck-7.html">#7 へ進む →</a>
+    <a href="bottleneck-7.html">#7 へ進む &rarr;</a>
   </div>
 
 </div>
@@ -598,7 +339,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   <div class="footer">
     <span>VELTRA CVR改善チーム</span>
     <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
-    <span>2026-04-01</span>
+    <span>2026-04-06</span>
   </div>
 </div>
 
