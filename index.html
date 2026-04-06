@@ -685,11 +685,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
           wowEl.textContent = '前週データなし';
           wowEl.className = 'fbc-wow wow-neut';
         } else {
-          var absPp = Math.abs(pp);
-          var sign = pp >= 0 ? '+' : '';
-          wowEl.textContent = '前週比 ' + sign + pp.toFixed(1) + 'pp';
-          if (absPp >= 3) wowEl.className = pp < 0 ? 'fbc-wow wow-alert' : 'fbc-wow wow-up';
-          else if (absPp >= 1) wowEl.className = pp < 0 ? 'fbc-wow wow-down' : 'fbc-wow wow-up';
+          var ppVal = pp * 100;
+          var absPp = Math.abs(ppVal);
+          var arrow = ppVal >= 0 ? '▲' : '▼';
+          wowEl.textContent = '前週比 ' + arrow + absPp.toFixed(2);
+          if (absPp >= 3) wowEl.className = ppVal < 0 ? 'fbc-wow wow-alert' : 'fbc-wow wow-up';
+          else if (absPp >= 1) wowEl.className = ppVal < 0 ? 'fbc-wow wow-down' : 'fbc-wow wow-up';
           else wowEl.className = 'fbc-wow wow-neut';
         }
       }
