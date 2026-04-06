@@ -120,8 +120,10 @@ python3 scripts/generate-week.py --week {YYYY}-w{WW}
 | `reports-index.json` | **新しい週のエントリ追加（week_label, date_start, date_end を正しい週日付で）** |
 | `archive-meta.json` | updatedAt タイムスタンプ更新 |
 
-> ⚠️ `reports-index.json` の `date_start` / `date_end` は対象週の月〜日（例: 3/30〜4/5）。
-> ローリング期間（28日）ではないので注意。
+> ⚠️ **`date_start` / `date_end` はカレンダー週（月〜日）の日付。ローリング期間（28日）ではない。**
+> 例: W14 → `date_start: 2026-03-30`, `date_end: 2026-04-05`
+> ローリング期間は `data.json` の `meta.rolling_start` / `meta.rolling_end` で別管理。
+> 「分析対象データ 3/3〜3/31」という記述があっても `date_start`/`date_end` には書かないこと。
 >
 > ⚠️ **`reports-index.json` の `weeks` 配列は「古い順（昇順）」で並べること。**
 > `/reports/` 一覧ページのJSが `.slice().reverse()` して新しい順に表示するため、
