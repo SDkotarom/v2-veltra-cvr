@@ -64,6 +64,32 @@ v2-veltra-cvr/
 python3 scripts/generate-week.py --week {YYYY}-w{WW}
 ```
 
+#### 日付範囲の算出
+
+| 期間 | 算出方法 | 例（W14, 基準日 4/6） |
+|------|---------|----------------------|
+| `date_start` | 対象週の月曜 | `2026-03-30` |
+| `date_end` | 対象週の日曜 | `2026-04-05` |
+| `rolling_start` | `date_end - 27日` | `2026-03-09` |
+| `rolling_end` | `date_end` | `2026-04-05` |
+| Q10 今週 | `date_start` 〜 `date_end` | `2026-03-30 〜 2026-04-05` |
+| Q10 先週 | `date_start - 7日` 〜 `date_start - 1日` | `2026-03-23 〜 2026-03-29` |
+
+> `scripts/generate-week.py` が `meta` に上記日付を自動計算して `data.json` に書き込みます。
+
+#### ベルトラアカウント向け実行手順
+
+```
+1. playbook.md を読む
+2. reports/{YYYY}-w{WW}/data.json の meta.rolling_start 〜 meta.rolling_end を確認
+3. GA4 Property 347074845 に対して Q1〜Q10 を上記期間で実行
+4. 結果を data.json のスキーマ（セクション5）に従って格納
+5. summary-data.json / weekly-summary.json も更新
+6. git commit & push to main
+```
+
+#### クエリ一覧
+
 以下のクエリを GA4 MCP で実行し、`data.json` に格納:
 
 | Query | 内容 | dimensions | metrics | 格納先 |
