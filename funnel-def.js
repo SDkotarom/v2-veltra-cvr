@@ -3,7 +3,7 @@
     '<details style="padding:24px 44px">' +
     '<summary style="cursor:pointer;font-size:14px;font-weight:700;letter-spacing:.08em;color:#aaa;list-style:none;display:flex;align-items:center;gap:8px">' +
     '<span style="font-size:16px;transition:transform .2s" class="fd-arrow">▸</span> ファネル データソース定義 — 各指標の集計方法と計算式</summary>' +
-    '<p style="margin:12px 0 16px;font-size:12px;color:#aaa;line-height:1.7">ファネル①〜⑤の各ステップ数は <strong style="color:#6b6b6b">activeUsers（ユニークユーザー）</strong> ベース。<br>主要KPIサマリーの「セッション数」「CVR」は <strong style="color:#6b6b6b">延べセッション数（sessions）</strong> ベースであり、別指標です。</p>' +
+    '<p style="margin:12px 0 16px;font-size:12px;color:#aaa;line-height:1.7">ファネル①〜⑤の各ステップ数は <strong style="color:#6b6b6b">activeUsers（ユニークユーザー）</strong> ベース。<br>主要KPIサマリーの「セッション数」「CVR」は <strong style="color:#6b6b6b">延べセッション数（sessions）</strong> ベースであり、別指標です。延べセッション数＝訪問回数の合計（同一人物の複数訪問を含む）。</p>' +
     '<table style="width:100%;border-collapse:collapse;margin-top:0;font-size:14px">' +
     '<thead><tr style="border-bottom:2px solid #e8e6e1;text-align:left">' +
     '<th style="padding:8px 12px;font-weight:700;color:#6b6b6b">項目名</th>' +
