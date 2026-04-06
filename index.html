@@ -349,7 +349,10 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
 <!-- Segment breakdown -->
 <div class="card">
-  <div style="display:flex;align-items:center;gap:8px;padding:28px 44px 12px"><div class="sec-label" style="padding:0">セグメント別 ファネル通過率</div><span class="info-tip" title="各セグメントのファネル通過率を全体平均と比較しています。&#10;&#10;CVR列の「vs全体 ±X%」は全体平均CVRとの乖離率です。&#10;ファネル各段階のセルは背景色で全体平均との差を示します：&#10;　赤 = 全体より10%以上低い&#10;　緑 = 全体より10%以上高い&#10;　白 = ほぼ全体平均と同じ">?</span></div>
+  <div style="display:flex;align-items:baseline;justify-content:space-between;padding:28px 44px 12px">
+    <div style="display:flex;align-items:center;gap:8px"><div class="sec-label" style="padding:0">セグメント別 ファネル通過率</div><span class="info-tip" title="各セグメントのファネル通過率を全体平均と比較しています。&#10;&#10;CVR列の「vs全体 ±X%」は全体平均CVRとの乖離率です。&#10;ファネル各段階のセルは背景色で全体平均との差を示します：&#10;　赤 = 全体より10%以上低い&#10;　緑 = 全体より10%以上高い&#10;　白 = ほぼ全体平均と同じ">?</span></div>
+    <div style="font-size:12px;color:var(--text3)" id="seg-period-label">対象: 直近28日間</div>
+  </div>
   <hr class="divider-solid">
   <div class="seg-section">
 
@@ -614,7 +617,11 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     document.getElementById('period-label').textContent = '対象期間：' + ds + '〜' + de;
     var rs = meta.rolling_start ? meta.rolling_start.slice(5).replace('-', '/').replace(/^0/, '') : '';
     var re = meta.rolling_end   ? meta.rolling_end.slice(5).replace('-', '/').replace(/^0/, '')   : '';
-    if (rs && re) document.getElementById('funnel-period-label').textContent = '対象: 直近28日間（' + rs + '〜' + re + '）';
+    if (rs && re) {
+      var periodText = '対象: 直近28日間（' + rs + '〜' + re + '）';
+      document.getElementById('funnel-period-label').textContent = periodText;
+      document.getElementById('seg-period-label').textContent = periodText;
+    }
     renderKPI(currentData);
     renderFunnel(currentData, weekDataCache[latest.week_id]);
 
