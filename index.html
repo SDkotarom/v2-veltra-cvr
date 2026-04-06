@@ -731,7 +731,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       return '<td class="rate-cell">' + fmtPct(val, 1) + gapHtml + '</td>';
     }
     var cvrCell = '<td class="cvr-cell' + (isBaseline ? ' baseline-row' : '') + '">' + fmtPct(rates.cvr, 2) + (isBaseline ? '' : cvrGapSpan(rates.cvr, blRates ? blRates.cvr : null)) + '</td>';
-    var baselineLabel = isBaseline ? ' <span class="info-tip" title="全セグメント合算の数値です。&#10;各セグメントの ±X% はこの全体平均との乖離率を示しています。" style="margin-left:6px">?</span>' : '';
+    var baselineLabel = isBaseline ? ' <span class="info-tip" title="全チャネル・全デバイス合算のサイト全体値です。&#10;各行の ±X% はこの全体値との乖離率を示しています。" style="margin-left:6px">?</span>' : '';
     return '<tr' + (isBaseline ? ' class="baseline-row"' : '') + '>' +
       '<td class="seg-name">' + name + baselineLabel + '</td>' +
       cvrCell +
@@ -762,7 +762,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         var seg = segs.device[d[1]];
         if (seg && seg.rates) devRows.push(segRowFromRates(d[0], seg.rates, blRates));
       });
-      devRows.push(segRowFromRates('全体（ベースライン）', blRates, null));
+      devRows.push(segRowFromRates('サイト全体', blRates, null));
     }
     document.getElementById('seg-device-body').innerHTML = devRows.filter(Boolean).join('');
 
@@ -776,7 +776,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       }).sort(function(a, b) { return b.data.sessions - a.data.sessions; }).slice(0, 6).forEach(function(c) {
         chRows.push(segRowFromRates(c.name, c.data.rates, blRates));
       });
-      chRows.push(segRowFromRates('全体（ベースライン）', blRates, null));
+      chRows.push(segRowFromRates('サイト全体', blRates, null));
     }
     document.getElementById('seg-channel-body').innerHTML = chRows.filter(Boolean).join('');
 
@@ -786,7 +786,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       var nr = segs.new_returning;
       if (nr['new'] && nr['new'].rates) nrRows.push(segRowFromRates('新規ユーザー', nr['new'].rates, blRates));
       if (nr['returning'] && nr['returning'].rates) nrRows.push(segRowFromRates('リピーター', nr['returning'].rates, blRates));
-      nrRows.push(segRowFromRates('全体（ベースライン）', blRates, null));
+      nrRows.push(segRowFromRates('サイト全体', blRates, null));
     }
     document.getElementById('seg-nr-body').innerHTML = nrRows.filter(Boolean).join('');
 
@@ -878,9 +878,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     areaEntries.forEach(function(entry) { areaRows.push(areaRow(entry)); });
     // Baseline row
     if (areaHasFunnel) {
-      areaRows.push(segRowFromRates('全体（ベースライン）', blRates, null));
+      areaRows.push(segRowFromRates('サイト全体', blRates, null));
     } else if (baselineCvr) {
-      areaRows.push('<tr style="border-top:2px solid var(--text)"><td class="seg-name" style="font-weight:700">全体（ベースライン）</td><td class="cvr-cell">' + fmtPct(baselineCvr, 2) + '</td><td colspan="4"></td></tr>');
+      areaRows.push('<tr style="border-top:2px solid var(--text)"><td class="seg-name" style="font-weight:700">サイト全体</td><td class="cvr-cell">' + fmtPct(baselineCvr, 2) + '</td><td colspan="4"></td></tr>');
     }
     // "その他" always at bottom with toggle for sub-areas
     if (otherEntry) {
