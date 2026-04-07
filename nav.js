@@ -66,20 +66,22 @@
   var isAnalysis = (path === '/analysis.html');
   var isArchive = (path === '/reports/' || path === '/reports/index.html');
   var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
-  var isBottleneck  = /bottleneck-\d+\.html$/.test(path);
+  var qp = new URLSearchParams(location.search);
+  var isBottleneck  = /\/bottleneck\.html$/.test(path) && qp.has('num');
 
   var weekDir = '';
   var bnNum   = 0;
   var currentWeekId = '';
-  if (isWeekSummary || isBottleneck) {
-    weekDir = path.replace(/(?:index\.html|bottleneck-\d+\.html)$/, '');
+  if (isWeekSummary) {
+    weekDir = path.replace(/(?:index\.html)$/, '');
     if (!weekDir.endsWith('/')) weekDir += '/';
     var wm = weekDir.match(/(\d{4}-w\d+)/);
     if (wm) currentWeekId = wm[1];
   }
   if (isBottleneck) {
-    var bm = path.match(/bottleneck-(\d+)\.html$/);
-    bnNum = bm ? parseInt(bm[1]) : 0;
+    currentWeekId = qp.get('week') || '';
+    bnNum = parseInt(qp.get('num'), 10) || 0;
+    weekDir = '/reports/' + currentWeekId + '/';
   }
 
   // ── Expand state ─────────────────────────────────
@@ -162,7 +164,7 @@
 
   // ── Render helpers ───────────────────────────────
   function bnLinkHref(w, n) {
-    return w.path + 'bottleneck-' + n + '.html';
+    return '/bottleneck.html?week=' + w.week_id + '&num=' + n;
   }
 
   function renderWeekBlock(w, bns, isLatest) {
@@ -340,8 +342,7 @@
         var item = document.createElement('div');
         item.className = 'nav-bn-item';
         var a = document.createElement('a');
-        var weekPath = wInfo ? wInfo.path : '/reports/' + weekId + '/';
-        a.href = weekPath + 'bottleneck-' + bn.rank + '.html';
+        a.href = '/bottleneck.html?week=' + weekId + '&num=' + bn.rank;
         if (currentWeekId === weekId && bn.rank === bnNum) a.className = 'nav-active';
         var num = document.createElement('span');
         num.className = 'bn-num';

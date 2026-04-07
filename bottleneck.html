@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/bottleneck.css">
+<title>ボトルネック分析</title>
+</head>
+<body>
+<div id="app"><div class="card" style="padding:60px 44px;text-align:center;color:var(--text3)">読み込み中...</div></div>
+
+<script>
+(function(){
+  var params = new URLSearchParams(location.search);
+  var week = params.get('week');
+  var num  = parseInt(params.get('num'), 10);
+  var TOTAL = 10;
+
+  if (!week || !num) {
+    document.getElementById('app').innerHTML = '<div class="card" style="padding:60px 44px;text-align:center;color:var(--red)">パラメータ不足: ?week=2026-w14&num=1</div>';
+    return;
+  }
+
+  var basePath = '/reports/' + week + '/';
+  var contentUrl = basePath + 'bottleneck-' + num + '-content.json';
+  var dataUrl = basePath + 'data.json';
+
+  // Fetch content and data.json in parallel
+  Promise.all([
+    fetch(contentUrl).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }),
+    fetch(dataUrl).then(function(r){ return r.ok ? r.json() : {}; }).catch(function(){ return {}; })
+  ]).then(function(results){
+    var c = results[0];
+    var data = results[1];
+    var meta = data.meta || {};
+    document.title = '#' + num + ' ' + (c.title || '') + ' | ボトルネック分析';
+    render(c, meta);
+  }).catch(function(err){
+    document.getElementById('app').innerHTML = '<div class="card" style="padding:60px 44px;text-align:center;color:var(--red)">読み込みエラー: ' + contentUrl + '<br>' + err.message + '</div>';
+  });
+
+  // ── Helpers ──
+  function esc(s) { return s || ''; }
+
+  function renderTags(tags) {
+    return (tags || []).map(function(t){
+      var cls = t.type === 'red' ? 'bn-tag red' : 'bn-tag';
+      return '<span class="' + cls + '">' + t.label + '</span>';
+    }).join('\n');
+  }
+
+  function renderFunnelCells(cells, showStage) {
+    return (cells || []).map(function(cell){
+      var alert = cell.alert;
+      var cls = alert ? 'fc-cell alert' : 'fc-cell';
+      var ls = alert ? ' style="color:var(--red)"' : '';
+      var vs = alert ? ' style="font-size:28px;margin-top:8px;color:var(--red)"' : ' style="font-size:24px;margin-top:8px"';
+      var vls = alert ? ' style="color:var(--red)"' : '';
+      var stageHtml = showStage && cell.stage ? '<div class="fc-stage">' + cell.stage + '</div>' : '';
+      return '<div class="' + cls + '"><div class="fc-label"' + ls + '>' + cell.label + '</div>' + stageHtml + '<div class="fc-val"' + vs + '>' + cell.value + '</div><div class="fc-val-label"' + vls + '>' + esc(cell.sub) + '</div></div>';
+    }).join('\n');
+  }
+
+  function renderDrillDown(dd) {
+    if (!dd || !dd.length) return '';
+    var cards = dd.map(function(item){
+      var note = item.note ? '<div style="font-size:13px;color:var(--text3);margin-top:8px">&rarr; ' + item.note + '</div>' : '';
+      return '<div style="border:1px solid var(--border);border-radius:8px;padding:16px 20px"><div style="font-size:14px;font-weight:700;margin-bottom:8px">' + item.title + '</div><div style="font-size:15px;color:var(--text2);line-height:1.7">' + item.body_html + '</div>' + note + '</div>';
+    }).join('');
+    var cols = dd.map(function(){ return '1fr'; }).join(' ');
+    return '<div style="padding:0 44px 20px"><div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Tier 2-3 深掘り</div><div style="display:grid;grid-template-columns:' + cols + ';gap:16px">' + cards + '</div></div>';
+  }
+
+  var HYPO_COLORS = { h1: 'var(--red)', h2: 'var(--amber)', h3: 'var(--text3)' };
+  var ACTION_COLORS = ['var(--red)', 'var(--amber)', 'var(--text3)'];
+
+  function renderAction(action, hypoIdx, actionIdx) {
+    var letter = action.letter;
+    var lc = letter.toLowerCase();
+    var color = ACTION_COLORS[actionIdx % 3];
+
+    var specHtml = action.spec_html ? '<div style="margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:6px;font-size:12px;line-height:1.6"><strong>開発仕様</strong>' + action.spec_html + '</div>' : '';
+
+    var protoToggle = '';
+    var protoDiv = '';
+    if (action.prototype) {
+      protoToggle = '<div style="text-align:center;margin-top:12px"><span id="proto-toggle-' + lc + '" style="font-size:12px;color:var(--text2);cursor:pointer;font-weight:600" onclick="event.stopPropagation();toggleProto(\'proto-' + lc + '\')">&#x1F4D0; プロトタイプを見る &#x25B8;</span></div>';
+      protoDiv = '<div id="proto-' + lc + '" style="display:none;padding:16px;background:var(--bg);border-top:1px solid var(--border)"><div style="display:grid;grid-template-columns:1fr 1fr;gap:24px"><div><div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">Before（現状）</div>' + action.prototype.before_html + '</div><div><div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;text-align:center">After（施策' + letter + '適用）</div>' + action.prototype.after_html + '</div></div></div>';
+    }
+
+    return '<div style="margin-top:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff"><div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleProto(\'proto-' + lc + '\')"><div><span style="font-size:13px;font-weight:700;color:' + color + '">施策 ' + letter + '</span><span style="font-size:14px;font-weight:700;margin-left:8px">' + action.title + '</span></div><span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px;flex-shrink:0;margin-left:12px">' + esc(action.impact) + '</span></div><div style="padding:0 16px 14px"><div style="font-size:13px;color:var(--text2);line-height:1.6">' + esc(action.description) + '</div>' + specHtml + protoToggle + '</div>' + protoDiv + '</div>';
+  }
+
+  function renderHypothesis(hypo, idx) {
+    var level = hypo.level;
+    var n = idx + 1;
+    var evidenceHtml = '';
+    if (hypo.evidence && hypo.evidence.length) {
+      evidenceHtml = '<ul style="margin:6px 0 0;padding-left:18px;list-style:disc">' + hypo.evidence.map(function(e){ return '<li>' + e + '</li>'; }).join('') + '</ul>';
+    }
+    var actionsHtml = (hypo.actions || []).map(function(a, ai){ return renderAction(a, idx, ai); }).join('');
+
+    return '<div class="hypo-accordion" style="margin-bottom:16px"><div class="hypo-card ' + level + '" style="cursor:pointer" onclick="toggleHypoActions(\'hypo-actions-' + n + '\')"><div class="hypo-num">' + hypo.level_label + '</div><div class="hypo-title">' + hypo.title + '</div><div class="hypo-body">' + esc(hypo.body) + '</div><div class="hypo-evidence"><strong>裏付けデータ:</strong>' + evidenceHtml + '</div><div style="padding-top:12px;text-align:center"><span class="hypo-toggle" id="hypo-toggle-' + n + '" style="font-size:13px;color:var(--red);font-weight:700;cursor:pointer">&#x1F53B; 打ち手を見る</span></div></div><div id="hypo-actions-' + n + '" style="display:none;padding:0 20px 16px;background:#fafaf8;border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;margin-top:-12px">' + actionsHtml + '</div></div>';
+  }
+
+  function renderCompetitive(comp) {
+    if (!comp || !comp.length) return '';
+    var cards = comp.map(function(c){
+      var favicon = c.favicon_url ? '<img src="' + c.favicon_url + '" width="20" height="20" style="border-radius:4px" onerror="this.style.display=\'none\'">' : '';
+      var ref = c.url ? '<a href="' + c.url + '" target="_blank" style="font-size:12px;color:var(--text3);text-decoration:none;border-bottom:1px dashed var(--border-dash)">参照 &rarr;</a>' : '';
+      return '<div style="border:1px solid var(--border);border-radius:10px;padding:18px 20px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px">' + favicon + c.name + '</div>' + ref + '</div><div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">' + esc(c.feature) + '</div><div style="font-size:12px;color:var(--text3)">' + esc(c.detail) + '</div></div>';
+    }).join('');
+    return '<div style="padding:24px 44px 16px"><div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em">競合比較</div></div><div style="padding:0 44px 32px"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">' + cards + '</div></div>';
+  }
+
+  function renderVerification(items) {
+    if (!items || !items.length) return '';
+    var checks = items.map(function(v){
+      return '<label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox"> ' + v + '</label>';
+    }).join('');
+    return '<div style="padding:24px 44px 16px"><div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em">チームレビュー</div></div><div style="padding:0 44px 28px"><div style="border:1px solid var(--border);border-radius:8px;padding:20px 24px"><div style="font-size:14px;font-weight:700;margin-bottom:12px">レビューチェックリスト</div><div style="font-size:14px;color:var(--text2);line-height:2">' + checks + '</div><div style="margin-top:16px;padding:12px 16px;background:var(--bg);border-radius:6px"><div style="font-size:12px;font-weight:700;margin-bottom:4px">コメント欄</div><textarea style="width:100%;border:1px solid var(--border);border-radius:4px;padding:8px;font-size:13px;font-family:inherit;min-height:60px;resize:vertical" placeholder="レビューコメントをここに記入..."></textarea></div></div></div>';
+  }
+
+  function navLink(n) {
+    return '/bottleneck.html?week=' + week + '&num=' + n;
+  }
+
+  function renderNav() {
+    var left = num > 1
+      ? '<a href="' + navLink(num - 1) + '">&larr; #' + (num - 1) + '</a>'
+      : '<a href="' + basePath + '">&larr; サマリーに戻る</a>';
+    var center = '<a href="' + basePath + '">サマリーに戻る</a>';
+    var right = num < TOTAL
+      ? '<a href="' + navLink(num + 1) + '">#' + (num + 1) + ' へ進む &rarr;</a>'
+      : '<a href="' + basePath + '">サマリーに戻る</a>';
+    return '<div class="nav-bar">' + left + center + right + '</div>';
+  }
+
+  // ── Main render ──
+  function render(c, meta) {
+    var n = c.number || num;
+    var hypotheses = c.hypotheses || [];
+    var totalActions = hypotheses.reduce(function(s, h){ return s + (h.actions ? h.actions.length : 0); }, 0);
+
+    // Funnel overview section
+    var funnelOverviewHtml = '';
+    if (c.funnel_overview) {
+      var fo = c.funnel_overview;
+      funnelOverviewHtml = '<hr class="divider"><div style="padding:24px 44px 12px"><div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">' + esc(fo.title || 'ファネル全体比較') + '</div></div><div class="funnel-compare">' + renderFunnelCells(fo.cells, false) + '</div>';
+    }
+
+    // Funnel compare (Tier 1)
+    var fcHtml = c.funnel_compare ? '<hr class="divider"><div style="padding:24px 44px 12px"><div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Tier 1 比較</div></div><div class="funnel-compare">' + renderFunnelCells(c.funnel_compare, true) + '</div>' : '';
+
+    // Drill down
+    var ddHtml = renderDrillDown(c.drill_down);
+
+    // Callout
+    var calloutHtml = '';
+    if (c.callout) {
+      calloutHtml = '<div class="callout" style="margin-top:0"><div class="ct">' + esc(c.callout.title || '特定結果') + '</div><div class="cb">' + c.callout.body_html + '</div></div>';
+    }
+
+    // Description
+    var descHtml = c.description_html ? '<div style="margin-top:12px;font-size:14px;color:var(--text2);line-height:1.6">' + c.description_html + '</div>' : '';
+
+    // Hypotheses section
+    var hypoTitle = c.hypo_section_title || ('原因仮説 &times; ' + hypotheses.length + ' &amp; 打ち手 &times; ' + totalActions);
+    var hypoDesc = c.hypo_section_desc || 'なぜこのボトルネックが発生しているか？ 仮説をクリックして打ち手・プロトタイプを展開。';
+    var hypoHtml = hypotheses.map(function(h, i){ return renderHypothesis(h, i); }).join('');
+
+    // Verification method callout
+    var verifMethodHtml = '';
+    if (c.verification_method) {
+      verifMethodHtml = '<div class="callout-amber callout"><div class="ct">検証方法</div><div class="cb">' + c.verification_method + '</div></div>';
+    }
+
+    // Competitive
+    var compHtml = renderCompetitive(c.competitive);
+    var compInsightHtml = '';
+    if (c.competitive_insight) {
+      compInsightHtml = '<div style="padding:0 44px"><div class="callout" style="margin:0 0 20px"><div class="ct">競合比較から得られる示唆</div><div class="cb">' + c.competitive_insight + '</div></div></div>';
+    }
+
+    // Verification checklist
+    var verifHtml = renderVerification(c.verification);
+
+    // Footer
+    var genDate = (meta.generated_at || '').slice(0, 10);
+
+    var html = '<div class="card">'
+      + '<div class="header-band"><div class="logo">V2</div><a href="' + basePath + '" style="color:rgba(255,255,255,.85);font-size:14px;text-decoration:none;font-weight:500">&larr; サマリーに戻る</a><div class="right">ボトルネック #' + n + ' / ' + TOTAL + '</div></div>'
+      + '<div style="padding:32px 44px"><div style="display:flex;align-items:center;gap:16px;margin-bottom:12px"><div style="font-family:\'DM Sans\';font-size:56px;font-weight:900;color:var(--red);line-height:1">#' + n + '</div><div><div style="font-size:22px;font-weight:900;margin-bottom:8px">' + esc(c.title) + '</div><div style="display:flex;gap:8px;flex-wrap:wrap">' + renderTags(c.tags) + '</div></div></div><div style="display:flex;align-items:center;gap:16px;margin-top:16px"><div style="font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase">全体平均との乖離</div><div style="font-family:\'DM Sans\';font-size:36px;font-weight:900;color:var(--red)">' + esc(c.deviation) + '</div><div style="font-size:14px;color:var(--text3)">影響セッション: ' + esc(c.impact_sessions) + '</div></div>' + descHtml + '</div>'
+      + funnelOverviewHtml
+      + fcHtml
+      + ddHtml
+      + calloutHtml
+      + '<hr class="divider">'
+      + '<div style="padding:24px 44px 16px"><div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Step 6 &mdash; ' + hypoTitle + '</div><div style="font-size:15px;color:var(--text2)">' + hypoDesc + '</div></div>'
+      + '<div style="padding:0 44px 28px">' + hypoHtml + '</div>'
+      + '<hr class="divider">'
+      + verifMethodHtml
+      + compHtml
+      + compInsightHtml
+      + verifHtml
+      + renderNav()
+      + '</div>'
+      + '<div class="card"><div class="footer"><span>VELTRA CVR改善チーム</span><span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span><span>' + genDate + '</span></div></div>';
+
+    document.getElementById('app').innerHTML = html;
+  }
+})();
+</script>
+<script src="/bottleneck.js"></script>
+<script src="/nav.js"></script>
+<script src="/funnel-def.js"></script>
+</body>
+</html>
