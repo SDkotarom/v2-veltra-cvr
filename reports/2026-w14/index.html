@@ -137,9 +137,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .bn-acc-item:last-child{border-bottom:none}
 .bn-acc-header{display:flex;align-items:center;padding:16px 44px;cursor:pointer;gap:16px;transition:background .12s;user-select:none}
 .bn-acc-header:hover{background:var(--bg)}
-.bn-acc-rank{font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);width:44px;flex-shrink:0;line-height:1}
+.bn-acc-rank{font-family:'DM Sans';font-size:36px;font-weight:900;color:var(--red);width:56px;flex-shrink:0;line-height:1}
 .bn-acc-body{flex:1;min-width:0}
-.bn-acc-title{font-size:15px;font-weight:700;margin-bottom:6px;line-height:1.4}
+.bn-acc-title{font-size:19px;font-weight:900;margin-bottom:6px;line-height:1.4}
 .bn-acc-tags{display:flex;gap:6px;flex-wrap:wrap}
 .bn-acc-tag{font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid var(--border);color:var(--text2);white-space:nowrap}
 .bn-acc-tag.red{background:var(--red-light);border-color:var(--red);color:var(--red)}
@@ -148,11 +148,10 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .bn-acc-gap-label{font-size:11px;color:var(--text3);margin-bottom:2px}
 .bn-acc-chevron{color:var(--text3);font-size:10px;flex-shrink:0;transition:transform .2s;margin-left:4px}
 .bn-acc-item.open .bn-acc-chevron{transform:rotate(90deg)}
-.bn-acc-detail{display:none;padding:0 44px 20px 104px;animation:fadeIn .15s ease}
+.bn-acc-detail{display:none;padding:0 44px 20px 116px;animation:fadeIn .15s ease}
 .bn-acc-item.open .bn-acc-detail{display:block}
 .bn-acc-hypo{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:12px;padding:14px 18px;background:var(--bg);border-radius:8px}
-.bn-acc-link{display:inline-block;font-size:13px;font-weight:700;color:var(--red);text-decoration:none;padding:6px 14px;border:1px solid var(--red);border-radius:20px;transition:background .12s}
-.bn-acc-link:hover{background:var(--red-light)}
+
 @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 
 @media(max-width:768px){
@@ -310,9 +309,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   <hr class="divider-solid">
   <div class="bn-acc" id="bn-acc-list">
 
-    <div class="bn-acc-item">
+    <div class="bn-acc-item open">
       <div class="bn-acc-header" onclick="toggleBnAcc(this)">
-        <div class="bn-acc-rank">#1</div>
+        <a href="/bottleneck.html?week=2026-w14&num=1" class="bn-acc-rank" style="text-decoration:none;color:var(--red)" onclick="event.stopPropagation()">#1</a>
         <div class="bn-acc-body">
           <div class="bn-acc-title">Organic Search × Mobile — ③→④ 意向転換率の低さ</div>
           <div class="bn-acc-tags"><span class="bn-acc-tag red">③→④ 検討→意向</span><span class="bn-acc-tag">Organic Search</span><span class="bn-acc-tag">Mobile</span></div>
@@ -321,14 +320,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         <div class="bn-acc-chevron">▶</div>
       </div>
       <div class="bn-acc-detail">
-        <div class="bn-acc-hypo">最大流入チャネル × 最大デバイスの組み合わせで③→④意向転換率が大幅低下。カレンダーは表示されているがフォーム（予約開始）に進まない。Desktop版は許容範囲内のため、Mobile特有のUI/UX課題と特定。月間最大インパクト。</div>
-        <a class="bn-acc-link" href="bottleneck-1.html">詳細分析を見る →</a>
-      </div>
+        <div class="bn-acc-hypo">最大流入チャネル × 最大デバイスの組み合わせで③→④意向転換率が大幅低下。カレンダーは表示されているがフォーム（予約開始）に進まない。Desktop版は許容範囲内のため、Mobile特有のUI/UX課題と特定。月間最大インパクト。</div>      </div>
     </div>
 
-    <div class="bn-acc-item">
+    <div class="bn-acc-item open">
       <div class="bn-acc-header" onclick="toggleBnAcc(this)">
-        <div class="bn-acc-rank">#2</div>
+        <a href="/bottleneck.html?week=2026-w14&num=2" class="bn-acc-rank" style="text-decoration:none;color:var(--red)" onclick="event.stopPropagation()">#2</a>
         <div class="bn-acc-body">
           <div class="bn-acc-title">Organic Search × 新規 — ②→③ 検討転換率の低さ</div>
           <div class="bn-acc-tags"><span class="bn-acc-tag red">②→③ AC到達→検討</span><span class="bn-acc-tag">Organic Search</span><span class="bn-acc-tag">新規ユーザー</span></div>
@@ -337,14 +334,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         <div class="bn-acc-chevron">▶</div>
       </div>
       <div class="bn-acc-detail">
-        <div class="bn-acc-hypo">AC到達後にカレンダー（③検討）に進まない。実測 31.49% vs 75.01% ベースライン（-43.5pp）。723K sessions/月。SEO経由新規ユーザーはランディングページを閲覧するが商品詳細のカレンダーまで到達しない。</div>
-        <a class="bn-acc-link" href="bottleneck-2.html">詳細分析を見る →</a>
-      </div>
+        <div class="bn-acc-hypo">AC到達後にカレンダー（③検討）に進まない。実測 31.49% vs 75.01% ベースライン（-43.5pp）。723K sessions/月。SEO経由新規ユーザーはランディングページを閲覧するが商品詳細のカレンダーまで到達しない。</div>      </div>
     </div>
 
-    <div class="bn-acc-item">
+    <div class="bn-acc-item open">
       <div class="bn-acc-header" onclick="toggleBnAcc(this)">
-        <div class="bn-acc-rank">#3</div>
+        <a href="/bottleneck.html?week=2026-w14&num=3" class="bn-acc-rank" style="text-decoration:none;color:var(--red)" onclick="event.stopPropagation()">#3</a>
         <div class="bn-acc-body">
           <div class="bn-acc-title">Paid Search × 新規 — ②→③ 検討転換率の低さ</div>
           <div class="bn-acc-tags"><span class="bn-acc-tag red">②→③ AC到達→検討</span><span class="bn-acc-tag">Paid Search</span><span class="bn-acc-tag">新規ユーザー</span></div>
@@ -353,14 +348,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         <div class="bn-acc-chevron">▶</div>
       </div>
       <div class="bn-acc-detail">
-        <div class="bn-acc-hypo">実測 33.76% vs 75.01%（-41.25pp）。386K sessions/月。広告経由で来るが商品詳細への関与が低く、カレンダー操作まで進まない。</div>
-        <a class="bn-acc-link" href="bottleneck-3.html">詳細分析を見る →</a>
-      </div>
+        <div class="bn-acc-hypo">実測 33.76% vs 75.01%（-41.25pp）。386K sessions/月。広告経由で来るが商品詳細への関与が低く、カレンダー操作まで進まない。</div>      </div>
     </div>
 
-    <div class="bn-acc-item">
+    <div class="bn-acc-item open">
       <div class="bn-acc-header" onclick="toggleBnAcc(this)">
-        <div class="bn-acc-rank">#4</div>
+        <a href="/bottleneck.html?week=2026-w14&num=4" class="bn-acc-rank" style="text-decoration:none;color:var(--red)" onclick="event.stopPropagation()">#4</a>
         <div class="bn-acc-body">
           <div class="bn-acc-title">Paid Search × Mobile — ③→④ 意向転換率の低さ</div>
           <div class="bn-acc-tags"><span class="bn-acc-tag red">③→④ 検討→意向</span><span class="bn-acc-tag">Paid Search</span><span class="bn-acc-tag">Mobile</span></div>
@@ -369,14 +362,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         <div class="bn-acc-chevron">▶</div>
       </div>
       <div class="bn-acc-detail">
-        <div class="bn-acc-hypo">実測 60.12% vs 86.62%（-26.5pp）。516K sessions/月。有料広告でMobileから来るが日程を選んでもフォームに進まない。</div>
-        <a class="bn-acc-link" href="bottleneck-4.html">詳細分析を見る →</a>
-      </div>
+        <div class="bn-acc-hypo">実測 60.12% vs 86.62%（-26.5pp）。516K sessions/月。有料広告でMobileから来るが日程を選んでもフォームに進まない。</div>      </div>
     </div>
 
-    <div class="bn-acc-item">
+    <div class="bn-acc-item open">
       <div class="bn-acc-header" onclick="toggleBnAcc(this)">
-        <div class="bn-acc-rank">#5</div>
+        <a href="/bottleneck.html?week=2026-w14&num=5" class="bn-acc-rank" style="text-decoration:none;color:var(--red)" onclick="event.stopPropagation()">#5</a>
         <div class="bn-acc-body">
           <div class="bn-acc-title">Organic Search × Returning — ③→④ 意向転換率の低さ</div>
           <div class="bn-acc-tags"><span class="bn-acc-tag red">③→④ 検討→意向</span><span class="bn-acc-tag">Organic Search</span><span class="bn-acc-tag">リピーター</span></div>
@@ -385,14 +376,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         <div class="bn-acc-chevron">▶</div>
       </div>
       <div class="bn-acc-detail">
-        <div class="bn-acc-hypo">実測 63.86% vs 86.62%（-22.76pp）。451K sessions/月。リピーターがカレンダーを見ているがフォームに進まない。プランや価格の変更に戸惑いが生じている可能性。</div>
-        <a class="bn-acc-link" href="bottleneck-5.html">詳細分析を見る →</a>
-      </div>
+        <div class="bn-acc-hypo">実測 63.86% vs 86.62%（-22.76pp）。451K sessions/月。リピーターがカレンダーを見ているがフォームに進まない。プランや価格の変更に戸惑いが生じている可能性。</div>      </div>
     </div>
 
-    <div class="bn-acc-item">
+    <div class="bn-acc-item open">
       <div class="bn-acc-header" onclick="toggleBnAcc(this)">
-        <div class="bn-acc-rank">#6</div>
+        <a href="/bottleneck.html?week=2026-w14&num=6" class="bn-acc-rank" style="text-decoration:none;color:var(--red)" onclick="event.stopPropagation()">#6</a>
         <div class="bn-acc-body">
           <div class="bn-acc-title">Organic Search × 新規 — ①→② AC到達率の低さ</div>
           <div class="bn-acc-tags"><span class="bn-acc-tag red">①→② 流入→AC到達</span><span class="bn-acc-tag">Organic Search</span><span class="bn-acc-tag">新規ユーザー</span></div>
@@ -401,14 +390,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         <div class="bn-acc-chevron">▶</div>
       </div>
       <div class="bn-acc-detail">
-        <div class="bn-acc-hypo">実測 17.46% vs 26.10%（-8.64pp）。723K sessions/月。SEOランディングページから商品詳細への導線が弱く、新規ユーザーがAC到達前に離脱。</div>
-        <a class="bn-acc-link" href="bottleneck-6.html">詳細分析を見る →</a>
-      </div>
+        <div class="bn-acc-hypo">実測 17.46% vs 26.10%（-8.64pp）。723K sessions/月。SEOランディングページから商品詳細への導線が弱く、新規ユーザーがAC到達前に離脱。</div>      </div>
     </div>
 
-    <div class="bn-acc-item">
+    <div class="bn-acc-item open">
       <div class="bn-acc-header" onclick="toggleBnAcc(this)">
-        <div class="bn-acc-rank">#7</div>
+        <a href="/bottleneck.html?week=2026-w14&num=7" class="bn-acc-rank" style="text-decoration:none;color:var(--red)" onclick="event.stopPropagation()">#7</a>
         <div class="bn-acc-body">
           <div class="bn-acc-title">Direct × 新規 — ①→② AC到達率の低さ</div>
           <div class="bn-acc-tags"><span class="bn-acc-tag red">①→② 流入→AC到達</span><span class="bn-acc-tag">Direct</span><span class="bn-acc-tag">新規ユーザー</span></div>
@@ -417,14 +404,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         <div class="bn-acc-chevron">▶</div>
       </div>
       <div class="bn-acc-detail">
-        <div class="bn-acc-hypo">実測 8.36% vs 26.10%（-17.74pp）。275K sessions/月。直接流入の新規ユーザーがトップページからAC到達できていない。</div>
-        <a class="bn-acc-link" href="bottleneck-7.html">詳細分析を見る →</a>
-      </div>
+        <div class="bn-acc-hypo">実測 8.36% vs 26.10%（-17.74pp）。275K sessions/月。直接流入の新規ユーザーがトップページからAC到達できていない。</div>      </div>
     </div>
 
-    <div class="bn-acc-item">
+    <div class="bn-acc-item open">
       <div class="bn-acc-header" onclick="toggleBnAcc(this)">
-        <div class="bn-acc-rank">#8</div>
+        <a href="/bottleneck.html?week=2026-w14&num=8" class="bn-acc-rank" style="text-decoration:none;color:var(--red)" onclick="event.stopPropagation()">#8</a>
         <div class="bn-acc-body">
           <div class="bn-acc-title">Direct × Desktop — ①→② AC到達率の低さ（異常値）</div>
           <div class="bn-acc-tags"><span class="bn-acc-tag red">①→② 流入→AC到達</span><span class="bn-acc-tag">Direct</span><span class="bn-acc-tag">Desktop</span></div>
@@ -433,14 +418,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         <div class="bn-acc-chevron">▶</div>
       </div>
       <div class="bn-acc-detail">
-        <div class="bn-acc-hypo">実測 3.65% vs 26.10%（-22.45pp）。180K sessions/月。Direct DesktopでAC到達率が極端に低い異常値。トラッキング問題またはホームページ改修の影響を確認する。</div>
-        <a class="bn-acc-link" href="bottleneck-8.html">詳細分析を見る →</a>
-      </div>
+        <div class="bn-acc-hypo">実測 3.65% vs 26.10%（-22.45pp）。180K sessions/月。Direct DesktopでAC到達率が極端に低い異常値。トラッキング問題またはホームページ改修の影響を確認する。</div>      </div>
     </div>
 
-    <div class="bn-acc-item">
+    <div class="bn-acc-item open">
       <div class="bn-acc-header" onclick="toggleBnAcc(this)">
-        <div class="bn-acc-rank">#9</div>
+        <a href="/bottleneck.html?week=2026-w14&num=9" class="bn-acc-rank" style="text-decoration:none;color:var(--red)" onclick="event.stopPropagation()">#9</a>
         <div class="bn-acc-body">
           <div class="bn-acc-title">Paid Search × Returning — ③→④ 意向転換率の低さ</div>
           <div class="bn-acc-tags"><span class="bn-acc-tag red">③→④ 検討→意向</span><span class="bn-acc-tag">Paid Search</span><span class="bn-acc-tag">リピーター</span></div>
@@ -449,14 +432,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         <div class="bn-acc-chevron">▶</div>
       </div>
       <div class="bn-acc-detail">
-        <div class="bn-acc-hypo">実測 74.58% vs 86.62%（-12.04pp）。273K sessions/月。有料広告リピーターがカレンダー後にフォームに進まない。</div>
-        <a class="bn-acc-link" href="bottleneck-9.html">詳細分析を見る →</a>
-      </div>
+        <div class="bn-acc-hypo">実測 74.58% vs 86.62%（-12.04pp）。273K sessions/月。有料広告リピーターがカレンダー後にフォームに進まない。</div>      </div>
     </div>
 
-    <div class="bn-acc-item">
+    <div class="bn-acc-item open">
       <div class="bn-acc-header" onclick="toggleBnAcc(this)">
-        <div class="bn-acc-rank">#10</div>
+        <a href="/bottleneck.html?week=2026-w14&num=10" class="bn-acc-rank" style="text-decoration:none;color:var(--red)" onclick="event.stopPropagation()">#10</a>
         <div class="bn-acc-body">
           <div class="bn-acc-title">Organic Search × Desktop — ②→③ 検討転換率の低さ</div>
           <div class="bn-acc-tags"><span class="bn-acc-tag red">②→③ AC到達→検討</span><span class="bn-acc-tag">Organic Search</span><span class="bn-acc-tag">Desktop</span></div>
@@ -465,9 +446,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         <div class="bn-acc-chevron">▶</div>
       </div>
       <div class="bn-acc-detail">
-        <div class="bn-acc-hypo">実測 68.20% vs 75.01%（-6.81pp）。301K sessions/月。Desktop Organicでカレンダー到達率が低め。SEO経由のDesktopユーザーの意図とページ内容のミスマッチ。</div>
-        <a class="bn-acc-link" href="bottleneck-10.html">詳細分析を見る →</a>
-      </div>
+        <div class="bn-acc-hypo">実測 68.20% vs 75.01%（-6.81pp）。301K sessions/月。Desktop Organicでカレンダー到達率が低め。SEO経由のDesktopユーザーの意図とページ内容のミスマッチ。</div>      </div>
     </div>
 
 
