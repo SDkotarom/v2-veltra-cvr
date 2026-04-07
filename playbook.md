@@ -35,7 +35,7 @@ v2-veltra-cvr/
 └── reports/{YYYY}-w{WW}/
     ├── data.json               ← GA4実データ（ファネル・セグメント・ボトルネック）
     ├── index.html              ← 週次サマリー
-    └── bottleneck-{1-10}.html  ← ボトルネック詳細
+    └── bottleneck-{1-10}-content.json  ← ボトルネック分析データ（/bottleneck.html で動的描画）
 ```
 
 ---
@@ -174,7 +174,7 @@ python3 scripts/validate-report.py --week {YYYY}-w{WW}
 2. サマリーページのベースライン数値が data.json と一致するか
 3. 日付範囲（ローリング期間）が正しいか
 4. 用語統一（回遊段階→流入→AC到達 等）
-5. 全10件の bottleneck HTML が存在するか
+5. 全10件の bottleneck-{N}-content.json が存在し、プロトタイプが全施策に含まれるか
 6. weekly-summary.json / archive-meta.json が更新されているか
 7. ファビコンURL が正しいか
 8. 「仮想データ」表記が残っていないか
@@ -326,7 +326,7 @@ validate-report.py 実行
 
 ```
 Phase 1 (Sonnet): スキャフォールド → GA4 クエリ → data.json 生成    ~15分
-Phase 2 (Opus):   ボトルネック分析 → HTML生成                        ~30分
+Phase 2 (Opus):   ボトルネック分析 → content.json 生成                  ~30分
 Phase 3 (Sonnet): commit & push → Vercel自動デプロイ                  ~5分
 ```
 
