@@ -186,84 +186,67 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div class="card">
   <div class="sec-label">ファネルサマリー — 直近28日間（3/8〜4/4）</div>
   <hr class="divider-solid">
-  <div style="padding:24px 44px 28px">
 
-    <!-- 5-step funnel grid -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden">
-
-      <div style="padding:18px 14px;text-align:center;border-right:1px solid var(--border)">
-        <div style="font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em">①サイト訪問</div>
-        <div style="font-family:'DM Sans';font-size:26px;font-weight:900;margin:8px 0 2px">1,816K</div>
-        <div style="font-size:11px;color:var(--text3)">activeUsers</div>
-        <div style="font-size:11px;color:var(--text3);margin-top:4px">Sessions 2,994K</div>
-        <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border-dash)">
-          <div style="font-size:11px;color:var(--text3)">WoW — </div>
-          <div style="font-size:11px;color:var(--text3)">YOY —</div>
-        </div>
+  <!-- 4-column pass rate grid (same as dashboard) -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:28px 44px">
+    <div style="padding:0 16px;border-right:1px solid var(--border)">
+      <div style="font-size:13px;font-weight:700;color:var(--text3);letter-spacing:.06em;margin-bottom:10px">①→②</div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:8px">流入 → AC到達</div>
+      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px">
+        <div style="font-family:'DM Sans';font-size:32px;font-weight:900;line-height:1">82.8%</div>
+        <div style="font-size:12px;font-weight:700;padding:2px 6px;border-radius:4px;color:#c0392b;background:#fdecea">▼6.7pp</div>
       </div>
-
-      <div style="padding:18px 14px;text-align:center;border-right:1px solid var(--border)">
-        <div style="font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em">② ACページ到達率<br><span style="font-weight:400">①→②</span></div>
-        <div style="font-family:'DM Sans';font-size:26px;font-weight:900;margin:8px 0 2px">82.85%</div>
-        <div style="font-size:11px;color:var(--text3)">1,504,200 users</div>
-        <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border-dash)">
-          <div style="font-size:11px;color:var(--red);font-weight:700">WoW ▼6.68pp</div>
-          <div style="font-size:11px;color:var(--text3)">YOY —</div>
-        </div>
-      </div>
-
-      <div style="padding:18px 14px;text-align:center;border-right:1px solid var(--border);background:var(--red-light)">
-        <div style="font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em">③ カレンダー表示率<br><span style="font-weight:400">②→③</span></div>
-        <div style="font-family:'DM Sans';font-size:26px;font-weight:900;margin:8px 0 2px;color:var(--red)">25.49%</div>
-        <div style="font-size:11px;color:var(--text3)">383,392 cal_views</div>
-        <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border-dash)">
-          <div style="font-size:11px;color:var(--green);font-weight:700">WoW ▲3.31pp</div>
-          <div style="font-size:11px;color:var(--text3)">YOY —</div>
-        </div>
-      </div>
-
-      <div style="padding:18px 14px;text-align:center;border-right:1px solid var(--border)">
-        <div style="font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em">④ フォーム到達率<br><span style="font-weight:400">③→④</span></div>
-        <div style="font-family:'DM Sans';font-size:26px;font-weight:900;margin:8px 0 2px">32.20%</div>
-        <div style="font-size:11px;color:var(--text3)">123,441 form_starts</div>
-        <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border-dash)">
-          <div style="font-size:11px;color:var(--red);font-weight:700">WoW ▼3.77pp</div>
-          <div style="font-size:11px;color:var(--text3)">YOY —</div>
-        </div>
-      </div>
-
-      <div style="padding:18px 14px;text-align:center">
-        <div style="font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em">⑤ 予約完了率<br><span style="font-weight:400">④→⑤</span></div>
-        <div style="font-family:'DM Sans';font-size:26px;font-weight:900;margin:8px 0 2px">34.14%</div>
-        <div style="font-size:11px;color:var(--text3)">42,141 purchases</div>
-        <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border-dash)">
-          <div style="font-size:11px;color:var(--green);font-weight:700">WoW ▲8.81pp</div>
-          <div style="font-size:11px;color:var(--text3)">YOY —</div>
-        </div>
-      </div>
-
+      <div style="height:6px;background:var(--border);border-radius:3px;margin-bottom:6px"><div style="height:6px;border-radius:3px;background:var(--red);width:82.8%"></div></div>
+      <div style="font-size:13px;color:var(--text3);line-height:1.6">1,504K → 1,816K users</div>
     </div>
+    <div style="padding:0 16px;border-right:1px solid var(--border)">
+      <div style="font-size:13px;font-weight:700;color:var(--text3);letter-spacing:.06em;margin-bottom:10px">②→③</div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:8px">AC到達 → 検討</div>
+      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px">
+        <div style="font-family:'DM Sans';font-size:32px;font-weight:900;line-height:1">25.5%</div>
+        <div style="font-size:12px;font-weight:700;padding:2px 6px;border-radius:4px;color:#1a8c4e;background:#e6f7ee">▲3.3pp</div>
+      </div>
+      <div style="height:6px;background:var(--border);border-radius:3px;margin-bottom:6px"><div style="height:6px;border-radius:3px;background:var(--red);width:25.5%"></div></div>
+      <div style="font-size:13px;color:var(--text3);line-height:1.6">383K cal_views</div>
+    </div>
+    <div style="padding:0 16px;border-right:1px solid var(--border)">
+      <div style="font-size:13px;font-weight:700;color:var(--text3);letter-spacing:.06em;margin-bottom:10px">③→④</div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:8px">検討 → 意向</div>
+      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px">
+        <div style="font-family:'DM Sans';font-size:32px;font-weight:900;line-height:1">32.2%</div>
+        <div style="font-size:12px;font-weight:700;padding:2px 6px;border-radius:4px;color:#c0392b;background:#fdecea">▼3.8pp</div>
+      </div>
+      <div style="height:6px;background:var(--border);border-radius:3px;margin-bottom:6px"><div style="height:6px;border-radius:3px;background:var(--red);width:32.2%"></div></div>
+      <div style="font-size:13px;color:var(--text3);line-height:1.6">123K form_starts</div>
+    </div>
+    <div style="padding:0 16px">
+      <div style="font-size:13px;font-weight:700;color:var(--text3);letter-spacing:.06em;margin-bottom:10px">④→⑤</div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:8px">意向 → 完了</div>
+      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px">
+        <div style="font-family:'DM Sans';font-size:32px;font-weight:900;line-height:1">34.1%</div>
+        <div style="font-size:12px;font-weight:700;padding:2px 6px;border-radius:4px;color:#1a8c4e;background:#e6f7ee">▲8.8pp</div>
+      </div>
+      <div style="height:6px;background:var(--border);border-radius:3px;margin-bottom:6px"><div style="height:6px;border-radius:3px;background:var(--red);width:34.1%"></div></div>
+      <div style="font-size:13px;color:var(--text3);line-height:1.6">42K purchases</div>
+    </div>
+  </div>
 
-    <!-- KPI strip -->
-    <div style="display:flex;align-items:center;gap:28px;margin-top:16px;padding:14px 20px;background:var(--bg);border-radius:8px;flex-wrap:wrap">
+  <!-- KPI strip -->
+  <div style="display:flex;align-items:center;gap:28px;padding:0 44px 28px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:28px;padding:14px 20px;background:var(--bg);border-radius:8px;flex:1;flex-wrap:wrap">
       <div>
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3)">全体CVR</div>
         <div style="font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red)">1.41%</div>
-        <div style="font-size:10px;color:var(--text3)">目標 2.00%</div>
       </div>
       <div style="width:1px;height:36px;background:var(--border)"></div>
       <div>
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3)">セッション数</div>
-        <div style="font-family:'DM Sans';font-size:22px;font-weight:900">2,993,605</div>
+        <div style="font-family:'DM Sans';font-size:22px;font-weight:900">2,994K</div>
       </div>
       <div style="width:1px;height:36px;background:var(--border)"></div>
       <div>
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3)">購買数</div>
         <div style="font-family:'DM Sans';font-size:22px;font-weight:900">42,141</div>
-      </div>
-      <div style="margin-left:auto;font-size:11px;color:var(--text3);line-height:1.8;text-align:right">
-        WoW = W14（3/22〜3/28）vs W13（3/15〜3/21）単週比較<br>
-        YOY = データ未取得（前年同期間）
       </div>
     </div>
   </div>
