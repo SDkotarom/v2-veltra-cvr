@@ -84,8 +84,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         info.className = 'week-info';
         var period = document.createElement('div');
         period.className = 'week-period';
-        var ds = w.date_start||''; var de = w.date_end||'';
-        period.textContent = ds.slice(5).replace('-','/')+' \u301C '+de.slice(5).replace('-','/');
+        period.dataset.weekId = w.week_id;
+        period.textContent = '';
         var meta = document.createElement('div');
         meta.className = 'week-meta';
         meta.textContent = '\u8AAD\u307F\u8FBC\u307F\u4E2D\u2026';
@@ -106,9 +106,39 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       // Fill in async data without changing DOM order
       weekCards.forEach(function(card){
         fetch(card.w.data_path).then(function(r){return r.json()}).then(function(d){
-          var bns = d.bottlenecks||[];
-          card.meta.textContent = '\u30DC\u30C8\u30EB\u30CD\u30C3\u30AF '+bns.length+'\u4EF6';
-          if(bns.length) card.meta.textContent += ' | #1: '+bns[0].title;
+          var m = d.meta||{};
+          // Period: rolling 28 days
+          var rs = m.rolling_start||''; var re = m.rolling_end||'';
+          if(rs && re){
+            var periodEl = card.kpi.parentElement.querySelector('.week-period');
+            if(periodEl) periodEl.textContent = rs.slice(5).replace('-','/') + ' \u301C ' + re.slice(5).replace('-','/') + '\uff08\u76f4\u8fd128\u65e5\u9593\uff09';
+          }
+          // Funnel rates + WoW
+          var f7 = d.funnel_7d||{};
+          var cr = (f7.current_week||{}).conversion_rates||{};
+          var wow = f7.wow_pp||{};
+          var steps = [
+            {key:'1_to_2', label:'\u2460\u2192\u2461'},
+            {key:'2_to_3', label:'\u2461\u2192\u2462'},
+            {key:'3_to_4', label:'\u2462\u2192\u2463'},
+            {key:'4_to_5', label:'\u2463\u2192\u2464'}
+          ];
+          var parts = [];
+          steps.forEach(function(s){
+            var rate = cr[s.key]; var w = wow[s.key];
+            if(rate===undefined) return;
+            var rateStr = (rate*100).toFixed(1)+'%';
+            var wowStr = '';
+            if(w!==undefined){
+              var pp = (w*100).toFixed(1);
+              var arrow = w>=0?'\u25b2':'\u25bc';
+              var color = w>=0?'var(--green)':'var(--red)';
+              wowStr = '<span style="color:'+color+'">('+arrow+Math.abs(pp)+'pp)</span>';
+            }
+            parts.push(s.label+' '+rateStr+wowStr);
+          });
+          card.meta.innerHTML = parts.join('\u3000');
+
           function addKpi(label,val){
             var item = document.createElement('div');
             item.className = 'week-kpi-item';
