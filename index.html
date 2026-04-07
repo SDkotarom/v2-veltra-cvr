@@ -616,11 +616,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
     currentData = weekDataCache[latest.week_id].baseline;
     var meta = weekDataCache[latest.week_id].meta;
-    var ds = meta.date_start ? meta.date_start.replace(/-/g, '/').replace(/\/0/g, '/') : '';
-    var de = meta.date_end   ? meta.date_end.replace(/-/g, '/').replace(/\/0/g, '/')   : '';
-    document.getElementById('period-label').textContent = '対象期間：' + ds + '〜' + de;
     var rs = meta.rolling_start ? meta.rolling_start.slice(5).replace('-', '/').replace(/^0/, '') : '';
     var re = meta.rolling_end   ? meta.rolling_end.slice(5).replace('-', '/').replace(/^0/, '')   : '';
+    document.getElementById('period-label').textContent = rs && re ? '対象期間：' + rs + '〜' + re + '（直近28日間）' : '—';
     if (rs && re) {
       var periodText = '対象: 直近28日間（' + rs + '〜' + re + '）';
       document.getElementById('funnel-period-label').textContent = periodText;
@@ -659,7 +657,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       var color = diff >= 0 ? 'var(--green)' : diff >= -0.003 ? 'var(--amber)' : 'var(--red)';
       badge.textContent = diff >= 0 ? '達成' : diff >= -0.003 ? '惜しい' : '未達';
       badge.className = 'status-badge ' + (diff >= 0 ? 'status-ok' : diff >= -0.003 ? 'status-close' : 'status-ng');
-      if (current) current.textContent = '現状 ' + fmtPct(cvr, 2);
+      if (current) current.textContent = '';
       gap.textContent = sign + ' ' + absPt + 'pt';
       gap.style.color = color;
     }
@@ -1202,13 +1200,18 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         info.className = 'bn-week-info';
         var period = document.createElement('div');
         period.className = 'bn-week-period';
-        var ds = w.date_start || ''; var de = w.date_end || '';
-        period.textContent = ds.slice(5).replace('-', '/') + ' \u301C ' + de.slice(5).replace('-', '/');
+        var rds = (d.meta && d.meta.rolling_start) ? d.meta.rolling_start : (w.date_start || '');
+        var rde = (d.meta && d.meta.rolling_end)   ? d.meta.rolling_end   : (w.date_end   || '');
+        period.textContent = rds.slice(5).replace('-', '/').replace(/^0/, '') + ' \u301C ' + rde.slice(5).replace('-', '/').replace(/^0/, '');
         var meta = document.createElement('div');
         meta.className = 'bn-week-meta';
-        var bns = d.bottlenecks || [];
-        meta.textContent = '\u30DC\u30C8\u30EB\u30CD\u30C3\u30AF ' + bns.length + '\u4EF6';
-        if (bns.length) meta.textContent += ' | #1: ' + bns[0].title;
+        var cr = d.baseline && d.baseline.conversion_rates ? d.baseline.conversion_rates : null;
+        if (cr) {
+          var wow = cr.wow_pp || {};
+          var fmtR = function(v) { return v != null ? (v * 100).toFixed(1) + '%' : '—'; };
+          var fmtW = function(v) { if (v == null) return ''; var pp = (v * 100).toFixed(1); return (v >= 0 ? '(▲' : '(▼') + Math.abs(pp) + 'pp)'; };
+          meta.textContent = '\u2460\u2192\u2461 ' + fmtR(cr['1_to_2']) + fmtW(wow['1_to_2']) + '\u3000\u2461\u2192\u2462 ' + fmtR(cr['2_to_3']) + fmtW(wow['2_to_3']) + '\u3000\u2462\u2192\u2463 ' + fmtR(cr['3_to_4']) + fmtW(wow['3_to_4']) + '\u3000\u2463\u2192\u2464 ' + fmtR(cr['4_to_5']) + fmtW(wow['4_to_5']);
+        }
         info.appendChild(period);
         info.appendChild(meta);
 
@@ -1245,7 +1248,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       var day = dt.getDate();
       var label = y + '年' + m + '月' + day + '日更新';
       var el = document.getElementById('archive-updated');
-      if (el) el.textContent = '更新: ' + y + '/' + m + '/' + day;
+      if (el) el.textContent = '';
       var hel = document.getElementById('header-updated');
       if (hel) hel.textContent = label;
     });
