@@ -77,7 +77,7 @@ def check_reports_index(week_id, data):
     meta = data.get("meta", {})
     if meta.get("date_start") and week_entry.get("date_start"):
         if week_entry["date_start"] == meta.get("rolling_start"):
-            error(f"date_start がローリング開始日と同じ（{week_entry['date_start']}）。対象週の月曜日であるべき")
+            error(f"date_start がローリング開始日と同じ（{week_entry['date_start']}）。対象週の日曜日であるべき")
         elif week_entry["date_start"] == meta.get("date_start"):
             ok(f"date_start 一致: {week_entry['date_start']}")
         else:

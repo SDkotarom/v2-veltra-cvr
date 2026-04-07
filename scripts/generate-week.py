@@ -98,33 +98,37 @@ def calc_week_meta(year: int, week: int) -> dict:
 
     返却キー:
         week_id        : "2026-w15"
-        week_label     : "W15（4/7〜4/13）"
-        date_start     : ISO 8601 日付文字列（月曜日）
-        date_end       : ISO 8601 日付文字列（日曜日）
+        week_label     : "W15（4/5〜4/11）"
+        date_start     : ISO 8601 日付文字列（日曜日）
+        date_end       : ISO 8601 日付文字列（土曜日）
         rolling_start  : date_end から 27 日前（28日間ローリング期間の開始日）
         rolling_end    : date_end と同じ
         generated_at   : 生成時刻（JST、ISO 8601）
-    """
-    monday = date.fromisocalendar(year, week, 1)   # 週の月曜日
-    sunday = date.fromisocalendar(year, week, 7)   # 週の日曜日
 
-    # 28日間ローリング期間: 週末（sunday）を基準に過去28日
-    rolling_end = sunday
+    週期間: 日曜〜土曜（ISO週番号は期間内の月曜で採番）。
+    生成タイミング: 毎週月曜 AM 4:00 JST。土曜データを1日寝かせて確定。
+    """
+    monday = date.fromisocalendar(year, week, 1)   # ISO week の月曜
+    sunday = monday - timedelta(days=1)             # 前日 = 週の開始日（日曜）
+    saturday = monday + timedelta(days=5)           # 週の終了日（土曜）
+
+    # 28日間ローリング期間: 土曜を基準に過去28日
+    rolling_end = saturday
     rolling_start = rolling_end - timedelta(days=27)
 
     # 生成時刻（JST）
     generated_at = datetime.now(JST).strftime("%Y-%m-%dT%H:%M:%S+09:00")
 
-    # 週ラベル（例: "W15（4/7〜4/13）"）
+    # 週ラベル（例: "W15（4/5〜4/11）"）
     week_label = (
-        f"W{week}（{monday.month}/{monday.day}〜{sunday.month}/{sunday.day}）"
+        f"W{week}（{sunday.month}/{sunday.day}〜{saturday.month}/{saturday.day}）"
     )
 
     return {
         "week_id": f"{year}-w{week}",
         "week_label": week_label,
-        "date_start": monday.isoformat(),
-        "date_end": sunday.isoformat(),
+        "date_start": sunday.isoformat(),      # 日曜（週の開始）
+        "date_end": saturday.isoformat(),       # 土曜（週の終了）
         "rolling_start": rolling_start.isoformat(),
         "rolling_end": rolling_end.isoformat(),
         "generated_at": generated_at,
