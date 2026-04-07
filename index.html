@@ -74,6 +74,29 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .graph-axis-r{position:absolute;right:0;top:0;height:100%;display:flex;flex-direction:column;justify-content:space-between;font-size:11px;color:#8b7355;font-family:'DM Sans';text-align:left;width:40px;padding-left:4px}
 .graph-labels-x{display:flex;margin-top:8px;font-size:11px;color:var(--text3);font-family:'DM Sans'}
 
+/* Annotation dots row */
+.graph-annotations{position:relative;height:22px;margin-top:2px}
+.ann-dot{position:absolute;transform:translateX(-50%);cursor:pointer;transition:transform .12s;display:flex;align-items:center;justify-content:center}
+.ann-dot:hover{transform:translateX(-50%) scale(1.3)}
+.ann-marker{width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+.ann-count{position:absolute;top:-7px;right:-8px;background:var(--text);color:#fff;font-size:8px;font-weight:700;min-width:14px;height:14px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'DM Sans';line-height:1}
+
+/* Annotation detail panel */
+.annotation-detail{margin:12px 44px 0;padding:16px 20px;background:#fafaf8;border:1px solid var(--border);border-radius:10px;position:relative}
+.ann-close{position:absolute;top:10px;right:14px;background:none;border:none;font-size:18px;color:var(--text3);cursor:pointer;line-height:1}
+.ann-close:hover{color:var(--text)}
+.ann-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ann-count-label{font-size:14px;font-weight:700;color:var(--text)}
+.ann-period{font-size:12px;color:var(--text3)}
+.ann-list{list-style:none;padding:0;margin:0}
+.ann-list li{padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;display:flex;align-items:baseline;gap:8px;line-height:1.5}
+.ann-list li:last-child{border-bottom:none}
+.ann-area-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;color:#fff;flex-shrink:0;white-space:nowrap}
+.ann-title-text{flex:1;color:var(--text)}
+.ann-by{font-size:11px;color:var(--text3);flex-shrink:0}
+.ann-link{color:var(--red);text-decoration:none;font-size:12px;font-weight:600;flex-shrink:0}
+.ann-link:hover{text-decoration:underline}
+
 /* Funnel mode toggle */
 .funnel-mode-toggle{display:flex;background:var(--bg);border-radius:8px;padding:3px;gap:2px;border:1px solid var(--border)}
 .fmt-btn{font-size:12px;font-weight:700;padding:5px 14px;border-radius:6px;border:none;cursor:pointer;transition:background .12s,color .12s;font-family:inherit}
@@ -271,6 +294,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="graph-legend">
         <div class="lg-item"><div class="lg-bar" style="background:rgba(232,66,63,0.22);border:1.5px solid rgba(232,66,63,0.5)"></div>セッション数</div>
         <div class="lg-item"><div class="lg-dot" style="background:var(--red)"></div>CVR</div>
+        <div class="lg-item"><div class="lg-dot" style="background:#6366f1;width:8px;height:8px;border:2px solid #fff;box-shadow:0 0 0 1px #6366f1"></div>リリースイベント</div>
       </div>
     </div>
     <div class="graph-body">
@@ -280,8 +304,11 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       </div>
       <div class="graph-axis-r" id="graph-axis-r"></div>
       <div class="graph-labels-x" id="graph-x-labels"></div>
+      <div class="graph-annotations" id="graph-annotations"></div>
     </div>
   </div>
+  <!-- Annotation detail panel -->
+  <div id="annotation-detail" class="annotation-detail" style="display:none"></div>
   <!-- YOY comparison table -->
   <div id="graph-yoy-table-wrap" style="overflow-x:auto;padding:20px 44px 28px;border-top:1px solid var(--border);margin-top:8px"></div>
 </div>
@@ -443,6 +470,131 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     return s + (v * 100).toFixed(0) + '%';
   }
 
+  // ── Annotations ──────────────────────────────────
+  var _annotationsCache = null;
+  var _activeAnnotationIdx = null; // track which dot is open
+
+  function loadAnnotations(cb) {
+    if (_annotationsCache) { if (cb) cb(_annotationsCache); return; }
+    fetch('/annotations.json').then(function(r) { return r.json(); }).then(function(data) {
+      _annotationsCache = data;
+      if (cb) cb(data);
+    }).catch(function() { _annotationsCache = { events: [] }; if (cb) cb(_annotationsCache); });
+  }
+
+  var AREA_COLORS = {
+    'CVR': '#E8423F', 'SEO': '#059669', 'CS': '#6366f1', 'Ticket': '#06b6d4',
+    'APP': '#f59e0b', 'B2B': '#8b5cf6', 'GSS': '#ec4899', 'External': '#0ea5e9',
+    'Kaizen': '#14b8a6', 'LTV': '#f97316', 'sys': '#64748b'
+  };
+  function areaColor(area) { return AREA_COLORS[area] || '#9ca3af'; }
+
+  function dateToISOWeekLabel(dateStr) {
+    // "2025-01-09" → "2025-W02" format matching weekly graph fullLabel
+    var parts = dateStr.split('-');
+    var d = new Date(Date.UTC(+parts[0], +parts[1] - 1, +parts[2]));
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+    var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    var weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+    return d.getUTCFullYear() + '-W' + (weekNo < 10 ? '0' : '') + weekNo;
+  }
+
+  function _renderAnnotations(points, n, mode) {
+    var annEl = document.getElementById('graph-annotations');
+    if (!annEl) return;
+    annEl.innerHTML = '';
+    _activeAnnotationIdx = null;
+    var detailEl = document.getElementById('annotation-detail');
+    if (detailEl) detailEl.style.display = 'none';
+
+    if (!_annotationsCache || !_annotationsCache.events || !_annotationsCache.events.length) return;
+
+    // Group annotations per point index
+    var groups = {}; // { pointIdx: [event, ...] }
+    _annotationsCache.events.forEach(function(ev) {
+      var matchIdx = -1;
+      if (mode === 'monthly') {
+        for (var i = 0; i < points.length; i++) {
+          if (points[i].fullLabel === ev.month) { matchIdx = i; break; }
+        }
+      } else {
+        // weekly mode: fullLabel is "YYYY-WNN"
+        var evWeek = dateToISOWeekLabel(ev.date);
+        for (var i = 0; i < points.length; i++) {
+          if (points[i].fullLabel === evWeek) { matchIdx = i; break; }
+        }
+      }
+      if (matchIdx >= 0) {
+        if (!groups[matchIdx]) groups[matchIdx] = [];
+        groups[matchIdx].push(ev);
+      }
+    });
+
+    // Render dots
+    Object.keys(groups).forEach(function(idxStr) {
+      var idx = parseInt(idxStr);
+      var evts = groups[idx];
+      var pct = n === 1 ? 50 : (idx + 0.5) / n * 100;
+
+      // Determine dominant area color
+      var areaCounts = {};
+      evts.forEach(function(e) {
+        areaCounts[e.area] = (areaCounts[e.area] || 0) + 1;
+      });
+      var topArea = Object.keys(areaCounts).sort(function(a, b) { return areaCounts[b] - areaCounts[a]; })[0];
+      var color = areaColor(topArea);
+
+      var dot = document.createElement('div');
+      dot.className = 'ann-dot';
+      dot.style.left = pct + '%';
+      dot.innerHTML = '<div class="ann-marker" style="background:' + color + ';box-shadow:0 0 0 1px ' + color + '"></div>' +
+        (evts.length > 1 ? '<span class="ann-count">' + evts.length + '</span>' : '');
+
+      dot.addEventListener('click', (function(events, pointIdx, label) {
+        return function() {
+          if (_activeAnnotationIdx === pointIdx) {
+            closeAnnotationDetail();
+          } else {
+            showAnnotationDetail(events, label);
+            _activeAnnotationIdx = pointIdx;
+          }
+        };
+      })(evts, idx, points[idx].fullLabel));
+
+      annEl.appendChild(dot);
+    });
+  }
+
+  function showAnnotationDetail(events, label) {
+    var el = document.getElementById('annotation-detail');
+    if (!el) return;
+
+    var items = events.map(function(ev) {
+      var badge = '<span class="ann-area-badge" style="background:' + areaColor(ev.area) + '">' + (ev.area || '—') + '</span>';
+      var title = '<span class="ann-title-text">' + ev.title + '</span>';
+      var by = ev.by ? '<span class="ann-by">' + ev.by + '</span>' : '';
+      var link = ev.link && ev.link.indexOf('http') === 0
+        ? '<a class="ann-link" href="' + ev.link + '" target="_blank" rel="noopener">詳細 →</a>'
+        : '';
+      return '<li>' + badge + title + by + link + '</li>';
+    }).join('');
+
+    el.innerHTML =
+      '<button class="ann-close" onclick="closeAnnotationDetail()">&times;</button>' +
+      '<div class="ann-header">' +
+        '<span class="ann-count-label">' + events.length + '件のリリース</span>' +
+        '<span class="ann-period">' + label + '</span>' +
+      '</div>' +
+      '<ul class="ann-list">' + items + '</ul>';
+    el.style.display = 'block';
+  }
+
+  window.closeAnnotationDetail = function() {
+    var el = document.getElementById('annotation-detail');
+    if (el) el.style.display = 'none';
+    _activeAnnotationIdx = null;
+  };
+
   // ── Graph mode toggle ────────────────────────────
   window.setGraphMode = function(m) {
     graphMode = m;
@@ -531,6 +683,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   };
 
   // ── Load ──────────────────────────────────────────
+  loadAnnotations(); // pre-load annotations data
   fetch('/reports-index.json').then(function(r) { return r.json(); }).then(function(idx) {
     reportsIndex = idx;
     // 週を時系列順にソート（最新が末尾）
@@ -1168,6 +1321,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       rows += '<tr>' + yoyCells + '</tr>';
       yoyWrap.innerHTML = '<table style="border-collapse:collapse;width:max-content;min-width:100%"><thead><tr>' + thCells + '</tr></thead><tbody>' + rows + '</tbody></table>';
     }
+
+    // Render annotations
+    _renderAnnotations(points, n, mode);
   }
 
   // ── Archive block ─────────────────────────────────
