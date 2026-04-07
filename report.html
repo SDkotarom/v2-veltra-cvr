@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<title>週次レポート</title>
+</head>
+<body>
+<div id="app"><div class="card" style="padding:60px 44px;text-align:center;color:var(--text3)">読み込み中...</div></div>
+
+<script src="/nav.js"></script>
+<script src="/funnel-def.js"></script>
+<script>
+(function(){
+  // Parse week from URL
+  var params = new URLSearchParams(location.search);
+  var week = params.get('week');
+  if (!week) {
+    // Try to infer from path: /reports/2026-w13/ → 2026-w13
+    var m = location.pathname.match(/\/reports\/([\w-]+)\//);
+    if (m) week = m[1];
+  }
+  if (!week) {
+    document.getElementById('app').innerHTML = '<div class="card" style="padding:60px 44px;text-align:center;color:var(--red)">パラメータ不足: ?week=2026-w14</div>';
+    return;
+  }
+
+  var basePath = '/reports/' + week + '/';
+  fetch(basePath + 'data.json')
+    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(data){ render(data, week); })
+    .catch(function(err){
+      document.getElementById('app').innerHTML = '<div class="card" style="padding:60px 44px;text-align:center;color:var(--red)">読み込みエラー: ' + basePath + 'data.json<br>' + err.message + '</div>';
+    });
+
+  // ── Stage label map ──
+  var STAGE_LABELS = {
+    '1→2': '①→② 流入→AC到達',
+    '2→3': '②→③ AC到達→検討',
+    '3→4': '③→④ 検討→意向',
+    '4→5': '④→⑤ 意向→完了',
+    'all':  '全ステップ'
+  };
+  var STAGE_NAMES = {
+    '1_to_2': { step: '①→②', name: '流入 → AC到達', metric: 'ac_page_reach_users' },
+    '2_to_3': { step: '②→③', name: 'AC到達 → 検討', metric: 'calendar_view' },
+    '3_to_4': { step: '③→④', name: '検討 → 意向', metric: 'form_start' },
+    '4_to_5': { step: '④→⑤', name: '意向 → 完了', metric: 'purchase' }
+  };
+
+  function pct(v) { return (v * 100).toFixed(1) + '%'; }
+  function pp(v) { return (v > 0 ? '+' : '') + (v * 100).toFixed(2) + 'pp'; }
+  function fmtK(n) { return n >= 1000000 ? (n/1000000).toFixed(0) + 'M' : n >= 1000 ? Math.round(n/1000) + 'K' : n.toString(); }
+  function fmtNum(n) { return n.toLocaleString(); }
+
+  function render(data, week) {
+    var meta = data.meta || {};
+    var bl = data.baseline || {};
+    var cr = bl.conversion_rates || {};
+    var wow = cr.wow_pp || {};
+    var funnel = bl.funnel || {};
+    var bns = data.bottlenecks || [];
+
+    document.title = (meta.week_label || week) + ' | 週次ボトルネック分析レポート';
+
+    var rollingLabel = meta.rolling_start && meta.rolling_end ?
+      meta.rolling_start.replace(/-/g,'/') + '〜' + meta.rolling_end.replace(/-/g,'/') : '';
+
+    var html = '';
+
+    // ── HEADER ──
+    html += '<div class="card">';
+    html += '<div class="header-band"><div class="logo">V2</div>';
+    html += '<div class="right">週次ボトルネック分析レポート<br><strong>' + (meta.week_label || week) + '</strong></div>';
+    html += '</div>';
+    html += '<div style="padding:24px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:14px;line-height:1.8;color:var(--text2)">';
+    html += '<div><span style="color:var(--text3);font-weight:600">分析対象データ</span><br>GA4 Property ' + (meta.ga4_property || '347074845') + '<br>直近28日間（' + rollingLabel + '）</div>';
+    html += '<div><span style="color:var(--text3);font-weight:600">レポート発行週</span><br>' + (meta.week_label || week) + '</div>';
+    html += '<div><span style="color:var(--text3);font-weight:600">生成日時</span><br>' + (meta.generated_at ? meta.generated_at.substring(0,16).replace('T',' ') + ' JST' : '-') + '</div>';
+    html += '</div></div>';
+
+    // ── FUNNEL SUMMARY (4 columns) ──
+    html += '<div class="card">';
+    html += '<div class="sec-label">ファネルサマリー — 直近28日間（' + rollingLabel + '）</div>';
+    html += '<hr class="divider-solid">';
+    html += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:28px 44px">';
+
+    var steps = ['1_to_2','2_to_3','3_to_4','4_to_5'];
+    steps.forEach(function(key, i){
+      var s = STAGE_NAMES[key];
+      var rate = cr[key] || 0;
+      var wowVal = wow[key] || 0;
+      var wowAbs = Math.abs(wowVal * 100);
+      var isUp = wowVal > 0;
+      var wowColor = isUp ? '#1a8c4e' : '#c0392b';
+      var wowBg = isUp ? '#e6f7ee' : '#fdecea';
+      var wowArrow = isUp ? '▲' : '▼';
+      var metricVal = funnel[s.metric] || 0;
+      var border = i < 3 ? 'border-right:1px solid var(--border);' : '';
+
+      html += '<div style="padding:0 16px;' + border + '">';
+      html += '<div style="font-size:13px;font-weight:700;color:var(--text3);letter-spacing:.06em;margin-bottom:10px">' + s.step + '</div>';
+      html += '<div style="font-size:16px;font-weight:700;margin-bottom:8px">' + s.name + '</div>';
+      html += '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px">';
+      html += '<div style="font-family:\'DM Sans\';font-size:32px;font-weight:900;line-height:1">' + pct(rate) + '</div>';
+      html += '<div style="font-size:12px;font-weight:700;padding:2px 6px;border-radius:4px;color:' + wowColor + ';background:' + wowBg + '">' + wowArrow + wowAbs.toFixed(1) + 'pp</div>';
+      html += '</div>';
+      html += '<div style="height:6px;background:var(--border);border-radius:3px;margin-bottom:6px"><div style="height:6px;border-radius:3px;background:var(--red);width:' + pct(rate) + '"></div></div>';
+      html += '<div style="font-size:13px;color:var(--text3);line-height:1.6">' + fmtK(metricVal) + ' ' + s.metric.replace(/_/g,' ') + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+
+    // ── KPI STRIP ──
+    html += '<div style="display:flex;align-items:center;gap:28px;padding:0 44px 28px;flex-wrap:wrap">';
+    html += '<div style="display:flex;align-items:center;gap:28px;padding:14px 20px;background:var(--bg);border-radius:8px;flex:1;flex-wrap:wrap">';
+    html += '<div><div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3)">セッション数</div>';
+    html += '<div style="font-family:\'DM Sans\';font-size:22px;font-weight:900">' + fmtNum(bl.sessions || 0) + '</div></div>';
+    html += '<div style="width:1px;height:36px;background:var(--border)"></div>';
+    html += '<div><div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3)">CV数（予約完了）</div>';
+    html += '<div style="font-family:\'DM Sans\';font-size:22px;font-weight:900">' + fmtNum(bl.purchases || 0) + '</div></div>';
+    html += '<div style="width:1px;height:36px;background:var(--border)"></div>';
+    html += '<div><div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3)">CVR</div>';
+    html += '<div style="font-family:\'DM Sans\';font-size:22px;font-weight:900;color:var(--red)">' + pct(bl.cvr || 0) + '</div></div>';
+    html += '</div></div>';
+    html += '</div>';
+
+    // ── TOPICS (auto-generated from WoW) ──
+    html += '<div class="card">';
+    html += '<div class="sec-label">今週のトピック</div>';
+    html += '<hr class="divider-solid">';
+    html += '<div style="padding:20px 44px 12px;display:grid;grid-template-columns:1fr 1fr;gap:14px">';
+
+    var topics = [];
+    steps.forEach(function(key){
+      var s = STAGE_NAMES[key];
+      var wowVal = wow[key] || 0;
+      var rate = cr[key] || 0;
+      topics.push({ step: s.step, name: s.name, rate: rate, wow: wowVal, key: key });
+    });
+    topics.sort(function(a,b){ return Math.abs(b.wow) - Math.abs(a.wow); });
+
+    topics.forEach(function(t){
+      var isUp = t.wow > 0;
+      var cls, icon, label;
+      if (isUp) { cls = 'callout callout-green'; icon = '▲'; label = '改善'; }
+      else { cls = 'callout'; icon = '▼'; label = '悪化'; }
+
+      // Find the lowest rate for "継続課題"
+      var lowestRate = topics.reduce(function(min, tt){ return tt.rate < min.rate ? tt : min; }, topics[0]);
+      if (t === lowestRate && !isUp) { cls = 'callout callout-amber'; icon = '⚠'; label = '継続課題'; }
+
+      html += '<div class="' + cls + '" style="margin:0">';
+      html += '<div class="ct">' + icon + ' ' + label + '：' + t.step + ' ' + pct(t.rate) + '（前週比 ' + pp(t.wow) + '）</div>';
+      html += '<div class="cb"><ul style="margin:0;padding-left:18px;list-style:disc;line-height:1.8">';
+
+      if (isUp) {
+        html += '<li>' + t.name + 'の転換率が改善。</li>';
+        html += '<li>前週比 ' + pp(t.wow) + ' の向上。継続モニタリング推奨。</li>';
+      } else {
+        html += '<li>' + t.name + 'の転換率が低下。</li>';
+        html += '<li>前週比 ' + pp(t.wow) + '。要因分析が必要。</li>';
+      }
+      html += '</ul></div></div>';
+    });
+
+    html += '</div></div>';
+
+    // ── BOTTLENECK LIST ──
+    html += '<div class="card">';
+    html += '<div class="sec-label">ボトルネックリスト</div>';
+    html += '<hr class="divider-solid">';
+    html += '<div class="bn-acc" id="bn-acc-list">';
+
+    bns.forEach(function(bn){
+      var stageLabel = STAGE_LABELS[bn.stage] || bn.stage;
+      var gapPct = Math.round(Math.abs(bn.gap) * 100);
+      var link = '/bottleneck.html?week=' + week + '&num=' + bn.rank;
+
+      html += '<div class="bn-acc-item">';
+      html += '<a class="bn-acc-header" href="' + link + '">';
+      html += '<div class="bn-acc-rank">#' + bn.rank + '</div>';
+      html += '<div class="bn-acc-body">';
+      html += '<div class="bn-acc-title">' + bn.title + '</div>';
+      html += '<div class="bn-acc-tags"><span class="bn-acc-tag red">' + stageLabel + '</span>';
+      html += '<span class="bn-acc-tag">' + bn.segment + '</span></div>';
+      html += '</div>';
+      html += '<div class="bn-acc-meta"><div class="bn-acc-gap-label">全体比乖離</div><div class="bn-acc-gap">-' + gapPct + '%</div></div>';
+      html += '<div class="bn-acc-arrow">→</div>';
+      html += '</a>';
+
+      // Detail (summary from data)
+      var summary = bn.summary || bn.title + '。全体比 -' + gapPct + '%。月間 ' + fmtK(bn.impact_sessions) + ' セッションに影響。';
+      html += '<div class="bn-acc-detail"><div class="bn-acc-hypo">' + summary + '</div></div>';
+
+      html += '</div>';
+    });
+
+    html += '</div></div>';
+
+    // ── FOOTER ──
+    html += '<div class="card"><div class="footer">';
+    html += '<span>VELTRA CVR改善チーム — UIUX Design Squad</span>';
+    html += '<span><a href="https://analytics.google.com/analytics/web/#/p' + (meta.ga4_property || '347074845') + '/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: ' + (meta.ga4_property || '347074845') + '</a></span>';
+    html += '<span>' + (meta.generated_at ? meta.generated_at.substring(0,10) : '-') + '</span>';
+    html += '</div></div>';
+
+    document.getElementById('app').innerHTML = html;
+  }
+})();
+</script>
+</body>
+</html>

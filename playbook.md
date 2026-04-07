@@ -129,12 +129,21 @@ python3 scripts/generate-week.py --week {YYYY}-w{WW}
 > ⚠️ `reports-index.json` の `date_start` / `date_end` は対象週の月〜日（例: 3/30〜4/5）。
 > ローリング期間（28日）ではないので注意。
 
-### Phase 2: 分析 & HTML生成（Opus）
+### Phase 2: ボトルネック分析 & content.json 生成（Opus）
 
-1. **ボトルネック特定**: `data.json` のセグメント間比較から、インパクト順（sessions × 乖離率）で10件ランキング
-2. **#1 フル分析**: 仮説×3 → 打ち手×3（仮説ごと）→ プロトタイプ Before/After → 競合比較6社
-3. **#2〜#10**: 仮説×3 + 打ち手×3 + 競合比較
-4. **HTML生成**: アコーディオン型ドリルダウンUI（仮説 → 打ち手 → プロトタイプ）
+**重要**: 週次サマリーページは `report.html` が `data.json` から動的に描画するため、
+HTML生成は不要。Phase 2 では `bottleneck-{1-10}-content.json` のみ生成する。
+
+1. **ボトルネック特定**: `data.json` のセグメント間比較から、インパクト順で10件ランキング
+2. **全10件の content.json 生成**:
+   - 仮説×3 → 打ち手×9（A-I）→ プロトタイプ Before/After → 競合比較6社
+   - **効率化**: 2-3ファイルずつ並列 Agent で生成（タイムアウト防止）
+   - スキーマは ARCHITECTURE.md §4 準拠、`reports/2026-w14/bottleneck-1-content.json` を参照
+
+**生成効率化のポイント**:
+- Agent を 5 並列（各2ファイル）で起動するとタイムアウトを回避できる
+- 各 Agent のプロンプトには data.json の数値を明記し、ファイル読み込みを最小化
+- 生成後に品質チェックスクリプト実行: `python3 -c "import json; ..."`（90 prototypes / 60 competitive 確認）
 
 **デザインルール**: `docs/veltra-design-system.md` 参照
 - プロトタイプのモックアップはVELTRAサイトデザイン準拠（`#1B82C5` blue CTA, `#F2F5F8` bg）
@@ -296,7 +305,7 @@ validate-report.py 実行
 
 ```
 Phase 1 (Sonnet): スキャフォールド → GA4 クエリ → data.json 生成    ~15分
-Phase 2 (Opus):   ボトルネック分析 → HTML生成                        ~30分
+Phase 2 (Opus):   ボトルネック分析 → content.json ×10 生成（並列）    ~20分
 Phase 3 (Sonnet): commit & push → Vercel自動デプロイ                  ~5分
 ```
 
@@ -333,7 +342,9 @@ summary-data.json / weekly-summary.json / reports-index.json も更新して pus
 playbook.md を読んでください。
 git pull して最新の data.json を取得してください。
 W{XX} の Phase 2 を実行してください。
-ボトルネック10件の分析 → bottleneck-{1-10}-content.json 生成 → デプロイまでお願いします。
+ボトルネック10件の bottleneck-{1-10}-content.json 生成 → commit & push までお願いします。
+※ report.html が data.json から週次サマリーを動的描画するため index.html 生成は不要です。
+※ content.json は 2-3 ファイルずつ並列 Agent で生成してタイムアウトを回避してください。
 ```
 
 **修正対応（アカウントB）**:

@@ -148,12 +148,14 @@ def make_data_skeleton(meta: dict) -> dict:
     return {
         "meta": {
             "week_id": meta["week_id"],
+            "week_label": meta["week_label"],
             "date_start": meta["date_start"],
             "date_end": meta["date_end"],
             "rolling_start": meta["rolling_start"],
             "rolling_end": meta["rolling_end"],
             "ga4_property": GA4_PROPERTY,
             "generated_at": meta["generated_at"],
+            "note": f"Sun-Sat format. Rolling 28d: {meta['rolling_start']} to {meta['rolling_end']}",
         },
         "baseline": {
             "sessions": None,
@@ -248,6 +250,38 @@ def step_generate_data_json(week_dir: str, meta: dict, dry_run: bool) -> None:
     skeleton = make_data_skeleton(meta)
     write_json(data_path, skeleton, dry_run)
     if not dry_run:
+        print(f"  生成完了")
+
+
+def step_generate_index_html(week_dir: str, meta: dict, dry_run: bool) -> None:
+    """
+    ステップ2.5: 週ディレクトリに redirect index.html を生成する。
+    /report.html?week=XXXX へリダイレクトする軽量HTMLファイル。
+    既に存在する場合も上書きする（テンプレートは常に最新を使う）。
+    """
+    index_path = os.path.join(week_dir, "index.html")
+    print(f"\n[2.5] index.html 生成: {index_path}")
+
+    week_id = meta["week_id"]
+    content = f"""<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta http-equiv="refresh" content="0;url=/report.html?week={week_id}">
+<title>{meta['week_label']} レポート</title>
+</head>
+<body>
+<script>location.replace('/report.html?week={week_id}');</script>
+<p><a href="/report.html?week={week_id}">{meta['week_label']} レポートへ移動</a></p>
+</body>
+</html>
+"""
+    if dry_run:
+        print(f"  [DRY-RUN] 書き込み: {index_path}")
+    else:
+        with open(index_path, "w", encoding="utf-8") as f:
+            f.write(content)
         print(f"  生成完了")
 
 
@@ -392,6 +426,7 @@ def main() -> None:
     # --------------------------------------------------------
     week_dir = step_create_directory(meta["week_id"], args.dry_run)
     step_generate_data_json(week_dir, meta, args.dry_run)
+    step_generate_index_html(week_dir, meta, args.dry_run)
     step_update_reports_index(meta, args.dry_run)
     step_update_archive_meta(args.dry_run)
     step_update_weekly_summary(meta, args.dry_run)
@@ -402,8 +437,10 @@ def main() -> None:
     else:
         print(f"完了！ {meta['week_id']} のレポート雛形を生成しました。")
         print(f"\n次のステップ:")
-        print(f"  1. GA4 でデータをクエリし、data.json を埋める")
-        print(f"  2. Claude に分析を依頼し、ボトルネックレポートを生成する")
+        print(f"  1. GA4 MCP でデータをクエリし、data.json を埋める")
+        print(f"  2. Claude に分析を依頼し、bottleneck-{{1-10}}-content.json を生成する")
+        print(f"     ※ report.html が data.json を動的に描画（index.html は不要）")
+        print(f"     ※ bottleneck-content.json は 2-3 ファイルずつ並列生成を推奨")
     print("=" * 60)
 
 

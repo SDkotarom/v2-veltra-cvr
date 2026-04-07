@@ -1,6 +1,6 @@
 # ARCHITECTURE.md — ボトルネック分析レポート アーキテクチャ
 
-> 最終更新: 2026-04-07（テンプレートリファクタリング + 週期間変更）
+> 最終更新: 2026-04-07（週次サマリー動的テンプレート化 + 生成効率化）
 
 ---
 
@@ -23,9 +23,11 @@ v2-veltra-cvr/
 │   ├── auth.js                      Google OAuth 認証
 │   ├── nav.js                       サイドナビゲーション（全ページ共通）
 │   ├── funnel-def.js                ファネル定義（ステップ名・イベント名）
+│   ├── report.html                  週次サマリーテンプレート（動的描画）★NEW
+│   ├── report.css                   週次サマリーCSS
+│   ├── bottleneck.html              ボトルネック分析テンプレート（動的描画）
 │   ├── bottleneck.css               ボトルネック分析ページのCSS
-│   ├── bottleneck.js                アコーディオン等のUI操作JS
-│   └── bottleneck.html              ボトルネック分析テンプレート（動的描画）
+│   └── bottleneck.js                アコーディオン等のUI操作JS
 │
 ├── ページ
 │   ├── index.html                   ダッシュボード（トップページ）
@@ -42,10 +44,12 @@ v2-veltra-cvr/
 ├── reports/                         週次レポート格納
 │   ├── index.html                   アーカイブ一覧ページ
 │   ├── 2026-w13/
-│   │   └── data.json                GA4分析データ
+│   │   ├── index.html               リダイレクト → /report.html?week=2026-w13
+│   │   ├── data.json                GA4分析データ（+bottleneck summary）
+│   │   └── bottleneck-{1-10}-content.json   ボトルネック分析コンテンツ
 │   └── 2026-w14/
-│       ├── index.html               週次サマリーページ
-│       ├── data.json                GA4分析データ
+│       ├── index.html               リダイレクト → /report.html?week=2026-w14
+│       ├── data.json                GA4分析データ（+bottleneck summary）
 │       └── bottleneck-{1-10}-content.json   ボトルネック分析コンテンツ
 │
 └── scripts/
@@ -56,41 +60,47 @@ v2-veltra-cvr/
 
 ---
 
-## 2. ページ生成アーキテクチャ
+## 2. ページ生成アーキテクチャ（動的テンプレート方式）
 
-### 2.1 ボトルネック分析ページ（動的テンプレート方式）
+すべてのレポートページは **1テンプレート + N個のJSONデータ** 構成。
+静的HTMLの生成は不要。JSONデータさえ作れば自動的にページが描画される。
+
+### 2.1 週次サマリーページ
+
+```
+┌─────────────────────┐     fetch      ┌──────────────────────────────┐
+│  /report.html       │ ──────────────→│ /reports/{week}/data.json    │
+│  URL: ?week=2026-w14│                └──────────────────────────────┘
+│  CSS: /report.css   │
+└─────────────────────┘
+```
+
+**URL形式**: `/report.html?week=2026-w14`（または `/reports/2026-w14/` → リダイレクト）
+
+- `data.json` からファネル転換率、WoW変化、KPI、ボトルネックリストを描画
+- トピック（改善/悪化）は WoW データから自動生成
+- 各週の `index.html` はリダイレクトのみ（`generate-week.py` で自動生成）
+
+### 2.2 ボトルネック分析ページ
 
 ```
 ┌─────────────────────┐     fetch      ┌──────────────────────────────┐
 │  /bottleneck.html   │ ──────────────→│ /reports/{week}/             │
-│  （1テンプレート）    │                │   bottleneck-{N}-content.json│
-│  URL: ?week=...&num=│                │   data.json (meta)           │
+│  URL: ?week=...&num=│                │   bottleneck-{N}-content.json│
+│  CSS: /bottleneck.css│               │   data.json (meta)           │
 └─────────────────────┘                └──────────────────────────────┘
-         │
-         │ JS で DOM 構築
-         ▼
-┌─────────────────────┐
-│  描画されたページ     │
-│  CSS: /bottleneck.css│
-│  JS:  /bottleneck.js │
-│       /nav.js        │
-│       /funnel-def.js │
-└─────────────────────┘
 ```
 
 **URL形式**: `/bottleneck.html?week=2026-w14&num=4`
 
-- `week`: 週ID（例: `2026-w14`）
-- `num`: ボトルネック番号（1〜10）
 - テンプレートが `fetch()` で content.json と data.json を取得し、JS で DOM を構築
-- ビルドステップ不要（Pythonスクリプトでの静的HTML生成は廃止）
+- ビルドステップ不要
 
-### 2.2 その他のページ（静的HTML）
+### 2.3 その他のページ（静的HTML）
 
 | ページ | ファイル | 説明 |
 |--------|----------|------|
 | ダッシュボード | `/index.html` | summary-data.json を読み込み表示 |
-| 週次サマリー | `/reports/{week}/index.html` | data.json を読み込み表示 |
 | アーカイブ | `/reports/index.html` | reports-index.json を読み込み表示 |
 | CVR改善サイクル | `/cycle.html` | 静的コンテンツ |
 | 分析ガイド | `/analysis.html` | 静的コンテンツ |
