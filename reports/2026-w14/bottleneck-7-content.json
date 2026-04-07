@@ -17,7 +17,196 @@
   ],
   "deviation": "-68%",
   "impact_sessions": "274,917 / 月",
-  "hypotheses": [],
-  "competitive": [],
-  "verification": []
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "トップページの商品導線が新規ユーザーにとって不明確",
+      "body": "URL直アクセスでトップページに来た新規ユーザーが、商品を探す方法が分からず離脱。検索やカテゴリナビが見つけにくい。",
+      "evidence": [
+        "Direct × 新規: 8.38% vs リピーター: 34.12%（4倍の差）",
+        "リピーターはサイト構造を知っている",
+        "トップページの直帰率が高い"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "トップページに「はじめての方へ」ガイドバナー追加",
+          "description": "新規ユーザー判定時にトップページ上部に「はじめての方へ — 3ステップで体験を予約」のガイドバナーを表示。",
+          "spec_html": "・新規判定: Cookie/localStorageで初回訪問判定<br>・ガイド: ①エリアを選ぶ → ②体験を選ぶ → ③日程を選んで予約<br>・「人気の体験を見る」CTAボタン",
+          "impact": "①→② +5pt"
+        },
+        {
+          "letter": "B",
+          "title": "トップページのファーストビューを商品カルーセルに変更",
+          "description": "現行のヒーロー画像を人気商品カルーセルに変更。ワンタップでAC到達。",
+          "spec_html": "・自動スライド（5秒間隔）の商品カルーセル<br>・商品画像 + タイトル + 価格 + 「詳しく見る」<br>・5商品をローテーション",
+          "impact": "①→② +6pt"
+        },
+        {
+          "letter": "C",
+          "title": "「今週の人気ランキング」セクションをトップページに追加",
+          "description": "予約数・閲覧数ベースの人気ランキングTOP5をトップページに常設。",
+          "spec_html": "・週次更新の人気ランキングカード<br>・順位バッジ + 画像 + タイトル + ★ + 価格<br>・「すべて見る」で一覧ページへ",
+          "impact": "①→② +4pt"
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "アプリ内ブラウザ等の計測漏れ（技術的問題）",
+      "body": "Direct流入にはSNSアプリ内ブラウザやメッセンジャー経由のトラフィックが含まれ、リファラが失われている。これらの環境でトラッキングが正しく機能していない可能性。",
+      "evidence": [
+        "Direct流入の一部はリファラなしトラフィック",
+        "アプリ内ブラウザではCookieが制限されるケースがある"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "アプリ内ブラウザのUser-Agent別トラッキング分析",
+          "description": "Direct流入のUser-Agentを分析し、LINE/Instagram/Facebook等のアプリ内ブラウザの割合を特定。",
+          "spec_html": "・GA4カスタムディメンション: browser_environment（通常/アプリ内）<br>・User-Agentからアプリ内ブラウザを判定<br>・アプリ内ブラウザのファネル別分析",
+          "impact": "①→② +2pt（計測改善）"
+        },
+        {
+          "letter": "E",
+          "title": "UTMパラメータの自動付与（SNSシェア時）",
+          "description": "商品シェアボタンにUTMパラメータを自動付与し、SNS経由トラフィックをDirect扱いから分離。",
+          "spec_html": "・シェアボタンのURLに utm_source=share&utm_medium=social を自動付与<br>・LINE/Twitter/Facebook別にutm_campaignを設定",
+          "impact": "①→② +1pt（分析改善）"
+        },
+        {
+          "letter": "F",
+          "title": "ファーストパーティCookieベースのクロスセッション計測強化",
+          "description": "サードパーティCookieに依存しないファーストパーティCookieベースの計測を強化。",
+          "spec_html": "・GA4のファーストパーティCookie設定を最適化<br>・cookie_flags: SameSite=Lax; Secure<br>・クロスドメイン計測の設定確認",
+          "impact": "①→② +1pt（計測改善）"
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "Direct × 新規はブックマーク/URL共有経由で目的が明確でないユーザー",
+      "body": "友人からURLを共有された等のケースで、VELTRAというサービスの事前知識がなく、トップページで「何のサイトか」が分からず離脱。",
+      "evidence": [
+        "Direct新規の直帰率が高い",
+        "ランディングページがトップページの場合に特に①→②が低い"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "トップページの価値提案（バリュープロポジション）を明確化",
+          "description": "「世界の現地体験を簡単予約」等のキャッチコピーをファーストビューに大きく表示。",
+          "spec_html": "・H1: 「日本・世界の体験を簡単予約」<br>・サブ: 「16,000以上の体験 | 口コミ〇〇件 | 最低価格保証」<br>・フォントサイズ: 28px以上",
+          "impact": "①→② +3pt"
+        },
+        {
+          "letter": "H",
+          "title": "「友だちから共有された方へ」バナー（UTM連携）",
+          "description": "リファラなし+新規の場合に「友だちから紹介されましたか？」バナーを表示し、サービスの信頼性を訴求。",
+          "spec_html": "・新規+Direct判定時に条件表示<br>・「VELTRAは日本最大級の体験予約サイトです」<br>・「紹介された商品を探す」検索フォーム",
+          "impact": "①→② +2pt"
+        },
+        {
+          "letter": "I",
+          "title": "トップページのオンボーディングフロー",
+          "description": "新規Direct訪問時に3画面のオンボーディング（サービス説明→エリア選択→おすすめ表示）を実施。",
+          "spec_html": "・3ステップのオンボーディングモーダル<br>・Step1: VELTRAとは → Step2: どこに行きたい？ → Step3: おすすめ体験<br>・スキップ可能",
+          "impact": "①→② +3pt"
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://www.klook.com/favicon.ico",
+      "feature": "トップページに人気商品カルーセル + 目的別タブ。新規の導線が明確。",
+      "detail": "施策Bの参考。"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicons/favicon-32x32.png",
+      "feature": "バリュープロポジションがファーストビューで明確。検索UIが秀逸。",
+      "detail": "施策Gの参考。"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://cache.vtrcdn.com/orion/images/favicon.ico",
+      "feature": "「〇〇万件の口コミ」「最低価格保証」等の信頼性バッジ。",
+      "detail": "施策Gの参考。"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.png",
+      "feature": "人気ランキングがトップページに常設。",
+      "detail": "施策Cの参考。"
+    },
+    {
+      "name": "Activity Japan",
+      "favicon_url": "https://activityjapan.com/favicon.ico",
+      "feature": "エリア別のビジュアルカードがトップに配置。",
+      "detail": "施策B+Cの参考。"
+    },
+    {
+      "name": "アソビュー！",
+      "favicon_url": "https://www.asoview.com/favicon.ico",
+      "feature": "「はじめての方へ」ガイドページが充実。",
+      "detail": "施策Aの参考。"
+    }
+  ],
+  "verification": [
+    "計測問題の調査を完了（アプリ内ブラウザ割合の特定）",
+    "データの正確性を確認",
+    "仮説の妥当性をレビュー",
+    "施策の技術的実現可能性を確認",
+    "ABテスト設計をレビュー",
+    "優先度・リソース配分を決定"
+  ],
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "①→② 流入→AC到達",
+      "value": "26.10%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Direct × 新規",
+      "stage": "①→② 流入→AC到達",
+      "value": "8.38%",
+      "sub": "-67.9% vs 全体",
+      "alert": true
+    },
+    {
+      "label": "Direct × リピーター",
+      "stage": "①→② 流入→AC到達",
+      "value": "34.12%",
+      "sub": "+30.7% vs 全体"
+    },
+    {
+      "label": "Organic × 新規",
+      "stage": "①→② 流入→AC到達",
+      "value": "17.46%",
+      "sub": "-33.1% vs 全体"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "Direct新規のAC到達率が極端に低い",
+      "body_html": "Direct × 新規 ①→②: <strong style=\"color:var(--red)\">8.38%</strong><br>Direct × リピーター: 34.12%（4倍の差）",
+      "note": "新規はサイトを知らずURL直アクセス。トップページで迷子になっている可能性。"
+    },
+    {
+      "title": "計測上の問題の可能性",
+      "body_html": "Direct流入の一部はリファラなしのトラフィック（アプリ内ブラウザ等）<br>トラッキング欠落の可能性も要調査",
+      "note": "まず計測の正確性を確認した上で施策を検討。"
+    }
+  ],
+  "callout": {
+    "title": "特定結果",
+    "body_html": "<strong>Direct × 新規</strong> の ①→② AC到達率が <strong>8.38%</strong>（全体平均 26.10% の <strong>-68%</strong>）。月間 274Kセッション。URL直アクセスの新規ユーザーがトップページから商品詳細に到達できていない。計測問題の可能性も要確認。"
+  },
+  "verification_method": "GA4: Direct × 新規の ①→② AC到達率を計測。まず計測問題の調査（施策D）を実施し、実態を把握した上でABテストを実施。目標: 8.38% → 15%以上。"
 }

@@ -17,7 +17,223 @@
   ],
   "deviation": "-58%",
   "impact_sessions": "723K / 月",
-  "hypotheses": [],
-  "competitive": [],
-  "verification": []
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "AC到達後、カレンダーに気づかずスクロールで離脱",
+      "body": "商品説明・概要・含まれるもの…と読んでいくうちにカレンダーUIに到達する前に帰ってしまう。新規ユーザーはページ構造を知らない。",
+      "evidence": [
+        "Organic × 新規 ②→③: 31.49% vs リピーター 89.6%",
+        "Paid Search 新規 ②→③: 31.5%も同水準 → チャネル横断の新規問題",
+        "Mobile ②→③: 57.2%（PCより低い）→ スクロール量が多いモバイルで顕著"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "ACページ内に「日程を選ぶ」固定ナビゲーション",
+          "description": "ACページ上部にstickyバーを追加。新規ユーザーがカレンダーの存在に気づきやすくなる。",
+          "spec_html": "・position:sticky でページ上部に追従するバー<br>・ボタン文言: 「📅 日程を選んで予約する」<br>・クリックでカレンダーセクションへスムーズスクロール",
+          "impact": "②→③ +12pt"
+        },
+        {
+          "letter": "B",
+          "title": "ACページヒーロー直後にミニカレンダーをプレビュー表示",
+          "description": "商品画像の直後に今月の空き状況ミニカレンダーを表示。スクロール不要でカレンダーの存在を認知させる。",
+          "spec_html": "・ヒーロー画像直下に3日分の空き状況を横並び表示<br>・タップで本体カレンダーセクションへスクロール",
+          "impact": "②→③ +8pt"
+        },
+        {
+          "letter": "C",
+          "title": "「まず空きを確認」モーダルを初回訪問時に表示",
+          "description": "新規ユーザー初回アクセス時に「この商品の空きを確認しますか？」モーダルを表示。即カレンダーへ誘導。",
+          "spec_html": "・初回訪問判定はlocalStorageで管理<br>・モーダル: 「空きを確認」「あとで見る」の2ボタン<br>・表示タイミング: ページロード2秒後",
+          "impact": "②→③ +5pt"
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "SEO検索意図と商品詳細の乖離（情報収集目的で来る）",
+      "body": "「東京 体験」等のキーワードで来訪するが購買意欲はまだ低い。比較・閲覧目的のためカレンダーまで進まない。",
+      "evidence": [
+        "Paid Search 新規 ②→③: 31.5% → チャネル非依存",
+        "Organic全体のCVR: 0.34%（最低レベル）→ 情報収集層が多い",
+        "Organic × リピーター: 89.6%（購買意図明確なリピーターは高率）"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "「予約不要のお気に入り登録」でライトコンバージョン獲得",
+          "description": "ACページに「予約しなくてもOK — お気に入りに追加」ボタンを設置。購買意欲が低い段階でもエンゲージメントを獲得。",
+          "spec_html": "・ハートアイコン + 「お気に入りに追加」ボタン<br>・未ログインはlocalStorage保存 + 後日メール促進",
+          "impact": "②→③ +4pt"
+        },
+        {
+          "letter": "E",
+          "title": "ACページ上部に「この体験のポイント3行サマリー」を追加",
+          "description": "長い商品説明を読む前に3行で要点を把握できるサマリーカードを表示。情報収集ユーザーの興味を引き留める。",
+          "spec_html": "・ヒーロー直後に3行サマリーカード（所要時間/含むもの/催行保証）<br>・CTA: 「詳しく見る」で商品説明へ、「日程を見る」でカレンダーへ",
+          "impact": "②→③ +6pt"
+        },
+        {
+          "letter": "F",
+          "title": "類似商品レコメンドを離脱防止として表示",
+          "description": "ACページ下部に「この体験が気になった方はこちらも」でレコメンド表示。サイト内回遊を促進し完全離脱を防止。",
+          "spec_html": "・ACページ下部に類似商品3件をカード表示<br>・レコメンドロジック: 同エリア×同カテゴリ×価格帯近似",
+          "impact": "②→③ +3pt"
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "カレンダーUIが重く/表示が遅く操作を断念",
+      "body": "カレンダーウィジェットのJSが重く、特にモバイルで表示に時間がかかる。ローディング中に離脱している可能性。",
+      "evidence": [
+        "Mobile ②→③が特に低い → JSレンダリング負荷の影響",
+        "カレンダーウィジェットの初期化に500ms以上かかるケースあり"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "カレンダーのLazy Load + スケルトン表示",
+          "description": "カレンダーUIをIntersectionObserverで遅延読み込みし、読み込み中はスケルトンUIを表示。体感速度を改善。",
+          "spec_html": "・IntersectionObserverでviewport内に入ったら初期化<br>・スケルトンUI: グレーのプレースホルダーアニメーション",
+          "impact": "②→③ +3pt"
+        },
+        {
+          "letter": "H",
+          "title": "カレンダーをネイティブdate inputにフォールバック",
+          "description": "低スペック端末ではリッチカレンダーの代わりにネイティブのdate inputを使用。JS負荷をゼロに。",
+          "spec_html": "・デバイスメモリ4GB以下 or 接続速度slow-2gで判定<br>・フォールバック時: input type=date を使用",
+          "impact": "②→③ +2pt"
+        },
+        {
+          "letter": "I",
+          "title": "カレンダー表示速度のRUM計測を導入",
+          "description": "カレンダーウィジェットの描画完了までの時間をReal User Monitoring（RUM）で計測。改善の基盤データを取得。",
+          "spec_html": "・Performance APIでカレンダー初期化〜描画完了を計測<br>・GA4カスタムイベントとして送信<br>・P50/P75/P95をダッシュボード化",
+          "impact": "②→③ +1pt"
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://www.klook.com/favicon.ico",
+      "feature": "ゲスト購入対応。会員登録不要で予約可能。新規ユーザーの登録障壁をゼロに。",
+      "detail": "施策Dの参考: ライトエンゲージメント獲得。"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicons/favicon-32x32.png",
+      "feature": "ワンページチェックアウト。プラン選択→日程→決済が1ページで完結。",
+      "detail": "ステップ削減の好例。"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://cache.vtrcdn.com/orion/images/favicon.ico",
+      "feature": "Apple Pay / Google Pay対応でフォーム入力最小化。",
+      "detail": "Wallet決済で新規の入力障壁を解消。"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.png",
+      "feature": "ゲスト購入 + SNSログイン（LINE/Google）対応。",
+      "detail": "登録障壁の多段階解消。"
+    },
+    {
+      "name": "Activity Japan",
+      "favicon_url": "https://activityjapan.com/favicon.ico",
+      "feature": "SNSログイン（LINE/Facebook）でフォーム入力ゼロ。",
+      "detail": "日本市場向けLINEログインが特徴。"
+    },
+    {
+      "name": "アソビュー！",
+      "favicon_url": "https://www.asoview.com/favicon.ico",
+      "feature": "PayPay/LINE Pay対応でモバイル決済が簡単。お気に入り機能が充実。",
+      "detail": "ライトエンゲージメント + 決済簡素化の組み合わせ。"
+    }
+  ],
+  "verification": [
+    "データの正確性を確認（GA4レポートと照合）",
+    "仮説の妥当性をレビュー（PM/UXデザイナー）",
+    "施策の技術的実現可能性を確認（エンジニア）",
+    "ABテスト設計をレビュー（データアナリスト）",
+    "優先度・リソース配分を決定（PO）"
+  ],
+  "funnel_overview": {
+    "title": "ファネル全ステップ比較：Organic Search × 新規",
+    "cells": [
+      {
+        "label": "①→② 流入→AC到達",
+        "value": "17.46%",
+        "sub": "ベースライン 26.10%"
+      },
+      {
+        "label": "②→③ AC到達→検討",
+        "value": "31.49%",
+        "sub": "ベースライン 75.01% / -58%（-43.52pp）",
+        "alert": true
+      },
+      {
+        "label": "③→④ 検討→意向",
+        "value": "52.74%",
+        "sub": "ベースライン 86.62%"
+      },
+      {
+        "label": "CVR",
+        "value": "0.34%",
+        "sub": "ベースライン 1.46%"
+      }
+    ]
+  },
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "②→③ 検討転換",
+      "value": "75.01%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Organic × 新規",
+      "stage": "②→③ 検討転換",
+      "value": "31.49%",
+      "sub": "-58% vs 全体",
+      "alert": true
+    },
+    {
+      "label": "Organic × リピーター",
+      "stage": "②→③ 検討転換",
+      "value": "89.6%",
+      "sub": "ベースライン超え"
+    },
+    {
+      "label": "Paid Search × 新規",
+      "stage": "②→③ 検討転換",
+      "value": "31.5%",
+      "sub": "同水準（チャネル横断）"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "新規 vs リピーターで分解",
+      "body_html": "Organic × <strong style=\"color:var(--red)\">新規 ②→③: 31.49%</strong>（全体比 -58%）<br>Organic × リピーター ②→③: 89.6%（ベースライン超え）",
+      "note": "新規ユーザーに問題が集中。リピーターはページ構造を知っているため高率。"
+    },
+    {
+      "title": "チャネル・デバイスで分解",
+      "body_html": "Paid Search 新規 ②→③: 31.5%（同水準）<br>Organic × <strong style=\"color:var(--red)\">Mobile ②→③: 57.2%</strong>（PCより低い）",
+      "note": "チャネル横断で新規全般の構造問題。Mobileが特に低い。"
+    }
+  ],
+  "callout": {
+    "title": "特定結果",
+    "body_html": "<strong>Organic Search × 新規</strong> の ②→③ 検討転換率が <strong>31.49%</strong>（全体平均 75.01% の <strong>-58% / -43.52pp</strong>）。<br>月間 723Kセッション。ACページに到達した新規ユーザーの約7割が日程選択に進まずに離脱。リピーターの②→③が89.6%であることから、ページ構造の不慣れが主因。"
+  },
+  "verification_method": "GA4: Organic Search × 新規の ②→③ 転換率を主要KPIとして計測。ABテスト2週間。目標: 31.49% → 45%以上。優先施策: 施策A（スティッキーナビ）を先行実施。",
+  "competitive_insight": "主要競合は「新規ユーザーの登録・決済障壁を限界まで下げる」戦略。VELTRAはまずACページ内での日程選択到達率改善（施策A）が最優先。"
 }

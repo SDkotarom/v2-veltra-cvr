@@ -17,7 +17,195 @@
   ],
   "deviation": "-33.1%",
   "impact_sessions": "723,479 / 月",
-  "hypotheses": [],
-  "competitive": [],
-  "verification": []
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "ランディングページ（トップ/エリア）の商品導線が弱い",
+      "body": "Organic Searchはトップページやエリアページに着地するケースが多いが、そこから商品詳細への導線が見つけにくい。",
+      "evidence": [
+        "Organic新規①→②: 17.46% vs Paid Search新規: 31.53%（ACに直リンク）",
+        "Organic経由のランディングページはトップ/エリアが多い",
+        "新規ユーザーはサイト構造を知らない"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "エリアページにパーソナライズドレコメンドカルーセル追加",
+          "description": "エリアページ上部に「あなたにおすすめの体験」カルーセルを追加。人気商品への直リンクで①→②を改善。",
+          "spec_html": "・エリアページのファーストビューにカルーセル配置<br>・人気順/口コミ順/新着順で3商品表示<br>・ワンタップでAC（商品詳細）へ遷移",
+          "impact": "①→② +5pt"
+        },
+        {
+          "letter": "B",
+          "title": "トップページの検索UXを改善（目的別フィルター）",
+          "description": "トップページの検索を「目的別」「エリア別」「予算別」のフィルターチップで簡素化。新規ユーザーが迷わず商品を探せるように。",
+          "spec_html": "・フィルターチップ: 観光ツアー/アクティビティ/文化体験/食事<br>・エリア選択: 地図UI or ボタン一覧<br>・結果をリアルタイムフィルタリング",
+          "impact": "①→② +4pt"
+        },
+        {
+          "letter": "C",
+          "title": "SEOランディングページに「今すぐ予約できる人気商品TOP3」を追加",
+          "description": "SEO記事ページやエリアページに人気商品TOP3のリッチカードを挿入。コンテンツ閲覧からAC到達への橋渡し。",
+          "spec_html": "・記事本文中またはサイドバーに商品カード3枚<br>・画像 + タイトル + ★評価 + 価格 + 「詳しく見る」CTA",
+          "impact": "①→② +6pt"
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "サイト内検索の精度が低い",
+      "body": "新規ユーザーがサイト内検索を使っても目的の商品にたどり着けない。検索結果の精度やUIが不十分。",
+      "evidence": [
+        "サイト内検索からの②→③は高い → 検索を使った人は商品に到達できている",
+        "検索使用率自体が低い可能性"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "検索バーを常時表示 + オートサジェスト強化",
+          "description": "ヘッダーの検索バーを目立つ位置に常時表示し、入力時にオートサジェストで商品を直接提案。",
+          "spec_html": "・検索バーをヘッダー中央に配置（モバイルも常時表示）<br>・オートサジェスト: 商品名 + エリア名 + カテゴリ<br>・サジェスト結果からACページへ直リンク",
+          "impact": "①→② +4pt"
+        },
+        {
+          "letter": "E",
+          "title": "検索結果ページのUI改善（カード表示 + フィルター）",
+          "description": "検索結果をリスト表示からカード表示に変更し、フィルター機能を追加。",
+          "spec_html": "・カード表示: 画像 + タイトル + ★ + 価格<br>・フィルター: エリア/価格帯/カテゴリ/即確定",
+          "impact": "①→② +3pt"
+        },
+        {
+          "letter": "F",
+          "title": "「0件ヒット」時のフォールバック表示",
+          "description": "検索結果0件の場合に「この検索に近い体験」をレコメンド表示し、離脱を防止。",
+          "spec_html": "・類似キーワードでの再検索サジェスト<br>・同エリアの人気商品をフォールバック表示",
+          "impact": "①→② +2pt"
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "モバイルでのナビゲーション（ハンバーガーメニュー）が使いにくい",
+      "body": "モバイルのハンバーガーメニュー内にカテゴリ/エリアが隠れており、新規ユーザーが商品を探す手段に気づかない。",
+      "evidence": [
+        "Mobile ①→②: 15.2% vs Desktop: 22.1%",
+        "ハンバーガーメニューのクリック率が低い（一般的傾向）"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "モバイルにボトムナビゲーションバーを追加",
+          "description": "モバイル画面下部に「ホーム/検索/エリア/お気に入り/マイページ」のボトムナビを追加。",
+          "spec_html": "・position: fixed; bottom: 0 のボトムナビ<br>・5タブ: ホーム/🔍検索/📍エリア/❤️/👤<br>・アクティブタブをハイライト",
+          "impact": "①→② +4pt"
+        },
+        {
+          "letter": "H",
+          "title": "エリアページへのクイックアクセスボタン（トップ画面）",
+          "description": "トップページにエリア別のクイックアクセスボタン（沖縄/ハワイ/東京等）を大きく配置。",
+          "spec_html": "・エリアボタンをファーストビューに横スクロール配置<br>・アイコン + エリア名 + 商品数バッジ",
+          "impact": "①→② +3pt"
+        },
+        {
+          "letter": "I",
+          "title": "ページ遷移数のトラッキング強化",
+          "description": "新規ユーザーのランディング→AC到達までのページ遷移数・経路を計測。",
+          "spec_html": "・GA4: page_viewイベントのシーケンス分析<br>・新規ユーザーのAC到達までの平均遷移数を計測<br>・離脱が多い遷移パターンを特定",
+          "impact": "①→② +1pt"
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://www.klook.com/favicon.ico",
+      "feature": "トップページに目的別タブ + パーソナライズドレコメンド。",
+      "detail": "施策A+Bの参考。"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicons/favicon-32x32.png",
+      "feature": "検索UXが秀逸。オートサジェストから商品直行。",
+      "detail": "施策Dの参考。"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://cache.vtrcdn.com/orion/images/favicon.ico",
+      "feature": "エリアページに人気商品カルーセル。",
+      "detail": "施策Aの参考。"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.png",
+      "feature": "ボトムナビゲーション実装済み。",
+      "detail": "施策Gの参考。"
+    },
+    {
+      "name": "Activity Japan",
+      "favicon_url": "https://activityjapan.com/favicon.ico",
+      "feature": "カテゴリ別のクイックアクセスUI。",
+      "detail": "施策Hの参考。"
+    },
+    {
+      "name": "アソビュー！",
+      "favicon_url": "https://www.asoview.com/favicon.ico",
+      "feature": "SEO記事内に関連商品リッチカード埋め込み。",
+      "detail": "施策Cの参考。"
+    }
+  ],
+  "verification": [
+    "データの正確性を確認",
+    "仮説の妥当性をレビュー",
+    "施策の技術的実現可能性を確認",
+    "ABテスト設計をレビュー",
+    "優先度・リソース配分を決定"
+  ],
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "①→② 流入→AC到達",
+      "value": "26.10%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Organic × 新規",
+      "stage": "①→② 流入→AC到達",
+      "value": "17.46%",
+      "sub": "-33.1% vs 全体",
+      "alert": true
+    },
+    {
+      "label": "Paid Search × 新規",
+      "stage": "①→② 流入→AC到達",
+      "value": "31.53%",
+      "sub": "+20.8% vs 全体（良好）"
+    },
+    {
+      "label": "Direct × 新規",
+      "stage": "①→② 流入→AC到達",
+      "value": "8.38%",
+      "sub": "-67.9% vs 全体"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "Organic新規のAC到達率が低い理由",
+      "body_html": "SEO経由でトップページやエリアページに着地 → 商品詳細（AC）まで遷移しない<br>Paid SearchはAC直リンクのため①→②が高い",
+      "note": "Organicはサイト内回遊が必要なため、到達率が低い構造。"
+    },
+    {
+      "title": "デバイス別",
+      "body_html": "Organic × 新規 × Mobile: <strong style=\"color:var(--red)\">15.2%</strong><br>Organic × 新規 × Desktop: 22.1%",
+      "note": "Mobileが特に低い。小画面での回遊性が問題。"
+    }
+  ],
+  "callout": {
+    "title": "特定結果",
+    "body_html": "<strong>Organic Search × 新規</strong> の ①→② AC到達率が <strong>17.46%</strong>（全体平均 26.10% の <strong>-33.1%</strong>）。月間 723Kセッション。トップページやエリアページに着地した新規ユーザーが商品詳細ページまで遷移できていない。"
+  },
+  "verification_method": "GA4: Organic Search × 新規の ①→② AC到達率を計測。ABテスト2週間。目標: 17.46% → 22%以上。施策C（人気商品TOP3）を先行実施。"
 }

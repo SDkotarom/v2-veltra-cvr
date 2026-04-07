@@ -17,7 +17,184 @@
   ],
   "deviation": "-9.1%",
   "impact_sessions": "301K / 月",
-  "hypotheses": [],
-  "competitive": [],
-  "verification": []
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "Desktop版ACページの情報量が多すぎてカレンダーに到達しない",
+      "body": "Desktop版はMobileと異なり全情報が展開表示されるため、商品説明・含まれるもの・注意事項等で画面が埋まり、カレンダーセクションまでスクロールしないユーザーがいる。",
+      "evidence": [
+        "Organic × Desktop ②→③: 68.20%（ベースライン比-9.1%）",
+        "Desktop版はモバイルと異なり折りたたみがない",
+        "Paid Searchはランディングが商品直リンクのため影響が小さい"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "Desktop版ACページの右サイドバーにカレンダー常時表示",
+          "description": "2カラムレイアウトの右サイドバーにカレンダーウィジェットをsticky配置。スクロール位置に関わらず日程選択が可能。",
+          "spec_html": "・右サイドバー: position: sticky; top: 20px<br>・カレンダー + 価格 + 「予約に進む」CTA<br>・左カラム: 商品説明等のコンテンツ",
+          "impact": "②→③ +4pt"
+        },
+        {
+          "letter": "B",
+          "title": "Desktop版の情報セクションをタブ切り替えに変更",
+          "description": "商品説明/含まれるもの/注意事項/口コミをタブ切り替えUIに変更。ページの総高さを削減。",
+          "spec_html": "・4タブ: 概要/詳細/口コミ/Q&A<br>・デフォルト: 概要タブ（最も重要な情報のみ）<br>・タブ切り替え時にスクロール位置をリセットしない",
+          "impact": "②→③ +3pt"
+        },
+        {
+          "letter": "C",
+          "title": "「日程を選ぶ」フローティングボタンをDesktop版にも追加",
+          "description": "Desktop版でもスクロール追従の「日程を選ぶ」ボタンを配置。Mobileと同様の導線改善。",
+          "spec_html": "・画面右下にフローティングボタン<br>・クリックでカレンダーへスムーズスクロール<br>・カレンダーが表示範囲内の場合は非表示",
+          "impact": "②→③ +2pt"
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "Organic検索からの流入意図がDesktop/Mobileで異なる",
+      "body": "Desktopユーザーは「じっくり調べる」目的で来訪し、商品説明を読む時間は長いが予約行動には至りにくい。",
+      "evidence": [
+        "Desktop ②→③: 68.20% vs Mobile: 57.21%（Desktopの方が高い）",
+        "Desktopユーザーの平均ページ滞在時間が長い可能性",
+        "「比較検討」段階のユーザーが多い"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "「比較リスト」機能の追加（Desktop版）",
+          "description": "複数商品を比較リストに追加し、並べて比較できる機能を追加。比較検討ユーザーの体験を向上。",
+          "spec_html": "・各商品カードに「比較に追加」ボタン<br>・画面下部にフローティングの比較バー（最大3商品）<br>・比較ページ: 価格/時間/含むもの/口コミを並列表示",
+          "impact": "②→③ +3pt"
+        },
+        {
+          "letter": "E",
+          "title": "「この商品を見た人はこちらも見ています」レコメンド強化",
+          "description": "ACページに協調フィルタリングベースの関連商品レコメンドを表示。比較検討を促進しサイト内回遊を向上。",
+          "spec_html": "・ACページ下部に「この商品を見た人は〜」カルーセル<br>・協調フィルタリング: 閲覧セッションの共起率ベース<br>・3-5商品を表示",
+          "impact": "②→③ +2pt"
+        },
+        {
+          "letter": "F",
+          "title": "ACページに「なぜこの体験が選ばれるか」セクション追加",
+          "description": "口コミデータから抽出したポジティブポイントを要約表示し、比較検討中のユーザーの意思決定を促進。",
+          "spec_html": "・口コミからキーワード自動抽出（ガイド/景色/コスパ等）<br>・「選ばれる理由TOP3」としてカード表示<br>・各理由に該当口コミへのリンク",
+          "impact": "②→③ +2pt"
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "Desktop版のカレンダーUI/UXがMobileに最適化され過ぎている",
+      "body": "カレンダーUIがMobileファーストで設計されており、Desktop版では使いにくい or 表示が小さい。",
+      "evidence": [
+        "Desktop固有のUI問題の可能性",
+        "カレンダーのレスポンシブ対応が不十分な場合"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "Desktop版カレンダーを月間表示 + 週間表示に拡張",
+          "description": "Desktop版のカレンダーを大きなサイズで月間表示し、各日の空き状況・価格を一覧表示。",
+          "spec_html": "・Desktop: 月間フルカレンダー表示（Mobile: 週間表示のまま）<br>・各日セルに空き状況アイコン + 最低価格<br>・マウスホバーで詳細ポップアップ",
+          "impact": "②→③ +2pt"
+        },
+        {
+          "letter": "H",
+          "title": "カレンダー上での価格カラーマップ表示",
+          "description": "各日の価格帯を色で表現（安い=緑、高い=赤）し、お得な日程が一目でわかるようにする。",
+          "spec_html": "・日セルの背景色を価格帯で色分け<br>・凡例: 緑(お得) / 黄(通常) / 赤(繁忙期)<br>・最安値の日に「最安」バッジ",
+          "impact": "②→③ +2pt"
+        },
+        {
+          "letter": "I",
+          "title": "Desktop版のカレンダーA/Bテスト基盤構築",
+          "description": "カレンダーUIの複数バリアントをA/Bテストできる基盤を構築。データドリブンで最適UIを決定。",
+          "spec_html": "・Google Optimize or 自前のA/Bテスト基盤<br>・バリアント: 現行 / サイドバー / タブ内 / フルページ<br>・主要指標: ②→③転換率",
+          "impact": "②→③ +1pt"
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://www.klook.com/favicon.ico",
+      "feature": "Desktop版で右サイドバーにカレンダー+CTA常時表示。",
+      "detail": "施策Aの直接参考。"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicons/favicon-32x32.png",
+      "feature": "タブ切り替えUIで情報を整理。ページ高さを抑制。",
+      "detail": "施策Bの参考。"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://cache.vtrcdn.com/orion/images/favicon.ico",
+      "feature": "Desktop版に商品比較機能あり。",
+      "detail": "施策Dの参考。"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.png",
+      "feature": "カレンダー上に価格表示（日別最安値）。",
+      "detail": "施策Hの参考。"
+    },
+    {
+      "name": "Activity Japan",
+      "favicon_url": "https://activityjapan.com/favicon.ico",
+      "feature": "Desktop版のカレンダーが大きく使いやすい。",
+      "detail": "施策Gの参考。"
+    },
+    {
+      "name": "アソビュー！",
+      "favicon_url": "https://www.asoview.com/favicon.ico",
+      "feature": "「選ばれる理由」セクションが充実。口コミ要約あり。",
+      "detail": "施策Fの参考。"
+    }
+  ],
+  "verification": [
+    "データの正確性を確認",
+    "仮説の妥当性をレビュー",
+    "施策の技術的実現可能性を確認",
+    "ABテスト設計をレビュー",
+    "優先度・リソース配分を決定"
+  ],
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "②→③ AC到達→検討",
+      "value": "75.01%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Organic × Desktop",
+      "stage": "②→③ AC到達→検討",
+      "value": "68.20%",
+      "sub": "-9.1%（-6.81pp）vs 全体",
+      "alert": true
+    },
+    {
+      "label": "Organic × Mobile",
+      "stage": "②→③ AC到達→検討",
+      "value": "57.21%",
+      "sub": "-23.7% vs 全体"
+    },
+    {
+      "label": "Paid Search × Desktop",
+      "stage": "②→③ AC到達→検討",
+      "value": "78.50%",
+      "sub": "+4.7% vs 全体"
+    }
+  ],
+  "callout": {
+    "title": "特定結果",
+    "body_html": "<strong>Organic Search × Desktop</strong> の ②→③ 検討転換率が <strong>68.20%</strong>（全体平均 75.01% の <strong>-9.1%</strong>）。月間 301Kセッション。Mobile（57.21%）ほど深刻ではないが、影響セッション数が大きく改善余地がある。Desktop固有のUI/UX問題の可能性。"
+  },
+  "verification_method": "GA4: Organic Search × Desktop の ②→③ 転換率を計測。ABテスト2週間。目標: 68.20% → 73%以上。施策A（サイドバーカレンダー）を先行実施。"
 }

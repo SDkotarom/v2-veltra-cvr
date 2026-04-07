@@ -17,7 +17,184 @@
   ],
   "deviation": "-86%",
   "impact_sessions": "180K / 月",
-  "hypotheses": [],
-  "competitive": [],
-  "verification": []
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "計測上の問題（bot/crawler/APIリクエストの混入）",
+      "body": "Direct × Desktopにはbot、crawler、APIヘルスチェック等の非人間トラフィックが混入している可能性。これらはページ遷移しないため①→②が極端に低くなる。",
+      "evidence": [
+        "3.65%は全セグメント中で異常に低い値",
+        "Desktopに偏っている（botはDesktop UAを使うことが多い）",
+        "新規に偏っている（botはCookieを保持しない）"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "GA4のbot/spamフィルタリング設定を確認・強化",
+          "description": "GA4の「既知のボットをフィルタリング」設定を確認し、追加のフィルタリングルールを設定。",
+          "spec_html": "・GA4管理画面でbotフィルタリング有効化を確認<br>・IPアドレスベースのフィルタリング追加<br>・User-Agent文字列でbot判定",
+          "impact": "①→② 計測精度改善"
+        },
+        {
+          "letter": "B",
+          "title": "User-Agent分析でbotトラフィックの割合を特定",
+          "description": "Direct × DesktopのUser-Agentを詳細分析し、bot/crawler/APIリクエストの割合を算出。",
+          "spec_html": "・BigQueryでGA4生データのuser_agentフィールドを分析<br>・既知botパターンとのマッチング<br>・ヘッドレスブラウザ判定",
+          "impact": "①→② 実態把握"
+        },
+        {
+          "letter": "C",
+          "title": "reCAPTCHA v3のスコアを活用した人間判定",
+          "description": "reCAPTCHA v3を導入し、人間/botのスコアをGA4カスタムディメンションとして送信。",
+          "spec_html": "・reCAPTCHA v3をトップページに設置<br>・スコア0.5以下をbot判定<br>・GA4イベントにスコアを付与して分析",
+          "impact": "①→② 計測精度改善"
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "Desktop Direct新規がトップページで迷子（UX問題）",
+      "body": "botではない正規のDesktop Direct新規ユーザーがトップページから商品詳細に遷移できていない。",
+      "evidence": [
+        "計測問題を除外してもAC到達率が低い場合",
+        "Desktop UIはMobileより画面が大きいが導線が散漫な可能性"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "デスクトップ版トップページのヒートマップ分析",
+          "description": "ヒートマップツールでDesktop新規ユーザーのクリック/スクロールパターンを分析。",
+          "spec_html": "・Hotjar or Microsoft Clarityを設置<br>・Direct × Desktop × 新規をセグメント<br>・クリック集中箇所とスクロール深度を可視化",
+          "impact": "①→② 実態把握"
+        },
+        {
+          "letter": "E",
+          "title": "デスクトップ版の商品カテゴリナビゲーション改善",
+          "description": "左サイドバーまたはメガメニューにカテゴリナビゲーションを追加。エリア/カテゴリでの商品探索を容易にする。",
+          "spec_html": "・メガメニュー: エリア×カテゴリのマトリクス表示<br>・各カテゴリに商品数バッジ<br>・ホバーでサブカテゴリ展開",
+          "impact": "①→② +4pt"
+        },
+        {
+          "letter": "F",
+          "title": "デスクトップ版ファーストビューにパーソナライズドレコメンド",
+          "description": "新規ユーザーの閲覧開始地点に人気商品レコメンドを大きく表示。",
+          "spec_html": "・ファーストビューに3商品カード（大きめ）<br>・人気順/評価順で選定<br>・「〇〇人が閲覧中」リアルタイム表示",
+          "impact": "①→② +5pt"
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "Desktop版のページ読み込み速度問題",
+      "body": "Desktop版の重いJS/CSSがページ読み込みを遅延させ、新規ユーザーが表示完了前に離脱している可能性。",
+      "evidence": [
+        "Desktop版はMobile版よりJSバンドルが大きい場合がある",
+        "LCPが遅い場合にGooglebot以外も離脱する"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "Desktop版のCore Web Vitals計測",
+          "description": "Desktop版のLCP/FID/CLSをRUMで計測し、パフォーマンスボトルネックを特定。",
+          "spec_html": "・web-vitalsライブラリでDesktop版を計測<br>・Direct × 新規セグメントのP75値を確認<br>・LCP 2.5秒以上の割合を算出",
+          "impact": "①→② 実態把握"
+        },
+        {
+          "letter": "H",
+          "title": "JSバンドルの最適化（Tree Shaking + Code Splitting）",
+          "description": "不要なJSを削除し、ページ別にCode Splittingを適用。初期読み込みサイズを削減。",
+          "spec_html": "・webpack-bundle-analyzerでバンドル分析<br>・未使用コードのTree Shaking<br>・ルートベースのCode Splitting",
+          "impact": "①→② +2pt"
+        },
+        {
+          "letter": "I",
+          "title": "CDN設定の最適化（キャッシュヘッダー + 圧縮）",
+          "description": "静的アセットのキャッシュヘッダーを最適化し、Brotli圧縮を有効化。",
+          "spec_html": "・Cache-Control: max-age=31536000 for static assets<br>・Brotli圧縮を有効化<br>・Service Workerによるプリキャッシュ",
+          "impact": "①→② +1pt"
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://www.klook.com/favicon.ico",
+      "feature": "Desktop版のページ速度が優秀（LCP 1.5秒以下）。",
+      "detail": "パフォーマンスの好例。"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicons/favicon-32x32.png",
+      "feature": "Desktop版の検索UIが秀逸。ファーストビューで完結。",
+      "detail": "施策Eの参考。"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://cache.vtrcdn.com/orion/images/favicon.ico",
+      "feature": "reCAPTCHA v3でbot判定を実装済み。",
+      "detail": "施策Cの参考。"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.png",
+      "feature": "Desktop版にメガメニュー実装。",
+      "detail": "施策Eの参考。"
+    },
+    {
+      "name": "Activity Japan",
+      "favicon_url": "https://activityjapan.com/favicon.ico",
+      "feature": "Desktop版のレコメンド機能が充実。",
+      "detail": "施策Fの参考。"
+    },
+    {
+      "name": "アソビュー！",
+      "favicon_url": "https://www.asoview.com/favicon.ico",
+      "feature": "Desktop版のパフォーマンスモニタリングが自動化。",
+      "detail": "施策Gの参考。"
+    }
+  ],
+  "verification": [
+    "計測問題の調査を完了（bot割合の特定）",
+    "botフィルタリング後のデータで再分析",
+    "UX施策の技術的実現可能性を確認",
+    "ABテスト設計をレビュー",
+    "優先度・リソース配分を決定"
+  ],
+  "description_html": "Direct × Desktop の ①→② AC到達率が <strong style=\"color:var(--red)\">3.65%</strong> と異常に低い（ベースライン 26.1% の -86%）。180Kセッション/月に影響。まず計測上の問題を確認する必要がある。",
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "①→② 流入→AC到達",
+      "value": "26.10%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Direct × Desktop",
+      "stage": "①→② 流入→AC到達",
+      "value": "3.65%",
+      "sub": "-86% vs 全体（異常値）",
+      "alert": true
+    },
+    {
+      "label": "Direct × Mobile",
+      "stage": "①→② 流入→AC到達",
+      "value": "12.41%",
+      "sub": "-52.5% vs 全体"
+    },
+    {
+      "label": "Direct × リピーター",
+      "stage": "①→② 流入→AC到達",
+      "value": "34.12%",
+      "sub": "+30.7% vs 全体"
+    }
+  ],
+  "callout": {
+    "title": "計測異常 or 大規模UX課題",
+    "body_html": "Direct × Desktop の ①→② AC到達率が <strong>3.65%</strong> と異常値。計測上の問題（トラッキング欠落・直接URLリクエスト vs ページ遷移の計上方法）を先に確認する必要がある。正常なトラフィックであれば、大幅なUX改善機会が存在する。"
+  },
+  "verification_method": "まず計測問題の調査（施策A-C）を2週間で実施。bot除外後の実データに基づいてUX施策のABテストを計画。"
 }

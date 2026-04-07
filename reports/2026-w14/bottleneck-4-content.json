@@ -17,7 +17,197 @@
   ],
   "deviation": "-30.6%",
   "impact_sessions": "515,780 / 月",
-  "hypotheses": [],
-  "competitive": [],
-  "verification": []
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "比較検討フェーズのユーザーがカレンダー後離脱",
+      "body": "有料広告Mobile経由ユーザーは購買意欲が固まっておらず、カレンダーを閲覧しても日程・価格の意思決定ができずフォーム前で離脱する。",
+      "evidence": [
+        "③→④が60.12%と極端に低い一方、②→③も59.91%",
+        "Paid Search広告は情報収集段階ユーザーも多数流入する",
+        "CVR 1.22%はベースラインを下回る"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "「気になるリスト」ボタンをCTA隣に追加",
+          "description": "比較検討モードのユーザー向けに「今すぐ予約」CTAの隣に「気になるリストに追加」ボタンを配置。",
+          "spec_html": "・フォームCTA直隣にハートアイコン +「気になる」ボタン<br>・未ログインはlocalStorage保存<br>・7日以内予約完了率をトラッキング",
+          "impact": "③→④ +4pt"
+        },
+        {
+          "letter": "B",
+          "title": "フォームCTAをカレンダー直下に固定表示",
+          "description": "フォーム開始CTAをカレンダー直下にsticky表示。日程選択後に視線が自然に移動。",
+          "spec_html": "・カレンダーコンポーネント直下にCTA移動<br>・日程選択完了時にCTAがアニメーション強調<br>・Mobile: bottom sticky barとして常時表示",
+          "impact": "③→④ +5pt"
+        },
+        {
+          "letter": "C",
+          "title": "「この日程をキープする」軽量意向CTAの追加",
+          "description": "「24時間仮押さえ（無料）」という中間ステップのCTAを追加。決断圧を下げる。",
+          "spec_html": "・フォームCTAの下にサブCTA配置<br>・仮押さえ完了後: メールでリマインド<br>・在庫確保はしない（カート保持のみ）",
+          "impact": "③→④ +3pt"
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "MobileのフォームCTAがカレンダー下に隠れている",
+      "body": "Mobile画面でフォーム開始ボタンが日程選択ウィジェットの下部に配置されており、スクロールしないと視認できない。",
+      "evidence": [
+        "Desktopでは③→④が相対的に高い（Mobile特有の問題）",
+        "カレンダーウィジェットの高さはオプション数で変動する"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "モバイル専用フローティング予約バー",
+          "description": "カレンダー表示時にモバイル画面下部にフローティング予約バーを常時表示。",
+          "spec_html": "・position: fixed; bottom: 0 でフローティングバー<br>・選択中の日程 + 価格 + 「予約に進む」ボタン<br>・カレンダー未操作時は非表示",
+          "impact": "③→④ +6pt"
+        },
+        {
+          "letter": "E",
+          "title": "日程選択完了時にCTAを自動スクロール表示",
+          "description": "カレンダーで日程をタップした瞬間にCTAボタンまで自動スクロールし、次のアクションを明確化。",
+          "spec_html": "・日程タップイベントをリッスン<br>・scrollIntoView({ behavior: 'smooth' })でCTAへ<br>・CTA部分にハイライトアニメーション",
+          "impact": "③→④ +3pt"
+        },
+        {
+          "letter": "F",
+          "title": "カレンダーとCTAを1画面内に収める（カレンダー高さ制限）",
+          "description": "カレンダーウィジェットの最大高さを制限し、CTAが常に画面内に見えるようにする。",
+          "spec_html": "・カレンダーの max-height: 300px + overflow: scroll<br>・CTAがカレンダー直下で常に表示される",
+          "impact": "③→④ +3pt"
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "Paid広告の商品と検索クエリの乖離",
+      "body": "広告のランディング先商品がユーザーの検索クエリと一致しておらず、カレンダー到達後に「探していたものと違う」と気づき離脱。",
+      "evidence": [
+        "Paid Search × Mobile ②→③も59.91%と低く、ACページ段階から関心が薄い",
+        "広告グループのブロードマッチが不一致クエリを引き込む可能性"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "広告キーワードとACページの一致スコアを可視化",
+          "description": "Google Adsのキーワードレポートとランディングページの内容一致度を分析し、乖離の大きいグループを特定。",
+          "spec_html": "・Search Terms ReportとACページタイトルの一致度を計算<br>・一致度50%以下の広告グループをリストアップ<br>・ネガティブキーワード追加で絞り込み",
+          "impact": "③→④ +3pt"
+        },
+        {
+          "letter": "H",
+          "title": "広告グループごとのファネル分析ダッシュボード",
+          "description": "広告グループ別に②→③→④の転換率を可視化し、問題のあるグループを特定・改善。",
+          "spec_html": "・GA4 + Google Ads連携でグループ別レポート<br>・③→④が低いグループを赤ハイライト<br>・週次で自動更新",
+          "impact": "③→④ +2pt"
+        },
+        {
+          "letter": "I",
+          "title": "検索クエリ連動の動的ランディングページ",
+          "description": "広告の検索クエリに応じてACページのH1・キャッチコピーを動的変更し、期待ギャップを解消。",
+          "spec_html": "・gclid + キーワードパラメータでH1を動的変更<br>・「○○をお探しですか？この体験がおすすめです」",
+          "impact": "③→④ +4pt"
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://www.klook.com/favicon.ico",
+      "feature": "フローティング予約バーでスクロール位置に関わらず予約可能。",
+      "detail": "施策Dの直接参考。"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicons/favicon-32x32.png",
+      "feature": "日程選択後に即予約フォームが展開。ステップ最小。",
+      "detail": "施策Eの参考。"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://cache.vtrcdn.com/orion/images/favicon.ico",
+      "feature": "「Check availability」ボタンが常時表示。",
+      "detail": "フローティングCTAの好例。"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.png",
+      "feature": "ウィッシュリスト機能が充実。比較検討ユーザーの再訪率が高い。",
+      "detail": "施策Aの参考。"
+    },
+    {
+      "name": "Activity Japan",
+      "favicon_url": "https://activityjapan.com/favicon.ico",
+      "feature": "カレンダーとCTAが近接配置。スクロール量が少ない。",
+      "detail": "施策Fの参考。"
+    },
+    {
+      "name": "アソビュー！",
+      "favicon_url": "https://www.asoview.com/favicon.ico",
+      "feature": "フローティングCTA + 「仮予約」機能あり。",
+      "detail": "施策C+Dの組み合わせ。"
+    }
+  ],
+  "verification": [
+    "データの正確性を確認",
+    "仮説合意: 「比較検討ユーザーの離脱」が主因である点についてチームで合意した",
+    "施策Aレビュー: ウィッシュリスト機能の実装コスト・スケジュールを確認",
+    "施策Bレビュー: CTA位置変更のデザイン案をUXチームがレビュー",
+    "施策Cレビュー: 「24時間仮押さえ」の予約管理システムへの影響を確認",
+    "優先度・リソース配分を決定（PO）"
+  ],
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "③→④ 検討→意向",
+      "value": "86.62%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Paid Search × Mobile",
+      "stage": "③→④ 検討→意向",
+      "value": "60.12%",
+      "sub": "-30.6%（-26.5pp）vs 全体",
+      "alert": true
+    },
+    {
+      "label": "②→③ 副問題あり",
+      "stage": "AC到達→検討",
+      "value": "59.91%",
+      "sub": "vs ベースライン 75.01%"
+    },
+    {
+      "label": "セグメントCVR",
+      "stage": "コンバージョン率",
+      "value": "1.2156%",
+      "sub": "Paid Search × Mobile"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "③→④ 乖離の大きさ",
+      "body_html": "ベースライン: <strong>86.62%</strong><br>Paid Search × Mobile: <strong style=\"color:var(--red)\">60.12%</strong><br>差分: <strong style=\"color:var(--red)\">-26.5pp（-30.6%）</strong>",
+      "note": "カレンダーを見た後、フォーム開始前で3人に1人が離脱。"
+    },
+    {
+      "title": "②→③ も低い（副問題）",
+      "body_html": "Paid Search × Mobile ②→③: <strong style=\"color:var(--amber)\">59.91%</strong><br>ベースライン ②→③: 75.01%",
+      "note": "AC到達後のカレンダー表示でも問題あり。③→④が主要ボトルネック。"
+    }
+  ],
+  "callout": {
+    "title": "特定結果",
+    "body_html": "<strong>Paid Search × Mobile</strong> の ③→④ 意向転換率が <strong>60.12%</strong>（全体平均 86.62% の <strong>-30.6%、-26.5pp</strong>）。<br>月間 515,780セッション。有料広告費を投下して誘導できているにもかかわらず、フォーム開始直前で大量離脱。"
+  },
+  "verification_method": "GA4: Paid Search × Mobile の ③→④ 転換率を計測。ABテスト2週間。目標: 60.12% → 70%以上。施策Bから優先実施（実装コスト低）。",
+  "competitive_insight": "競合はフローティングCTAと軽量エンゲージメント（ウィッシュリスト/仮予約）の2軸で③→④改善を実現。VELTRAは施策D（フローティングバー）+ 施策A（気になるリスト）の組み合わせが有効。"
 }

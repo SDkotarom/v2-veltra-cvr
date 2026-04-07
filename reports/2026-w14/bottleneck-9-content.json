@@ -17,7 +17,183 @@
   ],
   "deviation": "-13.9%",
   "impact_sessions": "273K / 月",
-  "hypotheses": [],
-  "competitive": [],
-  "verification": []
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "リピーターが再検討中に「前回と同じ価格/条件か」を確認して離脱",
+      "body": "リピーターは過去に閲覧・検討した商品を広告経由で再訪問するが、価格や条件が変わっていると「前回の方が良かった」と感じて離脱する。",
+      "evidence": [
+        "Paid Search × Returningの③→④: 74.58%（リピーターとしては低い）",
+        "リピーターは価格期待値を持っている",
+        "広告のプロモーション価格とACページの通常価格に差がある可能性"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "リピーターに「前回の閲覧価格」と比較表示",
+          "description": "過去の閲覧履歴から前回の価格を表示し、「値下げ/据え置き」を明示。",
+          "spec_html": "・localStorageで前回閲覧時の価格を保持<br>・「前回 ¥13,000 → 今回 ¥12,500（¥500 OFF）」バッジ<br>・値上がりの場合は非表示",
+          "impact": "③→④ +3pt"
+        },
+        {
+          "letter": "B",
+          "title": "広告のプロモーション価格とACページの価格を一致させる",
+          "description": "広告文に表示する価格とACページの表示価格を完全に一致させ、期待ギャップをゼロに。",
+          "spec_html": "・Google Ads価格表示オプションとACページ価格のフィード連携<br>・価格変更時の広告文自動更新<br>・不一致アラート設定",
+          "impact": "③→④ +4pt"
+        },
+        {
+          "letter": "C",
+          "title": "「この商品を以前ご覧になりました」バナーでパーソナライズ",
+          "description": "再訪問リピーターに「以前閲覧済み」バナーを表示し、前回の検討状況を復元。",
+          "spec_html": "・閲覧履歴バナー: 前回閲覧日 + 前回選択プラン<br>・「前回の続きから予約」CTA<br>・カレンダーを前回閲覧日付付近にプリセット",
+          "impact": "③→④ +3pt"
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "リターゲティング広告のクリエイティブが汎用的すぎる",
+      "body": "リターゲティング広告が過去の閲覧商品と一致しておらず、ランディング後に期待との乖離で離脱。",
+      "evidence": [
+        "Paid Search × Returning固有の問題（Organic Returningより高い）",
+        "リターゲティング広告の商品マッチング精度が不明"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "動的リマーケティング広告の精度向上",
+          "description": "過去に閲覧した商品そのものを広告に表示する動的リマーケティングの設定を最適化。",
+          "spec_html": "・Google Adsの動的リマーケティング設定確認<br>・商品フィード（Merchant Center）の鮮度を改善<br>・価格・在庫の自動更新",
+          "impact": "③→④ +3pt"
+        },
+        {
+          "letter": "E",
+          "title": "閲覧済み商品の「値下げ/空き復活」通知広告",
+          "description": "過去に閲覧した商品の価格が下がった場合や空きが出た場合に限定した広告を配信。",
+          "spec_html": "・Customer Matchで閲覧済みユーザーリストを作成<br>・価格変動トリガーで広告配信<br>・「お気に入りの商品が値下げ」クリエイティブ",
+          "impact": "③→④ +2pt"
+        },
+        {
+          "letter": "F",
+          "title": "広告ランディング時に「あなたが見た商品」セクションを表示",
+          "description": "リターゲティング広告からのランディング時に、過去の閲覧商品一覧をACページ上部に表示。",
+          "spec_html": "・UTM + ユーザー閲覧履歴の組み合わせ<br>・「最近見た商品」カルーセルをACページ上部に挿入<br>・広告商品以外の閲覧済み商品も表示",
+          "impact": "③→④ +2pt"
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "リピーターのプラン選択体験が初回と変わらない",
+      "body": "リピーターに対してもプラン選択UIが新規と同じ。過去の選択履歴や好みが反映されていない。",
+      "evidence": [
+        "リピーターとしてはプラン選択の迷いが少ないはず",
+        "パーソナライズされていないUIが離脱を招く"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "プラン選択のデフォルトをリピーターの過去選択に合わせる",
+          "description": "リピーターが過去に選択したプランをデフォルト選択状態にし、変更不要ならそのまま予約へ進めるようにする。",
+          "spec_html": "・過去の予約履歴からプラン選択をプリセット<br>・「前回と同じプラン」バッジ表示<br>・ワンクリックで予約フォームへ",
+          "impact": "③→④ +3pt"
+        },
+        {
+          "letter": "H",
+          "title": "リピーター向けクイック予約フロー",
+          "description": "過去に予約したことがある商品の場合、情報入力をスキップしてカレンダー→確認→完了の3ステップで完結。",
+          "spec_html": "・過去の予約情報（名前/連絡先/人数）を自動入力<br>・「前回と同じ内容で予約」ショートカット<br>・変更したい項目のみ編集可能",
+          "impact": "③→④ +4pt"
+        },
+        {
+          "letter": "I",
+          "title": "リピーター向け限定割引の自動適用",
+          "description": "リピーター判定時に自動で割引クーポンを適用し、予約への動機付けを強化。",
+          "spec_html": "・2回目以降の予約に5%OFFクーポン自動適用<br>・ACページに「リピーター割引適用中」バッジ<br>・有効期限表示で緊急性を訴求",
+          "impact": "③→④ +2pt"
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://www.klook.com/favicon.ico",
+      "feature": "リピーター向けにパーソナライズドプラン推薦。",
+      "detail": "施策Gの参考。"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicons/favicon-32x32.png",
+      "feature": "動的リマーケティング広告の精度が高い。",
+      "detail": "施策Dの参考。"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://cache.vtrcdn.com/orion/images/favicon.ico",
+      "feature": "リピーター向けクイック予約フロー実装済み。",
+      "detail": "施策Hの参考。"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.png",
+      "feature": "値下げ通知メール + アプリプッシュ通知。",
+      "detail": "施策Eの参考。"
+    },
+    {
+      "name": "Activity Japan",
+      "favicon_url": "https://activityjapan.com/favicon.ico",
+      "feature": "リピーター割引が自動適用される仕組み。",
+      "detail": "施策Iの参考。"
+    },
+    {
+      "name": "アソビュー！",
+      "favicon_url": "https://www.asoview.com/favicon.ico",
+      "feature": "閲覧履歴ベースのレコメンド + クーポン配信。",
+      "detail": "施策A+Iの組み合わせ。"
+    }
+  ],
+  "verification": [
+    "データの正確性を確認",
+    "仮説の妥当性をレビュー",
+    "施策の技術的実現可能性を確認",
+    "ABテスト設計をレビュー",
+    "優先度・リソース配分を決定"
+  ],
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "③→④ 検討→意向",
+      "value": "86.62%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Paid Search × Returning",
+      "stage": "③→④ 検討→意向",
+      "value": "74.58%",
+      "sub": "-13.9%（-12.04pp）vs 全体",
+      "alert": true
+    },
+    {
+      "label": "Organic × Returning",
+      "stage": "③→④ 検討→意向",
+      "value": "63.86%",
+      "sub": "-26.3% vs 全体"
+    },
+    {
+      "label": "Paid Search × 新規",
+      "stage": "③→④ 検討→意向",
+      "value": "60.61%",
+      "sub": "-30.0% vs 全体"
+    }
+  ],
+  "callout": {
+    "title": "特定結果",
+    "body_html": "<strong>Paid Search × Returning</strong> の ③→④ 意向転換率が <strong>74.58%</strong>（全体平均 86.62% の <strong>-13.9%</strong>）。月間 273Kセッション。リピーターかつ有料広告経由なのにベースラインを下回る。プラン選択時の迷い or 再訪問時の期待ギャップが原因か。"
+  },
+  "verification_method": "GA4: Paid Search × Returning の ③→④ 転換率を計測。ABテスト2週間。目標: 74.58% → 82%以上。施策B（価格一致）を先行実施。"
 }
