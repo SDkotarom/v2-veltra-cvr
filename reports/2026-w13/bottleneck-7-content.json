@@ -1,0 +1,256 @@
+{
+  "number": 7,
+  "title": "Desktop — ③→④ 意向転換率の低さ",
+  "tags": [
+    {
+      "label": "③→④ 検討→意向",
+      "type": "red"
+    },
+    {
+      "label": "Desktop",
+      "type": "default"
+    }
+  ],
+  "deviation": "-13.7%",
+  "impact_sessions": "767K / 月",
+  "description_html": "<p>Desktopのカレンダー閲覧後のフォーム転換率が <strong style=\"color:#E8423F\">27.53%</strong>（全体ベースライン 31.92% の <strong>-13.7%</strong>）。月間 767K セッション。カレンダーで日程確認後にフォームに進まない。</p>",
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "③→④",
+      "value": "31.92%",
+      "sub": "BL"
+    },
+    {
+      "label": "Desktop",
+      "stage": "③→④",
+      "value": "27.53%",
+      "sub": "-13.7%",
+      "alert": true
+    },
+    {
+      "label": "Mobile",
+      "stage": "③→④",
+      "value": "35.66%",
+      "sub": "+11.7%"
+    },
+    {
+      "label": "Organic Desktop",
+      "stage": "③→④",
+      "value": "20.32%",
+      "sub": "-36.3%"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "Desktop 新規 vs リピーター",
+      "body_html": "Desktop × 新規: ③→④ ≈ 22%<br>Desktop × リピーター: ③→④ ≈ 35%",
+      "note": "Desktop新規が低い。"
+    },
+    {
+      "title": "Desktop チャネル別",
+      "body_html": "Desktop × Organic: ③→④ = 20.32%<br>Desktop × Paid: ③→④ ≈ 22%",
+      "note": "Desktop Organicが特に低い。"
+    }
+  ],
+  "callout": {
+    "title": "特定結果",
+    "body_html": "<strong>Desktop</strong> ③→④ = <strong>27.53%</strong>（BL 31.92%の<strong>-13.7%</strong>）。Desktopの右カラム予約ウィジェットからフォームへの遷移に問題あり。"
+  },
+  "hypo_section_title": "原因仮説 × 3 &amp; 打ち手 × 9",
+  "hypo_section_desc": "なぜDesktopの③→④ 意向転換率が低いか？",
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "Desktop右カラム予約ウィジェットのUI課題",
+      "body": "右カラムに予約ウィジェットがあるが、プラン選択→カレンダー→フォームの遷移が煩雑。",
+      "evidence": [
+        "Desktop ③→④が全体より低い",
+        "右カラムウィジェットの操作性問題",
+        "プラン選択とカレンダーの連携が弱い"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "右カラム予約ウィジェットのUX改善",
+          "description": "プラン選択→日程選択→「予約する」を1つのフローに統合。",
+          "spec_html": "",
+          "impact": "③→④ +4pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">右カラム: プラン選択→スクロール→カレンダー<br>→ フローが分断</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">右カラム: プラン選択→即カレンダー展開→予約ボタン<br>→ シームレスなフロー</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "B",
+          "title": "予約ウィジェットのスクロール追従強化",
+          "description": "長いACページでも予約ウィジェットが常に画面内に表示。",
+          "spec_html": "",
+          "impact": "③→④ +3pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">スクロールすると右カラムが見えなくなる場合あり</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">sticky配置で常に表示<br>→ いつでも予約可能</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "C",
+          "title": "カレンダー日付クリック→即フォーム表示",
+          "description": "日付選択後にモーダルでフォームを即表示。",
+          "spec_html": "",
+          "impact": "③→④ +2pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">日付選択→ページ遷移→フォーム<br>→ 遷移で離脱</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">日付選択→モーダルでフォーム即表示<br>→ ページ遷移なし</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "他社比較に移行している",
+      "body": "Desktopではタブで他社サイトを開きやすく、カレンダー確認後に価格比較で離脱。",
+      "evidence": [
+        "Desktop離脱後の再訪問率が低い",
+        "複数タブ閲覧行動が一般的",
+        "価格比較サイト経由の流出"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "最安値保証バッジの表示",
+          "description": "「他社より安い場合差額返金」バッジを予約ウィジェットに表示。",
+          "spec_html": "",
+          "impact": "③→④ +3pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">価格表示のみ<br>→ 他社と比較したくなる</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">「最安値保証」バッジ<br>→ 比較不要と安心</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "E",
+          "title": "限定割引・特典の表示",
+          "description": "VELTRA限定割引や特典を予約ウィジェットに表示。",
+          "spec_html": "",
+          "impact": "③→④ +2pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">他社と同じ価格<br>→ VELTRAで買う理由がない</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">「VELTRA限定: ポイント5%還元」<br>→ VELTRAで買うメリット</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "F",
+          "title": "「他社比較」セクションの追加",
+          "description": "ACページ内に「なぜVELTRA？」比較セクション。",
+          "spec_html": "",
+          "impact": "③→④ +1pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">差別化ポイントが不明</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">「VELTRAが選ばれる理由」<br>日本語サポート/即確定/ポイント</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "仕事中閲覧で後回し行動が多い",
+      "body": "Desktopユーザーの多くが仕事中に閲覧し、予約は後回しにする行動パターン。",
+      "evidence": [
+        "平日昼間のDesktopセッションが多い",
+        "カレンダー閲覧時間帯が業務時間",
+        "予約完了は夜間にシフト"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "「あとで予約する」リマインド機能",
+          "description": "メール/LINEでリマインド送信。",
+          "spec_html": "",
+          "impact": "③→④ +2pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">離脱→忘れる</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">「あとで予約する」ボタン<br>→ 夜にリマインドメール</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "H",
+          "title": "カート保存機能",
+          "description": "選択したプラン・日程をカートに保存。",
+          "spec_html": "",
+          "impact": "③→④ +2pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">選択状態が保存されない</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">カート保存<br>→ 後から1クリックで予約再開</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "I",
+          "title": "デスクトップ→モバイル引継ぎ",
+          "description": "QRコードで閲覧中の商品をモバイルに転送。",
+          "spec_html": "",
+          "impact": "③→④ +1pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">PC閲覧→スマホで再検索<br>→ 面倒で離脱</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">QRコード表示<br>→ スマホで即続行</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://www.klook.com/favicon.ico",
+      "url": "https://www.klook.com/ja/",
+      "feature": "右カラムにsticky予約ウィジェット。日付クリック→即フォーム。",
+      "detail": ""
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicons/favicon-32x32.png",
+      "url": "https://www.getyourguide.com/",
+      "feature": "右カラム固定ウィジェット。A/Bテスト最適化済み。",
+      "detail": ""
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://cache.vtrcdn.com/orion/images/favicon.ico",
+      "url": "https://www.viator.com/",
+      "feature": "右カラムに価格+カレンダー固定。Tripadvisor連携。",
+      "detail": ""
+    },
+    {
+      "name": "アソビュー",
+      "favicon_url": "https://www.asoview.com/favicon.ico",
+      "url": "https://www.asoview.com/",
+      "feature": "右カラムに予約ボックス。在庫リアルタイム表示。",
+      "detail": ""
+    },
+    {
+      "name": "じゃらん",
+      "favicon_url": "https://www.jalan.net/favicon.ico",
+      "url": "https://www.jalan.net/",
+      "feature": "右カラムに価格+予約ボタン。ポイント訴求。",
+      "detail": ""
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.png",
+      "url": "https://www.kkday.com/ja/",
+      "feature": "右カラムに価格+カレンダー。「即確定」バッジ。",
+      "detail": ""
+    }
+  ],
+  "competitive_insight": "競合はDesktopの右カラムにsticky予約ウィジェットを実装済み。VELTRAもstickyだがプラン→カレンダー→フォームのフローに改善余地。施策A（ウィジェットUX改善）を優先。",
+  "verification": [
+    "データ正確性確認",
+    "仮説妥当性レビュー",
+    "技術的実現可能性確認",
+    "ABテスト設計レビュー",
+    "競合UI最新確認",
+    "優先度決定"
+  ],
+  "verification_method": "GA4: Desktop ③→④転換率。ABテスト2週間。目標: 27.53% → 31%以上。優先施策: 右カラムUX改善。"
+}

@@ -1,0 +1,281 @@
+{
+  "number": 3,
+  "title": "Mobile — ④→⑤ 完了率の低さ",
+  "tags": [
+    {
+      "label": "④→⑤ 意向→完了",
+      "type": "red"
+    },
+    {
+      "label": "Mobile",
+      "type": "default"
+    }
+  ],
+  "deviation": "-13.5%",
+  "impact_sessions": "101K / 月",
+  "description_html": "<p>Mobileでフォーム入力（④意向）まで進んだユーザーの購入完了率が <strong style=\"color:#E8423F\">29.89%</strong>（全体ベースライン 34.57% の <strong>-13.5%</strong>）。月間 101K セッション。Mobileのフォーム入力・決済UIの使いにくさにより最終段階で離脱。</p>",
+  "funnel_overview": {
+    "title": "ファネル比較（Mobile vs ベースライン）",
+    "cells": [
+      {
+        "label": "①→②",
+        "value": "52.31%",
+        "sub": "BL 82.60%"
+      },
+      {
+        "label": "②→③",
+        "value": "25.68%",
+        "sub": "BL 26.43%"
+      },
+      {
+        "label": "③→④",
+        "value": "35.66%",
+        "sub": "BL 31.92%"
+      },
+      {
+        "label": "④→⑤",
+        "value": "29.89%",
+        "sub": "BL 34.57% | -13.5%",
+        "alert": true
+      }
+    ]
+  },
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "④→⑤ 完了",
+      "value": "34.57%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Mobile",
+      "stage": "④→⑤ 完了",
+      "value": "29.89%",
+      "sub": "-13.5% vs 全体",
+      "alert": true
+    },
+    {
+      "label": "Desktop",
+      "stage": "④→⑤ 完了",
+      "value": "44.02%",
+      "sub": "+27.3% vs 全体"
+    },
+    {
+      "label": "リピーター",
+      "stage": "④→⑤ 完了",
+      "value": "30.92%",
+      "sub": "-10.6% vs 全体"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "Mobile新規 vs リピーター",
+      "body_html": "Mobile × 新規: ④→⑤ ≈ 28%<br>Mobile × リピーター: ④→⑤ ≈ 31%",
+      "note": "新規もリピーターも低い。Mobileフォーム共通の問題。"
+    },
+    {
+      "title": "Desktop比較",
+      "body_html": "Desktop: ④→⑤ = <strong>44.02%</strong><br>Mobile: ④→⑤ = <strong style=\"color:#E8423F\">29.89%</strong>（-14.13pp）",
+      "note": "Desktop比14pp低い。MobileのフォームUIに構造的問題。"
+    }
+  ],
+  "callout": {
+    "title": "特定結果",
+    "body_html": "<strong>Mobile</strong>の④→⑤完了率が<strong>29.89%</strong>（BL 34.57%の<strong>-13.5%</strong>）。Desktop 44.02%と比べ14pp低い。Mobileの決済フォーム入力UXに構造的課題。"
+  },
+  "hypo_section_title": "原因仮説 × 3 &amp; 打ち手 × 9",
+  "hypo_section_desc": "なぜMobileの④→⑤完了率が低いか？",
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "Mobileの決済フォームが使いにくい",
+      "body": "クレジットカード入力、住所入力等がMobileの小画面で操作しにくく、入力途中で離脱。",
+      "evidence": [
+        "Mobile ④→⑤: 29.89% vs Desktop: 44.02%（14pp差）",
+        "フォームフィールド数が多い",
+        "入力バリデーションエラーが頻発"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "フォームステップ化（1画面1入力グループ）",
+          "description": "長いフォームを3-4ステップに分割し、進捗バーで現在位置を表示。",
+          "spec_html": "・ステップ1: 参加者情報<br>・ステップ2: 決済情報<br>・ステップ3: 確認<br>・進捗バー表示",
+          "impact": "④→⑤ +4pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">1ページ全フィールド表示<br>スクロール量が膨大<br>→ 完了までの道のりが見えない</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">ステップ1/3: 参加者情報<br>進捗バー [===---]<br>→ 小分けで完了感</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "B",
+          "title": "Apple Pay/Google Pay対応",
+          "description": "モバイル決済を導入しカード入力を省略可能にする。",
+          "spec_html": "・Apple Pay / Google Pay ボタンをフォーム上部に配置<br>・ワンタップで決済完了<br>・カード入力フォームはフォールバック",
+          "impact": "④→⑤ +3pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">決済: カード番号手入力<br>有効期限・CVC・名義入力<br>→ 入力が面倒で離脱</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">決済: [Apple Pay] [Google Pay]<br>ワンタップで完了<br>→ 入力ゼロで決済</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "C",
+          "title": "フォームの入力補助強化",
+          "description": "オートフィル対応、入力マスク、リアルタイムバリデーション導入。",
+          "spec_html": "・autocomplete属性の適切な設定<br>・カード番号の自動フォーマット<br>・エラー時の具体的なメッセージ表示",
+          "impact": "④→⑤ +2pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">入力エラー: 「入力が正しくありません」<br>何が間違いか不明<br>→ 修正に迷って離脱</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">入力補助: オートフィル対応<br>リアルタイムバリデーション<br>「カード番号は16桁です」<br>→ スムーズに入力完了</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "Mobileでセキュリティ不安から決済をためらう",
+      "body": "Mobileでのクレジットカード入力にセキュリティ不安を感じ、Desktop切替や他サイトへ流出。",
+      "evidence": [
+        "Mobile決済完了率がDesktop比で著しく低い",
+        "セキュリティバッジの表示がない",
+        "「PCで購入」の行動パターン"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "決済フォームにセキュリティバッジ表示",
+          "description": "SSL証明書・PCI DSS準拠バッジ・「256bit暗号化」表示を決済フォーム直上に配置。",
+          "spec_html": "・🔒 SSLバッジ + PCI DSSバッジ<br>・「お客様のカード情報は256bit暗号化で保護」<br>・決済フォーム直上に配置",
+          "impact": "④→⑤ +3pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">決済フォーム<br>セキュリティ表示なし<br>→ カード入力に不安</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">🔒 安全な決済<br>SSL暗号化 | PCI DSS準拠<br>→ 安心してカード入力</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "E",
+          "title": "「後から決済」オプション（仮予約）",
+          "description": "カード入力なしで仮予約し、後からPCまたは任意のタイミングで決済可能にする。",
+          "spec_html": "・「今すぐ予約確定」と「仮予約（24h以内に決済）」の2択<br>・仮予約はメール/LINE通知で決済リマインド",
+          "impact": "④→⑤ +2pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">決済方法: クレジットカードのみ<br>→ 今すぐカード入力が必須</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">決済方法:<br>1. 今すぐ決済<br>2. 仮予約（24h以内に決済）<br>→ 柔軟な選択肢</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "F",
+          "title": "決済手段の多様化（コンビニ決済等）",
+          "description": "クレジットカード以外の決済手段（コンビニ決済、PayPay等）を追加。",
+          "spec_html": "・コンビニ決済追加<br>・PayPay / LINE Pay対応<br>・銀行振込オプション",
+          "impact": "④→⑤ +1pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">決済: クレジットカードのみ<br>→ カードがない/使いたくない</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">決済: カード / PayPay / コンビニ<br>→ 自分に合った方法で決済</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "フォーム入力中にページが長く離脱",
+      "body": "参加者情報・決済情報・利用規約等が1ページに詰め込まれ、Mobileでスクロール量が膨大。",
+      "evidence": [
+        "フォームページのスクロール深度が低い",
+        "離脱ポイントがフォーム中盤に集中",
+        "長いフォームは完了率が下がる"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "不要フィールドの削減",
+          "description": "予約に必須でないフィールド（FAX番号、住所2等）を削除またはオプション化。",
+          "spec_html": "・必須フィールドを最小化（名前・メール・電話・カード）<br>・オプション項目は折りたたみ<br>・入力フィールド数を30%削減",
+          "impact": "④→⑤ +2pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">フォーム: 15フィールド<br>FAX番号、住所2行目等<br>→ 入力が多すぎる</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">フォーム: 8フィールド（必須のみ）<br>オプションは折りたたみ<br>→ 最小限の入力で完了</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "H",
+          "title": "プログレスバーの視覚的改善",
+          "description": "フォーム上部に進捗率を表示し、完了までの残り工程を明示。",
+          "spec_html": "・プログレスバー（%表示）<br>・ステップ名表示（参加者→決済→確認）<br>・完了予想時間「残り約2分」表示",
+          "impact": "④→⑤ +1pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">フォーム: 進捗表示なし<br>→ あとどれくらいか不明</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">フォーム: [====60%====]<br>ステップ2/3 残り約1分<br>→ 完了が近いので継続</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "I",
+          "title": "離脱時のリマインドメール送信",
+          "description": "フォーム入力途中で離脱したユーザーに「予約を続ける」リマインドメールを自動送信。",
+          "spec_html": "・離脱30分後にメール送信<br>・「続きから予約」ボタン付き<br>・入力済み情報を保持して復元",
+          "impact": "④→⑤ +1pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">離脱 → 終了<br>入力データは失われる<br>→ 再度最初から入力</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">離脱30分後<br>「予約を続けますか？」メール<br>→ ワンクリックで入力再開</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://www.klook.com/favicon.ico",
+      "url": "https://www.klook.com/ja/",
+      "feature": "<strong>ステップ型フォーム</strong>。1画面1グループの入力。Apple Pay/Google Pay対応。進捗バー表示。",
+      "detail": "施策A+Bの直接参考。"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicons/favicon-32x32.png",
+      "url": "https://www.getyourguide.com/",
+      "feature": "シンプルな2ステップフォーム。PayPal対応。セキュリティバッジ明示。",
+      "detail": "フォームの簡素化が特徴。"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://cache.vtrcdn.com/orion/images/favicon.ico",
+      "url": "https://www.viator.com/",
+      "feature": "PayPal+Apple Pay対応。フォームフィールド数が少ない。全額返金保証バッジ表示。",
+      "detail": "返金保証でセキュリティ不安を解消。"
+    },
+    {
+      "name": "アソビュー",
+      "favicon_url": "https://www.asoview.com/favicon.ico",
+      "url": "https://www.asoview.com/",
+      "feature": "コンビニ決済対応。ステップフォーム。会員情報自動入力。",
+      "detail": "コンビニ決済は施策F参考。"
+    },
+    {
+      "name": "じゃらん",
+      "favicon_url": "https://www.jalan.net/favicon.ico",
+      "url": "https://www.jalan.net/",
+      "feature": "じゃらんポイント決済。会員自動入力。コンビニ/銀行振込対応。",
+      "detail": "多様な決済手段。"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.png",
+      "url": "https://www.kkday.com/ja/",
+      "feature": "LINE Pay/PayPay対応。簡潔なフォーム。セキュリティバッジ表示。",
+      "detail": "QR決済対応が特徴。"
+    }
+  ],
+  "competitive_insight": "主要競合6社中5社がモバイル決済（Apple Pay/Google Pay/PayPal等）に対応済み。VELTRAのクレジットカード手入力のみは業界水準から遅れ。施策B（モバイル決済）を最優先で実装すべき。",
+  "verification": [
+    "フォーム離脱ポイントの特定（GA4ファネル分析）",
+    "フォームフィールド数の現状カウント",
+    "モバイル決済導入の技術的実現可能性",
+    "ABテスト設計（フォームステップ化）",
+    "決済手段別の完了率分析"
+  ],
+  "verification_method": "GA4: Mobile ④→⑤ 転換率を主要KPI。ABテスト2週間。目標: ④→⑤ 29.89% → 35%以上。副次指標: フォーム離脱率、入力完了時間。優先施策: フォームステップ化（施策A）+モバイル決済（施策B）。"
+}

@@ -8,10 +8,13 @@
 
 ```
 v2-veltra-cvr/
-├── ドキュメント
-│   ├── CLAUDE.md                    AI セッション設定
+├── ドキュメント（ルート）
+│   ├── CLAUDE.md                    AI セッション設定（Claude Code 自動読込）
 │   ├── ARCHITECTURE.md              ← このファイル（技術構成）
-│   ├── PLAYBOOK.md                  週次レポート運用マニュアル
+│   ├── playbook.md                  週次レポート運用マニュアル
+│   └── README.md                    プロジェクト概要（GitHub表示）
+│
+├── docs/                            参照ドキュメント
 │   ├── veltra-design-system.md      VELTRA デザインルール
 │   ├── veltra-url-structure.md      VELTRA URL階層（エリア定義）
 │   └── prd-template.md              PRDテンプレート（汎用）
@@ -96,9 +99,26 @@ v2-veltra-cvr/
 
 ## 3. データフロー
 
-生成手順は `PLAYBOOK.md` §3 参照。
+### 3.1 週次レポート生成フロー
 
-### 3.1 データファイル一覧
+```
+① generate-week.py --week 2026-w15
+   │
+   ├── reports/2026-w15/ ディレクトリ作成
+   ├── reports/2026-w15/data.json（meta スケルトン）
+   ├── reports/2026-w15/index.html（週次サマリー）
+   └── reports-index.json 更新
+   │
+② GA4 MCP でデータ取得 → data.json に Q1-Q10 の結果を格納
+   │
+③ ボトルネック分析 → bottleneck-{1-10}-content.json を作成
+   │
+④ validate-report.py --week 2026-w15 で検証
+   │
+⑤ git push → Vercel 自動デプロイ
+```
+
+### 3.2 データファイル一覧
 
 | ファイル | スコープ | 内容 |
 |----------|----------|------|
@@ -166,9 +186,9 @@ v2-veltra-cvr/
           "description": "...",
           "spec_html": "...",     // 開発仕様（HTML可）
           "impact": "③→④ +6pt",
-          "prototype": {          // ★必須 — 全施策に Before/After モックアップが必要
-            "before_html": "<div>...</div>",  // 現状のUI（問題を可視化）
-            "after_html": "<div>...</div>"    // 施策適用後のUI（改善を可視化）
+          "prototype": {          // オプション
+            "before_html": "<div>...</div>",
+            "after_html": "<div>...</div>"
           }
         }
       ]
@@ -218,130 +238,7 @@ v2-veltra-cvr/
 
 ---
 
-## 6. content.json 品質チェックルール（必須）
-
-content.json を作成・更新する際は、以下のチェックを**全て通過**させること。
-
-### 6.1 構造チェック（全10ファイル共通）
-
-| チェック項目 | 必須値 |
-|-------------|--------|
-| `number` | 1〜10（ファイル名と一致） |
-| `title` | 空でないこと |
-| `tags` | 1件以上 |
-| `deviation` | 空でないこと |
-| `impact_sessions` | 空でないこと |
-| `funnel_compare` | 4セル |
-| `callout` | `title` + `body_html` |
-| `hypotheses` | **3件**（h1, h2, h3） |
-| 各仮説の `actions` | **3件**（計9施策 A-I） |
-| 各施策の `prototype` | **必須** — `before_html` + `after_html` |
-| `competitive` | **6社** |
-| `verification` | **1件以上** |
-
-### 6.2 プロトタイプ品質チェック
-
-各施策の `prototype` は以下を満たすこと:
-
-- `before_html`: 現状のUI問題を可視化するVELTRAモバイルモックアップ
-- `after_html`: 施策適用後の改善UIを可視化するVELTRAモバイルモックアップ
-- Before/After で**施策の効果が視覚的に明確**であること
-- HTMLはインラインスタイルで記述（外部CSS依存なし、CSS変数は使用可）
-
-### 6.3 自動チェックコマンド
-
-```bash
-# 全10ファイルの構造チェック
-python3 -c "
-import json, os, sys
-ok = True
-for i in range(1, 11):
-    f = f'reports/2026-wXX/bottleneck-{i}-content.json'  # wXX を実際の週に置換
-    d = json.load(open(f))
-    h = d.get('hypotheses', [])
-    actions = [a for hyp in h for a in hyp.get('actions', [])]
-    protos = [a for a in actions if a.get('prototype')]
-    comp = d.get('competitive', [])
-    if len(h) != 3:
-        print(f'#{i}: hypotheses={len(h)} (want 3)'); ok = False
-    if len(actions) != 9:
-        print(f'#{i}: actions={len(actions)} (want 9)'); ok = False
-    if len(protos) != 9:
-        print(f'#{i}: prototypes={len(protos)}/9 ★MISSING★'); ok = False
-    if len(comp) < 6:
-        print(f'#{i}: competitive={len(comp)} (want 6)'); ok = False
-if ok: print('ALL CHECKS PASSED')
-else: sys.exit(1)
-"
-```
-
----
-
-## 7. 週次レポート生成時の更新ファイル一覧（MECE）
-
-新しい週（例: W15）を作成する際に更新が必要な全ファイルを網羅する。
-
-### 7.1 新規作成ファイル（週ディレクトリ内）
-
-| ファイル | 内容 | 生成方法 |
-|----------|------|----------|
-| `reports/{week}/data.json` | GA4分析データ（meta, baseline, funnel_7d, segments, bottlenecks） | `generate-week.py` でスケルトン → GA4 MCP でデータ投入 |
-| `reports/{week}/index.html` | 週次サマリーページ | 前週の `index.html` をテンプレートとしてデータ差し替え |
-| `reports/{week}/bottleneck-{1-10}-content.json` × 10 | ボトルネック分析データ | AI生成（ARCHITECTURE.md §4 スキーマ、§6 品質チェック準拠） |
-
-### 7.2 更新ファイル（ルート）
-
-| ファイル | 更新内容 | 注意事項 |
-|----------|----------|----------|
-| `reports-index.json` | 新しい週のエントリ追加 | `rolling_start`/`rolling_end` を含める。weeks は時系列順（古い→新しい） |
-| `weekly-summary.json` | 週次サマリーデータ追加 | |
-| `summary-data.json` | ダッシュボード用集約データ更新 | 最新週のデータで上書き |
-| `archive-meta.json` | `updatedAt` 更新 | |
-
-### 7.3 週次サマリーページ（`reports/{week}/index.html`）のデータバインド箇所
-
-前週をテンプレートとして新週のデータに差し替える箇所の一覧:
-
-| セクション | 差し替え対象 | データソース | 表示ルール |
-|-----------|-------------|-------------|-----------|
-| ヘッダーバンド | 週ID + 期間 | meta | `W{N}（{yyyy/m/d}〜{yyyy/m/d}）` ※ローリング28日間 |
-| 分析対象データ | GA4 Property + 期間 | meta | `直近28日間（{yyyy/m/d}〜{yyyy/m/d}）` ※年付き |
-| レポート発行週 | 週ラベル | meta | `W{N}（{yyyy/m/d}〜{yyyy/m/d}）` ※「2026年」不要 |
-| 生成日時 | タイムスタンプ | meta.generated_at | `YYYY-MM-DD HH:MM JST` |
-| ファネルサマリー | 4カラム通過率 + WoWバッジ + バー | baseline.conversion_rates, funnel_7d.wow_pp | ダッシュボードと同じUI（バー + WoWバッジ） |
-| KPI ストリップ | セッション数 → CV数 → CVR | baseline | 順番: **セッション数 → CV数（予約完了） → CVR**（ダッシュボードと統一） |
-| 今週のトピック | 4つのcalloutカード | baseline.conversion_rates, funnel_7d.wow_pp | **28日ローリングベース**で統一。文章は箇条書き（`<ul><li>`）。単週データは使わない |
-| ボトルネックリスト | #1〜#10 リスト | data.json の bottlenecks + content.json | トグル不要（常時展開）。各アイテムは `→` 付きのリンク。リンク先: `/bottleneck.html?week={week}&num={N}` |
-
-### 7.4 日付表示フォーマット統一ルール
-
-全ページ共通:
-
-| 場所 | フォーマット | 例 |
-|------|-------------|-----|
-| ヘッダー・セクションタイトル | `{yyyy/m/d}〜{yyyy/m/d}` （開始は年付き、終了は年なし） | `2026/3/8〜4/4` |
-| 分析対象データ・レポート発行週 | 両方年付き | `2026/3/8〜2026/4/4` |
-| 左ナビ（nav.js） | 開始のみ年付き | `2026/3/8〜4/4` |
-| reports-index.json の week_label | 両方年付き | `W14（2026/3/8〜2026/4/4）` |
-| 全ての期間 | **ローリング28日間**を表示 | 週次期間（date_start〜date_end）は表示しない |
-
-### 7.5 UI統一ルール
-
-週次サマリーページはダッシュボード（`index.html`）と以下を統一する:
-
-| 要素 | ルール |
-|------|--------|
-| ファネル通過率 | 4カラム（①→②、②→③、③→④、④→⑤）+ バー + WoWバッジ |
-| KPI 並び順 | セッション数 → CV数（予約完了） → CVR |
-| WoW の基準 | **28日ローリング**で統一（単週データは使わない） |
-| トピックカード | callout形式（green/red/amber）、本文は箇条書き |
-| ボトルネックリスト | トグルなし、常時展開、`→` リンク付き |
-| 最小フォントサイズ | **12px**（10px, 11px は使わない。funnel-def.js のコード表記は13px） |
-| ホバー | 背景色変更ではなく左ボーダー（`border-left: 3px solid var(--red)`） |
-
----
-
-## 8. ナビゲーション（nav.js）
+## 6. ナビゲーション（nav.js）
 
 全ページに `nav.js` を読み込むことでサイドナビが自動構築される。
 
@@ -351,11 +248,10 @@ else: sys.exit(1)
   - 週次サマリー: `/reports/2026-w14/`
   - トップ: `/`
 - **リンク形式**: `/bottleneck.html?week={week_id}&num={rank}`
-- **期間表示**: ローリング28日間（`rolling_start`〜`rolling_end`）、開始のみ年付き
 
 ---
 
-## 9. デプロイ
+## 7. デプロイ
 
 | 項目 | 値 |
 |------|-----|
@@ -366,7 +262,7 @@ else: sys.exit(1)
 
 ---
 
-## 10. リファクタリング履歴
+## 8. リファクタリング履歴
 
 ### 2026-04-07: テンプレートリファクタリング
 
@@ -403,4 +299,4 @@ content.json × 10
 
 - `scripts/generate-week.py`: `calc_week_meta()` を日〜土に変更
 - `scripts/validate-report.py`: バリデーション条件を日曜始まりに更新
-- `PLAYBOOK.md`: 日付範囲テーブルを更新
+- `playbook.md`: 日付範囲テーブルを更新
