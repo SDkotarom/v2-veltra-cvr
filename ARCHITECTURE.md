@@ -183,9 +183,9 @@ v2-veltra-cvr/
           "description": "...",
           "spec_html": "...",     // 開発仕様（HTML可）
           "impact": "③→④ +6pt",
-          "prototype": {          // オプション
-            "before_html": "<div>...</div>",
-            "after_html": "<div>...</div>"
+          "prototype": {          // ★必須 — 全施策に Before/After モックアップが必要
+            "before_html": "<div>...</div>",  // 現状のUI（問題を可視化）
+            "after_html": "<div>...</div>"    // 施策適用後のUI（改善を可視化）
           }
         }
       ]
@@ -235,7 +235,66 @@ v2-veltra-cvr/
 
 ---
 
-## 6. ナビゲーション（nav.js）
+## 6. content.json 品質チェックルール（必須）
+
+content.json を作成・更新する際は、以下のチェックを**全て通過**させること。
+
+### 6.1 構造チェック（全10ファイル共通）
+
+| チェック項目 | 必須値 |
+|-------------|--------|
+| `number` | 1〜10（ファイル名と一致） |
+| `title` | 空でないこと |
+| `tags` | 1件以上 |
+| `deviation` | 空でないこと |
+| `impact_sessions` | 空でないこと |
+| `funnel_compare` | 4セル |
+| `callout` | `title` + `body_html` |
+| `hypotheses` | **3件**（h1, h2, h3） |
+| 各仮説の `actions` | **3件**（計9施策 A-I） |
+| 各施策の `prototype` | **必須** — `before_html` + `after_html` |
+| `competitive` | **6社** |
+| `verification` | **1件以上** |
+
+### 6.2 プロトタイプ品質チェック
+
+各施策の `prototype` は以下を満たすこと:
+
+- `before_html`: 現状のUI問題を可視化するVELTRAモバイルモックアップ
+- `after_html`: 施策適用後の改善UIを可視化するVELTRAモバイルモックアップ
+- Before/After で**施策の効果が視覚的に明確**であること
+- HTMLはインラインスタイルで記述（外部CSS依存なし、CSS変数は使用可）
+
+### 6.3 自動チェックコマンド
+
+```bash
+# 全10ファイルの構造チェック
+python3 -c "
+import json, os, sys
+ok = True
+for i in range(1, 11):
+    f = f'reports/2026-wXX/bottleneck-{i}-content.json'  # wXX を実際の週に置換
+    d = json.load(open(f))
+    h = d.get('hypotheses', [])
+    actions = [a for hyp in h for a in hyp.get('actions', [])]
+    protos = [a for a in actions if a.get('prototype')]
+    comp = d.get('competitive', [])
+    if len(h) != 3:
+        print(f'#{i}: hypotheses={len(h)} (want 3)'); ok = False
+    if len(actions) != 9:
+        print(f'#{i}: actions={len(actions)} (want 9)'); ok = False
+    if len(protos) != 9:
+        print(f'#{i}: prototypes={len(protos)}/9 ★MISSING★'); ok = False
+    if len(comp) < 6:
+        print(f'#{i}: competitive={len(comp)} (want 6)'); ok = False
+if ok: print('ALL CHECKS PASSED')
+else: sys.exit(1)
+"
+```
+
+---
+
+## 7. ナビゲーション（nav.js）
 
 全ページに `nav.js` を読み込むことでサイドナビが自動構築される。
 

@@ -132,16 +132,24 @@ python3 scripts/generate-week.py --week {YYYY}-w{WW}
 > 配列の末尾に追加した週が「最新」として先頭に表示される。
 > 古い週のエントリより前に新しい週を追加するとW順が逆転するので必ず末尾に追加すること。
 
-### Phase 2: 分析 & HTML生成（Opus）
+### Phase 2: 分析 & content.json 生成（Opus）
 
 1. **ボトルネック特定**: `data.json` のセグメント間比較から、インパクト順（sessions × 乖離率）で10件ランキング
-2. **#1 フル分析**: 仮説×3 → 打ち手×3（仮説ごと）→ プロトタイプ Before/After → 競合比較6社
-3. **#2〜#10**: 仮説×3 + 打ち手×3 + 競合比較
-4. **HTML生成**: アコーディオン型ドリルダウンUI（仮説 → 打ち手 → プロトタイプ）
+2. **全10ページ共通フォーマット** で `bottleneck-{1-10}-content.json` を作成:
+   - 仮説 × 3（h1有力 / h2 / h3）
+   - 各仮説に施策 × 3 = 計9施策（A-I）
+   - **全9施策に prototype（Before/After モックアップ HTML）を含める** ← ★必須
+   - 競合比較 6社
+   - 検証チェックリスト
+3. **静的HTMLの生成は不要**（`/bottleneck.html` が content.json を動的に描画）
 
 **デザインルール**: `veltra-design-system.md` 参照
-- プロトタイプのモックアップはVELTRAサイトデザイン準拠（`#1B82C5` blue CTA, `#F2F5F8` bg）
+- プロトタイプのモックアップはVELTRAモバイルフレーム形式（max-width:375px, `#1B82C5` blue CTA, `#F2F5F8` bg）
+- Before: `border:1px solid #E0E0E0`（グレー枠）
+- After: `border:2px solid #2DAE6C`（緑枠）
 - レポートページは V2 テーマ（`--red:#E8423F`, `--bg:#f5f4f0`）
+
+> ⚠️ **prototype 漏れ禁止**: Phase 2 完了時に全10ファイル × 9施策 = 90個のプロトタイプが揃っていることを確認すること。ARCHITECTURE.md §6 の自動チェックコマンドを実行。
 
 ### Phase 3: デプロイ（Sonnet）
 
@@ -282,20 +290,33 @@ validate-report.py 実行
 
 ## 8. 品質チェックリスト
 
-- [ ] data.json の `baseline.sessions` と KPI セクションの値が一致
-- [ ] ファネル通過率の用語が統一（①→② 流入→AC到達 / ②→③ AC到達→検討 / ③→④ 検討→意向 / ④→⑤ 意向→完了）
+### 8.1 data.json チェック
+- [ ] `baseline.sessions` と KPI セクションの値が一致
+- [ ] ファネル通過率の用語が統一（①→② / ②→③ / ③→④ / ④→⑤）
 - [ ] 「仮想データ」表記が残っていない
 - [ ] 全エリア（20件）のファネルデータが入っている
-- [ ] reports-index.json に新しい週が追加され、**date_start/date_end が対象週の月〜日**になっている（ローリング期間ではない）
-- [ ] reports-index.json の week_label が正しい（例: `W14（3/30〜4/5）`）
-- [ ] reports-index.json の weeks が **時系列順（古い→新しい）** に並んでいる（最新が末尾）
+
+### 8.2 content.json チェック（★全10ファイル必須）
+- [ ] 全10ファイル（bottleneck-{1-10}-content.json）が存在する
+- [ ] 各ファイルに **仮説 × 3**（h1, h2, h3）が含まれる
+- [ ] 各仮説に **施策 × 3**（計9施策 A-I）が含まれる
+- [ ] **全9施策に prototype（before_html + after_html）が含まれる** ← ★最重要
+- [ ] 各施策に title, description, spec_html, impact が含まれる
+- [ ] **競合比較 6社** が含まれる
+- [ ] **検証チェックリスト** が1件以上含まれる
+- [ ] funnel_compare が4セル含まれる
+- [ ] callout（特定結果）が含まれる
+- [ ] プロトタイプがVELTRAデザインシステム準拠（`#1B82C5` blue CTA）
+- [ ] 競合分析のファビコンが正しい URL
+
+### 8.3 インデックス・メタデータチェック
+- [ ] reports-index.json に新しい週が追加され、**date_start が日曜 / date_end が土曜**
+- [ ] reports-index.json の week_label が正しい
+- [ ] reports-index.json の weeks が **時系列順（古い→新しい）** に並んでいる
 - [ ] `python3 scripts/validate-report.py` がエラー0件で通る
 - [ ] weekly-summary.json に新しい週が追加されている
 - [ ] archive-meta.json の updatedAt が更新されている
 - [ ] w{XX}/index.html のベースライン数値が data.json と一致
-- [ ] w{XX}/index.html の「分析対象データ」日付がローリング期間（例: 3/9〜4/5）と一致
-- [ ] プロトタイプがVELTRAデザインシステム準拠（`#1B82C5` blue CTA）
-- [ ] 競合分析のファビコンが正しい URL
 
 ---
 
