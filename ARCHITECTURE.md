@@ -11,7 +11,7 @@ v2-veltra-cvr/
 ├── ドキュメント
 │   ├── CLAUDE.md                    AI セッション設定
 │   ├── ARCHITECTURE.md              ← このファイル（技術構成）
-│   ├── playbook.md                  週次レポート運用マニュアル
+│   ├── PLAYBOOK.md                  週次レポート運用マニュアル
 │   ├── veltra-design-system.md      VELTRA デザインルール
 │   ├── veltra-url-structure.md      VELTRA URL階層（エリア定義）
 │   └── prd-template.md              PRDテンプレート（汎用）
@@ -96,26 +96,9 @@ v2-veltra-cvr/
 
 ## 3. データフロー
 
-### 3.1 週次レポート生成フロー
+生成手順は `PLAYBOOK.md` §3 参照。
 
-```
-① generate-week.py --week 2026-w15
-   │
-   ├── reports/2026-w15/ ディレクトリ作成
-   ├── reports/2026-w15/data.json（meta スケルトン）
-   ├── reports/2026-w15/index.html（週次サマリー）
-   └── reports-index.json 更新
-   │
-② GA4 MCP でデータ取得 → data.json に Q1-Q10 の結果を格納
-   │
-③ ボトルネック分析 → bottleneck-{1-10}-content.json を作成
-   │
-④ validate-report.py --week 2026-w15 で検証
-   │
-⑤ git push → Vercel 自動デプロイ
-```
-
-### 3.2 データファイル一覧
+### 3.1 データファイル一覧
 
 | ファイル | スコープ | 内容 |
 |----------|----------|------|
@@ -420,4 +403,4 @@ content.json × 10
 
 - `scripts/generate-week.py`: `calc_week_meta()` を日〜土に変更
 - `scripts/validate-report.py`: バリデーション条件を日曜始まりに更新
-- `playbook.md`: 日付範囲テーブルを更新
+- `PLAYBOOK.md`: 日付範囲テーブルを更新

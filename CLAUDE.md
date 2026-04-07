@@ -1,7 +1,7 @@
 # CLAUDE.md — このプロジェクトでのAIアシスタント設定
 
 > **新しいセッション開始時に必ずこのファイルを読むこと。**
-> 運用マニュアル全体は `playbook.md` を参照。
+> 運用マニュアル全体は `PLAYBOOK.md` を参照。
 
 ---
 
@@ -60,4 +60,4 @@ ToolSearch で "run_report" を検索 → mcp__*__run_report ツールを取得
 # Python で area_key に集計後 data.json に格納
 ```
 
-詳細な手順は `playbook.md` のセクション4「Phase 1: データ取得」を参照。
+詳細な手順は `PLAYBOOK.md` のセクション4「Phase 1: データ取得」を参照。

@@ -3,7 +3,7 @@
 ## Phase 2 実行指示
 
 ```
-playbook.md と veltra-design-system.md を読んでください。
+PLAYBOOK.md と veltra-design-system.md を読んでください。
 
 W14（2026-03-09〜2026-04-05）の Phase 2 を実行してください。
 data.json は最新データで更新済みです。
@@ -25,5 +25,5 @@ data.json は最新データで更新済みです。
 
 6. Phase 4: デプロイ後に検証スクリプトを実行
    python3 scripts/validate-report.py --week 2026-w14
-   エラーがあれば修正 → 再デプロイ → playbook.md の手順も改善
+   エラーがあれば修正 → 再デプロイ → PLAYBOOK.md の手順も改善
 ```
