@@ -1210,9 +1210,26 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         var cr = d.baseline && d.baseline.conversion_rates ? d.baseline.conversion_rates : null;
         if (cr) {
           var wow = cr.wow_pp || {};
-          var fmtR = function(v) { return v != null ? (v * 100).toFixed(1) + '%' : '—'; };
-          var fmtW = function(v) { if (v == null) return ''; var pp = (v * 100).toFixed(1); return (v >= 0 ? '(▲' : '(▼') + Math.abs(pp) + 'pp)'; };
-          meta.textContent = '\u2460\u2192\u2461 ' + fmtR(cr['1_to_2']) + fmtW(wow['1_to_2']) + '\u3000\u2461\u2192\u2462 ' + fmtR(cr['2_to_3']) + fmtW(wow['2_to_3']) + '\u3000\u2462\u2192\u2463 ' + fmtR(cr['3_to_4']) + fmtW(wow['3_to_4']) + '\u3000\u2463\u2192\u2464 ' + fmtR(cr['4_to_5']) + fmtW(wow['4_to_5']);
+          var steps = [
+            {key: '1_to_2', label: '\u2460\u2192\u2461'},
+            {key: '2_to_3', label: '\u2461\u2192\u2462'},
+            {key: '3_to_4', label: '\u2462\u2192\u2463'},
+            {key: '4_to_5', label: '\u2463\u2192\u2464'}
+          ];
+          var html = steps.map(function(s) {
+            var rate = cr[s.key];
+            var w = wow[s.key];
+            var rateStr = rate != null ? (rate * 100).toFixed(1) + '%' : '—';
+            var wowHtml = '';
+            if (w != null) {
+              var pp = Math.abs(w * 100).toFixed(1);
+              var color = w >= 0 ? 'var(--green)' : 'var(--red)';
+              var arrow = w >= 0 ? '\u25b2' : '\u25bc';
+              wowHtml = '<span style="color:' + color + ';font-weight:700;font-size:12px;margin-left:2px">' + arrow + pp + 'pp</span>';
+            }
+            return '<span style="display:inline-flex;align-items:baseline;gap:3px;margin-right:12px"><span style="font-size:12px;color:var(--text3);font-weight:700">' + s.label + '</span> <span style="font-family:\'DM Sans\';font-size:14px;font-weight:900;color:var(--text)">' + rateStr + '</span>' + wowHtml + '</span>';
+          }).join('');
+          meta.innerHTML = html;
         }
         info.appendChild(period);
         info.appendChild(meta);
