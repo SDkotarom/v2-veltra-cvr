@@ -616,9 +616,10 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
     currentData = weekDataCache[latest.week_id].baseline;
     var meta = weekDataCache[latest.week_id].meta;
+    var rsYear = meta.rolling_start ? meta.rolling_start.slice(0, 4) + '/' : '';
     var rs = meta.rolling_start ? meta.rolling_start.slice(5).replace('-', '/').replace(/^0/, '') : '';
     var re = meta.rolling_end   ? meta.rolling_end.slice(5).replace('-', '/').replace(/^0/, '')   : '';
-    document.getElementById('period-label').textContent = rs && re ? '対象期間：' + rs + '〜' + re + '（直近28日間）' : '—';
+    document.getElementById('period-label').textContent = rs && re ? '対象期間：' + rsYear + rs + '〜' + re + '（直近28日間）' : '—';
     if (rs && re) {
       var periodText = '対象: 直近28日間（' + rs + '〜' + re + '）';
       document.getElementById('funnel-period-label').textContent = periodText;
@@ -1202,7 +1203,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         period.className = 'bn-week-period';
         var rds = (d.meta && d.meta.rolling_start) ? d.meta.rolling_start : (w.date_start || '');
         var rde = (d.meta && d.meta.rolling_end)   ? d.meta.rolling_end   : (w.date_end   || '');
-        period.textContent = rds.slice(5).replace('-', '/').replace(/^0/, '') + ' \u301C ' + rde.slice(5).replace('-', '/').replace(/^0/, '');
+        var rdsYear = rds ? rds.slice(0, 4) + '/' : '';
+        period.textContent = rdsYear + rds.slice(5).replace('-', '/').replace(/^0/, '') + ' \u301C ' + rde.slice(5).replace('-', '/').replace(/^0/, '');
         var meta = document.createElement('div');
         meta.className = 'bn-week-meta';
         var cr = d.baseline && d.baseline.conversion_rates ? d.baseline.conversion_rates : null;
