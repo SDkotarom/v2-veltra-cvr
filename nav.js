@@ -196,9 +196,10 @@
 
     var labelEl = document.createElement('span');
     labelEl.className = 'nav-week-label';
-    var ds = w.date_start ? w.date_start.slice(5).replace('-', '/') : '';
-    var de = w.date_end   ? w.date_end.slice(5).replace('-', '/') : '';
-    labelEl.textContent = ds && de ? ds + '〜' + de : w.week_label;
+    var rs = w.rolling_start || w.date_start || '';
+    var re = w.rolling_end || w.date_end || '';
+    var fmtDate = function(d) { return d ? d.slice(0,4) + '/' + d.slice(5).replace('-', '/') : ''; };
+    labelEl.textContent = rs && re ? fmtDate(rs) + '〜' + fmtDate(re) : w.week_label;
 
     weekLink.appendChild(idEl);
     weekLink.appendChild(labelEl);
