@@ -8,10 +8,13 @@
 
 ```
 v2-veltra-cvr/
-├── ドキュメント
-│   ├── CLAUDE.md                    AI セッション設定
+├── ドキュメント（ルート）
+│   ├── CLAUDE.md                    AI セッション設定（Claude Code 自動読込）
 │   ├── ARCHITECTURE.md              ← このファイル（技術構成）
 │   ├── playbook.md                  週次レポート運用マニュアル
+│   └── README.md                    プロジェクト概要（GitHub表示）
+│
+├── docs/                            参照ドキュメント
 │   ├── veltra-design-system.md      VELTRA デザインルール
 │   ├── veltra-url-structure.md      VELTRA URL階層（エリア定義）
 │   └── prd-template.md              PRDテンプレート（汎用）

@@ -1,0 +1,282 @@
+{
+  "number": 2,
+  "title": "新規ユーザー — ②→③ 検討転換率の低さ",
+  "tags": [
+    {
+      "label": "②→③ AC到達→検討",
+      "type": "red"
+    },
+    {
+      "label": "新規ユーザー",
+      "type": "default"
+    }
+  ],
+  "deviation": "-38.94%",
+  "impact_sessions": "1,534K / 月",
+  "description_html": "<p>新規ユーザーのACページ到達後のカレンダー（日程確認）への転換率が <strong style=\"color:#E8423F\">16.14%</strong>（全体ベースライン 26.43% の <strong>-38.94%</strong>）。月間 1,534K セッションと最大セグメント。初回訪問ユーザーはACページを閲覧するが価格・プランの判断に迷い日程選択まで進まない。</p>",
+  "funnel_overview": {
+    "title": "ファネル比較（新規ユーザー vs ベースライン）",
+    "cells": [
+      {
+        "label": "①→②",
+        "value": "47.95%",
+        "sub": "BL 82.60%"
+      },
+      {
+        "label": "②→③",
+        "value": "16.14%",
+        "sub": "BL 26.43% | -38.94%",
+        "alert": true
+      },
+      {
+        "label": "③→④",
+        "value": "17.73%",
+        "sub": "BL 31.92%"
+      },
+      {
+        "label": "④→⑤",
+        "value": "47.96%",
+        "sub": "BL 34.57%"
+      }
+    ]
+  },
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "②→③ 検討",
+      "value": "26.43%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "新規ユーザー",
+      "stage": "②→③ 検討",
+      "value": "16.14%",
+      "sub": "-38.94% vs 全体",
+      "alert": true
+    },
+    {
+      "label": "リピーター",
+      "stage": "②→③ 検討",
+      "value": "36.64%",
+      "sub": "+38.6% vs 全体"
+    },
+    {
+      "label": "Organic × 新規",
+      "stage": "②→③ 検討",
+      "value": "~15%",
+      "sub": "新規の中でもさらに低い"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "新規 Mobile vs Desktop",
+      "body_html": "新規 × Mobile: ②→③ ≈ 14%<br>新規 × Desktop: ②→③ ≈ 18%",
+      "note": "Mobile新規が特に低い。小画面でのプラン比較が困難。"
+    },
+    {
+      "title": "新規のバウンス分析",
+      "body_html": "ACページ到達新規ユーザーの<strong style=\"color:#E8423F\">83.86%</strong>がカレンダーまで進まず離脱",
+      "note": "価格・プラン理解の壁が大きい。信頼構築要素がfold以下。"
+    }
+  ],
+  "callout": {
+    "title": "特定結果",
+    "body_html": "<strong>新規ユーザー</strong>のACページ到達後②→③転換率が<strong>16.14%</strong>（BL 26.43%の<strong>-38.94%</strong>）。初回訪問ユーザーは価格帯とプラン内容の判断に迷い、日程選択に進めていない。"
+  },
+  "hypo_section_title": "原因仮説 × 3 &amp; 打ち手 × 9",
+  "hypo_section_desc": "なぜ新規ユーザーの②→③検討転換率が低いか？",
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "ACページで価格と内容の判断に迷う（信頼・比較情報不足）",
+      "body": "初回訪問ユーザーはVELTRAの価格帯と商品品質への判断材料が不足。レビュー・写真などの信頼構築要素がfold以下にある。",
+      "evidence": [
+        "新規②→③: 16.14% vs リピーター: 36.64%（20pp差）",
+        "リピーターは信頼済みなので転換率が高い",
+        "レビューセクションがACページ下部に配置"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "ACページ上部にレビューサマリーと信頼バッジ表示",
+          "description": "写真ヒーロー直下にレビュー評価・件数・「VELTRAで予約済み〇〇名」を表示。",
+          "spec_html": "・レビュースコア+件数をヒーロー直下に移動<br>・「VELTRAで〇〇名が予約」カウンター<br>・ハイライトレビュー1件をインライン表示",
+          "impact": "②→③ +5pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">ACページ上部<br>写真→タイトル→プラン一覧<br>レビューは最下部<br>→ 新規ユーザーは信頼情報なしで判断</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">ACページ上部<br>写真→★4.52(328件)→「1,200名予約済」<br>ハイライトレビュー表示<br>→ 信頼構築で日程選択を促進</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "B",
+          "title": "価格帯の相場感を表示（「この体験の平均価格」）",
+          "description": "ACページに「この体験の相場」を表示し、VELTRAの価格が適正であることを訴求。",
+          "spec_html": "・「この体験の相場: ¥12,000〜¥18,000」表示<br>・VELTRAの価格位置をバー表示<br>・「最安値保証」バッジ（該当する場合）",
+          "impact": "②→③ +3pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">価格表示: ¥12,800〜<br>相場情報なし<br>→ 高いのか安いのか判断できない</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">価格表示: ¥12,800〜<br>「相場: ¥12,000〜¥18,000」バー表示<br>→ 適正価格と分かり安心して検討</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "C",
+          "title": "写真ギャラリーの充実（ユーザー投稿写真含む）",
+          "description": "ACページの写真ギャラリーにユーザー投稿写真を追加し、リアルな体験イメージを提供。",
+          "spec_html": "・ユーザー投稿写真タブ追加<br>・写真枚数を10→20枚に拡充<br>・写真にキャプション追加（場所・時期）",
+          "impact": "②→③ +2pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">写真ギャラリー: 公式写真5枚<br>→ プロ写真のみでリアル感が不足</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">写真ギャラリー: 公式5枚+投稿15枚<br>「参加者の写真」タブ<br>→ リアルな体験がイメージしやすい</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "プランが複数あり初回では何を選べばよいか不明",
+      "body": "プラン一覧が並んでいるが違いが分かりにくい。新規ユーザーは選択に迷い離脱。",
+      "evidence": [
+        "プラン数3以上のACで②→③が特に低い傾向",
+        "プラン名が似ていて違いが分かりにくい",
+        "リピーターは過去経験で選べるが新規は迷う"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "「おすすめプラン」の自動ハイライト",
+          "description": "最も予約の多いプランに「おすすめ」バッジを自動付与し、初期選択状態にする。",
+          "spec_html": "・予約数TOP1プランに「おすすめ」バッジ<br>・「80%の方がこのプランを選択」表示<br>・デフォルト選択状態（展開済み）",
+          "impact": "②→③ +4pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">プラン一覧<br>プランA ¥12,800〜<br>プランB ¥15,500〜<br>→ どちらを選ぶべきか不明</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">プラン一覧<br>★おすすめ プランA ¥12,800〜<br>「80%の方が選択」<br>→ 迷わず選択し日程確認へ</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "E",
+          "title": "プラン比較テーブル導入",
+          "description": "プラン一覧上部に「プランの違いを比較」ボタンを配置。差分をハイライトした比較テーブルを表示。",
+          "spec_html": "・「プランの違いを比較」アコーディオン<br>・含まれるもの/所要時間/送迎の比較テーブル<br>・差分を緑ハイライト",
+          "impact": "②→③ +3pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">プランA: チップ/入場料含む<br>プランB: チップ/入場料/朝食含む<br>→ 違いを一つずつ読む必要</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">プラン比較テーブル<br>　　　　A　　B<br>チップ　○　○<br>朝食　　×　○←差分<br>→ 一目で違いが分かる</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "F",
+          "title": "プラン選択ガイド（2択フロー）",
+          "description": "「何を重視しますか？」の2択質問でおすすめプランに導くガイドフロー。",
+          "spec_html": "・「あなたにぴったりのプランは？」ウィジェット<br>・2-3の質問で絞り込み（価格重視/内容重視等）<br>・結果でプランをハイライト",
+          "impact": "②→③ +2pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">プラン一覧をスクロールして比較<br>→ 情報過多で選べない</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">「あなたに合うプランは？」<br>Q1: 価格重視？内容重視？<br>→ おすすめプランをハイライト表示</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "レビュー・写真などの信頼構築要素がfold以下",
+      "body": "ACページの信頼構築コンテンツ（レビュー・体験レポート・Q&A）がページ下部にあり、新規ユーザーが見る前に離脱。",
+      "evidence": [
+        "レビューセクションまでスクロールするユーザーが30%未満（推定）",
+        "新規ユーザーはリピーターより信頼情報への依存度が高い",
+        "競合はレビューをACページ上部に配置"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "レビューのサマリーカードをACページ上部に移動",
+          "description": "レビュー全体を移動せず、サマリー（星評価+件数+ハイライト1件）をACページ上部に配置。",
+          "spec_html": "・ヒーロー直下にレビューサマリーカード<br>・星評価+件数+最新ハイライトレビュー<br>・「全レビューを見る」リンク",
+          "impact": "②→③ +3pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">ヒーロー→プラン一覧→...→レビュー<br>→ レビューまでスクロールしない</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">ヒーロー→★レビューサマリー→プラン一覧<br>→ 信頼情報が最初に目に入る</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "H",
+          "title": "「体験レポート」ショート動画の追加",
+          "description": "過去参加者のショート動画（15秒）をACページ上部に配置。",
+          "spec_html": "・15秒ショート動画をヒーロー直下に配置<br>・自動再生（ミュート）<br>・参加者の実体験をビジュアルで伝達",
+          "impact": "②→③ +2pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">写真ギャラリーのみ<br>→ 静止画ではイメージが伝わりにくい</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">ショート動画「参加者の声」15秒<br>→ 動画でリアルな体験を訴求</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        },
+        {
+          "letter": "I",
+          "title": "Q&Aセクションの充実とFAQのfold上表示",
+          "description": "よくある質問の上位3件をACページ上部（プラン一覧直前）に表示。",
+          "spec_html": "・FAQ上位3件をプラン一覧直前に表示<br>・アコーディオンUI（タップで展開）<br>・「もっと見る」で全FAQ表示",
+          "impact": "②→③ +1pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#333\">FAQ: ページ最下部<br>→ 誰も見ない</div><div style=\"padding:12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#666;line-height:1.6\">veltra.com</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">現状の課題ポイント</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#2DAE6C\">FAQ上位3件がプラン直前に表示<br>「送迎はある？」「キャンセルは？」<br>→ 不安解消して日程選択へ</div><div style=\"padding:12px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:6px;font-size:11px;color:#333;line-height:1.6\">改善後のUI</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">改善効果</div></div>"
+          }
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://www.klook.com/favicon.ico",
+      "url": "https://www.klook.com/ja/",
+      "feature": "レビュー評価をACページ最上部に大きく表示。「〇〇名が予約」カウンター。写真ギャラリーにユーザー投稿写真あり。",
+      "detail": "注目点: 信頼構築要素のfold上配置。施策A・Cの参考。"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicons/favicon-32x32.png",
+      "url": "https://www.getyourguide.com/",
+      "feature": "ACページ上部にレビュースコア+件数。「ベストセラー」バッジ。プラン比較機能あり。",
+      "detail": "注目点: おすすめバッジ表示。施策Dの参考。"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://cache.vtrcdn.com/orion/images/favicon.ico",
+      "url": "https://www.viator.com/",
+      "feature": "Tripadvisorレビュー統合でレビュー数が多い印象。「全額返金保証」バッジで信頼構築。",
+      "detail": "注目点: 返金保証表示は新規ユーザーの不安解消に効果的。"
+    },
+    {
+      "name": "アソビュー",
+      "favicon_url": "https://www.asoview.com/favicon.ico",
+      "url": "https://www.asoview.com/",
+      "feature": "レビュー上部表示。「本日空きあり」表示で即座にカレンダーへ誘導。プラン選択がシンプル。",
+      "detail": "注目点: 在庫リアルタイム表示でカレンダー到達を促進。"
+    },
+    {
+      "name": "じゃらん",
+      "favicon_url": "https://www.jalan.net/favicon.ico",
+      "url": "https://www.jalan.net/kankou/",
+      "feature": "口コミ件数を大きく表示。体験レポート（写真付き）が充実。ポイント還元表示。",
+      "detail": "注目点: 体験レポートはショート動画の代替。施策H参考。"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.png",
+      "url": "https://www.kkday.com/ja/",
+      "feature": "レビュー上部表示+「即確定」バッジ。プランの違いが分かりやすい表示。価格比較しやすいUI。",
+      "detail": "注目点: プラン比較のわかりやすさ。施策E参考。"
+    }
+  ],
+  "competitive_insight": "主要競合6社中5社がACページ上部にレビューサマリーを配置済み。VELTRAはレビューがfold以下にあり新規ユーザーの信頼構築が遅れている。施策A（レビュー上部表示）と施策D（おすすめプラン）を優先実装すべき。",
+  "verification": [
+    "データの正確性をGA4で確認",
+    "新規vs リピーターのファネル差を定量分析",
+    "施策の技術的実現可能性確認",
+    "ABテスト設計レビュー",
+    "競合UIの最新状況確認",
+    "優先度・リソース配分決定"
+  ],
+  "verification_method": "GA4: 新規ユーザーの②→③転換率を主要KPIとして計測。ABテスト2週間。目標: ②→③ 16.14% → 22%以上。副次指標: カレンダー到達時間、ACページ滞在時間。優先施策: レビュー上部表示（施策A）。"
+}

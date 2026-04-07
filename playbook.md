@@ -2,7 +2,7 @@
 
 > **このファイルは週次レポート生成の唯一の運用マニュアルです。**
 > 新しいセッションでは最初にこのファイルを読み込んでください。
-> デザインルール: `veltra-design-system.md` / URL構造: `veltra-url-structure.md`
+> デザインルール: `docs/veltra-design-system.md` / URL構造: `docs/veltra-url-structure.md`
 
 ---
 
@@ -21,12 +21,16 @@
 ```
 v2-veltra-cvr/
 ├── playbook.md                 ← このファイル（運用マニュアル）
-├── veltra-design-system.md     ← VELTRAサイトのデザインルール
-├── veltra-url-structure.md     ← VELTRA URL階層（エリア定義）
-├── prd-template.md             ← PRDテンプレート（汎用）
+├── ARCHITECTURE.md             ← 技術構成・スキーマ詳細
+├── CLAUDE.md                   ← AI セッション設定
+├── docs/
+│   ├── veltra-design-system.md ← VELTRAサイトのデザインルール
+│   ├── veltra-url-structure.md ← VELTRA URL階層（エリア定義）
+│   └── prd-template.md         ← PRDテンプレート（汎用）
 ├── scripts/
 │   └── generate-week.py        ← 週次スキャフォールド（ディレクトリ・JSONスケルトン生成）
-├── auth.js / nav.js / funnel-def.js  ← 共通JS
+├── auth.js / nav.js / funnel-def.js / bottleneck.js / funnel-def.js  ← 共通JS
+├── bottleneck.html             ← ボトルネック分析テンプレート（動的描画）
 ├── index.html                  ← ダッシュボード
 ├── summary-data.json           ← 月次KPI（24ヶ月）
 ├── weekly-summary.json         ← 週次KPI（66週〜）
@@ -35,7 +39,7 @@ v2-veltra-cvr/
 └── reports/{YYYY}-w{WW}/
     ├── data.json               ← GA4実データ（ファネル・セグメント・ボトルネック）
     ├── index.html              ← 週次サマリー
-    └── bottleneck-{1-10}.html  ← ボトルネック詳細
+    └── bottleneck-{1-10}-content.json  ← ボトルネック分析コンテンツ（動的描画のデータ）
 ```
 
 ---
@@ -132,7 +136,7 @@ python3 scripts/generate-week.py --week {YYYY}-w{WW}
 3. **#2〜#10**: 仮説×3 + 打ち手×3 + 競合比較
 4. **HTML生成**: アコーディオン型ドリルダウンUI（仮説 → 打ち手 → プロトタイプ）
 
-**デザインルール**: `veltra-design-system.md` 参照
+**デザインルール**: `docs/veltra-design-system.md` 参照
 - プロトタイプのモックアップはVELTRAサイトデザイン準拠（`#1B82C5` blue CTA, `#F2F5F8` bg）
 - レポートページは V2 テーマ（`--red:#E8423F`, `--bg:#f5f4f0`）
 
@@ -288,7 +292,7 @@ validate-report.py 実行
 
 ## 9. 週次スケジュール
 
-**毎週日曜 AM 4:00 JST に自動実行**
+**毎週月曜 AM 4:00 JST に自動実行**（土曜データを1日寝かせて確定させるため）
 
 ```
 Phase 1 (Sonnet): スキャフォールド → GA4 クエリ → data.json 生成    ~15分
@@ -300,6 +304,56 @@ Claude Code の `schedule` スキルで設定:
 ```
 毎週日曜 04:00 JST に playbook.md を読み、Phase 1→2→3 を順次実行
 ```
+
+---
+
+---
+
+## 10. アカウント構成と実行テンプレート
+
+### アカウント構成
+
+| アカウント | 用途 | モデル | 特徴 |
+|------------|------|--------|------|
+| **アカウントA**（ベルトラ） | GA4 MCP接続・データ取得 | Sonnet | GA4 MCP に直接接続可 |
+| **アカウントB**（分析） | 分析・コンテンツ生成・デプロイ | Opus / Sonnet 切替 | GA4 MCP 接続不可 |
+
+### Phase別 指示テンプレート（コピペ用）
+
+**Phase 1（アカウントA）**:
+```
+playbook.md を読んでください。
+W{XX}（{date_start}〜{date_end}）のデータを取得してください。
+Phase 1 の手順に従い、Q1〜Q10 を実行して data.json を生成し、
+summary-data.json / weekly-summary.json / reports-index.json も更新して push してください。
+```
+
+**Phase 2（アカウントB）**:
+```
+playbook.md を読んでください。
+git pull して最新の data.json を取得してください。
+W{XX} の Phase 2 を実行してください。
+ボトルネック10件の分析 → bottleneck-{1-10}-content.json 生成 → デプロイまでお願いします。
+```
+
+**修正対応（アカウントB）**:
+```
+playbook.md を読んでください。
+https://v2-veltra-cvr.vercel.app/reports/{YYYY}-w{WW}/ を確認して、
+{具体的な修正内容} を対応してください。
+```
+
+### トラブルシューティング
+
+| 問題 | 原因 | 対処 |
+|------|------|------|
+| アカウントAのAPI制限 | GA4クエリレート制限 | 数時間待って再試行 |
+| GA4 MCP 接続エラー | Proxy/認証問題 | アカウントAのセッションを再起動 |
+| git push rejected | リモートに先行コミット | `git pull --rebase` → push |
+| Vercel デプロイ失敗 | HTML/JSON構文エラー | ブラウザコンソールで確認、修正して再push |
+| 数値不整合 | data.json とHTML内ハードコードの乖離 | data.json を正とし、HTMLを修正 |
+| 「仮想データ」表記残り | 古いHTML | grep で検索、置換 |
+| content.json prototype不足 | 施策にprototype未設定 | `python3 -c "import json; ..."` で確認 |
 
 ---
 
