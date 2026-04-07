@@ -1,0 +1,211 @@
+{
+  "number": 5,
+  "title": "Organic Search × リピーター — ③→④ 意向転換率の低さ",
+  "tags": [
+    {
+      "label": "③→④ 検討→意向",
+      "type": "red"
+    },
+    {
+      "label": "Organic Search",
+      "type": "default"
+    },
+    {
+      "label": "リピーター",
+      "type": "default"
+    }
+  ],
+  "deviation": "-26.3%",
+  "impact_sessions": "451,499 / 月",
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "プランの複雑さ・価格差の不透明さで選択に迷い離脱",
+      "body": "リピーターはサイト構造を知っているがプラン選択で迷う。複数プランの違いが分かりにくく、カレンダー確認後にプラン比較に戻って離脱。",
+      "evidence": [
+        "リピーターでも③→④が63.86%と低い → UI問題ではない",
+        "新規（52.74%）と比べて11ppしか差がない → 共通の構造問題",
+        "プラン数が多い商品ほど③→④が低い傾向"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "プラン比較テーブルをカレンダー上部に配置",
+          "description": "プラン一覧の違いが一目でわかる比較テーブルを日程選択の前に配置。",
+          "spec_html": "・所要時間/含むもの/送迎/食事/価格の5項目で比較<br>・差分ハイライト（プレミアムのみの項目は緑背景）",
+          "impact": "③→④ +5pt"
+        },
+        {
+          "letter": "B",
+          "title": "「おすすめプラン」の自動表示（予約実績ベース）",
+          "description": "過去の予約データからおすすめプランを自動選定し、バッジ付きで表示。選択の迷いを解消。",
+          "spec_html": "・予約数TOP1プランに「おすすめ」バッジ<br>・「80%の方がこのプランを選択」等の理由表示",
+          "impact": "③→④ +4pt"
+        },
+        {
+          "letter": "C",
+          "title": "プラン選択時にリアルタイム価格比較を表示",
+          "description": "プラン選択中に「このプランは+¥5,000でランチ付き」等の差分情報をリアルタイム表示。",
+          "spec_html": "・プランホバー/タップ時に差分ポップアップ<br>・上位プランとの差額を明示",
+          "impact": "③→④ +3pt"
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "リピーターが「前回と同じ商品」を再閲覧して離脱",
+      "body": "リピーターの一部は過去に閲覧・予約した商品を再訪問しているが、新しい日程が見つからず離脱。",
+      "evidence": [
+        "リピーターの再訪問率が高い",
+        "同一商品の複数回閲覧がGAデータで確認可能"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "「前回の閲覧履歴」を活用したパーソナライズ表示",
+          "description": "過去に閲覧した商品の場合、前回の閲覧日・検討プランを表示して再検討を促進。",
+          "spec_html": "・localStorageで閲覧履歴を保持<br>・「前回4/1に閲覧されました」バナー表示<br>・前回選択したプランをハイライト",
+          "impact": "③→④ +3pt"
+        },
+        {
+          "letter": "E",
+          "title": "「価格変動アラート」機能の追加",
+          "description": "リピーターに「この商品は先週より¥1,000値下げ」等の価格変動通知を表示。再予約を促進。",
+          "spec_html": "・過去の価格をlocalStorageに保持<br>・値下げ時に赤バッジで通知<br>・値上げ予告で緊急性を訴求",
+          "impact": "③→④ +2pt"
+        },
+        {
+          "letter": "F",
+          "title": "「お気に入り」商品のプッシュ通知",
+          "description": "お気に入り登録した商品の空き状況変化をブラウザプッシュ通知で配信。",
+          "spec_html": "・Web Push APIで空き通知<br>・「お気に入りの商品に空きが出ました」<br>・オプトイン率向上のためタイミング最適化",
+          "impact": "③→④ +2pt"
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "即確定/リクエスト制の不安で予約開始を躊躇",
+      "body": "リクエスト制プランの場合、「予約が確定するか分からない」不安からフォーム開始を躊躇する。",
+      "evidence": [
+        "リクエスト制プランの③→④は即確定プランより低い傾向",
+        "リピーターでも確定方式の違いが分かりにくい"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "即確定/リクエスト制の表記を大きく視覚化",
+          "description": "即確定プランには緑の「⚡即確定」バッジ、リクエスト制にはオレンジの「🕐リクエスト」バッジを大きく表示。",
+          "spec_html": "・プランカード右上にバッジ表示<br>・即確定: 「予約後すぐに確定します」<br>・リクエスト: 「通常24時間以内に回答」",
+          "impact": "③→④ +3pt"
+        },
+        {
+          "letter": "H",
+          "title": "リクエスト制プランに「確定率」を表示",
+          "description": "過去の実績から「このプランの確定率: 95%」を表示し、不安を解消。",
+          "spec_html": "・過去3ヶ月のリクエスト→確定率を計算<br>・95%以上: 「ほぼ確定」緑バッジ<br>・80-94%: 「高確率」黄バッジ",
+          "impact": "③→④ +2pt"
+        },
+        {
+          "letter": "I",
+          "title": "即確定プランの優先表示フィルター",
+          "description": "プラン一覧に「即確定のみ表示」フィルターを追加。確実に予約したいユーザーの選択を簡素化。",
+          "spec_html": "・フィルターチップ: 「すべて」「即確定のみ」<br>・デフォルト: すべて表示<br>・即確定プランにソート順で優先表示",
+          "impact": "③→④ +2pt"
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://www.klook.com/favicon.ico",
+      "feature": "プラン比較が1画面で完結。違いが一目瞭然。",
+      "detail": "施策Aの直接参考。"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicons/favicon-32x32.png",
+      "feature": "おすすめプランがデフォルト選択状態で表示。",
+      "detail": "施策Bの参考。"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://cache.vtrcdn.com/orion/images/favicon.ico",
+      "feature": "即確定プランにバッジ表示。確定方式が明確。",
+      "detail": "施策Gの参考。"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.png",
+      "feature": "割引率表示 + 価格比較が充実。",
+      "detail": "施策Cの参考。"
+    },
+    {
+      "name": "Activity Japan",
+      "favicon_url": "https://activityjapan.com/favicon.ico",
+      "feature": "閲覧履歴からのレコメンド機能。",
+      "detail": "施策Dの参考。"
+    },
+    {
+      "name": "アソビュー！",
+      "favicon_url": "https://www.asoview.com/favicon.ico",
+      "feature": "お気に入り + 値下げ通知機能あり。",
+      "detail": "施策E+Fの組み合わせ。"
+    }
+  ],
+  "verification": [
+    "データの正確性を確認",
+    "仮説の妥当性をレビュー",
+    "施策の技術的実現可能性を確認",
+    "ABテスト設計をレビュー",
+    "優先度・リソース配分を決定"
+  ],
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "③→④ 検討→意向",
+      "value": "86.62%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Organic × リピーター",
+      "stage": "③→④ 検討→意向",
+      "value": "63.86%",
+      "sub": "-26.3% vs 全体",
+      "alert": true
+    },
+    {
+      "label": "Organic × 新規",
+      "stage": "③→④ 検討→意向",
+      "value": "52.74%",
+      "sub": "-39.1% vs 全体"
+    },
+    {
+      "label": "Organic × Desktop",
+      "stage": "③→④ 検討→意向",
+      "value": "83.40%",
+      "sub": "-3.7% vs 全体"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "リピーターなのに③→④が低い",
+      "body_html": "リピーター ③→④: <strong style=\"color:var(--red)\">63.86%</strong>（ベースライン 86.62%）<br>リピーターは「サイトの使い方」を知っているはず",
+      "note": "UI問題ではなくプラン・価格の複雑さが原因の可能性。"
+    },
+    {
+      "title": "新規はさらに深刻",
+      "body_html": "新規 ③→④: <strong style=\"color:var(--red)\">52.74%</strong><br>リピーター比で11pp低い",
+      "note": "リピーターでも低いため、セグメント共通の構造問題が存在。"
+    }
+  ],
+  "callout": {
+    "title": "特定結果",
+    "body_html": "<strong>Organic Search × リピーター</strong> の ③→④ 意向転換率が <strong>63.86%</strong>。リピーターでも全体平均 86.62% を大きく下回る。月間 451Kセッション。UIの不慣れではなくコンテンツ（プラン理解・価格比較）の問題が示唆される。"
+  },
+  "verification_method": "GA4: Organic Search × リピーター の ③→④ 転換率を計測。ABテスト2週間。目標: 63.86% → 75%以上。施策A（プラン比較テーブル）を先行実施。"
+}
