@@ -2,7 +2,7 @@
 
 > **このファイルは週次レポート生成の唯一の運用マニュアルです。**
 > 新しいセッションでは最初にこのファイルを読み込んでください。
-> デザインルール: `docs/veltra-design-system.md` / URL構造: `docs/veltra-url-structure.md`
+> デザインルール: `veltra-design-system.md` / URL構造: `veltra-url-structure.md`
 
 ---
 
@@ -20,26 +20,27 @@
 
 ```
 v2-veltra-cvr/
-├── playbook.md                 ← このファイル（運用マニュアル）
-├── ARCHITECTURE.md             ← 技術構成・スキーマ詳細
-├── CLAUDE.md                   ← AI セッション設定
+├── CLAUDE.md                   ← AI セッション設定（ルート必須）
+├── README.md                   ← プロジェクト概要（ルート必須）
 ├── docs/
+│   ├── playbook.md             ← このファイル（運用マニュアル）
+│   ├── ARCHITECTURE.md         ← 技術構成・スキーマ詳細
 │   ├── veltra-design-system.md ← VELTRAサイトのデザインルール
 │   ├── veltra-url-structure.md ← VELTRA URL階層（エリア定義）
 │   └── prd-template.md         ← PRDテンプレート（汎用）
 ├── scripts/
-│   └── generate-week.py        ← 週次スキャフォールド（ディレクトリ・JSONスケルトン生成）
-├── auth.js / nav.js / funnel-def.js / bottleneck.js / funnel-def.js  ← 共通JS
-├── bottleneck.html             ← ボトルネック分析テンプレート（動的描画）
-├── index.html                  ← ダッシュボード
-├── summary-data.json           ← 月次KPI（24ヶ月）
-├── weekly-summary.json         ← 週次KPI（66週〜）
-├── reports-index.json          ← レポート一覧メタデータ
-├── archive-meta.json           ← 最終更新タイムスタンプ
+│   ├── generate-week.py        ← 週次スキャフォールド生成
+│   ├── validate-report.py      ← レポートバリデーション
+│   ├── extract-content-from-html.py ← content.json スケルトン生成
+│   └── archive/                ← 過去の一時スクリプト
+├── auth.js / nav.js / funnel-def.js / bottleneck.js  ← 共通JS
+├── bottleneck.html / bottleneck.css  ← ボトルネック分析テンプレート（動的描画）
+├── index.html / login.html / cycle.html / analysis.html  ← ページ
+├── summary-data.json / weekly-summary.json / reports-index.json / archive-meta.json  ← データ
 └── reports/{YYYY}-w{WW}/
     ├── data.json               ← GA4実データ（ファネル・セグメント・ボトルネック）
     ├── index.html              ← 週次サマリー
-    └── bottleneck-{1-10}-content.json  ← ボトルネック分析コンテンツ（動的描画のデータ）
+    └── bottleneck-{1-10}-content.json  ← ボトルネック分析コンテンツ
 ```
 
 ---
@@ -136,7 +137,7 @@ python3 scripts/generate-week.py --week {YYYY}-w{WW}
 3. **#2〜#10**: 仮説×3 + 打ち手×3 + 競合比較
 4. **HTML生成**: アコーディオン型ドリルダウンUI（仮説 → 打ち手 → プロトタイプ）
 
-**デザインルール**: `docs/veltra-design-system.md` 参照
+**デザインルール**: `veltra-design-system.md` 参照
 - プロトタイプのモックアップはVELTRAサイトデザイン準拠（`#1B82C5` blue CTA, `#F2F5F8` bg）
 - レポートページは V2 テーマ（`--red:#E8423F`, `--bg:#f5f4f0`）
 

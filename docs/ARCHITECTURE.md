@@ -10,11 +10,11 @@
 v2-veltra-cvr/
 ├── ドキュメント（ルート）
 │   ├── CLAUDE.md                    AI セッション設定（Claude Code 自動読込）
-│   ├── ARCHITECTURE.md              ← このファイル（技術構成）
-│   ├── playbook.md                  週次レポート運用マニュアル
 │   └── README.md                    プロジェクト概要（GitHub表示）
 │
-├── docs/                            参照ドキュメント
+├── docs/                            プロジェクトドキュメント
+│   ├── ARCHITECTURE.md              ← このファイル（技術構成）
+│   ├── playbook.md                  週次レポート運用マニュアル
 │   ├── veltra-design-system.md      VELTRA デザインルール
 │   ├── veltra-url-structure.md      VELTRA URL階層（エリア定義）
 │   └── prd-template.md              PRDテンプレート（汎用）
@@ -48,10 +48,13 @@ v2-veltra-cvr/
 │       ├── data.json                GA4分析データ
 │       └── bottleneck-{1-10}-content.json   ボトルネック分析コンテンツ
 │
-└── scripts/
-    ├── generate-week.py             週次スキャフォールド生成
-    ├── validate-report.py           レポートバリデーション
-    └── extract-content-from-html.py content.json スケルトン生成ユーティリティ
+├── scripts/                         スクリプト
+│   ├── generate-week.py             週次スキャフォールド生成
+│   ├── validate-report.py           レポートバリデーション
+│   ├── extract-content-from-html.py content.json スケルトン生成ユーティリティ
+│   └── archive/                     過去の一時スクリプト
+│
+└── releasenote/                     VELTRAリリースノート（CSV）
 ```
 
 ---
@@ -299,4 +302,4 @@ content.json × 10
 
 - `scripts/generate-week.py`: `calc_week_meta()` を日〜土に変更
 - `scripts/validate-report.py`: バリデーション条件を日曜始まりに更新
-- `playbook.md`: 日付範囲テーブルを更新
+- `docs/playbook.md`: 日付範囲テーブルを更新
