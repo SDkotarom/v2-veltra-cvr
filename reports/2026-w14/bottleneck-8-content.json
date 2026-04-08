@@ -87,6 +87,18 @@
     "title": "計測異常 or 大規模UX課題",
     "body_html": "Direct × Desktop の ①→② AC到達率が <strong>3.65%</strong> と異常値。計測上の問題（トラッキング欠落・直接URLリクエスト vs ページ遷移の計上方法）を先に確認する必要がある。正常なトラフィックであれば、大幅なUX改善機会が存在する。"
   },
+  "behavior_context": {
+    "estimated_action": "Direct × Desktopの①→②AC到達率3.65%は異常値であり、bot/crawlerのセッション混入、またはAPIリクエスト・プリフェッチの誤計測である可能性が最も高い",
+    "evidence": [
+      "Direct × Desktopの①→②AC到達率は3.65%で、全体平均26.10%に対し-86%と極端な異常値",
+      "Direct × Mobileは12.41%でDesktopの3.4倍 — Desktop固有の計測問題が示唆される",
+      "Direct × リピーターは34.12%でベースライン超え — リピーターが正常値なのに新規が異常なのは、新規Directの定義にbot等が混入している可能性",
+      "#7（Direct × 新規: 8.38%）と合わせて、Direct新規セグメント全体の計測精度を要確認"
+    ],
+    "page_role_check": "計測問題の疑いが強いため、ページ役割チェックは計測問題解消後に再評価が必要。正常トラフィックであればTopページの導線問題だが、まず計測の切り分けが先",
+    "subtraction_check": "この段階ではUXの引き算ではなく、計測ノイズの引き算（bot除外フィルタ、内部トラフィック除外）が最優先。計測問題が解消されてから施策を検討すべき",
+    "pattern_references": []
+  },
   "hypo_section_title": "原因仮説 &times; 3 &amp; 打ち手 &times; 9",
   "hypo_section_desc": "なぜ Direct × Desktop の①→②AC到達率が低いか？ 仮説をクリックして打ち手・プロトタイプを展開。",
   "hypotheses": [
