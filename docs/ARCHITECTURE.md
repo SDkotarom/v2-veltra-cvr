@@ -145,12 +145,27 @@ v2-veltra-cvr/
 
 ## 4. content.json スキーマ
 
-`bottleneck-{N}-content.json` の構造:
+### data.json 内 bottlenecks 配列の title ルール
+
+`data.json` の `bottlenecks[].title` は **リスト表示用**。
+ステージやセグメントはタグ（`stage` / `segment`）で表示されるため、
+`title` には含めず、**何が起きているかを日本語で説明する**。
+
+```
+良い例: "モバイルでの検討→意向フェーズのドロップ"
+良い例: "SEO新規ユーザーがカレンダーまで到達しない"
+悪い例: "Organic Search × Mobile — ③→④ 意向転換率の低さ"  ← タグと重複
+```
+
+### bottleneck-{N}-content.json の構造
+
+`bottleneck-{N}-content.json` の `title` は **詳細ページ用**。
+こちらはセグメント×ステージを含む構造化フォーマットで記述する。
 
 ```jsonc
 {
   "number": 1,                    // ボトルネック番号（1-10）
-  "title": "Organic Search × Mobile — ③→④ 意向転換率の低さ",
+  "title": "Organic Search × Mobile — ③→④ 意向転換率の低さ",  // 詳細ページ用（構造化）
   "tags": [
     {"label": "③→④ 検討→意向", "type": "red"},   // type: "red" | "default"
     {"label": "Organic Search", "type": "default"}

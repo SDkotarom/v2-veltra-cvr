@@ -136,6 +136,9 @@ python3 scripts/generate-week.py --week {YYYY}-w{WW}
 HTML生成は不要。Phase 2 では `bottleneck-{1-10}-content.json` のみ生成する。
 
 1. **ボトルネック特定**: `data.json` のセグメント間比較から、インパクト順で10件ランキング
+   - `data.json` の `bottlenecks[].title` は **内容を説明する日本語**で記述（ステージ・セグメントはタグで表示されるため title に含めない）
+   - 例: "モバイルでの検討→意向フェーズのドロップ"、"SEO新規ユーザーがカレンダーまで到達しない"
+   - `bottleneck-{N}-content.json` の `title` は構造化フォーマット（例: "Organic Search × Mobile — ③→④ 意向転換率の低さ"）
 2. **全10件の content.json 生成**:
    - 仮説×3 → 打ち手×9（A-I）→ プロトタイプ Before/After → 競合比較6社
    - **効率化**: 2-3ファイルずつ並列 Agent で生成（タイムアウト防止）
@@ -220,7 +223,11 @@ validate-report.py 実行
       "other": { ..., "sub_areas": [{ "name", "key", "sessions", "purchases", "cvr" }] }
     }
   },
-  "bottlenecks": [{ "rank", "title", "stage", "segment", "gap", "impact_sessions" }, ...]
+  "bottlenecks": [{ "rank", "title", "stage", "segment", "gap", "impact_sessions", "summary" }, ...]
+  // title: 内容を説明する日本語（例: "モバイルでの検討→意向フェーズのドロップ"）
+  //        ステージ・セグメント情報はタグで表示されるため、title には含めない
+  // stage: "1→2" | "2→3" | "3→4" | "4→5" | "all"
+  // segment: 表示用ラベル（例: "Organic Search × Mobile"）
 }
 ```
 
