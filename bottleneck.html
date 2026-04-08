@@ -174,6 +174,27 @@
       calloutHtml = '<div class="callout" style="margin-top:0"><div class="ct">' + esc(c.callout.title || '特定結果') + '</div><div class="cb">' + c.callout.body_html + '</div></div>';
     }
 
+    // Behavior context (行動仮説)
+    var behaviorCtxHtml = '';
+    if (c.behavior_context) {
+      var bc = c.behavior_context;
+      var evidenceList = (bc.evidence || []).map(function(e){ return '<li>' + e + '</li>'; }).join('');
+      var refsHtml = '';
+      if (bc.pattern_references && bc.pattern_references.length) {
+        refsHtml = '<div class="bc-refs">' + bc.pattern_references.map(function(r){
+          return '<span>' + r + '</span>';
+        }).join('') + '</div>';
+      }
+      behaviorCtxHtml = '<div class="behavior-context">'
+        + '<div class="bc-title">行動仮説</div>'
+        + '<div class="bc-item"><strong>● 推定行動:</strong> ' + esc(bc.estimated_action) + '</div>'
+        + '<div class="bc-item"><strong>● 根拠:</strong><ul class="bc-evidence">' + evidenceList + '</ul></div>'
+        + '<div class="bc-item"><strong>● ページ役割チェック:</strong> ' + esc(bc.page_role_check) + '</div>'
+        + '<div class="bc-item"><strong>● 引き算チェック:</strong> ' + esc(bc.subtraction_check) + '</div>'
+        + refsHtml
+        + '</div>';
+    }
+
     // Description
     var descHtml = c.description_html ? '<div style="margin-top:12px;font-size:14px;color:var(--text2);line-height:1.6">' + c.description_html + '</div>' : '';
 
@@ -208,6 +229,7 @@
       + fcHtml
       + ddHtml
       + calloutHtml
+      + behaviorCtxHtml
       + '<hr class="divider">'
       + '<div style="padding:24px 44px 16px"><div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Step 6 &mdash; ' + hypoTitle + '</div><div style="font-size:15px;color:var(--text2)">' + hypoDesc + '</div></div>'
       + '<div style="padding:0 44px 28px">' + hypoHtml + '</div>'

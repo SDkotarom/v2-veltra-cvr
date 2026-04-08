@@ -183,6 +183,21 @@ v2-veltra-cvr/
   // 特定結果コールアウト
   "callout": {"title": "特定結果", "body_html": "..."},
 
+  // 行動仮説レイヤー（ボトルネック → 仮説の橋渡し）
+  "behavior_context": {
+    "estimated_action": "ユーザーの推定行動（1文）",       // required
+    "evidence": [                                          // required, 2-4件
+      "裏付けデータ1（数値引用）",
+      "裏付けデータ2"
+    ],
+    "page_role_check": "戦略ガイドのページ役割との照合",    // required
+    "subtraction_check": "引き算で解決できるかのチェック",   // required
+    "pattern_references": [                                // optional, 0-3件
+      "✅ 勝ちパターン名 +X%",
+      "❌ 負けパターン名"
+    ]
+  },
+
   // 仮説セクション（カスタムタイトル）
   "hypo_section_title": "原因仮説 × 3 &amp; 打ち手 × 9",
   "hypo_section_desc": "...",
@@ -234,6 +249,18 @@ v2-veltra-cvr/
   "verification": ["確認項目1", "確認項目2"]
 }
 ```
+
+### 4.1 behavior_context フィールド定義
+
+| フィールド | 型 | 必須 | 説明 |
+|------------|-----|------|------|
+| `estimated_action` | string | ✅ | ユーザーの推定行動。1文、断定せず推量表現 |
+| `evidence` | string[] | ✅ (2-4件) | 推定を裏付けるデータパターン。GA4数値を引用 |
+| `page_role_check` | string | ✅ | 戦略ガイドSection 3のページ役割定義との照合 |
+| `subtraction_check` | string | ✅ | 情報の引き算で改善可能かのチェック結果 |
+| `pattern_references` | string[] | — (0-3件) | 2025年ABテスト勝ち/負けパターン。✅/❌ 付き |
+
+**配置**: `callout` と `hypo_section_title` の間。青色ボーダーカードで描画。
 
 ---
 

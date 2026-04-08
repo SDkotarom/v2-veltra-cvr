@@ -144,11 +144,28 @@ python3 scripts/generate-week.py --skeleton --week {YYYY}-w{WW}
 data.json の bottlenecks 配列から content.json の機械的フィールドを自動生成（**約77%の記述を自動化**）。
 Claude が埋めるべき箇所は `TODO:` プレースホルダーで示される。
 
+#### Step 1.5: behavior_context（行動仮説レイヤー）生成
+
+スケルトン内の `behavior_context` TODO を埋める。**仮説・施策の前に行う**。
+
+**生成ルール**:
+1. **estimated_action**: ファネルドロップオフ地点でのユーザー行動を1文で推定（「〜した可能性が高い」等、断定しない）
+2. **evidence**: data.json のセグメント比較から2〜4件の裏付けデータ。具体的数値を引用
+3. **page_role_check**: 戦略ガイドSection 3 と照合（Area=大づかみ / Ctg=絞り込み / Ac=確信 / Form=完了）
+4. **subtraction_check**: 情報追加でなく引き算で解決可能か検討
+5. **pattern_references** (任意): 2025年ABテスト結果から類似パターンを引用（✅勝ち / ❌負け）
+
+**ファネルステージ別テンプレート**:
+- **①→②** (流入→AC到達): ランディングページの第一印象・信頼性・検索意図との合致
+- **②→③** (AC到達→検討): ACページの情報量・プラン比較・カレンダー到達導線
+- **③→④** (検討→意向): カレンダー→予約フォーム遷移障壁・CTA視認性
+- **④→⑤** (意向→完了): 予約フォームの離脱要因（入力量・決済不安・エラー）
+
 #### Step 2: Claude が TODO を埋める
 
 1. **ボトルネック特定**: `data.json` のセグメント間比較から、インパクト順で10件ランキング（スケルトンに反映済み）
 2. **各スケルトンの TODO: を埋める**:
-   - 仮説×3 → 打ち手×9（A-I）→ プロトタイプ Before/After → 競合比較6社
+   - behavior_context（行動仮説）→ 仮説×3 → 打ち手×9（A-I）→ プロトタイプ Before/After → 競合比較6社
    - **効率化**: 2-3ファイルずつ並列 Agent で生成（タイムアウト防止）
    - スキーマは ARCHITECTURE.md §4 準拠
 
@@ -322,6 +339,7 @@ validate-report.py 実行
 - [ ] w{XX}/index.html の「分析対象データ」日付がローリング期間（例: 3/9〜4/5）と一致
 - [ ] プロトタイプがVELTRAデザインシステム準拠（`#1B82C5` blue CTA）
 - [ ] 競合分析のファビコンが正しい URL
+- [ ] 全10件の content.json に `behavior_context` が存在（`estimated_action` 非空、`evidence` 2件以上、`page_role_check` 非空、`subtraction_check` 非空）
 
 ---
 
