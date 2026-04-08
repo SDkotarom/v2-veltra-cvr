@@ -483,6 +483,23 @@ def make_content_skeleton(bn: dict, idx: int, data: dict) -> dict:
         "body_html": "TODO: 特定結果の詳細HTML",
     }
 
+    # behavior_context テンプレート（行動仮説レイヤー）
+    bc_display = SEGMENT_DISPLAY.get(segment, segment)
+    bc_bl_rate = baseline_rates.get(rate_key)
+    skeleton["behavior_context"] = {
+        "estimated_action": f"TODO: {bc_display} の {stage_full} でのユーザー推定行動",
+        "evidence": [
+            f"{bc_display} {stage_full}: {fmt_pct(seg_rates.get(rate_key)) if seg_rates and rate_key else 'N/A'}（ベースライン {fmt_pct(bc_bl_rate)}）" if seg_rates else "TODO: 裏付けデータ1",
+            "TODO: 裏付けデータ2",
+        ],
+        "page_role_check": f"TODO: {stage_full} に該当するページの戦略ガイド上の役割チェック",
+        "subtraction_check": "TODO: 情報の引き算で解決できるかチェック",
+        "pattern_references": [],
+    }
+
+    skeleton["hypo_section_title"] = f"原因仮説 × 3 &amp; 打ち手 × 9"
+    skeleton["hypo_section_desc"] = f"なぜ {bc_display} の {stage_full} が低いか？ 仮説をクリックして打ち手・プロトタイプを展開。"
+
     skeleton["hypotheses"] = hypotheses
 
     skeleton["competitive"] = competitive

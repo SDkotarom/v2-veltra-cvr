@@ -242,6 +242,40 @@ def check_favicons(week_id):
     
     ok("ファビコンチェック完了")
 
+# ── 検証7: behavior_context フィールド ──────────────
+def check_behavior_context(week_id):
+    print(f"\n[7] behavior_context フィールド")
+    report_dir = ROOT / "reports" / week_id
+    content_files = sorted(report_dir.glob("bottleneck-*-content.json"))
+    if not content_files:
+        warn("content.json ファイルが見つかりません（スキップ）")
+        return
+    for cf in content_files:
+        name = cf.name
+        with open(cf) as f:
+            try:
+                d = json.load(f)
+            except json.JSONDecodeError:
+                error(f"{name}: JSON パースエラー")
+                continue
+        bc = d.get("behavior_context")
+        if not bc:
+            error(f"{name}: behavior_context が存在しません")
+            continue
+        if not bc.get("estimated_action") or str(bc["estimated_action"]).startswith("TODO"):
+            error(f"{name}: behavior_context.estimated_action が未記入")
+        real_ev = [e for e in bc.get("evidence", []) if e and not str(e).startswith("TODO")]
+        if len(real_ev) < 2:
+            error(f"{name}: behavior_context.evidence が2件未満（{len(real_ev)}件）")
+        if not bc.get("page_role_check") or str(bc["page_role_check"]).startswith("TODO"):
+            error(f"{name}: behavior_context.page_role_check が未記入")
+        if not bc.get("subtraction_check") or str(bc["subtraction_check"]).startswith("TODO"):
+            error(f"{name}: behavior_context.subtraction_check が未記入")
+        pr = bc.get("pattern_references", [])
+        if len(pr) > 3:
+            warn(f"{name}: behavior_context.pattern_references が3件超（{len(pr)}件）")
+    ok("behavior_context チェック完了")
+
 # ── メイン ────────────────────────────────────────
 def main():
     parser = argparse.ArgumentParser(description="週次レポート検証")
@@ -267,7 +301,8 @@ def main():
     check_bottleneck_pages(week_id)
     check_summary_files(week_id, data)
     check_favicons(week_id)
-    
+    check_behavior_context(week_id)
+
     print(f"\n{'='*60}")
     print(f"  結果: ❌ エラー {len(ERRORS)}件 / ⚠️ 警告 {len(WARNINGS)}件")
     print(f"{'='*60}")
