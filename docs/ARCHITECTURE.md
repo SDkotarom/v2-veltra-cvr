@@ -170,12 +170,12 @@ v2-veltra-cvr/
     ]
   },
 
-  // Tier 1 比較（4セル）
+  // 分析軸 比較（4セル）
   "funnel_compare": [
     {"label": "全体平均", "stage": "③→④ 意向転換", "value": "86.62%", "sub": "ベースライン", "alert": false}
   ],
 
-  // 深掘り分析（2カード）
+  // 掛け合わせ深掘り（2カード）
   "drill_down": [
     {"title": "...", "body_html": "...", "note": "..."}
   ],
