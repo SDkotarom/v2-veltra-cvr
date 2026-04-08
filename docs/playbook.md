@@ -135,16 +135,43 @@ python3 scripts/generate-week.py --week {YYYY}-w{WW}
 **重要**: 週次サマリーページは `report.html` が `data.json` から動的に描画するため、
 HTML生成は不要。Phase 2 では `bottleneck-{1-10}-content.json` のみ生成する。
 
-1. **ボトルネック特定**: `data.json` のセグメント間比較から、インパクト順で10件ランキング
-2. **全10件の content.json 生成**:
+#### Step 1: スケルトン自動生成
+
+```bash
+python3 scripts/generate-week.py --skeleton --week {YYYY}-w{WW}
+```
+
+data.json の bottlenecks 配列から content.json の機械的フィールドを自動生成（**約77%の記述を自動化**）。
+Claude が埋めるべき箇所は `TODO:` プレースホルダーで示される。
+
+#### Step 2: Claude が TODO を埋める
+
+1. **ボトルネック特定**: `data.json` のセグメント間比較から、インパクト順で10件ランキング（スケルトンに反映済み）
+2. **各スケルトンの TODO: を埋める**:
    - 仮説×3 → 打ち手×9（A-I）→ プロトタイプ Before/After → 競合比較6社
    - **効率化**: 2-3ファイルずつ並列 Agent で生成（タイムアウト防止）
-   - スキーマは ARCHITECTURE.md §4 準拠、`reports/2026-w14/bottleneck-1-content.json` を参照
+   - スキーマは ARCHITECTURE.md §4 準拠
 
 **生成効率化のポイント**:
+- スケルトン生成済みのため、Claude は分析テキストのみ記述（トークン消費を大幅削減）
+- プロトタイプは `before_text` / `after_text` 短縮形式で記述可能（フルHTMLの約1/10のトークン）
 - Agent を 5 並列（各2ファイル）で起動するとタイムアウトを回避できる
 - 各 Agent のプロンプトには data.json の数値を明記し、ファイル読み込みを最小化
-- 生成後に品質チェックスクリプト実行: `python3 -c "import json; ..."`（90 prototypes / 60 competitive 確認）
+
+**プロトタイプ記述の2形式**:
+```jsonc
+// 形式1: テキスト短縮形（推奨、トークン節約）
+"prototype": {
+  "before_text": "テキストリスト表示、写真なし",
+  "after_text": "写真+評価+価格のカード型UI、タップでAC直遷移"
+}
+
+// 形式2: フルHTML（リッチなモックアップが必要な場合）
+"prototype": {
+  "before_html": "<div style=\"...\">...</div>",
+  "after_html": "<div style=\"...\">...</div>"
+}
+```
 
 **デザインルール**: `veltra-design-system.md` 参照
 - プロトタイプのモックアップはVELTRAサイトデザイン準拠（`#1B82C5` blue CTA, `#F2F5F8` bg）
@@ -265,19 +292,17 @@ validate-report.py 実行
 | タスク | モデル | 理由 |
 |--------|--------|------|
 | スキャフォールド生成 | **Python スクリプト** | 定型処理、AIコスト不要 |
+| content.json スケルトン生成 | **Python スクリプト** | `--skeleton` で自動生成、AIコスト不要 |
 | GA4 クエリ実行 | **Sonnet** | MCP操作は定型、判断不要 |
 | data.json 組み立て | **Sonnet** | クエリ結果の整形 |
 | summary/weekly JSON 更新 | **Sonnet** | 追記のみ |
 | ボトルネック分析（ランキング） | **Opus** | セグメント間の相対比較に判断力が必要 |
-| 仮説生成 | **Opus** | ドメイン知識 + 創造性 |
-| 施策立案 | **Opus** | デザインシステム理解 + 実装提案 |
-| プロトタイプ設計 | **Opus** | UI/UX判断 |
-| 競合比較 | **Opus** | 市場理解 |
-| HTML テンプレート生成 | **Sonnet** | 定型HTML、Opusは過剰 |
+| スケルトンの TODO 埋め（仮説・施策・競合） | **Opus** | ドメイン知識 + 創造性（ただし記述量は約77%削減済み） |
+| プロトタイプ設計 | **Opus** | UI/UX判断（`before_text/after_text` で記述量1/10） |
 | CSS / レイアウト修正 | **Sonnet** | 定型作業 |
 | git commit & push | **Sonnet** | 定型 |
 
-**コスト最適化**: Phase 1 は全て Sonnet。Phase 2 の分析部分のみ Opus。Phase 3 は Sonnet。
+**コスト最適化**: Phase 1 は全て Sonnet。Phase 2 のスケルトン生成は Python スクリプト、TODO 埋めのみ Opus。Phase 3 は Sonnet。
 
 ---
 

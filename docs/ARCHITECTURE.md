@@ -1,6 +1,6 @@
 # ARCHITECTURE.md — ボトルネック分析レポート アーキテクチャ
 
-> 最終更新: 2026-04-07（週次サマリー動的テンプレート化 + 生成効率化）
+> 最終更新: 2026-04-08（content.json スケルトン自動生成 + before_text/after_text 対応）
 
 ---
 
@@ -53,7 +53,7 @@ v2-veltra-cvr/
 │       └── bottleneck-{1-10}-content.json   ボトルネック分析コンテンツ
 │
 ├── scripts/                         スクリプト
-│   ├── generate-week.py             週次スキャフォールド生成
+│   ├── generate-week.py             週次スキャフォールド生成 + content.json スケルトン生成
 │   ├── validate-report.py           レポートバリデーション
 │   ├── extract-content-from-html.py content.json スケルトン生成ユーティリティ
 │   └── archive/                     過去の一時スクリプト
@@ -119,16 +119,19 @@ v2-veltra-cvr/
    │
    ├── reports/2026-w15/ ディレクトリ作成
    ├── reports/2026-w15/data.json（meta スケルトン）
-   ├── reports/2026-w15/index.html（週次サマリー）
+   ├── reports/2026-w15/index.html（リダイレクト）
    └── reports-index.json 更新
    │
 ② GA4 MCP でデータ取得 → data.json に Q1-Q10 の結果を格納
    │
-③ ボトルネック分析 → bottleneck-{1-10}-content.json を作成
+③ generate-week.py --skeleton --week 2026-w15
+   │  └── bottleneck-{1-10}-content.json スケルトン自動生成（~77%の記述を自動化）
    │
-④ validate-report.py --week 2026-w15 で検証
+④ Claude が各スケルトンの TODO: を埋める（2-3ファイルずつ並列推奨）
    │
-⑤ git push → Vercel 自動デプロイ
+⑤ validate-report.py --week 2026-w15 で検証
+   │
+⑥ git push → Vercel 自動デプロイ
 ```
 
 ### 3.2 データファイル一覧
@@ -199,9 +202,13 @@ v2-veltra-cvr/
           "description": "...",
           "spec_html": "...",     // 開発仕様（HTML可）
           "impact": "③→④ +6pt",
-          "prototype": {          // オプション
+          "prototype": {          // オプション（2形式から選択）
+            // 形式1: フルHTML（リッチなモックアップ）
             "before_html": "<div>...</div>",
-            "after_html": "<div>...</div>"
+            "after_html": "<div>...</div>",
+            // 形式2: テキスト短縮形（トークン節約、bottleneck.html が自動ラップ）
+            "before_text": "テキストリスト表示、カード型UIなし",
+            "after_text": "写真+評価+価格のカード型UI、タップでAC直遷移"
           }
         }
       ]
@@ -307,6 +314,24 @@ content.json × 10
 - `/bottleneck.html`（動的テンプレート）
 - `/bottleneck.css`（共通CSS、インラインから抽出）
 - `/bottleneck.js`（共通JS、インラインから抽出）
+
+### 2026-04-08: content.json スケルトン自動生成
+
+**施策**: `generate-week.py --skeleton` で bottleneck content.json の雛形を自動生成
+
+**効果**:
+- Claude が書く量を **約77%削減**（300K chars → 69K chars / 10ファイル）
+- `before_text/after_text` 短縮形式でプロトタイプ記述を **91%削減**
+- 機械的フィールド（tags, deviation, impact_sessions, funnel_overview, funnel_compare, competitive骨格, verification骨格）を data.json から自動投入
+- Claude は仮説・施策テキスト・プロトタイプ説明の **分析部分のみ** に集中
+
+**自動生成されるフィールド**:
+- `number`, `title`, `tags`, `deviation`, `impact_sessions`
+- `funnel_overview`（セグメントのレート vs ベースライン）
+- `funnel_compare`（同カテゴリ関連セグメント比較）
+- `hypotheses` 構造（3仮説 × 3施策のテンプレート）
+- `competitive`（6社テンプレート）
+- `verification`（チェックリストテンプレート）
 
 ### 2026-04-07: 週期間変更（月〜日 → 日〜土）
 

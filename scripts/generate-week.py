@@ -7,10 +7,12 @@ generate-week.py
 
 使用方法:
     python3 scripts/generate-week.py [--week 2026-w15] [--dry-run]
+    python3 scripts/generate-week.py --skeleton --week 2026-w14
 
 オプション:
     --week YYYY-wWW  生成対象の週を指定（省略時は次週を自動検出）
     --dry-run        実際にファイルを書き込まず、実行内容をプレビュー表示
+    --skeleton       data.json の bottlenecks 配列から content.json スケルトンを生成
 """
 
 import argparse
@@ -190,6 +192,354 @@ def make_data_skeleton(meta: dict) -> dict:
         },
         "bottlenecks": [],
     }
+
+
+# ============================================================
+# bottleneck content.json スケルトン生成
+# ============================================================
+
+# ファネルステージ定義
+STAGE_LABELS = {
+    "1→2": {"short": "①→②", "full": "①→② 流入→AC到達", "rate_key": "1_to_2"},
+    "2→3": {"short": "②→③", "full": "②→③ AC到達→検討", "rate_key": "2_to_3"},
+    "3→4": {"short": "③→④", "full": "③→④ 検討→意向", "rate_key": "3_to_4"},
+    "4→5": {"short": "④→⑤", "full": "④→⑤ 意向→完了", "rate_key": "4_to_5"},
+}
+
+# セグメント表示名
+SEGMENT_DISPLAY = {
+    "Organic Search": "Organic Search",
+    "Paid Search": "Paid Search",
+    "Direct": "Direct",
+    "Email": "Email",
+    "Referral": "Referral",
+    "Unassigned": "Unassigned",
+    "Cross-network": "Cross-network",
+    "Paid Other": "Paid Other",
+    "Paid Social": "Paid Social",
+    "Organic Social": "Organic Social",
+    "Organic Video": "Organic Video",
+    "Affiliates": "Affiliates",
+    "Organic Shopping": "Organic Shopping",
+    "mobile": "Mobile",
+    "desktop": "Desktop",
+    "tablet": "Tablet",
+    "new": "新規ユーザー",
+    "returning": "リピーター",
+    "hawaii": "ハワイ",
+    "bali": "バリ",
+    "guam": "グアム",
+    "okinawa": "沖縄",
+    "europe": "ヨーロッパ",
+    "kanto": "関東",
+    "kyushu": "九州",
+    "ishigaki": "石垣島・宮古島",
+    "australia": "オーストラリア",
+    "taipei": "台北",
+    "singapore": "シンガポール",
+}
+
+# セグメントのカテゴリマッピング
+SEGMENT_CATEGORY = {
+    "Organic Search": "channel", "Paid Search": "channel", "Direct": "channel",
+    "Email": "channel", "Referral": "channel", "Unassigned": "channel",
+    "Cross-network": "channel", "Paid Other": "channel", "Paid Social": "channel",
+    "Organic Social": "channel", "Organic Video": "channel",
+    "Affiliates": "channel", "Organic Shopping": "channel",
+    "mobile": "device", "desktop": "device", "tablet": "device",
+    "new": "new_returning", "returning": "new_returning",
+    "hawaii": "area", "bali": "area", "guam": "area", "okinawa": "area",
+    "europe": "area", "kanto": "area", "kyushu": "area", "ishigaki": "area",
+    "australia": "area", "taipei": "area", "singapore": "area",
+}
+
+# 競合6社テンプレート
+COMPETITORS = [
+    {"name": "Klook", "favicon_url": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_32,h_32/v1643959325/blog/klook-favicon.png", "url": "https://www.klook.com/"},
+    {"name": "GetYourGuide", "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicon/favicon-32x32.png", "url": "https://www.getyourguide.com/"},
+    {"name": "Viator", "favicon_url": "https://www.viator.com/favicon.ico", "url": "https://www.viator.com/"},
+    {"name": "KKday", "favicon_url": "https://www.kkday.com/favicon.ico", "url": "https://www.kkday.com/"},
+    {"name": "アクティビティジャパン", "favicon_url": "https://activityjapan.com/favicon.ico", "url": "https://activityjapan.com/"},
+    {"name": "じゃらん", "favicon_url": "https://www.jalan.net/favicon.ico", "url": "https://www.jalan.net/"},
+]
+
+
+def fmt_pct(val: float | None) -> str:
+    """0.8284 → "82.84%" 形式にフォーマット。None は "N/A"。"""
+    if val is None:
+        return "N/A"
+    return f"{val * 100:.2f}%"
+
+
+def fmt_gap(gap: float) -> str:
+    """gap 値を "-42.25%" 形式にフォーマット。"""
+    sign = "+" if gap > 0 else ""
+    return f"{sign}{gap * 100:.1f}%"
+
+
+def fmt_impact(sessions: int) -> str:
+    """impact_sessions を "1,267K / 月" 形式にフォーマット。"""
+    if sessions >= 1_000_000:
+        return f"{sessions / 1_000:,.0f}K / 月"
+    elif sessions >= 1_000:
+        return f"{sessions / 1_000:,.0f}K / 月"
+    return f"{sessions:,} / 月"
+
+
+def find_segment_rates(data: dict, segment: str) -> dict | None:
+    """data.json の segments からセグメントの rates を探す。"""
+    for category in ["channel", "device", "new_returning", "area"]:
+        cat_data = data.get("segments", {}).get(category, {})
+        if segment in cat_data and "rates" in cat_data[segment]:
+            return cat_data[segment]["rates"]
+    return None
+
+
+def find_related_segments(data: dict, segment: str, stage_key: str, limit: int = 3) -> list:
+    """同カテゴリから関連セグメントを取得し、ステージレートで比較用リストを返す。"""
+    category = SEGMENT_CATEGORY.get(segment)
+    if not category:
+        return []
+    cat_data = data.get("segments", {}).get(category, {})
+    results = []
+    for seg_name, seg_data in cat_data.items():
+        if seg_name == segment:
+            continue
+        rates = seg_data.get("rates", {})
+        rate = rates.get(stage_key)
+        if rate is not None:
+            results.append((seg_name, rate))
+    # レート降順でソート
+    results.sort(key=lambda x: x[1], reverse=True)
+    return results[:limit]
+
+
+def make_content_skeleton(bn: dict, idx: int, data: dict) -> dict:
+    """
+    data.json の bottlenecks[i] から content.json スケルトンを生成する。
+    機械的に埋められるフィールドを自動投入し、
+    Claude が書くべき分析テキストは "TODO: ..." プレースホルダーにする。
+    """
+    rank = bn.get("rank", idx + 1)
+    title = bn.get("title", "")
+    segment = bn.get("segment", "")
+    stage = bn.get("stage", "")
+    gap = bn.get("gap", 0)
+    impact = bn.get("impact_sessions", 0)
+    summary = bn.get("summary", "")
+
+    stage_info = STAGE_LABELS.get(stage, {})
+    stage_full = stage_info.get("full", stage)
+    rate_key = stage_info.get("rate_key", "")
+
+    # tags を自動生成
+    tags = [{"label": stage_full, "type": "red"}]
+    # セグメント名をタグに追加（複合セグメントは | で分割）
+    for seg_part in segment.replace("/", "|").split("|"):
+        seg_part = seg_part.strip()
+        display = SEGMENT_DISPLAY.get(seg_part, seg_part)
+        if display:
+            tags.append({"label": display, "type": "default"})
+
+    # deviation, impact_sessions
+    deviation = fmt_gap(gap)
+    impact_str = fmt_impact(impact)
+
+    # ベースラインレート取得
+    baseline_rates = data.get("baseline", {}).get("conversion_rates", {})
+
+    # funnel_overview: セグメントのレートがあれば自動生成
+    funnel_overview = None
+    seg_rates = find_segment_rates(data, segment)
+    if seg_rates and stage != "all":
+        display_name = SEGMENT_DISPLAY.get(segment, segment)
+        cells = []
+        for s_key, s_info in STAGE_LABELS.items():
+            s_rate_key = s_info["rate_key"]
+            seg_val = seg_rates.get(s_rate_key)
+            bl_val = baseline_rates.get(s_rate_key)
+            is_target = (s_key == stage)
+            cell = {
+                "label": s_info["full"],
+                "value": fmt_pct(seg_val),
+                "sub": f"ベースライン {fmt_pct(bl_val)}"
+            }
+            if is_target and seg_val is not None and bl_val is not None:
+                diff_pp = (seg_val - bl_val) * 100
+                cell["sub"] += f" | {diff_pp:+.1f}pp"
+                cell["alert"] = True
+            cells.append(cell)
+        funnel_overview = {
+            "title": f"ファネル全体比較（{display_name} vs ベースライン）",
+            "cells": cells,
+        }
+
+    # funnel_compare: 関連セグメントとの比較
+    funnel_compare = []
+    bl_rate = baseline_rates.get(rate_key)
+    if bl_rate is not None and stage_full:
+        funnel_compare.append({
+            "label": "全体平均",
+            "stage": stage_full.split(" ", 1)[-1] if " " in stage_full else stage_full,
+            "value": fmt_pct(bl_rate),
+            "sub": "ベースライン",
+        })
+    if seg_rates and rate_key:
+        seg_val = seg_rates.get(rate_key)
+        display_name = SEGMENT_DISPLAY.get(segment, segment)
+        fc_entry = {
+            "label": display_name,
+            "stage": stage_full.split(" ", 1)[-1] if " " in stage_full else stage_full,
+            "value": fmt_pct(seg_val),
+            "sub": f"{deviation} vs 全体",
+            "alert": True,
+        }
+        funnel_compare.append(fc_entry)
+
+    # 同カテゴリの関連セグメントを追加
+    related = find_related_segments(data, segment, rate_key)
+    for rel_name, rel_rate in related:
+        rel_display = SEGMENT_DISPLAY.get(rel_name, rel_name)
+        if bl_rate and bl_rate > 0:
+            diff = (rel_rate - bl_rate) / bl_rate
+            diff_str = f"{diff * 100:+.1f}% vs 全体"
+        else:
+            diff_str = ""
+        funnel_compare.append({
+            "label": rel_display,
+            "stage": stage_full.split(" ", 1)[-1] if " " in stage_full else stage_full,
+            "value": fmt_pct(rel_rate),
+            "sub": diff_str,
+        })
+
+    # hypotheses テンプレート（3仮説 × 3施策）
+    hypotheses = []
+    for h_idx, (level, level_label) in enumerate([
+        ("h1", "仮説 1（有力）"),
+        ("h2", "仮説 2"),
+        ("h3", "仮説 3"),
+    ]):
+        actions = []
+        for a_idx in range(3):
+            letter = chr(65 + h_idx * 3 + a_idx)  # A,B,C / D,E,F / G,H,I
+            actions.append({
+                "letter": letter,
+                "title": "TODO: 施策タイトル",
+                "description": "TODO: 施策の説明",
+                "spec_html": "TODO: 開発仕様",
+                "impact": f"TODO: {stage_full.split(' ')[0]} +Xpt",
+                "prototype": {
+                    "before_text": "TODO: 現状の簡潔な説明",
+                    "after_text": "TODO: 改善後の簡潔な説明",
+                },
+            })
+        hypotheses.append({
+            "level": level,
+            "level_label": level_label,
+            "title": "TODO: 仮説タイトル",
+            "body": "TODO: 仮説の説明",
+            "evidence": [
+                f"{SEGMENT_DISPLAY.get(segment, segment)} {stage_full}: {fmt_pct(seg_rates.get(rate_key)) if seg_rates and rate_key else 'N/A'}（ベースライン {fmt_pct(bl_rate)}）" if seg_rates else "TODO: 裏付けデータ",
+                "TODO: 裏付けデータ2",
+                "TODO: 裏付けデータ3",
+            ],
+            "actions": actions,
+        })
+
+    # competitive テンプレート
+    competitive = []
+    for comp in COMPETITORS:
+        competitive.append({
+            **comp,
+            "feature": "TODO: この競合の該当機能の特徴",
+            "detail": "TODO: 注目点の詳細",
+        })
+
+    # 組み立て
+    skeleton = {
+        "number": rank,
+        "title": title,
+        "tags": tags,
+        "deviation": deviation,
+        "impact_sessions": impact_str,
+        "description_html": f"TODO: {summary}",
+    }
+
+    if funnel_overview:
+        skeleton["funnel_overview"] = funnel_overview
+
+    skeleton["funnel_compare"] = funnel_compare
+
+    skeleton["drill_down"] = [
+        {
+            "title": "TODO: ドリルダウン分析1のタイトル",
+            "body_html": "TODO: 分析内容HTML",
+            "note": "TODO: 要点メモ",
+        }
+    ]
+
+    skeleton["callout"] = {
+        "title": "TODO: 特定結果のタイトル",
+        "body_html": "TODO: 特定結果の詳細HTML",
+    }
+
+    skeleton["hypotheses"] = hypotheses
+
+    skeleton["competitive"] = competitive
+    skeleton["competitive_insight"] = "TODO: 競合比較から得られる示唆"
+
+    skeleton["verification"] = [
+        "TODO: チェック項目1",
+        "TODO: チェック項目2",
+        "TODO: チェック項目3",
+    ]
+    skeleton["verification_method"] = f"TODO: GA4 で {SEGMENT_DISPLAY.get(segment, segment)} の {stage_full} を検証"
+
+    return skeleton
+
+
+def step_generate_skeletons(week_dir: str, dry_run: bool) -> None:
+    """
+    data.json の bottlenecks 配列から bottleneck-N-content.json スケルトンを生成する。
+    既存ファイルは上書きしない。
+    """
+    data_path = os.path.join(week_dir, "data.json")
+    print(f"\n[SKELETON] data.json から content.json スケルトン生成")
+
+    data = read_json(data_path)
+    if not data:
+        print(f"  エラー: {data_path} が見つかりません。先に data.json を生成してください。")
+        return
+
+    bottlenecks = data.get("bottlenecks", [])
+    if not bottlenecks:
+        print(f"  エラー: data.json に bottlenecks 配列がないか空です。")
+        return
+
+    print(f"  bottlenecks: {len(bottlenecks)} 件検出")
+
+    generated = 0
+    skipped = 0
+    for i, bn in enumerate(bottlenecks):
+        rank = bn.get("rank", i + 1)
+        content_path = os.path.join(week_dir, f"bottleneck-{rank}-content.json")
+
+        if not dry_run and os.path.exists(content_path):
+            print(f"  スキップ: bottleneck-{rank}-content.json（既に存在）")
+            skipped += 1
+            continue
+
+        skeleton = make_content_skeleton(bn, i, data)
+        write_json(content_path, skeleton, dry_run)
+        generated += 1
+
+        if not dry_run:
+            # TODO カウント
+            json_str = json.dumps(skeleton, ensure_ascii=False)
+            todo_count = json_str.count("TODO:")
+            print(f"  生成: bottleneck-{rank}-content.json（TODO: {todo_count} 箇所）")
+
+    print(f"\n  結果: 生成 {generated} / スキップ {skipped} / 合計 {len(bottlenecks)}")
 
 
 # ============================================================
@@ -385,9 +735,10 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 使用例:
-  python3 scripts/generate-week.py               # 次週を自動検出して生成
-  python3 scripts/generate-week.py --week 2026-w15  # 特定の週を指定して生成
-  python3 scripts/generate-week.py --dry-run     # 実行内容をプレビュー（書き込みなし）
+  python3 scripts/generate-week.py                     # 次週を自動検出して生成
+  python3 scripts/generate-week.py --week 2026-w15     # 特定の週を指定して生成
+  python3 scripts/generate-week.py --dry-run           # 実行内容をプレビュー
+  python3 scripts/generate-week.py --skeleton --week 2026-w14  # content.json スケルトン生成
         """,
     )
     parser.add_argument(
@@ -399,6 +750,11 @@ def main() -> None:
         "--dry-run",
         action="store_true",
         help="ファイルを実際には書き込まず、実行内容をプレビュー表示",
+    )
+    parser.add_argument(
+        "--skeleton",
+        action="store_true",
+        help="data.json の bottlenecks から bottleneck-N-content.json スケルトンを生成",
     )
     args = parser.parse_args()
 
@@ -422,7 +778,24 @@ def main() -> None:
     print("=" * 60)
 
     # --------------------------------------------------------
-    # 各ステップを順に実行
+    # --skeleton モード: content.json スケルトン生成のみ
+    # --------------------------------------------------------
+    if args.skeleton:
+        week_dir = os.path.join(REPORTS_DIR, meta["week_id"])
+        step_generate_skeletons(week_dir, args.dry_run)
+        print("\n" + "=" * 60)
+        if args.dry_run:
+            print("DRY-RUN 完了。--dry-run を外すと実際に書き込みます。")
+        else:
+            print("スケルトン生成完了！")
+            print(f"\n次のステップ:")
+            print(f"  Claude が各ファイルの TODO: を埋める（2-3 ファイルずつ並列推奨）")
+            print(f"  プロトタイプは before_text / after_text の短縮形式で記述可能")
+        print("=" * 60)
+        return
+
+    # --------------------------------------------------------
+    # 通常モード: 各ステップを順に実行
     # --------------------------------------------------------
     week_dir = step_create_directory(meta["week_id"], args.dry_run)
     step_generate_data_json(week_dir, meta, args.dry_run)
@@ -438,9 +811,10 @@ def main() -> None:
         print(f"完了！ {meta['week_id']} のレポート雛形を生成しました。")
         print(f"\n次のステップ:")
         print(f"  1. GA4 MCP でデータをクエリし、data.json を埋める")
-        print(f"  2. Claude に分析を依頼し、bottleneck-{{1-10}}-content.json を生成する")
+        print(f"  2. スケルトン生成: python3 scripts/generate-week.py --skeleton --week {meta['week_id']}")
+        print(f"  3. Claude が各 TODO: を埋める（2-3 ファイルずつ並列生成を推奨）")
         print(f"     ※ report.html が data.json を動的に描画（index.html は不要）")
-        print(f"     ※ bottleneck-content.json は 2-3 ファイルずつ並列生成を推奨")
+        print(f"     ※ プロトタイプは before_text / after_text 短縮形式で記述可能")
     print("=" * 60)
 
 
