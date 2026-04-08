@@ -136,15 +136,27 @@ python3 scripts/generate-week.py --week {YYYY}-w{WW}
 HTML生成は不要。Phase 2 では `bottleneck-{1-10}-content.json` のみ生成する。
 
 1. **ボトルネック特定**: `data.json` のセグメント間比較から、インパクト順で10件ランキング
-2. **全10件の content.json 生成**:
-   - 仮説×3 → 打ち手×9（A-I）→ プロトタイプ Before/After → 競合比較6社
+2. **★ behavior_context の生成**（hypotheses より先に生成すること）:
+   - `estimated_action`: セグメント×ファネル段階から、ユーザーがとった行動を1文で推定（「〜した可能性が高い」等、断定しない）
+   - `evidence`: data.json の具体的数値を引用して推定行動の根拠を2〜4件列挙。「このセグメントだけ落ちている」等、比較で示す
+   - `page_role_check`: 戦略ガイドSection 3のページ役割と照合（Area/Top=大づかみ / Ctg=絞り込み / Ac=確信 / Booking=完了）
+   - `subtraction_check`: 新要素の追加より引き算（情報削減・整理）で解決できないか検討
+   - `pattern_references`: 2025年ABテスト勝ち/負けパターンを参照（勝ち=シンプル化・並走型UI・行動喚起 / 負け=ノイズな機能追加。該当なければ空配列）
+3. **全10件の content.json 生成**:
+   - behavior_context と整合する 仮説×3 → 打ち手×9（A-I）→ プロトタイプ Before/After → 競合比較6社
    - **効率化**: 2-3ファイルずつ並列 Agent で生成（タイムアウト防止）
    - スキーマは ARCHITECTURE.md §4 準拠、`reports/2026-w14/bottleneck-1-content.json` を参照
+
+**behavior_context の生成ルール（詳細）**:
+- 各仮説は `behavior_context.estimated_action` と整合すること
+- 仮説には「施策起因」「外部要因起因」「構造的問題」の3カテゴリを含める（全て同じカテゴリにしない）
+- `pattern_references` に該当パターンがあれば、仮説の `evidence` にも明記する
+- 参照: `docs/PROJECT_1_BEHAVIOR_HYPOTHESIS.md` §3-3（生成ルール全文）、§4（ファネル段階別テンプレート）
 
 **生成効率化のポイント**:
 - Agent を 5 並列（各2ファイル）で起動するとタイムアウトを回避できる
 - 各 Agent のプロンプトには data.json の数値を明記し、ファイル読み込みを最小化
-- 生成後に品質チェックスクリプト実行: `python3 -c "import json; ..."`（90 prototypes / 60 competitive 確認）
+- 生成後に品質チェックスクリプト実行: `python3 scripts/validate-report.py --week {YYYY-wWW}`（behavior_context チェックを含む）
 
 **デザインルール**: `veltra-design-system.md` 参照
 - プロトタイプのモックアップはVELTRAサイトデザイン準拠（`#1B82C5` blue CTA, `#F2F5F8` bg）

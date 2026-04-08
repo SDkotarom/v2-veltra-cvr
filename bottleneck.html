@@ -162,6 +162,29 @@
       calloutHtml = '<div class="callout" style="margin-top:0"><div class="ct">' + esc(c.callout.title || '特定結果') + '</div><div class="cb">' + c.callout.body_html + '</div></div>';
     }
 
+    // Behavior context（行動仮説レイヤー）
+    var bcHtml = '';
+    if (c.behavior_context) {
+      var bc = c.behavior_context;
+      var evList = (bc.evidence || []).map(function(e){ return '<li>' + esc(e) + '</li>'; }).join('');
+      var patHtml = '';
+      if (bc.pattern_references && bc.pattern_references.length > 0) {
+        var patItems = bc.pattern_references.map(function(p){
+          var icon = /^負け/.test(p) ? '&#10060;' : '&#9989;';
+          return '<li>' + icon + ' ' + esc(p) + '</li>';
+        }).join('');
+        patHtml = '<div class="bc-item"><div class="bc-label">関連パターン（2025年）</div><ul class="bc-list">' + patItems + '</ul></div>';
+      }
+      bcHtml = '<div class="behavior-context">'
+        + '<div class="bc-title">行動仮説</div>'
+        + '<div class="bc-item"><div class="bc-label">推定行動</div><div class="bc-text">' + esc(bc.estimated_action) + '</div></div>'
+        + '<div class="bc-item"><div class="bc-label">根拠</div><ul class="bc-list">' + evList + '</ul></div>'
+        + '<div class="bc-item"><div class="bc-label">ページ役割チェック</div><div class="bc-text">' + esc(bc.page_role_check) + '</div></div>'
+        + '<div class="bc-item"><div class="bc-label">引き算チェック</div><div class="bc-text">' + esc(bc.subtraction_check) + '</div></div>'
+        + patHtml
+        + '</div>';
+    }
+
     // Description
     var descHtml = c.description_html ? '<div style="margin-top:12px;font-size:14px;color:var(--text2);line-height:1.6">' + c.description_html + '</div>' : '';
 
@@ -196,6 +219,7 @@
       + fcHtml
       + ddHtml
       + calloutHtml
+      + bcHtml
       + '<hr class="divider">'
       + '<div style="padding:24px 44px 16px"><div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Step 6 &mdash; ' + hypoTitle + '</div><div style="font-size:15px;color:var(--text2)">' + hypoDesc + '</div></div>'
       + '<div style="padding:0 44px 28px">' + hypoHtml + '</div>'

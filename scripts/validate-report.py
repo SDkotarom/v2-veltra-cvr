@@ -242,6 +242,34 @@ def check_favicons(week_id):
     
     ok("ファビコンチェック完了")
 
+# ── 検証7: behavior_context チェック（content.json） ──
+def check_behavior_context(week_id):
+    print(f"\n[7] behavior_context チェック")
+    report_dir = ROOT / "reports" / week_id
+    checked = 0
+    for i in range(1, 11):
+        path = report_dir / f"bottleneck-{i}-content.json"
+        if not path.exists():
+            continue
+        with open(path) as f:
+            d = json.load(f)
+        bc = d.get('behavior_context')
+        if bc is None:
+            continue  # 後方互換: なくてもOK
+        checked += 1
+        if not bc.get('estimated_action'):
+            error(f'#{i}: behavior_context.estimated_action が空')
+        if len(bc.get('evidence', [])) < 2:
+            error(f'#{i}: behavior_context.evidence が2件未満')
+        if not bc.get('page_role_check'):
+            error(f'#{i}: behavior_context.page_role_check が空')
+        if not bc.get('subtraction_check'):
+            error(f'#{i}: behavior_context.subtraction_check が空')
+    if checked > 0:
+        ok(f"behavior_context チェック完了（{checked}件）")
+    else:
+        ok("behavior_context なし（スキップ）")
+
 # ── メイン ────────────────────────────────────────
 def main():
     parser = argparse.ArgumentParser(description="週次レポート検証")
@@ -267,6 +295,7 @@ def main():
     check_bottleneck_pages(week_id)
     check_summary_files(week_id, data)
     check_favicons(week_id)
+    check_behavior_context(week_id)
     
     print(f"\n{'='*60}")
     print(f"  結果: ❌ エラー {len(ERRORS)}件 / ⚠️ 警告 {len(WARNINGS)}件")
