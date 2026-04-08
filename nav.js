@@ -62,6 +62,7 @@
   // ── Page type detection ──────────────────────────
   var path = location.pathname;
   var isTop      = (path === '/' || path === '/index.html');
+  var isKpi      = (path === '/kpi.html');
   var isCycle    = (path === '/cycle.html');
   var isAnalysis = (path === '/analysis.html');
   var isArchive = (path === '/reports/' || path === '/reports/index.html');
@@ -153,6 +154,18 @@
       addPath('M23 4v6h-6');
       addPath('M1 20v-6h6');
       addPath('M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15');
+    } else if (type === 'kpi') {
+      // Target / bullseye
+      addPath('M22 12h-4');
+      addPath('M6 12H2');
+      addPath('M12 6V2');
+      addPath('M12 22v-4');
+      var c1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c1.setAttribute('cx','12'); c1.setAttribute('cy','12'); c1.setAttribute('r','8');
+      svg.appendChild(c1);
+      var c2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c2.setAttribute('cx','12'); c2.setAttribute('cy','12'); c2.setAttribute('r','4');
+      svg.appendChild(c2);
     } else if (type === 'analysis') {
       // Book with magnifier
       addPath('M4 19.5A2.5 2.5 0 0 1 6.5 17H20');
@@ -305,6 +318,14 @@
     sumA.appendChild(makeIcon('summary'));
     sumA.appendChild(document.createTextNode('サマリー'));
     nav.appendChild(sumA);
+
+    // ■ KPIダッシュボード
+    var kpiA = document.createElement('a');
+    kpiA.href = '/kpi.html';
+    kpiA.className = 'nav-item' + (isKpi ? ' nav-active' : '');
+    kpiA.appendChild(makeIcon('kpi'));
+    kpiA.appendChild(document.createTextNode('KPIダッシュボード'));
+    nav.appendChild(kpiA);
 
     nav.appendChild(makeSep());
 
