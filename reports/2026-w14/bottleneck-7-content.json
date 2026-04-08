@@ -17,6 +17,78 @@
   ],
   "deviation": "-68%",
   "impact_sessions": "274,917 / 月",
+  "description_html": "URL直アクセスの新規ユーザーがトップページから商品詳細に到達できていない。計測問題の可能性も。<br>①→② AC到達率: <strong style=\"color:var(--red)\">8.38%</strong> vs ベースライン <strong>26.10%</strong> → <strong style=\"color:var(--red)\">-68%（-17.72pp）</strong><br>リピーター（34.12%）との差が4倍。CVR: 0.61% vs 1.46%",
+  "funnel_overview": {
+    "title": "ファネル全ステップ比較（Direct × 新規 vs ベースライン）",
+    "cells": [
+      {
+        "label": "①→② 流入→AC到達",
+        "value": "8.38%",
+        "sub": "ベースライン 26.10% | -68%",
+        "alert": true
+      },
+      {
+        "label": "Direct × リピーター",
+        "value": "34.12%",
+        "sub": "ベースライン超え（+30.7%）"
+      },
+      {
+        "label": "Organic × 新規",
+        "value": "17.46%",
+        "sub": "同じ新規でも2倍以上"
+      },
+      {
+        "label": "CVR",
+        "value": "0.61%",
+        "sub": "ベースライン 1.46%"
+      }
+    ]
+  },
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "①→② 流入→AC到達",
+      "value": "26.10%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Direct × 新規",
+      "stage": "①→② 流入→AC到達",
+      "value": "8.38%",
+      "sub": "-67.9% vs 全体",
+      "alert": true
+    },
+    {
+      "label": "Direct × リピーター",
+      "stage": "①→② 流入→AC到達",
+      "value": "34.12%",
+      "sub": "+30.7% vs 全体"
+    },
+    {
+      "label": "Organic × 新規",
+      "stage": "①→② 流入→AC到達",
+      "value": "17.46%",
+      "sub": "-33.1% vs 全体"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "Direct新規のAC到達率が極端に低い",
+      "body_html": "Direct × 新規 ①→②: <strong style=\"color:var(--red)\">8.38%</strong><br>Direct × リピーター: 34.12%（4倍の差）",
+      "note": "新規はサイトを知らずURL直アクセス。トップページで迷子になっている可能性。"
+    },
+    {
+      "title": "計測上の問題の可能性",
+      "body_html": "Direct流入の一部はリファラなしのトラフィック（アプリ内ブラウザ等）<br>トラッキング欠落の可能性も要調査",
+      "note": "まず計測の正確性を確認した上で施策を検討。"
+    }
+  ],
+  "callout": {
+    "title": "特定結果",
+    "body_html": "<strong>Direct × 新規</strong> の ①→② AC到達率が <strong>8.38%</strong>（全体平均 26.10% の <strong>-68%</strong>）。月間 274Kセッション。URL直アクセスの新規ユーザーがトップページから商品詳細に到達できていない。計測問題の可能性も要確認。"
+  },
+  "hypo_section_title": "原因仮説 &times; 3 &amp; 打ち手 &times; 9",
+  "hypo_section_desc": "なぜ Direct × 新規 の①→②AC到達率が低いか？ 仮説をクリックして打ち手・プロトタイプを展開。",
   "hypotheses": [
     {
       "level": "h1",
@@ -155,6 +227,7 @@
       ]
     }
   ],
+  "verification_method": "GA4: Direct × 新規の ①→② AC到達率を計測。まず計測問題の調査（施策D）を実施し、実態を把握した上でABテストを実施。目標: 8.38% → 15%以上。",
   "competitive": [
     {
       "name": "Klook",
@@ -193,6 +266,7 @@
       "detail": "施策Aの参考。"
     }
   ],
+  "competitive_insight": "競合はトップページの人気商品カルーセル（Klook/KKday）、バリュープロポジション明示（GetYourGuide）、「はじめての方へ」ガイド（アソビュー！）で新規直接流入の導線を強化。VELTRAはファーストビューの訴求力向上が鍵。",
   "verification": [
     "計測問題の調査を完了（アプリ内ブラウザ割合の特定）",
     "データの正確性を確認",
@@ -200,49 +274,5 @@
     "施策の技術的実現可能性を確認",
     "ABテスト設計をレビュー",
     "優先度・リソース配分を決定"
-  ],
-  "funnel_compare": [
-    {
-      "label": "全体平均",
-      "stage": "①→② 流入→AC到達",
-      "value": "26.10%",
-      "sub": "ベースライン"
-    },
-    {
-      "label": "Direct × 新規",
-      "stage": "①→② 流入→AC到達",
-      "value": "8.38%",
-      "sub": "-67.9% vs 全体",
-      "alert": true
-    },
-    {
-      "label": "Direct × リピーター",
-      "stage": "①→② 流入→AC到達",
-      "value": "34.12%",
-      "sub": "+30.7% vs 全体"
-    },
-    {
-      "label": "Organic × 新規",
-      "stage": "①→② 流入→AC到達",
-      "value": "17.46%",
-      "sub": "-33.1% vs 全体"
-    }
-  ],
-  "drill_down": [
-    {
-      "title": "Direct新規のAC到達率が極端に低い",
-      "body_html": "Direct × 新規 ①→②: <strong style=\"color:var(--red)\">8.38%</strong><br>Direct × リピーター: 34.12%（4倍の差）",
-      "note": "新規はサイトを知らずURL直アクセス。トップページで迷子になっている可能性。"
-    },
-    {
-      "title": "計測上の問題の可能性",
-      "body_html": "Direct流入の一部はリファラなしのトラフィック（アプリ内ブラウザ等）<br>トラッキング欠落の可能性も要調査",
-      "note": "まず計測の正確性を確認した上で施策を検討。"
-    }
-  ],
-  "callout": {
-    "title": "特定結果",
-    "body_html": "<strong>Direct × 新規</strong> の ①→② AC到達率が <strong>8.38%</strong>（全体平均 26.10% の <strong>-68%</strong>）。月間 274Kセッション。URL直アクセスの新規ユーザーがトップページから商品詳細に到達できていない。計測問題の可能性も要確認。"
-  },
-  "verification_method": "GA4: Direct × 新規の ①→② AC到達率を計測。まず計測問題の調査（施策D）を実施し、実態を把握した上でABテストを実施。目標: 8.38% → 15%以上。"
+  ]
 }

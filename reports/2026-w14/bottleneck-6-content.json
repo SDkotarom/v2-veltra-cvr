@@ -17,6 +17,78 @@
   ],
   "deviation": "-33.1%",
   "impact_sessions": "723,479 / 月",
+  "description_html": "SEO経由でトップページやエリアページに着地した新規ユーザーが商品詳細（AC）ページまで遷移できていない。<br>①→② AC到達率: <strong style=\"color:var(--red)\">17.46%</strong> vs ベースライン <strong>26.10%</strong> → <strong style=\"color:var(--red)\">-33.1%（-8.64pp）</strong><br>Mobile: 15.2%、Desktop: 22.1%。CVR: 0.34% vs 1.46%",
+  "funnel_overview": {
+    "title": "ファネル全ステップ比較（Organic Search × 新規 vs ベースライン）",
+    "cells": [
+      {
+        "label": "①→② 流入→AC到達",
+        "value": "17.46%",
+        "sub": "ベースライン 26.10% | -33.1%",
+        "alert": true
+      },
+      {
+        "label": "②→③ AC到達→検討",
+        "value": "31.49%",
+        "sub": "ベースライン 75.01%（-58%）"
+      },
+      {
+        "label": "③→④ 検討→意向",
+        "value": "52.74%",
+        "sub": "ベースライン 86.62%"
+      },
+      {
+        "label": "CVR",
+        "value": "0.34%",
+        "sub": "ベースライン 1.46%"
+      }
+    ]
+  },
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "①→② 流入→AC到達",
+      "value": "26.10%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Organic × 新規",
+      "stage": "①→② 流入→AC到達",
+      "value": "17.46%",
+      "sub": "-33.1% vs 全体",
+      "alert": true
+    },
+    {
+      "label": "Paid Search × 新規",
+      "stage": "①→② 流入→AC到達",
+      "value": "31.53%",
+      "sub": "+20.8% vs 全体（良好）"
+    },
+    {
+      "label": "Direct × 新規",
+      "stage": "①→② 流入→AC到達",
+      "value": "8.38%",
+      "sub": "-67.9% vs 全体"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "Organic新規のAC到達率が低い理由",
+      "body_html": "SEO経由でトップページやエリアページに着地 → 商品詳細（AC）まで遷移しない<br>Paid SearchはAC直リンクのため①→②が高い",
+      "note": "Organicはサイト内回遊が必要なため、到達率が低い構造。"
+    },
+    {
+      "title": "デバイス別",
+      "body_html": "Organic × 新規 × Mobile: <strong style=\"color:var(--red)\">15.2%</strong><br>Organic × 新規 × Desktop: 22.1%",
+      "note": "Mobileが特に低い。小画面での回遊性が問題。"
+    }
+  ],
+  "callout": {
+    "title": "特定結果",
+    "body_html": "<strong>Organic Search × 新規</strong> の ①→② AC到達率が <strong>17.46%</strong>（全体平均 26.10% の <strong>-33.1%</strong>）。月間 723Kセッション。トップページやエリアページに着地した新規ユーザーが商品詳細ページまで遷移できていない。"
+  },
+  "hypo_section_title": "原因仮説 &times; 3 &amp; 打ち手 &times; 9",
+  "hypo_section_desc": "なぜ Organic Search × 新規 の①→②AC到達率が低いか？ 仮説をクリックして打ち手・プロトタイプを展開。",
   "hypotheses": [
     {
       "level": "h1",
@@ -155,6 +227,7 @@
       ]
     }
   ],
+  "verification_method": "GA4: Organic Search × 新規の ①→② AC到達率を計測。ABテスト2週間。目標: 17.46% → 22%以上。施策C（人気商品TOP3）を先行実施。",
   "competitive": [
     {
       "name": "Klook",
@@ -193,55 +266,12 @@
       "detail": "施策Cの参考。"
     }
   ],
+  "competitive_insight": "競合はトップページのパーソナライズ（Klook）、オートサジェスト検索（GetYourGuide）、SEO記事内リッチカード（アソビュー！）で新規の商品到達率を向上。VELTRAはLP→商品詳細の導線強化が最優先。",
   "verification": [
     "データの正確性を確認",
     "仮説の妥当性をレビュー",
     "施策の技術的実現可能性を確認",
     "ABテスト設計をレビュー",
     "優先度・リソース配分を決定"
-  ],
-  "funnel_compare": [
-    {
-      "label": "全体平均",
-      "stage": "①→② 流入→AC到達",
-      "value": "26.10%",
-      "sub": "ベースライン"
-    },
-    {
-      "label": "Organic × 新規",
-      "stage": "①→② 流入→AC到達",
-      "value": "17.46%",
-      "sub": "-33.1% vs 全体",
-      "alert": true
-    },
-    {
-      "label": "Paid Search × 新規",
-      "stage": "①→② 流入→AC到達",
-      "value": "31.53%",
-      "sub": "+20.8% vs 全体（良好）"
-    },
-    {
-      "label": "Direct × 新規",
-      "stage": "①→② 流入→AC到達",
-      "value": "8.38%",
-      "sub": "-67.9% vs 全体"
-    }
-  ],
-  "drill_down": [
-    {
-      "title": "Organic新規のAC到達率が低い理由",
-      "body_html": "SEO経由でトップページやエリアページに着地 → 商品詳細（AC）まで遷移しない<br>Paid SearchはAC直リンクのため①→②が高い",
-      "note": "Organicはサイト内回遊が必要なため、到達率が低い構造。"
-    },
-    {
-      "title": "デバイス別",
-      "body_html": "Organic × 新規 × Mobile: <strong style=\"color:var(--red)\">15.2%</strong><br>Organic × 新規 × Desktop: 22.1%",
-      "note": "Mobileが特に低い。小画面での回遊性が問題。"
-    }
-  ],
-  "callout": {
-    "title": "特定結果",
-    "body_html": "<strong>Organic Search × 新規</strong> の ①→② AC到達率が <strong>17.46%</strong>（全体平均 26.10% の <strong>-33.1%</strong>）。月間 723Kセッション。トップページやエリアページに着地した新規ユーザーが商品詳細ページまで遷移できていない。"
-  },
-  "verification_method": "GA4: Organic Search × 新規の ①→② AC到達率を計測。ABテスト2週間。目標: 17.46% → 22%以上。施策C（人気商品TOP3）を先行実施。"
+  ]
 }

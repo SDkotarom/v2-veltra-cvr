@@ -17,6 +17,78 @@
   ],
   "deviation": "-86%",
   "impact_sessions": "180K / 月",
+  "description_html": "Direct × Desktop の ①→② AC到達率が <strong style=\"color:var(--red)\">3.65%</strong> と異常に低い（ベースライン 26.1% の -86%）。180Kセッション/月に影響。まず計測上の問題を確認する必要がある。",
+  "funnel_overview": {
+    "title": "ファネル全ステップ比較（Direct × Desktop vs ベースライン）",
+    "cells": [
+      {
+        "label": "①→② 流入→AC到達",
+        "value": "3.65%",
+        "sub": "ベースライン 26.10% | -86%（異常値）",
+        "alert": true
+      },
+      {
+        "label": "Direct × Mobile",
+        "value": "12.41%",
+        "sub": "Desktopの3.4倍"
+      },
+      {
+        "label": "Direct × リピーター",
+        "value": "34.12%",
+        "sub": "ベースライン超え（正常）"
+      },
+      {
+        "label": "CVR",
+        "value": "0.87%",
+        "sub": "ベースライン 1.46%"
+      }
+    ]
+  },
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "①→② 流入→AC到達",
+      "value": "26.10%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Direct × Desktop",
+      "stage": "①→② 流入→AC到達",
+      "value": "3.65%",
+      "sub": "-86% vs 全体（異常値）",
+      "alert": true
+    },
+    {
+      "label": "Direct × Mobile",
+      "stage": "①→② 流入→AC到達",
+      "value": "12.41%",
+      "sub": "-52.5% vs 全体"
+    },
+    {
+      "label": "Direct × リピーター",
+      "stage": "①→② 流入→AC到達",
+      "value": "34.12%",
+      "sub": "+30.7% vs 全体"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "計測上の問題の可能性",
+      "body_html": "Direct × Desktop ①→②: <strong style=\"color:var(--red)\">3.65%</strong>（異常値）<br>アプリ内ブラウザ・ブックマーク経由のリファラなしトラフィック混在の可能性",
+      "note": "GA4のセッション定義とbot除外設定を確認する必要あり。"
+    },
+    {
+      "title": "デバイス比較",
+      "body_html": "Direct × Mobile: <strong>12.41%</strong>（Desktopの3.4倍）<br>Direct × リピーター: <strong style=\"color:var(--green)\">34.12%</strong>（正常水準）",
+      "note": "新規Desktopに限定された問題。リピーターは正常。"
+    }
+  ],
+  "callout": {
+    "title": "計測異常 or 大規模UX課題",
+    "body_html": "Direct × Desktop の ①→② AC到達率が <strong>3.65%</strong> と異常値。計測上の問題（トラッキング欠落・直接URLリクエスト vs ページ遷移の計上方法）を先に確認する必要がある。正常なトラフィックであれば、大幅なUX改善機会が存在する。"
+  },
+  "hypo_section_title": "原因仮説 &times; 3 &amp; 打ち手 &times; 9",
+  "hypo_section_desc": "なぜ Direct × Desktop の①→②AC到達率が低いか？ 仮説をクリックして打ち手・プロトタイプを展開。",
   "hypotheses": [
     {
       "level": "h1",
@@ -155,6 +227,7 @@
       ]
     }
   ],
+  "verification_method": "まず計測問題の調査（施策A-C）を2週間で実施。bot除外後の実データに基づいてUX施策のABテストを計画。",
   "competitive": [
     {
       "name": "Klook",
@@ -193,44 +266,12 @@
       "detail": "施策Gの参考。"
     }
   ],
+  "competitive_insight": "競合はDesktopのページ速度最適化（Klook: LCP 1.5秒以下）、bot判定の高度化（Viator: reCAPTCHA v3）、メガメニュー（KKday）で正常トラフィックのAC到達を確保。VELTRAはまず計測異常の切り分けが先決。",
   "verification": [
     "計測問題の調査を完了（bot割合の特定）",
     "botフィルタリング後のデータで再分析",
     "UX施策の技術的実現可能性を確認",
     "ABテスト設計をレビュー",
     "優先度・リソース配分を決定"
-  ],
-  "description_html": "Direct × Desktop の ①→② AC到達率が <strong style=\"color:var(--red)\">3.65%</strong> と異常に低い（ベースライン 26.1% の -86%）。180Kセッション/月に影響。まず計測上の問題を確認する必要がある。",
-  "funnel_compare": [
-    {
-      "label": "全体平均",
-      "stage": "①→② 流入→AC到達",
-      "value": "26.10%",
-      "sub": "ベースライン"
-    },
-    {
-      "label": "Direct × Desktop",
-      "stage": "①→② 流入→AC到達",
-      "value": "3.65%",
-      "sub": "-86% vs 全体（異常値）",
-      "alert": true
-    },
-    {
-      "label": "Direct × Mobile",
-      "stage": "①→② 流入→AC到達",
-      "value": "12.41%",
-      "sub": "-52.5% vs 全体"
-    },
-    {
-      "label": "Direct × リピーター",
-      "stage": "①→② 流入→AC到達",
-      "value": "34.12%",
-      "sub": "+30.7% vs 全体"
-    }
-  ],
-  "callout": {
-    "title": "計測異常 or 大規模UX課題",
-    "body_html": "Direct × Desktop の ①→② AC到達率が <strong>3.65%</strong> と異常値。計測上の問題（トラッキング欠落・直接URLリクエスト vs ページ遷移の計上方法）を先に確認する必要がある。正常なトラフィックであれば、大幅なUX改善機会が存在する。"
-  },
-  "verification_method": "まず計測問題の調査（施策A-C）を2週間で実施。bot除外後の実データに基づいてUX施策のABテストを計画。"
+  ]
 }

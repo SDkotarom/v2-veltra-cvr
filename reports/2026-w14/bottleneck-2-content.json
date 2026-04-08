@@ -17,6 +17,78 @@
   ],
   "deviation": "-58%",
   "impact_sessions": "723K / 月",
+  "description_html": "ACページに到達した新規ユーザーの約7割が日程選択に進まずに離脱。<br>②→③ 検討転換率（calendar_view / ac_page_reach）: <strong style=\"color:var(--red)\">31.49%</strong> vs ベースライン <strong>75.01%</strong> → <strong style=\"color:var(--red)\">-58%（-43.52pp）</strong><br>CVR: 0.34% vs 1.46%",
+  "funnel_overview": {
+    "title": "ファネル全ステップ比較：Organic Search × 新規",
+    "cells": [
+      {
+        "label": "①→② 流入→AC到達",
+        "value": "17.46%",
+        "sub": "ベースライン 26.10%"
+      },
+      {
+        "label": "②→③ AC到達→検討",
+        "value": "31.49%",
+        "sub": "ベースライン 75.01% / -58%（-43.52pp）",
+        "alert": true
+      },
+      {
+        "label": "③→④ 検討→意向",
+        "value": "52.74%",
+        "sub": "ベースライン 86.62%"
+      },
+      {
+        "label": "CVR",
+        "value": "0.34%",
+        "sub": "ベースライン 1.46%"
+      }
+    ]
+  },
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "②→③ 検討転換",
+      "value": "75.01%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Organic × 新規",
+      "stage": "②→③ 検討転換",
+      "value": "31.49%",
+      "sub": "-58% vs 全体",
+      "alert": true
+    },
+    {
+      "label": "Organic × リピーター",
+      "stage": "②→③ 検討転換",
+      "value": "89.6%",
+      "sub": "ベースライン超え"
+    },
+    {
+      "label": "Paid Search × 新規",
+      "stage": "②→③ 検討転換",
+      "value": "31.5%",
+      "sub": "同水準（チャネル横断）"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "新規 vs リピーターで分解",
+      "body_html": "Organic × <strong style=\"color:var(--red)\">新規 ②→③: 31.49%</strong>（全体比 -58%）<br>Organic × リピーター ②→③: 89.6%（ベースライン超え）",
+      "note": "新規ユーザーに問題が集中。リピーターはページ構造を知っているため高率。"
+    },
+    {
+      "title": "チャネル・デバイスで分解",
+      "body_html": "Paid Search 新規 ②→③: 31.5%（同水準）<br>Organic × <strong style=\"color:var(--red)\">Mobile ②→③: 57.2%</strong>（PCより低い）",
+      "note": "チャネル横断で新規全般の構造問題。Mobileが特に低い。"
+    }
+  ],
+  "callout": {
+    "title": "特定結果",
+    "body_html": "<strong>Organic Search × 新規</strong> の ②→③ 検討転換率が <strong>31.49%</strong>（全体平均 75.01% の <strong>-58% / -43.52pp</strong>）。<br>月間 723Kセッション。ACページに到達した新規ユーザーの約7割が日程選択に進まずに離脱。リピーターの②→③が89.6%であることから、ページ構造の不慣れが主因。"
+  },
+  "hypo_section_title": "原因仮説 &times; 3 &amp; 打ち手 &times; 9",
+  "hypo_section_desc": "なぜ Organic Search × 新規 の②→③検討転換率が低いか？ 仮説をクリックして打ち手・プロトタイプを展開。",
   "hypotheses": [
     {
       "level": "h1",
@@ -156,6 +228,7 @@
       ]
     }
   ],
+  "verification_method": "GA4: Organic Search × 新規の ②→③ 転換率を主要KPIとして計測。ABテスト2週間。目標: 31.49% → 45%以上。優先施策: 施策A（スティッキーナビ）を先行実施。",
   "competitive": [
     {
       "name": "Klook",
@@ -194,82 +267,12 @@
       "detail": "ライトエンゲージメント + 決済簡素化の組み合わせ。"
     }
   ],
+  "competitive_insight": "主要競合は「新規ユーザーの登録・決済障壁を限界まで下げる」戦略。VELTRAはまずACページ内での日程選択到達率改善（施策A）が最優先。",
   "verification": [
     "データの正確性を確認（GA4レポートと照合）",
     "仮説の妥当性をレビュー（PM/UXデザイナー）",
     "施策の技術的実現可能性を確認（エンジニア）",
     "ABテスト設計をレビュー（データアナリスト）",
     "優先度・リソース配分を決定（PO）"
-  ],
-  "funnel_overview": {
-    "title": "ファネル全ステップ比較：Organic Search × 新規",
-    "cells": [
-      {
-        "label": "①→② 流入→AC到達",
-        "value": "17.46%",
-        "sub": "ベースライン 26.10%"
-      },
-      {
-        "label": "②→③ AC到達→検討",
-        "value": "31.49%",
-        "sub": "ベースライン 75.01% / -58%（-43.52pp）",
-        "alert": true
-      },
-      {
-        "label": "③→④ 検討→意向",
-        "value": "52.74%",
-        "sub": "ベースライン 86.62%"
-      },
-      {
-        "label": "CVR",
-        "value": "0.34%",
-        "sub": "ベースライン 1.46%"
-      }
-    ]
-  },
-  "funnel_compare": [
-    {
-      "label": "全体平均",
-      "stage": "②→③ 検討転換",
-      "value": "75.01%",
-      "sub": "ベースライン"
-    },
-    {
-      "label": "Organic × 新規",
-      "stage": "②→③ 検討転換",
-      "value": "31.49%",
-      "sub": "-58% vs 全体",
-      "alert": true
-    },
-    {
-      "label": "Organic × リピーター",
-      "stage": "②→③ 検討転換",
-      "value": "89.6%",
-      "sub": "ベースライン超え"
-    },
-    {
-      "label": "Paid Search × 新規",
-      "stage": "②→③ 検討転換",
-      "value": "31.5%",
-      "sub": "同水準（チャネル横断）"
-    }
-  ],
-  "drill_down": [
-    {
-      "title": "新規 vs リピーターで分解",
-      "body_html": "Organic × <strong style=\"color:var(--red)\">新規 ②→③: 31.49%</strong>（全体比 -58%）<br>Organic × リピーター ②→③: 89.6%（ベースライン超え）",
-      "note": "新規ユーザーに問題が集中。リピーターはページ構造を知っているため高率。"
-    },
-    {
-      "title": "チャネル・デバイスで分解",
-      "body_html": "Paid Search 新規 ②→③: 31.5%（同水準）<br>Organic × <strong style=\"color:var(--red)\">Mobile ②→③: 57.2%</strong>（PCより低い）",
-      "note": "チャネル横断で新規全般の構造問題。Mobileが特に低い。"
-    }
-  ],
-  "callout": {
-    "title": "特定結果",
-    "body_html": "<strong>Organic Search × 新規</strong> の ②→③ 検討転換率が <strong>31.49%</strong>（全体平均 75.01% の <strong>-58% / -43.52pp</strong>）。<br>月間 723Kセッション。ACページに到達した新規ユーザーの約7割が日程選択に進まずに離脱。リピーターの②→③が89.6%であることから、ページ構造の不慣れが主因。"
-  },
-  "verification_method": "GA4: Organic Search × 新規の ②→③ 転換率を主要KPIとして計測。ABテスト2週間。目標: 31.49% → 45%以上。優先施策: 施策A（スティッキーナビ）を先行実施。",
-  "competitive_insight": "主要競合は「新規ユーザーの登録・決済障壁を限界まで下げる」戦略。VELTRAはまずACページ内での日程選択到達率改善（施策A）が最優先。"
+  ]
 }

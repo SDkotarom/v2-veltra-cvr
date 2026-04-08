@@ -17,6 +17,78 @@
   ],
   "deviation": "-9.1%",
   "impact_sessions": "301K / 月",
+  "description_html": "Desktop固有のUI/UX問題の可能性。Mobile（57.21%）ほど深刻ではないが影響セッション数が大きい。<br>②→③ 検討転換率: <strong style=\"color:var(--red)\">68.20%</strong> vs ベースライン <strong>75.01%</strong> → <strong style=\"color:var(--red)\">-9.1%（-6.81pp）</strong><br>CVR: 1.11% vs 1.46%",
+  "funnel_overview": {
+    "title": "ファネル全ステップ比較（Organic Search × Desktop vs ベースライン）",
+    "cells": [
+      {
+        "label": "②→③ AC到達→検討",
+        "value": "68.20%",
+        "sub": "ベースライン 75.01% | -9.1%",
+        "alert": true
+      },
+      {
+        "label": "③→④ 検討→意向",
+        "value": "83.40%",
+        "sub": "ベースライン 86.62%（-3.7%）"
+      },
+      {
+        "label": "Organic × Mobile",
+        "value": "57.21%",
+        "sub": "②→③（Desktopより-11pp）"
+      },
+      {
+        "label": "CVR",
+        "value": "1.11%",
+        "sub": "ベースライン 1.46%"
+      }
+    ]
+  },
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "②→③ AC到達→検討",
+      "value": "75.01%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Organic × Desktop",
+      "stage": "②→③ AC到達→検討",
+      "value": "68.20%",
+      "sub": "-9.1%（-6.81pp）vs 全体",
+      "alert": true
+    },
+    {
+      "label": "Organic × Mobile",
+      "stage": "②→③ AC到達→検討",
+      "value": "57.21%",
+      "sub": "-23.7% vs 全体"
+    },
+    {
+      "label": "Paid Search × Desktop",
+      "stage": "②→③ AC到達→検討",
+      "value": "78.50%",
+      "sub": "+4.7% vs 全体"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "Desktop固有の②→③低下",
+      "body_html": "Organic × Desktop ②→③: <strong style=\"color:var(--red)\">68.20%</strong>（ベースライン 75.01%）<br>Paid Search × Desktop ②→③: <strong style=\"color:var(--green)\">78.50%</strong>（良好）",
+      "note": "Organic流入のDesktopに限定された問題。Paid Searchは正常。"
+    },
+    {
+      "title": "Mobile比較",
+      "body_html": "Organic × Mobile ②→③: <strong style=\"color:var(--red)\">57.21%</strong>（Desktopより-11pp）<br>Desktop版はMobileほど深刻ではないが改善余地あり",
+      "note": "Desktop向けACページの情報設計に課題がある可能性。"
+    }
+  ],
+  "callout": {
+    "title": "特定結果",
+    "body_html": "<strong>Organic Search × Desktop</strong> の ②→③ 検討転換率が <strong>68.20%</strong>（全体平均 75.01% の <strong>-9.1%</strong>）。月間 301Kセッション。Mobile（57.21%）ほど深刻ではないが、影響セッション数が大きく改善余地がある。Desktop固有のUI/UX問題の可能性。"
+  },
+  "hypo_section_title": "原因仮説 &times; 3 &amp; 打ち手 &times; 9",
+  "hypo_section_desc": "なぜ Organic Search × Desktop の②→③検討転換率が低いか？ 仮説をクリックして打ち手・プロトタイプを展開。",
   "hypotheses": [
     {
       "level": "h1",
@@ -156,6 +228,7 @@
       ]
     }
   ],
+  "verification_method": "GA4: Organic Search × Desktop の ②→③ 転換率を計測。ABテスト2週間。目標: 68.20% → 73%以上。施策A（サイドバーカレンダー）を先行実施。",
   "competitive": [
     {
       "name": "Klook",
@@ -194,43 +267,12 @@
       "detail": "施策Fの参考。"
     }
   ],
+  "competitive_insight": "競合はDesktop版での右サイドバーCTA常設（Klook）、タブ切り替えUI（GetYourGuide）、カレンダー上の日別価格表示（KKday）でDesktop②→③を改善。VELTRAはDesktopのACページ情報設計を見直す余地がある。",
   "verification": [
     "データの正確性を確認",
     "仮説の妥当性をレビュー",
     "施策の技術的実現可能性を確認",
     "ABテスト設計をレビュー",
     "優先度・リソース配分を決定"
-  ],
-  "funnel_compare": [
-    {
-      "label": "全体平均",
-      "stage": "②→③ AC到達→検討",
-      "value": "75.01%",
-      "sub": "ベースライン"
-    },
-    {
-      "label": "Organic × Desktop",
-      "stage": "②→③ AC到達→検討",
-      "value": "68.20%",
-      "sub": "-9.1%（-6.81pp）vs 全体",
-      "alert": true
-    },
-    {
-      "label": "Organic × Mobile",
-      "stage": "②→③ AC到達→検討",
-      "value": "57.21%",
-      "sub": "-23.7% vs 全体"
-    },
-    {
-      "label": "Paid Search × Desktop",
-      "stage": "②→③ AC到達→検討",
-      "value": "78.50%",
-      "sub": "+4.7% vs 全体"
-    }
-  ],
-  "callout": {
-    "title": "特定結果",
-    "body_html": "<strong>Organic Search × Desktop</strong> の ②→③ 検討転換率が <strong>68.20%</strong>（全体平均 75.01% の <strong>-9.1%</strong>）。月間 301Kセッション。Mobile（57.21%）ほど深刻ではないが、影響セッション数が大きく改善余地がある。Desktop固有のUI/UX問題の可能性。"
-  },
-  "verification_method": "GA4: Organic Search × Desktop の ②→③ 転換率を計測。ABテスト2週間。目標: 68.20% → 73%以上。施策A（サイドバーカレンダー）を先行実施。"
+  ]
 }
