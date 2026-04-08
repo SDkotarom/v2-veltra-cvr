@@ -324,7 +324,7 @@
     kpiA.href = '/kpi.html';
     kpiA.className = 'nav-item' + (isKpi ? ' nav-active' : '');
     kpiA.appendChild(makeIcon('kpi'));
-    kpiA.appendChild(document.createTextNode('KPIダッシュボード'));
+    kpiA.appendChild(document.createTextNode('wip_KPIダッシュボード'));
     nav.appendChild(kpiA);
 
     nav.appendChild(makeSep());
