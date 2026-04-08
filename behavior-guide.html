@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行動仮説ガイド — VELTRA CVR REPORT</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#E8423F;--red-light:#FFF5F5;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1;--border-dash:#d0cec8;--green:#16a34a;--green-light:#f0fdf4;--amber:#d97706;--amber-light:#fffbeb;--blue:#1B82C5;--blue-light:#EFF6FC}
+body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);padding:48px 32px;max-width:1200px;margin:0 auto;font-size:18px}
+.card{background:var(--card);border-radius:16px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.header-band{background:var(--blue);padding:24px 44px;display:flex;justify-content:space-between;align-items:center}
+.header-band .logo{font-family:'DM Sans';font-weight:900;font-size:26px;color:#fff;letter-spacing:.04em;border:2px solid rgba(255,255,255,.6);padding:4px 14px;border-radius:5px}
+.header-band .title{font-family:'DM Sans';font-size:22px;font-weight:500;color:rgba(255,255,255,.9)}
+.divider{border:none;border-top:1px dashed var(--border-dash);margin:0 44px}
+.sec-label{padding:28px 44px 12px;font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
+.callout{background:var(--blue-light);border-left:4px solid var(--blue);padding:20px 28px;margin:0 44px 32px;border-radius:0 8px 8px 0}
+.callout .ct{font-size:16px;font-weight:700;color:var(--blue);margin-bottom:8px}
+.callout .cb{font-size:16px;color:var(--text2);line-height:1.8}
+.content{padding:0 44px 32px;font-size:15px;color:var(--text2);line-height:1.8}
+.content h3{font-size:17px;font-weight:700;color:var(--text);margin-bottom:8px}
+.content p{margin-bottom:16px}
+.content ul{margin:0 0 16px 20px}
+.content li{margin-bottom:4px}
+
+/* Flow diagram */
+.flow{padding:0 44px 32px;display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.flow-step{padding:14px 20px;border-radius:10px;text-align:center;font-size:14px;font-weight:700;line-height:1.4;flex:1;min-width:120px}
+.flow-arrow{font-size:20px;color:var(--border-dash);padding:0 4px;flex-shrink:0}
+.flow-step.data{background:#e0e7ff;color:#3730a3}
+.flow-step.behavior{background:var(--blue-light);color:var(--blue)}
+.flow-step.hypothesis{background:var(--amber-light);color:var(--amber)}
+.flow-step.action{background:var(--green-light);color:var(--green)}
+
+/* Stage table */
+.stage-table{width:100%;border-collapse:collapse;margin:0 0 20px}
+.stage-table th{text-align:left;font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:12px 16px;border-bottom:2px solid var(--text)}
+.stage-table td{padding:14px 16px;border-bottom:1px solid var(--border);vertical-align:top;font-size:14px;line-height:1.6}
+.stage-table td:first-child{font-weight:600;white-space:nowrap;color:var(--text)}
+.stage-table tr:last-child td{border-bottom:none}
+
+/* Page role cards */
+.role-grid{padding:0 44px 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.role-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+.role-name{font-size:16px;font-weight:900;color:var(--blue);margin-bottom:4px}
+.role-page{font-size:12px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.role-desc{font-size:13px;color:var(--text2);line-height:1.6}
+
+/* Pattern cards */
+.pattern-grid{padding:0 44px 32px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pattern-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+.pattern-card.win{border-color:var(--green);background:var(--green-light)}
+.pattern-card.lose{border-color:var(--red);background:var(--red-light)}
+.pattern-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.pattern-card.win .pattern-label{color:var(--green)}
+.pattern-card.lose .pattern-label{color:var(--red)}
+.pattern-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+.pattern-desc{font-size:13px;color:var(--text2);line-height:1.6}
+.pattern-lift{font-family:'DM Sans';font-size:18px;font-weight:900;margin-top:6px}
+.pattern-card.win .pattern-lift{color:var(--green)}
+.pattern-card.lose .pattern-lift{color:var(--red)}
+
+/* Checklist */
+.checklist{padding:0 44px 32px}
+.checklist-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px;line-height:1.6;color:var(--text2)}
+.checklist-item:last-child{border-bottom:none}
+.checklist-num{width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Sans';font-size:13px;font-weight:700;flex-shrink:0;margin-top:1px}
+
+.footer{padding:28px 44px;font-size:15px;color:var(--text3);display:flex;justify-content:space-between}
+
+@media(max-width:768px){
+  .flow{flex-direction:column;align-items:stretch}
+  .flow-arrow{text-align:center;transform:rotate(90deg)}
+  .role-grid{grid-template-columns:1fr 1fr}
+  .pattern-grid{grid-template-columns:1fr}
+  .stage-table{font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header-band">
+    <div class="logo">V2</div>
+    <div class="title">行動仮説ガイド</div>
+  </div>
+  <div style="padding:24px 44px;font-size:15px;color:var(--text2);line-height:1.8">
+    ボトルネック分析の「行動仮説」セクションがどのようなロジックで生成されているかを説明するガイドです。<br>
+    データパターンの読み方、ページ役割定義、2025年ABテストの勝ち/負けパターンをまとめています。
+  </div>
+</div>
+
+<!-- ======================== PART 1: 生成ロジック ======================== -->
+<div class="card">
+  <div class="sec-label">Part 1 &mdash; 行動仮説の生成ロジック</div>
+
+  <div class="callout">
+    <div class="ct">なぜ行動仮説が必要か</div>
+    <div class="cb">ボトルネック分析は「どこで・誰が落ちているか」を特定する。しかし「なぜ落ちたか」がわからなければ施策の方向性が定まらない。行動仮説は、数値の乖離パターンからユーザーが実際にとった行動を推定し、ボトルネック（数値）→ 施策（打ち手）の間を論理的に橋渡しする。</div>
+  </div>
+
+  <div style="padding:0 44px 12px;font-size:15px;font-weight:700;color:var(--text)">生成フロー</div>
+  <div class="flow">
+    <div class="flow-step data">GA4 数値パターン<br><span style="font-weight:400;font-size:12px">セグメント間比較<br>ファネル段階別乖離</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step behavior">行動仮説<br><span style="font-weight:400;font-size:12px">推定行動 + 根拠<br>ページ役割チェック</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step hypothesis">原因仮説 &times; 3<br><span style="font-weight:400;font-size:12px">行動仮説と整合する<br>3つの原因を推定</span></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step action">施策 &times; 9<br><span style="font-weight:400;font-size:12px">引き算チェック済み<br>パターン照合済み</span></div>
+  </div>
+
+  <hr class="divider">
+
+  <div style="padding:24px 44px 12px;font-size:15px;font-weight:700;color:var(--text)">5つの構成要素</div>
+  <div class="checklist">
+    <div class="checklist-item">
+      <div class="checklist-num">1</div>
+      <div><strong style="color:var(--text)">推定行動</strong> &mdash; ファネルのドロップオフ地点で、ユーザーが実際にとった行動を1文で推定する。「〜した可能性が高い」等の推量表現を使い、断定しない。</div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">2</div>
+      <div><strong style="color:var(--text)">根拠</strong> &mdash; 推定行動を裏付けるデータパターンを2〜4件列挙する。GA4の具体的数値を引用し、「このセグメントだけ落ちている」「他の段階は正常」等の比較による根拠を示す。</div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">3</div>
+      <div><strong style="color:var(--text)">ページ役割チェック</strong> &mdash; ボトルネックの発生しているページが、戦略ガイド上の役割を果たしているかを照合する。（詳細は Part 2 参照）</div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">4</div>
+      <div><strong style="color:var(--text)">引き算チェック</strong> &mdash; 情報の追加ではなく、既存要素の削除・圧縮で解決できないかを先に検討する。2025年のABテストでは引き算が勝ちパターン。</div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">5</div>
+      <div><strong style="color:var(--text)">関連パターン</strong>（任意） &mdash; 2025年のABテスト勝ち/負けパターンから類似する事例があれば参照。同じ失敗を繰り返さないためのチェック。（詳細は Part 4 参照）</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== PART 2: ページ役割定義 ======================== -->
+<div class="card">
+  <div class="sec-label">Part 2 &mdash; ページ役割定義（戦略ガイド Section 3）</div>
+
+  <div class="content">
+    <p>各ページには戦略ガイドで定義された「役割」がある。ボトルネックが発生しているページがその役割を果たせているかをチェックすることで、施策の方向性が明確になる。</p>
+  </div>
+
+  <div class="role-grid">
+    <div class="role-card">
+      <div class="role-name">Area / Top</div>
+      <div class="role-page">エリアページ</div>
+      <div class="role-desc">「どこで何ができるかを<strong>大づかみする場</strong>」<br><br>ユーザーの期待: 選択肢の全体像を素早く把握したい<br><br>失敗パターン: 情報が多すぎて選べない / 検索意図と表示内容がズレている</div>
+    </div>
+    <div class="role-card">
+      <div class="role-name">Ctg</div>
+      <div class="role-page">カテゴリページ</div>
+      <div class="role-desc">「候補を<strong>絞り込む場</strong>」<br><br>ユーザーの期待: 自分に合った商品を比較して選びたい<br><br>失敗パターン: フィルタが使いにくい / 並び順が適切でない</div>
+    </div>
+    <div class="role-card">
+      <div class="role-name">Ac</div>
+      <div class="role-page">商品詳細ページ</div>
+      <div class="role-desc">「不安を解消し<strong>確信する場</strong>」<br><br>ユーザーの期待: この商品で本当に大丈夫かを確かめたい<br><br>失敗パターン: カレンダーまで遠い / 情報過多で確信に至れない</div>
+    </div>
+    <div class="role-card">
+      <div class="role-name">Form</div>
+      <div class="role-page">予約フォーム</div>
+      <div class="role-desc">「迷わず<strong>完了する場</strong>」<br><br>ユーザーの期待: 短時間で確実に予約を終えたい<br><br>失敗パターン: 入力項目が多い / 決済手段が合わない / エラーで再入力</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== PART 3: ファネル段階別テンプレート ======================== -->
+<div class="card">
+  <div class="sec-label">Part 3 &mdash; ファネル段階別 行動パターンテンプレート</div>
+
+  <div class="content">
+    <p>ファネルのどの段階で落ちているかによって、ユーザーの行動パターンは異なる。以下は推定行動を生成する際の参考テンプレート。</p>
+  </div>
+
+  <div style="padding:0 44px 32px;overflow-x:auto">
+    <table class="stage-table">
+      <thead>
+        <tr><th>段階</th><th>行動パターン</th><th>発生条件</th><th>関連ページ</th></tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="4" style="background:var(--bg);font-weight:700;color:var(--text);font-size:13px;letter-spacing:.06em">&#9312;&rarr;&#9313; Session &rarr; AC到達（回遊）</td></tr>
+        <tr><td>商品未発見</td><td>LP/一覧で目的の商品を見つけられず離脱</td><td>一覧の情報不足 or 並び順の問題</td><td>Area / Ctg</td></tr>
+        <tr><td>検索ミスマッチ</td><td>検索結果が期待と合わず離脱</td><td>検索キーワードとLP内容の乖離</td><td>Search / Ctg</td></tr>
+        <tr><td>選択麻痺</td><td>候補が多すぎて選べず離脱</td><td>比較情報の過多</td><td>Ctg</td></tr>
+        <tr><td>速度問題</td><td>ページ読み込みが遅く離脱</td><td>TBT/TTFB問題</td><td>全ページ</td></tr>
+
+        <tr><td colspan="4" style="background:var(--bg);font-weight:700;color:var(--text);font-size:13px;letter-spacing:.06em">&#9313;&rarr;&#9314; AC到達 &rarr; カレンダー表示（検討）</td></tr>
+        <tr><td>スクロール未到達</td><td>カレンダーまでスクロールせず離脱</td><td>上部セクションが長い / 情報過多</td><td>Ac</td></tr>
+        <tr><td>料金不透明</td><td>料金が見えず不安で離脱</td><td>料金表示の位置が深い</td><td>Ac</td></tr>
+        <tr><td>比較戻り</td><td>他の候補と比較するため一覧に戻った</td><td>確信が持てない / 比較情報不足</td><td>Ac &rarr; Ctg</td></tr>
+        <tr><td>レビュー不安</td><td>体験談を読んで不安になり離脱</td><td>ネガティブレビューの影響</td><td>Ac</td></tr>
+
+        <tr><td colspan="4" style="background:var(--bg);font-weight:700;color:var(--text);font-size:13px;letter-spacing:.06em">&#9314;&rarr;&#9315; カレンダー表示 &rarr; フォーム遷移（意向）</td></tr>
+        <tr><td>在庫なし</td><td>希望日程の在庫がなく離脱</td><td>在庫なし表示</td><td>Ac（カレンダー）</td></tr>
+        <tr><td>予算超過</td><td>料金を見て予算オーバーで離脱</td><td>価格と期待のギャップ</td><td>Ac（カレンダー）</td></tr>
+        <tr><td>プラン迷い</td><td>プラン選択で迷って離脱</td><td>プランが多すぎる / 違いが不明確</td><td>Ac（プラン選択）</td></tr>
+        <tr><td>CTA不発見</td><td>予約ボタンが見つからず離脱</td><td>CTAの視認性問題</td><td>Ac</td></tr>
+
+        <tr><td colspan="4" style="background:var(--bg);font-weight:700;color:var(--text);font-size:13px;letter-spacing:.06em">&#9315;&rarr;&#9316; フォーム遷移 &rarr; 予約完了（完了）</td></tr>
+        <tr><td>入力疲れ</td><td>入力項目が多すぎて途中離脱</td><td>フォームの長さ</td><td>Form</td></tr>
+        <tr><td>決済障壁</td><td>決済手段が合わず離脱</td><td>希望の決済方法がない</td><td>Form</td></tr>
+        <tr><td>最終不安</td><td>確認画面で不安になり離脱</td><td>最終確認時の情報不足</td><td>Form</td></tr>
+        <tr><td>エラー離脱</td><td>エラーが出て再入力が面倒で離脱</td><td>バリデーションUX</td><td>Form</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ======================== PART 4: 2025年 ABテストパターン ======================== -->
+<div class="card">
+  <div class="sec-label">Part 4 &mdash; 2025年 ABテスト 勝ち/負けパターン</div>
+
+  <div class="content">
+    <p>行動仮説の「関連パターン」欄で参照される2025年のABテスト結果。施策を考える際に、過去の勝ちパターンを活かし、負けパターンの再発を防ぐ。</p>
+  </div>
+
+  <div class="pattern-grid">
+    <div class="pattern-card win">
+      <div class="pattern-label">&#10004; 勝ちパターン</div>
+      <div class="pattern-title">情報の引き算（ハイライト非表示）</div>
+      <div class="pattern-desc">ACページのハイライトセクションを非表示にし、コア情報に集中させた。スクロール距離が短縮され、カレンダー到達率が向上。</div>
+      <div class="pattern-lift">+3.8%</div>
+    </div>
+    <div class="pattern-card win">
+      <div class="pattern-label">&#10004; 勝ちパターン</div>
+      <div class="pattern-title">並走型UI（タブ切り替え化）</div>
+      <div class="pattern-desc">縦に長い情報をタブで切り替え表示に変更。情報量を維持しつつページ高さを圧縮。ユーザーが必要な情報を自分で選べる設計。</div>
+      <div class="pattern-lift">+2.0%</div>
+    </div>
+    <div class="pattern-card win">
+      <div class="pattern-label">&#10004; 勝ちパターン</div>
+      <div class="pattern-title">行動喚起の明確化</div>
+      <div class="pattern-desc">予約CTAのサイズ・色・位置を最適化し、ファーストビュー内に収めた。特にモバイルで効果大。</div>
+      <div class="pattern-lift">CVR改善</div>
+    </div>
+    <div class="pattern-card win">
+      <div class="pattern-label">&#10004; 勝ちパターン</div>
+      <div class="pattern-title">構造の統一</div>
+      <div class="pattern-desc">異なるカテゴリ間でUIパターンを統一。ユーザーの学習コストを下げ、リピーターの回遊効率を向上。</div>
+      <div class="pattern-lift">回遊率改善</div>
+    </div>
+    <div class="pattern-card lose">
+      <div class="pattern-label">&#10008; 負けパターン</div>
+      <div class="pattern-title">ノイズになる機能追加（ランキングナビ）</div>
+      <div class="pattern-desc">一覧ページにランキングナビゲーションを追加したが、ユーザーの探索行動を阻害。情報過多で離脱率が上昇した。</div>
+      <div class="pattern-lift">効果なし</div>
+    </div>
+    <div class="pattern-card lose">
+      <div class="pattern-label">&#10008; 負けパターン</div>
+      <div class="pattern-title">意思決定に影響しない細部の変更</div>
+      <div class="pattern-desc">フォントサイズ・余白等の微調整を行ったが、ユーザーの意思決定プロセスに影響せず、有意差が出なかった。</div>
+      <div class="pattern-lift">有意差なし</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== PART 5: 引き算チェックの考え方 ======================== -->
+<div class="card">
+  <div class="sec-label">Part 5 &mdash; 引き算チェックの考え方</div>
+
+  <div class="callout">
+    <div class="ct">引き算ファースト原則</div>
+    <div class="cb">施策を考える際、まず「何かを追加する」のではなく「何かを減らせないか」を先に検討する。<br>2025年のABテストで最も高い勝率を記録したのは「情報の引き算」系の施策。新しい要素の追加はノイズになるリスクがある。</div>
+  </div>
+
+  <div class="content">
+    <h3>引き算が有効なケース</h3>
+    <ul>
+      <li>ACページ上部の情報量が多く、カレンダーまでのスクロール距離が長い</li>
+      <li>同じ情報が複数箇所に重複して表示されている</li>
+      <li>新規ユーザーにとって不要な詳細情報が展開状態で表示されている</li>
+      <li>ページ内の視覚的ノイズ（バナー、アイコン、装飾）が多い</li>
+    </ul>
+
+    <h3>引き算だけでは不十分なケース</h3>
+    <ul>
+      <li>ページに必要な情報自体が不足している（例: 料金が表示されていない）</li>
+      <li>機能的な欠如がある（例: モバイルでCTAが存在しない）</li>
+      <li>信頼性の構築に必要な要素がない（例: レビュー、認証バッジ）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<div class="card">
+  <div class="footer">
+    <span>VELTRA CVR改善チーム</span>
+    <span>行動仮説ガイド v1.0</span>
+  </div>
+</div>
+
+<script src="/nav.js"></script>
+</body>
+</html>

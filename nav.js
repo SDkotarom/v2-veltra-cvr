@@ -65,6 +65,7 @@
   var isKpi      = (path === '/kpi.html');
   var isCycle    = (path === '/cycle.html');
   var isAnalysis = (path === '/analysis.html');
+  var isBehaviorGuide = (path === '/behavior-guide.html');
   var isArchive = (path === '/reports/' || path === '/reports/index.html');
   var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
   var qp = new URLSearchParams(location.search);
@@ -363,6 +364,14 @@
     analysisA.appendChild(makeIcon('analysis'));
     analysisA.appendChild(document.createTextNode('分析ガイド'));
     nav.appendChild(analysisA);
+
+    // ■ 行動仮説ガイド
+    var behaviorA = document.createElement('a');
+    behaviorA.href = '/behavior-guide.html';
+    behaviorA.className = 'nav-item' + (isBehaviorGuide ? ' nav-active' : '');
+    behaviorA.appendChild(makeIcon('analysis'));
+    behaviorA.appendChild(document.createTextNode('行動仮説ガイド'));
+    nav.appendChild(behaviorA);
 
     // Smooth scroll for hash links
     nav.addEventListener('click', function (e) {
