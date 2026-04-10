@@ -3,42 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ログイン — V2 CVR Analysis</title>
+<title>ログイン — VELTRA CVR REPORT</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--red:#E8423F;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1}
+:root{--bg:#f5f4f0;--text:#1a1a1a;--text2:#888;--red:#E8423F}
 body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;align-items:center;justify-content:center;min-height:100vh}
-.login-card{background:var(--card);border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,.04);padding:48px;text-align:center;max-width:400px;width:90%}
-.site-title{font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);letter-spacing:.04em;margin-bottom:8px}
-.logo{font-family:'DM Sans';font-weight:900;font-size:18px;color:var(--red);letter-spacing:.04em;border:2px solid var(--red);padding:3px 10px;border-radius:4px;display:inline-block;margin-bottom:24px}
-.login-card h1{font-size:20px;font-weight:700;margin-bottom:8px}
-.login-card p{font-size:15px;color:var(--text2);margin-bottom:32px;line-height:1.7}
-#g_id_onload,#g_btn{display:flex;justify-content:center}
+.login-wrap{text-align:center;max-width:480px;width:90%;padding:32px 0}
+.logo-area{margin-bottom:24px}
+.logo-area svg{width:160px;height:auto}
+.login-wrap h1{font-family:'DM Sans','Noto Sans JP',sans-serif;font-size:22px;font-weight:800;letter-spacing:.02em;margin-bottom:8px}
+.login-wrap .subtitle{font-size:14px;color:var(--text2);margin-bottom:36px;line-height:1.7}
+.google-btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;max-width:400px;margin:0 auto;padding:14px 24px;background:#fff;border:1px solid #dadce0;border-radius:40px;font-size:15px;font-weight:500;color:var(--text);cursor:pointer;transition:box-shadow .2s,background .2s;font-family:'Noto Sans JP','DM Sans',sans-serif}
+.google-btn:hover{box-shadow:0 1px 6px rgba(0,0,0,.1);background:#fafafa}
+.google-btn:active{background:#f0f0f0}
+.google-btn svg{flex-shrink:0}
 .error{color:var(--red);font-size:14px;margin-top:16px;display:none}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-<div class="login-card">
-  <div class="site-title">VELTRA CVR REPORT</div>
-  <div class="logo">V2</div>
-  <h1>ログインが必要です</h1>
-  <p>Googleアカウントでサインインしてください</p>
+<div class="login-wrap">
+  <div class="logo-area">
+    <svg viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Tiger face -->
+      <g stroke="#7b9bb5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <!-- Head outline -->
+        <ellipse cx="50" cy="46" rx="22" ry="20"/>
+        <!-- Ears -->
+        <path d="M32 30 L26 16 L38 26"/>
+        <path d="M68 30 L74 16 L62 26"/>
+        <!-- Ear tufts -->
+        <line x1="24" y1="12" x2="22" y2="6"/>
+        <line x1="28" y1="10" x2="28" y2="4"/>
+        <line x1="72" y1="6" x2="76" y2="12"/>
+        <line x1="72" y1="4" x2="72" y2="10"/>
+        <!-- Eyes -->
+        <circle cx="42" cy="42" r="2.5" fill="#7b9bb5"/>
+        <circle cx="58" cy="42" r="2.5" fill="#7b9bb5"/>
+        <!-- Nose -->
+        <path d="M48 49 L50 51 L52 49" stroke-width="1.5"/>
+        <!-- Mouth -->
+        <path d="M50 51 L50 54 M47 55 Q50 58 53 55"/>
+        <!-- Whiskers -->
+        <line x1="36" y1="50" x2="24" y2="48"/>
+        <line x1="36" y1="52" x2="24" y2="53"/>
+        <line x1="64" y1="50" x2="76" y2="48"/>
+        <line x1="64" y1="52" x2="76" y2="53"/>
+        <!-- Stripes on forehead -->
+        <path d="M44 34 L46 30 L48 34"/>
+        <path d="M50 33 L50 28"/>
+        <path d="M52 34 L54 30 L56 34"/>
+        <!-- Sparkle decorations -->
+        <line x1="20" y1="22" x2="20" y2="18"/>
+        <line x1="18" y1="20" x2="22" y2="20"/>
+        <line x1="80" y1="22" x2="80" y2="18"/>
+        <line x1="78" y1="20" x2="82" y2="20"/>
+        <circle cx="16" cy="34" r="1" fill="#7b9bb5"/>
+        <circle cx="84" cy="34" r="1" fill="#7b9bb5"/>
+      </g>
+      <!-- VELTRA text -->
+      <g fill="none" stroke="#7b9bb5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <!-- V -->
+        <path d="M100 30 L106 55 L112 30"/>
+        <!-- e -->
+        <path d="M117 44 Q122 38 127 44 Q122 42 117 44 Q117 52 122 54 Q126 52 127 48"/>
+        <!-- L -->
+        <path d="M132 30 L132 55 L142 55"/>
+        <!-- T -->
+        <path d="M146 30 L158 30 M152 30 L152 55"/>
+        <!-- R -->
+        <path d="M163 55 L163 30 Q172 30 172 38 Q172 44 163 44 L172 55"/>
+        <!-- A -->
+        <path d="M178 55 L184 30 L190 55 M180 46 L188 46"/>
+      </g>
+    </svg>
+  </div>
+  <h1>VELTRA CVR REPORT</h1>
+  <p class="subtitle">VELTRAのGoogleアカウントでログインしてください</p>
+  <!-- Hidden Google Identity Services elements -->
   <div id="g_id_onload"
        data-client_id="454478601729-sl1q6ra7epc29kr46kn48850tnltha6m.apps.googleusercontent.com"
        data-callback="onSignIn"
-       data-auto_prompt="false">
+       data-auto_prompt="false"
+       style="display:none">
   </div>
-  <div id="g_btn" class="g_id_signin"
-       data-type="standard"
-       data-size="large"
-       data-theme="outline"
-       data-text="sign_in_with"
-       data-shape="rectangular"
-       data-logo_alignment="left"
-       data-width="300">
-  </div>
+  <button class="google-btn" id="customGoogleBtn">
+    <svg width="20" height="20" viewBox="0 0 48 48">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+      <path fill="#FBBC05" d="M10.53 28.59A14.5 14.5 0 0 1 9.5 24c0-1.59.28-3.14.77-4.59l-7.98-6.19A23.998 23.998 0 0 0 0 24c0 3.77.9 7.35 2.56 10.52l7.97-5.93z"/>
+      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 5.93C6.51 42.62 14.62 48 24 48z"/>
+    </svg>
+    Googleでログイン
+  </button>
   <div class="error" id="error">認証に失敗しました。もう一度お試しください。</div>
 </div>
 <script>
@@ -58,6 +116,44 @@ function onSignIn(response) {
     document.getElementById('error').style.display = 'block';
   }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Render the hidden Google button so we can programmatically trigger it
+  var hiddenBtnWrap = document.createElement('div');
+  hiddenBtnWrap.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none';
+  hiddenBtnWrap.id = 'g_btn_hidden';
+  hiddenBtnWrap.className = 'g_id_signin';
+  hiddenBtnWrap.setAttribute('data-type', 'standard');
+  hiddenBtnWrap.setAttribute('data-size', 'large');
+  hiddenBtnWrap.setAttribute('data-theme', 'outline');
+  hiddenBtnWrap.setAttribute('data-text', 'sign_in_with');
+  hiddenBtnWrap.setAttribute('data-shape', 'rectangular');
+  hiddenBtnWrap.setAttribute('data-logo_alignment', 'left');
+  hiddenBtnWrap.setAttribute('data-width', '300');
+  document.body.appendChild(hiddenBtnWrap);
+
+  document.getElementById('customGoogleBtn').addEventListener('click', function() {
+    // Try to click the hidden rendered Google button
+    var iframe = hiddenBtnWrap.querySelector('iframe');
+    if (iframe) {
+      iframe.click();
+      return;
+    }
+    var innerBtn = hiddenBtnWrap.querySelector('[role="button"]');
+    if (innerBtn) {
+      innerBtn.click();
+      return;
+    }
+    // Fallback: use google.accounts.id.prompt()
+    if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+      google.accounts.id.prompt(function(notification) {
+        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+          document.getElementById('error').style.display = 'block';
+        }
+      });
+    }
+  });
+});
 </script>
 </body>
 </html>
