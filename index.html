@@ -446,7 +446,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   var reportsIndex = null;
   var weekDataCache = {};
   var currentData = null; // aggregated or single week
-  var targets = { monthly_cvr: 0.018, annual_cvr: 0.020 };
+  var targets = { monthly_cvr: 0.01515, annual_cvr: 0.01515 };
+  var summaryData = null;   // summary-data.json（月次累計）
+  var currentWeekMeta = null; // 最新週のメタ（期間日付用）
 
   // ── Utility ─────────────────────────────────────
   function fmt(n) {
@@ -684,11 +686,24 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   // ── Load ──────────────────────────────────────────
   loadAnnotations(); // pre-load annotations data
+
+  // summary-data.json（月次累計・ターゲット値）
+  fetch('/summary-data.json').then(function(r){ return r.json(); }).then(function(sd){
+    summaryData = sd;
+    if (sd.targets) {
+      targets.monthly_cvr = sd.targets.monthly_cvr;
+      targets.annual_cvr  = sd.targets.annual_cvr;
+      renderTargets();
+    }
+    // 週データが先に読み込まれていた場合、KPIを再描画
+    if (currentWeekMeta) renderMonthlyKPI(currentWeekMeta);
+  }).catch(function(e){ console.error('summary-data.json load error', e); });
+
   fetch('/reports-index.json').then(function(r) { return r.json(); }).then(function(idx) {
     reportsIndex = idx;
     // 週を時系列順にソート（最新が末尾）
     if (idx.weeks) idx.weeks.sort(function(a, b) { return a.week_id.localeCompare(b.week_id); });
-    targets = idx.targets || targets;
+    // targets は summary-data.json から読むので reports-index.json の値は使わない
     renderTargets();
     renderArchive();
     loadLatestWeek();
@@ -769,21 +784,69 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
     currentData = weekDataCache[latest.week_id].baseline;
     var meta = weekDataCache[latest.week_id].meta;
-    var rsYear = meta.rolling_start ? meta.rolling_start.slice(0, 4) + '/' : '';
+    currentWeekMeta = meta; // 月次KPI描画で使う
+
+    // ファネル・セグメントの期間ラベル（28日間ローリングのまま）
     var rs = meta.rolling_start ? meta.rolling_start.slice(5).replace('-', '/').replace(/^0/, '') : '';
     var re = meta.rolling_end   ? meta.rolling_end.slice(5).replace('-', '/').replace(/^0/, '')   : '';
-    document.getElementById('period-label').textContent = rs && re ? '対象期間：' + rsYear + rs + '〜' + re + '（直近28日間）' : '—';
     if (rs && re) {
       var periodText = '対象: 直近28日間（' + rs + '〜' + re + '）';
       document.getElementById('funnel-period-label').textContent = periodText;
       document.getElementById('seg-period-label').textContent = periodText;
     }
-    renderKPI(currentData);
-    renderFunnel(currentData, weekDataCache[latest.week_id]);
 
-    renderCVRStatus(currentData.cvr);
+    // KPIサマリー上段は月次累計（summary-data.json）
+    renderMonthlyKPI(meta);
+    renderFunnel(currentData, weekDataCache[latest.week_id]);
     buildPeriodButtons();
     renderGraph();
+  }
+
+  // ── Monthly KPI（サマリー上段）────────────────────
+  // summary-data.json の当月累計データをKPIストリップに表示する。
+  // ファネル・セグメントは引き続き 28日間ローリング（currentData）を使う。
+  function renderMonthlyKPI(meta) {
+    if (!summaryData || !meta) return;
+
+    var now = new Date();
+    var curYM = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+    var monthly = summaryData.monthly || [];
+
+    // 当月エントリを探す（なければ最新月にフォールバック）
+    var curEntry = null;
+    for (var i = monthly.length - 1; i >= 0; i--) {
+      if (monthly[i].month === curYM) { curEntry = monthly[i]; break; }
+    }
+    if (!curEntry && monthly.length) curEntry = monthly[monthly.length - 1];
+    if (!curEntry) return;
+
+    // 前月エントリ（CVRサブラベル用）
+    var mi = parseInt(curEntry.month.split('-')[1]);
+    var yr = parseInt(curEntry.month.split('-')[0]);
+    var prevMi = mi === 1 ? 12 : mi - 1;
+    var prevYr  = mi === 1 ? yr - 1 : yr;
+    var prevYM  = prevYr + '-' + String(prevMi).padStart(2,'0');
+    var prevEntry = null;
+    for (var j = 0; j < monthly.length; j++) {
+      if (monthly[j].month === prevYM) { prevEntry = monthly[j]; break; }
+    }
+
+    // 期間ラベル: "4月累計（4/1〜4/11）"
+    var re = meta.rolling_end ? meta.rolling_end.slice(5).replace('-', '/').replace(/^0/, '') : '?';
+    document.getElementById('period-label').textContent =
+      mi + '月累計（' + mi + '/1〜' + re + '）';
+
+    // KPI数値
+    renderKPI({ sessions: curEntry.sessions, purchases: curEntry.purchases, cvr: curEntry.cvr });
+
+    // CVRサブラベル: 前月実績
+    document.getElementById('kpi-sessions-sub').textContent = '';
+    document.getElementById('kpi-cv-sub').textContent = '';
+    document.getElementById('kpi-cvr-sub').textContent =
+      prevEntry ? '前月（' + prevMi + '月）' + fmtPct(prevEntry.cvr, 2) : '';
+
+    // 目標比ステータス
+    renderCVRStatus(curEntry.cvr);
   }
 
   // setFunnelMode removed — always show 28-day rolling data
@@ -796,8 +859,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   }
 
   function renderTargets() {
-    document.getElementById('target-monthly-val').textContent = fmtPct(targets.monthly_cvr, 1);
-    document.getElementById('target-annual-val').textContent = fmtPct(targets.annual_cvr, 1);
+    document.getElementById('target-monthly-val').textContent = fmtPct(targets.monthly_cvr, 3);
+    document.getElementById('target-annual-val').textContent = fmtPct(targets.annual_cvr, 3);
   }
 
   function renderCVRStatus(cvr) {
