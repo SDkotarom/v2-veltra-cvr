@@ -276,6 +276,76 @@ def check_behavior_context(week_id):
             warn(f"{name}: behavior_context.pattern_references が3件超（{len(pr)}件）")
     ok("behavior_context チェック完了")
 
+# ── 検証8: implementation_check / feasibility フィールド ──
+VALID_IMPL_STATUSES = {"new", "partial", "already_exists", "superseded"}
+VALID_EFFORT_LEVELS = {"S", "M", "L", "XL"}
+
+def check_action_review_fields(week_id):
+    print(f"\n[8] implementation_check / feasibility フィールド")
+    report_dir = ROOT / "reports" / week_id
+    content_files = sorted(report_dir.glob("bottleneck-*-content.json"))
+    if not content_files:
+        warn("content.json ファイルが見つかりません（スキップ）")
+        return
+
+    total_actions = 0
+    missing_impl = 0
+    missing_feas = 0
+
+    for cf in content_files:
+        name = cf.name
+        with open(cf) as f:
+            try:
+                d = json.load(f)
+            except json.JSONDecodeError:
+                continue
+
+        for hypo in d.get("hypotheses", []):
+            for action in hypo.get("actions", []):
+                total_actions += 1
+                letter = action.get("letter", "?")
+                bn_match = re.search(r"bottleneck-(\d+)", name)
+                bn_num = bn_match.group(1) if bn_match else "?"
+                action_id = f"B{bn_num}-{letter}"
+
+                # implementation_check
+                ic = action.get("implementation_check")
+                if not ic:
+                    error(f"{action_id}: implementation_check が存在しません")
+                    missing_impl += 1
+                else:
+                    status = ic.get("status")
+                    if not status or str(status).startswith("TODO"):
+                        error(f"{action_id}: implementation_check.status が未記入")
+                        missing_impl += 1
+                    elif status not in VALID_IMPL_STATUSES:
+                        error(f"{action_id}: implementation_check.status が不正（{status}）。有効値: {VALID_IMPL_STATUSES}")
+
+                # feasibility
+                fe = action.get("feasibility")
+                if not fe:
+                    error(f"{action_id}: feasibility が存在しません")
+                    missing_feas += 1
+                else:
+                    effort = fe.get("effort")
+                    if not effort or str(effort).startswith("TODO"):
+                        error(f"{action_id}: feasibility.effort が未記入")
+                        missing_feas += 1
+                    elif effort not in VALID_EFFORT_LEVELS:
+                        error(f"{action_id}: feasibility.effort が不正（{effort}）。有効値: {VALID_EFFORT_LEVELS}")
+
+                    constraints = fe.get("constraints")
+                    if constraints is not None and not isinstance(constraints, list):
+                        error(f"{action_id}: feasibility.constraints がリストではありません")
+
+    if missing_impl == 0 and missing_feas == 0:
+        ok(f"全 {total_actions} 施策に implementation_check / feasibility 記入済み")
+    else:
+        if missing_impl:
+            error(f"implementation_check 未記入: {missing_impl}/{total_actions} 件")
+        if missing_feas:
+            error(f"feasibility 未記入: {missing_feas}/{total_actions} 件")
+
 # ── メイン ────────────────────────────────────────
 def main():
     parser = argparse.ArgumentParser(description="週次レポート検証")
@@ -302,6 +372,7 @@ def main():
     check_summary_files(week_id, data)
     check_favicons(week_id)
     check_behavior_context(week_id)
+    check_action_review_fields(week_id)
 
     print(f"\n{'='*60}")
     print(f"  結果: ❌ エラー {len(ERRORS)}件 / ⚠️ 警告 {len(WARNINGS)}件")
