@@ -122,6 +122,26 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">GA4 設定画面</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0\"><span>既知のbotをフィルタリング</span><span style=\"color:var(--red)\">未確認</span></div><div style=\"display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0\"><span>IPフィルタリング</span><span style=\"color:var(--red)\">未設定</span></div><div style=\"display:flex;justify-content:space-between;padding:4px 0\"><span>UA判定ルール</span><span style=\"color:var(--red)\">未設定</span></div></div><div style=\"font-size:10px;color:#999;text-align:center;margin-top:6px\">botフィルタリングが不十分 → 非人間トラフィック混入</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">GA4 設定画面（最適化後）</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0\"><span>既知のbotをフィルタリング</span><span style=\"color:#2DAE6C;font-weight:600\">有効 ✓</span></div><div style=\"display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0\"><span>IPフィルタリング</span><span style=\"color:#2DAE6C;font-weight:600\">15ルール ✓</span></div><div style=\"display:flex;justify-content:space-between;padding:4px 0\"><span>UA判定ルール</span><span style=\"color:#2DAE6C;font-weight:600\">8パターン ✓</span></div></div><div style=\"font-size:10px;color:#2DAE6C;text-align:center;margin-top:6px\">bot/spamフィルタリング強化完了</div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "予約導線reCAPTCHA追加",
+            "note": "類似機能あり（予約導線reCAPTCHA追加）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "multi_site",
+              "mobile_desktop_gap",
+              "measurement"
+            ],
+            "constraint_notes": "JPサイトを優先実装し、EN/HAは別フェーズ。レイアウトは最長テキストでテスト。; ボトルネックのデバイス指定に合わせてターゲットデバイスを明確化。レスポンシブ設計で両対応を基本とする。",
+            "prerequisites": [
+              "JPサイト限定でよいか？",
+              "ターゲットデバイスはモバイルのみ？両対応？",
+              "効果は既存のファネルイベントで計測可能か？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -133,6 +153,26 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">Direct × Desktop UA分析</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"color:#666;margin-bottom:6px\">User-Agent 上位</div><div style=\"padding:3px 0;color:#999\">Chrome/120 Desktop ...</div><div style=\"padding:3px 0;color:#999\">Mozilla/5.0 ...</div><div style=\"padding:3px 0;color:#999\">??? (分析未実施)</div></div><div style=\"font-size:10px;color:#999;text-align:center;margin-top:6px\">bot割合が不明 → 正しいファネル分析ができない</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">Direct × Desktop UA分析結果</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"color:#1B82C5;font-weight:600;margin-bottom:6px\">bot/crawler 判定結果</div><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span>正規ユーザー</span><span style=\"font-weight:600\">42%</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span style=\"color:var(--red)\">既知bot/crawler</span><span style=\"font-weight:600;color:var(--red)\">35%</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span style=\"color:var(--amber)\">ヘッドレスブラウザ</span><span style=\"font-weight:600;color:var(--amber)\">15%</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0\"><span>不明</span><span style=\"font-weight:600\">8%</span></div></div><div style=\"font-size:10px;color:#2DAE6C;text-align:center;margin-top:6px\">約50%が非人間トラフィック → フィルタ後に再分析</div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "予約導線reCAPTCHA追加",
+            "note": "類似機能あり（予約導線reCAPTCHA追加）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [
+              "partner_api_dependency",
+              "multi_site",
+              "measurement"
+            ],
+            "constraint_notes": "自社管理商品から先行実装。API依存部分は段階的ロールアウト。APIレスポンスにフィールドがない場合の非表示ルールを定義。; JPサイトを優先実装し、EN/HAは別フェーズ。レイアウトは最長テキストでテスト。",
+            "prerequisites": [
+              "対象商品のうちAPI連携商品の割合は？",
+              "JPサイト限定でよいか？",
+              "効果は既存のファネルイベントで計測可能か？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -144,6 +184,24 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">トップページ</div><div style=\"background:#fff;border-radius:6px;padding:12px;text-align:center\"><div style=\"font-size:11px;color:#666;margin-bottom:4px\">現在のbot判定</div><div style=\"font-size:24px;margin-bottom:4px\">❓</div><div style=\"font-size:10px;color:#999\">人間 or bot か判定する仕組みなし</div></div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">reCAPTCHA v3 導入後</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"display:flex;align-items:center;gap:6px;margin-bottom:8px\"><div style=\"width:24px;height:24px;background:#4285F4;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:8px;font-weight:700\">rC</div><span style=\"font-weight:600\">reCAPTCHA v3 スコア</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span>スコア 0.9（人間）</span><span style=\"color:#2DAE6C;font-weight:600\">62%</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span>スコア 0.5-0.9</span><span style=\"color:var(--amber);font-weight:600\">18%</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0\"><span style=\"color:var(--red)\">スコア &lt;0.5（bot）</span><span style=\"color:var(--red);font-weight:600\">20%</span></div></div><div style=\"font-size:10px;color:#2DAE6C;text-align:center;margin-top:6px\">GA4にスコア送信 → 人間のみでファネル再計算</div></div></div>"
+          },
+          "implementation_check": {
+            "status": "already_exists",
+            "matched_feature": "予約導線reCAPTCHA追加",
+            "note": "キーワード一致: recaptcha, recaptcha, bot。予約導線にreCAPTCHAを追加してbot対策実施済み"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "multi_site",
+              "measurement"
+            ],
+            "constraint_notes": "JPサイトを優先実装し、EN/HAは別フェーズ。レイアウトは最長テキストでテスト。; 既存GA4イベント（session_start→ac_page_reach→calendar_view→form_start→purchase）で計測できる施策を優先。新規イベントはGTM設定変更を含めて見積もる。",
+            "prerequisites": [
+              "JPサイト限定でよいか？",
+              "効果は既存のファネルイベントで計測可能か？"
+            ],
+            "quick_wins": false
           }
         }
       ]
@@ -167,6 +225,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">Desktop トップページ</div><div style=\"background:#fff;border-radius:6px;padding:12px\"><div style=\"font-size:11px;color:#666;text-align:center;margin-bottom:6px\">ユーザーのクリック位置が不明</div><div style=\"height:80px;background:#f5f5f5;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999\">ヒートマップ未導入</div></div><div style=\"font-size:10px;color:#999;text-align:center;margin-top:6px\">UXの問題箇所が特定できない</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">Hotjar ヒートマップ分析</div><div style=\"background:#fff;border-radius:6px;padding:12px\"><div style=\"font-size:11px;color:#1B82C5;font-weight:600;margin-bottom:6px\">Direct × Desktop × 新規 セグメント</div><div style=\"height:80px;background:linear-gradient(180deg,rgba(255,0,0,0.3) 0%,rgba(255,165,0,0.2) 30%,rgba(0,0,255,0.1) 100%);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#333;font-weight:600\">クリック集中: ヘッダーのみ → スクロールなし</div></div><div style=\"font-size:10px;color:#2DAE6C;text-align:center;margin-top:6px\">問題箇所を可視化 → 具体的なUI改善が可能に</div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "グローバルトップにウィッシュリストセクション追加",
+            "note": "類似機能あり（グローバルトップにウィッシュリストセクション追加）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "mobile_desktop_gap"
+            ],
+            "constraint_notes": "ボトルネックのデバイス指定に合わせてターゲットデバイスを明確化。レスポンシブ設計で両対応を基本とする。",
+            "prerequisites": [
+              "ターゲットデバイスはモバイルのみ？両対応？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -178,6 +252,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">Desktop ナビゲーション</div><div style=\"background:#fff;border-radius:6px;padding:8px\"><div style=\"display:flex;gap:12px;font-size:11px;color:#666;padding:4px 0;border-bottom:1px solid #f0f0f0\"><span>ハワイ</span><span>バリ島</span><span>ヨーロッパ</span><span style=\"color:#ccc\">...</span></div><div style=\"font-size:10px;color:#999;padding:6px 0;text-align:center\">テキストリンクのみ → カテゴリの全体像が見えない</div></div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">メガメニュー（Desktop版）</div><div style=\"background:#fff;border-radius:6px;padding:8px;font-size:10px\"><div style=\"display:flex;gap:4px;margin-bottom:6px\"><div style=\"background:#E8F5FE;border-radius:3px;padding:3px 6px;font-weight:600;color:#1B82C5\">エリア</div><div style=\"background:#f5f5f5;border-radius:3px;padding:3px 6px;color:#666\">カテゴリ</div></div><div style=\"display:grid;grid-template-columns:1fr 1fr;gap:4px\"><div style=\"background:#f9f9f9;border-radius:3px;padding:4px 6px\">🌺 ハワイ <span style=\"color:#999;font-size:9px\">(342)</span></div><div style=\"background:#f9f9f9;border-radius:3px;padding:4px 6px\">🏯 京都 <span style=\"color:#999;font-size:9px\">(256)</span></div><div style=\"background:#f9f9f9;border-radius:3px;padding:4px 6px\">🌴 バリ島 <span style=\"color:#999;font-size:9px\">(189)</span></div><div style=\"background:#f9f9f9;border-radius:3px;padding:4px 6px\">🗼 東京 <span style=\"color:#999;font-size:9px\">(423)</span></div></div></div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "カテゴリページフローティングフィルター",
+            "note": "類似機能あり（カテゴリページフローティングフィルター）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "mobile_desktop_gap"
+            ],
+            "constraint_notes": "ボトルネックのデバイス指定に合わせてターゲットデバイスを明確化。レスポンシブ設計で両対応を基本とする。",
+            "prerequisites": [
+              "ターゲットデバイスはモバイルのみ？両対応？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -189,6 +279,24 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">Desktop ファーストビュー</div><div style=\"background:linear-gradient(135deg,#87CEEB,#4682B4);height:100px;border-radius:6px;display:flex;align-items:center;justify-content:center\"><div style=\"color:#fff;font-size:14px;font-weight:700\">静的ヒーロー画像</div></div><div style=\"font-size:10px;color:#999;text-align:center;margin-top:6px\">商品レコメンドなし → 新規は次のアクションが不明</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">パーソナライズドレコメンド</div><div style=\"display:flex;gap:6px\"><div style=\"flex:1;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1)\"><div style=\"height:50px;background:linear-gradient(135deg,#FF8A65,#E8386E)\"></div><div style=\"padding:6px;font-size:9px\"><div style=\"font-weight:600\">沖縄シュノーケル</div><div style=\"color:#FFAA00\">★4.9</div><div style=\"color:var(--red);font-size:8px\">👀 32人が閲覧中</div></div></div><div style=\"flex:1;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1)\"><div style=\"height:50px;background:linear-gradient(135deg,#81C784,#388E3C)\"></div><div style=\"padding:6px;font-size:9px\"><div style=\"font-weight:600\">京都着物体験</div><div style=\"color:#FFAA00\">★4.8</div><div style=\"color:var(--red);font-size:8px\">👀 18人が閲覧中</div></div></div></div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "Silvereggレコメンドエンジン（既存）",
+            "note": "類似機能あり（Silvereggレコメンドエンジン（既存））。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "personalization_privacy",
+              "mobile_desktop_gap"
+            ],
+            "constraint_notes": "未ログイン時は「人気順」等のフォールバック表示。ファーストパーティデータ（サイト内行動）のみ使用。明示的な同意フロー設計。; ボトルネックのデバイス指定に合わせてターゲットデバイスを明確化。レスポンシブ設計で両対応を基本とする。",
+            "prerequisites": [
+              "対象ユーザーのログイン率は？（低ければパーソナライズ効果が限定的）",
+              "ターゲットデバイスはモバイルのみ？両対応？"
+            ],
+            "quick_wins": false
           }
         }
       ]
@@ -212,6 +320,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">Core Web Vitals（現状）</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span>LCP</span><span style=\"color:var(--red)\">???</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span>FID</span><span style=\"color:var(--red)\">???</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0\"><span>CLS</span><span style=\"color:var(--red)\">???</span></div></div><div style=\"font-size:10px;color:#999;text-align:center;margin-top:6px\">Desktop版のパフォーマンス計測未実施</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">Core Web Vitals（RUM計測結果）</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span>LCP</span><span style=\"color:var(--red);font-weight:600\">3.8s（P75）</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span>FID</span><span style=\"color:#2DAE6C;font-weight:600\">85ms ✓</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0\"><span>CLS</span><span style=\"color:var(--amber);font-weight:600\">0.18</span></div></div><div style=\"font-size:10px;color:var(--red);text-align:center;margin-top:6px\">LCP 3.8s → 改善が必要（目標: 2.5s以下）</div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "施設詳細ページ表示パフォーマンス向上",
+            "note": "類似機能あり（施設詳細ページ表示パフォーマンス向上）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "measurement"
+            ],
+            "constraint_notes": "既存GA4イベント（session_start→ac_page_reach→calendar_view→form_start→purchase）で計測できる施策を優先。新規イベントはGTM設定変更を含めて見積もる。",
+            "prerequisites": [
+              "効果は既存のファネルイベントで計測可能か？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -223,6 +347,24 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">JSバンドル（現状）</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"margin-bottom:6px\">main.js</div><div style=\"background:#f0f0f0;border-radius:3px;height:16px;overflow:hidden\"><div style=\"background:var(--red);height:100%;width:85%;display:flex;align-items:center;padding-left:4px;font-size:9px;color:#fff\">850KB</div></div><div style=\"font-size:10px;color:var(--red);margin-top:4px\">未使用コード多数含む → 初期読み込みが遅い</div></div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">JSバンドル（最適化後）</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"margin-bottom:4px\">main.js（Code Split後）</div><div style=\"background:#f0f0f0;border-radius:3px;height:12px;overflow:hidden;margin-bottom:3px\"><div style=\"background:#2DAE6C;height:100%;width:25%;display:flex;align-items:center;padding-left:4px;font-size:8px;color:#fff\">180KB</div></div><div style=\"margin-bottom:2px;font-size:10px;color:#666\">page-home.js</div><div style=\"background:#f0f0f0;border-radius:3px;height:10px;overflow:hidden;margin-bottom:3px\"><div style=\"background:#81C784;height:100%;width:15%\"></div></div><div style=\"font-size:10px;color:#2DAE6C;margin-top:4px\">850KB → 180KB（-79%）Tree Shaking + Code Splitting</div></div></div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "multi_site",
+              "mobile_desktop_gap"
+            ],
+            "constraint_notes": "JPサイトを優先実装し、EN/HAは別フェーズ。レイアウトは最長テキストでテスト。; ボトルネックのデバイス指定に合わせてターゲットデバイスを明確化。レスポンシブ設計で両対応を基本とする。",
+            "prerequisites": [
+              "JPサイト限定でよいか？",
+              "ターゲットデバイスはモバイルのみ？両対応？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -234,6 +376,18 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">CDN設定（現状）</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span>Cache-Control</span><span style=\"color:var(--red)\">no-cache</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span>圧縮</span><span style=\"color:var(--amber)\">gzip</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0\"><span>Service Worker</span><span style=\"color:var(--red)\">なし</span></div></div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">CDN設定（最適化後）</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span>Cache-Control</span><span style=\"color:#2DAE6C;font-weight:600\">max-age=31536000 ✓</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span>圧縮</span><span style=\"color:#2DAE6C;font-weight:600\">Brotli ✓</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0\"><span>Service Worker</span><span style=\"color:#2DAE6C;font-weight:600\">プリキャッシュ ✓</span></div></div><div style=\"font-size:10px;color:#2DAE6C;text-align:center;margin-top:6px\">静的アセット配信を最適化</div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "HA/ENヘッダーリデザイン",
+            "note": "類似機能あり（HA/ENヘッダーリデザイン）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         }
       ]

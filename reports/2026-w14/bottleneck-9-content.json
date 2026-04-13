@@ -125,6 +125,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:700;margin-bottom:4px\">東京スカイツリー&amp;お台場クルーズ</div><div style=\"font-size:11px;color:#FFAA00;margin-bottom:8px\">★★★★★ 4.74</div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee\"><div style=\"font-size:12px;font-weight:600;margin-bottom:4px\">プランA: 基本プラン</div><div style=\"font-size:16px;font-weight:700;color:#E8386E\">¥13,000</div><div style=\"font-size:10px;color:#999;margin-top:4px\">前回の閲覧価格は不明</div></div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:700;margin-bottom:4px\">東京スカイツリー&amp;お台場クルーズ</div><div style=\"font-size:11px;color:#FFAA00;margin-bottom:8px\">★★★★★ 4.74</div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee\"><div style=\"font-size:12px;font-weight:600;margin-bottom:4px\">プランA: 基本プラン</div><div style=\"font-size:16px;font-weight:700;color:#E8386E\">¥12,500</div><div style=\"background:#E8F5E9;border-radius:4px;padding:4px 8px;display:inline-block;margin-top:4px\"><span style=\"font-size:10px;color:#2DAE6C;font-weight:600\">前回 ¥13,000 → 今回 ¥12,500（¥500 OFF）</span></div></div></div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "personalization_privacy"
+            ],
+            "constraint_notes": "未ログイン時は「人気順」等のフォールバック表示。ファーストパーティデータ（サイト内行動）のみ使用。明示的な同意フロー設計。",
+            "prerequisites": [
+              "対象ユーザーのログイン率は？（低ければパーソナライズ効果が限定的）"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -136,6 +152,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:11px;color:#999;margin-bottom:4px\">Google広告</div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee;margin-bottom:8px\"><div style=\"font-size:11px;color:#1B82C5;font-weight:600\">東京クルーズ体験</div><div style=\"font-size:12px;font-weight:700;color:#E8386E\">¥9,800〜</div><div style=\"font-size:9px;color:#999\">広告の表示価格</div></div><div style=\"font-size:11px;color:#999;margin-bottom:4px\">ACページ</div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee\"><div style=\"font-size:12px;font-weight:700;color:#E8386E\">¥13,000〜</div><div style=\"font-size:9px;color:var(--red)\">⚠ 広告価格と¥3,200の差 → 期待ギャップで離脱</div></div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:11px;color:#999;margin-bottom:4px\">Google広告</div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee;margin-bottom:8px\"><div style=\"font-size:11px;color:#1B82C5;font-weight:600\">東京クルーズ体験</div><div style=\"font-size:12px;font-weight:700;color:#E8386E\">¥13,000〜</div><div style=\"font-size:9px;color:#2DAE6C\">フィード連携で自動更新 ✓</div></div><div style=\"font-size:11px;color:#999;margin-bottom:4px\">ACページ</div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee\"><div style=\"font-size:12px;font-weight:700;color:#E8386E\">¥13,000〜</div><div style=\"font-size:9px;color:#2DAE6C\">✓ 価格一致 → 期待ギャップなし</div></div></div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [
+              "partner_api_dependency"
+            ],
+            "constraint_notes": "自社管理商品から先行実装。API依存部分は段階的ロールアウト。APIレスポンスにフィールドがない場合の非表示ルールを定義。",
+            "prerequisites": [
+              "対象商品のうちAPI連携商品の割合は？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -147,6 +179,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:700;margin-bottom:8px\">東京スカイツリー&amp;お台場クルーズ</div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee\"><div style=\"font-size:11px;color:#666\">リピーターだが初めて見るかのような表示</div><div style=\"font-size:10px;color:#999;margin-top:4px\">閲覧履歴・前回の検討状況なし</div></div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"background:#E8F5FE;border:1px solid #1B82C5;border-radius:8px;padding:10px;margin-bottom:8px\"><div style=\"font-size:11px;font-weight:600;color:#1B82C5;margin-bottom:4px\">👋 この商品を以前ご覧になりました</div><div style=\"font-size:10px;color:#666\">前回閲覧: 3月28日 | プランA選択済み</div><div style=\"background:#E8386E;color:#fff;padding:6px;border-radius:4px;font-size:11px;font-weight:600;text-align:center;margin-top:6px\">前回の続きから予約</div></div><div style=\"font-size:14px;font-weight:700\">東京スカイツリー&amp;お台場クルーズ</div></div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "personalization_privacy"
+            ],
+            "constraint_notes": "未ログイン時は「人気順」等のフォールバック表示。ファーストパーティデータ（サイト内行動）のみ使用。明示的な同意フロー設計。",
+            "prerequisites": [
+              "対象ユーザーのログイン率は？（低ければパーソナライズ効果が限定的）"
+            ],
+            "quick_wins": false
           }
         }
       ]
@@ -170,6 +218,24 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">リターゲティング広告</div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee\"><div style=\"font-size:11px;color:#666;margin-bottom:4px\">汎用広告クリエイティブ</div><div style=\"background:#f0f0f0;border-radius:4px;padding:8px;text-align:center;font-size:10px;color:#999\">「VELTRAで体験を予約！」<br>閲覧商品と無関係な汎用メッセージ</div><div style=\"font-size:10px;color:var(--red);margin-top:4px\">⚠ 過去に見た商品が表示されない</div></div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">動的リマーケティング広告</div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee\"><div style=\"font-size:11px;color:#1B82C5;font-weight:600;margin-bottom:4px\">あなたが見た体験</div><div style=\"display:flex;gap:6px\"><div style=\"flex:1;background:#f9f9f9;border-radius:4px;padding:6px;text-align:center;font-size:9px\"><div style=\"height:30px;background:linear-gradient(135deg,#FF8A65,#E8386E);border-radius:3px;margin-bottom:3px\"></div>東京クルーズ<br><span style=\"color:#E8386E;font-weight:600\">¥13,000</span></div><div style=\"flex:1;background:#f9f9f9;border-radius:4px;padding:6px;text-align:center;font-size:9px\"><div style=\"height:30px;background:linear-gradient(135deg,#81C784,#388E3C);border-radius:3px;margin-bottom:3px\"></div>京都着物<br><span style=\"color:#E8386E;font-weight:600\">¥3,200</span></div></div><div style=\"font-size:9px;color:#2DAE6C;margin-top:4px\">✓ 閲覧済み商品を動的に表示</div></div></div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [
+              "inventory_realtime",
+              "multi_site"
+            ],
+            "constraint_notes": "在庫数の代わりに「空きあり/残りわずか/満席」の3段階表示を検討。APIレスポンスのキャッシュTTLを明示。リクエスト制は「空き状況はお問い合わせ」と表示。; JPサイトを優先実装し、EN/HAは別フェーズ。レイアウトは最長テキストでテスト。",
+            "prerequisites": [
+              "対象APIは在庫数を返すか？（Globick v3.1は対応、Linktivityは要確認）",
+              "JPサイト限定でよいか？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -181,6 +247,26 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">閲覧済み商品の通知</div><div style=\"background:#fff;border-radius:6px;padding:12px;text-align:center\"><div style=\"font-size:11px;color:#666\">価格変動・空き復活の通知なし</div><div style=\"font-size:24px;margin:8px 0\">🔕</div><div style=\"font-size:10px;color:#999\">値下げしても再訪問のきっかけがない</div></div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">値下げ通知広告</div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee\"><div style=\"background:#FFF3E0;border-radius:4px;padding:6px;margin-bottom:6px\"><div style=\"font-size:11px;font-weight:600;color:#E65100\">🔔 お気に入りの体験が値下げ！</div></div><div style=\"font-size:11px;font-weight:600;margin-bottom:2px\">東京スカイツリー&amp;お台場クルーズ</div><div style=\"font-size:10px\"><span style=\"text-decoration:line-through;color:#999\">¥13,000</span> → <span style=\"color:#E8386E;font-weight:700\">¥11,500</span></div><div style=\"background:#E8386E;color:#fff;padding:6px;border-radius:4px;font-size:11px;font-weight:600;text-align:center;margin-top:6px\">今すぐ予約</div></div></div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [
+              "inventory_realtime",
+              "exchange_rate",
+              "personalization_privacy"
+            ],
+            "constraint_notes": "在庫数の代わりに「空きあり/残りわずか/満席」の3段階表示を検討。APIレスポンスのキャッシュTTLを明示。リクエスト制は「空き状況はお問い合わせ」と表示。; 価格表示時に「参考価格」「○月○日時点」と注記。比較表示には同一通貨・同一日を条件に。",
+            "prerequisites": [
+              "対象APIは在庫数を返すか？（Globick v3.1は対応、Linktivityは要確認）",
+              "対象ユーザーの主要通貨は？（JP→JPY固定で影響軽微か）",
+              "対象ユーザーのログイン率は？（低ければパーソナライズ効果が限定的）"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -192,6 +278,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:700;margin-bottom:4px\">東京スカイツリー&amp;お台場クルーズ</div><div style=\"font-size:11px;color:#FFAA00;margin-bottom:8px\">★★★★★ 4.74</div><div style=\"font-size:11px;color:#666;margin-bottom:8px\">（商品説明が続く…）</div><div style=\"font-size:10px;color:#999;text-align:center;padding:8px;border:1px dashed #ddd;border-radius:4px\">閲覧履歴に基づく商品表示なし</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:700;margin-bottom:8px\">東京スカイツリー&amp;お台場クルーズ</div><div style=\"background:#F3E5F5;border-radius:6px;padding:8px;margin-bottom:8px\"><div style=\"font-size:11px;font-weight:600;color:#7B1FA2;margin-bottom:4px\">🕐 最近見た商品</div><div style=\"display:flex;gap:6px\"><div style=\"flex:1;background:#fff;border-radius:4px;padding:4px;font-size:9px;text-align:center\"><div style=\"height:24px;background:#f0f0f0;border-radius:3px;margin-bottom:2px\"></div>京都着物体験</div><div style=\"flex:1;background:#fff;border-radius:4px;padding:4px;font-size:9px;text-align:center\"><div style=\"height:24px;background:#f0f0f0;border-radius:3px;margin-bottom:2px\"></div>大阪グルメツアー</div></div></div></div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "personalization_privacy"
+            ],
+            "constraint_notes": "未ログイン時は「人気順」等のフォールバック表示。ファーストパーティデータ（サイト内行動）のみ使用。明示的な同意フロー設計。",
+            "prerequisites": [
+              "対象ユーザーのログイン率は？（低ければパーソナライズ効果が限定的）"
+            ],
+            "quick_wins": false
           }
         }
       ]
@@ -215,6 +317,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:700;margin-bottom:8px\">プランを選択</div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee;margin-bottom:6px\"><div style=\"display:flex;align-items:center;gap:6px\"><div style=\"width:14px;height:14px;border:2px solid #ccc;border-radius:50%\"></div><div><div style=\"font-size:11px;font-weight:600\">プランA: 基本プラン</div><div style=\"font-size:10px;color:#666\">¥13,000</div></div></div></div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee\"><div style=\"display:flex;align-items:center;gap:6px\"><div style=\"width:14px;height:14px;border:2px solid #ccc;border-radius:50%\"></div><div><div style=\"font-size:11px;font-weight:600\">プランB: プレミアム</div><div style=\"font-size:10px;color:#666\">¥18,000</div></div></div></div><div style=\"font-size:10px;color:#999;text-align:center;margin-top:6px\">リピーターでも毎回選び直し</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:700;margin-bottom:8px\">プランを選択</div><div style=\"background:#fff;border-radius:6px;padding:10px;border:2px solid #1B82C5;margin-bottom:6px\"><div style=\"display:flex;align-items:center;gap:6px\"><div style=\"width:14px;height:14px;border:2px solid #1B82C5;border-radius:50%;background:#1B82C5;display:flex;align-items:center;justify-content:center\"><span style=\"color:#fff;font-size:8px\">✓</span></div><div><div style=\"font-size:11px;font-weight:600\">プランA: 基本プラン <span style=\"background:#E8F5FE;color:#1B82C5;font-size:9px;padding:1px 4px;border-radius:2px\">前回と同じ</span></div><div style=\"font-size:10px;color:#666\">¥13,000</div></div></div></div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee\"><div style=\"display:flex;align-items:center;gap:6px\"><div style=\"width:14px;height:14px;border:2px solid #ccc;border-radius:50%\"></div><div><div style=\"font-size:11px;font-weight:600\">プランB: プレミアム</div><div style=\"font-size:10px;color:#666\">¥18,000</div></div></div></div><div style=\"background:#E8386E;color:#fff;padding:8px;border-radius:4px;font-size:12px;font-weight:700;text-align:center;margin-top:8px\">このプランで予約に進む</div></div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "personalization_privacy"
+            ],
+            "constraint_notes": "未ログイン時は「人気順」等のフォールバック表示。ファーストパーティデータ（サイト内行動）のみ使用。明示的な同意フロー設計。",
+            "prerequisites": [
+              "対象ユーザーのログイン率は？（低ければパーソナライズ効果が限定的）"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -226,6 +344,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">通常の予約フロー</div><div style=\"display:flex;gap:4px;margin-bottom:8px\"><div style=\"flex:1;background:var(--amber);border-radius:3px;padding:4px;text-align:center;font-size:9px;color:#fff\">①プラン</div><div style=\"flex:1;background:var(--amber);border-radius:3px;padding:4px;text-align:center;font-size:9px;color:#fff\">②日程</div><div style=\"flex:1;background:var(--amber);border-radius:3px;padding:4px;text-align:center;font-size:9px;color:#fff\">③情報入力</div><div style=\"flex:1;background:var(--amber);border-radius:3px;padding:4px;text-align:center;font-size:9px;color:#fff\">④確認</div><div style=\"flex:1;background:var(--amber);border-radius:3px;padding:4px;text-align:center;font-size:9px;color:#fff\">⑤完了</div></div><div style=\"font-size:10px;color:#999;text-align:center\">リピーターでも5ステップ → 面倒で離脱</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">クイック予約フロー（リピーター）</div><div style=\"display:flex;gap:4px;margin-bottom:8px\"><div style=\"flex:1;background:#2DAE6C;border-radius:3px;padding:4px;text-align:center;font-size:9px;color:#fff\">①日程</div><div style=\"flex:1;background:#2DAE6C;border-radius:3px;padding:4px;text-align:center;font-size:9px;color:#fff\">②確認</div><div style=\"flex:1;background:#2DAE6C;border-radius:3px;padding:4px;text-align:center;font-size:9px;color:#fff\">③完了</div></div><div style=\"background:#E8F5E9;border-radius:6px;padding:8px;margin-bottom:6px\"><div style=\"font-size:10px;color:#2DAE6C;font-weight:600;margin-bottom:2px\">✓ 前回の情報を自動入力</div><div style=\"font-size:9px;color:#666\">プランA / 大人2名 / 田中太郎様</div></div><div style=\"background:#E8386E;color:#fff;padding:8px;border-radius:4px;font-size:12px;font-weight:700;text-align:center\">前回と同じ内容で予約</div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "翌月カレンダー覗き見（モバイル）",
+            "note": "類似機能あり（翌月カレンダー覗き見（モバイル））。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "personalization_privacy"
+            ],
+            "constraint_notes": "未ログイン時は「人気順」等のフォールバック表示。ファーストパーティデータ（サイト内行動）のみ使用。明示的な同意フロー設計。",
+            "prerequisites": [
+              "対象ユーザーのログイン率は？（低ければパーソナライズ効果が限定的）"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -237,6 +371,18 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:700;margin-bottom:4px\">東京スカイツリー&amp;お台場クルーズ</div><div style=\"font-size:11px;color:#FFAA00;margin-bottom:8px\">★★★★★ 4.74</div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee\"><div style=\"font-size:16px;font-weight:700;color:#E8386E\">¥13,000〜</div><div style=\"font-size:10px;color:#999\">通常価格のみ表示</div></div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:700;margin-bottom:4px\">東京スカイツリー&amp;お台場クルーズ</div><div style=\"font-size:11px;color:#FFAA00;margin-bottom:8px\">★★★★★ 4.74</div><div style=\"background:#fff;border-radius:6px;padding:10px;border:1px solid #eee\"><div style=\"font-size:16px;font-weight:700;color:#E8386E\">¥12,350〜</div><div style=\"background:#E8F5E9;border-radius:4px;padding:4px 8px;display:inline-block;margin-top:4px\"><span style=\"font-size:10px;color:#2DAE6C;font-weight:600\">🎉 リピーター割引 5%OFF 自動適用中</span></div><div style=\"font-size:9px;color:var(--red);margin-top:4px\">有効期限: 4月14日まで</div></div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "全旅クーポンAPI対応",
+            "note": "類似機能あり（全旅クーポンAPI対応）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         }
       ]

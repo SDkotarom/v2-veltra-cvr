@@ -1,6 +1,6 @@
 # ARCHITECTURE.md — ボトルネック分析レポート アーキテクチャ
 
-> 最終更新: 2026-04-08（content.json スケルトン自動生成 + before_text/after_text 対応）
+> 最終更新: 2026-04-13（施策化レビューレイヤー追加: implementation_check + feasibility）
 
 ---
 
@@ -39,7 +39,9 @@ v2-veltra-cvr/
 │   ├── reports-index.json           全週のインデックス（週ID・日付・パス）
 │   ├── weekly-summary.json          週次サマリーデータ
 │   ├── summary-data.json            ダッシュボード用サマリー
-│   └── archive-meta.json            アーカイブメタデータ
+│   ├── archive-meta.json            アーカイブメタデータ
+│   ├── known-implementations.json   実装済み機能カタログ（重複チェック用）★NEW
+│   └── feasibility-constraints.json 制約チェックリスト定義★NEW
 │
 ├── reports/                         週次レポート格納
 │   ├── index.html                   アーカイブ一覧ページ
@@ -250,7 +252,62 @@ v2-veltra-cvr/
 }
 ```
 
-### 4.1 behavior_context フィールド定義
+### 4.1 action フィールド拡張（施策化レビューレイヤー）
+
+各 `action` オブジェクトに以下のフィールドを追加。施策化前のレビュー工数を削減し、そのまま施策化できる品質を目指す。
+
+```jsonc
+{
+  "letter": "A",
+  "title": "...",
+  "description": "...",
+  "spec_html": "...",
+  "impact": "③→④ +6pt",
+  "prototype": { ... },
+
+  // ── 施策化レビューレイヤー（Phase 2 で Claude が記入） ──
+
+  // 実装済み機能との重複チェック
+  "implementation_check": {
+    "status": "new",           // "new" | "partial" | "already_exists" | "superseded"
+    "matched_feature": null,   // 重複する既存機能名（なければ null）
+    "note": null               // 差分の説明（partial の場合: 何が未実装か）
+  },
+
+  // 実現可能性レビュー
+  "feasibility": {
+    "effort": "S",             // "S" | "M" | "L" | "XL"（feasibility-constraints.json 参照）
+    "constraints": [],         // 該当する制約ID（例: ["inventory_realtime", "partner_api_dependency"]）
+    "constraint_notes": "",    // 制約の具体的影響と回避策（1-2文）
+    "prerequisites": [],       // 前提条件（例: ["Globick API v3.1の在庫フィールド確認"]）
+    "quick_wins": true         // フロントのみで即実装可能か（effort "S" かつ constraints 空なら true）
+  }
+}
+```
+
+**status の定義**:
+
+| status | 意味 | 施策化可否 |
+|--------|------|-----------|
+| `new` | 未実装。新規施策として有効 | ✅ そのまま施策化 |
+| `partial` | 類似機能が存在するが、この施策の核心部分は未実装 | ✅ 差分を明記して施策化 |
+| `already_exists` | 既に実装済み。施策としては不要 | ❌ 除外 |
+| `superseded` | より良い代替が既に実装されている | ❌ 除外 |
+
+**effort の定義**:
+
+| effort | 内容 | 目安期間 |
+|--------|------|---------|
+| `S` | フロントエンド CSS/JS のみ | 1-2週間 |
+| `M` | フロントエンド＋既存APIの活用 | 2-4週間 |
+| `L` | バックエンドAPI新設またはパートナーAPI連携 | 1-3ヶ月 |
+| `XL` | データ基盤改修・インフラ変更 | 3ヶ月以上 |
+
+**参照ファイル**:
+- `known-implementations.json`: 実装済み機能カタログ（重複チェック用）
+- `feasibility-constraints.json`: 制約チェックリスト定義
+
+### 4.2 behavior_context フィールド定義
 
 | フィールド | 型 | 必須 | 説明 |
 |------------|-----|------|------|
@@ -359,6 +416,28 @@ content.json × 10
 - `hypotheses` 構造（3仮説 × 3施策のテンプレート）
 - `competitive`（6社テンプレート）
 - `verification`（チェックリストテンプレート）
+
+### 2026-04-13: 施策化レビューレイヤー追加
+
+**施策**: 打ち手の施策化率を向上させるため、各 action に `implementation_check` と `feasibility` フィールドを追加。
+
+**背景**:
+1. 打ち手にVELTRA既存機能と重複する提案が含まれ、レビュー時に弾かれていた
+2. 実務上の制約（在庫API、為替、パートナーAPI依存等）の考慮が不足し、施策化前の再考慮コストが高かった
+
+**追加ファイル**:
+- `known-implementations.json`: annotations.json + リリースノートから抽出した実装済み機能カタログ
+- `feasibility-constraints.json`: 10カテゴリの制約チェックリスト（在庫、為替、時差、パーソナライズ、API依存等）
+- `scripts/audit-actions.py`: 既存打ち手と実装済み機能のクロスチェックスクリプト
+
+**スキーマ変更**:
+- `action.implementation_check`: 重複ステータス（new/partial/already_exists/superseded）
+- `action.feasibility`: 工数・制約・前提条件・クイックウィン判定
+
+**効果**:
+- Phase 2 でClaude が `known-implementations.json` を参照して重複を自動排除
+- 各施策に制約と回避策が事前記載され、レビュアーの判断コスト削減
+- `quick_wins: true` フィルターで即実装可能な施策を一覧化可能
 
 ### 2026-04-07: 週期間変更（月〜日 → 日〜土）
 
