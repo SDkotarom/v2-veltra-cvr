@@ -147,10 +147,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div>
 </div>
 
-<!-- YTD Performance -->
+<!-- 月次パフォーマンス -->
 <div class="card">
-  <!-- YTD KPI Summary -->
-  <div class="sec-label">2026年 YTDサマリー <span style="font-size:13px;font-weight:400;color:var(--text3);letter-spacing:0;text-transform:none;margin-left:12px" id="ytd-period"></span></div>
+  <div class="sec-label">2026年 月次サマリー <span style="font-size:13px;font-weight:400;color:var(--text3);letter-spacing:0;text-transform:none;margin-left:12px" id="ytd-period"></span></div>
   <hr class="divider-solid">
   <div class="kpi-strip" id="kpi-strip"></div>
   <hr class="divider-solid">
@@ -323,7 +322,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
     // プログレス追跡: 今月速報があればそれ、なければ直近確定月
     var trackCvr = curMonth ? curMonth.cvr : ytdCvr;
-    var trackLabel = curMonth ? MONTH_LABELS[curMonthIdx]+'速報' : (lastFullMonth ? MONTH_LABELS[monthIndex(lastFullMonth)] : 'YTD');
+    var trackLabel = curMonth ? MONTH_LABELS[curMonthIdx]+'速報' : (lastFullMonth ? MONTH_LABELS[monthIndex(lastFullMonth)] : '直近確定月');
 
     // ── KPI Strip ──
     var strip = document.getElementById('kpi-strip');
@@ -334,9 +333,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
     var stripItems = [
       {
-        label: '確定月 YTD CVR',
+        label: (lastFullMonth ? '1〜'+(monthIndex(lastFullMonth)+1)+'月' : '確定月') + ' CVR',
         value: pct(ytdCvr),
-        sub: '1〜'+(lastFullMonth?(monthIndex(lastFullMonth)+1):'?')+'月合計 / 前年同期 '+pct(ytd2025Cvr),
+        sub: '確定月の平均 / 前年同期 '+pct(ytd2025Cvr),
         hl: false
       },
       {
@@ -439,7 +438,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     var ytdTr = document.createElement('tr');
     ytdTr.className = 'ytd-row';
     ytdTr.innerHTML =
-      '<td>YTD 確定計</td>'+
+      '<td>確定計（1〜'+(lastFullMonth?(monthIndex(lastFullMonth)+1):'?')+'月）</td>'+
       '<td>'+fmt(totalS26)+'</td>'+
       '<td>'+fmt(totalP26)+'</td>'+
       '<td style="font-weight:900;color:var(--red)">'+pct(ytdCvrCalc)+'</td>'+
@@ -494,7 +493,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     var years = [
       { label: '2024年', data: d2024, target: null },
       { label: '2025年', data: d2025, target: null },
-      { label: '2026年 (確定月YTD)', data: fullMonths2026, target: annualTarget }
+      { label: '2026年（確定月）', data: fullMonths2026, target: annualTarget }
     ];
 
     var prevYearCvr = null;

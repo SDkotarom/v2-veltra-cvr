@@ -36,22 +36,14 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .toggle-btn.inactive{background:rgba(255,255,255,.2);color:rgba(255,255,255,.7)}
 .toggle-btn:hover.inactive{background:rgba(255,255,255,.3);color:#fff}
 
-/* KPI */
-.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
-.kpi-cell{padding:32px 36px;border-right:1px solid var(--border)}
-.kpi-cell:last-child{border-right:none}
-.kpi-cell .kl{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:10px}
-.kpi-cell .kv{font-family:'DM Sans';font-size:40px;font-weight:900;color:var(--text);line-height:1}
-.kpi-cell .ks{font-size:14px;color:var(--text3);margin-top:6px}
-.kpi-cell.highlight .kv{color:var(--red)}
-
-/* Target CVR */
-.target-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
-.target-cell{padding:24px 36px;border-right:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:16px}
-.target-cell:last-child{border-right:none}
-.target-cell .tl{font-size:13px;font-weight:700;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
-.target-cell .tv{font-family:'DM Sans';font-size:28px;font-weight:900}
-.target-cell .ts{font-size:13px;margin-top:4px}
+/* KPI strip（kpi.html と共通デザイン） */
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.kpi-strip-cell{padding:24px 28px;border-right:1px solid var(--border);text-align:center}
+.kpi-strip-cell:last-child{border-right:none}
+.kpi-strip-cell .ksl{font-size:12px;font-weight:700;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.kpi-strip-cell .ksv{font-family:'DM Sans';font-size:32px;font-weight:900;line-height:1}
+.kpi-strip-cell .kss{font-size:12px;color:var(--text3);margin-top:6px}
+.kpi-strip-cell.highlight .ksv{color:var(--red)}
 .status-badge{font-size:12px;font-weight:700;padding:4px 12px;border-radius:12px;white-space:nowrap;flex-shrink:0}
 .status-ok{background:var(--green-light);color:var(--green)}
 .status-ng{background:var(--red-light);color:var(--red)}
@@ -190,7 +182,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .graph-tooltip .gt-row{display:flex;align-items:center;gap:6px}
 .graph-tooltip .gt-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
-@media(max-width:768px){.kpi-grid,.target-grid{grid-template-columns:1fr}.kpi-cell,.target-cell{border-right:none;border-bottom:1px solid var(--border)}.funnel-bar-grid{grid-template-columns:1fr 1fr}.funnel-ov-row{grid-template-columns:1fr}.funnel-ov-cell::after{display:none}}
+@media(max-width:768px){.kpi-strip{grid-template-columns:1fr 1fr}.kpi-strip-cell{border-bottom:1px solid var(--border)}.funnel-bar-grid{grid-template-columns:1fr 1fr}.funnel-ov-row{grid-template-columns:1fr}.funnel-ov-cell::after{display:none}}
 </style>
 </head>
 <body>
@@ -213,57 +205,10 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     </div>
   </div>
 
-  <!-- Period label -->
-  <div class="sec-label" style="padding-bottom:12px">主要KPIサマリー <span style="font-size:13px;font-weight:400;color:var(--text3);letter-spacing:0;text-transform:none;margin-left:12px" id="period-label">読み込み中...</span></div>
+  <!-- KPI strip（kpi.html と同一データ・同一表示） -->
+  <div class="sec-label" style="padding-bottom:12px">月次CVRサマリー <span style="font-size:13px;font-weight:400;color:var(--text3);letter-spacing:0;text-transform:none;margin-left:12px" id="period-label">読み込み中...</span></div>
   <hr class="divider-solid">
-
-  <!-- KPI -->
-  <div class="kpi-grid">
-    <div class="kpi-cell">
-      <div class="kl">セッション数 <span class="kpi-tip">?<span class="kpi-tooltip">GA4 metric: sessions<br>サイト訪問の総数（30分無操作でリセット）</span></span></div>
-      <div class="kv" id="kpi-sessions">—</div>
-      <div class="ks" id="kpi-sessions-sub"></div>
-    </div>
-    <div class="kpi-cell">
-      <div class="kl">CV数（予約完了） <span class="kpi-tip">?<span class="kpi-tooltip">GA4 event: purchase<br>予約完了イベントの発生数</span></span></div>
-      <div class="kv" id="kpi-cv">—</div>
-      <div class="ks" id="kpi-cv-sub"></div>
-    </div>
-    <div class="kpi-cell highlight">
-      <div class="kl">CVR <span class="kpi-tip">?<span class="kpi-tooltip">計算式: purchases ÷ sessions<br>セッションあたりの予約完了率</span></span></div>
-      <div class="kv" id="kpi-cvr">—</div>
-      <div class="ks" id="kpi-cvr-sub"></div>
-    </div>
-  </div>
-
-  <hr class="divider-solid">
-
-  <!-- Target CVR -->
-  <div class="target-grid">
-    <div class="target-cell">
-      <div>
-        <div class="tl">月次目標CVR <span class="kpi-tip">?<span class="kpi-tooltip">当月のCVR目標値<br>reports-index.json で設定</span></span></div>
-        <div class="tv" id="target-monthly-val" style="color:var(--text3)">—</div>
-        <div style="font-size:13px;color:var(--text2);margin-top:6px" id="target-monthly-current"></div>
-      </div>
-      <div style="text-align:right;flex-shrink:0">
-        <div class="status-badge" id="target-monthly-badge"></div>
-        <div id="target-monthly-gap" style="font-family:'DM Sans';font-size:22px;font-weight:900;margin-top:8px;line-height:1"></div>
-      </div>
-    </div>
-    <div class="target-cell">
-      <div>
-        <div class="tl">年間目標CVR <span class="kpi-tip">?<span class="kpi-tooltip">年間累計のCVR目標値<br>reports-index.json で設定</span></span></div>
-        <div class="tv" id="target-annual-val" style="color:var(--text3)">—</div>
-        <div style="font-size:13px;color:var(--text2);margin-top:6px" id="target-annual-current"></div>
-      </div>
-      <div style="text-align:right;flex-shrink:0">
-        <div class="status-badge" id="target-annual-badge"></div>
-        <div id="target-annual-gap" style="font-family:'DM Sans';font-size:22px;font-weight:900;margin-top:8px;line-height:1"></div>
-      </div>
-    </div>
-  </div>
-
+  <div class="kpi-strip" id="kpi-strip-main"></div>
   <hr class="divider-solid">
 
 </div>
@@ -802,9 +747,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     renderGraph();
   }
 
-  // ── Monthly KPI（サマリー上段）────────────────────
-  // summary-data.json の当月累計データをKPIストリップに表示する。
-  // ファネル・セグメントは引き続き 28日間ローリング（currentData）を使う。
+  // ── 月次KPIストリップ（kpi.html と同一ロジック）────
   function renderMonthlyKPI(meta) {
     if (!summaryData || !meta) return;
 
@@ -812,7 +755,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     var curYM = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
     var monthly = summaryData.monthly || [];
 
-    // 当月エントリを探す（なければ最新月にフォールバック）
+    // 当月エントリ（なければ最新月）
     var curEntry = null;
     for (var i = monthly.length - 1; i >= 0; i--) {
       if (monthly[i].month === curYM) { curEntry = monthly[i]; break; }
@@ -820,66 +763,92 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     if (!curEntry && monthly.length) curEntry = monthly[monthly.length - 1];
     if (!curEntry) return;
 
-    // 前月エントリ（CVRサブラベル用）
     var mi = parseInt(curEntry.month.split('-')[1]);
     var yr = parseInt(curEntry.month.split('-')[0]);
-    var prevMi = mi === 1 ? 12 : mi - 1;
-    var prevYr  = mi === 1 ? yr - 1 : yr;
-    var prevYM  = prevYr + '-' + String(prevMi).padStart(2,'0');
-    var prevEntry = null;
-    for (var j = 0; j < monthly.length; j++) {
-      if (monthly[j].month === prevYM) { prevEntry = monthly[j]; break; }
-    }
 
-    // 期間ラベル: "4月累計（4/1〜4/11）"
+    // 確定月集計（当月除く・当年のみ）
+    var confS = 0, confP = 0, confMaxMi = 0;
+    monthly.forEach(function(m) {
+      if (parseInt(m.month.split('-')[0]) === yr && m.month !== curEntry.month) {
+        confS += m.sessions; confP += m.purchases;
+        var mIdx = parseInt(m.month.split('-')[1]);
+        if (mIdx > confMaxMi) confMaxMi = mIdx;
+      }
+    });
+    var confCvr = confS > 0 ? confP / confS : 0;
+
+    // 前年同月
+    var prevYearYM = (yr-1) + '-' + String(mi).padStart(2,'0');
+    var prevYearEntry = null;
+    monthly.forEach(function(m){ if (m.month === prevYearYM) prevYearEntry = m; });
+
+    // 期間ラベル
     var re = meta.rolling_end ? meta.rolling_end.slice(5).replace('-', '/').replace(/^0/, '') : '?';
     document.getElementById('period-label').textContent =
       mi + '月累計（' + mi + '/1〜' + re + '）';
 
-    // KPI数値
-    renderKPI({ sessions: curEntry.sessions, purchases: curEntry.purchases, cvr: curEntry.cvr });
+    // GAP vs 目標
+    var gap = curEntry.cvr - targets.monthly_cvr;
+    var gapColor = gap >= 0 ? 'var(--green)' : 'var(--red)';
+    var gapSign = gap >= 0 ? '+' : '';
+    var gapStr = gapSign + (gap * 100).toFixed(2) + 'pp';
 
-    // CVRサブラベル: 前月実績
-    document.getElementById('kpi-sessions-sub').textContent = '';
-    document.getElementById('kpi-cv-sub').textContent = '';
-    document.getElementById('kpi-cvr-sub').textContent =
-      prevEntry ? '前月（' + prevMi + '月）' + fmtPct(prevEntry.cvr, 2) : '';
+    function p(v) { return (v*100).toFixed(3) + '%'; }
 
-    // 目標比ステータス
-    renderCVRStatus(curEntry.cvr);
+    var cells = [
+      {
+        label: (confMaxMi > 0 ? '1〜'+confMaxMi+'月 確定' : '確定月') + ' CVR',
+        value: confMaxMi > 0 ? p(confCvr) : '—',
+        sub: '確定月の平均',
+        hl: false
+      },
+      {
+        label: mi + '月 速報 CVR',
+        value: p(curEntry.cvr),
+        sub: '目標 ' + p(targets.monthly_cvr) + ' / GAP ' + gapStr,
+        hl: true
+      },
+      {
+        label: '目標まで',
+        value: gapStr,
+        sub: gap >= 0 ? '目標達成' : 'あと ' + (Math.abs(gap)*100).toFixed(2) + 'pp',
+        color: gapColor,
+        hl: false
+      },
+      {
+        label: '前年同月 CVR',
+        value: prevYearEntry ? p(prevYearEntry.cvr) : '—',
+        sub: prevYearEntry && curEntry
+          ? 'YoY ' + (gap >= 0 ? '+' : '') + ((curEntry.cvr - prevYearEntry.cvr)*100).toFixed(2) + 'pp'
+          : '前年データなし',
+        hl: false
+      }
+    ];
+
+    var strip = document.getElementById('kpi-strip-main');
+    strip.innerHTML = '';
+    cells.forEach(function(c) {
+      var div = document.createElement('div');
+      div.className = 'kpi-strip-cell' + (c.hl ? ' highlight' : '');
+      var valStyle = c.color ? ' style="color:'+c.color+'"' : '';
+      div.innerHTML =
+        '<div class="ksl">'+c.label+'</div>'+
+        '<div class="ksv"'+valStyle+'>'+c.value+'</div>'+
+        '<div class="kss">'+c.sub+'</div>';
+      strip.appendChild(div);
+    });
   }
 
   // setFunnelMode removed — always show 28-day rolling data
 
 
-  function renderKPI(data) {
-    document.getElementById('kpi-sessions').textContent = fmt(data.sessions);
-    document.getElementById('kpi-cv').textContent = fmt(data.purchases);
-    document.getElementById('kpi-cvr').textContent = fmtPct(data.cvr, 2);
-  }
+  function renderKPI(data) { /* 旧グリッド削除済み。renderMonthlyKPI で描画 */ }
 
-  function renderTargets() {
-    document.getElementById('target-monthly-val').textContent = fmtPct(targets.monthly_cvr, 3);
-    document.getElementById('target-annual-val').textContent = fmtPct(targets.annual_cvr, 3);
-  }
+  function renderTargets() { /* ストリップ内に統合済み */ }
 
   function renderCVRStatus(cvr) {
+    /* ストリップ内に統合済み */
     if (!cvr) return;
-    function applyStatus(diff, badgeId, gapId, currentId) {
-      var badge = document.getElementById(badgeId);
-      var gap = document.getElementById(gapId);
-      var current = document.getElementById(currentId);
-      var absPt = Math.abs(diff * 100).toFixed(2);
-      var sign = diff >= 0 ? '▲' : '▼';
-      var color = diff >= 0 ? 'var(--green)' : diff >= -0.003 ? 'var(--amber)' : 'var(--red)';
-      badge.textContent = diff >= 0 ? '達成' : diff >= -0.003 ? '惜しい' : '未達';
-      badge.className = 'status-badge ' + (diff >= 0 ? 'status-ok' : diff >= -0.003 ? 'status-close' : 'status-ng');
-      if (current) current.textContent = '';
-      gap.textContent = sign + ' ' + absPt + 'pt';
-      gap.style.color = color;
-    }
-    applyStatus(cvr - targets.monthly_cvr, 'target-monthly-badge', 'target-monthly-gap', 'target-monthly-current');
-    applyStatus(cvr - targets.annual_cvr,  'target-annual-badge',  'target-annual-gap',  'target-annual-current');
   }
 
   function renderFunnel(data, weekObj) {
