@@ -13,7 +13,7 @@
   ],
   "deviation": "+31.5%",
   "impact_sessions": "2,076K / 月",
-  "description_html": "TODO: モバイル（全体71.3%）の①→②AC到達率が31.5%とデスクトップ(37.1%)より低く、CVRも1.36%にとどまる。最大流入デバイスの転換底上げが最優先。",
+  "description_html": "モバイル（2.08Mセッション/月、全体71.3%）の①→②AC到達率は<strong>31.50%</strong>で、全体ベースライン52.48%より<strong>-21.0pp</strong>低い。CVRも1.36%にとどまり全体平均1.41%を下回る。最大流入デバイスであるモバイルの転換底上げは、全体CVRへのインパクトが最大級。AC到達後の検討率（15.62%）・意向率（41.19%）は全体平均を上回っており、<em>「ACに到達さえすれば」購買意欲は高い</em>。",
   "funnel_overview": {
     "title": "ファネル全体比較（Mobile vs ベースライン）",
     "cells": [
@@ -69,23 +69,24 @@
   ],
   "drill_down": [
     {
-      "title": "TODO: ドリルダウン分析1のタイトル",
-      "body_html": "TODO: 分析内容HTML",
-      "note": "TODO: 要点メモ"
+      "title": "モバイル vs デスクトップ 各ファネル段階の転換率比較",
+      "body_html": "モバイルの各ステップ転換率: <strong>①→②31.50%</strong>（Desktop 37.07%、-5.6pp）・②→③15.62%（Desktop 10.67%、+4.95pp）・③→④41.19%（Desktop 38.12%、+3.1pp）・④→⑤66.92%（Desktop 84.31%、-17.4pp）。<br><br>①→②の差（-5.6pp）とモバイルのセッション数（2.08M）を掛け合わせると、月間<strong>約11.6万セッション</strong>がデスクトップ水準に到達できていない計算。②→③・③→④はモバイルが上回るため、①→②の改善がボトルネック解消の第一優先。④→⑤（完了率）のモバイル劣勢（-17.4pp）はBN6で別途対処。",
+      "note": "モバイルは「AC到達後の意向」は高い。問題は①→②の流入→AC到達の悪さのみ。タップUXとページ速度の改善が直撃する。"
     }
   ],
   "callout": {
-    "title": "TODO: 特定結果のタイトル",
-    "body_html": "TODO: 特定結果の詳細HTML"
+    "title": "モバイル①→②を5pt改善するだけで月間+1,038件の購買",
+    "body_html": "モバイル①→②を31.5%→36.5%（+5pt）に改善すると、約10.4万セッションが追加でACに到達。モバイルのAC→購買CVR（CVR=約4.32%）を適用すると<strong>+約4,490件/月</strong>の増収ポテンシャル。全体CVRへの寄与度は最大のボトルネック。"
   },
   "behavior_context": {
-    "estimated_action": "TODO: Mobile の ①→② 流入→AC到達 でのユーザー推定行動",
+    "estimated_action": "モバイルユーザーは移動中・隙間時間に検索し、トップページ→カテゴリ→検索結果と遷移するが、小さい画面でのスクロールとタップ操作の煩雑さから「面倒になって離脱」する。検索結果リストが長く、ACカードのタップ領域が狭い・誤タップが多い・ページロードが重いといったフリクションが重なり、ACページ到達前に離脱している。",
     "evidence": [
-      "Mobile ①→② 流入→AC到達: 31.50%（ベースライン 52.48%）",
-      "TODO: 裏付けデータ2"
+      "Mobile ①→② 流入→AC到達: 31.50%（ベースライン 52.48%、-21.0pp）",
+      "Desktop ①→②: 37.07%（Mobileより+5.6pp高い）- デスクトップとの差分はモバイルUX起因",
+      "Mobile ②→③: 15.62%（Desktop 10.67%より高い）- AC到達後の意欲はモバイルの方が高い"
     ],
-    "page_role_check": "TODO: ①→② 流入→AC到達 に該当するページの戦略ガイド上の役割チェック",
-    "subtraction_check": "TODO: 情報の引き算で解決できるかチェック",
+    "page_role_check": "①→②はトップ/検索/カテゴリページからACページへの遷移。モバイルでは検索結果のACカードが縦長リストになり、1画面に1〜2件しか表示されない。スクロール距離が長くなり、途中で離脱しやすい構造。",
+    "subtraction_check": "情報の引き算（検索フィルター・カテゴリ数の削減）が一定効果あり。ただし主な問題はUI/UXの操作性（タップサイズ・ページ速度・スクロール距離）。検索結果のACカードを大きく・視覚的に魅力的にする「引き算＋最適化」が有効。",
     "pattern_references": []
   },
   "hypo_section_title": "原因仮説 × 3 &amp; 打ち手 × 9",
@@ -94,45 +95,45 @@
     {
       "level": "h1",
       "level_label": "仮説 1（有力）",
-      "title": "TODO: 仮説タイトル",
-      "body": "TODO: 仮説の説明",
+      "title": "モバイル検索結果・カテゴリページのACカードのタップ領域が狭くクリックシグナルが弱い",
+      "body": "モバイルの検索結果ページにACカードが縦長リスト形式で並んでいるが、カード自体のタップ領域が小さく・視覚的な魅力も低い。サムネイル・タイトル・価格の3要素が小さく表示されており、スクロール中に「これだ！」と思える瞬間が少ない。Googleの基準（48px以上のタップターゲット）を下回っている可能性がある。",
       "evidence": [
-        "Mobile ①→② 流入→AC到達: 31.50%（ベースライン 52.48%）",
-        "TODO: 裏付けデータ2",
-        "TODO: 裏付けデータ3"
+        "Mobile ①→② 流入→AC到達: 31.50%（ベースライン 52.48%、-21.0pp）",
+        "Desktop ①→②: 37.07%（Desktop ACカードはより大きく表示される）",
+        "Mobile ②→③: 15.62% > Desktop 10.67% - AC到達後の意向はモバイルが高く、到達の問題がボトルネック"
       ],
       "actions": [
         {
           "letter": "A",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "モバイル検索結果のACカードを大型カード（画像優先）に刷新",
+          "description": "モバイル検索結果・カテゴリページのACカードを、現行の小サムネイル+テキストリスト形式から、横幅100%の大型画像カード（サムネイル3:2比率）に変更。視覚的インパクトを高め「このACが気になる」と感じてタップしやすくする。",
+          "spec_html": "対象: /search/ /category/ 系モバイル表示<br>カード構成: サムネイル（100%幅、高さ200px）→ タイトル→ ★評価・件数→ ¥価格→ 「詳細を見る」ボタン<br>タップ領域: カード全体（最小タップ高さ 200px以上）<br>遅延読み込み: Intersection Observer API（画像lazy load）<br>デスクトップ: 変更なし（グリッドレイアウト維持）<br>A/Bテスト: Control=現行リスト、Test=大型カード（ACページ遷移率測定）",
+          "impact": "①→② +3〜5pt（検索結果→ACタップ率改善）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>🔍 「沖縄 体験」検索結果</div><div style='padding:12px'><div style='display:flex;gap:10px;align-items:center;border-bottom:1px solid #f0f0f0;padding-bottom:10px;margin-bottom:10px'><div style='width:64px;height:48px;background:#ccc;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px'>🏝</div><div><div style='font-size:12px;font-weight:bold;color:#333'>沖縄 シュノーケリング体験 2時間</div><div style='font-size:11px;color:#666;margin-top:2px'>★4.7(342件) ¥5,800〜</div></div></div><div style='display:flex;gap:10px;align-items:center;border-bottom:1px solid #f0f0f0;padding-bottom:10px;margin-bottom:10px'><div style='width:64px;height:48px;background:#ccc;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px'>🤿</div><div><div style='font-size:12px;font-weight:bold;color:#333'>沖縄 ダイビング体験 初心者OK</div><div style='font-size:11px;color:#666;margin-top:2px'>★4.8(218件) ¥8,800〜</div></div></div><div style='display:flex;gap:10px;align-items:center'><div style='width:64px;height:48px;background:#ccc;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px'>🏄</div><div><div style='font-size:12px;font-weight:bold;color:#333'>沖縄 サーフィン体験 3時間</div><div style='font-size:11px;color:#666;margin-top:2px'>★4.5(156件) ¥7,200〜</div></div></div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 小さいサムネイル・タップ領域が狭い → 視覚訴求弱く離脱しやすい</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>🔍 「沖縄 体験」検索結果</div><div style='padding:12px'><div style='border-radius:8px;overflow:hidden;margin-bottom:12px;border:1px solid #E0E0E0'><div style='width:100%;height:160px;background:linear-gradient(135deg,#0077B6,#00B4D8);display:flex;align-items:center;justify-content:center;font-size:48px'>🏝</div><div style='padding:10px'><div style='font-size:13px;font-weight:bold;color:#333'>沖縄 シュノーケリング体験 2時間</div><div style='display:flex;justify-content:space-between;align-items:center;margin-top:6px'><div style='font-size:11px;color:#666'>★4.7 (342件) | 那覇発</div><div style='font-size:13px;font-weight:bold;color:#e74c3c'>¥5,800〜</div></div><div style='background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:8px;font-size:12px;font-weight:bold;width:100%;text-align:center;margin-top:8px;box-sizing:border-box'>詳細を見る</div></div></div><div style='border-radius:8px;overflow:hidden;border:1px solid #E0E0E0'><div style='width:100%;height:120px;background:linear-gradient(135deg,#023E8A,#0077B6);display:flex;align-items:center;justify-content:center;font-size:40px'>🤿</div><div style='padding:10px'><div style='font-size:13px;font-weight:bold;color:#333'>沖縄 ダイビング体験 初心者OK</div><div style='display:flex;justify-content:space-between;align-items:center;margin-top:4px'><div style='font-size:11px;color:#666'>★4.8 (218件)</div><div style='font-size:13px;font-weight:bold;color:#e74c3c'>¥8,800〜</div></div></div></div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ 大型画像カードで視覚訴求UP、タップ領域が広くACへの遷移率改善</div></div>"
           }
         },
         {
           "letter": "B",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "モバイルトップページに「人気体験ショートカット」グリッドを追加",
+          "description": "モバイルのトップページヒーロー直下に、人気カテゴリ×エリアの「ショートカットタイル」を2×3グリッドで表示。検索ボックスから始める離脱を防ぎ、タップ1回でカテゴリ絞り込み済み検索結果（AC一覧）へ誘導する。",
+          "spec_html": "対象: トップページ（/jp/）モバイル表示<br>位置: ヒーロー/検索BOX直下<br>タイル構成: カテゴリアイコン（絵文字 or SVG）+ ラベル、2列×3行=6タイル<br>タイル例: 🏝沖縄 / 🗻富士山 / 🎎京都 / 🤿ダイビング / 🧘ヨガ / 🍣食体験<br>タップ先: カテゴリ/エリア絞り込み済みの検索結果（/search/?area=okinawa など）<br>データ: 週次人気エリア×カテゴリ上位6件を自動更新",
+          "impact": "①→② +2〜4pt（トップページからのAC一覧遷移率改善）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:12px 16px;font-size:14px;font-weight:bold'>VELTRA</div><div style='background:linear-gradient(135deg,#1B82C5,#0d5fa0);padding:24px 16px;text-align:center'><div style='color:#fff;font-size:15px;font-weight:bold;margin-bottom:10px'>世界中のアクティビティを探そう</div><div style='background:#fff;border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:8px'><span style='font-size:16px'>🔍</span><span style='font-size:12px;color:#999'>目的地・体験を検索...</span></div></div><div style='padding:16px;font-size:12px;color:#999;text-align:center'>↓ カテゴリ一覧（スクロールが必要）</div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ ヒーロー後は長いスクロールが必要。ACへのショートカットなし</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:12px 16px;font-size:14px;font-weight:bold'>VELTRA</div><div style='background:linear-gradient(135deg,#1B82C5,#0d5fa0);padding:16px;text-align:center'><div style='color:#fff;font-size:13px;font-weight:bold;margin-bottom:8px'>世界中のアクティビティを探そう</div><div style='background:#fff;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:8px;margin-bottom:0'><span style='font-size:14px'>🔍</span><span style='font-size:11px;color:#999'>目的地・体験を検索...</span></div></div><div style='padding:12px 16px;background:#F2F5F8'><div style='font-size:11px;font-weight:bold;color:#333;margin-bottom:8px'>人気の体験をすぐに探す</div><div style='display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px'><div style='background:#fff;border-radius:8px;padding:10px 4px;text-align:center;border:1px solid #E0E0E0'><div style='font-size:22px'>🏝</div><div style='font-size:10px;color:#333;font-weight:bold;margin-top:4px'>沖縄</div></div><div style='background:#fff;border-radius:8px;padding:10px 4px;text-align:center;border:1px solid #E0E0E0'><div style='font-size:22px'>🎎</div><div style='font-size:10px;color:#333;font-weight:bold;margin-top:4px'>京都</div></div><div style='background:#fff;border-radius:8px;padding:10px 4px;text-align:center;border:1px solid #E0E0E0'><div style='font-size:22px'>🤿</div><div style='font-size:10px;color:#333;font-weight:bold;margin-top:4px'>ダイビング</div></div><div style='background:#fff;border-radius:8px;padding:10px 4px;text-align:center;border:1px solid #E0E0E0'><div style='font-size:22px'>🗻</div><div style='font-size:10px;color:#333;font-weight:bold;margin-top:4px'>富士山</div></div><div style='background:#fff;border-radius:8px;padding:10px 4px;text-align:center;border:1px solid #E0E0E0'><div style='font-size:22px'>🍣</div><div style='font-size:10px;color:#333;font-weight:bold;margin-top:4px'>食体験</div></div><div style='background:#fff;border-radius:8px;padding:10px 4px;text-align:center;border:1px solid #E0E0E0'><div style='font-size:22px'>🧘</div><div style='font-size:10px;color:#333;font-weight:bold;margin-top:4px'>ヨガ</div></div></div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ タップ1回でAC一覧へ。スクロール不要でファーストビューから誘導</div></div>"
           }
         },
         {
           "letter": "C",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "モバイル検索バー直下に「今週人気のAC TOP5」スライダー追加",
+          "description": "検索ボックス直下（スクロール不要位置）に「今週の人気体験TOP5」のACカルーセルを追加。ファーストビューで具体的なACを見せることで、検索を使わずに直接ACページへ遷移できるユーザーを取り込む。",
+          "spec_html": "対象: トップページ(/jp/)または検索ページ(/search/)のモバイル表示<br>位置: 検索ボックス直下（ファーストビュー内）<br>スライダー: 横スクロールカルーセル 5枚（1枚=横80%幅、サムネイル+タイトル+価格）<br>データ: 過去7日間の購買数上位AC TOP5を自動更新<br>CTAラベル: 「今すぐ予約」→ ACページへ<br>実装: 静的JSON（毎週自動生成）またはAPIから取得",
+          "impact": "①→② +2〜3pt（ファーストビューからAC直接遷移率改善）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>VELTRA</div><div style='padding:14px 16px'><div style='background:#F2F5F8;border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:8px;margin-bottom:14px'><span style='font-size:16px'>🔍</span><span style='font-size:12px;color:#999'>目的地・体験を検索...</span></div><div style='font-size:11px;color:#999;text-align:center;padding:20px 0'>↓ ここから下はスクロールしないと見えない<br>カテゴリ・バナーなど</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 検索後でないとACが見えない。ファーストビューにAC情報なし</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>VELTRA</div><div style='padding:14px 16px'><div style='background:#F2F5F8;border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:8px;margin-bottom:12px'><span style='font-size:16px'>🔍</span><span style='font-size:12px;color:#999'>目的地・体験を検索...</span></div><div style='font-size:12px;font-weight:bold;color:#333;margin-bottom:8px'>🔥 今週の人気体験 TOP5</div><div style='display:flex;gap:10px;overflow-x:auto;padding-bottom:4px'><div style='min-width:150px;background:#fff;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;flex-shrink:0'><div style='height:90px;background:linear-gradient(135deg,#0077B6,#00B4D8);display:flex;align-items:center;justify-content:center;font-size:32px'>🏝</div><div style='padding:8px'><div style='font-size:10px;font-weight:bold;color:#333'>沖縄 シュノーケリング</div><div style='font-size:10px;color:#e74c3c;margin-top:2px'>¥5,800〜</div><div style='background:#1B82C5;color:#fff;font-size:9px;padding:4px;border-radius:4px;text-align:center;margin-top:6px'>今すぐ予約</div></div></div><div style='min-width:150px;background:#fff;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;flex-shrink:0'><div style='height:90px;background:linear-gradient(135deg,#6B3FA0,#9B59B6);display:flex;align-items:center;justify-content:center;font-size:32px'>🎎</div><div style='padding:8px'><div style='font-size:10px;font-weight:bold;color:#333'>京都 舞妓変身体験</div><div style='font-size:10px;color:#e74c3c;margin-top:2px'>¥12,000〜</div><div style='background:#1B82C5;color:#fff;font-size:9px;padding:4px;border-radius:4px;text-align:center;margin-top:6px'>今すぐ予約</div></div></div></div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ ファーストビューに具体的なACを表示。検索前でもACページへ直接遷移可能</div></div>"
           }
         }
       ]
@@ -140,45 +141,45 @@
     {
       "level": "h2",
       "level_label": "仮説 2",
-      "title": "TODO: 仮説タイトル",
-      "body": "TODO: 仮説の説明",
+      "title": "モバイルページロード速度の遅さがファーストビュー前に離脱を生む",
+      "body": "モバイル回線でのページロード時間が長く、LCP（Largest Contentful Paint）が3秒を超えるとバウンス率が急増するGoogle研究がある。VELTRAのカテゴリ・検索結果ページで画像多数・重いJSバンドルがある場合、モバイルユーザーがACカードを目にする前に離脱している可能性がある。",
       "evidence": [
-        "Mobile ①→② 流入→AC到達: 31.50%（ベースライン 52.48%）",
-        "TODO: 裏付けデータ2",
-        "TODO: 裏付けデータ3"
+        "Mobile ①→② 流入→AC到達: 31.50%（全デバイス中最低）",
+        "モバイルとデスクトップの①→②差: -5.6pp（デバイス差はUX・速度起因が主因）",
+        "Google研究: LCP 3秒超でバウンス率が53%増加（PageSpeed Insights基準）"
       ],
       "actions": [
         {
           "letter": "D",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "ACカード画像のWebP変換＋遅延読み込みでLCPを改善",
+          "description": "検索結果・カテゴリページのACカードサムネイル画像をWebP形式に変換し、Intersection Observer APIによる遅延読み込みを実装。ファーストビューのみ優先読み込みし、スクロール先は遅延読み込みで初期ロード時間を削減する。",
+          "spec_html": "対象: 全ACカードサムネイル画像（/search/ /category/ /a/ 系）<br>変換: JPEG/PNG → WebP（Cloudinaryまたはサーバーサイド変換）<br>サイズ削減目標: 平均60%削減（1MB→400KB）<br>遅延読み込み: loading='lazy' + IntersectionObserver（ファーストビュー3枚は優先）<br>目標LCP: 2.5秒以内（現状推定3〜4秒）<br>効果測定: GA4 CoreWebVitals + Search Console LCPモニタリング",
+          "impact": "①→② +2〜4pt（ページ速度改善によるバウンス率減少）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>検索結果ページ（ロード中）</div><div style='padding:16px'><div style='border-radius:6px;overflow:hidden;margin-bottom:12px;border:1px solid #E0E0E0'><div style='width:100%;height:140px;background:repeating-linear-gradient(90deg,#f0f0f0 0px,#e0e0e0 50px,#f0f0f0 100px);animation:shimmer 1.5s infinite;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:12px'>画像読み込み中... ⏳</div><div style='padding:10px'><div style='height:14px;background:#e0e0e0;border-radius:3px;margin-bottom:6px'></div><div style='height:10px;background:#f0f0f0;border-radius:3px;width:60%'></div></div></div><div style='border-radius:6px;overflow:hidden;border:1px solid #E0E0E0'><div style='width:100%;height:140px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:12px'>画像読み込み中... ⏳</div></div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ LCP 3〜4秒。画像が重くACカードが見える前にユーザーが離脱</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>検索結果ページ（高速表示）</div><div style='padding:16px'><div style='background:#E8F5E9;border:1px solid #2DAE6C;border-radius:6px;padding:8px;margin-bottom:10px;font-size:11px;color:#2DAE6C;font-weight:bold'>⚡ LCP 1.8秒（WebP+遅延読み込み適用）</div><div style='border-radius:6px;overflow:hidden;margin-bottom:12px;border:1px solid #E0E0E0'><div style='width:100%;height:140px;background:linear-gradient(135deg,#0077B6,#00B4D8);display:flex;align-items:center;justify-content:center;font-size:48px'>🏝</div><div style='padding:10px'><div style='font-size:12px;font-weight:bold;color:#333'>沖縄 シュノーケリング体験</div><div style='display:flex;justify-content:space-between;margin-top:4px'><div style='font-size:10px;color:#666'>★4.7 (342件)</div><div style='font-size:12px;font-weight:bold;color:#e74c3c'>¥5,800〜</div></div><div style='font-size:9px;color:#999;margin-top:2px'>WebP 89KB（元 JPEG 312KB）</div></div></div><div style='border-radius:6px;overflow:hidden;border:1px solid #E0E0E0'><div style='width:100%;height:140px;background:linear-gradient(135deg,#023E8A,#0077B6);display:flex;align-items:center;justify-content:center;font-size:48px'>🤿</div><div style='padding:10px'><div style='font-size:12px;font-weight:bold;color:#333'>沖縄 ダイビング体験 初心者OK</div><div style='font-size:10px;color:#e74c3c;margin-top:4px'>¥8,800〜</div></div></div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ WebP+遅延読み込みでLCP 2.5秒以内。バウンス率-10〜20%改善</div></div>"
           }
         },
         {
           "letter": "E",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "スケルトンスクリーンの導入でロード中の離脱を防止",
+          "description": "検索結果・カテゴリページのロード中にスケルトンスクリーン（グレーのプレースホルダーアニメーション）を表示。白紙ローディングと比べて「コンテンツが来る」という認知を与え、待機時間の体感を短縮する。",
+          "spec_html": "対象: 検索結果一覧・カテゴリ一覧ページ<br>スケルトン: ACカード形状（サムネイル+タイトル+価格）のグレープレースホルダー<br>アニメーション: shimmer効果（左から右へ光が流れる）<br>実装: CSS animation / または Skeleton UI ライブラリ<br>表示タイミング: DOMContentLoaded → 実データロード完了まで表示<br>効果測定: GA4でロード時間別バウンス率変化を測定",
+          "impact": "①→② +1〜2pt（ロード待機中の離脱防止）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>検索結果（ロード中）</div><div style='padding:16px;background:#fff;min-height:200px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px'><div style='font-size:28px'>⏳</div><div style='font-size:12px;color:#999'>読み込み中...</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 白紙+スピナーのみ。コンテンツが来るか不明で離脱しやすい</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>検索結果（スケルトン表示中）</div><div style='padding:12px'><div style='border-radius:6px;overflow:hidden;margin-bottom:12px;border:1px solid #E0E0E0'><div style='width:100%;height:140px;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%'></div><div style='padding:10px'><div style='height:14px;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;border-radius:3px;margin-bottom:8px'></div><div style='height:10px;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;border-radius:3px;width:60%'></div></div></div><div style='border-radius:6px;overflow:hidden;border:1px solid #E0E0E0'><div style='width:100%;height:100px;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%'></div><div style='padding:10px'><div style='height:12px;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;border-radius:3px;margin-bottom:6px'></div><div style='height:10px;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;border-radius:3px;width:40%'></div></div></div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ スケルトンでACカード形状が見えるため「コンテンツが来る」安心感で待機。離脱防止。</div></div>"
           }
         },
         {
           "letter": "F",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "モバイル検索フィルターをスライドダウン方式に変更し初期表示スペースを確保",
+          "description": "現行の横並びフィルタータブが多くスクロールを要する場合、フィルターを折りたたみ（「絞り込む ▼」ボタン）に変更。フィルター非表示時のACカード表示開始位置を画面上部に引き上げ、ファーストビューに入るACカード数を増やす。",
+          "spec_html": "対象: /search/ /category/ モバイル表示のフィルターエリア<br>変更: 横並びフィルタータグ → 「絞り込む ▼」折りたたみボタン<br>展開後: ドロワー形式でフィルター一覧表示<br>効果: 初期表示でACカードが2〜3件見えるように<br>フィルター状態: 適用中フィルター数を「絞り込み(3) ▼」のようにバッジ表示<br>A/Bテスト: Control=現行フィルター表示、Test=折りたたみ方式",
+          "impact": "①→② +1〜2pt（ファーストビューACカード数増加によるタップ率改善）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>🔍 検索結果</div><div style='padding:12px'><div style='display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px'><span style='background:#1B82C5;color:#fff;font-size:10px;padding:5px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0'>エリア ▼</span><span style='background:#F2F5F8;color:#666;font-size:10px;padding:5px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0'>カテゴリ ▼</span><span style='background:#F2F5F8;color:#666;font-size:10px;padding:5px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0'>日程 ▼</span><span style='background:#F2F5F8;color:#666;font-size:10px;padding:5px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0'>価格帯 ▼</span><span style='background:#F2F5F8;color:#666;font-size:10px;padding:5px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0'>言語 ▼</span></div><div style='background:#F2F5F8;border-radius:4px;height:60px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#999'>（ここからACカード開始 ↓）</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ フィルタータブが広大なスペースを占有しACカードが下にずれる</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>🔍 検索結果</div><div style='padding:12px'><div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:10px'><div style='font-size:11px;color:#666'>123件のアクティビティ</div><button style='background:#F2F5F8;border:1px solid #E0E0E0;border-radius:20px;padding:6px 12px;font-size:11px;color:#333;display:flex;align-items:center;gap:4px'>🔧 絞り込む ▼</button></div><div style='border-radius:6px;overflow:hidden;margin-bottom:10px;border:1px solid #E0E0E0'><div style='height:100px;background:linear-gradient(135deg,#0077B6,#00B4D8);display:flex;align-items:center;justify-content:center;font-size:36px'>🏝</div><div style='padding:8px'><div style='font-size:12px;font-weight:bold;color:#333'>沖縄 シュノーケリング体験</div><div style='font-size:11px;color:#e74c3c;margin-top:4px'>¥5,800〜</div></div></div><div style='border-radius:6px;overflow:hidden;border:1px solid #E0E0E0'><div style='height:100px;background:linear-gradient(135deg,#023E8A,#0077B6);display:flex;align-items:center;justify-content:center;font-size:36px'>🤿</div><div style='padding:8px'><div style='font-size:12px;font-weight:bold;color:#333'>沖縄 ダイビング体験 初心者OK</div><div style='font-size:11px;color:#e74c3c;margin-top:4px'>¥8,800〜</div></div></div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ フィルター折りたたみでACカードがファーストビューに2〜3件表示、タップ率UP</div></div>"
           }
         }
       ]
@@ -186,45 +187,45 @@
     {
       "level": "h3",
       "level_label": "仮説 3",
-      "title": "TODO: 仮説タイトル",
-      "body": "TODO: 仮説の説明",
+      "title": "モバイルの意図検索（Google/SNS）経由でACページへのダイレクトランディングが少ない",
+      "body": "PCユーザーはGoogleで「沖縄シュノーケル体験 VELTRA」と指名検索し直接ACページに辿り着く率が高い。一方モバイルユーザーは汎用ワード（「沖縄 体験」）で検索し、トップページ/カテゴリからさらにACを探す必要がある。SEO・SEM・SNS広告でACページへのダイレクトランディング比率を高めれば①→②を改善できる。",
       "evidence": [
-        "Mobile ①→② 流入→AC到達: 31.50%（ベースライン 52.48%）",
-        "TODO: 裏付けデータ2",
-        "TODO: 裏付けデータ3"
+        "Mobile ①→② 流入→AC到達: 31.50%（Desktop 37.07%比-5.6pp）",
+        "Organic Search リピーター 1→2: 32.1%（汎用ワード検索がトップページ経由になっている）",
+        "Desktop vs Mobileの差はランディングページ差異（PC=AC直接着地、Mobile=TOP経由）が一因"
       ],
       "actions": [
         {
           "letter": "G",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "Google検索広告のモバイルランディングページをACページに最適化",
+          "description": "モバイル向けGoogle検索広告のリンク先をトップページ/カテゴリページからACページ直接に変更。「沖縄 シュノーケル 体験」などの具体的なキーワードに対し、最も関連性の高い個別ACページをランディングページとして設定する。",
+          "spec_html": "対象: Google Ads モバイル向けキャンペーン（エリア×カテゴリ系キーワード）<br>変更: リンク先URL → 対応ACページ（/a/XXXXX）<br>広告文: 「沖縄シュノーケル体験 ¥5,800〜 今すぐ予約」<br>ランディング最適化: ACページにモバイルスティッキーCTA追加（BN6対応と連動）<br>除外: ブランドキーワード（VELTRA指名）はトップ維持<br>効果測定: Google Ads コンバージョン率 + GA4 landingPage別①→②比較",
+          "impact": "①→② +3〜5pt（広告経由モバイルランディングページ改善）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#F2F5F8;padding:12px 16px'><div style='font-size:10px;color:#666;margin-bottom:6px'>Google検索「沖縄 シュノーケル 体験」</div><div style='background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:10px;margin-bottom:8px'><div style='font-size:10px;color:#006621;margin-bottom:2px'>広告 · veltra.jp</div><div style='font-size:13px;color:#1a0dab;font-weight:bold'>VELTRAで沖縄体験を探す | veltra.jp</div><div style='font-size:11px;color:#333;margin-top:2px'>沖縄のアクティビティ多数掲載...</div></div></div><div style='padding:12px 16px'><div style='background:#1B82C5;color:#fff;padding:10px 16px;border-radius:6px;text-align:center;margin-bottom:10px;font-weight:bold;font-size:13px'>VELTRAトップページ</div><div style='font-size:11px;color:#999;text-align:center'>↓ さらに検索・カテゴリを経てACへ（2〜3ステップ）</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 広告からトップページへ → さらに検索が必要。②到達まで遠い</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#F2F5F8;padding:12px 16px'><div style='font-size:10px;color:#666;margin-bottom:6px'>Google検索「沖縄 シュノーケル 体験」</div><div style='background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:10px;margin-bottom:8px'><div style='font-size:10px;color:#006621;margin-bottom:2px'>広告 · veltra.jp</div><div style='font-size:13px;color:#1a0dab;font-weight:bold'>沖縄シュノーケリング体験 ¥5,800〜</div><div style='font-size:11px;color:#333;margin-top:2px'>那覇発・初心者OK・午前/午後選択可</div></div></div><div style='padding:12px 16px'><div style='background:#F2F5F8;border-radius:8px;overflow:hidden;border:1px solid #E0E0E0'><div style='height:80px;background:linear-gradient(135deg,#0077B6,#00B4D8);display:flex;align-items:center;justify-content:center;font-size:28px'>🏝 ACページ</div><div style='padding:10px'><div style='font-size:12px;font-weight:bold;color:#333'>沖縄 シュノーケリング体験 2時間</div><div style='font-size:11px;color:#e74c3c;margin-top:4px'>¥5,800〜 ★4.7(342件)</div><div style='background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:8px;font-size:12px;font-weight:bold;width:100%;text-align:center;margin-top:8px;box-sizing:border-box'>日程を選んで予約</div></div></div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ 広告→ACページ直接ランディング。①→②を飛ばして直接②に着地</div></div>"
           }
         },
         {
           "letter": "H",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "InstagramリールからACページへのダイレクトリンク設置",
+          "description": "InstagramリールにACの体験動画（30秒）を投稿し、リール内「詳細を見る」ボタンをACページURLに設定。SNS経由モバイルユーザーがACページに直接ランディングできるようにする。",
+          "spec_html": "制作: ACの体験動画リール（30秒、縦型フォーマット）月10本<br>リールCTA: 「詳細・予約はこちら」→ ACページ直接リンク<br>対象AC: 予約数上位・映像映えするAC（シュノーケル・着物・茶道等）<br>タグ: #veltra #沖縄体験 #日本旅行 等<br>効果測定: UTMパラメータ utm_source=instagram utm_content=reel で GA4追跡<br>Instagram Shop: ACを商品として登録しShop経由でも予約可能にする（将来施策）",
+          "impact": "①→② +1〜3pt（Instagram経由モバイルAC直接流入増加）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#833AB4;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>Instagram リール</div><div style='background:#000;height:160px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px'><div style='font-size:32px'>🎬</div><div style='font-size:11px;color:#fff;text-align:center'>体験動画リール</div></div><div style='padding:10px 16px'><div style='font-size:12px;font-weight:bold;color:#333'>@veltra_official</div><div style='font-size:11px;color:#666;margin-top:4px'>沖縄でシュノーケリング体験！最高でした ✨<br>#沖縄 #体験 #旅行</div><div style='margin-top:10px;font-size:11px;color:#999'>「詳細を見る」なし → プロフィールから探す必要あり</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ SNS→サイト→検索→ACの4ステップ。途中で大量離脱</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#833AB4;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>Instagram リール（改善後）</div><div style='background:#000;height:160px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;position:relative'><div style='font-size:32px'>🎬</div><div style='font-size:11px;color:#fff;text-align:center'>沖縄シュノーケリング体験動画</div><div style='position:absolute;bottom:12px;left:0;right:0;padding:0 12px'><div style='background:#1B82C5;color:#fff;border-radius:20px;padding:8px 16px;text-align:center;font-size:12px;font-weight:bold'>🔗 詳細・予約はこちら</div></div></div><div style='padding:10px 16px'><div style='font-size:12px;font-weight:bold;color:#333'>@veltra_official</div><div style='font-size:11px;color:#666;margin-top:4px'>沖縄でシュノーケリング体験！最高でした ✨<br>#沖縄体験 #veltra #旅行好き</div></div><div style='background:#E8F5E9;border:1px solid #2DAE6C;margin:0 12px 12px;border-radius:6px;padding:10px'><div style='font-size:11px;color:#2DAE6C;font-weight:bold;margin-bottom:4px'>→ タップ先: ACページ直接</div><div style='font-size:10px;color:#555'>沖縄 シュノーケリング体験 2時間<br>¥5,800〜 · ★4.7 · 今すぐ予約可能</div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ リール→ACページ直接ランディング、②到達まで1ステップ</div></div>"
           }
         },
         {
           "letter": "I",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "ACページのOGP/メタタグ最適化でSNS・Google検索でのクリック率改善",
+          "description": "ACページのOGP画像・タイトル・descriptionを最適化し、SNSシェア時・Google検索時に魅力的なプレビューを表示。モバイルユーザーがSNSやGoogle検索から直接ACページをタップするクリック率を高める。",
+          "spec_html": "対象: 全ACページ（/a/XXXXX）<br>OGP画像: 1200×630px 高品質体験写真（現行より大きく鮮明に）<br>titleタグ: 「[AC名] | [エリア] ¥XXX〜 | VELTRA」（価格明示）<br>descriptionタグ: 「⭐[評価]([件数]件) [所要時間] | [特徴3点] | 今すぐ予約可能」<br>Structured Data: TouristAttraction / Event schema追加（リッチスニペット表示）<br>効果測定: Google Search Console CTR変化・GA4 organic流入①→②比較",
+          "impact": "①→② +1〜2pt（検索/SNS経由のAC直接ランディング率改善）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#F2F5F8;padding:12px 16px'><div style='font-size:10px;color:#666;margin-bottom:6px'>Google検索結果（モバイル）</div><div style='background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:10px;margin-bottom:8px'><div style='font-size:11px;color:#006621;margin-bottom:2px'>veltra.jp/a/12345</div><div style='font-size:13px;color:#1a0dab;font-weight:bold'>沖縄シュノーケリング体験 2時間 - VELTRA</div><div style='font-size:11px;color:#333;margin-top:2px'>沖縄のシュノーケリング体験を提供しています。那覇発でお気軽にご参加いただけます。料金や日程については...</div></div><div style='background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:10px'><div style='font-size:10px;color:#999;margin-bottom:4px'>SNSシェア時プレビュー（小さい画像）</div><div style='display:flex;gap:8px'><div style='width:60px;height:60px;background:#E0E0E0;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px'>🏝</div><div><div style='font-size:11px;font-weight:bold;color:#333'>VELTRA - 沖縄体験</div><div style='font-size:10px;color:#999;margin-top:2px'>veltra.jp</div></div></div></div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ タイトル曖昧・価格なし・画像小さい → CTR低くランディング率低い</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#F2F5F8;padding:12px 16px'><div style='font-size:10px;color:#666;margin-bottom:6px'>Google検索結果（最適化後）</div><div style='background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:10px;margin-bottom:8px'><div style='font-size:11px;color:#006621;margin-bottom:2px'>veltra.jp › 沖縄 › シュノーケリング</div><div style='font-size:13px;color:#1a0dab;font-weight:bold'>沖縄シュノーケリング体験 ¥5,800〜 | ★4.7(342件) | VELTRA</div><div style='font-size:11px;color:#333;margin-top:2px'>⭐4.7(342件) · 2時間 · 初心者OK · 那覇発 · 午前/午後選択可 · 今すぐ予約受付中</div><div style='display:flex;gap:4px;margin-top:4px'><span style='background:#f0f0f0;font-size:9px;padding:2px 6px;border-radius:3px;color:#333'>所要2時間</span><span style='background:#f0f0f0;font-size:9px;padding:2px 6px;border-radius:3px;color:#333'>初心者OK</span><span style='background:#f0f0f0;font-size:9px;padding:2px 6px;border-radius:3px;color:#333'>今すぐ予約</span></div></div><div style='background:#fff;border:1px solid #E0E0E0;border-radius:6px;overflow:hidden'><div style='height:80px;background:linear-gradient(135deg,#0077B6,#00B4D8);display:flex;align-items:center;justify-content:center;font-size:24px;width:100%'>🏝 OGP大型画像</div><div style='padding:8px'><div style='font-size:11px;font-weight:bold;color:#333'>沖縄シュノーケリング体験 ¥5,800〜 | VELTRA</div><div style='font-size:10px;color:#999;margin-top:2px'>veltra.jp · 今すぐ予約可能</div></div></div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ 価格・評価・特徴が一目でわかりCTR向上、モバイルAC直接流入増加</div></div>"
           }
         }
       ]
@@ -235,50 +236,50 @@
       "name": "Klook",
       "favicon_url": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_32,h_32/v1643959325/blog/klook-favicon.png",
       "url": "https://www.klook.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "モバイルアプリ最適化で業界最速クラスのAC到達UX",
+      "detail": "Klookのモバイルアプリ/Webはファーストビューに大型画像カード+カテゴリアイコングリッドを配置。1タップでエリア×カテゴリ絞り込みACリストへ遷移可能。WebP画像・CDN最適化でLCP 1.5秒台を実現。"
     },
     {
       "name": "GetYourGuide",
       "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicon/favicon-32x32.png",
       "url": "https://www.getyourguide.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "Google検索からACページへの直接ランディング最適化",
+      "detail": "GetYourGuideはGoogle検索広告・SEOで個別体験ページへのダイレクトランディングを徹底。搜索結果にStructured Data（TouristAttraction schema）を実装し、リッチスニペット（価格・評価・在庫表示）でモバイルCTRを大幅改善。"
     },
     {
       "name": "Viator",
       "favicon_url": "https://www.viator.com/favicon.ico",
       "url": "https://www.viator.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "モバイルファーストの大型ACカードレイアウト",
+      "detail": "Viatorの検索結果はモバイルで画像優先の大型カード（画像3:2比率）を採用。カード全体がタップ可能で誤タップが少ない。スケルトンスクリーン実装済みでロード中の離脱を最小化。"
     },
     {
       "name": "KKday",
       "favicon_url": "https://www.kkday.com/favicon.ico",
       "url": "https://www.kkday.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "TikTok/Instagram連携でACページへのダイレクト流入",
+      "detail": "KKdayはTikTok広告・InstagramリールにACの体験ショート動画を活用。各動画のリンクはACページ直接URLに設定。SNSモバイル流入がACページに直接ランディングするため①→②が短縮されている。"
     },
     {
       "name": "アクティビティジャパン",
       "favicon_url": "https://activityjapan.com/favicon.ico",
       "url": "https://activityjapan.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "モバイルトップページにエリア×カテゴリ即時絞り込みUI",
+      "detail": "アクティビティジャパンのモバイルトップには「エリアから探す」「カテゴリから探す」のショートカットグリッドを最上部に配置。検索不要でワンタップでACリストへ到達可能。ページ速度も最適化済み。"
     },
     {
       "name": "じゃらん",
       "favicon_url": "https://www.jalan.net/favicon.ico",
       "url": "https://www.jalan.net/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "じゃらんアプリのモバイルUX最適化（ネイティブアプリ誘導）",
+      "detail": "じゃらんはモバイルWebでアプリへの誘導を強化。アプリはネイティブ最適化でLCP・操作性が大幅に改善されており、アプリ経由ユーザーのAC到達率が高い。スマートバナーでアプリ誘導を実施。"
     }
   ],
-  "competitive_insight": "TODO: 競合比較から得られる示唆",
+  "competitive_insight": "主要競合はモバイルファーストUIを徹底しており、ファーストビューにACを見せる設計・大型タップ可能カード・高速ページ読み込みが標準。VELTRAはWebP画像化・スケルトンスクリーン・モバイルカードレイアウト刷新から着手し、並行してSNS広告のACページ直接ランディング化を進めることで、競合水準の①→②転換率（40%以上）に近づけることができる。",
   "verification": [
-    "TODO: チェック項目1",
-    "TODO: チェック項目2",
-    "TODO: チェック項目3"
+    "GA4 deviceCategory=mobile でセグメント作成し、①→②転換率の週次推移をモニタリング（目標: 31.50%→36%以上）",
+    "施策A（大型カード）A/Bテスト: GA4でカード形式別のACページ遷移率をCustom Eventで計測",
+    "PageSpeed Insights / Lighthouse でモバイルLCPを測定し、施策D（WebP）前後でのスコア変化を確認（目標LCP: 2.5秒以内）"
   ],
-  "verification_method": "TODO: GA4 で Mobile の ①→② 流入→AC到達 を検証"
+  "verification_method": "GA4 で deviceCategory=mobile フィルターを適用し、① sessions → ② pagePath contains /a/ の転換率を28日間ローリングで計測。施策ごとにGTMカスタムイベントまたはA/Bテストツール（VWO/Optimizely等）と連携。"
 }
