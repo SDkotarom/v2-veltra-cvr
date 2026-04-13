@@ -432,6 +432,18 @@ def make_content_skeleton(bn: dict, idx: int, data: dict) -> dict:
                     "before_text": "TODO: 現状の簡潔な説明",
                     "after_text": "TODO: 改善後の簡潔な説明",
                 },
+                "implementation_check": {
+                    "status": "TODO: new/partial/already_exists/superseded",
+                    "matched_feature": None,
+                    "note": None,
+                },
+                "feasibility": {
+                    "effort": "TODO: S/M/L/XL",
+                    "constraints": [],
+                    "constraint_notes": "",
+                    "prerequisites": [],
+                    "quick_wins": False,
+                },
             })
         hypotheses.append({
             "level": level,

@@ -204,6 +204,69 @@ git push -u origin main
 
 Vercel が自動デプロイ。
 
+### Phase 2.5: 施策化レビュー（実装重複チェック + 実現可能性評価）
+
+> **目的**: 打ち手の施策化率を高める。「レビューのみで施策化できる」品質を Phase 2 の時点で担保する。
+
+#### Step 1: 既存実装の把握
+
+Phase 2 開始前に以下を必ず読み込む:
+- `known-implementations.json`: 実装済み機能カタログ（カテゴリ別、キーワード付き）
+- `feasibility-constraints.json`: 10カテゴリの実務制約チェックリスト
+- `annotations.json`: 直近のリリースイベント（新機能が追加されている可能性）
+
+#### Step 2: 各 action の implementation_check 記入
+
+各施策について `known-implementations.json` のキーワードと照合し、status を判定:
+
+```
+new           → 未実装。そのまま施策化可能
+partial       → 類似機能あり。差分（未実装部分）を note に明記
+already_exists → 実装済み。代替施策に差し替える
+superseded    → より良い実装が存在。代替施策に差し替える
+```
+
+**差し替えルール**: `already_exists` / `superseded` の施策は削除せず、`note` に理由を書いた上で代替施策を同じ letter で提案する。
+
+#### Step 3: 各 action の feasibility 記入
+
+`feasibility-constraints.json` の `trigger_keywords` でマッチする制約を特定し:
+
+1. `effort`: S/M/L/XL を判定
+2. `constraints`: 該当する制約IDを列挙
+3. `constraint_notes`: その施策固有の制約影響と回避策（1-2文）
+4. `prerequisites`: 実装前に確認が必要な前提条件
+5. `quick_wins`: `effort == "S"` かつ `constraints` が空なら `true`
+
+#### Step 4: 実務考慮ポイント事前検証
+
+以下の考慮ポイントを施策ごとに事前検証し、`constraint_notes` に反映:
+
+| 考慮ポイント | チェック内容 | よくある問題 |
+|-------------|-------------|-------------|
+| **在庫リアルタイム性** | 在庫数表示を含む施策か？ | パートナーAPIごとに在庫取得が異なる。リクエスト制は在庫概念なし |
+| **為替レート** | 価格比較・表示を含むか？ | JPYデフォルト化済みだがダイナミックプライシングと複合 |
+| **時差** | 日時表示・締切を含むか？ | 現地時間vsJST。「明日」の定義が目的地で異なる |
+| **パーソナライズ依存** | ログイン/Cookie依存か？ | 未ログインユーザーが大多数。3rd party Cookie廃止 |
+| **パートナーAPI** | 外部API改修が必要か？ | リードタイム数ヶ月。VELTRA側でコントロール不可 |
+| **ABテスト履歴** | 類似施策の過去テスト結果は？ | 情報追加系は負ける傾向（引き算の設計思想） |
+| **マルチサイト** | JP以外への展開が必要か？ | JP優先、EN/HAは別フェーズ |
+| **計測可能性** | 効果を既存GA4イベントで測れるか？ | 新規イベント追加はGTM変更が必要 |
+| **モバイル/PC差異** | デバイス特化UIか？ | フローティングUIの画面占有率に注意 |
+| **開発工数** | フロントのみか、バックエンド必要か？ | S=即実行、L/XL=プロジェクト化が必要 |
+
+#### Step 5: 監査スクリプト実行
+
+```bash
+python3 scripts/audit-actions.py --week {YYYY}-w{WW}
+```
+
+出力:
+- 重複検出一覧（already_exists / superseded）
+- 制約該当一覧（high risk constraints）
+- Quick Wins 一覧（effort=S, constraints=空）
+- 施策化レディネスサマリー
+
 ### Phase 4: 検証 → 自動修正 → 指示書改善（Sonnet）
 
 Phase 3 完了後に自動実行する。
@@ -340,6 +403,10 @@ validate-report.py 実行
 - [ ] プロトタイプがVELTRAデザインシステム準拠（`#1B82C5` blue CTA）
 - [ ] 競合分析のファビコンが正しい URL
 - [ ] 全10件の content.json に `behavior_context` が存在（`estimated_action` 非空、`evidence` 2件以上、`page_role_check` 非空、`subtraction_check` 非空）
+- [ ] 全90施策に `implementation_check` が記入されている（status が new/partial/already_exists/superseded のいずれか）
+- [ ] `already_exists` / `superseded` の施策には代替案が提示されている
+- [ ] 全90施策に `feasibility` が記入されている（effort, constraints, quick_wins）
+- [ ] `python3 scripts/audit-actions.py --week {YYYY}-w{WW}` が重複0件で通る
 
 ---
 
@@ -389,6 +456,13 @@ W{XX} の Phase 2 を実行してください。
 ボトルネック10件の bottleneck-{1-10}-content.json 生成 → commit & push までお願いします。
 ※ report.html が data.json から週次サマリーを動的描画するため index.html 生成は不要です。
 ※ content.json は 2-3 ファイルずつ並列 Agent で生成してタイムアウトを回避してください。
+
+【重要】施策化レビューレイヤー:
+1. known-implementations.json を最初に読み、実装済み機能を把握してください
+2. feasibility-constraints.json を読み、制約チェックリストを把握してください
+3. 各 action に implementation_check と feasibility を記入してください
+4. status が "already_exists" の施策は代替案に差し替えてください
+5. 完了後 python3 scripts/audit-actions.py --week W{XX} で重複チェックを実行してください
 ```
 
 **修正対応（アカウントB）**:

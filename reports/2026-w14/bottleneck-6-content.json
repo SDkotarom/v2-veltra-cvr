@@ -125,6 +125,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:4px\">沖縄エリア</div></div><div style=\"padding:0 16px 8px\"><div style=\"font-size:10px;color:#999;line-height:1.8;text-align:center\">商品一覧（テキストリンク）<br>・青の洞窟シュノーケリング<br>・美ら海水族館ツアー<br>・石垣島日帰りツアー<br>…</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">テキストリンク一覧のみ → 商品に興味を持てない</div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:4px\">沖縄エリア</div></div><div style=\"padding:0 16px 8px\"><div style=\"font-size:11px;font-weight:700;color:#E8386E;margin-bottom:6px\">&#x2728; あなたにおすすめの体験</div><div style=\"display:flex;gap:8px;overflow:hidden\"><div style=\"flex:0 0 140px;background:#fff;border:1px solid #ddd;border-radius:6px;overflow:hidden\"><div style=\"height:70px;background:linear-gradient(135deg,#4FC3F7,#0288D1);display:flex;align-items:center;justify-content:center\"><span style=\"color:#fff;font-size:10px\">&#x1F30A;</span></div><div style=\"padding:6px;font-size:9px\"><div style=\"font-weight:700\">青の洞窟シュノーケリング</div><div style=\"color:#FFAA00;font-size:8px\">★4.8 (1,234件)</div><div style=\"color:#D91F26;font-weight:700;margin-top:2px\">¥5,500〜</div></div></div><div style=\"flex:0 0 140px;background:#fff;border:1px solid #ddd;border-radius:6px;overflow:hidden\"><div style=\"height:70px;background:linear-gradient(135deg,#81C784,#388E3C);display:flex;align-items:center;justify-content:center\"><span style=\"color:#fff;font-size:10px\">&#x1F420;</span></div><div style=\"padding:6px;font-size:9px\"><div style=\"font-weight:700\">美ら海水族館ツアー</div><div style=\"color:#FFAA00;font-size:8px\">★4.6 (890件)</div><div style=\"color:#D91F26;font-weight:700;margin-top:2px\">¥7,800〜</div></div></div></div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500\">おすすめカルーセルでAC到達を促進</div></div>"
+          },
+          "implementation_check": {
+            "status": "already_exists",
+            "matched_feature": "Silvereggレコメンドエンジン（既存）",
+            "note": "キーワード一致: レコメンド, おすすめ。Silvereggベースのレコメンドエンジンが稼働中。購入金額はJPY統一済み"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "personalization_privacy"
+            ],
+            "constraint_notes": "未ログイン時は「人気順」等のフォールバック表示。ファーストパーティデータ（サイト内行動）のみ使用。明示的な同意フロー設計。",
+            "prerequisites": [
+              "対象ユーザーのログイン率は？（低ければパーソナライズ効果が限定的）"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -136,6 +152,18 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:16px;font-weight:900;margin-bottom:8px\">VELTRA トップページ</div></div><div style=\"padding:0 16px 8px\"><div style=\"border:1px solid #ddd;border-radius:4px;padding:8px;background:#fff;font-size:10px;text-align:center\">&#x1F50D; キーワードで検索</div></div><div style=\"padding:0 16px 8px\"><div style=\"font-size:10px;color:#999;text-align:center;line-height:1.8\">検索ボックスのみ<br>新規ユーザーは何を検索すべきか分からない<br>→ 離脱</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">検索UXが新規に不親切</div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:16px;font-weight:900;margin-bottom:8px\">VELTRA トップページ</div></div><div style=\"padding:0 16px 8px\"><div style=\"border:1px solid #ddd;border-radius:4px;padding:8px;background:#fff;font-size:10px;text-align:center\">&#x1F50D; キーワードで検索</div></div><div style=\"padding:0 16px 8px\"><div style=\"font-size:10px;font-weight:700;margin-bottom:4px\">目的で探す</div><div style=\"display:flex;flex-wrap:wrap;gap:4px\"><span style=\"background:#E3F2FD;color:#1565C0;padding:4px 10px;border-radius:12px;font-size:9px;font-weight:600\">&#x1F3AF; 観光ツアー</span><span style=\"background:#E8F5E9;color:#2E7D32;padding:4px 10px;border-radius:12px;font-size:9px;font-weight:600\">&#x1F3CA; アクティビティ</span><span style=\"background:#FFF3E0;color:#E65100;padding:4px 10px;border-radius:12px;font-size:9px;font-weight:600\">&#x1F3EF; 文化体験</span><span style=\"background:#FCE4EC;color:#C62828;padding:4px 10px;border-radius:12px;font-size:9px;font-weight:600\">&#x1F37D; 食事</span></div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500\">目的別フィルターで商品発見を簡素化</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "グローバル検索リニューアル",
+            "note": "類似機能あり（グローバル検索リニューアル）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         },
         {
@@ -147,6 +175,18 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:4px\">沖縄の楽しみ方ガイド</div></div><div style=\"padding:0 16px 8px\"><div style=\"background:#fff;border:1px solid #ddd;border-radius:4px;padding:8px;font-size:10px;color:#666;line-height:1.6\">沖縄は日本屈指のリゾート地…<br>美しい海と豊かな自然が魅力…<br>おすすめスポットをご紹介…</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">SEO記事から商品への導線なし → AC到達せず離脱</div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:4px\">沖縄の楽しみ方ガイド</div></div><div style=\"padding:0 16px 8px\"><div style=\"background:#fff;border:1px solid #ddd;border-radius:4px;padding:8px;font-size:10px;color:#666;line-height:1.6\">沖縄は日本屈指のリゾート地…</div></div><div style=\"padding:0 16px 8px\"><div style=\"font-size:11px;font-weight:700;color:#E8386E;margin-bottom:4px\">&#x1F525; 今すぐ予約できる人気TOP3</div><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;margin-bottom:4px;display:flex;gap:8px;align-items:center\"><div style=\"width:50px;height:40px;background:linear-gradient(135deg,#4FC3F7,#0288D1);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center\"><span style=\"color:#fff;font-size:10px\">&#x1F30A;</span></div><div style=\"font-size:9px;flex:1\"><div style=\"font-weight:700\">青の洞窟シュノーケリング</div><div style=\"color:#FFAA00\">★4.8</div><div style=\"color:#D91F26;font-weight:700\">¥5,500〜</div></div><div style=\"background:#E8386E;color:#fff;padding:4px 8px;border-radius:4px;font-size:8px;font-weight:700;flex-shrink:0\">詳しく見る</div></div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500\">SEO記事に人気商品カードを埋め込み</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "エリアページUX改善Phase1（EN/HA）",
+            "note": "類似機能あり（エリアページUX改善Phase1（EN/HA））。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         }
       ]
@@ -170,6 +210,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:0 16px 8px;display:flex;align-items:center;justify-content:space-between\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:8px\">沖縄エリア</div><div style=\"font-size:10px;color:#999;text-align:center\">検索はハンバーガーメニュー内<br>→ 新規ユーザーは見つけられない</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">検索バーが隠れている</div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:8px 16px\"><div style=\"border:1px solid #ddd;border-radius:20px;padding:8px 14px;background:#fff;display:flex;align-items:center;gap:6px\"><span style=\"font-size:12px;color:#999\">&#x1F50D;</span><span style=\"font-size:11px;color:#999\">体験・エリアで検索</span></div></div><div style=\"padding:0 16px 8px\"><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;font-size:10px\"><div style=\"font-weight:600;color:#666;margin-bottom:4px\">&#x2728; サジェスト:</div><div style=\"color:#1B82C5;padding:2px 0\">&#x1F30A; 青の洞窟 シュノーケリング</div><div style=\"color:#1B82C5;padding:2px 0\">&#x1F3D6; 沖縄 ビーチ</div><div style=\"color:#1B82C5;padding:2px 0\">&#x1F420; 美ら海水族館</div></div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500\">検索バー常時表示+オートサジェスト</div></div>"
+          },
+          "implementation_check": {
+            "status": "already_exists",
+            "matched_feature": "検索サジェスト改善（オートサジェスト）",
+            "note": "キーワード一致: サジェスト, オートサジェスト。検索サジェストUI標準化。キーワードサジェスト追加済み"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "mobile_desktop_gap"
+            ],
+            "constraint_notes": "ボトルネックのデバイス指定に合わせてターゲットデバイスを明確化。レスポンシブ設計で両対応を基本とする。",
+            "prerequisites": [
+              "ターゲットデバイスはモバイルのみ？両対応？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -181,6 +237,18 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:4px\">検索結果: 「沖縄 シュノーケリング」</div></div><div style=\"padding:0 16px 8px\"><div style=\"font-size:10px;color:#666;line-height:2.0;border-left:2px solid #ddd;padding-left:8px\">・青の洞窟シュノーケリング<br>・慶良間シュノーケリング<br>・美ら海シュノーケリング<br>・宮古島シュノーケリング</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">テキストリスト表示でフィルターなし</div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:4px\">検索結果: 「沖縄 シュノーケリング」</div></div><div style=\"padding:0 16px 8px\"><div style=\"display:flex;gap:4px;margin-bottom:6px;flex-wrap:wrap\"><span style=\"background:#E3F2FD;padding:3px 8px;border-radius:10px;font-size:9px\">沖縄本島</span><span style=\"background:#fff;border:1px solid #ddd;padding:3px 8px;border-radius:10px;font-size:9px\">¥5K以下</span><span style=\"background:#fff;border:1px solid #ddd;padding:3px 8px;border-radius:10px;font-size:9px\">即確定</span></div><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;display:flex;gap:8px;align-items:center\"><div style=\"width:60px;height:45px;background:linear-gradient(135deg,#4FC3F7,#0288D1);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center\"><span style=\"color:#fff;font-size:12px\">&#x1F30A;</span></div><div style=\"font-size:9px;flex:1\"><div style=\"font-weight:700\">青の洞窟シュノーケリング</div><div style=\"color:#FFAA00\">★4.8 (1,234件)</div><div style=\"color:#D91F26;font-weight:700\">¥5,500〜</div></div></div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500\">カード表示+フィルターで検索結果を改善</div></div>"
+          },
+          "implementation_check": {
+            "status": "already_exists",
+            "matched_feature": "検索結果ページフィルター追加",
+            "note": "キーワード一致: フィルター, 検索結果。AC一覧ページにフィルター機能を追加"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         },
         {
@@ -192,6 +260,18 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:4px\">検索結果: 「沖縄 パラセーリング 2名」</div></div><div style=\"padding:0 16px 8px\"><div style=\"background:#FFF8E1;border:1px solid #FFD54F;border-radius:6px;padding:16px;text-align:center;font-size:12px;color:#666\">検索結果: 0件<br><br>キーワードを変えてお試しください。</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">0件ヒットで離脱</div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:4px\">検索結果: 「沖縄 パラセーリング 2名」</div></div><div style=\"padding:0 16px 8px\"><div style=\"background:#FFF8E1;border:1px solid #FFD54F;border-radius:6px;padding:8px;font-size:10px\"><div style=\"font-weight:700;color:#E65100;margin-bottom:4px\">ぴったりの結果が見つかりませんでした</div><div style=\"color:#666\">もしかして: <span style=\"color:#1B82C5;text-decoration:underline\">沖縄 パラセーリング</span></div></div></div><div style=\"padding:0 16px 8px\"><div style=\"font-size:11px;font-weight:700;margin-bottom:4px\">&#x1F31F; 沖縄のマリン体験で人気</div><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;font-size:10px\"><div style=\"font-weight:700\">&#x1F30A; 青の洞窟シュノーケリング</div><div style=\"color:#FFAA00;font-size:9px\">★4.8 &#x2502; ¥5,500〜</div></div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500\">0件時にサジェスト+人気商品フォールバック</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "グローバル検索リニューアル",
+            "note": "類似機能あり（グローバル検索リニューアル）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         }
       ]
@@ -215,6 +295,24 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:8px\">沖縄エリア</div></div><div style=\"padding:0 16px 8px\"><div style=\"font-size:10px;color:#999;text-align:center;line-height:1.8\">ナビゲーション: ハンバーガーメニューのみ<br>エリア/カテゴリはメニュー内に隠れている<br>新規ユーザーはメニューを開かない傾向</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">ハンバーガーメニュー依存で回遊性低下</div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:8px\">沖縄エリア</div></div><div style=\"padding:0 16px 4px\"><div style=\"font-size:10px;color:#666;text-align:center\">コンテンツエリア</div></div><div style=\"height:20px\"></div><div style=\"background:#fff;border-top:1px solid #eee;padding:6px 0;display:flex;justify-content:space-around;align-items:center\"><div style=\"text-align:center;font-size:9px;color:#666\"><div style=\"font-size:16px\">&#x1F3E0;</div>ホーム</div><div style=\"text-align:center;font-size:9px;color:#1B82C5;font-weight:700\"><div style=\"font-size:16px\">&#x1F50D;</div>検索</div><div style=\"text-align:center;font-size:9px;color:#666\"><div style=\"font-size:16px\">&#x1F4CD;</div>エリア</div><div style=\"text-align:center;font-size:9px;color:#666\"><div style=\"font-size:16px\">&#x2764;</div>お気に入り</div><div style=\"text-align:center;font-size:9px;color:#666\"><div style=\"font-size:16px\">&#x1F464;</div>マイページ</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500\">ボトムナビで主要機能に即アクセス</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "グローバル検索リニューアル",
+            "note": "類似機能あり（グローバル検索リニューアル）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "personalization_privacy",
+              "mobile_desktop_gap"
+            ],
+            "constraint_notes": "未ログイン時は「人気順」等のフォールバック表示。ファーストパーティデータ（サイト内行動）のみ使用。明示的な同意フロー設計。; ボトルネックのデバイス指定に合わせてターゲットデバイスを明確化。レスポンシブ設計で両対応を基本とする。",
+            "prerequisites": [
+              "対象ユーザーのログイン率は？（低ければパーソナライズ効果が限定的）",
+              "ターゲットデバイスはモバイルのみ？両対応？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -226,6 +324,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:16px;font-weight:900;margin-bottom:8px\">VELTRA トップページ</div></div><div style=\"padding:0 16px 8px\"><div style=\"font-size:10px;color:#999;text-align:center;line-height:1.8\">エリアへの導線:<br>ハンバーガーメニュー → カテゴリ → エリア<br>3ステップ必要 → 新規は離脱</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">エリアへのアクセスが深すぎる</div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:16px;font-weight:900;margin-bottom:8px\">VELTRA トップページ</div></div><div style=\"padding:0 16px 8px\"><div style=\"font-size:11px;font-weight:700;margin-bottom:6px\">&#x1F4CD; 人気エリア</div><div style=\"display:flex;gap:8px;overflow:hidden\"><div style=\"flex:0 0 70px;text-align:center\"><div style=\"width:56px;height:56px;background:linear-gradient(135deg,#4FC3F7,#0288D1);border-radius:50%;margin:0 auto 4px;display:flex;align-items:center;justify-content:center\"><span style=\"color:#fff;font-size:16px\">&#x1F3D6;</span></div><div style=\"font-size:9px;font-weight:700\">沖縄</div><div style=\"font-size:8px;color:#999\">1,234件</div></div><div style=\"flex:0 0 70px;text-align:center\"><div style=\"width:56px;height:56px;background:linear-gradient(135deg,#FFB74D,#E65100);border-radius:50%;margin:0 auto 4px;display:flex;align-items:center;justify-content:center\"><span style=\"color:#fff;font-size:16px\">&#x1F33A;</span></div><div style=\"font-size:9px;font-weight:700\">ハワイ</div><div style=\"font-size:8px;color:#999\">987件</div></div><div style=\"flex:0 0 70px;text-align:center\"><div style=\"width:56px;height:56px;background:linear-gradient(135deg,#CE93D8,#7B1FA2);border-radius:50%;margin:0 auto 4px;display:flex;align-items:center;justify-content:center\"><span style=\"color:#fff;font-size:16px\">&#x1F3EF;</span></div><div style=\"font-size:9px;font-weight:700\">京都</div><div style=\"font-size:8px;color:#999\">654件</div></div></div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500\">エリア別クイックアクセスでワンタップ遷移</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "エリアページUX改善Phase1（EN/HA）",
+            "note": "類似機能あり（エリアページUX改善Phase1（EN/HA））。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "multi_site"
+            ],
+            "constraint_notes": "JPサイトを優先実装し、EN/HAは別フェーズ。レイアウトは最長テキストでテスト。",
+            "prerequisites": [
+              "JPサイト限定でよいか？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -237,6 +351,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:4px\">ページ遷移トラッキング</div></div><div style=\"padding:0 16px 8px\"><div style=\"font-size:10px;color:#999;text-align:center;line-height:1.8\">新規ユーザーの遷移データ:<br>計測なし ❌<br>AC到達までの遷移数: 不明<br>離脱パターン: 不明</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">遷移パス分析ができていない</div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:4px\">ページ遷移トラッキング</div></div><div style=\"padding:0 16px 8px\"><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:10px;font-size:10px;line-height:1.8\"><div style=\"font-weight:700;margin-bottom:4px\">&#x1F4CA; 新規ユーザー遷移分析</div><div>平均遷移数: <strong>3.2ページ</strong>（AC到達まで）</div><div>離脱が多い遷移:</div><div style=\"background:#FFEBEE;padding:2px 6px;border-radius:2px;margin:2px 0\">TOP → エリア → <span style=\"color:#C62828;font-weight:700\">離脱 (42%)</span></div><div style=\"background:#E8F5E9;padding:2px 6px;border-radius:2px;margin:2px 0\">TOP → 検索 → AC <span style=\"color:#2E7D32;font-weight:700\">到達 (78%)</span></div></div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500\">遷移パス分析で離脱パターンを特定</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "measurement"
+            ],
+            "constraint_notes": "既存GA4イベント（session_start→ac_page_reach→calendar_view→form_start→purchase）で計測できる施策を優先。新規イベントはGTM設定変更を含めて見積もる。",
+            "prerequisites": [
+              "効果は既存のファネルイベントで計測可能か？"
+            ],
+            "quick_wins": false
           }
         }
       ]

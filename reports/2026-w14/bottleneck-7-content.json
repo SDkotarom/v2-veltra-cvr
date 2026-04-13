@@ -122,6 +122,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"background:#fff;border-radius:8px;overflow:hidden\"><img src=\"\" style=\"width:100%;height:140px;background:linear-gradient(135deg,#87CEEB,#4682B4);display:block\"></div><div style=\"padding:12px 0;font-size:11px;color:#999;text-align:center\">ヒーロー画像のみ。新規ユーザーへの案内なし</div><div style=\"background:#fff;border-radius:6px;padding:12px;margin-top:8px;font-size:12px;color:#666\">検索バー / カテゴリ…</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"background:#E8F5FE;border:1px solid #1B82C5;border-radius:8px;padding:12px\"><div style=\"font-size:13px;font-weight:700;color:#1B82C5;margin-bottom:6px\">🎒 はじめての方へ</div><div style=\"font-size:11px;color:#333;margin-bottom:8px\">3ステップで体験を予約できます</div><div style=\"display:flex;gap:4px;margin-bottom:8px\"><div style=\"flex:1;background:#fff;border-radius:4px;padding:6px;text-align:center;font-size:10px\"><div style=\"font-size:16px\">🌏</div>①エリアを選ぶ</div><div style=\"flex:1;background:#fff;border-radius:4px;padding:6px;text-align:center;font-size:10px\"><div style=\"font-size:16px\">🎯</div>②体験を選ぶ</div><div style=\"flex:1;background:#fff;border-radius:4px;padding:6px;text-align:center;font-size:10px\"><div style=\"font-size:16px\">📅</div>③日程を選ぶ</div></div><div style=\"background:#E8386E;color:#fff;padding:8px;border-radius:4px;font-size:12px;font-weight:700;text-align:center\">人気の体験を見る</div></div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "グローバルトップにウィッシュリストセクション追加",
+            "note": "類似機能あり（グローバルトップにウィッシュリストセクション追加）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "personalization_privacy"
+            ],
+            "constraint_notes": "未ログイン時は「人気順」等のフォールバック表示。ファーストパーティデータ（サイト内行動）のみ使用。明示的な同意フロー設計。",
+            "prerequisites": [
+              "対象ユーザーのログイン率は？（低ければパーソナライズ効果が限定的）"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -133,6 +149,18 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:0\"><div style=\"background:linear-gradient(135deg,#87CEEB,#4682B4);height:160px;display:flex;align-items:center;justify-content:center\"><div style=\"color:#fff;font-size:20px;font-weight:900;text-shadow:1px 1px 3px rgba(0,0,0,0.3)\">静的ヒーロー画像</div></div><div style=\"padding:8px 16px;font-size:10px;color:#999;text-align:center\">大きなヒーロー画像のみ → 商品導線なし</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:0;position:relative\"><div style=\"background:linear-gradient(135deg,#FF8A65,#E8386E);height:140px;padding:12px 16px;display:flex;flex-direction:column;justify-content:flex-end\"><div style=\"color:#fff;font-size:10px;opacity:0.8\">人気No.1</div><div style=\"color:#fff;font-size:14px;font-weight:700\">東京スカイツリー&amp;お台場クルーズ</div><div style=\"color:#fff;font-size:12px;margin-top:2px\">¥8,500〜 <span style=\"font-size:10px\">★4.8</span></div></div><div style=\"display:flex;justify-content:center;gap:4px;padding:6px 0\"><div style=\"width:8px;height:8px;border-radius:50%;background:#E8386E\"></div><div style=\"width:8px;height:8px;border-radius:50%;background:#ccc\"></div><div style=\"width:8px;height:8px;border-radius:50%;background:#ccc\"></div></div><div style=\"padding:4px 16px 8px;font-size:10px;color:#2DAE6C;text-align:center\">商品カルーセル → ワンタップでAC到達</div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "グローバルトップにウィッシュリストセクション追加",
+            "note": "類似機能あり（グローバルトップにウィッシュリストセクション追加）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         },
         {
@@ -144,6 +172,18 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;color:#999;margin-bottom:8px\">トップページ</div><div style=\"background:#fff;border-radius:6px;padding:12px;font-size:11px;color:#666;text-align:center\">エリア一覧 / カテゴリ一覧のみ</div><div style=\"padding:8px 0;font-size:10px;color:#999;text-align:center\">人気商品の訴求なし → 新規は何を選ぶべきか不明</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px\">🏆 今週の人気ランキング</div><div style=\"background:#fff;border-radius:6px;padding:8px;margin-bottom:6px;display:flex;align-items:center;gap:8px\"><div style=\"background:#FFD700;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700\">1</div><div style=\"flex:1\"><div style=\"font-size:11px;font-weight:600\">沖縄・青の洞窟シュノーケリング</div><div style=\"font-size:10px;color:#FFAA00\">★4.9 <span style=\"color:#666\">¥4,500〜</span></div></div></div><div style=\"background:#fff;border-radius:6px;padding:8px;margin-bottom:6px;display:flex;align-items:center;gap:8px\"><div style=\"background:#C0C0C0;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700\">2</div><div style=\"flex:1\"><div style=\"font-size:11px;font-weight:600\">京都・着物レンタル体験</div><div style=\"font-size:10px;color:#FFAA00\">★4.8 <span style=\"color:#666\">¥3,200〜</span></div></div></div><div style=\"color:#1B82C5;font-size:11px;text-align:center;padding:4px;font-weight:600\">すべて見る →</div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "グローバルトップにウィッシュリストセクション追加",
+            "note": "類似機能あり（グローバルトップにウィッシュリストセクション追加）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         }
       ]
@@ -167,6 +207,24 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">GA4管理画面</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"color:#666;margin-bottom:4px\">Direct流入 トラフィック内訳</div><div style=\"display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0\"><span>通常ブラウザ</span><span>???</span></div><div style=\"display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0\"><span>アプリ内ブラウザ</span><span>???</span></div><div style=\"display:flex;justify-content:space-between;padding:4px 0\"><span>不明</span><span>???</span></div></div><div style=\"font-size:10px;color:#999;text-align:center;margin-top:6px\">User-Agent分析なし → アプリ内ブラウザ割合が不明</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">GA4 カスタムレポート</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"color:#1B82C5;font-weight:600;margin-bottom:4px\">browser_environment 分析結果</div><div style=\"display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0\"><span>通常ブラウザ</span><span style=\"font-weight:600\">62%</span></div><div style=\"display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0\"><span style=\"color:var(--red)\">LINE内ブラウザ</span><span style=\"font-weight:600;color:var(--red)\">18%</span></div><div style=\"display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0\"><span>Instagram WebView</span><span style=\"font-weight:600\">12%</span></div><div style=\"display:flex;justify-content:space-between;padding:4px 0\"><span>その他</span><span style=\"font-weight:600\">8%</span></div></div><div style=\"font-size:10px;color:#2DAE6C;text-align:center;margin-top:6px\">アプリ内ブラウザの割合を特定 → 施策立案が可能に</div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "アプリHomeネイティブ化",
+            "note": "類似機能あり（アプリHomeネイティブ化）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "multi_site",
+              "measurement"
+            ],
+            "constraint_notes": "JPサイトを優先実装し、EN/HAは別フェーズ。レイアウトは最長テキストでテスト。; 既存GA4イベント（session_start→ac_page_reach→calendar_view→form_start→purchase）で計測できる施策を優先。新規イベントはGTM設定変更を含めて見積もる。",
+            "prerequisites": [
+              "JPサイト限定でよいか？",
+              "効果は既存のファネルイベントで計測可能か？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -178,6 +236,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">商品シェアボタン</div><div style=\"background:#fff;border-radius:6px;padding:12px;text-align:center\"><div style=\"font-size:11px;margin-bottom:6px\">この体験をシェア</div><div style=\"display:flex;justify-content:center;gap:12px\"><div style=\"width:32px;height:32px;border-radius:50%;background:#06C755;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px\">LINE</div><div style=\"width:32px;height:32px;border-radius:50%;background:#1DA1F2;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px\">X</div></div><div style=\"font-size:9px;color:#999;margin-top:6px\">URL: veltra.com/a/123 <span style=\"color:var(--red)\">← UTMなし</span></div></div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">商品シェアボタン（改善後）</div><div style=\"background:#fff;border-radius:6px;padding:12px;text-align:center\"><div style=\"font-size:11px;margin-bottom:6px\">この体験をシェア</div><div style=\"display:flex;justify-content:center;gap:12px\"><div style=\"width:32px;height:32px;border-radius:50%;background:#06C755;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px\">LINE</div><div style=\"width:32px;height:32px;border-radius:50%;background:#1DA1F2;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px\">X</div></div><div style=\"font-size:9px;color:#2DAE6C;margin-top:6px\">URL: veltra.com/a/123?utm_source=share&amp;utm_medium=social&amp;utm_campaign=line</div></div></div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "multi_site"
+            ],
+            "constraint_notes": "JPサイトを優先実装し、EN/HAは別フェーズ。レイアウトは最長テキストでテスト。",
+            "prerequisites": [
+              "JPサイト限定でよいか？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -189,6 +263,24 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">Cookie設定</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0\"><span>_ga</span><span style=\"color:var(--red)\">3rd party</span></div><div style=\"display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0\"><span>SameSite</span><span style=\"color:var(--red)\">未設定</span></div><div style=\"display:flex;justify-content:space-between;padding:4px 0\"><span>Secure</span><span style=\"color:var(--red)\">未設定</span></div></div><div style=\"font-size:10px;color:#999;text-align:center;margin-top:6px\">Cookie設定が最適化されていない</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">Cookie設定（最適化後）</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0\"><span>_ga</span><span style=\"color:#2DAE6C;font-weight:600\">1st party ✓</span></div><div style=\"display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0\"><span>SameSite</span><span style=\"color:#2DAE6C;font-weight:600\">Lax ✓</span></div><div style=\"display:flex;justify-content:space-between;padding:4px 0\"><span>Secure</span><span style=\"color:#2DAE6C;font-weight:600\">有効 ✓</span></div></div><div style=\"font-size:10px;color:#2DAE6C;text-align:center;margin-top:6px\">ファーストパーティCookieで計測精度向上</div></div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "personalization_privacy",
+              "measurement"
+            ],
+            "constraint_notes": "未ログイン時は「人気順」等のフォールバック表示。ファーストパーティデータ（サイト内行動）のみ使用。明示的な同意フロー設計。; 既存GA4イベント（session_start→ac_page_reach→calendar_view→form_start→purchase）で計測できる施策を優先。新規イベントはGTM設定変更を含めて見積もる。",
+            "prerequisites": [
+              "対象ユーザーのログイン率は？（低ければパーソナライズ効果が限定的）",
+              "効果は既存のファネルイベントで計測可能か？"
+            ],
+            "quick_wins": false
           }
         }
       ]
@@ -212,6 +304,18 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"background:#fff;border-radius:8px;overflow:hidden\"><div style=\"background:linear-gradient(135deg,#87CEEB,#4682B4);height:100px\"></div></div><div style=\"padding:8px 0;font-size:14px;font-weight:700;text-align:center\">VELTRA</div><div style=\"font-size:10px;color:#999;text-align:center\">サービスの説明がない → 何のサイトか不明</div><div style=\"background:#fff;border-radius:6px;padding:8px;margin-top:8px;font-size:11px;color:#666;text-align:center\">カテゴリ一覧...</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px;text-align:center\"><div style=\"font-size:18px;font-weight:900;color:#333;margin-bottom:4px\">日本・世界の体験を簡単予約</div><div style=\"font-size:11px;color:#666;margin-bottom:10px\">16,000以上の体験 | 口コミ50万件 | 最低価格保証</div><div style=\"display:flex;justify-content:center;gap:8px;margin-bottom:10px\"><div style=\"background:#FFF3E0;border-radius:4px;padding:4px 8px;font-size:10px;font-weight:600\">🏆 最低価格保証</div><div style=\"background:#E8F5E9;border-radius:4px;padding:4px 8px;font-size:10px;font-weight:600\">✅ 口コミ50万件</div></div><div style=\"background:#fff;border-radius:8px;padding:10px;border:1px solid #eee\"><div style=\"font-size:11px;color:#999;margin-bottom:4px\">どこに行きたいですか？</div><div style=\"background:#f5f5f5;border-radius:4px;padding:8px;font-size:12px;color:#999\">エリア・キーワードで検索</div></div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "グローバルトップにウィッシュリストセクション追加",
+            "note": "類似機能あり（グローバルトップにウィッシュリストセクション追加）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         },
         {
@@ -223,6 +327,22 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;color:#999;margin-bottom:8px\">Direct × 新規ユーザー</div><div style=\"background:#fff;border-radius:6px;padding:12px;text-align:center\"><div style=\"font-size:11px;color:#666\">トップページ表示</div><div style=\"font-size:10px;color:#999;margin-top:6px\">サービスの信頼性を示す情報なし</div><div style=\"font-size:10px;color:var(--red);margin-top:4px\">→ 「知らないサイト」と感じて離脱</div></div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"background:#FFF8E1;border:1px solid #FFD54F;border-radius:8px;padding:10px\"><div style=\"font-size:12px;font-weight:700;color:#F57F17;margin-bottom:4px\">👋 友だちから紹介されましたか？</div><div style=\"font-size:11px;color:#333;margin-bottom:6px\">VELTRAは<strong>日本最大級</strong>の体験予約サイトです</div><div style=\"display:flex;gap:6px;margin-bottom:8px\"><div style=\"font-size:10px;background:#fff;border-radius:4px;padding:3px 6px\">利用者200万人</div><div style=\"font-size:10px;background:#fff;border-radius:4px;padding:3px 6px\">口コミ50万件</div></div><div style=\"background:#1B82C5;color:#fff;padding:6px;border-radius:4px;font-size:11px;font-weight:600;text-align:center\">紹介された商品を探す</div></div></div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [
+              "partner_api_dependency"
+            ],
+            "constraint_notes": "自社管理商品から先行実装。API依存部分は段階的ロールアウト。APIレスポンスにフィールドがない場合の非表示ルールを定義。",
+            "prerequisites": [
+              "対象商品のうちAPI連携商品の割合は？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -234,6 +354,18 @@
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;color:#999;margin-bottom:8px\">新規Direct訪問</div><div style=\"background:#fff;border-radius:6px;padding:12px\"><div style=\"font-size:11px;color:#666;text-align:center;margin-bottom:8px\">いきなりトップページ全体を表示</div><div style=\"height:60px;background:#f0f0f0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999\">情報過多で迷子に…</div></div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"background:#fff;border-radius:8px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.1)\"><div style=\"display:flex;justify-content:center;gap:4px;margin-bottom:10px\"><div style=\"width:24px;height:3px;border-radius:2px;background:#E8386E\"></div><div style=\"width:24px;height:3px;border-radius:2px;background:#ddd\"></div><div style=\"width:24px;height:3px;border-radius:2px;background:#ddd\"></div></div><div style=\"text-align:center;font-size:14px;font-weight:700;color:#333;margin-bottom:4px\">VELTRAへようこそ！</div><div style=\"text-align:center;font-size:11px;color:#666;margin-bottom:12px\">世界中の現地体験を簡単に予約できるサービスです</div><div style=\"background:#E8386E;color:#fff;padding:8px;border-radius:4px;font-size:12px;font-weight:600;text-align:center;margin-bottom:6px\">次へ</div><div style=\"text-align:center;font-size:10px;color:#999\">スキップ</div></div></div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "グローバルトップにウィッシュリストセクション追加",
+            "note": "類似機能あり（グローバルトップにウィッシュリストセクション追加）。差分を確認してください。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         }
       ]

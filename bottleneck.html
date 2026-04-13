@@ -90,6 +90,38 @@
 
     var specHtml = action.spec_html ? '<div style="margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:6px;font-size:12px;line-height:1.6"><strong>開発仕様</strong>' + action.spec_html + '</div>' : '';
 
+    // 施策化レビューバッジ
+    var reviewBadges = '';
+    var ic = action.implementation_check;
+    if (ic && ic.status) {
+      var icColors = { new: '#2DAE6C', partial: '#E88B00', already_exists: '#D91F26', superseded: '#999' };
+      var icLabels = { new: '新規', partial: '部分重複', already_exists: '実装済み', superseded: '代替あり' };
+      var icColor = icColors[ic.status] || '#999';
+      var icLabel = icLabels[ic.status] || ic.status;
+      reviewBadges += '<span style="display:inline-block;font-size:11px;font-weight:700;color:#fff;background:' + icColor + ';padding:2px 8px;border-radius:10px;margin-right:6px">' + icLabel + '</span>';
+      if (ic.note && (ic.status === 'already_exists' || ic.status === 'partial')) {
+        reviewBadges += '<span style="font-size:11px;color:var(--text3)">' + ic.note + '</span>';
+      }
+    }
+    var fe = action.feasibility;
+    if (fe && fe.effort) {
+      var effortColors = { S: '#2DAE6C', M: '#E88B00', L: '#D91F26', XL: '#8B0000' };
+      var efColor = effortColors[fe.effort] || '#999';
+      reviewBadges += '<span style="display:inline-block;font-size:11px;font-weight:700;color:' + efColor + ';border:1px solid ' + efColor + ';padding:1px 7px;border-radius:10px;margin-left:6px">工数 ' + fe.effort + '</span>';
+      if (fe.quick_wins) reviewBadges += '<span style="display:inline-block;font-size:11px;font-weight:700;color:#fff;background:#2DAE6C;padding:2px 8px;border-radius:10px;margin-left:4px">Quick Win</span>';
+      if (fe.constraints && fe.constraints.length) {
+        reviewBadges += '<span style="font-size:11px;color:var(--text3);margin-left:6px">制約: ' + fe.constraints.join(', ') + '</span>';
+      }
+    }
+    var reviewHtml = reviewBadges ? '<div style="margin-top:6px;display:flex;flex-wrap:wrap;align-items:center;gap:4px">' + reviewBadges + '</div>' : '';
+    var constraintHtml = '';
+    if (fe && fe.constraint_notes) {
+      constraintHtml = '<div style="margin-top:6px;padding:8px 10px;background:#FFF8F0;border-left:3px solid #E88B00;border-radius:4px;font-size:12px;line-height:1.5;color:var(--text2)"><strong>考慮点:</strong> ' + fe.constraint_notes + '</div>';
+    }
+    if (fe && fe.prerequisites && fe.prerequisites.length) {
+      constraintHtml += '<div style="margin-top:4px;font-size:11px;color:var(--text3)">前提: ' + fe.prerequisites.join(' / ') + '</div>';
+    }
+
     var protoToggle = '';
     var protoDiv = '';
     if (action.prototype) {
@@ -101,7 +133,7 @@
       }
     }
 
-    return '<div style="margin-top:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff"><div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleProto(\'proto-' + lc + '\')"><div><span style="font-size:13px;font-weight:700;color:' + color + '">施策 ' + letter + '</span><span style="font-size:14px;font-weight:700;margin-left:8px">' + action.title + '</span></div><span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px;flex-shrink:0;margin-left:12px">' + esc(action.impact) + '</span></div><div style="padding:0 16px 14px"><div style="font-size:13px;color:var(--text2);line-height:1.6">' + esc(action.description) + '</div>' + specHtml + protoToggle + '</div>' + protoDiv + '</div>';
+    return '<div style="margin-top:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff"><div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleProto(\'proto-' + lc + '\')"><div><span style="font-size:13px;font-weight:700;color:' + color + '">施策 ' + letter + '</span><span style="font-size:14px;font-weight:700;margin-left:8px">' + action.title + '</span></div><span style="font-size:13px;font-weight:700;color:var(--green);padding:3px 10px;background:var(--green-light);border-radius:20px;flex-shrink:0;margin-left:12px">' + esc(action.impact) + '</span></div><div style="padding:0 16px 14px">' + reviewHtml + '<div style="font-size:13px;color:var(--text2);line-height:1.6;margin-top:6px">' + esc(action.description) + '</div>' + constraintHtml + specHtml + protoToggle + '</div>' + protoDiv + '</div>';
   }
 
   function renderHypothesis(hypo, idx) {
