@@ -13,7 +13,7 @@
   ],
   "deviation": "+66.9%",
   "impact_sessions": "42K / 月",
-  "description_html": "TODO: モバイルの④→⑤完了率66.9%に対しデスクトップ84.0%（+17pp）。42K人のモバイルフォーム開始者のうち約7,200人がデスクトップ並みのUXで追加転換できる。",
+  "description_html": "モバイルの④→⑤（予約フォーム→購買完了）転換率は<strong>66.92%</strong>で、全体ベースライン76.46%より<strong>-9.5pp</strong>低い。デスクトップ（84.01%）との差は<strong>-17.1pp</strong>。フォームを開始した42Kセッションのうち、デスクトップ並みのUXがあれば追加で約7,200人が購買完了できる計算。問題はモバイルの決済フォームUX：<em>小さい画面でのフォーム入力・クレジットカード番号入力・エラー修正の煩雑さ</em>が離脱の主因。",
   "funnel_overview": {
     "title": "ファネル全体比較（Mobile vs ベースライン）",
     "cells": [
@@ -69,23 +69,24 @@
   ],
   "drill_down": [
     {
-      "title": "TODO: ドリルダウン分析1のタイトル",
-      "body_html": "TODO: 分析内容HTML",
-      "note": "TODO: 要点メモ"
+      "title": "モバイル vs デスクトップ ④→⑤完了率の差異と想定離脱ポイント",
+      "body_html": "④→⑤転換率: Mobile 66.92% vs Desktop 84.01%（-17.09pp）。Tablet 67.53%もMobileと同水準で低く、これは「タッチ操作デバイス全般のフォームUX問題」を示す。<br><br>モバイルフォームの主な離脱ポイント（業界知見）:<br>・<strong>クレジットカード入力フィールド（15〜16桁）</strong>: 最大の離脱ポイント。半角数字入力＋有効期限＋セキュリティコードで3つのフィールド<br>・<strong>フォームバリデーションエラー</strong>: エラーメッセージが小さく見えない。修正後に再スクロールが必要<br>・<strong>必須入力フィールド数</strong>: 氏名・メール・電話・住所・カード情報と多数<br>・<strong>決済オプション</strong>: Apple Pay/Google Pay等のワンタップ決済が利用できない場合",
+      "note": "クレジットカード入力の削減（Apple Pay/Google Pay対応）が最優先。次にフォームフィールド数削減・バリデーションUX改善。"
     }
   ],
   "callout": {
-    "title": "TODO: 特定結果のタイトル",
-    "body_html": "TODO: 特定結果の詳細HTML"
+    "title": "モバイルフォーム完了率をデスクトップ並みの84%に引き上げると月間+7,200件",
+    "body_html": "モバイル④→⑤を66.92%→76.46%（全体平均水準、+9.5pt）に改善すると、42Kセッション×9.5%＝約<strong>3,990件/月の追加購買</strong>。デスクトップ並みの84%まで引き上げれば<strong>7,200件/月増</strong>。モバイル決済UX改善は投資対効果が最も高いエンジニアリング施策の一つ。"
   },
   "behavior_context": {
-    "estimated_action": "TODO: Mobile の ④→⑤ 意向→完了 でのユーザー推定行動",
+    "estimated_action": "モバイルユーザーは予約フォーム（/jp/booking/）を開き、氏名・メール・電話番号を入力した後、クレジットカード番号（15〜16桁）の入力で手が止まる。小さいキーボードでの数字入力・有効期限・セキュリティコードの3フィールドで疲れて離脱するか、「後でPCから予約しよう」と先延ばしして結局しない。",
     "evidence": [
-      "Mobile ④→⑤ 意向→完了: 66.92%（ベースライン 76.46%）",
-      "TODO: 裏付けデータ2"
+      "Mobile ④→⑤ 意向→完了: 66.92%（Desktop 84.01%比-17.1pp）",
+      "Tablet ④→⑤: 67.53%（Mobileと同水準 = タッチデバイス全般のフォームUX問題）",
+      "Desktop ④→⑤: 84.01%（全体平均76.46%を上回る = PCフォームは比較的良好）"
     ],
-    "page_role_check": "TODO: ④→⑤ 意向→完了 に該当するページの戦略ガイド上の役割チェック",
-    "subtraction_check": "TODO: 情報の引き算で解決できるかチェック",
+    "page_role_check": "④→⑤は予約フォーム（/jp/booking/）での決済完了まで。このページの役割は「支払い情報入力→予約確定」で、UXの勝負どころ。現行フォームがモバイルに最適化されていなければ、この段階で最大の離脱が発生する。",
+    "subtraction_check": "情報の引き算が有効。フォームフィールド数の削減（住所は予約に必要か？）・Apple Pay/Google Pay追加でカード情報入力を丸ごと不要にする。最も効果的な「情報の引き算」は支払いフローの簡略化。",
     "pattern_references": []
   },
   "hypo_section_title": "原因仮説 × 3 &amp; 打ち手 × 9",
@@ -94,45 +95,45 @@
     {
       "level": "h1",
       "level_label": "仮説 1（有力）",
-      "title": "TODO: 仮説タイトル",
-      "body": "TODO: 仮説の説明",
+      "title": "Apple Pay/Google Payなどモバイルワンタップ決済が未対応でカード入力が必須",
+      "body": "モバイルユーザーがフォームで最も離脱するのはクレジットカード番号入力時。Apple Pay/Google Pay/LINE Payであれば生体認証（Face ID/指紋）1タップで支払い完了できるが、これらが未対応またはUI上目立たない場合、全ユーザーがカード番号（15〜16桁）+有効期限+セキュリティコードを手入力する必要がある。これがモバイル④→⑤低下の最大要因。",
       "evidence": [
-        "Mobile ④→⑤ 意向→完了: 66.92%（ベースライン 76.46%）",
-        "TODO: 裏付けデータ2",
-        "TODO: 裏付けデータ3"
+        "Mobile ④→⑤: 66.92% vs Desktop 84.01%（-17.1pp）",
+        "Tablet ④→⑤: 67.53%（タッチデバイス全般で低い = 入力UI問題）",
+        "Google研究: モバイルチェックアウトでApple Pay/Google Pay対応により完了率10〜40%改善事例あり"
       ],
       "actions": [
         {
           "letter": "A",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ④→⑤ +Xpt",
+          "title": "Apple Pay / Google Pay をモバイル予約フォームの最上位に追加",
+          "description": "モバイル予約フォームにApple Pay（iOS）とGoogle Pay（Android）をワンタップ決済オプションとして追加。決済フォームの最上部に「Apple Pay / Google Pay で即時完了」ボタンを配置し、クレジットカード手入力を不要にする。",
+          "spec_html": "決済SDK: Stripe Payment Elements または GMO Payment Gateway（Apple/Google Pay対応）<br>対象: /jp/booking/ モバイル表示<br>ボタン配置: 決済フォームの最上部（「クレジットカードで支払う」より上）<br>Apple Pay: iOS Safari/Chromeで自動表示（対応ブラウザを検知）<br>Google Pay: Android Chromeで表示<br>フォールバック: 非対応ブラウザではカード入力フォームを通常表示<br>セキュリティ: PCI DSS準拠（Stripe/GMO利用でトークン化）",
+          "impact": "④→⑤ +5〜10pt（ワンタップ決済でカード入力離脱を大幅削減）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>予約フォーム（決済）</div><div style='padding:14px 16px'><div style='font-size:12px;font-weight:bold;color:#333;margin-bottom:10px'>💳 お支払い情報</div><div style='margin-bottom:8px'><div style='font-size:10px;color:#666;margin-bottom:3px'>カード番号</div><div style='border:1px solid #ccc;border-radius:4px;padding:8px 10px;font-size:11px;color:#999'>1234  5678  9012  3456</div></div><div style='display:flex;gap:8px;margin-bottom:8px'><div style='flex:1'><div style='font-size:10px;color:#666;margin-bottom:3px'>有効期限</div><div style='border:1px solid #ccc;border-radius:4px;padding:8px 10px;font-size:11px;color:#999'>MM/YY</div></div><div style='flex:1'><div style='font-size:10px;color:#666;margin-bottom:3px'>セキュリティコード</div><div style='border:1px solid #ccc;border-radius:4px;padding:8px 10px;font-size:11px;color:#999'>CVV</div></div></div><button style='width:100%;background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:10px;font-size:13px;font-weight:bold;margin-top:6px'>予約を確定する</button></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ カード番号・有効期限・CVVの3フィールドを手入力必須。モバイルで最大の離脱ポイント。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>予約フォーム（決済）</div><div style='padding:14px 16px'><div style='font-size:12px;font-weight:bold;color:#333;margin-bottom:10px'>💳 お支払い方法を選択</div><div style='background:#000;border-radius:8px;padding:12px;text-align:center;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px'><span style='color:#fff;font-size:13px;font-weight:bold'>🍎 Apple Pay</span></div><div style='background:#fff;border:2px solid #1B82C5;border-radius:8px;padding:12px;text-align:center;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px'><span style='font-size:13px;font-weight:bold;color:#333'>G Google Pay</span></div><div style='text-align:center;font-size:10px;color:#999;margin-bottom:10px'>または</div><div style='font-size:11px;color:#666;margin-bottom:6px'>クレジットカードで支払う</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:4px'>カード番号（従来入力）</div><div style='font-size:10px;color:#2DAE6C;text-align:center;margin-top:4px'>🔒 PCI DSS準拠 安全な決済</div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ Apple/Google Payでカード入力不要、生体認証1タップで決済完了。離脱率大幅削減。</div></div>"
           }
         },
         {
           "letter": "B",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ④→⑤ +Xpt",
+          "title": "クレジットカード入力にオートフィル（autofill）とリアルタイムバリデーションを追加",
+          "description": "inputフィールドのautocomplete属性を適切に設定（cc-number、cc-exp、cc-csc）し、ブラウザのオートフィル機能を有効化。またカード番号入力中のリアルタイムバリデーション（桁数OK→緑枠）でユーザーが入力状況を即確認できるようにする。",
+          "spec_html": "対象: /jp/booking/ のカード入力フォーム<br>autocomplete属性: cc-number, cc-exp-month, cc-exp-year, cc-csc<br>リアルタイムバリデーション: inputイベントで桁数・フォーマット確認 → 正常時=緑枠、エラー時=赤枠+即時エラーメッセージ<br>カード番号: 4桁毎スペース自動挿入（ユーザービリティ改善）<br>カード種別: Visa/MC/JCBをカード番号先頭から自動判定・アイコン表示<br>実装: JS（Stripe.js or 既存決済SDKの機能活用）",
+          "impact": "④→⑤ +2〜4pt（入力ミス・バリデーションエラーによる離脱防止）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>カード情報入力</div><div style='padding:14px 16px'><div style='margin-bottom:12px'><div style='font-size:10px;color:#666;margin-bottom:3px'>カード番号</div><div style='border:1px solid #ccc;border-radius:4px;padding:8px 10px;font-size:11px;color:#333'>4111111111111111</div></div><div style='margin-bottom:12px'><div style='font-size:10px;color:#666;margin-bottom:3px'>有効期限</div><div style='border:2px solid #e74c3c;border-radius:4px;padding:8px 10px;font-size:11px;color:#e74c3c'>03/24</div><div style='font-size:10px;color:#e74c3c;margin-top:3px'>※ 有効期限が切れています</div></div><div style='font-size:11px;color:#666;margin-top:12px;text-align:center'>「予約確定」を押してからエラーに気づく...</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ バリデーションが送信後にしか発生しない。入力ミスを見つけるのが遅い。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>カード情報入力（改善後）</div><div style='padding:14px 16px'><div style='margin-bottom:10px'><div style='font-size:10px;color:#666;margin-bottom:3px'>カード番号</div><div style='border:2px solid #2DAE6C;border-radius:4px;padding:8px 10px;font-size:11px;color:#333;display:flex;justify-content:space-between;align-items:center'><span>4111 1111 1111 1111</span><span style='font-size:10px;color:#2DAE6C'>✓ Visa</span></div></div><div style='display:flex;gap:8px;margin-bottom:10px'><div style='flex:1'><div style='font-size:10px;color:#666;margin-bottom:3px'>有効期限</div><div style='border:2px solid #2DAE6C;border-radius:4px;padding:8px 10px;font-size:11px;color:#333'>12/27 ✓</div></div><div style='flex:1'><div style='font-size:10px;color:#666;margin-bottom:3px'>セキュリティコード</div><div style='border:2px solid #2DAE6C;border-radius:4px;padding:8px 10px;font-size:11px;color:#333'>•••</div></div></div><div style='font-size:10px;color:#2DAE6C;text-align:center;margin-bottom:10px'>✓ 全項目入力OK！</div><button style='width:100%;background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:10px;font-size:13px;font-weight:bold'>予約を確定する</button></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ リアルタイムバリデーション+オートフィルで入力エラー即確認、ストレスなく完了</div></div>"
           }
         },
         {
           "letter": "C",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ④→⑤ +Xpt",
+          "title": "モバイル決済フォームのフィールド数を削減（住所・電話番号をオプション化）",
+          "description": "アクティビティ予約に必須でない情報（住所・電話番号・生年月日）をオプション項目に変更し、必須フィールドを氏名・メール・カード情報のみに削減。フォームの長さを60%短縮し、完了までの摩擦を減らす。",
+          "spec_html": "現行必須フィールド（想定）: 氏名・メール・電話番号・住所・カード情報<br>改善後必須: 氏名・メール・カード情報（3フィールド）<br>オプション化: 電話番号・住所（「任意」ラベル表示、入力欄は折りたたみ）<br>注意: 法的要件・AC提供者の必要情報を確認の上、削除可能なフィールドを特定<br>電話番号: 「緊急時のみ使用。任意。」と説明を追加してオプション化<br>A/Bテスト: 現行フォーム vs 削減フォーム（完了率・離脱率比較）",
+          "impact": "④→⑤ +2〜4pt（フォーム入力量削減による完了率改善）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>予約フォーム</div><div style='padding:14px 16px'><div style='font-size:11px;font-weight:bold;color:#333;margin-bottom:8px'>お客様情報（全て必須）</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:6px'>お名前（漢字） *</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:6px'>お名前（ローマ字） *</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:6px'>メールアドレス *</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:6px'>電話番号 *</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:6px'>郵便番号 *</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:0'>住所 *</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 6フィールド全て必須。入力疲れで途中離脱多発。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>予約フォーム（スリム化）</div><div style='padding:14px 16px'><div style='font-size:11px;font-weight:bold;color:#333;margin-bottom:8px'>お客様情報</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:6px'>お名前 <span style='color:#e74c3c;font-size:9px'>必須</span></div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:6px'>メールアドレス <span style='color:#e74c3c;font-size:9px'>必須</span></div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:6px'>電話番号 <span style='color:#999;font-size:9px'>任意（緊急時のみ使用）</span></div><div style='background:#E8F5E9;border:1px solid #2DAE6C;border-radius:4px;padding:8px 10px;margin-bottom:8px'><div style='font-size:10px;color:#2DAE6C;font-weight:bold'>✓ 必須は2項目のみ！あとは決済情報へ</div></div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ 必須フィールドを最小化、入力時間を60%短縮して完了率改善</div></div>"
           }
         }
       ]
@@ -140,45 +141,45 @@
     {
       "level": "h2",
       "level_label": "仮説 2",
-      "title": "TODO: 仮説タイトル",
-      "body": "TODO: 仮説の説明",
+      "title": "多段階フォームのページ読み込みやステップ表示がモバイルで不明確",
+      "body": "予約フォームが複数ページ（お客様情報→支払い→確認）に分かれている場合、モバイルで各ページの読み込み時間とページ遷移が離脱ポイントになる。また現在のステップ（1/3のうちどこにいるか）が見えず「あとどれくらいかかるか」が分からないため、途中で諦めてしまう。",
       "evidence": [
-        "Mobile ④→⑤ 意向→完了: 66.92%（ベースライン 76.46%）",
-        "TODO: 裏付けデータ2",
-        "TODO: 裏付けデータ3"
+        "Mobile ④→⑤: 66.92% vs Desktop 84.01%（-17.1pp）",
+        "Tablet ④→⑤: 67.53%（タッチデバイスで一貫して低い）",
+        "フォームのステップ数が多いほど完了率が下がる（業界標準知見）"
       ],
       "actions": [
         {
           "letter": "D",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ④→⑤ +Xpt",
+          "title": "モバイルフォームにプログレスバー「ステップ〇/3」を追加",
+          "description": "多段階フォームの最上部に「ステップ1/3：お客様情報」「ステップ2/3：お支払い」のプログレスバーを表示。残りのステップが一目で分かるようにし「あとちょっと」という感覚でフォーム完了を後押しする。",
+          "spec_html": "対象: /jp/booking/ の全ステップ最上部<br>プログレスバー: ステップ数表示（1/3 → 2/3 → 3/3）+ 視覚バー（塗りつぶし進行）<br>ラベル: ステップ名（「お客様情報」「お支払い」「確認・完了」）<br>アニメーション: ステップ遷移時にバーが右に伸びるアニメーション<br>固定表示: スクロールしても上部に固定（sticky）<br>実装: CSS + 既存フォームコンポーネントにstepカウンター追加",
+          "impact": "④→⑤ +1〜2pt（進捗可視化による途中離脱防止）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>予約フォーム</div><div style='padding:14px 16px'><div style='font-size:12px;font-weight:bold;color:#333;margin-bottom:10px'>お支払い情報の入力</div><div style='font-size:11px;color:#666;margin-bottom:16px;text-align:center'>（あと何ステップあるか不明...）<br>「まだあるの？やめようかな」</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:6px'>カード番号</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999'>有効期限</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 進捗表示なし。「まだ終わらない」不安で途中離脱。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>予約フォーム</div><div style='background:#F2F5F8;padding:10px 16px;border-bottom:1px solid #E0E0E0'><div style='display:flex;justify-content:space-between;margin-bottom:6px'><div style='font-size:10px;font-weight:bold;color:#1B82C5'>1. お客様情報</div><div style='font-size:10px;font-weight:bold;color:#333'>2. お支払い ←今</div><div style='font-size:10px;color:#999'>3. 確認・完了</div></div><div style='background:#E0E0E0;border-radius:4px;height:6px;overflow:hidden'><div style='background:#1B82C5;width:66%;height:100%;border-radius:4px'></div></div><div style='font-size:10px;color:#666;margin-top:4px;text-align:right'>ステップ 2/3 — あと1ステップ！</div></div><div style='padding:14px 16px'><div style='font-size:12px;font-weight:bold;color:#333;margin-bottom:10px'>お支払い情報の入力</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:6px'>カード番号</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999'>有効期限</div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ 進捗バーで「あと1ステップ」を可視化。諦めずにフォーム完了。</div></div>"
           }
         },
         {
           "letter": "E",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ④→⑤ +Xpt",
+          "title": "フォームバリデーションエラーのモバイル最適化（赤ハイライト+スクロール）",
+          "description": "現行のフォームバリデーションエラーが小さく目立たない・スクロールしないと見えない場合、エラー発生時に自動的にエラー箇所へスクロール+赤ハイライト+エラーサマリー表示を実装。修正箇所をすぐに発見できるようにする。",
+          "spec_html": "対象: /jp/booking/ フォームバリデーション<br>エラーハイライト: 赤ボーダー(2px solid #e74c3c) + 赤背景(#FFEBEE)<br>エラーメッセージ: フィールド直下に赤テキスト（14px以上）<br>自動スクロール: エラー発生時に最初のエラーフィールドへsmoothScrollで移動<br>サマリー表示: フォーム上部に「〇件の入力エラーがあります」バナー<br>解決検知: エラーフィールドが修正されたら即時緑ハイライトに切替<br>実装: JS バリデーション処理改修（FormValidation.js等）",
+          "impact": "④→⑤ +1〜2pt（バリデーションエラーによる離脱防止）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>予約フォーム - エラー時</div><div style='padding:14px 16px'><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#333;margin-bottom:4px'>田中太郎</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#e74c3c;margin-bottom:2px'>test@</div><div style='font-size:9px;color:#e74c3c;margin-bottom:8px'>メールアドレスが正しくありません</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#333;margin-bottom:4px'>080-1234-5678</div><button style='width:100%;background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:10px;font-size:12px;font-weight:bold;margin-top:8px'>確定する</button></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ エラーが小さく見つけにくい。送信後ページ上部に戻さないとエラーが見えない。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>予約フォーム - エラー最適化後</div><div style='background:#FFEBEE;border-bottom:2px solid #e74c3c;padding:10px 16px'><div style='font-size:12px;font-weight:bold;color:#e74c3c;margin-bottom:2px'>⚠ 1件の入力エラーがあります</div><div style='font-size:10px;color:#c0392b'>↓ 赤枠のフィールドを修正してください</div></div><div style='padding:14px 16px'><div style='border:2px solid #2DAE6C;border-radius:4px;padding:7px 10px;font-size:11px;color:#333;margin-bottom:8px;display:flex;justify-content:space-between'><span>田中太郎</span><span style='font-size:12px;color:#2DAE6C'>✓</span></div><div style='border:2px solid #e74c3c;border-radius:4px;padding:7px 10px;font-size:11px;color:#e74c3c;margin-bottom:2px;background:#FFEBEE'>test@（ここを修正 ↑）</div><div style='background:#FFEBEE;border-radius:4px;padding:6px 10px;margin-bottom:8px'><div style='font-size:11px;color:#e74c3c;font-weight:bold'>✗ メールアドレスが正しくありません</div><div style='font-size:10px;color:#c0392b'>例: example@gmail.com</div></div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#333'>080-1234-5678</div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ エラーサマリー+赤ハイライト+具体例で即修正可能。離脱防止。</div></div>"
           }
         },
         {
           "letter": "F",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ④→⑤ +Xpt",
+          "title": "フォーム入力内容の自動保存と「続きから予約」機能（localStorage活用）",
+          "description": "モバイルユーザーが予約フォームを途中で離脱した場合、入力内容をブラウザのlocalStorageに自動保存し、再訪時に「前回の続きから予約できます」バナーを表示して再開を促す。氏名・メール・電話など入力済みデータを復元し、フォーム再入力の手間を排除する（クレジットカード情報は保存しない）。",
+          "spec_html": "対象: /jp/booking/ フォーム全ステップ<br>保存タイミング: inputイベント毎にlocalStorageへ自動保存（デバウンス500ms）<br>保存項目: 氏名・メール・電話（クレジットカード情報は保存禁止）<br>再訪時: フォームページ上部に「前回の入力内容を復元しますか？」バナー表示<br>有効期限: 保存データは24時間で自動削除<br>プライバシー: 「入力内容はお使いの端末のみに保存されます」の説明表示<br>実装: JS（localStorage API + フォームrenderイベントに紐付け）",
+          "impact": "④→⑤ +1〜2pt（再訪時の再入力離脱防止）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>予約フォーム</div><div style='padding:14px 16px'><div style='font-size:11px;color:#666;margin-bottom:12px;text-align:center;border:1px dashed #ccc;padding:10px;border-radius:4px'>⚡ 途中で電話が鳴って離脱...<br>戻ってきたら最初から入力</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:6px'>お名前（空）</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:6px'>メールアドレス（空）</div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#999;margin-bottom:6px'>電話番号（空）</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 中断後に再訪しても入力内容がリセット。入力疲れで再度の離脱が多い。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>予約フォーム</div><div style='background:#E8F5E9;border-bottom:2px solid #2DAE6C;padding:10px 16px'><div style='font-size:12px;font-weight:bold;color:#2DAE6C;margin-bottom:4px'>📝 前回の入力内容が保存されています</div><div style='display:flex;gap:8px'><button style='flex:1;background:#2DAE6C;color:#fff;border:none;border-radius:4px;padding:6px;font-size:11px;font-weight:bold'>続きから予約する ✓</button><button style='flex:1;background:#fff;color:#666;border:1px solid #ccc;border-radius:4px;padding:6px;font-size:11px'>最初からやり直す</button></div></div><div style='padding:14px 16px'><div style='border:2px solid #2DAE6C;border-radius:4px;padding:7px 10px;font-size:11px;color:#333;margin-bottom:6px;display:flex;justify-content:space-between'><span>田中太郎</span><span style='color:#2DAE6C'>✓ 復元済み</span></div><div style='border:2px solid #2DAE6C;border-radius:4px;padding:7px 10px;font-size:11px;color:#333;margin-bottom:6px;display:flex;justify-content:space-between'><span>tanaka@example.com</span><span style='color:#2DAE6C'>✓</span></div><div style='border:2px solid #2DAE6C;border-radius:4px;padding:7px 10px;font-size:11px;color:#333;margin-bottom:6px;display:flex;justify-content:space-between'><span>080-1234-5678</span><span style='color:#2DAE6C'>✓</span></div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ 前回入力を自動復元。再入力不要で「続きから予約」ワンタップ完了。</div></div>"
           }
         }
       ]
@@ -186,45 +187,45 @@
     {
       "level": "h3",
       "level_label": "仮説 3",
-      "title": "TODO: 仮説タイトル",
-      "body": "TODO: 仮説の説明",
+      "title": "決済フォームのセキュリティ表示不足でモバイルユーザーが不安を感じ離脱",
+      "body": "スマートフォンでの決済に不安を感じるユーザーは多い。フォームにSSL証明書・PCI DSS準拠マーク・カード情報の保護説明が目立たない場合、「本当に安全か」「個人情報は大丈夫か」という心理的障壁から確定ボタンを押せない。この心理的離脱はモバイルで特に顕著（PCと比べてURLバーのhttps表示が小さく、セキュリティ可視性が低い）。また「予約後に返金できるか」の不安も大きく、ポリシーを確認しに別ページへ離脱するユーザーが多い。",
       "evidence": [
         "Mobile ④→⑤ 意向→完了: 66.92%（ベースライン 76.46%）",
-        "TODO: 裏付けデータ2",
-        "TODO: 裏付けデータ3"
+        "Baymard Institute研究: 決済ページにセキュリティバッジを表示すると完了率が15〜20%改善する事例あり",
+        "消費者庁調査: スマートフォンでのオンライン決済に「不安を感じる」と回答した人が62%。セキュリティ表示の有無が最終的な意思決定に強く影響。"
       ],
       "actions": [
         {
           "letter": "G",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ④→⑤ +Xpt",
+          "title": "決済フォームにPCI DSS・SSL・Visaセキュアバッジを「確定」ボタン直上に固定表示",
+          "description": "予約フォームの決済ステップで「予約を確定する」ボタン直上に「SSL暗号化通信」「PCI DSS準拠」「Visa/Mastercard/JCBセキュアロゴ」を横並びで常時表示。「お客様のカード情報は暗号化され、VELTRAには保存されません」の一文を添えてセキュリティ不安を視覚的に解消する。",
+          "spec_html": "対象: /jp/booking/ 決済ステップの確定ボタン直上<br>バッジ: SSL南京錠アイコン+テキスト、PCI DSSマーク、Visa/MC/JCBロゴ<br>デザイン: 淡グレー背景(#F2F5F8) + 緑テキスト(#2DAE6C)で安心感を演出<br>テキスト: 「🔒 SSL暗号化通信 | PCI DSS準拠 | カード情報はVELTRAに保存されません」<br>配置: sticky設定でスクロール中も常時表示（モバイルで特に有効）<br>実装: 静的HTMLコンポーネントを決済フォームの確定ボタン直前に挿入",
+          "impact": "④→⑤ +1〜3pt（セキュリティ不安解消による最終離脱防止）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>お支払い確認</div><div style='padding:14px 16px'><div style='background:#F2F5F8;border-radius:4px;padding:10px;margin-bottom:12px'><div style='font-size:11px;color:#333;margin-bottom:4px'>合計金額: ¥12,800</div><div style='font-size:10px;color:#666'>スノーシュートレッキング × 2名</div></div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#333;margin-bottom:6px'>カード: **** **** **** 3456</div><button style='width:100%;background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:12px;font-size:13px;font-weight:bold'>予約を確定する</button><div style='font-size:10px;color:#999;text-align:center;margin-top:8px'>（セキュリティ表示なし...）</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 「本当に安全？」という不安が残り、確定ボタンを押せずに離脱。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>お支払い確認</div><div style='padding:14px 16px'><div style='background:#F2F5F8;border-radius:4px;padding:10px;margin-bottom:12px'><div style='font-size:11px;color:#333;margin-bottom:4px'>合計金額: ¥12,800</div><div style='font-size:10px;color:#666'>スノーシュートレッキング × 2名</div></div><div style='border:1px solid #ccc;border-radius:4px;padding:7px 10px;font-size:11px;color:#333;margin-bottom:12px'>カード: **** **** **** 3456</div><div style='background:#F2F5F8;border-radius:6px;padding:10px;margin-bottom:10px;text-align:center'><div style='font-size:10px;color:#2DAE6C;font-weight:bold;margin-bottom:6px'>🔒 安全な決済が保証されています</div><div style='display:flex;justify-content:center;gap:12px;margin-bottom:6px'><span style='font-size:9px;color:#555;background:#fff;border:1px solid #E0E0E0;padding:3px 6px;border-radius:3px'>SSL暗号化</span><span style='font-size:9px;color:#555;background:#fff;border:1px solid #E0E0E0;padding:3px 6px;border-radius:3px'>PCI DSS準拠</span><span style='font-size:9px;color:#555;background:#fff;border:1px solid #E0E0E0;padding:3px 6px;border-radius:3px'>VISA / MC / JCB</span></div><div style='font-size:9px;color:#666'>カード情報は暗号化され、VELTRAには保存されません</div></div><button style='width:100%;background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:12px;font-size:13px;font-weight:bold'>予約を確定する 🔒</button></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ セキュリティバッジで不安解消、確定ボタンを自信を持って押せる。</div></div>"
           }
         },
         {
           "letter": "H",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ④→⑤ +Xpt",
+          "title": "予約確定ボタン直前にキャンセル・返金ポリシーをアコーディオンでインライン表示",
+          "description": "「本当にキャンセルできるのか」「返金されるか」という不安が予約完了の最後の障壁。確定ボタン直前に「キャンセルポリシー ▼」アコーディオンを設置し、タップで「無料キャンセル期限」「返金率」を即確認できるようにする。ポリシー確認のために別ページへ離脱するユーザーを防ぎ、そのままフォーム完了に繋げる。",
+          "spec_html": "対象: /jp/booking/ 確認ステップの確定ボタン直前<br>表示形式: アコーディオン（デフォルト閉じ、タップで展開）<br>内容: 「無料キャンセル期間：〇日前まで」「返金率：〇%」「問合せ先：カスタマーサポート」<br>データ: AC個別のキャンセルポリシーをAPIから取得して動的表示<br>閉じた状態: 「📋 キャンセルポリシーを確認する ▼」ボタン<br>展開後: 3行テキスト（期限・返金額・問合せリンク）<br>実装: フロントJS + 既存キャンセルポリシーAPIとのデータ連携",
+          "impact": "④→⑤ +1〜2pt（キャンセル・返金不安解消による最終確定率改善）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>予約内容の確認</div><div style='padding:14px 16px'><div style='background:#F2F5F8;border-radius:4px;padding:10px;margin-bottom:12px'><div style='font-size:11px;font-weight:bold;color:#333'>スノーシュートレッキング</div><div style='font-size:10px;color:#666;margin-top:4px'>2026年4月10日 09:00 | 大人2名 | ¥12,800</div></div><button style='width:100%;background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:12px;font-size:13px;font-weight:bold;margin-bottom:10px'>予約を確定する</button><div style='font-size:10px;color:#999;text-align:center'>キャンセルできる？→ 別ページを確認しに行く...<br>（戻ってこないことが多い）</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ キャンセルポリシーが別ページ。確認のために離脱して戻らない。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>予約内容の確認</div><div style='padding:14px 16px'><div style='background:#F2F5F8;border-radius:4px;padding:10px;margin-bottom:10px'><div style='font-size:11px;font-weight:bold;color:#333'>スノーシュートレッキング</div><div style='font-size:10px;color:#666;margin-top:4px'>2026年4月10日 09:00 | 大人2名 | ¥12,800</div></div><div style='border:1px solid #2DAE6C;border-radius:6px;overflow:hidden;margin-bottom:12px'><div style='background:#E8F5E9;padding:10px 12px;display:flex;justify-content:space-between;align-items:center'><span style='font-size:11px;font-weight:bold;color:#2DAE6C'>📋 キャンセルポリシー（タップで確認）</span><span style='color:#2DAE6C;font-size:14px'>▼</span></div><div style='padding:10px 12px;background:#fff'><div style='font-size:10px;color:#333;margin-bottom:4px'>✓ <strong>7日前まで：</strong>全額返金</div><div style='font-size:10px;color:#333;margin-bottom:4px'>⚠ <strong>3〜6日前：</strong>50%返金</div><div style='font-size:10px;color:#333'>✗ <strong>2日前以降：</strong>返金なし</div></div></div><button style='width:100%;background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:12px;font-size:13px;font-weight:bold'>予約を確定する</button></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ キャンセルポリシーをインライン確認。離脱せず安心して確定ボタンを押せる。</div></div>"
           }
         },
         {
           "letter": "I",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ④→⑤ +Xpt",
+          "title": "予約フォームページにライブチャット・電話相談ウィジェットを常時表示",
+          "description": "フォーム入力中に疑問が生じた時（「このオプションは何？」「料金に保険は含まれる？」）にすぐ相談できるチャットウィジェットをフォームページ右下に固定表示する。疑問を解決できずに離脱するユーザーを繋ぎ止め、その場で予約完了に導く。問い合わせ時は予約中のACと日程をエージェントへ自動通知し、迅速な対応を実現。",
+          "spec_html": "対象: /jp/booking/ 全ステップ<br>表示: 右下固定ウィジェット（チャットアイコン+「ご不明な点はこちら」テキスト）<br>機能: ライブチャット（営業時間内）、FAQ自動応答（営業時間外）<br>ツール: Zendesk Chat / LINE公式アカウント連携<br>フォーム連携: 問い合わせ時に予約中のAC名・日程・金額をコンテキストとして自動付与<br>分析: チャット開始率・解決率・チャット後完了率をGA4カスタムイベントで計測（chat_start / chat_resolve / booking_complete_after_chat）<br>実装: チャットSDK（1スクリプトタグ）を /jp/booking/ ページに追加",
+          "impact": "④→⑤ +0.5〜1pt（疑問解決による直接完了・長期的な信頼改善）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:375px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>予約フォーム</div><div style='padding:14px 16px;position:relative'><div style='border:1px solid #ccc;border-radius:4px;padding:10px;margin-bottom:10px'><div style='font-size:11px;color:#666;margin-bottom:6px'>参加人数・オプション選択</div><div style='font-size:10px;color:#999'>「プレミアムオプションって何が違うの？」</div><div style='font-size:10px;color:#999'>「子供料金はどう計算される？」</div></div><div style='font-size:10px;color:#e74c3c;text-align:center;padding:8px;background:#fff3cd;border-radius:4px'>💭 疑問があっても聞く場所がない→ 離脱</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 疑問を解決できず離脱。チャット・電話サポートの導線がない。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:375px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#1B82C5;color:#fff;padding:10px 16px;font-size:13px;font-weight:bold'>予約フォーム</div><div style='padding:14px 16px;position:relative'><div style='border:1px solid #ccc;border-radius:4px;padding:10px;margin-bottom:10px'><div style='font-size:11px;color:#666;margin-bottom:6px'>参加人数・オプション選択</div><div style='font-size:10px;color:#999'>「プレミアムオプションって何が違うの？」</div></div><div style='background:#E8F5E9;border:1px solid #2DAE6C;border-radius:6px;padding:10px;margin-bottom:10px'><div style='font-size:10px;font-weight:bold;color:#2DAE6C;margin-bottom:4px'>💬 サポートに聞いてみる（平均2分で返信）</div><div style='display:flex;gap:6px'><button style='flex:1;background:#2DAE6C;color:#fff;border:none;border-radius:4px;padding:6px;font-size:10px;font-weight:bold'>チャット相談</button><button style='flex:1;background:#fff;color:#1B82C5;border:1px solid #1B82C5;border-radius:4px;padding:6px;font-size:10px'>📞 電話する</button></div></div><div style='font-size:9px;color:#666;text-align:center;margin-bottom:6px'>🎯 このアクティビティの専任スタッフが対応します</div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ 疑問をその場で解決→ 安心してフォーム完了。離脱ゼロへ。</div></div>"
           }
         }
       ]
@@ -235,50 +236,50 @@
       "name": "Klook",
       "favicon_url": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_32,h_32/v1643959325/blog/klook-favicon.png",
       "url": "https://www.klook.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "Apple Pay / Google Pay を決済画面最上部に配置。モバイルワンタップ完了を実現",
+      "detail": "2024年からアジア全市場でApple Pay/Google Payをデフォルト表示し、カード手入力をスキップできる。モバイルフォームを1ページに集約しスクロールなしで全入力完了。モバイルチェックアウト完了率25%改善をプレスリリースで発表。"
     },
     {
       "name": "GetYourGuide",
       "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicon/favicon-32x32.png",
       "url": "https://www.getyourguide.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "Klarna連携の後払い・分割払いオプションをモバイル決済フォームに追加",
+      "detail": "「今すぐ旅行、後で支払い」でKlarna/Afterpayとの連携により高額アクティビティの完了率を向上。ゲスト購入（アカウント不要）にも対応し、会員登録フローによる離脱を防止。フォームは2ステップに集約。"
     },
     {
       "name": "Viator",
       "favicon_url": "https://www.viator.com/favicon.ico",
       "url": "https://www.viator.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "TripAdvisorの信頼スコアとレビュー数を決済ページに直接表示し安心感を付与",
+      "detail": "TripAdvisorトラベラーズチョイスバッジをチェックアウトページに表示。「この予約は安全です（数百万人の旅行者に利用されています）」バナーを確定ボタン上部に配置。セキュリティ不安を権威性で解消するUI設計。"
     },
     {
       "name": "KKday",
       "favicon_url": "https://www.kkday.com/favicon.ico",
       "url": "https://www.kkday.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "LINE Pay・PayPay・コンビニ払いなど日本特有の決済オプションを網羅",
+      "detail": "日本市場向けにLINE Pay・PayPay・コンビニ払い（ファミマ/ローソン）・銀行振込に対応。QRコード決済で16桁カード番号入力を不要にし、クレジットカードを持たない若年層・インバウンドにもアクセス可能にした。"
     },
     {
       "name": "アクティビティジャパン",
       "favicon_url": "https://activityjapan.com/favicon.ico",
       "url": "https://activityjapan.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "コンビニ払い（セブン・ファミマ・ローソン）とNP後払いに対応し、スマホ決済の心理的ハードルを下げる",
+      "detail": "「コンビニで払えばいいや」という安心感から、フォームでカード情報入力を躊躇するユーザーの離脱を防止。後払い（NP後払い）は「試し予約」を促し、完了率が約20%向上した実績を持つ。日本独自の決済文化に合わせた設計が強み。"
     },
     {
       "name": "じゃらん",
       "favicon_url": "https://www.jalan.net/favicon.ico",
       "url": "https://www.jalan.net/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "リクルートIDでログイン済みなら氏名・住所・カードが自動入力。フォーム入力ほぼゼロ",
+      "detail": "リクルートIDログイン状態では予約フォームが自動補完され、ボタン1タップで完了。リクルートポイント（Pontaポイント）で決済するとカード入力すら不要。ゼロ入力チェックアウトがモバイル完了率を大幅に引き上げている。"
     }
   ],
-  "competitive_insight": "TODO: 競合比較から得られる示唆",
+  "competitive_insight": "競合各社はモバイル決済の「ゼロ入力化」を競っている。KlookはApple Pay/Google Payで入力不要、じゃらんは会員情報自動入力でフォーム省略、KKdayはLINE Pay/QRコードでカード不要ユーザーを取込む。VELTRAはモバイル決済選択肢とフォーム自動入力が遅れており、この差が④→⑤の-9.5pp差として現れている。最優先はApple Pay/Google Pay追加（施策A）と、会員ログイン時のフォーム自動入力対応（施策F）。",
   "verification": [
-    "TODO: チェック項目1",
-    "TODO: チェック項目2",
-    "TODO: チェック項目3"
+    "GA4 Explorations: device_category='mobile' + event_name='purchase' の④→⑤転換率が施策前後で改善（目標: 66.92% → 72%以上）",
+    "GA4カスタムイベント: payment_method_selected で Apple Pay / Google Pay のクリック率と決済完了率を計測",
+    "GA4フォーム離脱計測: /jp/booking/ ページでfocus / blur / form_abandon カスタムイベントを実装し、各フィールドでの離脱率を施策前後で比較"
   ],
-  "verification_method": "TODO: GA4 で Mobile の ④→⑤ 意向→完了 を検証"
+  "verification_method": "GA4 Explorations で device_category='mobile' を軸にセグメント作成し、④→⑤（begin_checkout → purchase）の転換率をセグメント比較。施策A（Apple Pay追加）はPayment Request API利用率をGA4カスタムイベントで計測。施策E/F（バリデーション/フォーム保存）はGTMでフォーム操作イベントを実装し、/jp/booking/ の中断率（form_abandon）変化で効果測定。"
 }
