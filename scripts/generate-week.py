@@ -19,6 +19,7 @@ import argparse
 import json
 import os
 import shutil
+import subprocess
 import sys
 from datetime import date, datetime, timedelta, timezone
 
@@ -432,18 +433,8 @@ def make_content_skeleton(bn: dict, idx: int, data: dict) -> dict:
                     "before_text": "TODO: 現状の簡潔な説明",
                     "after_text": "TODO: 改善後の簡潔な説明",
                 },
-                "implementation_check": {
-                    "status": "TODO: new/partial/already_exists/superseded",
-                    "matched_feature": None,
-                    "note": None,
-                },
-                "feasibility": {
-                    "effort": "TODO: S/M/L/XL",
-                    "constraints": [],
-                    "constraint_notes": "",
-                    "prerequisites": [],
-                    "quick_wins": False,
-                },
+                # implementation_check / feasibility は
+                # audit-actions.py --auto-fill が自動記入するため省略
             })
         hypotheses.append({
             "level": level,
@@ -812,14 +803,33 @@ def main() -> None:
     if args.skeleton:
         week_dir = os.path.join(REPORTS_DIR, meta["week_id"])
         step_generate_skeletons(week_dir, args.dry_run)
+
+        # スケルトン生成後に audit-actions.py を自動実行
+        if not args.dry_run:
+            print(f"\n[AUDIT] implementation_check / feasibility を自動記入中...")
+            audit_script = os.path.join(REPO_ROOT, "scripts", "audit-actions.py")
+            result = subprocess.run(
+                [sys.executable, audit_script, "--week", meta["week_id"], "--auto-fill"],
+                capture_output=True, text=True
+            )
+            if result.returncode == 0:
+                # サマリー行だけ抜粋して表示
+                for line in result.stdout.splitlines():
+                    if any(k in line for k in ["総施策数", "重複疑い", "Quick Wins", "高リスク", "施策化レディネス"]):
+                        print(f"  {line.strip()}")
+            else:
+                print(f"  [WARN] audit-actions.py でエラー: {result.stderr[:200]}")
+
         print("\n" + "=" * 60)
         if args.dry_run:
             print("DRY-RUN 完了。--dry-run を外すと実際に書き込みます。")
         else:
-            print("スケルトン生成完了！")
+            print("スケルトン生成 + 施策化レビュー自動記入 完了！")
             print(f"\n次のステップ:")
             print(f"  Claude が各ファイルの TODO: を埋める（2-3 ファイルずつ並列推奨）")
             print(f"  プロトタイプは before_text / after_text の短縮形式で記述可能")
+            print(f"  ※ implementation_check / feasibility は自動記入済み")
+            print(f"  ※ already_exists の施策は代替案に差し替えてください")
         print("=" * 60)
         return
 

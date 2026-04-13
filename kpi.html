@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <script src="/auth.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>wip_KPIダッシュボード — VELTRA CVR REPORT</title>
+<title>KPIダッシュボード — VELTRA CVR REPORT</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
@@ -62,11 +62,33 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
 .footer{padding:28px 44px;font-size:14px;color:var(--text3);display:flex;justify-content:space-between}
 
+/* Business case card */
+.biz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding:0}
+.biz-cell{padding:20px 28px;border-right:1px solid var(--border);text-align:center}
+.biz-cell:last-child{border-right:none}
+.biz-cell .bl{font-size:12px;font-weight:700;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.biz-cell .bv{font-family:'DM Sans';font-size:28px;font-weight:900;line-height:1}
+.biz-cell .bs{font-size:12px;color:var(--text2);margin-top:6px}
+.biz-cell.biz-accent .bv{color:var(--green)}
+.biz-cell.biz-red .bv{color:var(--red)}
+.arrow-row{display:flex;align-items:center;justify-content:center;gap:12px;padding:20px 44px;font-size:15px}
+.arrow-row .ar-box{background:var(--bg);border-radius:10px;padding:14px 24px;text-align:center;min-width:140px}
+.arrow-row .ar-box .ar-label{font-size:11px;color:var(--text3);font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
+.arrow-row .ar-box .ar-val{font-family:'DM Sans';font-size:26px;font-weight:900}
+.arrow-row .ar-arrow{font-size:24px;color:var(--text3)}
+.arrow-row .ar-box.ar-target .ar-val{color:var(--green)}
+.schedule-bar{display:flex;align-items:center;gap:12px;padding:12px 44px 24px;font-size:14px;color:var(--text2)}
+.schedule-bar .sch-tag{background:var(--red);color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:6px;letter-spacing:.03em}
+
 @media(max-width:768px){
   .kpi-strip{grid-template-columns:1fr 1fr}
   .kpi-strip-cell{border-bottom:1px solid var(--border)}
   .tbl-wrap{padding:0 16px 20px;overflow-x:auto}
   .kpi-tbl{min-width:700px}
+  .biz-grid{grid-template-columns:1fr}
+  .biz-cell{border-right:none;border-bottom:1px solid var(--border)}
+  .arrow-row{flex-direction:column;gap:8px;padding:16px}
+  .arrow-row .ar-box{min-width:auto;width:100%}
 }
 </style>
 </head>
@@ -84,14 +106,56 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     </div>
   </div>
 
-  <!-- YTD KPI Summary -->
-  <div class="sec-label">2026年 YTDサマリー <span style="font-size:13px;font-weight:400;color:var(--text3);letter-spacing:0;text-transform:none;margin-left:12px" id="ytd-period"></span></div>
+  <!-- Business Case: CVR改善プロジェクト -->
+  <div class="sec-label">CVR改善プロジェクト — 数値目標</div>
+  <hr class="divider-solid">
+  <div class="arrow-row">
+    <div class="ar-box">
+      <div class="ar-label">現在 CVR</div>
+      <div class="ar-val" id="biz-cvr-current">1.50%</div>
+    </div>
+    <div class="ar-arrow">→</div>
+    <div class="ar-box ar-target">
+      <div class="ar-label">改善後 CVR</div>
+      <div class="ar-val" id="biz-cvr-target">1.515%</div>
+    </div>
+    <div style="font-size:13px;color:var(--green);font-weight:700;background:var(--green-light);padding:6px 14px;border-radius:8px">+1% 改善</div>
+  </div>
+  <hr class="divider-solid">
+  <div class="biz-grid">
+    <div class="biz-cell">
+      <div class="bl">売上インパクト</div>
+      <div class="bv">30億 → 30.3億</div>
+      <div class="bs">+3,000万円の売上増</div>
+    </div>
+    <div class="biz-cell">
+      <div class="bl">投資金額</div>
+      <div class="bv">1,000万</div>
+      <div class="bs">100万 × 5名 × 2ヶ月</div>
+    </div>
+    <div class="biz-cell biz-accent">
+      <div class="bl">ROI</div>
+      <div class="bv">+200%</div>
+      <div class="bs">投資対効果 3倍</div>
+    </div>
+  </div>
+  <hr class="divider-solid">
+  <div class="schedule-bar">
+    <span class="sch-tag">実施期間</span>
+    <span style="font-weight:700;color:var(--text)">2026年4月〜6月末</span>
+    <span style="color:var(--text3)">（3ヶ月間）</span>
+  </div>
+</div>
+
+<!-- 月次パフォーマンス -->
+<div class="card">
+  <div class="sec-label">2026年 月次サマリー <span style="font-size:13px;font-weight:400;color:var(--text3);letter-spacing:0;text-transform:none;margin-left:12px" id="ytd-period"></span></div>
   <hr class="divider-solid">
   <div class="kpi-strip" id="kpi-strip"></div>
   <hr class="divider-solid">
 
   <!-- Progress toward target -->
-  <div class="sec-label">年間目標 CVR 2.00% への進捗</div>
+  <div class="sec-label">目標 CVR 1.515% への進捗</div>
   <hr class="divider-solid">
   <div class="prog-wrap" style="padding-top:20px">
     <div class="prog-bar-bg">
@@ -101,7 +165,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div class="prog-labels">
       <span>0%</span>
       <span id="prog-label-current"></span>
-      <span>目標 2.00%</span>
+      <span>目標 1.515%</span>
     </div>
   </div>
 
@@ -186,13 +250,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 (function(){
   // ── Helpers ──
   function fmt(n){ return n.toLocaleString('ja-JP'); }
-  function pct(v){ return (v*100).toFixed(2)+'%'; }
+  function pct(v){ var p=v*100; return (p===Math.round(p)?p.toFixed(2):p.toFixed(3))+'%'; }
   function pp(v){ return (v>=0?'+':'')+(v*100).toFixed(2)+'pp'; }
   function gapClass(v){ return v>0?'gap-pos':v<0?'gap-neg':'gap-neut'; }
   function badge(actual, target){
     var diff = actual - target;
     if(diff >= 0) return '<span class="st-badge st-ok">達成</span>';
-    if(diff >= -0.002) return '<span class="st-badge st-close">CLOSE</span>';
+    if(diff >= -0.001) return '<span class="st-badge st-close">CLOSE</span>';
     return '<span class="st-badge st-ng">未達</span>';
   }
 
@@ -201,12 +265,17 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   function monthIndex(m){ return parseInt(m.split('-')[1],10)-1; }
   function yearOf(m){ return parseInt(m.split('-')[0],10); }
 
+  // 当月判定: セッション数ではなく日付ベース
+  var _now = new Date();
+  var _curYM = _now.getFullYear() + '-' + String(_now.getMonth()+1).padStart(2,'0');
+  function isCurrentMonth(monthStr){ return monthStr === _curYM; }
+
   // ── Load data ──
   fetch('/summary-data.json').then(function(r){return r.json()}).then(function(data){
     var monthly = data.monthly;
     var targets = data.targets;
-    var monthlyTarget = targets.monthly_cvr;   // 0.018
-    var annualTarget  = targets.annual_cvr;    // 0.020
+    var monthlyTarget = targets.monthly_cvr;   // 0.01515
+    var annualTarget  = targets.annual_cvr;    // 0.01515
 
     document.getElementById('header-updated').textContent = data.generated_at ? data.generated_at.slice(0,10) : '—';
     document.getElementById('footer-ts').textContent = 'Generated: ' + (data.generated_at || '—');
@@ -219,21 +288,23 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       byYear[y].push(m);
     });
 
-    // ── 2026 data ──
     var d2026 = byYear[2026] || [];
     var d2025 = byYear[2025] || [];
     var d2024 = byYear[2024] || [];
 
-    // Full months only for 2026 (exclude partial month if sessions < 1M)
-    var fullMonths2026 = d2026.filter(function(m){ return m.sessions >= 1000000; });
+    // 確定月 = 当月以外（日付ベース判定）
+    var fullMonths2026 = d2026.filter(function(m){ return !isCurrentMonth(m.month); });
+    // 今月速報データ
+    var curMonth = d2026.filter(function(m){ return isCurrentMonth(m.month); })[0] || null;
+
     var lastFullMonth = fullMonths2026.length ? fullMonths2026[fullMonths2026.length-1].month : null;
 
-    // ── YTD calculation (full months) ──
+    // ── YTD（確定月のみ）──
     var ytdSessions = 0, ytdPurchases = 0;
     fullMonths2026.forEach(function(m){ ytdSessions += m.sessions; ytdPurchases += m.purchases; });
     var ytdCvr = ytdSessions > 0 ? ytdPurchases / ytdSessions : 0;
 
-    // YTD same period last year
+    // YTD 前年同期
     var ytdMonthNums = fullMonths2026.map(function(m){ return monthIndex(m.month); });
     var ytd2025Sessions = 0, ytd2025Purchases = 0;
     d2025.forEach(function(m){
@@ -243,51 +314,94 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     });
     var ytd2025Cvr = ytd2025Sessions > 0 ? ytd2025Purchases / ytd2025Sessions : 0;
 
+    // 今月速報の前年同月
+    var curMonthIdx = curMonth ? monthIndex(curMonth.month) : -1;
+    var lookup2025 = {};
+    d2025.forEach(function(m){ lookup2025[monthIndex(m.month)] = m; });
+    var prev2025CurMonth = curMonthIdx >= 0 ? (lookup2025[curMonthIdx] || null) : null;
+
+    // プログレス追跡: 今月速報があればそれ、なければ直近確定月
+    var trackCvr = curMonth ? curMonth.cvr : ytdCvr;
+    var trackLabel = curMonth ? MONTH_LABELS[curMonthIdx]+'速報' : (lastFullMonth ? MONTH_LABELS[monthIndex(lastFullMonth)] : '直近確定月');
+
     // ── KPI Strip ──
     var strip = document.getElementById('kpi-strip');
-    var periodLabel = lastFullMonth ? '2026年1月〜' + (monthIndex(lastFullMonth)+1) + '月' : '—';
-    document.getElementById('ytd-period').textContent = periodLabel + '（確定月ベース）';
+    var ytdPeriod = lastFullMonth
+      ? '2026年1月〜' + (monthIndex(lastFullMonth)+1) + '月（確定）'
+      : '確定月なし';
+    document.getElementById('ytd-period').textContent = ytdPeriod;
 
     var stripItems = [
-      { label: 'YTDセッション数', value: fmt(ytdSessions), sub: 'YOY ' + (ytdSessions && ytd2025Sessions ? (((ytdSessions/ytd2025Sessions)-1)*100).toFixed(1)+'%' : '—'), hl: false },
-      { label: 'YTD CV数', value: fmt(ytdPurchases), sub: 'YOY ' + (ytdPurchases && ytd2025Purchases ? (((ytdPurchases/ytd2025Purchases)-1)*100).toFixed(1)+'%' : '—'), hl: false },
-      { label: 'YTD CVR', value: pct(ytdCvr), sub: '目標 '+pct(annualTarget)+' / GAP '+pp(ytdCvr - annualTarget), hl: true },
-      { label: 'YOY CVR変化', value: pp(ytdCvr - ytd2025Cvr), sub: '2025同期 '+pct(ytd2025Cvr), hl: false }
+      {
+        label: (lastFullMonth ? '1〜'+(monthIndex(lastFullMonth)+1)+'月' : '確定月') + ' CVR',
+        value: pct(ytdCvr),
+        sub: '確定月の平均 / 前年同期 '+pct(ytd2025Cvr),
+        hl: false
+      },
+      {
+        label: curMonth ? MONTH_LABELS[curMonthIdx]+' 速報 CVR' : '今月データなし',
+        value: curMonth ? pct(curMonth.cvr) : '—',
+        sub: curMonth
+          ? '目標 '+pct(monthlyTarget)+' / GAP '+pp(curMonth.cvr - monthlyTarget)
+          : '—',
+        hl: true
+      },
+      {
+        label: '目標 vs 今月',
+        value: curMonth ? pp(curMonth.cvr - monthlyTarget) : '—',
+        sub: curMonth
+          ? (curMonth.cvr >= monthlyTarget ? '目標達成' : '目標まで '+pp(monthlyTarget - curMonth.cvr).replace('+',''))
+          : '—',
+        hl: false,
+        color: curMonth ? (curMonth.cvr >= monthlyTarget ? 'var(--green)' : 'var(--red)') : 'var(--text3)'
+      },
+      {
+        label: '前年同月 CVR',
+        value: prev2025CurMonth ? pct(prev2025CurMonth.cvr) : '—',
+        sub: curMonth && prev2025CurMonth
+          ? 'YOY ' + pp(curMonth.cvr - prev2025CurMonth.cvr)
+          : '前年データなし',
+        hl: false
+      }
     ];
     stripItems.forEach(function(item){
       var cell = document.createElement('div');
       cell.className = 'kpi-strip-cell' + (item.hl ? ' highlight' : '');
-      cell.innerHTML = '<div class="ksl">'+item.label+'</div><div class="ksv">'+item.value+'</div><div class="kss">'+item.sub+'</div>';
+      var valStyle = item.color ? ' style="color:'+item.color+'"' : '';
+      cell.innerHTML = '<div class="ksl">'+item.label+'</div>'
+        +'<div class="ksv"'+valStyle+'>'+item.value+'</div>'
+        +'<div class="kss">'+item.sub+'</div>';
       strip.appendChild(cell);
     });
 
-    // ── Progress bar ──
-    var progPct = Math.min((ytdCvr / annualTarget) * 100, 120);
+    // ── Progress bar（今月速報 or 直近確定月 vs 目標）──
+    var progPct = Math.min((trackCvr / annualTarget) * 100, 120);
     document.getElementById('prog-fill').style.width = progPct + '%';
-    document.getElementById('prog-fill').style.background = ytdCvr >= annualTarget ? 'var(--green)' : 'var(--red)';
+    document.getElementById('prog-fill').style.background = trackCvr >= annualTarget ? 'var(--green)' : 'var(--red)';
     document.getElementById('prog-target').style.left = '100%';
-    document.getElementById('prog-label-current').textContent = '現在 ' + pct(ytdCvr) + '（' + progPct.toFixed(0) + '%）';
+    document.getElementById('prog-label-current').textContent =
+      trackLabel + ' ' + pct(trackCvr) + '（目標比 ' + progPct.toFixed(0) + '%）';
 
-    // ── Callout ──
+    // ── Callout（今月速報ベース）──
     var callout = document.getElementById('callout-area');
-    var gapToTarget = ytdCvr - annualTarget;
+    var gapToTarget = trackCvr - annualTarget;
     if(gapToTarget >= 0){
-      callout.innerHTML = '<div class="callout callout-green"><div class="ct" style="color:var(--green)">目標達成</div><div class="cb">YTD CVR '+pct(ytdCvr)+' は年間目標 '+pct(annualTarget)+' を '+pp(gapToTarget)+' 上回っています。</div></div>';
+      callout.innerHTML = '<div class="callout callout-green"><div class="ct" style="color:var(--green)">目標達成</div>'
+        +'<div class="cb">'+trackLabel+' CVR '+pct(trackCvr)+' は目標 '+pct(annualTarget)+' を '+pp(gapToTarget)+' 上回っています。</div></div>';
     } else {
-      callout.innerHTML = '<div class="callout"><div class="ct" style="color:var(--red)">目標未達</div><div class="cb">YTD CVR '+pct(ytdCvr)+' は年間目標 '+pct(annualTarget)+' に対して '+pp(gapToTarget)+' の乖離があります。月次目標 '+pct(monthlyTarget)+' の継続達成が必要です。</div></div>';
+      callout.innerHTML = '<div class="callout"><div class="ct" style="color:var(--red)">目標未達</div>'
+        +'<div class="cb">'+trackLabel+' CVR '+pct(trackCvr)+' は目標 '+pct(annualTarget)+' まで '+pp(Math.abs(gapToTarget)).replace('+','')+'の乖離。'
+        +(curMonth ? 'ベースライン比（'+pct(targets.baseline_cvr)+'）: '+pp(curMonth.cvr - targets.baseline_cvr)+'。' : '')
+        +'</div></div>';
     }
 
     // ── Monthly table ──
     var tbody = document.getElementById('monthly-tbody');
     var totalS26=0, totalP26=0, totalS25matched=0, totalP25matched=0;
 
-    // Build 2025 lookup
-    var lookup2025 = {};
-    d2025.forEach(function(m){ lookup2025[monthIndex(m.month)] = m; });
-
     d2026.forEach(function(m){
       var mi = monthIndex(m.month);
-      var isPartial = m.sessions < 1000000;
+      var isPartial = isCurrentMonth(m.month); // 日付ベース判定
       var prev = lookup2025[mi];
       var prevCvr = prev ? prev.cvr : null;
       var yoyDiff = prevCvr !== null ? m.cvr - prevCvr : null;
@@ -299,9 +413,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       }
 
       var tr = document.createElement('tr');
-      if(isPartial) tr.style.opacity = '0.55';
+      if(isPartial) tr.style.opacity = '0.6';
       tr.innerHTML =
-        '<td>'+MONTH_LABELS[mi]+(isPartial?' <span style="font-size:11px;color:var(--amber);font-weight:400">速報</span>':'')+'</td>'+
+        '<td>'+MONTH_LABELS[mi]+(isPartial?' <span style="font-size:11px;color:var(--amber);font-weight:700">速報</span>':'')+'</td>'+
         '<td>'+fmt(m.sessions)+'</td>'+
         '<td>'+fmt(m.purchases)+'</td>'+
         '<td style="font-weight:900">'+pct(m.cvr)+'</td>'+
@@ -309,11 +423,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         '<td class="'+gapClass(gapVsTarget)+'">'+pp(gapVsTarget)+'</td>'+
         '<td class="dim">'+(prevCvr!==null?pct(prevCvr):'—')+'</td>'+
         '<td class="'+(yoyDiff!==null?gapClass(yoyDiff):'dim')+'">'+(yoyDiff!==null?pp(yoyDiff):'—')+'</td>'+
-        '<td>'+(isPartial?'<span class="st-badge" style="background:#f5f4f0;color:var(--text3)">集計中</span>':badge(m.cvr, monthlyTarget))+'</td>';
+        '<td>'+(isPartial
+          ? '<span class="st-badge" style="background:#fffbeb;color:var(--amber)">集計中</span>'
+          : badge(m.cvr, monthlyTarget))+'</td>';
       tbody.appendChild(tr);
     });
 
-    // YTD row
+    // YTD行（確定月のみ）
     var ytdCvrCalc = totalS26>0 ? totalP26/totalS26 : 0;
     var ytd25Cvr = totalS25matched>0 ? totalP25matched/totalS25matched : 0;
     var ytdYoy = ytd25Cvr>0 ? ytdCvrCalc - ytd25Cvr : null;
@@ -322,7 +438,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     var ytdTr = document.createElement('tr');
     ytdTr.className = 'ytd-row';
     ytdTr.innerHTML =
-      '<td>YTD 合計</td>'+
+      '<td>確定計（1〜'+(lastFullMonth?(monthIndex(lastFullMonth)+1):'?')+'月）</td>'+
       '<td>'+fmt(totalS26)+'</td>'+
       '<td>'+fmt(totalP26)+'</td>'+
       '<td style="font-weight:900;color:var(--red)">'+pct(ytdCvrCalc)+'</td>'+
@@ -345,17 +461,15 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     var lookup2026 = {};
     d2026.forEach(function(m){ lookup2026[monthIndex(m.month)] = m; });
 
-    var annS26=0, annP26=0, annS25=0, annP25=0;
-
     quarters.forEach(function(q){
       var s26=0,p26=0,s25=0,p25=0,has26=false,has25=false;
       q.months.forEach(function(mi){
         var m26 = lookup2026[mi];
         var m25 = lookup2025[mi];
-        if(m26 && m26.sessions >= 1000000){ s26+=m26.sessions; p26+=m26.purchases; has26=true; }
+        // 四半期集計も確定月のみ（当月除外）
+        if(m26 && !isCurrentMonth(m26.month)){ s26+=m26.sessions; p26+=m26.purchases; has26=true; }
         if(m25){ s25+=m25.sessions; p25+=m25.purchases; has25=true; }
       });
-      annS26+=s26; annP26+=p26; annS25+=s25; annP25+=p25;
       var cvr26 = s26>0?p26/s26:0;
       var cvr25 = s25>0?p25/s25:0;
       var yoyQ = has26 && has25 ? cvr26-cvr25 : null;
@@ -379,7 +493,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     var years = [
       { label: '2024年', data: d2024, target: null },
       { label: '2025年', data: d2025, target: null },
-      { label: '2026年 (YTD)', data: fullMonths2026, target: annualTarget }
+      { label: '2026年（確定月）', data: fullMonths2026, target: annualTarget }
     ];
 
     var prevYearCvr = null;
