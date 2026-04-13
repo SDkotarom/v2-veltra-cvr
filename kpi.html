@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <script src="/auth.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>wip_KPIダッシュボード — VELTRA CVR REPORT</title>
+<title>KPIダッシュボード — VELTRA CVR REPORT</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
@@ -62,11 +62,33 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
 .footer{padding:28px 44px;font-size:14px;color:var(--text3);display:flex;justify-content:space-between}
 
+/* Business case card */
+.biz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding:0}
+.biz-cell{padding:20px 28px;border-right:1px solid var(--border);text-align:center}
+.biz-cell:last-child{border-right:none}
+.biz-cell .bl{font-size:12px;font-weight:700;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.biz-cell .bv{font-family:'DM Sans';font-size:28px;font-weight:900;line-height:1}
+.biz-cell .bs{font-size:12px;color:var(--text2);margin-top:6px}
+.biz-cell.biz-accent .bv{color:var(--green)}
+.biz-cell.biz-red .bv{color:var(--red)}
+.arrow-row{display:flex;align-items:center;justify-content:center;gap:12px;padding:20px 44px;font-size:15px}
+.arrow-row .ar-box{background:var(--bg);border-radius:10px;padding:14px 24px;text-align:center;min-width:140px}
+.arrow-row .ar-box .ar-label{font-size:11px;color:var(--text3);font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
+.arrow-row .ar-box .ar-val{font-family:'DM Sans';font-size:26px;font-weight:900}
+.arrow-row .ar-arrow{font-size:24px;color:var(--text3)}
+.arrow-row .ar-box.ar-target .ar-val{color:var(--green)}
+.schedule-bar{display:flex;align-items:center;gap:12px;padding:12px 44px 24px;font-size:14px;color:var(--text2)}
+.schedule-bar .sch-tag{background:var(--red);color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:6px;letter-spacing:.03em}
+
 @media(max-width:768px){
   .kpi-strip{grid-template-columns:1fr 1fr}
   .kpi-strip-cell{border-bottom:1px solid var(--border)}
   .tbl-wrap{padding:0 16px 20px;overflow-x:auto}
   .kpi-tbl{min-width:700px}
+  .biz-grid{grid-template-columns:1fr}
+  .biz-cell{border-right:none;border-bottom:1px solid var(--border)}
+  .arrow-row{flex-direction:column;gap:8px;padding:16px}
+  .arrow-row .ar-box{min-width:auto;width:100%}
 }
 </style>
 </head>
@@ -84,6 +106,49 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     </div>
   </div>
 
+  <!-- Business Case: CVR改善プロジェクト -->
+  <div class="sec-label">CVR改善プロジェクト — 数値目標</div>
+  <hr class="divider-solid">
+  <div class="arrow-row">
+    <div class="ar-box">
+      <div class="ar-label">現在 CVR</div>
+      <div class="ar-val" id="biz-cvr-current">1.50%</div>
+    </div>
+    <div class="ar-arrow">→</div>
+    <div class="ar-box ar-target">
+      <div class="ar-label">改善後 CVR</div>
+      <div class="ar-val" id="biz-cvr-target">1.515%</div>
+    </div>
+    <div style="font-size:13px;color:var(--green);font-weight:700;background:var(--green-light);padding:6px 14px;border-radius:8px">+1% 改善</div>
+  </div>
+  <hr class="divider-solid">
+  <div class="biz-grid">
+    <div class="biz-cell">
+      <div class="bl">売上インパクト</div>
+      <div class="bv">30億 → 30.3億</div>
+      <div class="bs">+3,000万円の売上増</div>
+    </div>
+    <div class="biz-cell">
+      <div class="bl">投資金額</div>
+      <div class="bv">1,000万</div>
+      <div class="bs">100万 × 5名 × 2ヶ月</div>
+    </div>
+    <div class="biz-cell biz-accent">
+      <div class="bl">ROI</div>
+      <div class="bv">+200%</div>
+      <div class="bs">投資対効果 3倍</div>
+    </div>
+  </div>
+  <hr class="divider-solid">
+  <div class="schedule-bar">
+    <span class="sch-tag">実施期間</span>
+    <span style="font-weight:700;color:var(--text)">2026年4月〜6月末</span>
+    <span style="color:var(--text3)">（3ヶ月間）</span>
+  </div>
+</div>
+
+<!-- YTD Performance -->
+<div class="card">
   <!-- YTD KPI Summary -->
   <div class="sec-label">2026年 YTDサマリー <span style="font-size:13px;font-weight:400;color:var(--text3);letter-spacing:0;text-transform:none;margin-left:12px" id="ytd-period"></span></div>
   <hr class="divider-solid">
@@ -91,7 +156,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   <hr class="divider-solid">
 
   <!-- Progress toward target -->
-  <div class="sec-label">年間目標 CVR 2.00% への進捗</div>
+  <div class="sec-label">目標 CVR 1.515% への進捗</div>
   <hr class="divider-solid">
   <div class="prog-wrap" style="padding-top:20px">
     <div class="prog-bar-bg">
@@ -101,7 +166,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div class="prog-labels">
       <span>0%</span>
       <span id="prog-label-current"></span>
-      <span>目標 2.00%</span>
+      <span>目標 1.515%</span>
     </div>
   </div>
 
@@ -186,13 +251,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 (function(){
   // ── Helpers ──
   function fmt(n){ return n.toLocaleString('ja-JP'); }
-  function pct(v){ return (v*100).toFixed(2)+'%'; }
+  function pct(v){ var p=v*100; return (p===Math.round(p)?p.toFixed(2):p.toFixed(3))+'%'; }
   function pp(v){ return (v>=0?'+':'')+(v*100).toFixed(2)+'pp'; }
   function gapClass(v){ return v>0?'gap-pos':v<0?'gap-neg':'gap-neut'; }
   function badge(actual, target){
     var diff = actual - target;
     if(diff >= 0) return '<span class="st-badge st-ok">達成</span>';
-    if(diff >= -0.002) return '<span class="st-badge st-close">CLOSE</span>';
+    if(diff >= -0.001) return '<span class="st-badge st-close">CLOSE</span>';
     return '<span class="st-badge st-ng">未達</span>';
   }
 
@@ -205,8 +270,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   fetch('/summary-data.json').then(function(r){return r.json()}).then(function(data){
     var monthly = data.monthly;
     var targets = data.targets;
-    var monthlyTarget = targets.monthly_cvr;   // 0.018
-    var annualTarget  = targets.annual_cvr;    // 0.020
+    var monthlyTarget = targets.monthly_cvr;   // 0.01515
+    var annualTarget  = targets.annual_cvr;    // 0.01515
 
     document.getElementById('header-updated').textContent = data.generated_at ? data.generated_at.slice(0,10) : '—';
     document.getElementById('footer-ts').textContent = 'Generated: ' + (data.generated_at || '—');
