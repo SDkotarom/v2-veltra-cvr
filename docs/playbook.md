@@ -28,9 +28,12 @@ v2-veltra-cvr/
 │   ├── veltra-design-system.md ← VELTRAサイトのデザインルール
 │   ├── veltra-url-structure.md ← VELTRA URL階層（エリア定義）
 │   └── prd-template.md         ← PRDテンプレート（汎用）
+├── known-implementations.json   ← 実装済み機能カタログ（150+件、カテゴリ別）
+├── feasibility-constraints.json ← 制約チェックリスト（10カテゴリ）
 ├── scripts/
 │   ├── generate-week.py        ← 週次スキャフォールド生成
 │   ├── validate-report.py      ← レポートバリデーション
+│   ├── audit-actions.py        ← 施策化レビュー監査（重複+制約チェック）
 │   ├── extract-content-from-html.py ← content.json スケルトン生成
 │   └── archive/                ← 過去の一時スクリプト
 ├── auth.js / nav.js / funnel-def.js / bottleneck.js  ← 共通JS
@@ -483,6 +486,52 @@ https://v2-veltra-cvr.vercel.app/reports/{YYYY}-w{WW}/ を確認して、
 | 数値不整合 | data.json とHTML内ハードコードの乖離 | data.json を正とし、HTMLを修正 |
 | 「仮想データ」表記残り | 古いHTML | grep で検索、置換 |
 | content.json prototype不足 | 施策にprototype未設定 | `python3 -c "import json; ..."` で確認 |
+
+---
+
+## 11. データファイルのメンテナンス
+
+### known-implementations.json の更新
+
+VELTRAサイトに新機能がリリースされた場合、`known-implementations.json` に追記する。
+これにより、次回以降のボトルネック分析で重複施策の自動検出が可能になる。
+
+**更新タイミング**:
+- サイトに新機能がリリースされたとき
+- ABテストの結果が確定し、本番適用されたとき
+- 月次で棚卸し（過去1ヶ月のリリースノートを確認）
+
+**更新手順**:
+1. `known-implementations.json` を開く
+2. 該当カテゴリの `implementations` 配列に追加:
+   ```json
+   {
+     "title": "機能名",
+     "date": "YYYY-MM",
+     "keywords": ["キーワード1", "キーワード2"],
+     "detail": "実装詳細（省略可）"
+   }
+   ```
+3. `keywords` は施策タイトル・説明文に出現しうる語を選ぶ（2語以上推奨）
+4. 汎用的すぎるキーワード（`scripts/audit-actions.py` の `GENERIC_KEYWORDS` 参照）は避ける
+5. 動作確認: `python3 scripts/audit-actions.py --week {最新週} --report-only`
+
+### feasibility-constraints.json の更新
+
+新たな制約パターンが判明した場合に追記する。
+
+**更新時の注意**:
+- `trigger_keywords` は具体的な複合語を使う（「空き状況」「パートナーAPI」等）
+- 単独で偽陽性を起こす汎用語（「API」「連携」「空き」等）は避ける
+- 新規追加後は `python3 scripts/audit-actions.py --week {最新週} --report-only` で影響確認
+
+### audit-actions.py の実行タイミング
+
+| タイミング | コマンド | 目的 |
+|-----------|---------|------|
+| Phase 2 完了後 | `python3 scripts/audit-actions.py --week {YYYY}-w{WW} --auto-fill` | 自動記入+レポート |
+| 手動レビュー後 | `python3 scripts/audit-actions.py --week {YYYY}-w{WW} --report-only` | 最終確認 |
+| known-implementations.json 更新後 | `python3 scripts/audit-actions.py --week {最新週} --report-only` | 回帰チェック |
 
 ---
 
