@@ -118,29 +118,25 @@
       "actions": [
         {
           "letter": "A",
-          "title": "エリアページにパーソナライズドレコメンドカルーセル追加",
-          "description": "エリアページ上部に「あなたにおすすめの体験」カルーセルを追加。人気商品への直リンクで①→②を改善。",
-          "spec_html": "・エリアページのファーストビューにカルーセル配置<br>・人気順/口コミ順/新着順で3商品表示<br>・ワンタップでAC（商品詳細）へ遷移",
+          "title": "エリアページに目的別クイックフィルター（家族/カップル/一人旅/グループ）",
+          "description": "エリアページのファーストビューにペルソナ別フィルターチップを配置。タップで該当商品が即座にフィルタリングされ、新規ユーザーが自分に合った商品を発見しやすくする。",
+          "spec_html": "・フィルターチップ: 家族向け/カップル/一人旅/グループ/初心者OK<br>・タップで商品リストをリアルタイムフィルタリング（JS filter）<br>・商品タグは既存のカテゴリタグを活用（新規タグ追加不要）",
           "impact": "①→② +5pt",
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:4px\">沖縄エリア</div></div><div style=\"padding:0 16px 8px\"><div style=\"font-size:10px;color:#999;line-height:1.8;text-align:center\">商品一覧（テキストリンク）<br>・青の洞窟シュノーケリング<br>・美ら海水族館ツアー<br>・石垣島日帰りツアー<br>…</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">テキストリンク一覧のみ → 商品に興味を持てない</div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:4px\">沖縄エリア</div></div><div style=\"padding:0 16px 8px\"><div style=\"font-size:11px;font-weight:700;color:#E8386E;margin-bottom:6px\">&#x2728; あなたにおすすめの体験</div><div style=\"display:flex;gap:8px;overflow:hidden\"><div style=\"flex:0 0 140px;background:#fff;border:1px solid #ddd;border-radius:6px;overflow:hidden\"><div style=\"height:70px;background:linear-gradient(135deg,#4FC3F7,#0288D1);display:flex;align-items:center;justify-content:center\"><span style=\"color:#fff;font-size:10px\">&#x1F30A;</span></div><div style=\"padding:6px;font-size:9px\"><div style=\"font-weight:700\">青の洞窟シュノーケリング</div><div style=\"color:#FFAA00;font-size:8px\">★4.8 (1,234件)</div><div style=\"color:#D91F26;font-weight:700;margin-top:2px\">¥5,500〜</div></div></div><div style=\"flex:0 0 140px;background:#fff;border:1px solid #ddd;border-radius:6px;overflow:hidden\"><div style=\"height:70px;background:linear-gradient(135deg,#81C784,#388E3C);display:flex;align-items:center;justify-content:center\"><span style=\"color:#fff;font-size:10px\">&#x1F420;</span></div><div style=\"padding:6px;font-size:9px\"><div style=\"font-weight:700\">美ら海水族館ツアー</div><div style=\"color:#FFAA00;font-size:8px\">★4.6 (890件)</div><div style=\"color:#D91F26;font-weight:700;margin-top:2px\">¥7,800〜</div></div></div></div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500\">おすすめカルーセルでAC到達を促進</div></div>"
           },
           "implementation_check": {
-            "status": "already_exists",
-            "matched_feature": "Silvereggレコメンドエンジン（既存）",
-            "note": "キーワード一致: レコメンド, おすすめ。Silvereggベースのレコメンドエンジンが稼働中。購入金額はJPY統一済み"
+            "status": "new",
+            "matched_feature": null,
+            "note": "旧施策「パーソナライズドレコメンドカルーセル」はSilveregg既存のため差し替え。目的別フィルターはカテゴリフィルター（2025-10）とは異なりペルソナ軸の新規UI"
           },
           "feasibility": {
             "effort": "S",
-            "constraints": [
-              "personalization_privacy"
-            ],
-            "constraint_notes": "未ログイン時は「人気順」等のフォールバック表示。ファーストパーティデータ（サイト内行動）のみ使用。明示的な同意フロー設計。",
-            "prerequisites": [
-              "対象ユーザーのログイン率は？（低ければパーソナライズ効果が限定的）"
-            ],
-            "quick_wins": false
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         },
         {
@@ -203,45 +199,47 @@
       "actions": [
         {
           "letter": "D",
-          "title": "検索バーを常時表示 + オートサジェスト強化",
-          "description": "ヘッダーの検索バーを目立つ位置に常時表示し、入力時にオートサジェストで商品を直接提案。",
-          "spec_html": "・検索バーをヘッダー中央に配置（モバイルも常時表示）<br>・オートサジェスト: 商品名 + エリア名 + カテゴリ<br>・サジェスト結果からACページへ直リンク",
+          "title": "検索結果のスコアリング改善（CVR重み付けランキング）",
+          "description": "検索結果の表示順をCVR・予約数で重み付けし、購買確率の高い商品を上位に表示。現在のキーワード一致度のみのランキングから転換率ベースに改善。",
+          "spec_html": "・検索結果スコア = テキスト一致度 × 0.4 + CVR × 0.3 + 予約数 × 0.2 + 評価 × 0.1<br>・バックエンド検索APIのソートロジック変更<br>・ABテスト: 既存ソート vs CVR重み付けソート",
           "impact": "①→② +4pt",
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:0 16px 8px;display:flex;align-items:center;justify-content:space-between\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:8px\">沖縄エリア</div><div style=\"font-size:10px;color:#999;text-align:center\">検索はハンバーガーメニュー内<br>→ 新規ユーザーは見つけられない</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">検索バーが隠れている</div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:8px 16px\"><div style=\"border:1px solid #ddd;border-radius:20px;padding:8px 14px;background:#fff;display:flex;align-items:center;gap:6px\"><span style=\"font-size:12px;color:#999\">&#x1F50D;</span><span style=\"font-size:11px;color:#999\">体験・エリアで検索</span></div></div><div style=\"padding:0 16px 8px\"><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;font-size:10px\"><div style=\"font-weight:600;color:#666;margin-bottom:4px\">&#x2728; サジェスト:</div><div style=\"color:#1B82C5;padding:2px 0\">&#x1F30A; 青の洞窟 シュノーケリング</div><div style=\"color:#1B82C5;padding:2px 0\">&#x1F3D6; 沖縄 ビーチ</div><div style=\"color:#1B82C5;padding:2px 0\">&#x1F420; 美ら海水族館</div></div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500\">検索バー常時表示+オートサジェスト</div></div>"
           },
           "implementation_check": {
-            "status": "already_exists",
-            "matched_feature": "検索サジェスト改善（オートサジェスト）",
-            "note": "キーワード一致: サジェスト, オートサジェスト。検索サジェストUI標準化。キーワードサジェスト追加済み"
+            "status": "new",
+            "matched_feature": null,
+            "note": "旧施策「検索バー常時表示+オートサジェスト」は2025-08〜11に実装済みのため差し替え。検索結果のランキングロジック（CVR重み付け）は未実装の新規施策"
           },
           "feasibility": {
-            "effort": "S",
+            "effort": "M",
             "constraints": [
-              "mobile_desktop_gap"
+              "ab_test_conflict",
+              "dev_effort"
             ],
-            "constraint_notes": "ボトルネックのデバイス指定に合わせてターゲットデバイスを明確化。レスポンシブ設計で両対応を基本とする。",
+            "constraint_notes": "behavior_contextのpattern_referencesで過去結果を確認。情報追加系はまず小規模テストで検証。テスト設計時に干渉チェック。; 施策にeffort_levelを付与（S=フロントのみ/M=バックエンド含む/L=API連携必須/XL=基盤改修）。S→M→Lの順で優先実装。",
             "prerequisites": [
-              "ターゲットデバイスはモバイルのみ？両対応？"
+              "この方向性で過去にABテストを実施したか？",
+              "フロントエンドのみで実装可能か？"
             ],
             "quick_wins": false
           }
         },
         {
           "letter": "E",
-          "title": "検索結果ページのUI改善（カード表示 + フィルター）",
-          "description": "検索結果をリスト表示からカード表示に変更し、フィルター機能を追加。",
-          "spec_html": "・カード表示: 画像 + タイトル + ★ + 価格<br>・フィルター: エリア/価格帯/カテゴリ/即確定",
+          "title": "検索結果ページにソート機能追加（人気順/価格順/評価順/新着順）",
+          "description": "検索結果ページにソートドロップダウンを追加。ユーザーが自分の優先軸で並べ替え可能にし、目的の商品への到達率を改善。",
+          "spec_html": "・ソートUI: ドロップダウン（人気順/価格が安い順/評価が高い順/新着順）<br>・デフォルト: 人気順（CVR×予約数）<br>・フロントエンドJSでソート処理（API変更不要）",
           "impact": "①→② +3pt",
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:4px\">検索結果: 「沖縄 シュノーケリング」</div></div><div style=\"padding:0 16px 8px\"><div style=\"font-size:10px;color:#666;line-height:2.0;border-left:2px solid #ddd;padding-left:8px\">・青の洞窟シュノーケリング<br>・慶良間シュノーケリング<br>・美ら海シュノーケリング<br>・宮古島シュノーケリング</div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:#999;text-align:center\">テキストリスト表示でフィルターなし</div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:900;margin-bottom:4px\">検索結果: 「沖縄 シュノーケリング」</div></div><div style=\"padding:0 16px 8px\"><div style=\"display:flex;gap:4px;margin-bottom:6px;flex-wrap:wrap\"><span style=\"background:#E3F2FD;padding:3px 8px;border-radius:10px;font-size:9px\">沖縄本島</span><span style=\"background:#fff;border:1px solid #ddd;padding:3px 8px;border-radius:10px;font-size:9px\">¥5K以下</span><span style=\"background:#fff;border:1px solid #ddd;padding:3px 8px;border-radius:10px;font-size:9px\">即確定</span></div><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;display:flex;gap:8px;align-items:center\"><div style=\"width:60px;height:45px;background:linear-gradient(135deg,#4FC3F7,#0288D1);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center\"><span style=\"color:#fff;font-size:12px\">&#x1F30A;</span></div><div style=\"font-size:9px;flex:1\"><div style=\"font-weight:700\">青の洞窟シュノーケリング</div><div style=\"color:#FFAA00\">★4.8 (1,234件)</div><div style=\"color:#D91F26;font-weight:700\">¥5,500〜</div></div></div></div><div style=\"padding:4px 16px 12px;font-size:10px;color:var(--green);text-align:center;font-weight:500\">カード表示+フィルターで検索結果を改善</div></div>"
           },
           "implementation_check": {
-            "status": "already_exists",
-            "matched_feature": "検索結果ページフィルター追加",
-            "note": "キーワード一致: フィルター, 検索結果。AC一覧ページにフィルター機能を追加"
+            "status": "new",
+            "matched_feature": null,
+            "note": "旧施策「検索結果フィルター」は2026-03に実装済みのため差し替え。ソート機能はフィルターとは別機能で未実装"
           },
           "feasibility": {
             "effort": "S",

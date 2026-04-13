@@ -168,9 +168,10 @@
             "constraints": [
               "inventory_realtime"
             ],
-            "constraint_notes": "在庫数の代わりに「空きあり/残りわずか/満席」の3段階表示を検討。APIレスポンスのキャッシュTTLを明示。リクエスト制は「空き状況はお問い合わせ」と表示。",
+            "constraint_notes": "プラン別の空き日程を1画面で表示するため、カレンダーAPI呼び出し回数が増加。キャッシュ戦略とプラン切替時の再取得ルールを定義すること。",
             "prerequisites": [
-              "対象APIは在庫数を返すか？（Globick v3.1は対応、Linktivityは要確認）"
+              "プラン切替時にカレンダーデータを再取得するか、初回一括取得するか？",
+              "キャッシュTTLは何分か？"
             ],
             "quick_wins": false
           }
@@ -191,15 +192,16 @@
             "note": "類似機能あり（翌月カレンダー覗き見（モバイル））。差分を確認してください。"
           },
           "feasibility": {
-            "effort": "M",
+            "effort": "L",
             "constraints": [
               "inventory_realtime",
               "partner_api_dependency"
             ],
-            "constraint_notes": "在庫数の代わりに「空きあり/残りわずか/満席」の3段階表示を検討。APIレスポンスのキャッシュTTLを明示。リクエスト制は「空き状況はお問い合わせ」と表示。; 自社管理商品から先行実装。API依存部分は段階的ロールアウト。APIレスポンスにフィールドがない場合の非表示ルールを定義。",
+            "constraint_notes": "在庫数のリアルタイム表示にはパートナーAPI（Globick/Linktivity）からの在庫数取得が必須。キャッシュTTL・リクエスト制商品の表示ルール・API呼び出し頻度制限を要確認。",
             "prerequisites": [
-              "対象APIは在庫数を返すか？（Globick v3.1は対応、Linktivityは要確認）",
-              "対象商品のうちAPI連携商品の割合は？"
+              "Globick v3.1 在庫APIの残席数フィールドを確認",
+              "Linktivityは在庫数を返すか？",
+              "リクエスト制商品の表示ルール（「空き状況はお問い合わせ」等）"
             ],
             "quick_wins": false
           }
@@ -342,15 +344,11 @@
             "note": "類似機能あり（レビューUI標準化（全AC一覧ページ））。差分を確認してください。"
           },
           "feasibility": {
-            "effort": "M",
-            "constraints": [
-              "inventory_realtime"
-            ],
-            "constraint_notes": "在庫数の代わりに「空きあり/残りわずか/満席」の3段階表示を検討。APIレスポンスのキャッシュTTLを明示。リクエスト制は「空き状況はお問い合わせ」と表示。",
-            "prerequisites": [
-              "対象APIは在庫数を返すか？（Globick v3.1は対応、Linktivityは要確認）"
-            ],
-            "quick_wins": false
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         },
         {

@@ -231,25 +231,29 @@
         },
         {
           "letter": "E",
-          "title": "「この商品を見た人はこちらも見ています」レコメンド強化",
-          "description": "ACページに協調フィルタリングベースの関連商品レコメンドを表示。比較検討を促進しサイト内回遊を向上。",
-          "spec_html": "・ACページ下部に「この商品を見た人は〜」カルーセル<br>・協調フィルタリング: 閲覧セッションの共起率ベース<br>・3-5商品を表示",
+          "title": "Desktop版ACページにプラン横並び比較ビュー",
+          "description": "Desktopの画面幅を活かし、ACページのプランを横並びカラムで比較表示。じっくり調べるDesktopユーザーが各プランの違い（含まれるもの・時間・価格）を一目で比較でき、カレンダー閲覧への意思決定を促進。",
+          "spec_html": "・プラン2-3件を横並びカラムで表示（PCのみ、SPは従来の縦並び維持）<br>・比較項目: 価格/所要時間/含まれるもの/評価<br>・各プランのCTAからカレンダーへ直遷移",
           "impact": "②→③ +2pt",
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:700;margin-bottom:8px\">東京スカイツリー&amp;お台場クルーズ</div><div style=\"font-size:11px;color:#666;line-height:1.6;margin-bottom:8px\">商品説明テキスト…</div><div style=\"font-size:10px;color:#999;text-align:center;padding:8px;border:1px dashed #ddd;border-radius:4px\">関連商品レコメンドなし</div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:14px;font-weight:700;margin-bottom:8px\">東京スカイツリー&amp;お台場クルーズ</div><div style=\"font-size:11px;color:#666;margin-bottom:8px\">商品説明テキスト…</div><div style=\"background:#fff;border-radius:6px;padding:8px;border:1px solid #eee\"><div style=\"font-size:11px;font-weight:600;margin-bottom:6px\">👀 この商品を見た人はこちらも見ています</div><div style=\"display:flex;gap:6px\"><div style=\"flex:1;background:#f9f9f9;border-radius:4px;padding:4px;text-align:center;font-size:9px\"><div style=\"height:30px;background:linear-gradient(135deg,#FF8A65,#E8386E);border-radius:3px;margin-bottom:2px\"></div>隅田川クルーズ<br><span style=\"color:#FFAA00\">★4.6</span> <span style=\"color:#E8386E\">¥5,500</span></div><div style=\"flex:1;background:#f9f9f9;border-radius:4px;padding:4px;text-align:center;font-size:9px\"><div style=\"height:30px;background:linear-gradient(135deg,#81C784,#388E3C);border-radius:3px;margin-bottom:2px\"></div>東京タワー展望<br><span style=\"color:#FFAA00\">★4.5</span> <span style=\"color:#E8386E\">¥3,200</span></div></div></div></div></div>"
           },
           "implementation_check": {
-            "status": "already_exists",
-            "matched_feature": "Silvereggレコメンドエンジン（既存）",
-            "note": "キーワード一致: レコメンド, この商品を見た人。Silvereggベースのレコメンドエンジンが稼働中。購入金額はJPY統一済み"
+            "status": "new",
+            "matched_feature": null,
+            "note": "旧施策「この商品を見た人レコメンド」はSilveregg既存のため差し替え。プラン横並び比較はDesktop専用の新規UIで未実装"
           },
           "feasibility": {
             "effort": "S",
-            "constraints": [],
-            "constraint_notes": "",
-            "prerequisites": [],
-            "quick_wins": true
+            "constraints": [
+              "mobile_desktop_gap"
+            ],
+            "constraint_notes": "ボトルネックのデバイス指定に合わせてターゲットデバイスを明確化。レスポンシブ設計で両対応を基本とする。",
+            "prerequisites": [
+              "ターゲットデバイスはモバイルのみ？両対応？"
+            ],
+            "quick_wins": false
           }
         },
         {
@@ -307,9 +311,10 @@
             "constraints": [
               "inventory_realtime"
             ],
-            "constraint_notes": "在庫数の代わりに「空きあり/残りわずか/満席」の3段階表示を検討。APIレスポンスのキャッシュTTLを明示。リクエスト制は「空き状況はお問い合わせ」と表示。",
+            "constraint_notes": "月間カレンダーに全日の空き状況+最低価格を表示するため、30日分の在庫・価格データ取得が必要。APIコール数とレスポンスサイズに注意。",
             "prerequisites": [
-              "対象APIは在庫数を返すか？（Globick v3.1は対応、Linktivityは要確認）"
+              "月間30日分の在庫データを一括取得するAPIはあるか？",
+              "各日セルの表示（空き○/△/×+価格）のデータソースは？"
             ],
             "quick_wins": false
           }

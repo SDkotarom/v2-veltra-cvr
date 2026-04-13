@@ -144,9 +144,10 @@
             "constraints": [
               "inventory_realtime"
             ],
-            "constraint_notes": "在庫数の代わりに「空きあり/残りわずか/満席」の3段階表示を検討。APIレスポンスのキャッシュTTLを明示。リクエスト制は「空き状況はお問い合わせ」と表示。",
+            "constraint_notes": "ミニカレンダーに空き状況を表示するには在庫APIの呼び出しが必要。ファーストビューに置くためパフォーマンス影響も考慮。空き/残りわずか/満席の3段階表示が現実的。",
             "prerequisites": [
-              "対象APIは在庫数を返すか？（Globick v3.1は対応、Linktivityは要確認）"
+              "ミニカレンダー用の在庫データはどのAPIから取得するか？",
+              "表示粒度（空き○/△/×で十分か？）"
             ],
             "quick_wins": false
           }
@@ -167,15 +168,11 @@
             "note": "類似機能あり（翌月カレンダー覗き見（モバイル））。差分を確認してください。"
           },
           "feasibility": {
-            "effort": "M",
-            "constraints": [
-              "inventory_realtime"
-            ],
-            "constraint_notes": "在庫数の代わりに「空きあり/残りわずか/満席」の3段階表示を検討。APIレスポンスのキャッシュTTLを明示。リクエスト制は「空き状況はお問い合わせ」と表示。",
-            "prerequisites": [
-              "対象APIは在庫数を返すか？（Globick v3.1は対応、Linktivityは要確認）"
-            ],
-            "quick_wins": false
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         }
       ]
@@ -243,18 +240,18 @@
         },
         {
           "letter": "F",
-          "title": "類似商品レコメンドを離脱防止として表示",
-          "description": "ACページ下部に「この体験が気になった方はこちらも」でレコメンド表示。サイト内回遊を促進し完全離脱を防止。",
-          "spec_html": "・ACページ下部に類似商品3件をカード表示<br>・レコメンドロジック: 同エリア×同カテゴリ×価格帯近似",
+          "title": "ACページに「体験者の声ハイライト」3行表示を追加",
+          "description": "口コミからポジティブキーワードを集計し、ACページのカレンダー上部に「体験者の声TOP3」として3行で表示。情報収集目的の新規ユーザーの信頼感を醸成し、カレンダー閲覧を促進。",
+          "spec_html": "・口コミテキストからTF-IDFでポジティブキーワード集計（ガイド/景色/コスパ等）<br>・カレンダーセクション直上に3行で表示<br>・各キーワードタップで該当口コミへスクロール",
           "impact": "②→③ +3pt",
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:6px\">東京スカイツリー 半日ツアー</div></div><div style=\"padding:0 16px 80px\"><div style=\"font-size:9px;color:#666;line-height:1.5\">商品説明がここに続く...</div></div><div style=\"padding:8px 16px;border-top:1px solid #eee;font-size:10px;color:#999;text-align:center\">ページ下部 — 離脱ポイント</div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:12px 16px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:6px\">東京スカイツリー 半日ツアー</div></div><div style=\"padding:0 16px 12px\"><div style=\"font-size:9px;color:#666;line-height:1.5\">商品説明...</div></div><div style=\"padding:0 16px 12px\"><div style=\"font-size:10px;font-weight:700;color:#333;margin-bottom:6px\">この体験が気になった方はこちらも</div><div style=\"display:flex;gap:6px\"><div style=\"flex:1;border:1px solid #eee;border-radius:4px;overflow:hidden\"><div style=\"height:40px;background:linear-gradient(135deg,#f6d365,#fda085)\"></div><div style=\"padding:4px 6px\"><div style=\"font-size:8px;font-weight:700\">浅草人力車ツアー</div><div style=\"font-size:8px;color:#D91F26;font-weight:700\">¥5,000〜</div></div></div><div style=\"flex:1;border:1px solid #eee;border-radius:4px;overflow:hidden\"><div style=\"height:40px;background:linear-gradient(135deg,#a8edea,#fed6e3)\"></div><div style=\"padding:4px 6px\"><div style=\"font-size:8px;font-weight:700\">隅田川クルーズ</div><div style=\"font-size:8px;color:#D91F26;font-weight:700\">¥3,500〜</div></div></div></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:var(--green);text-align:center;font-weight:500\">類似商品レコメンドでサイト内回遊を促進</div></div>"
           },
           "implementation_check": {
-            "status": "already_exists",
-            "matched_feature": "Silvereggレコメンドエンジン（既存）",
-            "note": "キーワード一致: レコメンド, 類似。Silvereggベースのレコメンドエンジンが稼働中。購入金額はJPY統一済み"
+            "status": "new",
+            "matched_feature": null,
+            "note": "旧施策「類似商品レコメンド」はSilveregg既存のため差し替え。口コミハイライトはAI Summary（HA/ENのみ）とは異なりJPサイト向け・カレンダー上部配置の新規施策"
           },
           "feasibility": {
             "effort": "S",
@@ -334,18 +331,16 @@
           },
           "implementation_check": {
             "status": "partial",
-            "matched_feature": "翌月カレンダー覗き見（モバイル）",
-            "note": "類似機能あり（翌月カレンダー覗き見（モバイル））。差分を確認してください。"
+            "matched_feature": "Firebase Performance Monitoring（2025-04、アプリのみ）",
+            "note": "Firebase Performance Monitoringはアプリ用。Webサイトのカレンダー描画RUM計測は未実装。Performance APIベースのWeb計測が本施策の新規部分"
           },
           "feasibility": {
-            "effort": "M",
+            "effort": "S",
             "constraints": [
-              "partner_api_dependency",
               "measurement"
             ],
-            "constraint_notes": "自社管理商品から先行実装。API依存部分は段階的ロールアウト。APIレスポンスにフィールドがない場合の非表示ルールを定義。; 既存GA4イベント（session_start→ac_page_reach→calendar_view→form_start→purchase）で計測できる施策を優先。新規イベントはGTM設定変更を含めて見積もる。",
+            "constraint_notes": "既存GA4イベントで計測できる施策を優先。新規イベントはGTM設定変更を含めて見積もる。",
             "prerequisites": [
-              "対象商品のうちAPI連携商品の割合は？",
               "効果は既存のファネルイベントで計測可能か？"
             ],
             "quick_wins": false

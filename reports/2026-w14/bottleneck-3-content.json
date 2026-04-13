@@ -117,14 +117,12 @@
             "note": "類似機能あり（予約ボタンテキスト変更）。差分を確認してください。"
           },
           "feasibility": {
-            "effort": "M",
+            "effort": "S",
             "constraints": [
-              "inventory_realtime",
               "mobile_desktop_gap"
             ],
-            "constraint_notes": "在庫数の代わりに「空きあり/残りわずか/満席」の3段階表示を検討。APIレスポンスのキャッシュTTLを明示。リクエスト制は「空き状況はお問い合わせ」と表示。; ボトルネックのデバイス指定に合わせてターゲットデバイスを明確化。レスポンシブ設計で両対応を基本とする。",
+            "constraint_notes": "ボトルネックのデバイス指定に合わせてターゲットデバイスを明確化。レスポンシブ設計で両対応を基本とする。",
             "prerequisites": [
-              "対象APIは在庫数を返すか？（Globick v3.1は対応、Linktivityは要確認）",
               "ターゲットデバイスはモバイルのみ？両対応？"
             ],
             "quick_wins": false
@@ -227,8 +225,8 @@
           },
           "implementation_check": {
             "status": "partial",
-            "matched_feature": "レビューUI標準化（全AC一覧ページ）",
-            "note": "類似機能あり（レビューUI標準化（全AC一覧ページ））。差分を確認してください。"
+            "matched_feature": "AI Summary・Tips & Suggestions（2025-10、HA/ENサイトのみ）",
+            "note": "AI SummaryはHA/ENサイトのみ。JPサイトのACページでの口コミキーワード抽出表示は未実装。広告LPとしての信頼性向上が本施策の核心"
           },
           "feasibility": {
             "effort": "S",
@@ -312,14 +310,12 @@
             "note": "類似機能あり（AI Summary・Tips & Suggestions表示）。差分を確認してください。"
           },
           "feasibility": {
-            "effort": "M",
+            "effort": "S",
             "constraints": [
-              "inventory_realtime",
               "multi_site"
             ],
-            "constraint_notes": "在庫数の代わりに「空きあり/残りわずか/満席」の3段階表示を検討。APIレスポンスのキャッシュTTLを明示。リクエスト制は「空き状況はお問い合わせ」と表示。; JPサイトを優先実装し、EN/HAは別フェーズ。レイアウトは最長テキストでテスト。",
+            "constraint_notes": "JPサイトを優先実装し、EN/HAは別フェーズ。レイアウトは最長テキストでテスト。",
             "prerequisites": [
-              "対象APIは在庫数を返すか？（Globick v3.1は対応、Linktivityは要確認）",
               "JPサイト限定でよいか？"
             ],
             "quick_wins": false
