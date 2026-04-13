@@ -1,0 +1,276 @@
+{
+  "generated_at": "2026-04-13T18:00:00+09:00",
+  "context": {
+    "current_cvr": 0.0141,
+    "target_cvr": 0.01515,
+    "improvement_rate": 0.01,
+    "current_revenue_oku": 30,
+    "target_revenue_oku": 30.3,
+    "incremental_revenue_man": 3000,
+    "investment_man": 1000,
+    "roi": 2.0,
+    "deadline": "2026-06-30",
+    "peak_season_start": "2026-07-01",
+    "weeks_remaining": 6,
+    "team_size": 4,
+    "monthly_sessions": 2910722,
+    "monthly_purchases": 40927,
+    "additional_purchases_needed": 3150
+  },
+  "current_report_limitations": [
+    "ボトルネック分析がACページのUI改修に偏重",
+    "ファネル②→③の局所最適に終始し、全体観が欠如",
+    "施策がプチ改修レベルで数字インパクトが不確実",
+    "エリア・カテゴリ・チャネルなど構造的改善の視点が不足",
+    "リピーター活性化やCRM施策など非UI施策が未検討"
+  ],
+  "key_insights": {
+    "new_vs_returning_gap": {
+      "new_cvr": 0.006,
+      "returning_cvr": 0.0268,
+      "gap_ratio": 4.5,
+      "new_share": 0.555,
+      "returning_share": 0.401,
+      "insight": "新規CVR 0.60% vs リピーター2.68%。リピーターを1pp改善する方が新規を0.1pp改善するよりインパクト大"
+    },
+    "returning_ac_reach": {
+      "returning_1to2": 0.2727,
+      "new_1to2": 0.4827,
+      "insight": "リピーターのAC到達率27%は新規48%より低い。リピーターはACに辿り着く前の動線に問題",
+      "opportunity": "リピーター①→②を27%→30%に改善（+3pp）するだけで月+3,450件購入（目標達成）"
+    },
+    "organic_search_underperformance": {
+      "sessions": 1159747,
+      "share": 0.398,
+      "cvr": 0.0077,
+      "new_organic_cvr": 0.00356,
+      "insight": "最大チャネル（40%）なのにCVR 0.77%。新規Organic Searchに至っては0.36%",
+      "opportunity": "Organic Search CVRを0.77%→0.85%に改善で月+928件購入"
+    },
+    "area_concentration": {
+      "okinawa_cvr": 0.02196,
+      "hawaii_cvr": 0.02086,
+      "average_cvr": 0.0141,
+      "insight": "沖縄・ハワイはCVR 2%超。高CVRエリアへのトラフィック誘導でCVR底上げ可能"
+    },
+    "mobile_payment_drop": {
+      "mobile_4to5": 0.6692,
+      "desktop_4to5": 0.8401,
+      "gap_pp": 17.1,
+      "mobile_share": 0.713,
+      "insight": "モバイル④→⑤が66.9%（デスクトップ84.0%）。71%のトラフィックがモバイルなのに決済で大量離脱"
+    },
+    "direct_returning_power": {
+      "direct_returning_cvr": 0.0595,
+      "direct_returning_sessions": 96768,
+      "insight": "Direct×リピーターのCVR 5.95%はサイト全体平均の4.2倍。このセグメントをいかに増やすかが鍵"
+    }
+  },
+  "pillars": [
+    {
+      "id": "P1",
+      "name": "リピーター動線最適化",
+      "subtitle": "帰ってきたユーザーを最短でACへ",
+      "owner": "担当A",
+      "color": "#E8423F",
+      "target_metric": "リピーター ①→② 転換率",
+      "current_value": "27.3%",
+      "target_value": "30.0%",
+      "estimated_impact_purchases": 3450,
+      "estimated_impact_cvr_pp": 0.0012,
+      "confidence": "高",
+      "rationale": "リピーター116万セッション/月のうち73%がACに辿り着いていない。サイトを知っているユーザーなのに、なぜACに到達しないのか？ トップページ・マイページ・メール経由の動線に問題がある可能性が高い。",
+      "approach": [
+        "リピーターの流入LP分析（どこから来てどこで止まるか）",
+        "トップページのパーソナライズ（閲覧履歴・購入履歴ベース）",
+        "マイページからの再予約導線強化",
+        "「前回見たアクティビティ」「あなたへのおすすめ」ウィジェット",
+        "リピーター向けカテゴリページのファーストビュー最適化"
+      ],
+      "quick_wins": [
+        "閲覧履歴ベースのトップページ表示変更（フロントのみ, 2週）",
+        "メールからの直接AC遷移リンク改善（1週）"
+      ],
+      "risks": [
+        "パーソナライズにはユーザーデータ基盤が必要",
+        "Cookie/ログイン率によってカバレッジが変わる"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "エリア・カテゴリ戦略",
+      "subtitle": "高CVRエリアへのトラフィック集中と低CVRエリアの底上げ",
+      "owner": "担当B",
+      "color": "#2563EB",
+      "target_metric": "エリア別CVR加重平均",
+      "current_value": "1.41%",
+      "target_value": "1.48%",
+      "estimated_impact_purchases": 2100,
+      "estimated_impact_cvr_pp": 0.0007,
+      "confidence": "中",
+      "rationale": "沖縄(2.20%)・ハワイ(2.09%)は平均の1.5倍のCVR。一方でトラフィックの51%を占める「other」セグメント(トップ・検索経由)が平均付近。高CVRエリアのSEO強化・カテゴリページ改善・季節商材の打ち出しで全体CVR底上げが可能。",
+      "approach": [
+        "エリア別・カテゴリ別CVRマトリクス作成（高CVR/低CVR × 高トラフィック/低トラフィック）",
+        "夏休み向け高CVRエリア（沖縄・ハワイ・グアム等）のLP強化",
+        "カテゴリページのファーストビュー改善（人気順・CVR順の並び替え）",
+        "季節特集ページの作成（夏休みファミリー、カップル旅行等）",
+        "低CVRエリアの商品ラインナップ・価格競争力分析"
+      ],
+      "quick_wins": [
+        "夏休み特集LPの作成（2週）",
+        "カテゴリページの並び順をCVRベースに変更（1週）",
+        "高CVRエリアのGoogle Ads入札強化（即日）"
+      ],
+      "risks": [
+        "エリア別の詳細ファネルデータが必要",
+        "商品ラインナップは仕入れ側の制約あり"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "検索・回遊動線の再設計",
+      "subtitle": "「探す→見つかる→予約する」の流れを太くする",
+      "owner": "担当C",
+      "color": "#16A34A",
+      "target_metric": "全体 ①→② 転換率",
+      "current_value": "52.5%",
+      "target_value": "55.0%",
+      "estimated_impact_purchases": 2850,
+      "estimated_impact_cvr_pp": 0.001,
+      "confidence": "中",
+      "rationale": "全セッションの47.5%がACページに到達しないまま離脱。特にOrganic Search新規（CVR 0.36%）はLP→ACの遷移で大きなロスがある。検索結果ページ・カテゴリページ・サイト内検索のUX改善で「商品に出会える確率」を高める。",
+      "approach": [
+        "サイト内検索のクエリ分析（0件ヒット率、離脱率）",
+        "カテゴリ一覧ページのCTR分析（どの位置のカードがクリックされるか）",
+        "Organic Search LP → ACへの遷移率分析（LP別）",
+        "「おすすめ」「人気ランキング」「新着」など回遊促進ウィジェット",
+        "フィルター・ソート機能の改善（価格帯、日付、人数）"
+      ],
+      "quick_wins": [
+        "カテゴリページの「人気順」デフォルト化（1週）",
+        "サイト内検索の0件ヒット対応（関連商品表示, 2週）"
+      ],
+      "risks": [
+        "検索改善は効果測定が複雑（A/Bテスト設計が必要）",
+        "回遊が増えてもCVが伴わない可能性"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "モバイル決済・フォーム最適化",
+      "subtitle": "モバイル④→⑤の17ppギャップを埋める",
+      "owner": "担当D",
+      "color": "#D97706",
+      "target_metric": "モバイル ④→⑤ 転換率",
+      "current_value": "66.9%",
+      "target_value": "72.0%",
+      "estimated_impact_purchases": 2150,
+      "estimated_impact_cvr_pp": 0.0007,
+      "confidence": "高",
+      "rationale": "71%のトラフィックがモバイルなのに、④→⑤(フォーム→購入完了)でデスクトップに17ppも負けている。フォーム入力のUX、決済手段、ページ速度など、モバイル固有の障壁を特定し解消する。この改善は全セグメントに横断的に効く。",
+      "approach": [
+        "モバイルフォームの離脱ポイント特定（フィールド別離脱率）",
+        "決済手段の拡充（Apple Pay/Google Pay/PayPay等）",
+        "フォーム入力の簡素化（自動入力、ステップ分割）",
+        "モバイルページ速度の改善（Core Web Vitals）",
+        "エラーハンドリングの改善（リアルタイムバリデーション）"
+      ],
+      "quick_wins": [
+        "フォームのステップ表示改善（進捗バー追加, 1週）",
+        "入力エラーメッセージの改善（1週）",
+        "不要なフォームフィールドの削除・統合（2週）"
+      ],
+      "risks": [
+        "決済手段追加はパートナーAPI・決済代行会社との調整が必要",
+        "フォーム変更は予約データ構造に影響する可能性"
+      ]
+    }
+  ],
+  "sprint_plan": {
+    "total_weeks": 6,
+    "sprints": [
+      {
+        "sprint": 1,
+        "week": "W17-W18",
+        "dates": "4/14 - 4/27",
+        "theme": "データ深掘り & Quick Wins着手",
+        "tasks": [
+          {"pillar": "ALL", "task": "各柱のデータ深掘り分析（GA4セグメント詳細、ヒートマップ等）"},
+          {"pillar": "P1", "task": "リピーター流入LP・動線マッピング完了"},
+          {"pillar": "P2", "task": "エリア×カテゴリCVRマトリクス作成"},
+          {"pillar": "P3", "task": "サイト内検索クエリ分析、LP別遷移率"},
+          {"pillar": "P4", "task": "モバイルフォーム離脱ポイント特定"},
+          {"pillar": "P2", "task": "【QW】高CVRエリアの広告入札強化"}
+        ]
+      },
+      {
+        "sprint": 2,
+        "week": "W19-W20",
+        "dates": "4/28 - 5/11",
+        "theme": "Quick Wins実装 & 施策設計",
+        "tasks": [
+          {"pillar": "P1", "task": "【QW】閲覧履歴ベースのトップページ表示変更"},
+          {"pillar": "P1", "task": "【QW】メールからの直接AC遷移リンク改善"},
+          {"pillar": "P2", "task": "【QW】カテゴリページ並び順変更"},
+          {"pillar": "P3", "task": "【QW】カテゴリページ「人気順」デフォルト化"},
+          {"pillar": "P4", "task": "【QW】フォームステップ表示改善"},
+          {"pillar": "ALL", "task": "中規模施策のPRD・デザイン作成"}
+        ]
+      },
+      {
+        "sprint": 3,
+        "week": "W21-W22",
+        "dates": "5/12 - 5/25",
+        "theme": "中規模施策の実装開始",
+        "tasks": [
+          {"pillar": "P1", "task": "パーソナライズウィジェット実装（おすすめ・閲覧履歴）"},
+          {"pillar": "P2", "task": "夏休み特集LP作成・公開"},
+          {"pillar": "P3", "task": "サイト内検索0件ヒット対応"},
+          {"pillar": "P4", "task": "モバイルフォーム簡素化"},
+          {"pillar": "ALL", "task": "Sprint 2 Quick Winsの効果測定"}
+        ]
+      },
+      {
+        "sprint": 4,
+        "week": "W23-W24",
+        "dates": "5/26 - 6/8",
+        "theme": "A/Bテスト & 追加施策",
+        "tasks": [
+          {"pillar": "P1", "task": "パーソナライズ施策A/Bテスト開始"},
+          {"pillar": "P2", "task": "季節特集のSEO・広告連動"},
+          {"pillar": "P3", "task": "回遊促進ウィジェット実装"},
+          {"pillar": "P4", "task": "決済手段拡充（実装可能なもの）"},
+          {"pillar": "ALL", "task": "Sprint 3施策の効果測定・チューニング"}
+        ]
+      },
+      {
+        "sprint": 5,
+        "week": "W25-W26",
+        "dates": "6/9 - 6/22",
+        "theme": "効果検証 & 夏商戦準備",
+        "tasks": [
+          {"pillar": "ALL", "task": "全施策の効果検証・CVR計測"},
+          {"pillar": "ALL", "task": "効果の出た施策の横展開（他エリア・他カテゴリ）"},
+          {"pillar": "P2", "task": "7月夏休み商戦のLP・特集ページ最終調整"},
+          {"pillar": "ALL", "task": "未達の場合の追加施策プラン策定"},
+          {"pillar": "ALL", "task": "最終レポート・ROI算出"}
+        ]
+      }
+    ]
+  },
+  "impact_model": {
+    "description": "各柱の施策がすべて想定通りに効いた場合の積み上げシミュレーション",
+    "note": "施策間の重複効果は考慮していない。実際には相乗効果・打ち消し合いが発生するため、合計値は参考値",
+    "pillars_impact": [
+      {"pillar": "P1", "name": "リピーター動線最適化", "purchases_delta": 3450, "cvr_delta_pp": 0.12},
+      {"pillar": "P2", "name": "エリア・カテゴリ戦略", "purchases_delta": 2100, "cvr_delta_pp": 0.07},
+      {"pillar": "P3", "name": "検索・回遊動線の再設計", "purchases_delta": 2850, "cvr_delta_pp": 0.10},
+      {"pillar": "P4", "name": "モバイル決済・フォーム最適化", "purchases_delta": 2150, "cvr_delta_pp": 0.07}
+    ],
+    "total_potential_purchases": 10550,
+    "total_potential_cvr_pp": 0.36,
+    "target_purchases": 3150,
+    "coverage_ratio": 3.35,
+    "message": "目標の3.35倍のポテンシャルを持つ施策群。4柱のうち1つでも成功すれば目標達成可能"
+  }
+}
