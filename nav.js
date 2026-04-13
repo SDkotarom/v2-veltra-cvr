@@ -35,7 +35,13 @@
     '.site-nav .nav-bn-item a.nav-active .bn-num{color:#E8423F}' +
     /* Main area */
     '.site-main{min-width:0}' +
-    '@media(max-width:900px){.site-layout{grid-template-columns:1fr;padding:0}.site-nav{display:none}.site-main{padding:0}}';
+    '@media(max-width:900px){.site-layout{grid-template-columns:1fr;padding:0}.site-nav{display:none}.site-main{padding:0}}' +
+    /* Breadcrumb */
+    '#site-breadcrumb{display:flex;align-items:center;flex-wrap:wrap;font-size:13px;color:#aaa;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,.07)}' +
+    '#site-breadcrumb a{color:#aaa;text-decoration:none;padding:2px 5px;border-radius:5px;transition:background .12s,color .12s}' +
+    '#site-breadcrumb a:hover{background:rgba(0,0,0,.05);color:#333}' +
+    '#site-breadcrumb .bc-sep{color:#ccc;margin:0 1px;font-size:12px;line-height:1}' +
+    '#site-breadcrumb .bc-current{color:#333;font-weight:700;padding:2px 5px}';
   document.head.appendChild(css);
 
   document.body.style.maxWidth = 'none';
@@ -60,6 +66,7 @@
   document.body.appendChild(layout);
 
   // ── Page type detection ──────────────────────────
+  // (breadcrumb inserted below after detection)
   var path = location.pathname;
   var isTop      = (path === '/' || path === '/index.html');
   var isKpi      = (path === '/kpi.html');
@@ -70,6 +77,7 @@
   var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
   var qp = new URLSearchParams(location.search);
   var isBottleneck  = /\/bottleneck\.html$/.test(path) && qp.has('num');
+  var isReport = /\/report\.html$/.test(path) && qp.has('week');
 
   var weekDir = '';
   var bnNum   = 0;
@@ -85,6 +93,69 @@
     bnNum = parseInt(qp.get('num'), 10) || 0;
     weekDir = '/reports/' + currentWeekId + '/';
   }
+  if (isReport) {
+    currentWeekId = qp.get('week') || '';
+    weekDir = '/reports/' + currentWeekId + '/';
+  }
+
+  // ── Breadcrumb ───────────────────────────────────
+  var bcLastEl = null;
+  (function () {
+    if (isTop) return; // no breadcrumb on top page
+    var bc = document.createElement('nav');
+    bc.id = 'site-breadcrumb';
+
+    function mkA(text, href) {
+      var a = document.createElement('a');
+      a.href = href;
+      a.textContent = text;
+      return a;
+    }
+    function mkSep() {
+      var s = document.createElement('span');
+      s.className = 'bc-sep';
+      s.textContent = '›';
+      return s;
+    }
+    function mkCurrent(text) {
+      var s = document.createElement('span');
+      s.className = 'bc-current';
+      s.textContent = text;
+      return s;
+    }
+    function append() {
+      for (var i = 0; i < arguments.length; i++) {
+        if (i > 0) bc.insertBefore(mkSep(), null);
+        bc.appendChild(arguments[i]);
+      }
+    }
+
+    var wid = currentWeekId ? currentWeekId.replace('2026-', '').toUpperCase() : '';
+    var homeA = mkA('ホーム', '/');
+    var bnA   = mkA('ボトルネック分析', '/reports/');
+
+    if (isArchive) {
+      append(homeA, mkCurrent('ボトルネック分析'));
+    } else if (isKpi) {
+      append(homeA, mkCurrent('KPIダッシュボード'));
+    } else if (isCycle) {
+      append(homeA, mkCurrent('CVR改善サイクル'));
+    } else if (isAnalysis) {
+      append(homeA, mkCurrent('分析ガイド'));
+    } else if (isBehaviorGuide) {
+      append(homeA, mkCurrent('行動仮説ガイド'));
+    } else if (isWeekSummary || isReport) {
+      append(homeA, bnA, mkCurrent(wid));
+    } else if (isBottleneck) {
+      var weekHref = currentWeekId ? '/reports/' + currentWeekId + '/' : '/reports/';
+      var bnEl = mkCurrent('#' + bnNum);
+      bcLastEl = bnEl;
+      append(homeA, bnA, mkA(wid, weekHref), bnEl);
+    } else {
+      return;
+    }
+    main.insertBefore(bc, main.firstChild);
+  })();
 
   // ── Expand state ─────────────────────────────────
   var expandedWeeks = {};
@@ -202,7 +273,7 @@
     var weekLink = document.createElement('a');
     weekLink.href = w.path;
     weekLink.style.cssText = 'display:flex;align-items:center;gap:6px;flex:1;min-width:0;text-decoration:none;color:inherit';
-    if (isWeekSummary && isCurrentWeek) weekLink.style.fontWeight = '700';
+    if ((isWeekSummary || isReport) && isCurrentWeek) weekLink.style.fontWeight = '700';
 
     var idEl = document.createElement('span');
     idEl.className = 'nav-week-id';
@@ -238,7 +309,7 @@
     summaryItem.className = 'nav-bn-item';
     var summaryA = document.createElement('a');
     summaryA.href = w.path;
-    if (isWeekSummary && isCurrentWeek) summaryA.className = 'nav-active';
+    if ((isWeekSummary || isReport) && isCurrentWeek) summaryA.className = 'nav-active';
     summaryA.style.cssText = 'font-weight:600;color:#555';
     var summaryIcon = document.createElement('span');
     summaryIcon.style.cssText = 'font-size:11px;color:#bbb;flex-shrink:0';
@@ -431,9 +502,13 @@
 
       if (weeks.length) {
         var latestId = weeks[weeks.length - 1].week_id;
-        expandedWeeks[latestId] = true;
-        // 現在見ているページの週も開く（最新以外のページを直接開いた場合）
-        if (currentWeekId && currentWeekId !== latestId) expandedWeeks[currentWeekId] = true;
+        if (currentWeekId) {
+          // 特定の週を見ているとき: その週だけ開く（最新週は閉じる）
+          expandedWeeks[currentWeekId] = true;
+        } else {
+          // 週ページ以外: 最新週をデフォルトで開く
+          expandedWeeks[latestId] = true;
+        }
       }
 
       buildNav(weeks, weekDataMap);
@@ -447,6 +522,14 @@
             });
             weekDataMap[w.week_id] = bns;
             updateWeekBnList(w.week_id, bns);
+            // Update breadcrumb title for bottleneck pages
+            if (bcLastEl && currentWeekId === w.week_id && bnNum) {
+              var currentBn = null;
+              for (var bi = 0; bi < bns.length; bi++) {
+                if (bns[bi].rank === bnNum) { currentBn = bns[bi]; break; }
+              }
+              if (currentBn) bcLastEl.textContent = '#' + bnNum + ' ' + currentBn.title;
+            }
           })
           .catch(function () {});
       });
