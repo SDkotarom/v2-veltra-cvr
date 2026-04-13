@@ -159,15 +159,11 @@
             "note": null
           },
           "feasibility": {
-            "effort": "M",
-            "constraints": [
-              "partner_api_dependency"
-            ],
-            "constraint_notes": "自社管理商品から先行実装。API依存部分は段階的ロールアウト。APIレスポンスにフィールドがない場合の非表示ルールを定義。",
-            "prerequisites": [
-              "対象商品のうちAPI連携商品の割合は？"
-            ],
-            "quick_wins": false
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         },
         {
@@ -227,13 +223,12 @@
           "feasibility": {
             "effort": "M",
             "constraints": [
-              "inventory_realtime",
-              "multi_site"
+              "inventory_realtime"
             ],
-            "constraint_notes": "在庫数の代わりに「空きあり/残りわずか/満席」の3段階表示を検討。APIレスポンスのキャッシュTTLを明示。リクエスト制は「空き状況はお問い合わせ」と表示。; JPサイトを優先実装し、EN/HAは別フェーズ。レイアウトは最長テキストでテスト。",
+            "constraint_notes": "広告フィードの在庫データ鮮度が課題。Merchant Centerフィードの更新頻度を上げる必要あり。売切商品の広告配信停止ルールを定義。",
             "prerequisites": [
-              "対象APIは在庫数を返すか？（Globick v3.1は対応、Linktivityは要確認）",
-              "JPサイト限定でよいか？"
+              "現在のフィード更新頻度は？（日次→時次への変更が必要か）",
+              "売切商品の広告非表示は自動化可能か？"
             ],
             "quick_wins": false
           }
@@ -254,17 +249,14 @@
             "note": null
           },
           "feasibility": {
-            "effort": "M",
+            "effort": "L",
             "constraints": [
-              "inventory_realtime",
-              "exchange_rate",
-              "personalization_privacy"
+              "inventory_realtime"
             ],
-            "constraint_notes": "在庫数の代わりに「空きあり/残りわずか/満席」の3段階表示を検討。APIレスポンスのキャッシュTTLを明示。リクエスト制は「空き状況はお問い合わせ」と表示。; 価格表示時に「参考価格」「○月○日時点」と注記。比較表示には同一通貨・同一日を条件に。",
+            "constraint_notes": "値下げ/空き復活の検知には価格・在庫の定期モニタリング基盤が必要。Customer Match連携+トリガー広告配信のパイプライン構築が前提。",
             "prerequisites": [
-              "対象APIは在庫数を返すか？（Globick v3.1は対応、Linktivityは要確認）",
-              "対象ユーザーの主要通貨は？（JP→JPY固定で影響軽微か）",
-              "対象ユーザーのログイン率は？（低ければパーソナライズ効果が限定的）"
+              "価格変動・在庫変動の検知基盤はあるか？",
+              "Customer Matchのユーザーリスト更新頻度は？"
             ],
             "quick_wins": false
           }

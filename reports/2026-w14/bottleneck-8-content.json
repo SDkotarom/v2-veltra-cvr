@@ -162,13 +162,11 @@
           "feasibility": {
             "effort": "M",
             "constraints": [
-              "partner_api_dependency",
               "multi_site",
               "measurement"
             ],
-            "constraint_notes": "自社管理商品から先行実装。API依存部分は段階的ロールアウト。APIレスポンスにフィールドがない場合の非表示ルールを定義。; JPサイトを優先実装し、EN/HAは別フェーズ。レイアウトは最長テキストでテスト。",
+            "constraint_notes": "JPサイトを優先実装し、EN/HAは別フェーズ。レイアウトは最長テキストでテスト。; 既存GA4イベント（session_start→ac_page_reach→calendar_view→form_start→purchase）で計測できる施策を優先。新規イベントはGTM設定変更を含めて見積もる。",
             "prerequisites": [
-              "対象商品のうちAPI連携商品の割合は？",
               "JPサイト限定でよいか？",
               "効果は既存のファネルイベントで計測可能か？"
             ],
@@ -177,29 +175,28 @@
         },
         {
           "letter": "C",
-          "title": "reCAPTCHA v3のスコアを活用した人間判定",
-          "description": "reCAPTCHA v3を導入し、人間/botのスコアをGA4カスタムディメンションとして送信。",
-          "spec_html": "・reCAPTCHA v3をトップページに設置<br>・スコア0.5以下をbot判定<br>・GA4イベントにスコアを付与して分析",
+          "title": "GA4 Internal Traffic定義の見直し + bot除外フィルター強化",
+          "description": "GA4の内部トラフィック定義にオフィスIP・ステージング環境・既知bot UA・APIヘルスチェックを追加。Data Streamフィルターで除外し、Direct×Desktopの計測精度を改善。",
+          "spec_html": "・GA4管理画面 → Data Streams → Internal Traffic定義を更新<br>・除外対象: オフィスIP帯域、ステージング環境、既知crawler UA（Googlebot等以外の不正bot）<br>・GTMでdataLayerにis_internal_traffic変数を設定 → GA4カスタムディメンションで分析",
           "impact": "①→② 計測精度改善",
           "prototype": {
             "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">トップページ</div><div style=\"background:#fff;border-radius:6px;padding:12px;text-align:center\"><div style=\"font-size:11px;color:#666;margin-bottom:4px\">現在のbot判定</div><div style=\"font-size:24px;margin-bottom:4px\">❓</div><div style=\"font-size:10px;color:#999\">人間 or bot か判定する仕組みなし</div></div></div></div>",
             "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:16px\"><div style=\"font-size:12px;font-weight:600;margin-bottom:8px\">reCAPTCHA v3 導入後</div><div style=\"background:#fff;border-radius:6px;padding:10px;font-size:11px\"><div style=\"display:flex;align-items:center;gap:6px;margin-bottom:8px\"><div style=\"width:24px;height:24px;background:#4285F4;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:8px;font-weight:700\">rC</div><span style=\"font-weight:600\">reCAPTCHA v3 スコア</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span>スコア 0.9（人間）</span><span style=\"color:#2DAE6C;font-weight:600\">62%</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0\"><span>スコア 0.5-0.9</span><span style=\"color:var(--amber);font-weight:600\">18%</span></div><div style=\"display:flex;justify-content:space-between;padding:3px 0\"><span style=\"color:var(--red)\">スコア &lt;0.5（bot）</span><span style=\"color:var(--red);font-weight:600\">20%</span></div></div><div style=\"font-size:10px;color:#2DAE6C;text-align:center;margin-top:6px\">GA4にスコア送信 → 人間のみでファネル再計算</div></div></div>"
           },
           "implementation_check": {
-            "status": "already_exists",
-            "matched_feature": "予約導線reCAPTCHA追加",
-            "note": "キーワード一致: recaptcha, recaptcha, bot。予約導線にreCAPTCHAを追加してbot対策実施済み"
+            "status": "new",
+            "matched_feature": null,
+            "note": "旧施策「reCAPTCHA v3」は予約導線に2025-01導入済みのため差し替え。GA4 Internal Traffic定義の見直しはreCAPTCHAとは別の計測改善施策で未実施"
           },
           "feasibility": {
             "effort": "S",
             "constraints": [
-              "multi_site",
               "measurement"
             ],
-            "constraint_notes": "JPサイトを優先実装し、EN/HAは別フェーズ。レイアウトは最長テキストでテスト。; 既存GA4イベント（session_start→ac_page_reach→calendar_view→form_start→purchase）で計測できる施策を優先。新規イベントはGTM設定変更を含めて見積もる。",
+            "constraint_notes": "GA4管理画面での設定変更 + GTMのdataLayer変更が必要。コード変更は最小限だがGA4管理者権限が必要。",
             "prerequisites": [
-              "JPサイト限定でよいか？",
-              "効果は既存のファネルイベントで計測可能か？"
+              "GA4管理画面へのアクセス権（Internal Traffic設定）",
+              "除外すべきIP帯域・UA一覧の整理"
             ],
             "quick_wins": false
           }

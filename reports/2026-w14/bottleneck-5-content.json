@@ -267,17 +267,16 @@
             "note": "類似機能あり（エリアページACカードにハートアイコン追加）。差分を確認してください。"
           },
           "feasibility": {
-            "effort": "M",
+            "effort": "L",
             "constraints": [
               "inventory_realtime",
-              "personalization_privacy",
-              "partner_api_dependency"
+              "personalization_privacy"
             ],
-            "constraint_notes": "在庫数の代わりに「空きあり/残りわずか/満席」の3段階表示を検討。APIレスポンスのキャッシュTTLを明示。リクエスト制は「空き状況はお問い合わせ」と表示。; 未ログイン時は「人気順」等のフォールバック表示。ファーストパーティデータ（サイト内行動）のみ使用。明示的な同意フロー設計。",
+            "constraint_notes": "空き状況変化のプッシュ通知には、在庫モニタリング基盤+Web Push API+オプトイン管理が必要。3rd Party Cookie廃止後のユーザー識別方法も検討。",
             "prerequisites": [
-              "対象APIは在庫数を返すか？（Globick v3.1は対応、Linktivityは要確認）",
-              "対象ユーザーのログイン率は？（低ければパーソナライズ効果が限定的）",
-              "対象商品のうちAPI連携商品の割合は？"
+              "在庫変化を検知するバッチ/ストリーミング基盤はあるか？",
+              "Web Push APIのブラウザサポート率は？",
+              "プッシュ通知のオプトイン率の想定は？"
             ],
             "quick_wins": false
           }

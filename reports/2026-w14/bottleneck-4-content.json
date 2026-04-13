@@ -128,8 +128,8 @@
           },
           "implementation_check": {
             "status": "partial",
-            "matched_feature": "予約ボタンテキスト変更",
-            "note": "類似機能あり（予約ボタンテキスト変更）。差分を確認してください。"
+            "matched_feature": "エリアページACカードにハートアイコン追加（2026-01）",
+            "note": "エリアページのACカードにハートアイコンは追加済み。本施策はACページ（商品詳細）のCTA隣に「気になるリスト」ボタンを配置する新規UI。カレンダー閲覧後の離脱防止が目的"
           },
           "feasibility": {
             "effort": "S",
@@ -184,15 +184,11 @@
             "note": "類似機能あり（予約ボタンテキスト変更）。差分を確認してください。"
           },
           "feasibility": {
-            "effort": "M",
-            "constraints": [
-              "inventory_realtime"
-            ],
-            "constraint_notes": "在庫数の代わりに「空きあり/残りわずか/満席」の3段階表示を検討。APIレスポンスのキャッシュTTLを明示。リクエスト制は「空き状況はお問い合わせ」と表示。",
-            "prerequisites": [
-              "対象APIは在庫数を返すか？（Globick v3.1は対応、Linktivityは要確認）"
-            ],
-            "quick_wins": false
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
           }
         }
       ]
@@ -337,14 +333,12 @@
             "note": null
           },
           "feasibility": {
-            "effort": "M",
+            "effort": "S",
             "constraints": [
-              "partner_api_dependency",
               "measurement"
             ],
-            "constraint_notes": "自社管理商品から先行実装。API依存部分は段階的ロールアウト。APIレスポンスにフィールドがない場合の非表示ルールを定義。; 既存GA4イベント（session_start→ac_page_reach→calendar_view→form_start→purchase）で計測できる施策を優先。新規イベントはGTM設定変更を含めて見積もる。",
+            "constraint_notes": "既存GA4イベント（session_start→ac_page_reach→calendar_view→form_start→purchase）で計測できる施策を優先。新規イベントはGTM設定変更を含めて見積もる。",
             "prerequisites": [
-              "対象商品のうちAPI連携商品の割合は？",
               "効果は既存のファネルイベントで計測可能か？"
             ],
             "quick_wins": false

@@ -69,6 +69,20 @@ def build_constraint_index(constraints_data: dict) -> list[dict]:
     return index
 
 
+# 汎用キーワード: 1語だけのマッチでは偽陽性になりやすいため、
+# score==1 かつ全マッチが汎用キーワードの場合は partial フラグを立てない
+GENERIC_KEYWORDS = {
+    "カレンダー", "検索", "口コミ", "トップページ", "フィルター", "cta",
+    "フローティング", "確定", "エリアページ", "パフォーマンス", "お気に入り",
+    "おすすめ", "bot", "レビュー", "リスト", "ヘッダー", "カテゴリ", "アプリ",
+    "ネイティブ", "検索ui", "モバイル", "デスクトップ", "ai", "クロール",
+    "クーポン", "補足", "サマリー",
+    # 第2ラウンド追加: 単独では偽陽性になるキーワード
+    "ナビゲーション", "表示速度", "評価", "気になる", "seo", "検索結果",
+    "カルーセル", "api", "カラー", "レコメンド",
+}
+
+
 def match_implementation(action_title: str, action_desc: str, keyword_index: list[dict]) -> list[dict]:
     """施策タイトル・説明文とキーワードインデックスをマッチング"""
     text = (action_title + " " + action_desc).lower()
@@ -76,6 +90,10 @@ def match_implementation(action_title: str, action_desc: str, keyword_index: lis
     for impl in keyword_index:
         matched_keywords = [kw for kw in impl["keywords"] if kw in text]
         if matched_keywords:
+            # 汎用キーワードのみの1語マッチはスキップ（偽陽性防止）
+            all_generic = all(kw in GENERIC_KEYWORDS for kw in matched_keywords)
+            if len(matched_keywords) == 1 and all_generic:
+                continue
             matches.append({
                 **impl,
                 "matched_keywords": matched_keywords,
