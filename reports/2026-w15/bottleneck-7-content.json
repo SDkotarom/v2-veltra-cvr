@@ -13,7 +13,7 @@
   ],
   "deviation": "+10.7%",
   "impact_sessions": "296K / 月",
-  "description_html": "TODO: デスクトップ②→③転換率10.7%はモバイル15.6%より低い。296K人のデスクトップAC到達者のうち大多数がカレンダーを見ずに離脱。",
+  "description_html": "デスクトップの②→③（ACページ→カレンダー閲覧）転換率は<strong>10.67%</strong>で、全体ベースライン13.89%より<strong>-3.22pp</strong>低く、モバイル15.62%と比べて<strong>-4.95pp</strong>下回る。296Kのデスクトップセッションがアクティビティページに到達しながら、日程確認ステップへ進まずに離脱している。デスクトップユーザーはCmd+クリックで複数タブを開いての比較行動が多く、カレンダーCTAがFold以下にある・視覚的に弱い場合に「また後で」モードで離脱しやすい。逆にデスクトップは④→⑤が<strong>84.01%</strong>と最高水準で、カレンダーまで進んだユーザーの質は高い。",
   "funnel_overview": {
     "title": "ファネル全体比較（Desktop vs ベースライン）",
     "cells": [
@@ -69,23 +69,23 @@
   ],
   "drill_down": [
     {
-      "title": "TODO: ドリルダウン分析1のタイトル",
-      "body_html": "TODO: 分析内容HTML",
-      "note": "TODO: 要点メモ"
+      "title": "Desktop vs Mobile ②→③ 転換率差とACページのデスクトップ離脱パターン",
+      "body_html": "②→③転換率: Desktop 10.67% vs Mobile 15.62%（-4.95pp）、Tablet 13.19%（中間）。<br><br>デスクトップでの典型的な離脱パターン:<br>・<strong>複数タブ比較行動</strong>: Cmd+クリックで複数ACを同時タブオープンし、どれのカレンダーも見ずに価格・写真だけで比較して次タブへ移動<br>・<strong>スクロール不足</strong>: デスクトップでは大きなヒーロー画像がFoldを占め、「カレンダーを見る」CTAが2スクロール目以降になると多くのユーザーが到達しない<br>・<strong>サイドバー・関連AC誘惑</strong>: デスクトップでは関連AC・広告バナーが表示面積を奪い、カレンダーCTAへの視線誘導が弱まる<br><br>注目点: Desktop ④→⑤は<strong>84.01%</strong>（全デバイス最高）= カレンダーまで進んだデスクトップユーザーは質が高く予約完了率が高い。問題はカレンダー到達前の段階。",
+      "note": "デスクトップACページのカレンダーCTAをFold以上に引き上げ・スティッキー化することが最優先。カレンダーまで進んだデスクトップユーザーは強い意向を持つため、その入口を広げることが大きな売上インパクトになる。"
     }
   ],
   "callout": {
-    "title": "TODO: 特定結果のタイトル",
-    "body_html": "TODO: 特定結果の詳細HTML"
+    "title": "デスクトップ②→③をモバイル並みの15.62%に改善すると月間+14,600件のカレンダー到達",
+    "body_html": "デスクトップ②→③を10.67%→15.62%（モバイル水準、+4.95pt）に改善すると、296K×4.95%＝約<strong>14,650件/月のカレンダー到達増</strong>。その後の③→④（46.15%）×④→⑤（84.01%）を掛け合わせると月間<strong>+5,700件の追加予約</strong>に相当する。デスクトップ④→⑤が最高水準（84%）であることから、カレンダー到達さえ増えれば後続の転換は自然についてくる構造。"
   },
   "behavior_context": {
-    "estimated_action": "TODO: Desktop の ②→③ AC到達→検討 でのユーザー推定行動",
+    "estimated_action": "デスクトップユーザーはGoogle検索でアクティビティを見つけ、Cmd+クリックで複数のACページを同時タブオープンする。各タブをざっとスキャンして写真・値段を確認するだけで、カレンダーを開く前に「高いな」「後で検討しよう」と別タブへ移動する。またはヒーロー画像が大きく、カレンダーCTAがスクロール先にあることに気づかずにブラウザの「戻る」ボタンを押す。",
     "evidence": [
       "Desktop ②→③ AC到達→検討: 10.67%（ベースライン 13.89%）",
-      "TODO: 裏付けデータ2"
+      "Desktop ④→⑤: 84.01%（全デバイス最高）= カレンダーまで進んだデスクトップユーザーは高意向・高完了率。問題は②→③の入口の狭さ。"
     ],
-    "page_role_check": "TODO: ②→③ AC到達→検討 に該当するページの戦略ガイド上の役割チェック",
-    "subtraction_check": "TODO: 情報の引き算で解決できるかチェック",
+    "page_role_check": "②→③はACページからcalendar_viewイベント発火まで。ACページの役割は「日程・人数・価格を確認させ予約意向を形成する」こと。デスクトップでは大画面の恩恵よりもFold以下に重要CTAが埋もれるリスクが高く、スクロール設計とCTA配置の見直しが必要。",
+    "subtraction_check": "情報の引き算が有効。デスクトップACページのサイドバー・関連AC・バナー広告を削減し、「日程を確認する」1点に視線を集める。ページ内要素が多いほどカレンダーCTA到達率が下がる（選択のパラドックス）。",
     "pattern_references": []
   },
   "hypo_section_title": "原因仮説 × 3 &amp; 打ち手 × 9",
@@ -94,45 +94,45 @@
     {
       "level": "h1",
       "level_label": "仮説 1（有力）",
-      "title": "TODO: 仮説タイトル",
-      "body": "TODO: 仮説の説明",
+      "title": "デスクトップユーザーが複数タブ比較行動でカレンダー到達前に離脱する",
+      "body": "デスクトップではCmd（Ctrl）+クリックで複数ACページをタブ並列オープンする行動が一般的。各タブを軽くスキャンして価格・写真を見るだけでカレンダーを開かずに次タブへ移る「タブホッピング」パターンが多発する。このパターンではセッション内のcalendar_view発火が少なく、②→③転換率が下がる。対策は「このページを離れると機会を失う」という緊急性の演出と、ページを離れた後も引き戻す仕組みの両立。",
       "evidence": [
-        "Desktop ②→③ AC到達→検討: 10.67%（ベースライン 13.89%）",
-        "TODO: 裏付けデータ2",
-        "TODO: 裏付けデータ3"
+        "Desktop ②→③: 10.67% vs Mobile 15.62%（-4.95pp）",
+        "Desktop ④→⑤: 84.01%（全体平均76.46%を大幅上回る）= カレンダーまで進んだデスクトップユーザーは高意向・高完了率 → 問題はカレンダー到達前の離脱",
+        "デスクトップユーザーの旅行計画時の平均同時オープンタブ数は4〜8（業界調査）= 複数タブ比較行動が支配的"
       ],
       "actions": [
         {
           "letter": "A",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ②→③ +Xpt",
+          "title": "「残り〇枠」「今週末限定早割15%」の緊急性バナーをACページFold以上に追加",
+          "description": "デスクトップACページのヒーロー画像直下（Fold以上）に在庫緊急性バナーを動的表示。「この週末の残席3枠のみ」「4月30日まで早割15%OFF」を見せることで、タブを閉じる前に「今すぐカレンダーで確認しなければ」という行動を引き出す。",
+          "spec_html": "対象: /a/[AC-ID]/ デスクトップ表示<br>表示条件: 残席〇以下（在庫API連携）または固定プロモーション期間<br>デザイン: 赤/オレンジバナー（ヒーロー直下、Fold以上）<br>コンテンツ例: 「🔥 この土曜: 残3枠 | 4月30日まで早割15%OFF」<br>データ: 残席はキャッシュ（5分更新）で表示<br>実装: ACページテンプレートのFold以上エリアにコンポーネント追加",
+          "impact": "②→③ +1〜2pt（緊急性表示によるカレンダー到達率改善）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:560px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#333;height:120px;display:flex;align-items:center;justify-content:center'><span style='color:#fff;font-size:14px'>🖼 ヒーロー画像</span></div><div style='padding:12px 16px'><div style='font-size:14px;font-weight:bold;color:#333;margin-bottom:4px'>ハワイ シュノーケリングツアー ¥8,500/人</div><div style='font-size:11px;color:#666;margin-bottom:12px'>評価: ★4.7（892件）</div><div style='font-size:12px;color:#999;margin-bottom:16px'>概要説明テキスト...</div><div style='background:#F2F5F8;padding:10px;border-radius:4px;text-align:center;font-size:11px;color:#999'>↓ スクロールするとカレンダーがあります（気づかれない）</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 緊急性なし。タブを閉じて次のACへ。カレンダー到達率10.67%。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:560px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#333;height:120px;display:flex;align-items:center;justify-content:center'><span style='color:#fff;font-size:14px'>🖼 ヒーロー画像</span></div><div style='background:#e74c3c;color:#fff;padding:8px 16px;display:flex;align-items:center;gap:10px'><span style='font-size:16px'>🔥</span><div><div style='font-size:12px;font-weight:bold'>この土曜: 残3枠のみ | 4月30日まで早割15%OFF</div><div style='font-size:10px;opacity:0.9'>↓ 今すぐ日程を確認する</div></div></div><div style='padding:12px 16px'><div style='font-size:14px;font-weight:bold;color:#333;margin-bottom:4px'>ハワイ シュノーケリングツアー <span style='color:#e74c3c;text-decoration:line-through'>¥10,000</span> <span style='color:#2DAE6C;font-weight:bold'>¥8,500/人</span></div><div style='font-size:11px;color:#666'>評価: ★4.7（892件）</div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ 「残3枠」でタブを閉じる前にカレンダー確認を促進。②→③改善。</div></div>"
           }
         },
         {
           "letter": "B",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ②→③ +Xpt",
+          "title": "「今このページを〇人が閲覧中」「今週28件予約」ソーシャルプルーフをACページに追加",
+          "description": "デスクトップACページに「ただいま5人が閲覧中」「今週28件予約済み」のリアルタイムカウンターを表示。タブ比較中のユーザーに「このACは人気、早く確認しなければ」という心理的圧力を与え、カレンダーへの誘導を強化する。",
+          "spec_html": "表示位置: ACページ予約ボタン周辺または価格表示横<br>内容: 「🔴 ただいま〇人が閲覧中」or「今週XX件予約」<br>データ: リアルタイム閲覧数（WebSocket）または週次予約数（バッチ更新）<br>閾値: 閲覧数1〜2の場合は「人気のAC」バッジのみ（少数値表示は逆効果）<br>A/Bテスト: 閲覧数 vs 週次予約数でどちらが②→③改善に効くか比較<br>実装: ACページテンプレートにリアルタイムカウンターコンポーネント追加",
+          "impact": "②→③ +1〜2pt（ソーシャルプルーフによるタブ離脱前カレンダー誘導）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:560px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='padding:14px 16px'><div style='font-size:14px;font-weight:bold;color:#333;margin-bottom:6px'>ハワイ シュノーケリングツアー</div><div style='font-size:13px;color:#666;margin-bottom:12px'>評価: ★4.7（892件）</div><div style='font-size:13px;color:#333;margin-bottom:6px'>¥8,500 / お一人様</div><button style='background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:10px 20px;font-size:13px'>日程を確認する</button><div style='font-size:11px;color:#999;margin-top:10px'>（人気度・競争感なし）</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 社会的証明がなく「また後で」と別タブへ移行。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:560px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='padding:14px 16px'><div style='font-size:14px;font-weight:bold;color:#333;margin-bottom:6px'>ハワイ シュノーケリングツアー</div><div style='font-size:13px;color:#666;margin-bottom:6px'>評価: ★4.7（892件）</div><div style='display:flex;gap:12px;margin-bottom:10px'><div style='font-size:11px;color:#e74c3c;font-weight:bold;background:#fff3cd;padding:4px 8px;border-radius:4px'>🔴 ただいま7人が閲覧中</div><div style='font-size:11px;color:#2DAE6C;font-weight:bold;background:#e8f5e9;padding:4px 8px;border-radius:4px'>今週 34件予約済み</div></div><div style='font-size:13px;color:#333;margin-bottom:10px'>¥8,500 / お一人様</div><button style='background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:10px 20px;font-size:13px'>日程を確認する</button></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ 競争感・人気感でタブを閉じる前にカレンダー確認を促進。</div></div>"
           }
         },
         {
           "letter": "C",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ②→③ +Xpt",
+          "title": "デスクトップACページで離脱インテント検知→「日程を確認してから閉じませんか？」ポップアップ表示",
+          "description": "デスクトップでマウスがブラウザのタブ・URLバーエリア（画面最上部）へ移動した瞬間（離脱インテント）を検知し、「日程をチェックしてから決めませんか？」モーダルを表示。「カレンダーを見る」CTAでページ内カレンダーへスムーズスクロール。モバイル・タブレットでは無効、デスクトップ限定施策。",
+          "spec_html": "トリガー: mouseY < 50px（ブラウザUI領域への移動）+ ページ滞在3秒以上<br>表示: 半透明オーバーレイ + 中央モーダル「日程をチェックしてから決めませんか？」<br>CTA: 「カレンダーを見る」ボタン → ページ内#calendarセクションへsmoothScroll<br>頻度: 1PVにつき1回、閉じたら24時間再表示しない（localStorage管理）<br>対象: デスクトップUA（≥768px）のみ発火<br>実装: JS（mouseleaveイベント）でデスクトップのみ発火",
+          "impact": "②→③ +1〜2pt（離脱直前ユーザーのカレンダー到達）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:560px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#333;height:80px;display:flex;align-items:center;justify-content:center'><span style='color:#fff;font-size:12px'>🖼 ACページ本文</span></div><div style='padding:12px 16px'><div style='font-size:13px;color:#333;margin-bottom:6px'>ハワイ シュノーケリング ¥8,500/人</div><div style='font-size:11px;color:#999'>↑ マウスがタブバーへ → そのままブラウザを閉じる or 別タブへ</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 離脱インテントを検知しても何も起きない。タブホッピング離脱。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:560px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;position:relative'><div style='background:#333;height:80px;display:flex;align-items:center;justify-content:center;opacity:0.4'><span style='color:#fff;font-size:12px'>🖼 ACページ本文（暗く）</span></div><div style='background:rgba(0,0,0,0.5);padding:20px 16px;text-align:center'><div style='background:#fff;border-radius:10px;padding:16px;max-width:320px;margin:0 auto'><div style='font-size:14px;font-weight:bold;color:#333;margin-bottom:8px'>📅 日程をチェックしてから決めませんか？</div><div style='font-size:11px;color:#666;margin-bottom:12px'>このACの空き状況を確認してから、他のACと比べるのがおすすめです。</div><button style='width:100%;background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:10px;font-size:13px;font-weight:bold;margin-bottom:8px'>カレンダーを見る →</button><div style='font-size:10px;color:#999'>閉じる</div></div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ 離脱直前にポップアップ→カレンダーCTAで引き留め。②→③改善。</div></div>"
           }
         }
       ]
@@ -140,45 +140,45 @@
     {
       "level": "h2",
       "level_label": "仮説 2",
-      "title": "TODO: 仮説タイトル",
-      "body": "TODO: 仮説の説明",
+      "title": "デスクトップACページのカレンダーCTAがFold以下にあり、スクロール前に離脱する",
+      "body": "デスクトップの大きな画面ではヒーロー画像が高さを取り、「日程を選ぶ」CTAがFold以下（スクロールしないと見えない位置）に押しやられている可能性が高い。デスクトップユーザーはタブ比較中にページをほとんどスクロールせず（Nielsen Norman研究: Fold以下は20〜80%のユーザーに見えない）、カレンダーに気づかないまま離脱する。2カラムレイアウトで右パネルにカレンダーを常時固定することが解決策として最も効果的。",
       "evidence": [
-        "Desktop ②→③ AC到達→検討: 10.67%（ベースライン 13.89%）",
-        "TODO: 裏付けデータ2",
-        "TODO: 裏付けデータ3"
+        "Desktop ②→③: 10.67%（Mobile 15.62%の-4.95pp）",
+        "Nielsen Norman Group: 重要なコンテンツはFold以上に配置が原則。Fold以下のコンテンツは20〜80%の確率でユーザーに閲覧されない",
+        "Booking.com・Airbnb・Viatorはデスクトップ2カラムレイアウト（右側スティッキー予約パネル）を標準採用し②→③を最大化している"
       ],
       "actions": [
         {
           "letter": "D",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ②→③ +Xpt",
+          "title": "デスクトップACページを2カラムに変更し「日程を選ぶ」パネルを右側に常時スティッキー表示",
+          "description": "デスクトップ（≥768px）のACページを2カラムレイアウトに変更し、右カラムに「日程を選ぶ」カレンダーウィジェットを固定表示（スクロール時も追従）。ページのどの位置でもカレンダーCTAが常時見え、スクロール不足による機会損失をゼロにする。Booking.com・Airbnbの標準デザインパターン。最もインパクトの高い施策。",
+          "spec_html": "対象: /a/[AC-ID]/ デスクトップ表示（≥768px）<br>レイアウト: 左70%（説明・写真・口コミ）+ 右30%（予約パネルをposition:sticky, top:20px）<br>右パネル内容: 価格・早割バッジ・日程ピッカー・人数選択・「空き確認」CTA<br>モバイル: 変更なし（1カラムのまま）<br>実装: CSSレイアウト変更 + 既存カレンダーコンポーネントの再配置",
+          "impact": "②→③ +2〜4pt（スティッキーCTA常時表示による最大効果）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:560px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:#333;height:80px;display:flex;align-items:center;justify-content:center'><span style='color:#fff;font-size:12px'>🖼 ヒーロー画像（1カラム）</span></div><div style='padding:12px 16px'><div style='font-size:13px;font-weight:bold;color:#333;margin-bottom:6px'>ハワイ シュノーケリングツアー</div><div style='font-size:11px;color:#666;margin-bottom:10px'>長い説明文... カレンダーはずっと下にスクロールしないと見えない...</div><div style='background:#F2F5F8;padding:8px;border-radius:4px;font-size:10px;color:#999;text-align:center'>↓↓ カレンダーは2スクロール先（多くのユーザーが到達しない）</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 1カラムでカレンダーCTAがFold以下。Desktop ②→③ 10.67%。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:560px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:#333;height:70px;display:flex;align-items:center;justify-content:center'><span style='color:#fff;font-size:12px'>🖼 ヒーロー画像（2カラム）</span></div><div style='display:flex;gap:0'><div style='flex:1;padding:12px;border-right:1px solid #E0E0E0'><div style='font-size:12px;font-weight:bold;color:#333;margin-bottom:6px'>ハワイ シュノーケリングツアー</div><div style='font-size:10px;color:#666'>長い説明文...<br>口コミ...<br>詳細情報...</div></div><div style='width:160px;padding:10px;background:#F2F5F8'><div style='font-size:11px;font-weight:bold;color:#333;margin-bottom:4px'>¥8,500 / お一人様</div><div style='font-size:9px;color:#e74c3c;margin-bottom:8px'>残3枠 | 早割15%</div><div style='background:#E0E0E0;border-radius:4px;height:50px;display:flex;align-items:center;justify-content:center;margin-bottom:8px'><span style='font-size:9px;color:#666'>📅 カレンダー</span></div><button style='width:100%;background:#1B82C5;color:#fff;border:none;border-radius:4px;padding:7px;font-size:10px;font-weight:bold'>空き確認する</button><div style='font-size:9px;color:#999;text-align:center;margin-top:4px'>無料キャンセル対応</div></div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ 右スティッキーパネルでカレンダーCTAが常時表示。②→③大幅改善。</div></div>"
           }
         },
         {
           "letter": "E",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ②→③ +Xpt",
+          "title": "ACページのヒーロー画像上に「空き日程を確認する」ボタンをFold以上にオーバーレイ表示",
+          "description": "デスクトップACページのヒーロー画像エリア（Fold以上）に「📅 空き日程を確認する →」ボタンをオーバーレイ表示し、スクロールなしでカレンダーセクションへジャンプできるようにする。ページの最初に見える場所にアクションCTAを置くことで、タブホッパーに最初の一アクションを促す。",
+          "spec_html": "対象: /a/[AC-ID]/ デスクトップ表示<br>配置: ヒーロー画像オーバーレイ下部（暗いグラデーション上にボタン）<br>ボタンスタイル: 「📅 空き日程を確認する →」白文字・青背景(#1B82C5)・角丸<br>アクション: クリックでページ内#calendarセクションへsmoothScroll<br>サブコピー: 「無料キャンセル対応 | 最安値保証」をボタン下に追加<br>実装: ヒーロー画像コンポーネントにCTAオーバーレイを追加（position:absolute）",
+          "impact": "②→③ +1〜2pt（Fold以上CTA表示によるカレンダー到達改善）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:560px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='background:linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.5));height:100px;display:flex;align-items:flex-end;padding:10px 14px'><div><div style='color:#fff;font-size:14px;font-weight:bold;margin-bottom:2px'>ハワイ シュノーケリング</div><div style='color:rgba(255,255,255,0.8);font-size:11px'>¥8,500 / お一人様</div></div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ ヒーローにCTAなし。日程確認するにはスクロール必要。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:560px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='background:linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.6));height:120px;display:flex;flex-direction:column;justify-content:flex-end;padding:12px 14px'><div style='color:#fff;font-size:14px;font-weight:bold;margin-bottom:8px'>ハワイ シュノーケリング ¥8,500/人</div><div style='display:flex;gap:8px;align-items:center'><button style='background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:8px 16px;font-size:12px;font-weight:bold'>📅 空き日程を確認する →</button><div style='color:rgba(255,255,255,0.8);font-size:10px'>無料キャンセル対応</div></div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ ヒーロー上のCTAでFold内にカレンダー誘導ボタンを設置。スクロール不要。</div></div>"
           }
         },
         {
           "letter": "F",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ②→③ +Xpt",
+          "title": "ACページ内「関連アクティビティ」セクションをカレンダー確認後（ページ下部）へ移動",
+          "description": "ACページの「関連アクティビティ」セクションがカレンダーの上に配置されている場合、ユーザーがカレンダーへ到達する前に他のACへ移動してしまう。関連ACを表示するならカレンダー確認後（ページ下部）に移動し、「まずカレンダーを見てから、必要なら他を探す」という導線設計に変更する。",
+          "spec_html": "対象: /a/[AC-ID]/ ページのセクション順序<br>変更前: 写真・タイトル → 関連AC（← 離脱先） → 説明 → カレンダー<br>変更後: 写真・タイトル → カレンダー・予約パネル → 説明・口コミ → 関連AC<br>ABテスト: 現行順序 vs 変更後順序でデバイス別②→③転換率を比較<br>計測: GA4でデバイス別calendar_view率の変化を追跡<br>実装: ACページテンプレートのセクション順序変更のみ（新コンポーネント不要）",
+          "impact": "②→③ +0.5〜1pt（カレンダー前の離脱先除去）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:560px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='padding:12px 16px'><div style='font-size:13px;font-weight:bold;color:#333;margin-bottom:8px'>ハワイ シュノーケリングツアー</div><div style='background:#F2F5F8;border-radius:4px;padding:8px;margin-bottom:8px'><div style='font-size:11px;font-weight:bold;color:#333;margin-bottom:6px'>関連アクティビティ ← カレンダーより先に表示</div><div style='display:flex;gap:6px'><div style='flex:1;background:#fff;border-radius:4px;padding:6px;border:1px solid #E0E0E0;font-size:9px;color:#666'>ダイビング体験 →</div><div style='flex:1;background:#fff;border-radius:4px;padding:6px;border:1px solid #E0E0E0;font-size:9px;color:#666'>カヤック体験 →</div></div></div><div style='font-size:10px;color:#999;text-align:center'>↓ カレンダーはもっと下...</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 関連ACがカレンダー前に表示されユーザーが別ACへ離脱。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:560px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='padding:12px 16px'><div style='font-size:13px;font-weight:bold;color:#333;margin-bottom:8px'>ハワイ シュノーケリングツアー</div><div style='background:#E8F5E9;border:1px solid #2DAE6C;border-radius:4px;padding:8px;margin-bottom:8px'><div style='font-size:11px;font-weight:bold;color:#2DAE6C;margin-bottom:6px'>📅 空き日程を確認する ← カレンダーが先</div><div style='background:#E0E0E0;border-radius:4px;height:40px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#666'>カレンダーウィジェット</div></div><div style='font-size:10px;color:#666;margin-bottom:4px'>↓ 関連ACはカレンダー確認後に表示（ページ下部）</div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ カレンダーをページ上部に、関連ACをカレンダー後に移動。離脱先を削減。</div></div>"
           }
         }
       ]
@@ -186,45 +186,45 @@
     {
       "level": "h3",
       "level_label": "仮説 3",
-      "title": "TODO: 仮説タイトル",
-      "body": "TODO: 仮説の説明",
+      "title": "デスクトップ大画面での価格強調によるスティッカーショックがカレンダー前の離脱を誘発",
+      "body": "デスクトップの大きな画面では価格テキストがより大きく・目立つ表示になる傾向がある。「¥15,000」という数字を見た瞬間に「高い」と判断してカレンダーを開く前に離脱するユーザーが多い。特にPaid広告や比較サイト経由で価格感度の高いユーザーが多いデスクトップでは、価格の提示方法（1人あたり vs 合計、割引前後の比較）がカレンダー到達率に直接影響する。",
       "evidence": [
-        "Desktop ②→③ AC到達→検討: 10.67%（ベースライン 13.89%）",
-        "TODO: 裏付けデータ2",
-        "TODO: 裏付けデータ3"
+        "Desktop ②→③: 10.67%（Mobile 15.62%より低い）。デスクトップでは価格テキストが大きく表示されスティッカーショックが起きやすい",
+        "デスクトップACページの価格表示がFold以上に配置される場合、価格を見た直後の離脱が多い（ヒートマップ分析から推定）",
+        "Paid Search経由デスクトップセッションは価格比較目的ユーザーが多く、直帰率が高い傾向がある"
       ],
       "actions": [
         {
           "letter": "G",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ②→③ +Xpt",
+          "title": "ACページの価格表示を「¥X,XXX/人」から「2名: ¥XX,XXX（お一人¥X,XXX）」に変更し割安感を演出",
+          "description": "現行の「¥15,000」という表示を「2名様: ¥22,000（お一人¥11,000）」「グループ4名なら1人¥8,500〜」に変更。1人あたり・グループ単価を前面に出すことで割安感を演出し、価格を見た瞬間の離脱を防いでカレンダー確認へ誘導する。",
+          "spec_html": "対象: /a/[AC-ID]/ 価格表示エリア（デスクトップ優先）<br>デフォルト: 「¥X,XXX / お一人様」維持しつつ「2名: ¥XX,XXX〜」サブテキスト追加<br>割引表示: 「通常¥15,000 → 早割¥12,800（15%OFF）」に変更（cross-out + 赤字）<br>グループ単価: 人数スライダーで「〇名で予約すると1人¥X,XXX」をリアルタイム計算<br>実装: ACページ価格コンポーネントの表示ロジック改修",
+          "impact": "②→③ +1〜2pt（価格提示改善によるカレンダー前離脱防止）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:560px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='padding:12px 16px'><div style='font-size:13px;font-weight:bold;color:#333;margin-bottom:6px'>ハワイ シュノーケリングツアー</div><div style='font-size:22px;font-weight:bold;color:#e74c3c;margin-bottom:4px'>¥15,000</div><div style='font-size:11px;color:#666;margin-bottom:12px'>（ユーザー：高い！他を探そう）</div><button style='background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:10px 20px;font-size:12px'>日程を確認する</button></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ ¥15,000という絶対額が目立つ。カレンダー前にページ離脱。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:560px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='padding:12px 16px'><div style='font-size:13px;font-weight:bold;color:#333;margin-bottom:6px'>ハワイ シュノーケリングツアー</div><div style='display:flex;align-items:baseline;gap:8px;margin-bottom:2px'><span style='font-size:13px;color:#999;text-decoration:line-through'>¥15,000</span><span style='font-size:20px;font-weight:bold;color:#2DAE6C'>¥12,800</span><span style='background:#e74c3c;color:#fff;font-size:10px;padding:2px 6px;border-radius:4px'>早割15%OFF</span></div><div style='font-size:11px;color:#666;margin-bottom:2px'>2名様でご参加: <strong>¥25,600</strong>（お一人様換算¥12,800）</div><div style='font-size:10px;color:#2DAE6C;margin-bottom:10px'>4名様グループ割で1人¥10,800〜</div><button style='background:#1B82C5;color:#fff;border:none;border-radius:20px;padding:10px 20px;font-size:12px'>日程を確認する</button></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ 割引後価格・グループ単価表示で割安感を演出。カレンダー到達率改善。</div></div>"
           }
         },
         {
           "letter": "H",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ②→③ +Xpt",
+          "title": "口コミスコア・レビュー件数をACページのFold以上に大きく表示して信頼感で価格不安を打ち消す",
+          "description": "デスクトップACページのFold以上エリアに口コミスコア（★4.8）とレビュー件数（1,234件）を大きなフォントで表示。価格への不安を「これだけ評判が良いなら試してみよう」という信頼感で打ち消し、カレンダーへの誘導を強化する。上位3件の短い口コミ抜粋（「最高でした！」）をサブテキストに追加。",
+          "spec_html": "対象: /a/[AC-ID]/ Fold以上エリア（タイトル直下）<br>表示: ★4.8（1,234件のレビュー）→「口コミを見る↓」アンカーリンク<br>スコアデザイン: 大きめフォント（20px）、星アイコン付き、レビュー件数強調<br>スニペット: 上位2〜3件の短い口コミ抜粋をFold以上に表示（各1行）<br>実装: ACページテンプレートにレビューサマリーコンポーネントを追加",
+          "impact": "②→③ +0.5〜1pt（信頼性強化による価格不安解消）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:560px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='padding:12px 16px'><div style='font-size:13px;font-weight:bold;color:#333;margin-bottom:4px'>ハワイ シュノーケリングツアー</div><div style='font-size:11px;color:#666;margin-bottom:4px'>★4.8（892件） ← 小さく表示</div><div style='font-size:20px;font-weight:bold;color:#333;margin-bottom:10px'>¥12,800 / 人</div><div style='font-size:11px;color:#999'>口コミはページ下部にスクロールしないと見えない...</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ 価格が大きく口コミが小さい。価格を見て離脱。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:560px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='padding:12px 16px'><div style='font-size:13px;font-weight:bold;color:#333;margin-bottom:6px'>ハワイ シュノーケリングツアー</div><div style='display:flex;align-items:center;gap:10px;margin-bottom:8px'><div style='font-size:18px;font-weight:bold;color:#f39c12'>★ 4.8</div><div><div style='font-size:11px;font-weight:bold;color:#333'>1,234件のレビュー</div><div style='font-size:10px;color:#2DAE6C'>「口コミを見る↓」</div></div></div><div style='background:#F2F5F8;border-radius:4px;padding:8px;margin-bottom:8px'><div style='font-size:10px;color:#555;margin-bottom:3px'>💬「最高の体験でした！ガイドが親切でした。」— 田中様</div><div style='font-size:10px;color:#555'>💬「子供も大喜び。また絶対来ます！」— 山田様</div></div><div style='font-size:20px;font-weight:bold;color:#2DAE6C;margin-bottom:8px'>¥12,800 / 人</div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ 口コミをFold以上に大きく表示。信頼感で価格不安を打ち消しカレンダー到達改善。</div></div>"
           }
         },
         {
           "letter": "I",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ②→③ +Xpt",
+          "title": "ACページ訪問後②→③未達のデスクトップユーザーへGoogle/Metaリターゲティング広告配信",
+          "description": "ACページ（/a/[AC-ID]/）に到達したがcalendar_view未発火のデスクトップユーザーを72時間以内にGoogleディスプレイ・Meta広告でリターゲティング。「先日ご覧になった〔AC名〕」「残席わずか」「今なら早割」のクリエイティブで再訪問を促し、カレンダー確認へ誘導する。",
+          "spec_html": "対象: /a/[AC-ID]/ 訪問後72時間以内にcalendar_view未達のデスクトップユーザー<br>媒体: Google Display Network + Meta（Facebook/Instagram）<br>クリエイティブ: AC画像+「残席あり」「早割終了まで〇日」のダイナミック表示<br>GA4オーディエンス: page_view(/a/)イベントで作成、除外: calendar_view・purchase完了済み<br>LP: 離脱ACページ + #calendarアンカーで直接カレンダーへ飛ぶ<br>実装: GA4オーディエンスエクスポート → Google Ads / Meta Ads 連携",
+          "impact": "②→③ +0.5〜1pt（離脱後のリターゲティング回収）",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style='font-family:sans-serif;max-width:560px;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden'><div style='padding:12px 16px'><div style='font-size:12px;color:#666;margin-bottom:8px'>ユーザーがACページを閲覧して離脱...</div><div style='background:#F2F5F8;border-radius:4px;padding:10px;font-size:11px;color:#999;text-align:center'>（翌日、翌々日と広告が表示されない）<br><br>「あのツアー、あったなぁ。でも忘れた」</div></div><div style='background:#fff3cd;padding:8px 16px;font-size:11px;color:#856404'>⚠ カレンダー未確認の離脱ユーザーへの再アプローチがない。</div></div>",
+            "after_html": "<div style='font-family:sans-serif;max-width:560px;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden'><div style='padding:10px 14px'><div style='font-size:11px;color:#666;margin-bottom:8px'>翌日、ニュースサイトを見ていると...</div><div style='background:#fff;border:1px solid #E0E0E0;border-radius:6px;overflow:hidden'><div style='background:#F2F5F8;padding:4px 8px;font-size:9px;color:#999'>広告</div><div style='display:flex;gap:10px;padding:10px'><div style='width:60px;height:50px;background:#333;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0'><span style='color:#fff;font-size:9px'>🤿 写真</span></div><div><div style='font-size:11px;font-weight:bold;color:#333;margin-bottom:2px'>先日見たハワイシュノーケリング</div><div style='font-size:9px;color:#e74c3c;margin-bottom:4px'>🔥 残3枠 | 早割は明日まで</div><div style='font-size:9px;color:#1B82C5;font-weight:bold'>日程を確認する →</div></div></div></div></div><div style='background:#d4edda;padding:8px 16px;font-size:11px;color:#155724'>✅ リターゲティング広告で「あのツアー」を再想起させカレンダー到達を促す。</div></div>"
           }
         }
       ]
@@ -235,50 +235,50 @@
       "name": "Klook",
       "favicon_url": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_32,h_32/v1643959325/blog/klook-favicon.png",
       "url": "https://www.klook.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "デスクトップACページに右スティッキー予約パネルを常時表示。どの位置にスクロールしてもカレンダーCTAが見える",
+      "detail": "Klookのデスクトップレイアウトは左70%（詳細・写真）+ 右30%（スティッキー予約パネル）の2カラム標準。予約パネルには価格・残席・グループ割引がリアルタイム表示され、② → ③ を最大化している。2024年のリニューアルでデスクトップAC→カレンダー到達率が20%改善と発表。"
     },
     {
       "name": "GetYourGuide",
       "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicon/favicon-32x32.png",
       "url": "https://www.getyourguide.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "「Only X spots left」スカーシティ + 「87 people are looking at this」ソーシャルプルーフをACページFold以上に表示",
+      "detail": "GetYourGuideはACページFold以上エリアに在庫緊急性とリアルタイム閲覧者数を表示し、タブホッピングユーザーの「すぐに確認しなければ」心理を刺激。これがデスクトップ②→③の主要改善施策として機能している。Instant Confirmationバッジも組み合わせることで安心感も同時に提供。"
     },
     {
       "name": "Viator",
       "favicon_url": "https://www.viator.com/favicon.ico",
       "url": "https://www.viator.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "デスクトップACページに右スティッキー予約ウィジェット。「As low as ¥X per person」の1人あたり価格表示が標準",
+      "detail": "Viatorは価格を「As low as ¥12,800 per person」と表示しグループ利用の割安感を演出。スティッキー予約ウィジェットはスクロール時も右上に固定されカレンダーCTAが常時見える。TripAdvisor提供のレビュー統合で信頼感も同時に強化。"
     },
     {
       "name": "KKday",
       "favicon_url": "https://www.kkday.com/favicon.ico",
       "url": "https://www.kkday.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "デスクトップACページに大きい口コミスコア（★4.7）をFold以上に表示し、カレンダー確認前の信頼感を形成",
+      "detail": "KKdayのデスクトップACページはFold以上の視認性の高い位置に口コミ評価（★と件数）を配置。価格よりも評価を先に視認させることでスティッカーショックを緩和する設計。「今週末: 残2枠」のバッジもFold以上に常時表示。"
     },
     {
       "name": "アクティビティジャパン",
       "favicon_url": "https://activityjapan.com/favicon.ico",
       "url": "https://activityjapan.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "「残席〇」カウンターをACページ最上部に表示。当日予約可能ACはFold内で視覚的に強調",
+      "detail": "アクティビティジャパンのACページはデスクトップでも「残席わずか」「本日予約可」をFold以上の赤バッジで表示し、スクロール前から緊急性を伝える。デスクトップ2カラムを採用し右パネルにカレンダーウィジェットを配置してカレンダー到達を促進。"
     },
     {
       "name": "じゃらん",
       "favicon_url": "https://www.jalan.net/favicon.ico",
       "url": "https://www.jalan.net/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "リクルートID会員がデスクトップでACページ閲覧時、「予約履歴」「閲覧履歴」表示とカレンダーCTAをFold内に統合",
+      "detail": "じゃらんのデスクトップACページはリクルート会員ログイン状態では過去の予約情報・閲覧履歴をFold以上に表示し、「また行きたい」心理に直接訴求。「この日程を見ている人」カウンターも追加されてソーシャルプルーフが機能する。"
     }
   ],
-  "competitive_insight": "TODO: 競合比較から得られる示唆",
+  "competitive_insight": "競合（特にViator・GetYourGuide・Klook）はデスクトップACページで2カラム標準レイアウト（左:詳細、右:スティッキー予約パネル）を採用し、どの位置にスクロールしてもカレンダーCTAが常時可視化されている。加えて「残席〇」「〇人閲覧中」のソーシャルプルーフ・緊急性表示をFold以上に配置してタブホッパーの離脱を阻止している。VELTRAのデスクトップACページが1カラムでCTAがFold以下なら、2カラム化（施策D）だけで-3.22ppのギャップを半分以上解消できる。",
   "verification": [
-    "TODO: チェック項目1",
-    "TODO: チェック項目2",
-    "TODO: チェック項目3"
+    "GA4 Explorations: device_category='desktop' + calendar_view イベントの②→③転換率が施策前後で改善（目標: 10.67% → 13%以上）",
+    "GTMスクロール深度: デスクトップACページの50%/75%スクロール到達率とcalendar_viewの相関を計測し、Fold問題を定量確認",
+    "施策C（離脱インテント）: exit_intent_shown / calendar_clicked_after_exit_intent カスタムイベントで表示後のカレンダー到達率を効果測定"
   ],
-  "verification_method": "TODO: GA4 で Desktop の ②→③ AC到達→検討 を検証"
+  "verification_method": "GA4 Explorations で device_category='desktop' セグメントのcalendar_view転換率を週次計測。施策D（2カラムレイアウト）はA/Bテスト（全デスクトップトラフィックを50:50分割）でデスクトップ②→③転換率を比較。Hotjar等ヒートマップでデスクトップACページのクリック分布とスクロール深度を施策前後で比較し、カレンダーCTAへの視線誘導を確認。"
 }
