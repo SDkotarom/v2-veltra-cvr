@@ -94,9 +94,17 @@ python3 scripts/generate-week.py --week {YYYY}-w{WW}
 2. reports/{YYYY}-w{WW}/data.json の meta.rolling_start 〜 meta.rolling_end を確認
 3. GA4 Property 347074845 に対して Q1〜Q10 を上記期間で実行
 4. 結果を data.json のスキーマ（セクション5）に従って格納
-5. summary-data.json / weekly-summary.json も更新
-6. git commit & push to main
+5. 【最優先】data.json 完成後、真っ先にサマリーページを更新する
+   - summary-data.json（月次KPI追記）
+   - weekly-summary.json（週次KPI追記）
+   - reports-index.json（新しい週のエントリ追加）
+   - archive-meta.json（updatedAt 更新）
+   - ローカル/Vercelで https://v2-veltra-cvr.vercel.app/ のサマリーが正しく描画されるか確認
+6. サマリーページ更新分を先に commit & push（Phase 2 の前にデプロイ確定）
+7. その後 Phase 2（ボトルネック分析）へ進む
 ```
+
+> 📌 **重要**: ボトルネック分析（Phase 2）に入る前に、必ずサマリーページ関連JSONを先に更新・コミット・プッシュすること。サマリー描画不整合を早期検出するため。
 
 #### クエリ一覧
 
@@ -122,18 +130,26 @@ python3 scripts/generate-week.py --week {YYYY}-w{WW}
 
 #### Phase 1 完了時の更新ファイル一覧
 
-| ファイル | 更新内容 |
-|----------|---------|
-| `reports/{W}/data.json` | Q1〜Q10 の全結果 |
-| `summary-data.json` | 当月の月次KPI追記 |
-| `weekly-summary.json` | 当週の週次KPI追記/更新 |
-| `reports-index.json` | **新しい週のエントリ追加（week_label, date_start, date_end を正しい週日付で）** |
-| `archive-meta.json` | updatedAt タイムスタンプ更新 |
+**更新順序を厳守**（JSON作成 → サマリー更新を最優先 → その後ボトルネック分析）:
+
+| 優先 | ファイル | 更新内容 |
+|------|----------|---------|
+| 1 | `reports/{W}/data.json` | Q1〜Q10 の全結果 |
+| 2 ★最優先 | `summary-data.json` | 当月の月次KPI追記 |
+| 2 ★最優先 | `weekly-summary.json` | 当週の週次KPI追記/更新 |
+| 2 ★最優先 | `reports-index.json` | **新しい週のエントリ追加（week_label, date_start, date_end を正しい週日付で）** |
+| 2 ★最優先 | `archive-meta.json` | updatedAt タイムスタンプ更新 |
+| 3 | サマリーページ描画確認 | https://v2-veltra-cvr.vercel.app/ で当週の数値が正しく表示されているか確認 |
+| 4 | Phase 2 開始 | ボトルネック分析（`bottleneck-{1-10}-content.json`）へ進む |
 
 > ⚠️ `reports-index.json` の `date_start` / `date_end` は対象週の月〜日（例: 3/30〜4/5）。
 > ローリング期間（28日）ではないので注意。
 
+> ⚠️ **手順固定**: data.json が出来上がったら、**何よりも先に** 上記サマリー系4ファイル（summary-data / weekly-summary / reports-index / archive-meta）を更新する。ボトルネック分析は、サマリーページが正しく描画された状態を確認した後に着手すること。
+
 ### Phase 2: ボトルネック分析 & content.json 生成（Opus）
+
+**前提条件**: Phase 1 で data.json 作成後、**サマリーページ更新（summary-data.json / weekly-summary.json / reports-index.json / archive-meta.json）が完了しコミット済み**であること。未完了の場合は Phase 2 に進まず Phase 1 に戻ること。
 
 **重要**: 週次サマリーページは `report.html` が `data.json` から動的に描画するため、
 HTML生成は不要。Phase 2 では `bottleneck-{1-10}-content.json` のみ生成する。
