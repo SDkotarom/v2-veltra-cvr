@@ -337,6 +337,10 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     </div>
     <div style="display:flex;align-items:center;gap:12px">
       <div class="funnel-mode-toggle" id="funnel-graph-period-toggle"></div>
+      <div class="funnel-mode-toggle">
+        <button class="fmt-btn active" id="funnel-graph-mode-monthly" onclick="setFunnelGraphMode('monthly')">月次</button>
+        <button class="fmt-btn inactive" id="funnel-graph-mode-weekly" onclick="setFunnelGraphMode('weekly')">週次</button>
+      </div>
     </div>
   </div>
   <div class="graph-wrap" style="padding-top:12px">
@@ -425,7 +429,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   var funnelMode = '28d'; // '28d' or '7d'
   var graphMode = 'monthly'; // 'monthly' or 'weekly'
   var graphPeriod = '24m'; // '3m', '6m', '12m', '24m'
-  var funnelGraphPeriod = '12m'; // '1m', '3m', '6m', '12m'
+  var funnelGraphMode = 'monthly'; // 'monthly' or 'weekly'
+  var funnelGraphPeriod = '24m'; // matches active mode options
   var funnelGraphVisibility = { '1_to_2': true, '2_to_3': true, '3_to_4': true, '4_to_5': true };
   var FUNNEL_STEPS = [
     { key: '1_to_2', label: '①→②', name: '流入 → AC到達',    color: '#E8423F' },
@@ -1407,20 +1412,39 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   }
 
   // ── Funnel trend graph ───────────────────────────
-  var funnelGraphPeriodOptions = [
-    { id: '1m',  label: '1ヶ月', weeks: 5 },
-    { id: '3m',  label: '3ヶ月', weeks: 13 },
-    { id: '6m',  label: '半年',  weeks: 26 },
-    { id: '12m', label: '1年',   weeks: 52 }
+  var funnelPeriodOptionsMonthly = [
+    { id: '3m',  label: '3ヶ月', months: 3 },
+    { id: '6m',  label: '半年',  months: 6 },
+    { id: '12m', label: '1年',   months: 12 },
+    { id: '24m', label: '2年',   months: 24 }
+  ];
+  var funnelPeriodOptionsWeekly = [
+    { id: '1m',  label: '1ヶ月', months: 1 },
+    { id: '3m',  label: '3ヶ月', months: 3 },
+    { id: '6m',  label: '半年',  months: 6 },
+    { id: '12m', label: '1年',   months: 12 }
   ];
 
   function buildFunnelGraphPeriodButtons() {
     var container = document.getElementById('funnel-graph-period-toggle');
     if (!container) return;
-    container.innerHTML = funnelGraphPeriodOptions.map(function(o) {
+    var options = funnelGraphMode === 'weekly' ? funnelPeriodOptionsWeekly : funnelPeriodOptionsMonthly;
+    var validIds = options.map(function(o){ return o.id; });
+    if (validIds.indexOf(funnelGraphPeriod) === -1) funnelGraphPeriod = options[options.length - 1].id;
+    container.innerHTML = options.map(function(o) {
       return '<button class="fmt-btn ' + (funnelGraphPeriod === o.id ? 'active' : 'inactive') + '" onclick="setFunnelGraphPeriod(\'' + o.id + '\')">' + o.label + '</button>';
     }).join('');
   }
+
+  window.setFunnelGraphMode = function(m) {
+    funnelGraphMode = m;
+    var mBtn = document.getElementById('funnel-graph-mode-monthly');
+    var wBtn = document.getElementById('funnel-graph-mode-weekly');
+    if (mBtn) mBtn.className = 'fmt-btn ' + (m === 'monthly' ? 'active' : 'inactive');
+    if (wBtn) wBtn.className = 'fmt-btn ' + (m === 'weekly' ? 'active' : 'inactive');
+    buildFunnelGraphPeriodButtons();
+    renderFunnelGraph();
+  };
 
   window.setFunnelGraphPeriod = function(p) {
     funnelGraphPeriod = p;
@@ -1433,8 +1457,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     renderFunnelGraph();
   };
 
-  function renderFunnelGraph() {
-    if (!reportsIndex || !reportsIndex.weeks) return;
+  function _collectFunnelWeeklyPoints() {
     var points = [];
     reportsIndex.weeks.forEach(function(w) {
       var d = weekDataCache[w.week_id];
@@ -1447,7 +1470,6 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         label: label,
         dateLabel: dateLabel,
         fullLabel: (d.meta && d.meta.week_label) ? d.meta.week_label : w.week_id,
-        week_id: w.week_id,
         rates: {
           '1_to_2': cr['1_to_2'],
           '2_to_3': cr['2_to_3'],
@@ -1456,11 +1478,54 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         }
       });
     });
+    return points;
+  }
+
+  function _collectFunnelMonthlyPoints() {
+    // Aggregate weekly 7-day funnel counts by month-of-date_start
+    var byMonth = {};
+    reportsIndex.weeks.forEach(function(w) {
+      var d = weekDataCache[w.week_id];
+      if (!d) return;
+      var cur = d.funnel_7d && d.funnel_7d.current_week;
+      var f = cur && cur.funnel;
+      var ds = cur && cur.date_start;
+      if (!f || !ds) return;
+      var ym = ds.slice(0, 7); // YYYY-MM
+      if (!byMonth[ym]) byMonth[ym] = { session_start_users: 0, ac_page_reach_users: 0, calendar_view: 0, form_start: 0, purchase: 0 };
+      Object.keys(byMonth[ym]).forEach(function(k) {
+        byMonth[ym][k] += (f[k] || 0);
+      });
+    });
+    var months = Object.keys(byMonth).sort();
+    return months.map(function(ym) {
+      var f = byMonth[ym];
+      var parts = ym.split('-');
+      return {
+        label: parts[0].slice(2) + '/' + parts[1],
+        dateLabel: '',
+        fullLabel: ym,
+        rates: {
+          '1_to_2': f.session_start_users > 0 ? f.ac_page_reach_users / f.session_start_users : null,
+          '2_to_3': f.ac_page_reach_users > 0 ? f.calendar_view / f.ac_page_reach_users : null,
+          '3_to_4': f.calendar_view > 0 ? f.form_start / f.calendar_view : null,
+          '4_to_5': f.form_start > 0 ? f.purchase / f.form_start : null
+        }
+      };
+    });
+  }
+
+  function renderFunnelGraph() {
+    if (!reportsIndex || !reportsIndex.weeks) return;
+    var points = funnelGraphMode === 'weekly' ? _collectFunnelWeeklyPoints() : _collectFunnelMonthlyPoints();
     if (!points.length) return;
 
-    // Filter by period
-    var opt = funnelGraphPeriodOptions.filter(function(o){ return o.id === funnelGraphPeriod; })[0];
-    if (opt) points = points.slice(-opt.weeks);
+    var options = funnelGraphMode === 'weekly' ? funnelPeriodOptionsWeekly : funnelPeriodOptionsMonthly;
+    var opt = options.filter(function(o){ return o.id === funnelGraphPeriod; })[0];
+    if (opt) {
+      var count = funnelGraphMode === 'weekly' ? Math.round(opt.months * 4.3) : opt.months;
+      points = points.slice(-count);
+    }
 
     _drawFunnelGraph(points);
   }
