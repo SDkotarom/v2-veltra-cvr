@@ -1441,8 +1441,11 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       if (!d || !d.baseline || !d.baseline.conversion_rates) return;
       var cr = d.baseline.conversion_rates;
       var label = w.week_id.replace(/^\d{4}-/, '').toUpperCase();
+      var ds = (d.meta && d.meta.date_start) ? d.meta.date_start : (w.date_start || '');
+      var dateLabel = ds ? (parseInt(ds.slice(5, 7), 10) + '/' + parseInt(ds.slice(8, 10), 10)) : '';
       points.push({
         label: label,
+        dateLabel: dateLabel,
         fullLabel: (d.meta && d.meta.week_label) ? d.meta.week_label : w.week_id,
         week_id: w.week_id,
         rates: {
@@ -1545,12 +1548,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       el.addEventListener('mouseout', function() { tooltip.style.display = 'none'; });
     });
 
-    // X labels
+    // X labels（W番号 + 週開始日）
     var xl = document.getElementById('funnel-graph-x-labels');
-    xl.style.cssText = 'display:block;position:relative;height:20px;margin-top:6px;font-size:11px;color:var(--text3);font-family:DM Sans';
+    xl.style.cssText = 'display:block;position:relative;height:34px;margin-top:6px;font-size:11px;color:var(--text3);font-family:DM Sans';
     xl.innerHTML = points.map(function(p, i) {
       var pctX = n === 1 ? 50 : (i / Math.max(1, n - 1)) * 100;
-      return '<span style="position:absolute;left:' + pctX + '%;transform:translateX(-50%)">' + p.label + '</span>';
+      var dateSub = p.dateLabel ? '<div style="font-size:10px;color:var(--text3);margin-top:1px">' + p.dateLabel + '〜</div>' : '';
+      return '<div style="position:absolute;left:' + pctX + '%;transform:translateX(-50%);text-align:center;line-height:1.2"><div style="font-weight:700;color:var(--text2)">' + p.label + '</div>' + dateSub + '</div>';
     }).join('');
 
     // Left Y axis
@@ -1581,7 +1585,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
       var thCells = '<th style="' + thLeft + '"></th>';
       points.forEach(function(p) {
-        thCells += '<th style="' + thStyle + '">' + p.label + '</th>';
+        var dateSub = p.dateLabel ? '<div style="font-size:10px;font-weight:400;color:var(--text3);margin-top:2px">' + p.dateLabel + '〜</div>' : '';
+        thCells += '<th style="' + thStyle + '">' + p.label + dateSub + '</th>';
       });
 
       var rows = '';
