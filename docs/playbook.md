@@ -587,6 +587,78 @@ VELTRAサイトに新機能がリリースされた場合、`known-implementatio
 | 手動レビュー後 | `python3 scripts/audit-actions.py --week {YYYY}-w{WW} --report-only` | 最終確認 |
 | known-implementations.json 更新後 | `python3 scripts/audit-actions.py --week {最新週} --report-only` | 回帰チェック |
 
+### KPIダッシュボード（/kpi.html）の更新
+
+`kpi.html` は `summary-data.json` を動的に読み込んで描画。**忘れやすい更新箇所を明記**。
+
+#### 更新タイミング別 チェックリスト
+
+**A. 毎週（Phase 1 完了時）**
+- [ ] `summary-data.json` の `monthly` 配列に**当月エントリ**を追加/上書き
+  - 速報月（当月）: GA4 の月初〜昨日までの累積で `sessions / purchases / cvr` を上書き
+  - 月初の週で新しい月に入ったら、前月を確定値に更新 + 新月のエントリを追加
+
+**B. 月が確定したとき（月初の週 or 月次確定タイミング）**
+- [ ] `summary-data.json` の `monthly_notes["YYYY-MM"]` に前月の**分析コメント**を追加
+  - `summary`: 1行要約（YoY/目標/トレンドのサマリ）
+  - `good`: 良かった点（具体数値付きで2〜4項目）
+  - `bad`: 課題（具体数値付きで2〜4項目）
+  - 根拠データ: 該当月の週次レポート（`reports/{YYYY}-w{WW}/data.json`）のファネル・セグメント数値、前年同月との比較、月内トレンド
+
+**C. 四半期確定時（Q1/Q2/Q3 末）**
+- [ ] `summary-data.json` の `targets` を再計算:
+  - `baseline_cvr` = 確定月の YTD 平均 CVR（例: Q1なら 1〜3月の合算 CVR）
+  - `monthly_cvr` / `annual_cvr` = `baseline_cvr × 1.01`（+1% 改善目標、小数点第6位まで）
+  - `stretch_cvr` = 前年同期 YTD CVR（YOY水準、ストレッチ目標）
+  - `stretch_revenue` / `stretch_revenue_uplift` = ストレッチ CVR 相対改善率 × `current_revenue`
+- [ ] `kpi.html` 内の**ハードコード表示値**を手動更新（3箇所）:
+  - `<div id="biz-cvr-current">` の値（arrow-row の「現在 CVR」）
+  - `<div id="biz-cvr-target">` の値（arrow-row の「主目標」）
+  - `<div id="biz-cvr-stretch">` の値（arrow-row の「ストレッチ」）
+  - `sec-label`「目標 CVR X.XXX% への進捗」の X.XXX%
+  - `prog-labels` の「目標 X.XXX%」
+  - `stretch-note` の「YOY水準（X.XXX%）」と売上インパクト
+
+#### 更新箇所まとめ（ファイル別）
+
+| ファイル | 頻度 | 対象キー |
+|---------|------|---------|
+| `summary-data.json` | 週次 | `monthly[].{sessions,purchases,cvr}` — 当月の速報値 |
+| `summary-data.json` | 月次 | `monthly_notes["YYYY-MM"].{summary,good,bad}` — 前月の分析 |
+| `summary-data.json` | 四半期 | `targets.{baseline_cvr,monthly_cvr,annual_cvr,stretch_cvr,stretch_revenue,stretch_revenue_uplift}` |
+| `kpi.html` | 四半期 | arrow-row の 3 つのハードコード CVR 値 + 進捗バーの目標ラベル + stretch-note の YOY% |
+
+#### 動作確認
+
+- [ ] https://v2-veltra-cvr.vercel.app/kpi.html を開く
+- [ ] KPI Strip（上部4セル）: 1〜N月の YTD CVR、当月速報、目標差、前年同月が表示される
+- [ ] 月次 KPI テーブル: 各月行が `▶` アイコン付きで、クリックで詳細（summary / good / bad）が展開する
+- [ ] ブラウザコンソールに JSON パースエラーが出ていない
+
+#### 分析コメント作成のガイドライン
+
+`monthly_notes` を書くときのテンプレ:
+
+```
+summary: "XX月は [キーメッセージ: YoY/目標/トレンド]"
+good: [
+  "セッション N.NNM（前年比 ±N.N%, ±NK）— [含意]",
+  "CVR N.NNN%（MoM ±N.NNpp）— [文脈]",
+  ...
+]
+bad: [
+  "CVR N.NNN% — 前年 N.NNN% から -N.NNpp で [位置づけ]",
+  "CV数 N,NNN件（前年比 ±N.N%, ±N,NNN件）— [含意]",
+  "週次レポート（W{NN}）: [ファネル段階] が ±N.N% で [原因仮説]",
+  ...
+]
+```
+
+**数値の出典優先順位**:
+1. `summary-data.json` の月次値（確定後の最も信頼できる数値）
+2. 該当月の週次レポート `reports/{YYYY}-w{WW}/data.json`（ファネル・セグメント分解が必要なとき）
+3. 前年同月 / 同四半期の比較は `summary-data.json` の過去データから算出
+
 ---
 
 *v2 / 2026年4月 / 統合版*
