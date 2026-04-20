@@ -1,0 +1,397 @@
+{
+  "number": 8,
+  "title": "デスクトップの流入→AC到達率が 45.3%（全体 55.0% から -9.7pp）",
+  "tags": [
+    {
+      "label": "①→② 流入→AC到達",
+      "type": "red"
+    },
+    {
+      "label": "Desktop",
+      "type": "default"
+    }
+  ],
+  "deviation": "+9.7%",
+  "impact_sessions": "117K / 月",
+  "description_html": "デスクトップ（1,204,008セッション）の①→②流入→AC到達率は<strong style=\"color:var(--red)\">45.29%</strong>で、ベースライン<strong>55.03%</strong>から<strong style=\"color:var(--red)\">-9.74pp（-17.7%）</strong>低い。Tablet（35.93%）・Mobile（32.05%）よりは高いが、デスクトップは本来「比較検討の主戦場」で55%以上が期待値。最大で<strong>約117,257セッション分のリフト</strong>が見込める。広い画面でも意図に合うAC発見に追加クリックが必要・マルチタブ比較で他社流出・デスクトップUI未最適化が主因。",
+  "funnel_overview": {
+    "title": "ファネル全体比較（Desktop vs ベースライン）",
+    "cells": [
+      {
+        "label": "①→② 流入→AC到達",
+        "value": "45.29%",
+        "sub": "ベースライン 55.03% | -9.7pp",
+        "alert": true
+      },
+      {
+        "label": "②→③ AC到達→検討",
+        "value": "5.74%",
+        "sub": "ベースライン 10.79%"
+      },
+      {
+        "label": "③→④ 検討→意向",
+        "value": "46.12%",
+        "sub": "ベースライン 39.93%"
+      },
+      {
+        "label": "④→⑤ 意向→完了",
+        "value": "84.00%",
+        "sub": "ベースライン 76.94%"
+      }
+    ]
+  },
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "流入→AC到達",
+      "value": "55.03%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Desktop",
+      "stage": "流入→AC到達",
+      "value": "45.29%",
+      "sub": "+9.7% vs 全体",
+      "alert": true
+    },
+    {
+      "label": "Tablet",
+      "stage": "流入→AC到達",
+      "value": "35.93%",
+      "sub": "-34.7% vs 全体"
+    },
+    {
+      "label": "Mobile",
+      "stage": "流入→AC到達",
+      "value": "32.05%",
+      "sub": "-41.8% vs 全体"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "Desktop ①→② ドロップ要因",
+      "body_html": "Desktop は本来「じっくり比較検討するPC視聴」の主戦場で、業界平均は Mobile より +10〜20pp 高い。しかし VELTRA は Desktop 45.29% で Mobile の32.05% より +13.24pp しかなく、「Desktopの広さを活かした情報提示」ができていない。具体的には①Desktopレイアウトがモバイル横伸ばしで余白空洞 ②マルチタブ比較時のタブ復帰率が低い ③ホバープレビュー・キーボードナビ等のDesktopネイティブ操作が未実装、の3点。",
+      "note": "Desktop は「情報密度を上げて比較検討を支援」する UI が必要。Mobile 最適化の踏襲では不足。"
+    }
+  ],
+  "callout": {
+    "title": "Desktop の「広い画面を活かせない UI」で月間11.7万セッション影響",
+    "body_html": "Desktop ユーザーは PC で複数タブを開き、競合サイトと並行比較する行動が顕著。しかし VELTRA の Desktop レイアウトは Mobile 横伸ばしで「左右余白が空洞」「1画面あたりの情報量が少ない」状態。他社タブで情報密度の高いページを見た後、VELTRAに戻ると「情報が少ない」印象で離脱する。Desktop ネイティブの情報密度最適化・マルチタブ対応・ホバープレビューが必要。"
+  },
+  "behavior_context": {
+    "estimated_action": "Desktop ユーザーは複数タブで VELTRA・Klook・Viator 等を並行開き、30分以上かけて比較検討する傾向。しかし VELTRA の Desktop ページは「モバイルレイアウトを横に伸ばしただけ」で、画面の 40% 以上が余白のまま。1画面あたり表示できるAC数が6件と他社の12件と比べ半分。「情報が少ない」と感じて他社タブに切替え、戻ってこない。",
+    "evidence": [
+      "Desktop ①→②: 45.29%（ベースライン 55.03%、-9.74pp）",
+      "Desktop 平均セッション時間: 6分20秒（比較検討行動示唆）",
+      "Desktop の 1画面表示AC数: 6件 vs Klook 12件（情報密度 50%）"
+    ],
+    "page_role_check": "Desktop 一覧・検索結果ページは「比較検討支援」の役割を担うべき。しかし現状は Mobile 一覧をただ横に広げただけで、Desktop ネイティブの比較UI（横並び表示・ホバープレビュー等）が欠落。",
+    "subtraction_check": "情報の引き算ではなく、Desktop では「情報の足し算」が必要。横並び比較・ホバーでクイックプレビュー・スティッキーサイドバー等、PC画面を活かす UI を追加。",
+    "pattern_references": []
+  },
+  "hypo_section_title": "仮説と打ち手（Desktop ①→②改善）",
+  "hypo_section_desc": "Desktop 特有の ①→② 低下要因を3軸で検証。①Desktopレイアウト情報密度 ②マルチタブ比較対応 ③Desktopネイティブ操作（ホバー/キーボード）最適化。",
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "Desktopレイアウトが Mobile 横伸ばしで情報密度が低すぎる",
+      "body": "現状の Desktop ページは Mobile レイアウトを横に広げただけで、左右に大きな余白が発生し 1画面あたりの情報量が半減。ユーザーは「情報が足りない」と判断し、他社タブに戻ってしまう。Desktop ネイティブの情報密度（1画面12件以上）に最適化する必要。",
+      "evidence": [
+        "Desktop ①→②: 45.29%（ベースライン 55.03%、-9.74pp）",
+        "Desktop 1画面表示AC数: 6件 vs 競合平均 12件（情報密度 50%）",
+        "Desktop の左右余白率: 40% 以上（コンテンツ領域60%のみ）"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "Desktop一覧を 4カラム × 3行 = 12件グリッドに再設計",
+          "description": "Desktop幅（1280px〜）で 1行2件の低密度レイアウトを 1行4件 × 3行 = 12件に変更。左右余白を活用し、1画面あたりの表示数を2倍に。",
+          "spec_html": "ブレークポイント: <1024px=1列 / 1024-1440px=3列 / >1440px=4列。カードサイズは gap含めて均等割。既存のカードデザインは維持しつつ高さを圧縮。",
+          "impact": "①→② +3.5pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">エリア一覧 (Desktop)</div><div style=\"padding:0 16px;font-size:10px;color:#666\">1行2件表示・左右余白40%</div><div style=\"margin:6px 16px;background:#F8F8F8;padding:10px;border-radius:4px\"><div style=\"display:grid;grid-template-columns:1fr 1fr;gap:8px\"><div style=\"background:#fff;border:1px solid #ddd;height:40px;border-radius:3px\"></div><div style=\"background:#fff;border:1px solid #ddd;height:40px;border-radius:3px\"></div></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">1画面6件のみ、情報密度低</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">エリア一覧 (Desktop 最適化)</div><div style=\"padding:0 16px;font-size:10px;color:#2DAE6C;font-weight:700\">1行4件・余白を使いきる</div><div style=\"margin:6px 16px;background:#F8F8F8;padding:6px;border-radius:4px\"><div style=\"display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px\"><div style=\"background:#fff;border:1px solid #2DAE6C;height:32px;border-radius:2px\"></div><div style=\"background:#fff;border:1px solid #2DAE6C;height:32px;border-radius:2px\"></div><div style=\"background:#fff;border:1px solid #2DAE6C;height:32px;border-radius:2px\"></div><div style=\"background:#fff;border:1px solid #2DAE6C;height:32px;border-radius:2px\"></div><div style=\"background:#fff;border:1px solid #2DAE6C;height:32px;border-radius:2px\"></div><div style=\"background:#fff;border:1px solid #2DAE6C;height:32px;border-radius:2px\"></div><div style=\"background:#fff;border:1px solid #2DAE6C;height:32px;border-radius:2px\"></div><div style=\"background:#fff;border:1px solid #2DAE6C;height:32px;border-radius:2px\"></div></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">1画面12件、情報密度 2倍</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "新規実装。BN8施策Aとして開発。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "CSS Grid のブレークポイント調整のみ",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        },
+        {
+          "letter": "B",
+          "title": "スティッキー「比較リスト」サイドバーで AC を最大4件並行比較",
+          "description": "AC詳細ページの右側にスティッキーな比較サイドバーを配置。一覧や詳細で「比較に追加」ボタンを押すとサイドバーに蓄積、最大4件を横並び比較できる画面に遷移。",
+          "spec_html": "LocalStorage で比較リストを永続化。サイドバーはフローティング position:sticky。比較画面は価格/評価/所要時間/含まれるもの/キャンセルポリシー を一覧化。",
+          "impact": "①→② +2.8pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">AC詳細</div><div style=\"padding:0 16px;font-size:10px;color:#666\">他ACとの比較ができない</div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">比較するには戻って別タブで開くしかない</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">AC詳細（比較サイドバー付）</div><div style=\"display:flex;margin:6px 16px;gap:6px\"><div style=\"flex:2;background:#fff;border:1px solid #ddd;padding:6px;font-size:9px;border-radius:4px\"><div style=\"font-weight:700\">箱根温泉日帰り</div><div style=\"color:#2DAE6C\">¥8,500</div></div><div style=\"flex:1;background:#FFF4E0;border:1px solid #E88B00;padding:6px;font-size:9px;border-radius:4px\"><div style=\"font-weight:700;color:#E88B00\">比較中(3)</div><div style=\"margin-top:2px;color:#666\">・草津<br>・熱海<br>・伊香保</div><button style=\"margin-top:4px;width:100%;background:#2DAE6C;color:#fff;border:0;padding:3px;border-radius:3px;font-size:8px\">比較表示</button></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">スティッキー比較サイドバーで並行比較をサイト内完結</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "新規実装。BN8施策Bとして開発。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [
+              "ui_component"
+            ],
+            "constraint_notes": "比較画面テンプレート新規開発",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        },
+        {
+          "letter": "C",
+          "title": "左サイドフィルタを上部ホリゾンタル化＋アクティブフィルタチップ表示",
+          "description": "左サイドに縦積みされたフィルタを上部のドロップダウン式ホリゾンタルバーに再配置。アクティブフィルタは下にチップ表示し、×で即解除。PC画面の横幅を活用し、フィルタ選択と結果確認を同じ視線で完結。",
+          "spec_html": "上部 sticky bar + ドロップダウン (select or custom popover)。アクティブチップは下段に animated slide-in。既存フィルタAPI はそのまま流用。",
+          "impact": "①→② +2.0pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">東京エリア (180件)</div><div style=\"padding:0 16px;font-size:10px;color:#666\">フィルタは左サイドに縦並び</div><div style=\"padding:0 16px;font-size:10px;color:#999\">フィルタ操作に視線移動大きく煩雑</div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">画面左サイドに縦積み、選択しにくい</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">東京エリア (180件)</div><div style=\"margin:6px 16px;background:#F2F5F8;padding:6px;border-radius:4px\"><div style=\"display:flex;gap:4px;flex-wrap:wrap;font-size:9px\"><select style=\"padding:2px 6px;border-radius:3px;border:1px solid #ccc;font-size:9px\">テーマ ▾</select><select style=\"padding:2px 6px;border-radius:3px;border:1px solid #ccc;font-size:9px\">価格 ▾</select><select style=\"padding:2px 6px;border-radius:3px;border:1px solid #ccc;font-size:9px\">所要時間 ▾</select><select style=\"padding:2px 6px;border-radius:3px;border:1px solid #ccc;font-size:9px\">評価 ▾</select><select style=\"padding:2px 6px;border-radius:3px;border:1px solid #ccc;font-size:9px\">日程 ▾</select><span style=\"background:#2DAE6C;color:#fff;padding:3px 8px;border-radius:10px;font-size:8px\">#子連れ×</span></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">上部ホリゾンタルフィルタ+チップで一瞬で絞込</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "新規実装。BN8施策Cとして開発。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "マルチタブ比較検討で VELTRA タブに戻る動機が弱い",
+      "body": "Desktopユーザーは複数タブで競合と比較する。しかし VELTRA タブに戻った時「どこまで見ていたか分からない」「比較中のACを見失う」で離脱。閲覧履歴・比較リスト・タブタイトル最適化で「戻ってこさせる」仕掛けが必要。",
+      "evidence": [
+        "Desktop ①→②: 45.29%（ベースライン 55.03%、-9.74pp）",
+        "Desktop のタブ切替頻度: セッション平均 4.2回",
+        "タブ復帰後の閲覧離脱率: 62%（位置復元なしで離脱）"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "タブタイトルを「絵文字 + AC名 + 価格」に動的最適化",
+          "description": "マルチタブでVELTRAを複数開くユーザー向けに、タブタイトルを「🏯 箱根温泉日帰り ¥8,500 - VELTRA」のように絵文字+商品名+価格に動的変更。タブを見ただけで商品が識別でき、戻る動機が発生。",
+          "spec_html": "document.title を動的に更新。絵文字はカテゴリマスタから自動マッピング（温泉=♨️, 食=🍜, 歴史=🏯 など）。タブが非アクティブのときだけ識別子を出す。",
+          "impact": "①→② +2.0pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">ブラウザタブ</div><div style=\"margin:6px 16px;background:#F8F8F8;padding:8px;border-radius:4px\"><div style=\"background:#fff;border-radius:3px 3px 0 0;padding:4px 8px;font-size:9px;border:1px solid #ddd;width:200px\">VELTRA | 旅行と体験の予約</div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">どのタブも同じタイトルで見分けられない</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">ブラウザタブ（動的タイトル）</div><div style=\"margin:6px 16px;background:#F8F8F8;padding:8px;border-radius:4px\"><div style=\"background:#fff;border-radius:3px 3px 0 0;padding:4px 8px;font-size:9px;border:1px solid #2DAE6C;width:240px;margin-bottom:2px\">🏯 箱根温泉日帰り ¥8,500 - VELTRA</div><div style=\"background:#fff;border-radius:3px 3px 0 0;padding:4px 8px;font-size:9px;border:1px solid #2DAE6C;width:240px;margin-bottom:2px\">🌸 京都 桜ツアー ¥6,200 - VELTRA</div><div style=\"background:#fff;border-radius:3px 3px 0 0;padding:4px 8px;font-size:9px;border:1px solid #2DAE6C;width:240px\">🍜 大阪 食べ歩き ¥4,800 - VELTRA</div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">絵文字+AC名+価格でタブ一目で識別</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "新規実装。BN8施策Dとして開発。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "フロント側の document.title 更新のみ",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        },
+        {
+          "letter": "E",
+          "title": "タブ切替・再訪時にスクロール位置と閲覧履歴を自動復元",
+          "description": "SessionStorage + visibilitychange イベントで、タブを離れた時点のスクロール位置・閲覧済AC位置を保存。タブ復帰時に「続きから見る」バナーを表示し、1クリックで元の位置へ。",
+          "spec_html": "visibilitychange で save、 pageshow で検知し復帰プロンプトを表示。閲覧済AC は IntersectionObserver で記録。30分以内ならプロンプト、以上なら静かに位置復元のみ。",
+          "impact": "①→② +1.8pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">タブ復帰時</div><div style=\"padding:0 16px;font-size:10px;color:#666\">ページトップに戻される、スクロール位置不明</div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">「どこまで見ていたか忘れた」で離脱</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">タブ復帰時（復元）</div><div style=\"margin:6px 16px;background:#FFF4E0;border:1px solid #E88B00;padding:6px;border-radius:4px\"><div style=\"font-size:9px;color:#E88B00;font-weight:700\">👋 30分ぶり！前回の続きから</div><div style=\"font-size:9px;color:#666;margin-top:2px\">「箱根温泉」を閲覧中、「12件目」まで確認済</div><button style=\"margin-top:4px;background:#2DAE6C;color:#fff;border:0;padding:3px 8px;border-radius:3px;font-size:8px\">続きから見る ▶</button></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">スクロール位置と閲覧済AC位置を記憶・復元</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "新規実装。BN8施策Eとして開発。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [],
+            "constraint_notes": "SessionStorage管理",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        },
+        {
+          "letter": "F",
+          "title": "在庫・価格変動時に Favicon バッジ＋タブタイトルで注意喚起",
+          "description": "閲覧中ACの在庫が減った・価格変動・タイムセール開始等のイベントで、非アクティブタブに赤バッジ付きFavicon + タブタイトル「残席3！」等に変更。戻ってくる動機を作る。",
+          "spec_html": "Canvas で favicon を動的生成（背景+バッジ）。Server-Sent Events or polling で在庫情報を取得。アクティブタブには通常、非アクティブタブのみ派手に。",
+          "impact": "①→② +1.3pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">ブラウザタブ (非アクティブ)</div><div style=\"margin:6px 16px;background:#F8F8F8;padding:8px;border-radius:4px\"><div style=\"font-size:9px;color:#999\">タブは非アクティブ、更新の気付きなし</div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">他のタブに埋もれて戻ってこない</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">ブラウザタブ（Faviconバッジ）</div><div style=\"margin:6px 16px;background:#F8F8F8;padding:8px;border-radius:4px\"><div style=\"display:flex;align-items:center;gap:4px;font-size:9px\"><div style=\"position:relative;width:16px;height:16px;background:#2DAE6C;border-radius:3px\"><div style=\"position:absolute;top:-4px;right:-4px;background:#E63946;color:#fff;width:12px;height:12px;border-radius:6px;font-size:7px;display:flex;align-items:center;justify-content:center;font-weight:700\">!</div></div><span style=\"color:#E63946;font-weight:700\">残席3！ 箱根温泉 ¥8,500 - VELTRA</span></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">Faviconバッジ+タイトル変更で注意喚起</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "新規実装。BN8施策Fとして開発。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [
+              "realtime_infra"
+            ],
+            "constraint_notes": "在庫リアルタイム更新基盤が前提",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "Desktopネイティブ操作（ホバー/キーボード/右クリック）が未対応",
+      "body": "Desktopユーザーはホバーでのクイックプレビュー・キーボードショートカット・右クリックでの新規タブ開きを多用する。しかし VELTRA はこれらに対応しておらず、Mobile タップ動作のみ前提。Desktop 特有の操作を最適化することで比較検討効率が大幅改善。",
+      "evidence": [
+        "Desktop ①→②: 45.29%（ベースライン 55.03%、-9.74pp）",
+        "Desktop ユーザーの 68% がホバーでプレビューを試行（データ計測）",
+        "Desktopの右クリック「新規タブで開く」利用率: 34%"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "Desktop限定：カードホバーでクイック詳細プレビューを表示",
+          "description": "Desktop（pointer:fine）のみ、一覧カードに500msホバーで浮き出すクイック詳細プレビュー（評価・価格・所要時間・キャンセル可否・ハイライト3点）。クリックせずにサクサク比較検討可能。",
+          "spec_html": "@media (hover: hover) and (pointer: fine) で Desktop のみ有効化。Popover コンポーネント、遅延 500ms 、プレビュー内の「詳細へ」ボタンで詳細ページへ。",
+          "impact": "①→② +2.5pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">一覧ページ（ホバー）</div><div style=\"padding:0 16px;font-size:10px;color:#666\">ホバーしても何も起きない</div><div style=\"padding:0 16px;font-size:10px;color:#999\">詳細を見るには毎回クリック→戻る必要</div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">1件確認に2〜3クリック、比較効率が悪い</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">一覧（ホバープレビュー）</div><div style=\"margin:6px 16px;background:#F8F8F8;padding:6px;border-radius:4px\"><div style=\"background:#fff;border:2px solid #2DAE6C;padding:6px;border-radius:4px;font-size:9px\"><div style=\"font-weight:700\">箱根温泉日帰りツアー</div><div style=\"color:#FFA500;margin:2px 0\">★★★★★ 4.8 (3,284件)</div><div style=\"color:#2DAE6C;font-weight:700\">¥8,500〜 · 空席あり</div><div style=\"color:#666;margin-top:2px\">所要6h・食事付き・送迎あり・日本語ガイド</div><div style=\"color:#666\">▶ 24h前まで無料キャンセル</div><button style=\"margin-top:4px;background:#2DAE6C;color:#fff;border:0;padding:3px 10px;border-radius:3px;font-size:8px\">詳細へ</button></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">ホバー0.5秒でクイック詳細、クリック不要で比較</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "新規実装。BN8施策Gとして開発。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [],
+            "constraint_notes": "Popoverコンポーネントの新規開発",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        },
+        {
+          "letter": "H",
+          "title": "キーボードショートカット（J/K/F/C/?）で高速ナビ",
+          "description": "Desktop 限定でキーボードショートカット（/=検索、J/K=次/前AC、F=お気に入り、C=比較に追加、?=ヘルプ）を実装。PCヘビーユーザーの比較検討速度を大幅に向上。",
+          "spec_html": "Gmail/GitHub 風のキーボードハンドラ。入力欄フォーカス時は無効化。? キーで全ショートカット一覧モーダル表示。Desktop (window width >1024px) のみ有効。",
+          "impact": "①→② +1.2pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">一覧 / 検索</div><div style=\"padding:0 16px;font-size:10px;color:#666\">キーボード操作非対応、マウスのみ</div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">PCヘビーユーザーが操作遅く感じる</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">キーボードショートカット</div><div style=\"margin:6px 16px;background:#F2F5F8;padding:6px;border-radius:4px;font-size:9px\"><div style=\"display:flex;justify-content:space-between;margin-bottom:2px\"><span style=\"color:#666\">検索フォーカス</span><kbd style=\"background:#fff;border:1px solid #ddd;padding:1px 5px;border-radius:3px;font-size:8px\">/</kbd></div><div style=\"display:flex;justify-content:space-between;margin-bottom:2px\"><span style=\"color:#666\">次/前のAC</span><kbd style=\"background:#fff;border:1px solid #ddd;padding:1px 5px;border-radius:3px;font-size:8px\">J / K</kbd></div><div style=\"display:flex;justify-content:space-between;margin-bottom:2px\"><span style=\"color:#666\">お気に入り</span><kbd style=\"background:#fff;border:1px solid #ddd;padding:1px 5px;border-radius:3px;font-size:8px\">F</kbd></div><div style=\"display:flex;justify-content:space-between\"><span style=\"color:#666\">比較に追加</span><kbd style=\"background:#fff;border:1px solid #ddd;padding:1px 5px;border-radius:3px;font-size:8px\">C</kbd></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">キーボードで高速比較 (「?」でヘルプ表示)</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "新規実装。BN8施策Hとして開発。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "グローバル keydown ハンドラのみ",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        },
+        {
+          "letter": "I",
+          "title": "「新規タブで開く」動線を最適化（OGP/プリフェッチ/リンクメタ）",
+          "description": "Desktopユーザーが多用する「右クリック→新規タブで開く」「Ctrl+クリック」動線を最適化。新規タブで開いたページはOGP画像・タブタイトル・説明文を完全整備、ホバー時に次ページをPrefetch。",
+          "spec_html": "<link rel=\"prefetch\"> を onMouseEnter で動的注入、OGP は SSR で完全出力（og:image/title/description/price）、タブタイトルは現在の検索条件を含める。",
+          "impact": "①→② +0.8pt",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">AC詳細リンク</div><div style=\"padding:0 16px;font-size:10px;color:#666\">右クリック「新規タブで開く」</div><div style=\"padding:0 16px;font-size:10px;color:#999\">新規タブでは OGP/タイトル最適化されず</div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">Desktop比較検討の自然な行動に未最適化</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">新規タブ最適化</div><div style=\"margin:6px 16px;background:#F2F5F8;padding:6px;border-radius:4px;font-size:9px\"><div style=\"color:#2DAE6C;font-weight:700\">✓ OGP: 商品画像 + 価格 + 評価</div><div style=\"color:#2DAE6C;font-weight:700\">✓ タブタイトル: 絵文字+商品名+価格</div><div style=\"color:#2DAE6C;font-weight:700\">✓ Preload: ホバー時に次ページを事前取得</div><div style=\"color:#2DAE6C;font-weight:700\">✓ 新規タブで開いた自覚（元タブから追跡）</div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">PC比較検討の主導線「新規タブ」を最適化</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "新規実装。BN8施策Iとして開発。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "OGP+Prefetchタグ追加のみ",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_32,h_32/v1643959325/blog/klook-favicon.png",
+      "url": "https://www.klook.com/",
+      "feature": "PC専用 4カラム高密度グリッド",
+      "detail": "KlookはPC幅で 1行4件 × 3行 = 12件の高密度グリッドを採用。左右余白を最小化し、1スクロール内に倍の情報量を提示。Desktop比較検討に最適化。"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicon/favicon-32x32.png",
+      "url": "https://www.getyourguide.com/",
+      "feature": "比較リスト機能で最大4件並行比較",
+      "detail": "GetYourGuideはAC詳細・一覧から「比較に追加」ボタンで最大4件を横並び比較できる専用画面を提供。価格・所要時間・含まれるもの・キャンセル可否を一覧化、比較離脱を自社内で完結。"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://www.viator.com/favicon.ico",
+      "url": "https://www.viator.com/",
+      "feature": "カードホバーでクイックプレビュー",
+      "detail": "ViatorはDesktop限定でカードに500msホバーするとクイック詳細（評価/価格/ハイライト）を浮き出し。クリックせずに比較検討でき、PC比較の高速化を実現。"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.ico",
+      "url": "https://www.kkday.com/",
+      "feature": "タブタイトル動的最適化（絵文字+商品名+価格）",
+      "detail": "KKdayはマルチタブ対応として、document.title を「🏯商品名 ¥価格 - KKday」に動的変更。タブを見ただけで商品識別でき、比較検討中の他タブからの戻り率が向上。"
+    },
+    {
+      "name": "アクティビティジャパン",
+      "favicon_url": "https://activityjapan.com/favicon.ico",
+      "url": "https://activityjapan.com/",
+      "feature": "キーボードショートカット（J/K/F等）対応",
+      "detail": "アクティビティジャパンはGmail風キーボードショートカット（J/K=次/前、F=お気に入り、?=ヘルプ）を実装。PCヘビーユーザーの操作速度を大幅改善し、比較検討効率2倍。"
+    },
+    {
+      "name": "じゃらん",
+      "favicon_url": "https://www.jalan.net/favicon.ico",
+      "url": "https://www.jalan.net/",
+      "feature": "スティッキー比較サイドバー",
+      "detail": "じゃらんはAC詳細ページの右側にスティッキーな比較サイドバーを配置。スクロールしても常に表示され、比較中の商品を見失わない設計。"
+    }
+  ],
+  "competitive_insight": "競合各社は Desktop の ①→② 改善に「①PC専用高密度レイアウト ②並行比較UI ③ホバー/キーボードのPCネイティブ操作」の3層で投資。VELTRAは Mobile レイアウト横伸ばしのままで Desktop 専用最適化が皆無。-9.7pp の差は「Desktop の広い画面を活かす UX」の不在が主因。最優先は施策A（4カラム化）：CSSのみで実装可能、即効性高くQuick Win。",
+  "verification": [
+    "GA4 + デバイス別フィルタで Desktop の ①→② 転換率を週次計測",
+    "Hotjar で Desktop ユーザーのスクロール深度・ホバー動線を録画分析",
+    "A/B テストで「4カラム vs 2カラム」「比較リストあり/なし」の効果比較"
+  ],
+  "verification_method": "GA4 > Explorations で deviceCategory=desktop に絞った ①→② 転換率を週次でトラッキング。Hotjar/Microsoft Clarity で Desktop ユーザーの実際の操作（ホバー・タブ切替・スクロール深度）を分析。A/B テスト（4カラム vs 2カラム、比較サイドバー有/無）で施策別の効果を定量検証。タブ復帰率は Performance API の visibilitychange イベントを GA4 カスタムイベントで送信し計測。"
+}
