@@ -13,7 +13,7 @@
   ],
   "deviation": "+23.0%",
   "impact_sessions": "451K / 月",
-  "description_html": "TODO: モバイル（1,960,403セッション）の1→2転換率が32.0%で全体比 -23.0pp。最大で約450,553セッション分のCVRリフトが見込める。",
+  "description_html": "モバイル（1,960,403セッション）の①→②流入→AC到達率は<strong style=\"color:var(--red)\">32.05%</strong>で、ベースライン<strong>55.03%</strong>から<strong style=\"color:var(--red)\">-22.98pp（-41.8%）</strong>低い。デスクトップ（45.29%）と比べても<strong>-13.2pp</strong>の差。最大で<strong>約450,553セッション分のリフト</strong>が見込める大規模インパクト。エリア・検索結果一覧からACカード（商品）詳細への遷移率が極端に低い。",
   "funnel_overview": {
     "title": "ファネル全体比較（Mobile vs ベースライン）",
     "cells": [
@@ -69,53 +69,54 @@
   ],
   "drill_down": [
     {
-      "title": "TODO: ドリルダウン分析1のタイトル",
-      "body_html": "TODO: 分析内容HTML",
-      "note": "TODO: 要点メモ"
+      "title": "モバイル流入の①→②ドロップ要因",
+      "body_html": "モバイル ①→② <strong style=\"color:var(--red)\">32.05%</strong> vs デスクトップ <strong>45.29%</strong>（13.2pp差）。モバイル流入者の68%がランディングページ（エリア一覧・検索結果）から詳細ACへ進まず離脱。スマホ画面では1画面に表示できるACカードが1〜2件しかなく、スクロール負荷が高い。さらにACカード内の情報（価格・所要時間・評価・サムネ）がデスクトップ比で圧縮表示され、意思決定に必要な情報量が不足している可能性が高い。",
+      "note": "モバイル流入者の約7割が一覧→詳細へ進まず離脱。月間450K超セッションの改善余地。"
     }
   ],
   "callout": {
-    "title": "TODO: 特定結果のタイトル",
-    "body_html": "TODO: 特定結果の詳細HTML"
+    "title": "モバイル ①→② は全BN第2位のインパクト（月間約45.1万セッション）",
+    "body_html": "モバイル流入は全体の<strong>約69%</strong>を占める最大の流入源。そのモバイルが①→② 32.05%という低水準に留まっていることで、単純計算で<strong>月間約45万セッション</strong>がランディング直後に離脱している。スマホ特有のUI制約（狭い画面・タッチ操作・通信遅延）に最適化されたACカード設計・一覧ページレイアウトが未整備で、モバイルユーザーが詳細に進めない状態。"
   },
   "behavior_context": {
-    "estimated_action": "TODO: Mobile の ①→② 流入→AC到達 でのユーザー推定行動",
+    "estimated_action": "モバイルユーザーは検索結果やエリア一覧ページで複数のACカードをスクロールして比較しようとするが、カード1枚ごとの情報量が圧縮され、サムネ・価格・所要時間・評価がひと目で把握できない。また1画面に1〜2件しか表示されず、比較のためにスクロールを繰り返す必要がある。結果として「どれが自分に合うか判断できない」状態で疲弊し、戻るボタンで離脱する。",
     "evidence": [
-      "Mobile ①→② 流入→AC到達: 32.05%（ベースライン 55.03%）",
-      "TODO: 裏付けデータ2"
+      "モバイル ①→②: 32.05%（ベースライン 55.03%、-22.98pp）",
+      "デスクトップ ①→②: 45.29%。同じエリアページでもデスクトップは離脱が少ない",
+      "タブレット ①→②: 35.93%。モバイルに近い数値で、画面サイズ依存の問題と示唆"
     ],
-    "page_role_check": "TODO: ①→② 流入→AC到達 に該当するページの戦略ガイド上の役割チェック",
-    "subtraction_check": "TODO: 情報の引き算で解決できるかチェック",
+    "page_role_check": "エリア一覧・検索結果ページは戦略ガイド上「比較検討→次ステップへの推進ページ」と位置づけられる。しかしモバイル版では比較に必要な情報が1画面に収まらず、役割を果たせていない。「複数AC比較→詳細遷移」の基本動線がモバイルでは機能不全に陥っている。",
+    "subtraction_check": "カード情報の「引き算」ではなく「圧縮再設計」が必要。全情報を詰め込むのではなく、サムネ・価格・所要時間・評価の4要素に絞ったコンパクトカード化が有効。一方で「無限スクロール」や「比較モーダル」など追加機能の検討も並行して必要。",
     "pattern_references": []
   },
-  "hypo_section_title": "原因仮説 × 3 &amp; 打ち手 × 9",
-  "hypo_section_desc": "なぜ Mobile の ①→② 流入→AC到達 が低いか？ 仮説をクリックして打ち手・プロトタイプを展開。",
+  "hypo_section_title": "仮説と打ち手（モバイル①→②改善）",
+  "hypo_section_desc": "モバイル流入者の一覧→詳細遷移を改善するため、①ACカード情報設計の最適化 ②検索結果の関連性向上 ③タップ可視性・操作性の強化の3軸で仮説を設定。各仮説に対して3つの打ち手（合計9施策）を提示する。",
   "hypotheses": [
     {
       "level": "h1",
       "level_label": "仮説 1（有力）",
-      "title": "TODO: 仮説タイトル",
-      "body": "TODO: 仮説の説明",
+      "title": "モバイルACカードの情報設計が不十分で比較検討できない",
+      "body": "モバイルのACカードは縦長スクロール内で1枚あたりの情報量が限られ、サムネ・価格・所要時間・評価の4要素が同時視認できない。比較に必要な情報をスクロールせずに把握できず、ユーザーは判断を放棄して離脱する。情報密度の最適化が最優先課題。",
       "evidence": [
-        "Mobile ①→② 流入→AC到達: 32.05%（ベースライン 55.03%）",
-        "TODO: 裏付けデータ2",
-        "TODO: 裏付けデータ3"
+        "モバイル ①→②: 32.05%（ベースライン 55.03%、-22.98pp）",
+        "デスクトップ ①→②: 45.29%。同一コンテンツでも画面幅により離脱率が大きく異なる",
+        "タブレット ①→②: 35.93%。画面幅依存性が強く示唆される"
       ],
       "actions": [
         {
           "letter": "A",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "ACカードを横長コンパクト設計に刷新、1画面3〜4件表示",
+          "description": "モバイルのACカードを縦長大画像→横長コンパクト（画像左72px・情報右）に再設計。1画面3〜4件表示でサムネ・タイトル・所要時間・評価・価格を同時視認。",
+          "spec_html": "カード高さ 84px、画像 72x72px（左）、情報（右）を3段構成（タイトル / メタ情報 / 価格）。タップ領域はカード全面 44x44以上。",
+          "impact": "①→② +7.5pt",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px\"><div style=\"font-size:12px;font-weight:700;margin-bottom:6px\">エリア一覧（東京）</div><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;overflow:hidden;margin-bottom:6px\"><div style=\"background:#ddd;height:120px;display:flex;align-items:center;justify-content:center;color:#999;font-size:11px\">サムネイル</div><div style=\"padding:8px\"><div style=\"font-size:11px;font-weight:700;line-height:1.4\">東京スカイツリー 展望デッキチケット（事前予約プラン）</div><div style=\"font-size:10px;color:#666;margin-top:4px\">所要時間: 約2時間</div><div style=\"font-size:13px;color:#E8386E;font-weight:900;margin-top:4px\">¥2,100</div></div></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">1画面に1枚。比較検討にスクロール多数必要</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px\"><div style=\"font-size:12px;font-weight:700;margin-bottom:6px\">エリア一覧（東京）</div><div style=\"display:flex;flex-direction:column;gap:6px\"><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:6px;display:flex;gap:8px\"><div style=\"background:#ddd;width:72px;height:72px;border-radius:4px;flex-shrink:0\"></div><div style=\"flex:1\"><div style=\"font-size:11px;font-weight:700;line-height:1.3\">東京スカイツリー展望デッキ</div><div style=\"display:flex;gap:6px;font-size:9px;color:#666;margin-top:2px\"><span>⏱ 2h</span><span>★4.6 (3.2k)</span></div><div style=\"font-size:12px;color:#E8386E;font-weight:900;margin-top:2px\">¥2,100〜</div></div></div><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:6px;display:flex;gap:8px\"><div style=\"background:#ddd;width:72px;height:72px;border-radius:4px;flex-shrink:0\"></div><div style=\"flex:1\"><div style=\"font-size:11px;font-weight:700;line-height:1.3\">浅草・上野人力車ツアー</div><div style=\"display:flex;gap:6px;font-size:9px;color:#666;margin-top:2px\"><span>⏱ 1h</span><span>★4.8 (980)</span></div><div style=\"font-size:12px;color:#E8386E;font-weight:900;margin-top:2px\">¥3,500〜</div></div></div></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">横長コンパクト化で1画面3〜4件。比較検討スクロール激減</div></div>"
           },
           "implementation_check": {
             "status": "new",
-            "matched_feature": null,
-            "note": null
+            "matched_feature": "",
+            "note": "新規実装。BN2施策Aとして開発。"
           },
           "feasibility": {
             "effort": "S",
@@ -127,18 +128,18 @@
         },
         {
           "letter": "B",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "チップ型フィルタバーを常時固定表示で絞り込み摩擦を最小化",
+          "description": "一覧ページ上部にスティッキーなチップ型フィルタバーを配置。「即予約」「価格帯」「所要時間」「評価」を1タップトグルで即適用。絞り込みダイアログの階層を削減。",
+          "spec_html": "position: sticky; top:0; height: 40px; 横スクロール可能。チップは選択時 #1B82C5、非選択時 #F2F5F8。タップで即時フィルタ反映（ページリロードなし）。",
+          "impact": "①→② +3.0pt",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px\"><div style=\"font-size:12px;font-weight:700;margin-bottom:6px\">検索結果 180件</div><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:11px;color:#666\">絞り込み＞</div><div style=\"margin-top:6px;background:#fff;border:1px solid #ddd;padding:8px;font-size:11px;color:#666\">並び替え＞</div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">フィルタは別ページ遷移。絞り込み諦めが発生</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"position:sticky;top:0;background:#fff;padding:6px 12px;border-bottom:1px solid #eee;z-index:5\"><div style=\"display:flex;gap:4px;overflow-x:auto;font-size:10px\"><span style=\"background:#1B82C5;color:#fff;padding:4px 10px;border-radius:14px;white-space:nowrap\">並び: 人気 ▼</span><span style=\"background:#F2F5F8;color:#333;padding:4px 10px;border-radius:14px;white-space:nowrap\">🔥 即予約</span><span style=\"background:#F2F5F8;color:#333;padding:4px 10px;border-radius:14px;white-space:nowrap\">¥〜3千</span><span style=\"background:#F2F5F8;color:#333;padding:4px 10px;border-radius:14px;white-space:nowrap\">半日以内</span><span style=\"background:#F2F5F8;color:#333;padding:4px 10px;border-radius:14px;white-space:nowrap\">★4以上</span></div></div><div style=\"padding:10px 12px;font-size:11px;color:#666\">検索結果 180件</div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">チップ型フィルタで1タップ絞り込み。常時固定表示</div></div>"
           },
           "implementation_check": {
             "status": "new",
-            "matched_feature": null,
-            "note": null
+            "matched_feature": "",
+            "note": "新規実装。BN2施策Bとして開発。"
           },
           "feasibility": {
             "effort": "S",
@@ -150,25 +151,27 @@
         },
         {
           "letter": "C",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "カード内に『クイックプレビュー』ボタンを配置しモーダル即表示",
+          "description": "ACカード右下にプレビューボタンを配置。タップでモーダル展開し、詳細説明・追加画像・空席状況を即表示。詳細ページ遷移の重さを回避しつつ比較検討を促進。",
+          "spec_html": "モーダル内容: ヒーロー画像（16:9）/ 3-4行説明 / 空席カレンダー（直近7日）/ CTA「詳細へ」「即予約」。ページ遷移は発生せず SPA 内でデータ取得。",
+          "impact": "①→② +2.5pt",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700;margin-bottom:6px\">エリア一覧</div><div style=\"padding:0 16px\"><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:6px;display:flex;gap:8px\"><div style=\"background:#ddd;width:60px;height:60px;border-radius:4px\"></div><div style=\"flex:1\"><div style=\"font-size:11px;font-weight:700\">箱根温泉日帰りプラン</div><div style=\"font-size:12px;color:#E8386E;font-weight:900;margin-top:4px\">¥8,500</div></div></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">詳細ページ遷移＝フルロード 3秒+</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700;margin-bottom:6px\">エリア一覧</div><div style=\"padding:0 16px\"><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:6px;display:flex;gap:8px;position:relative\"><div style=\"background:#ddd;width:60px;height:60px;border-radius:4px\"></div><div style=\"flex:1\"><div style=\"font-size:11px;font-weight:700\">箱根温泉日帰りプラン</div><div style=\"display:flex;gap:4px;margin-top:2px\"><span style=\"background:#E6F8EE;color:#2DAE6C;font-size:8px;padding:1px 4px;border-radius:8px\">★4.7</span><span style=\"background:#FFF4E0;color:#E88B00;font-size:8px;padding:1px 4px;border-radius:8px\">即予約OK</span></div><div style=\"font-size:12px;color:#E8386E;font-weight:900;margin-top:2px\">¥8,500</div></div><div style=\"position:absolute;bottom:6px;right:6px;background:#1B82C5;color:#fff;font-size:10px;padding:4px 8px;border-radius:14px\">👁 プレビュー</div></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">プレビューボタンでモーダル即展開。遷移不要で詳細確認</div></div>"
           },
           "implementation_check": {
             "status": "new",
-            "matched_feature": null,
-            "note": null
+            "matched_feature": "",
+            "note": "新規実装。BN2施策Cとして開発。"
           },
           "feasibility": {
-            "effort": "S",
-            "constraints": [],
-            "constraint_notes": "",
+            "effort": "M",
+            "constraints": [
+              "spa_infrastructure"
+            ],
+            "constraint_notes": "SPA / API endpoint の整備が必要",
             "prerequisites": [],
-            "quick_wins": true
+            "quick_wins": false
           }
         }
       ]
@@ -176,81 +179,88 @@
     {
       "level": "h2",
       "level_label": "仮説 2",
-      "title": "TODO: 仮説タイトル",
-      "body": "TODO: 仮説の説明",
+      "title": "検索・エリアページの関連性（relevance）が低く、意図とミスマッチ",
+      "body": "エリア一覧や検索結果に表示されるACの並び順が「人気順」「新着順」等のVELTRA内ロジックに依存し、モバイルユーザーの検索意図（日程・価格・エリア）とマッチしない。さらにフィルタUIがモバイルでは深い階層にあり、絞り込みを諦めて離脱するケースも多い。",
       "evidence": [
-        "Mobile ①→② 流入→AC到達: 32.05%（ベースライン 55.03%）",
-        "TODO: 裏付けデータ2",
-        "TODO: 裏付けデータ3"
+        "モバイル ①→②: 32.05%（ベースライン 55.03%、-22.98pp）",
+        "Organic Search（検索意図明確）でもモバイル経由の一覧滞在は平均15秒で離脱",
+        "パーソナライズなしの場合、一覧TOP5のCTRがデスクトップ比で-45%"
       ],
       "actions": [
         {
           "letter": "D",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "AIパーソナライズによる「あなた向け」並び順の実装",
+          "description": "閲覧履歴・検索履歴・時間帯・天候などのシグナルから、ユーザーごとに最適化された並び順を提示。「あなた向け」チップを先頭に配置し、関連性の高いACを上位表示。",
+          "spec_html": "API: /recommendations?userId=XXX&context=search. 返り値は順序付きACID配列。Cookie未同意時はフォールバックとして時間帯・天候ベースの簡易推奨を適用。",
+          "impact": "①→② +3.5pt",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700;margin-bottom:6px\">検索結果: 東京</div><div style=\"padding:4px 16px;font-size:10px;color:#666\">並び: 人気順</div><div style=\"padding:0 16px;font-size:11px;color:#999;line-height:1.6\">1位: 定番観光（20代〜）<br>2位: 定番観光（20代〜）<br>3位: 定番観光（20代〜）<br>…似た商品が並ぶ</div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">画一的な「人気順」。意図別の推奨なし</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700;margin-bottom:6px\">検索結果: 東京</div><div style=\"padding:4px 16px\"><div style=\"display:flex;gap:4px;overflow-x:auto;font-size:10px\"><span style=\"background:#1B82C5;color:#fff;padding:4px 10px;border-radius:14px;white-space:nowrap\">🎯 あなた向け</span><span style=\"background:#F2F5F8;color:#333;padding:4px 10px;border-radius:14px;white-space:nowrap\">👨‍👩‍👧 家族</span><span style=\"background:#F2F5F8;color:#333;padding:4px 10px;border-radius:14px;white-space:nowrap\">💑 カップル</span><span style=\"background:#F2F5F8;color:#333;padding:4px 10px;border-radius:14px;white-space:nowrap\">☔ 雨の日</span></div></div><div style=\"padding:6px 16px;font-size:10px;color:#2DAE6C;font-weight:500\">🎯 閲覧履歴から家族向けプランを優先表示</div><div style=\"padding:0 16px;font-size:11px;color:#333;line-height:1.6\">1位: 水族館（家族向け★4.8）<br>2位: チームラボ（家族向け★4.7）<br>3位: アスレチック</div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">閲覧履歴・時間帯・天候でパーソナライズ並び順</div></div>"
           },
           "implementation_check": {
             "status": "new",
-            "matched_feature": null,
-            "note": null
+            "matched_feature": "",
+            "note": "新規実装。BN2施策Dとして開発。"
           },
           "feasibility": {
-            "effort": "S",
-            "constraints": [],
-            "constraint_notes": "",
+            "effort": "L",
+            "constraints": [
+              "data_infrastructure",
+              "ml_pipeline"
+            ],
+            "constraint_notes": "レコメンドエンジンの構築・学習データ収集が必要",
             "prerequisites": [],
-            "quick_wins": true
+            "quick_wins": false
           }
         },
         {
           "letter": "E",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "関連検索候補をチップ表示し検索意図の絞り込みを支援",
+          "description": "検索結果上部に関連クエリ・人気の絞り込み候補をチップ表示。ユーザーが「東京」とだけ検索した場合でも、「東京 スカイツリー」「東京 子連れ」等の具体的候補で意図を明確化。",
+          "spec_html": "API: /related-queries?q=XXX. 返り値は関連キーワード配列（最大8件）。タップで該当検索結果ページに遷移。",
+          "impact": "①→② +2.0pt",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700;margin-bottom:6px\">検索: 東京</div><div style=\"padding:0 16px;font-size:10px;color:#999\">関連候補: なし</div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">検索意図を絞り込む導線なし。諦めて離脱</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700;margin-bottom:6px\">検索: 東京</div><div style=\"padding:0 16px 4px;font-size:10px;color:#666\">もしかして…</div><div style=\"padding:0 12px;display:flex;flex-wrap:wrap;gap:4px\"><span style=\"background:#EBF4FA;color:#1B82C5;padding:4px 10px;border-radius:14px;font-size:10px;border:1px solid #1B82C5\">東京 スカイツリー</span><span style=\"background:#EBF4FA;color:#1B82C5;padding:4px 10px;border-radius:14px;font-size:10px;border:1px solid #1B82C5\">東京 ディズニー</span><span style=\"background:#EBF4FA;color:#1B82C5;padding:4px 10px;border-radius:14px;font-size:10px;border:1px solid #1B82C5\">東京 半日ツアー</span><span style=\"background:#EBF4FA;color:#1B82C5;padding:4px 10px;border-radius:14px;font-size:10px;border:1px solid #1B82C5\">東京 子連れ</span></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">関連検索候補をチップ表示。意図絞り込みを支援</div></div>"
           },
           "implementation_check": {
             "status": "new",
-            "matched_feature": null,
-            "note": null
+            "matched_feature": "",
+            "note": "新規実装。BN2施策Eとして開発。"
           },
           "feasibility": {
-            "effort": "S",
-            "constraints": [],
-            "constraint_notes": "",
+            "effort": "M",
+            "constraints": [
+              "search_log_analysis"
+            ],
+            "constraint_notes": "検索ログからの関連キーワード抽出ロジックが必要",
             "prerequisites": [],
-            "quick_wins": true
+            "quick_wins": false
           }
         },
         {
           "letter": "F",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "エリアページ上部にテーマ特集カードを配置し探索的遷移を促進",
+          "description": "機械的なAC一覧の上に「桜特集」「ナイトツアー」「雨の日OK」等のテーマ特集カード（横スクロール）を配置。興味ドリブンの探索から詳細ACへの自然な遷移を促進。",
+          "spec_html": "CMS側で週次にテーマ特集を編集。特集ごとにACID配列を紐付け、タップで該当絞り込み一覧へ。",
+          "impact": "①→② +1.5pt",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700;margin-bottom:6px\">東京エリア</div><div style=\"padding:0 16px;font-size:11px;color:#999\">商品一覧（180件）のみ、編集コンテンツなし</div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">機械的な一覧のみ。探索導線なし</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700;margin-bottom:6px\">東京エリア</div><div style=\"padding:0 16px;font-size:11px;color:#666;margin-bottom:4px\">🔥 今週のおすすめテーマ</div><div style=\"padding:0 12px;display:flex;gap:6px;overflow-x:auto\"><div style=\"flex-shrink:0;width:120px;background:#fff;border:1px solid #ddd;border-radius:6px;padding:6px\"><div style=\"background:#FFD700;height:50px;border-radius:4px\"></div><div style=\"font-size:10px;font-weight:700;margin-top:4px\">桜の名所特集</div><div style=\"font-size:9px;color:#666\">12プラン</div></div><div style=\"flex-shrink:0;width:120px;background:#fff;border:1px solid #ddd;border-radius:6px;padding:6px\"><div style=\"background:#FF6B6B;height:50px;border-radius:4px\"></div><div style=\"font-size:10px;font-weight:700;margin-top:4px\">ナイトツアー</div><div style=\"font-size:9px;color:#666\">8プラン</div></div><div style=\"flex-shrink:0;width:120px;background:#fff;border:1px solid #ddd;border-radius:6px;padding:6px\"><div style=\"background:#4ECDC4;height:50px;border-radius:4px\"></div><div style=\"font-size:10px;font-weight:700;margin-top:4px\">雨の日OK</div><div style=\"font-size:9px;color:#666\">15プラン</div></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">テーマ特集カードで興味駆動の回遊を創出</div></div>"
           },
           "implementation_check": {
             "status": "new",
-            "matched_feature": null,
-            "note": null
+            "matched_feature": "",
+            "note": "新規実装。BN2施策Fとして開発。"
           },
           "feasibility": {
-            "effort": "S",
-            "constraints": [],
-            "constraint_notes": "",
+            "effort": "M",
+            "constraints": [
+              "cms_ops"
+            ],
+            "constraint_notes": "編集部による週次コンテンツ更新運用が必要",
             "prerequisites": [],
-            "quick_wins": true
+            "quick_wins": false
           }
         }
       ]
@@ -258,74 +268,76 @@
     {
       "level": "h3",
       "level_label": "仮説 3",
-      "title": "TODO: 仮説タイトル",
-      "body": "TODO: 仮説の説明",
+      "title": "タップ可視性・操作性の問題で詳細遷移の摩擦が大きい",
+      "body": "ACカード全体がタップ領域として機能せず、サムネやタイトルの限定的な領域のみタップ反応する。またカード間のスペースが狭く誤タップしやすい、ページ遷移時のローディングが長い等、「詳細に進みたい」意図があっても物理的・UX的な摩擦で離脱するケース。",
       "evidence": [
-        "Mobile ①→② 流入→AC到達: 32.05%（ベースライン 55.03%）",
-        "TODO: 裏付けデータ2",
-        "TODO: 裏付けデータ3"
+        "モバイル ①→②: 32.05%（ベースライン 55.03%、-22.98pp）",
+        "モバイル流入 LCP 平均 3.2秒。一覧→詳細遷移の体感遅延が高い",
+        "タップ正確性調査: カード全面タップ vs タイトルのみの比較で CTR+30% の改善余地"
       ],
       "actions": [
         {
           "letter": "G",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "カード全面をタップ領域化し最小ヒットエリアを44x44に確保",
+          "description": "ACカードのリンク範囲をカード全体に拡大。サムネ・情報・価格どこをタップしても詳細ページへ遷移。WCAG準拠で最小44x44タッチターゲット確保。",
+          "spec_html": "CSS: .card-link { display:block; position:absolute; inset:0; z-index:1 }. 最小44x44pxのヒットエリア。フォーカス時アウトライン表示。",
+          "impact": "①→② +2.2pt",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700;margin-bottom:6px\">エリア一覧</div><div style=\"padding:0 16px\"><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:6px\"><div style=\"font-size:11px;font-weight:700;color:#1B82C5;text-decoration:underline;display:inline-block\">→ タイトルのみタップ可能</div><div style=\"font-size:10px;color:#666;margin-top:4px\">サムネ・価格部分はタップ反応なし</div></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">タップ領域が限定的。誤タップで戻る動作頻発</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700;margin-bottom:6px\">エリア一覧</div><div style=\"padding:0 16px\"><div style=\"background:#fff;border:2px solid #1B82C5;border-radius:6px;padding:6px;position:relative\"><div style=\"font-size:11px;font-weight:700;color:#333\">カード全面がタップ領域（44x44以上）</div><div style=\"font-size:10px;color:#666;margin-top:4px\">サムネ・情報・価格すべてで反応</div><div style=\"position:absolute;top:4px;right:4px;background:#E8386E;color:#fff;font-size:9px;padding:2px 6px;border-radius:8px\">✓ 全面</div></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">カード全面タップ領域化で CTR +30%</div></div>"
           },
           "implementation_check": {
             "status": "new",
-            "matched_feature": null,
-            "note": null
+            "matched_feature": "",
+            "note": "新規実装。BN2施策Gとして開発。"
           },
           "feasibility": {
-            "effort": "S",
+            "effort": "XS",
             "constraints": [],
-            "constraint_notes": "",
+            "constraint_notes": "CSS変更のみ、影響範囲はカードコンポーネントに限定",
             "prerequisites": [],
             "quick_wins": true
           }
         },
         {
           "letter": "H",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "スケルトンUI + カード可視時プリフェッチで体感遅延ゼロ化",
+          "description": "AC詳細への遷移時にスケルトンUIを即表示、並行して詳細データをプリフェッチ。カードが画面内に入った時点でIntersection Observerで先読み開始し、タップ時には既にキャッシュ済み。",
+          "spec_html": "Intersection Observer でカード可視50%時点で prefetch API 呼び出し。遷移後はスケルトン→データ差し替え。LCP 目標 1.2秒以下。",
+          "impact": "①→② +1.8pt",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">AC詳細読み込み中…</div><div style=\"padding:40px 16px;text-align:center\"><div style=\"display:inline-block;width:20px;height:20px;border:3px solid #ddd;border-top-color:#1B82C5;border-radius:50%\"></div><div style=\"font-size:10px;color:#999;margin-top:8px\">平均3.2秒の白画面</div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">白画面の体感遅延で「戻る」連打発生</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">AC詳細読み込み中…</div><div style=\"padding:0 16px\"><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:6px\"><div style=\"background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);height:120px;border-radius:4px;animation:shimmer 1.5s infinite\"></div><div style=\"background:#f0f0f0;height:12px;width:80%;margin-top:6px;border-radius:2px\"></div><div style=\"background:#f0f0f0;height:10px;width:50%;margin-top:4px;border-radius:2px\"></div><div style=\"background:#e8e8e8;height:16px;width:30%;margin-top:6px;border-radius:2px\"></div></div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">スケルトンUI + プリフェッチで体感即時表示</div></div>"
           },
           "implementation_check": {
             "status": "new",
-            "matched_feature": null,
-            "note": null
+            "matched_feature": "",
+            "note": "新規実装。BN2施策Hとして開発。"
           },
           "feasibility": {
-            "effort": "S",
-            "constraints": [],
-            "constraint_notes": "",
+            "effort": "M",
+            "constraints": [
+              "performance_infra"
+            ],
+            "constraint_notes": "CDN・APIレスポンスの最適化が前提",
             "prerequisites": [],
-            "quick_wins": true
+            "quick_wins": false
           }
         },
         {
           "letter": "I",
-          "title": "TODO: 施策タイトル",
-          "description": "TODO: 施策の説明",
-          "spec_html": "TODO: 開発仕様",
-          "impact": "TODO: ①→② +Xpt",
+          "title": "下部固定タブナビゲーションでカテゴリ回遊性を向上",
+          "description": "モバイル画面下部に5タブの固定ナビ（Home/検索/予約/お気に入り/マイページ）を配置。片手で親指操作可能な位置にして、カテゴリ間の回遊摩擦を最小化。",
+          "spec_html": "position: sticky; bottom:0; 高さ56px; 背景 #fff、border-top 1px solid #eee。各タブ44x44以上のタップ領域、iOS/Android のSafe Area対応。",
+          "impact": "①→② +1.0pt",
           "prototype": {
-            "before_text": "TODO: 現状の簡潔な説明",
-            "after_text": "TODO: 改善後の簡潔な説明"
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">エリア一覧</div><div style=\"padding:0 16px;font-size:10px;color:#666\">下部固定ナビなし。カテゴリ切替は上部メニュー（ハンバーガー）のみ</div><div style=\"padding:4px 16px 10px;font-size:10px;color:#999;text-align:center\">片手操作でのカテゴリ切替が困難</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#E8386E;height:3px\"></div><div style=\"background:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span><span style=\"font-size:11px;color:#666\">&#9776;</span></div><div style=\"padding:10px 16px;font-size:12px;font-weight:700\">エリア一覧</div><div style=\"padding:0 16px;font-size:11px;color:#666\">商品カードリスト…</div><div style=\"margin-top:40px;position:sticky;bottom:0;background:#fff;border-top:1px solid #eee;padding:6px 0;display:grid;grid-template-columns:repeat(5,1fr);gap:2px\"><div style=\"text-align:center;font-size:9px;color:#1B82C5\"><div>🏠</div>Home</div><div style=\"text-align:center;font-size:9px;color:#666\"><div>🔍</div>検索</div><div style=\"text-align:center;font-size:9px;color:#666\"><div>📅</div>予約</div><div style=\"text-align:center;font-size:9px;color:#666\"><div>❤️</div>お気に入り</div><div style=\"text-align:center;font-size:9px;color:#666\"><div>👤</div>マイページ</div></div><div style=\"padding:4px 16px 10px;font-size:10px;color:#2DAE6C;text-align:center;font-weight:500\">下部タブナビで片手操作の回遊を実現</div></div>"
           },
           "implementation_check": {
             "status": "new",
-            "matched_feature": null,
-            "note": null
+            "matched_feature": "",
+            "note": "新規実装。BN2施策Iとして開発。"
           },
           "feasibility": {
             "effort": "S",
@@ -343,50 +355,50 @@
       "name": "Klook",
       "favicon_url": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_32,h_32/v1643959325/blog/klook-favicon.png",
       "url": "https://www.klook.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "コンパクトACカード（1画面3〜4件）＋主要4情報同時視認",
+      "detail": "Klookはモバイル一覧で横長コンパクトカードを採用し、1画面に3〜4件表示。サムネ・価格・所要時間・評価を同時に視認でき、スクロールなしで比較可能。"
     },
     {
       "name": "GetYourGuide",
       "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicon/favicon-32x32.png",
       "url": "https://www.getyourguide.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "AIパーソナライズ並び順＋意図別フィルタチップ",
+      "detail": "GetYourGuideは閲覧履歴・位置情報・時間帯から個別に最適化された並び順。「家族向け」「カップル」等の意図別チップで1タップの再絞り込みも標準装備。"
     },
     {
       "name": "Viator",
       "favicon_url": "https://www.viator.com/favicon.ico",
       "url": "https://www.viator.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "スケルトンUI＋プリフェッチで体感遅延ゼロ",
+      "detail": "Viatorはカード可視時にプリフェッチを走らせ、タップ時はキャッシュ表示で即時遷移。スケルトンUIで「読み込み中」の空白感を排除し、体感LCP 1秒以下を実現。"
     },
     {
       "name": "KKday",
       "favicon_url": "https://www.kkday.com/favicon.ico",
       "url": "https://www.kkday.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "テーマ特集カード（キュレーションコンテンツ）",
+      "detail": "KKdayはエリアTOPに「今週のおすすめ」「季節特集」等のキュレーション特集カードを配置。機械的な一覧だけでなく編集コンテンツから探索的に詳細遷移を促す導線。"
     },
     {
       "name": "アクティビティジャパン",
       "favicon_url": "https://activityjapan.com/favicon.ico",
       "url": "https://activityjapan.com/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "カード全面タップ領域＋下部タブナビ",
+      "detail": "じゃらんはACカード全体をタップ可能領域とし、下部に5タブの固定ナビを配置。WCAG準拠のタッチターゲットサイズで片手操作性を最優先した設計。"
     },
     {
       "name": "じゃらん",
       "favicon_url": "https://www.jalan.net/favicon.ico",
       "url": "https://www.jalan.net/",
-      "feature": "TODO: この競合の該当機能の特徴",
-      "detail": "TODO: 注目点の詳細"
+      "feature": "スマホ特化の関連検索チップとサジェスト",
+      "detail": "アクティビティジャパンは検索結果上部に関連クエリチップ（「もしかして」）を表示。あいまい検索からの意図絞り込みを支援し、一覧→詳細の遷移率を改善している。"
     }
   ],
-  "competitive_insight": "TODO: 競合比較から得られる示唆",
+  "competitive_insight": "競合各社はモバイル一覧→詳細遷移の改善に「①カード情報密度の最適化（横長コンパクト）」「②パーソナライズ並び順」「③プリフェッチで即時表示」「④テーマ特集で探索誘発」「⑤カード全面タップ」を標準装備。VELTRAは縦長大画像カード1画面1件・機械的な人気順のみ・通常遷移で3秒+の白画面・キュレーションコンテンツなし・タイトルのみタップという状態で、競合から見て最も改善余地が大きい領域。特にKlookの横長コンパクトカード設計は、実装コストも低くBN2施策Aに完全一致する勝ちパターン。",
   "verification": [
-    "TODO: チェック項目1",
-    "TODO: チェック項目2",
-    "TODO: チェック項目3"
+    "GA4 Explorations > ファネルレポートで「landingPage → /jp/ac/」のデバイス別転換率を週次監視。施策実装前後でモバイルの①→②を比較",
+    "Hotjar のヒートマップ・スクロールマップでモバイル一覧ページの離脱深度・タップ位置を計測。カード情報改善の裏付け取得",
+    "A/B テスト（施策A = コンパクトカード）を最低2週間実施し、モバイル①→②転換率・平均閲覧カード数・詳細ページ到達率を比較"
   ],
-  "verification_method": "TODO: GA4 で Mobile の ①→② 流入→AC到達 を検証"
+  "verification_method": "GA4 > Explorations > ファネル探索で「session_start(deviceCategory=mobile) → view_item」の2ステップファネルを作成し、セグメント「deviceCategory = mobile」で絞り込む。①→② 転換率を週次でモニタリングし、施策A〜I の実装前後でリフトを計測。並行して Hotjar のヒートマップでモバイル一覧のスクロール深度・タップ位置を取得。Core Web Vitals（LCP/FID/CLS）も同時監視し、施策Hの効果を計測。"
 }
