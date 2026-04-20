@@ -625,25 +625,114 @@ def step_generate_data_json(week_dir: str, meta: dict, dry_run: bool) -> None:
 
 def step_generate_index_html(week_dir: str, meta: dict, dry_run: bool) -> None:
     """
-    ステップ2.5: 週ディレクトリに redirect index.html を生成する。
-    /report.html?week=XXXX へリダイレクトする軽量HTMLファイル。
-    既に存在する場合も上書きする（テンプレートは常に最新を使う）。
+    ステップ2.5: 週次サマリーページ index.html のスケルトンを生成する。
+    結論 / 論拠 / やるべきこと の3セクション（TODO入り）+ 詳細自動描画プレースホルダ。
+
+    既存の手書きサマリー（/summary.css を参照しているもの）は上書きしない。
+    完成済みページの誤上書きを防ぐため。
     """
     index_path = os.path.join(week_dir, "index.html")
-    print(f"\n[2.5] index.html 生成: {index_path}")
+    print(f"\n[2.5] 週次サマリー index.html スケルトン生成: {index_path}")
+
+    # Skip if a real summary page already exists (detected by summary.css import).
+    if os.path.exists(index_path):
+        try:
+            with open(index_path, "r", encoding="utf-8") as f:
+                existing = f.read()
+            if "summary.css" in existing:
+                print(f"  スキップ: 既存のサマリーページを検出（summary.css 参照あり）")
+                return
+        except OSError:
+            pass
 
     week_id = meta["week_id"]
+    week_label = meta["week_label"]
+    date_start = meta.get("date_start", "")
+    date_end = meta.get("date_end", "")
+
     content = f"""<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <script src="/auth.js"></script>
-<meta http-equiv="refresh" content="0;url=/report.html?week={week_id}">
-<title>{meta['week_label']} レポート</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/summary.css">
+<title>{week_label}サマリー | 週次ボトルネック分析</title>
 </head>
 <body>
-<script>location.replace('/report.html?week={week_id}');</script>
-<p><a href="/report.html?week={week_id}">{meta['week_label']} レポートへ移動</a></p>
+<div id="app">
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">週次サマリー<br><strong>{week_label}</strong></div>
+    </div>
+    <div style="padding:22px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:13px;line-height:1.8;color:var(--text2)">
+      <div><span style="color:var(--text3);font-weight:700">分析対象</span><br>{week_label} 単週（{date_start} 〜 {date_end}）</div>
+      <div><span style="color:var(--text3);font-weight:700">GA4 Property</span><br>347074845</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num red">01</span><span class="sec-main">Conclusion — 結論</span></div>
+    <div class="summary-hero">
+      <div class="summary-kicker">{week_id.upper()} SPOT ANALYSIS</div>
+      <div class="summary-headline">
+        <!-- TODO: ユーザー行動の観察を主語にした1〜3行ヘッドライン。<em>強調</em>で数字を挟む -->
+      </div>
+      <div class="summary-sub">
+        <!-- TODO: 4〜6行のサブ説明。ユーザーが何を感じ、どこで止まっているかを数字で支える -->
+      </div>
+      <div class="summary-kpi-strip">
+        <div class="skpi">
+          <div class="skpi-label">セッション（{week_id.upper()}単週）</div>
+          <div class="skpi-val"><!-- TODO --></div>
+          <div class="skpi-wow"><!-- TODO: ▲/▼ ±X.X% WoW --></div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">予約完了（{week_id.upper()}単週）</div>
+          <div class="skpi-val"><!-- TODO --></div>
+          <div class="skpi-wow"><!-- TODO --></div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">CVR（{week_id.upper()}単週）</div>
+          <div class="skpi-val"><!-- TODO --></div>
+          <div class="skpi-wow"><!-- TODO --></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">Evidence — 論拠</span></div>
+    <div class="sec-big"><!-- TODO: 論拠全体のサマリー一文 --></div>
+    <div class="sec-sub"><!-- TODO: 補足 --></div>
+    <div class="evidence-grid">
+      <!-- TODO: Evidence カード ×3（ユーザー行動 / 乖離 / ユーザー層 の3軸） -->
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">Action — やるべきこと</span></div>
+    <div class="sec-big"><!-- TODO: アクション方針 --></div>
+    <div class="sec-sub"><!-- TODO --></div>
+    <div class="action-list">
+      <!-- TODO: Action アイテム ×3（短期 NEW / 中期 既存BN Top3 / 継続監視） -->
+    </div>
+  </div>
+
+  <div id="summary-detail" style="scroll-margin-top:24px"></div>
+
+  <div class="card">
+    <div class="footer">
+      <span>VELTRA CVR改善チーム — UIUX Design Squad</span>
+      <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+      <span><!-- TODO: 発行日 --></span>
+    </div>
+  </div>
+</div>
+<script src="/nav.js"></script>
+<script src="/summary-detail.js"></script>
 </body>
 </html>
 """
@@ -652,7 +741,7 @@ def step_generate_index_html(week_dir: str, meta: dict, dry_run: bool) -> None:
     else:
         with open(index_path, "w", encoding="utf-8") as f:
             f.write(content)
-        print(f"  生成完了")
+        print(f"  生成完了（TODO を Phase 2.9 で埋める）")
 
 
 def step_update_reports_index(meta: dict, dry_run: bool) -> None:
@@ -851,9 +940,10 @@ def main() -> None:
         print(f"\n次のステップ:")
         print(f"  1. GA4 MCP でデータをクエリし、data.json を埋める")
         print(f"  2. スケルトン生成: python3 scripts/generate-week.py --skeleton --week {meta['week_id']}")
-        print(f"  3. Claude が各 TODO: を埋める（2-3 ファイルずつ並列生成を推奨）")
-        print(f"     ※ report.html が data.json を動的に描画（index.html は不要）")
-        print(f"     ※ プロトタイプは before_text / after_text 短縮形式で記述可能")
+        print(f"  3. Claude が各 bottleneck-N-content.json の TODO: を埋める（2-3 ファイルずつ並列推奨）")
+        print(f"  4. 週次サマリーページ (Phase 2.9): reports/{meta['week_id']}/index.html の TODO を埋める")
+        print(f"     - 結論/論拠/やるべきこと の3セクションを手書き（playbook.md Phase 2.9 参照）")
+        print(f"     - 詳細部分（ファネル28日・進捗・BN10件）は summary-detail.js が自動描画")
     print("=" * 60)
 
 

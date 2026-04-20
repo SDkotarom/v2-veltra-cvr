@@ -3,11 +3,214 @@
 <head>
 <meta charset="UTF-8">
 <script src="/auth.js"></script>
-<meta http-equiv="refresh" content="0;url=/report.html?week=2026-w14">
-<title>W14 レポート</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/summary.css">
+<title>W14（3/29〜4/4）サマリー | 週次ボトルネック分析</title>
 </head>
 <body>
-<script>location.replace('/report.html?week=2026-w14');</script>
-<p><a href="/report.html?week=2026-w14">W14 レポートへ移動</a></p>
+<div id="app">
+  <!-- ── Header ─────────────────────────────── -->
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">週次サマリー<br><strong>W14（3/29〜4/4）</strong></div>
+    </div>
+    <div style="padding:22px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:13px;line-height:1.8;color:var(--text2)">
+      <div><span style="color:var(--text3);font-weight:700">分析対象</span><br>W14 単週（2026-03-29 〜 2026-04-04）<br>前週 W13（2026-03-22 〜 2026-03-28）との比較</div>
+      <div><span style="color:var(--text3);font-weight:700">レポート発行</span><br>2026-04-06（月）</div>
+      <div><span style="color:var(--text3);font-weight:700">GA4 Property</span><br>347074845</div>
+    </div>
+  </div>
+
+  <!-- ── 結論 (Conclusion) ──────────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num red">01</span><span class="sec-main">Conclusion — 結論</span></div>
+    <div class="summary-hero">
+      <div class="summary-kicker">W14 SPOT ANALYSIS</div>
+      <div class="summary-headline">
+        予約フォームを最後まで<em class="green">走り切るユーザーが急増</em>し、CVR が回復した週。<br>
+        ただし <em>商品ページにたどり着く割合</em>は大きく下がった（-6.68pp）。
+      </div>
+      <div class="summary-sub">
+        「予約フォームを開いたあと、ちゃんと最後まで入力して決済する」ユーザーが <strong>意向→完了 +8.81pp</strong> の大幅改善。
+        一方で、商品ページ（AC）に到達する割合は -6.68pp 低下しており、<strong>「手前で絞られているが、たどり着いた人はしっかり買う」</strong>構造。
+        フォーム最適化や決済改善の効果が効いた可能性がある一方、<strong>流入ページ・商品一覧の期待値ギャップ</strong>で早期離脱が起きている可能性もある。
+        「CVRは戻ったから大丈夫」ではなく、<strong>入り口の漏れ</strong>に目を向ける必要がある週。
+      </div>
+      <div class="summary-kpi-strip">
+        <div class="skpi">
+          <div class="skpi-label">セッション（W14単週）</div>
+          <div class="skpi-val">727,176</div>
+          <div class="skpi-wow up">▲ +2.0% WoW</div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">予約完了（W14単週）</div>
+          <div class="skpi-val">10,635</div>
+          <div class="skpi-wow up">▲ +14.2% WoW</div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">CVR（W14単週）</div>
+          <div class="skpi-val" style="color:var(--green)">1.46%</div>
+          <div class="skpi-wow up">▲ +0.16pp WoW</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 論拠 (Evidence) ────────────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">Evidence — 論拠</span></div>
+    <div class="sec-big">「入口が細くなった代わりに、残ったユーザーが走り切った」週</div>
+    <div class="sec-sub">ファネル前半（①→②）が大きく悪化し、後半（④→⑤）が大きく改善。入口を絞られた分、意向の高い層が残った可能性。</div>
+    <div class="evidence-grid">
+
+      <!-- Evidence 1 -->
+      <div class="evidence-card green">
+        <div class="evidence-num">E.01 — 後半の勝ち筋</div>
+        <div class="evidence-title">予約フォームを出した人の完了率が大幅改善（+8.81pp）</div>
+        <div class="evidence-metric">
+          <div class="evidence-big green">+8.81<span class="evidence-unit">pp</span></div>
+        </div>
+        <div class="evidence-comp">④→⑤（意向→完了）31.85% → 40.67%</div>
+        <div class="evidence-bar">
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:76%"></div><div class="evidence-bar-label">①→②<br>-6.7</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar green" style="height:38%"></div><div class="evidence-bar-label">②→③<br>+3.3</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:43%"></div><div class="evidence-bar-label">③→④<br>-3.8</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar green" style="height:100%"></div><div class="evidence-bar-label">④→⑤<br>+8.8</div></div>
+        </div>
+        <div class="evidence-desc">フォームを開いたユーザーの <strong>入力完了 → 決済完了</strong> がスムーズになった。フォーム最適化・決済改善の成果か、あるいは流入が絞られたことで意向の高いユーザーが残ったか、要因切り分けが必要。</div>
+      </div>
+
+      <!-- Evidence 2 -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.02 — 前半のほころび</div>
+        <div class="evidence-title">流入から商品ページへの到達率が -6.68pp — 入口で漏れている</div>
+        <div class="evidence-metric">
+          <div class="evidence-big red">-6.68<span class="evidence-unit">pp</span></div>
+        </div>
+        <div class="evidence-comp">①→②（流入→AC到達）前週 53.1% → 今週 46.5%</div>
+        <div class="evidence-bar">
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:100%;background:#aaa"></div><div class="evidence-bar-label">AC前週<br>379K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:89%;background:#aaa"></div><div class="evidence-bar-label">AC今週<br>338K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:90%"></div><div class="evidence-bar-label">①→②<br>前週 53%</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:78%"></div><div class="evidence-bar-label">①→②<br>今週 47%</div></div>
+        </div>
+        <div class="evidence-desc">流入はほぼ横ばいなのに、商品ページへの到達率が下がった。<strong>ランディング → 一覧/検索 → 商品ページ</strong>の途中でユーザーが離脱している可能性。商品一覧の期待値ギャップ・検索結果の品質・広告クリエイティブの不一致が候補。</div>
+      </div>
+
+      <!-- Evidence 3 -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.03 — ユーザー層</div>
+        <div class="evidence-title">新規ユーザーの予約率は 0.62% — 構造課題は依然として残る</div>
+        <div class="evidence-metric">
+          <div class="evidence-big red">0.62<span class="evidence-unit">%</span></div>
+        </div>
+        <div class="evidence-comp">新規ユーザー CVR ／ 全体 1.41%（構成比 53.4%）</div>
+        <div class="evidence-desc">CVR改善の中身は<strong>リピーター寄り</strong>の可能性。新規ユーザーの予約率は依然として全体の半分以下で、「初めて予約する不安」を超える設計が引き続き課題。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── やるべきこと (Action) ──────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">Action — やるべきこと</span></div>
+    <div class="sec-big">今週の成功要因を特定し、前半の漏れを塞ぐ</div>
+    <div class="sec-sub">CVR回復を「なんとなく戻った」で終わらせず、要因分解してその後の施策に活かす。同時に入口の漏れに手を打つ。</div>
+    <div class="action-list">
+
+      <!-- Action 1 -->
+      <div class="action-item">
+        <div class="action-prio amber">1</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag new">NEW / 短期</span>
+            <span class="action-tag stage">④→⑤</span>
+            <span class="action-tag">優先度: 最高</span>
+          </div>
+          <div class="action-title">④→⑤ +8.81pp の改善要因を特定する</div>
+          <div class="action-why">
+            フォーム完了率が大きく改善した原因を切り分け。<strong>フォーム最適化／決済改善／流入の質変化</strong>のどれかを特定する。
+            要因が施策起因なら次週以降も効果が継続するはず。流入の質変化（意向が高い層に偏った）が要因なら、流入戻り時に再度落ちるリスクがある。
+          </div>
+          <div class="action-why" style="color:var(--text3);margin-bottom:0">
+            確認クエリ: フォームステップ別完了率 / 決済エラー率 / 流入経路別 ④→⑤ 率
+          </div>
+        </div>
+      </div>
+
+      <!-- Action 2 -->
+      <div class="action-item">
+        <div class="action-prio amber">2</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag new">NEW / 短期</span>
+            <span class="action-tag stage">①→②</span>
+            <span class="action-tag">優先度: 高</span>
+          </div>
+          <div class="action-title">①→② -6.68pp 悪化 — 入口の漏れを特定</div>
+          <div class="action-why">
+            流入はあるのに商品ページに進んでいない。<strong>ランディング・商品一覧・検索結果</strong>のどこで離脱しているか、ページ別の直帰率と滞在時間の推移を比較。
+            CVRが +0.16pp 回復したが、入口の漏れを塞げば本来はもっと高い改善幅が出せる。
+          </div>
+        </div>
+      </div>
+
+      <!-- Action 3 -->
+      <div class="action-item">
+        <div class="action-prio">3</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag done">分析完了 10/10</span>
+            <span class="action-tag">中期</span>
+            <span class="action-tag">優先度: 中</span>
+          </div>
+          <div class="action-title">ボトルネック Top3 の施策実装推進</div>
+          <div class="action-why">
+            分析完了済み。インパクト上位3件を優先的に施策化。<strong>モバイル ③→④、新規 ④→⑤、Organic Search ①→②</strong> のすべてが「商品ページ〜予約フォーム間のどこかで詰まっている」ユーザー層。
+          </div>
+          <div class="action-sublist">
+            <a href="#summary-detail">
+              <span class="asl-rank">#1</span>
+              <span class="asl-title">モバイルで商品を見て検討したのに予約意向まで進まない（mobile×③→④）</span>
+              <span class="asl-impact">96K</span>
+              <span class="asl-arrow">→</span>
+            </a>
+            <a href="#summary-detail">
+              <span class="asl-rank">#2</span>
+              <span class="asl-title">新規ユーザーがフォームに入ったのに完了できない（new×④→⑤）</span>
+              <span class="asl-impact">21K</span>
+              <span class="asl-arrow">→</span>
+            </a>
+            <a href="#summary-detail">
+              <span class="asl-rank">#3</span>
+              <span class="asl-title">検索流入の商品ページ到達率が全体比 -47pp（Organic×①→②）</span>
+              <span class="asl-impact">1.21M</span>
+              <span class="asl-arrow">→</span>
+            </a>
+          </div>
+          <a class="action-link" href="#summary-detail">ボトルネック10件すべてを下で見る ↓</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 詳細セクション（summary-detail.js が注入） ─── -->
+  <div id="summary-detail" style="scroll-margin-top:24px"></div>
+
+  <!-- ── Footer ─────────────────────────────── -->
+  <div class="card">
+    <div class="footer">
+      <span>VELTRA CVR改善チーム — UIUX Design Squad</span>
+      <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+      <span>2026-04-06</span>
+    </div>
+  </div>
+</div>
+
+<script src="/nav.js"></script>
+<script src="/summary-detail.js"></script>
 </body>
 </html>

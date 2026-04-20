@@ -3,11 +3,218 @@
 <head>
 <meta charset="UTF-8">
 <script src="/auth.js"></script>
-<meta http-equiv="refresh" content="0;url=/report.html?week=2026-w13">
-<title>W13 レポート</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/summary.css">
+<title>W13（3/22〜3/28）サマリー | 週次ボトルネック分析</title>
 </head>
 <body>
-<script>location.replace('/report.html?week=2026-w13');</script>
-<p><a href="/report.html?week=2026-w13">W13 レポートへ移動</a></p>
+<div id="app">
+  <!-- ── Header ─────────────────────────────── -->
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">週次サマリー<br><strong>W13（3/22〜3/28）</strong></div>
+    </div>
+    <div style="padding:22px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:13px;line-height:1.8;color:var(--text2)">
+      <div><span style="color:var(--text3);font-weight:700">分析対象</span><br>W13 単週（2026-03-22 〜 2026-03-28）<br>前週 W12 との比較</div>
+      <div><span style="color:var(--text3);font-weight:700">レポート発行</span><br>2026-03-30（月）</div>
+      <div><span style="color:var(--text3);font-weight:700">GA4 Property</span><br>347074845</div>
+    </div>
+  </div>
+
+  <!-- ── 結論 (Conclusion) ──────────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num red">01</span><span class="sec-main">Conclusion — 結論</span></div>
+    <div class="summary-hero">
+      <div class="summary-kicker">W13 SPOT ANALYSIS</div>
+      <div class="summary-headline">
+        どこかが急に悪いわけではない。<em>ファネル全体がじわっと同時に下がっている</em>週。<br>
+        流入も予約も減り、CVR <em>1.43% → 1.31%</em>。
+      </div>
+      <div class="summary-sub">
+        商品ページに来る人数（流入）も、そこから最後まで進む人の割合も、どの段階を取っても前週より少しずつ悪い。
+        <strong>特定のページや導線が突然壊れた訳ではなく、体験全体に「迷い」が増えている</strong>ようなイメージ。
+        後半の<strong>「検討→予約する／しない」「フォームを出す／最後まで入力する」</strong>で並んで -1pp 規模の下落。
+        つまり <strong>予約への"決め手"が足りないまま離脱している</strong>兆候。単週の急変への打ち手より、構造ボトルネック（Organic Search 流入、新規ユーザー、モバイル）を着実に潰す週。
+      </div>
+      <div class="summary-kpi-strip">
+        <div class="skpi">
+          <div class="skpi-label">セッション（W13単週）</div>
+          <div class="skpi-val">712,716</div>
+          <div class="skpi-wow down">▼ -7.1% WoW</div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">予約完了（W13単週）</div>
+          <div class="skpi-val">9,314</div>
+          <div class="skpi-wow down">▼ -15.0% WoW</div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">CVR（W13単週）</div>
+          <div class="skpi-val" style="color:var(--red)">1.31%</div>
+          <div class="skpi-wow down">▼ -0.12pp WoW</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 論拠 (Evidence) ────────────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">Evidence — 論拠</span></div>
+    <div class="sec-big">「全部が少しずつ落ちる」複合悪化のサイン</div>
+    <div class="sec-sub">単一ボトルネックの急変ではなく、流入減 × 完了率低下が重なって CVR を押し下げている。</div>
+    <div class="evidence-grid">
+
+      <!-- Evidence 1 -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.01 — ユーザー行動</div>
+        <div class="evidence-title">どの段階でも、前週より少しずつ多くのユーザーが離脱している</div>
+        <div class="evidence-metric">
+          <div class="evidence-big red">-1.20<span class="evidence-unit">pp</span></div>
+        </div>
+        <div class="evidence-comp">③→④（検討→意向）が最大の悪化段階</div>
+        <div class="evidence-bar">
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:52%"></div><div class="evidence-bar-label">①→②<br>-0.6</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:16%"></div><div class="evidence-bar-label">②→③<br>-0.2</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:100%"></div><div class="evidence-bar-label">③→④<br>-1.2</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:88%"></div><div class="evidence-bar-label">④→⑤<br>-1.1</div></div>
+        </div>
+        <div class="evidence-desc">全段階がマイナス。<strong>「カレンダーまで見たのに予約に踏み出せない」「フォームを開いたのに完了できない」</strong>という後半段階の詰まりが目立つ。決め手・安心感の不足が疑われる。</div>
+      </div>
+
+      <!-- Evidence 2 -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.02 — 流入と予約の乖離</div>
+        <div class="evidence-title">流入は -7%、予約は -15% — 残った流入の「買い切り率」も下がった</div>
+        <div class="evidence-metric">
+          <div class="evidence-big red">-7.1<span class="evidence-unit">%</span></div>
+          <div style="font-size:14px;color:var(--text3);font-weight:700">／</div>
+          <div class="evidence-big red">-15<span class="evidence-unit">%</span></div>
+        </div>
+        <div class="evidence-comp">セッション -7.1% ／ 予約完了 -15.0%</div>
+        <div class="evidence-bar">
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:100%;background:#aaa"></div><div class="evidence-bar-label">セッション前週<br>767K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:93%;background:#aaa"></div><div class="evidence-bar-label">セッション今週<br>713K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:100%"></div><div class="evidence-bar-label">予約前週<br>10.9K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:85%"></div><div class="evidence-bar-label">予約今週<br>9.3K</div></div>
+        </div>
+        <div class="evidence-desc">単純に流入が減っただけなら予約も同程度で減るはず。<strong>予約減の下げ幅が流入減の倍</strong>で、残った流入の体験自体が弱まっている。</div>
+      </div>
+
+      <!-- Evidence 3 -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.03 — ユーザー層</div>
+        <div class="evidence-title">新規ユーザー（半数超）の予約率は 0.66% — 全体の半分以下で低迷</div>
+        <div class="evidence-metric">
+          <div class="evidence-big red">0.66<span class="evidence-unit">%</span></div>
+        </div>
+        <div class="evidence-comp">新規ユーザー CVR ／ 全体 1.48%（構成比 52.6%）</div>
+        <div class="evidence-desc">新規ユーザーは<strong>初めて見る商品への不安</strong>を超えられずに離脱するパターンが続いている。BN#1（Organic Search×①→②、影響1.27M）、BN#2（新規×②→③、影響1.53M）の構造ボトルネックがそのまま新規層の低迷に対応。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── やるべきこと (Action) ──────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">Action — やるべきこと</span></div>
+    <div class="sec-big">後半段階の「決め手」設計と、構造ボトルネックの着実実装</div>
+    <div class="sec-sub">単一の急性課題がないため、ボトルネック分析で見えている大きな詰まり（新規 × 流入 × モバイル）を順次潰す週。</div>
+    <div class="action-list">
+
+      <!-- Action 1 -->
+      <div class="action-item">
+        <div class="action-prio amber">1</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag new">NEW / 短期</span>
+            <span class="action-tag stage">③→④ / ④→⑤</span>
+            <span class="action-tag">優先度: 最高</span>
+          </div>
+          <div class="action-title">後半ファネルの同時悪化 — フォーム前後で「決め手」を失っている人を特定</div>
+          <div class="action-why">
+            ③→④（検討→意向）と ④→⑤（意向→完了）が並んで -1pp 規模で下落。
+            <strong>カレンダーまで見て、それでも予約に踏み出せない</strong>／<strong>フォームを開いたのに完了せずに離脱</strong>のパターンが増えている。
+            フォームステップ別の完了率、決済エラー率、デバイス別のフォーム離脱率を前週と比較し、「どこで足が止まるか」を具体化する。
+          </div>
+          <div class="action-why" style="color:var(--text3);margin-bottom:0">
+            確認クエリ: フォームステップ別到達率 / 決済エラー率 / デバイス別フォーム離脱率
+          </div>
+        </div>
+      </div>
+
+      <!-- Action 2 -->
+      <div class="action-item">
+        <div class="action-prio">2</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag done">分析完了 10/10</span>
+            <span class="action-tag">中期</span>
+            <span class="action-tag">優先度: 高</span>
+          </div>
+          <div class="action-title">Organic Search × ①→② への集中投入（影響 1.27M セッション）</div>
+          <div class="action-why">
+            BN#1 は Organic Search × ①→② で <strong>全BN中最大インパクト</strong>（月1.27Mセッション）。
+            検索から流入した人が、ランディング → 商品ページに進めていない。
+            この1件の改善で CVR 全体を底上げできる。
+          </div>
+          <div class="action-sublist">
+            <a href="#summary-detail">
+              <span class="asl-rank">#1</span>
+              <span class="asl-title">検索から来た人が、商品ページにたどり着けない（Organic×①→②）</span>
+              <span class="asl-impact">1.27M</span>
+              <span class="asl-arrow">→</span>
+            </a>
+            <a href="#summary-detail">
+              <span class="asl-rank">#2</span>
+              <span class="asl-title">新規ユーザーが商品ページで「予約を検討」まで進めない（新規×②→③）</span>
+              <span class="asl-impact">1.53M</span>
+              <span class="asl-arrow">→</span>
+            </a>
+            <a href="#summary-detail">
+              <span class="asl-rank">#3</span>
+              <span class="asl-title">モバイルで予約フォームまで来たのに完了できない（mobile×④→⑤）</span>
+              <span class="asl-impact">101K</span>
+              <span class="asl-arrow">→</span>
+            </a>
+          </div>
+          <a class="action-link" href="#summary-detail">ボトルネック10件すべてを下で見る ↓</a>
+        </div>
+      </div>
+
+      <!-- Action 3 -->
+      <div class="action-item">
+        <div class="action-prio blue">3</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag">継続監視</span>
+            <span class="action-tag stage">新規ユーザー</span>
+            <span class="action-tag">優先度: 中</span>
+          </div>
+          <div class="action-title">新規ユーザー CVR の底打ち確認</div>
+          <div class="action-why">
+            新規層（全体の52.6%）の CVR 0.66% — 次週 0.5% 台へ下落する場合は<strong>新規向けの体験全体の見直し</strong>が必要。レビュー・キャンセルポリシー・価格説明などの「不安解消設計」をチェック対象に。
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 詳細セクション（summary-detail.js が注入） ─── -->
+  <div id="summary-detail" style="scroll-margin-top:24px"></div>
+
+  <!-- ── Footer ─────────────────────────────── -->
+  <div class="card">
+    <div class="footer">
+      <span>VELTRA CVR改善チーム — UIUX Design Squad</span>
+      <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+      <span>2026-03-30</span>
+    </div>
+  </div>
+</div>
+
+<script src="/nav.js"></script>
+<script src="/summary-detail.js"></script>
 </body>
 </html>

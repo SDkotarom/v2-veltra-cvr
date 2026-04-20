@@ -37,12 +37,14 @@ v2-veltra-cvr/
 │   ├── extract-content-from-html.py ← content.json スケルトン生成
 │   └── archive/                ← 過去の一時スクリプト
 ├── auth.js / nav.js / funnel-def.js / bottleneck.js  ← 共通JS
+├── summary.css / summary-detail.js  ← 週次サマリーページ専用（Phase 2.9）
 ├── bottleneck.html / bottleneck.css  ← ボトルネック分析テンプレート（動的描画）
+├── report.html                       ← /report.html?week=… を /reports/{W}/ へリダイレクト（後方互換）
 ├── index.html / login.html / cycle.html / analysis.html  ← ページ
 ├── summary-data.json / weekly-summary.json / reports-index.json / archive-meta.json  ← データ
 └── reports/{YYYY}-w{WW}/
     ├── data.json               ← GA4実データ（ファネル・セグメント・ボトルネック）
-    ├── index.html              ← 週次サマリー
+    ├── index.html              ← 週次サマリー（手書き・3セクション+詳細自動描画）
     └── bottleneck-{1-10}-content.json  ← ボトルネック分析コンテンツ
 ```
 
@@ -151,8 +153,11 @@ python3 scripts/generate-week.py --week {YYYY}-w{WW}
 
 **前提条件**: Phase 1 で data.json 作成後、**サマリーページ更新（summary-data.json / weekly-summary.json / reports-index.json / archive-meta.json）が完了しコミット済み**であること。未完了の場合は Phase 2 に進まず Phase 1 に戻ること。
 
-**重要**: 週次サマリーページは `report.html` が `data.json` から動的に描画するため、
-HTML生成は不要。Phase 2 では `bottleneck-{1-10}-content.json` のみ生成する。
+**重要**: 週次サマリーページ（`reports/{YYYY}-w{WW}/index.html`）は<strong>毎週1枚手書きで作成する</strong>（Phase 2.9 参照）。
+data.json からの動的描画は「ファネル28日 / 進捗 / ボトルネック10件」の**詳細部分のみ** `summary-detail.js` が担当し、
+**結論・論拠・やるべきこと**の3セクションは週ごとの物語（スポット分析）として手書き。
+
+Phase 2 では `bottleneck-{1-10}-content.json` のみ生成する。週次サマリーページは Phase 2.9 で作成する。
 
 #### Step 1: スケルトン自動生成
 
@@ -243,6 +248,49 @@ git push
 - プロトタイプのモックアップはVELTRAサイトデザイン準拠（`#1B82C5` blue CTA, `#F2F5F8` bg）
 - レポートページは V2 テーマ（`--red:#E8423F`, `--bg:#f5f4f0`）
 
+### Phase 2.9: 週次サマリーページ作成（Opus / 必須）
+
+> **目的**: 「数字の推移だけでは読み取れない」週の物語を、スポット分析として1枚にまとめる。
+> ボトルネック10件を見る前に、**今週何が起きたか／なぜ起きたか／何をすべきか** を経営層・非アナリストが3分で把握できる形にする。
+
+**出力ファイル**: `reports/{YYYY}-w{WW}/index.html`（リダイレクトではなく、実コンテンツを置く）
+
+**構成（固定 3 セクション + 詳細）**:
+
+| セクション | 内容 | 書き方のルール |
+|-----------|------|---------------|
+| **01 Conclusion（結論）** | ヘッドライン1〜3行 + サブ説明 + 7日KPIストリップ（セッション/CV/CVR、WoW付き） | ユーザー行動の観察を主文。数字は補強。「商品ページに来ても、予約カレンダーまで進まないユーザーが急増した週」のように書く |
+| **02 Evidence（論拠）** | 証拠カード×3（ユーザー行動 / 流入と反応の乖離 / ユーザー層 の3軸が基本） | 各カードに <strong>数値 + 棒グラフ + ユーザー目線の一文解釈</strong>。「新規ユーザーは初めて予約する不安を超えられない」等 |
+| **03 Action（やるべきこと）** | 優先度順アクション×3（短期=NEW課題 / 中期=既存BN Top3 / 継続監視） | ボトルネックTop3を「誰が、どこで、どう詰まっているか」のユーザー文脈で表記。番号リンクは `#summary-detail` へ（同じページ内の詳細セクション） |
+| **詳細（自動描画）** | `<div id="summary-detail"></div>` に `summary-detail.js` が ファネル28日 / 進捗 / BN10件 を注入 | ここは触らない。data.json から自動描画 |
+
+**書き方の原則（物語化ルール）**:
+
+1. **ユーザー行動の観察を主文に、数字は補強に**
+   - ❌ `CVR は 1.41% → 0.94% に崩落。②→③ が -5.84pp。`
+   - ✅ `商品ページに来ても「予約を検討する」ところまで進まないユーザーが急増した週。来訪は倍近く増えたのに予約数はほぼ横ばい。`
+2. **ボトルネック分析との接続** を必ず書く
+   - Top3を「スマホで検索から来た人が、商品ページにたどり着けない」「新規ユーザーがフォームに入ったのに予約完了できない」のようにユーザー目線で言い換える
+3. **前週との連続性** を意識する（W15→W16 のように「前週の予兆がW16で顕在化」など）
+4. **「何をすべきか」は具体的かつ粒度の揃った3つ**
+   - 短期（今週の急性問題）／中期（既存BN実装）／継続監視 の3レイヤーで書く
+
+**使う共通アセット**:
+- `/summary.css` — 結論/論拠/やるべきこと の専用スタイル（`.summary-hero / .evidence-card / .action-item` 等）
+- `/summary-detail.js` — `./data.json` を fetch して詳細セクションを描画
+
+**テンプレート雛形**:
+既存週（W16, W15, W14, W13）の `reports/{YYYY}-w{WW}/index.html` を参考にコピー改変。
+固定部分は Header / KPIストリップ構造 / <div id="summary-detail"></div> / Footer。
+変える部分は headline / sub / evidence3枚の description / action3件の内容。
+
+**品質チェック**:
+- [ ] 結論ヘッドラインが「ユーザーが何をしていたか」の主語で始まっている
+- [ ] 数字は必ず出すが、解釈と並置されている（数字だけ羅列しない）
+- [ ] Evidence カードの3枚が「ユーザー行動 / 乖離 / ユーザー層」を1枚ずつカバー
+- [ ] Action の 2番目に既存BN Top3 が「ユーザー目線の一文タイトル」で並んでいる
+- [ ] `/reports/{W}/` がブラウザで開き、詳細セクション（ファネル28日 / 進捗 / BN10件）が `summary-detail.js` により自動描画されている
+
 ### Phase 3: デプロイ（Sonnet）
 
 ```bash
@@ -252,6 +300,8 @@ git push -u origin main
 ```
 
 Vercel が自動デプロイ。
+
+> ⚠️ `reports/{YYYY}-w{WW}/index.html` を<strong>必ず含める</strong>（Phase 2.9 で手書き作成した週次サマリーページ）。
 
 ### Phase 2.5: 施策化レビュー（実装重複チェック + 実現可能性評価）
 
@@ -464,6 +514,9 @@ validate-report.py 実行
 - [ ] `already_exists` / `superseded` の施策には代替案が提示されている
 - [ ] 全90施策に `feasibility` が記入されている（effort, constraints, quick_wins）
 - [ ] `python3 scripts/audit-actions.py --week {YYYY}-w{WW}` が重複0件で通る
+- [ ] **週次サマリーページ（`reports/{W}/index.html`）が作成済み** — 結論/論拠/やるべきこと の3セクション + 詳細自動描画
+- [ ] 週次サマリーの結論ヘッドラインが「ユーザーが何をしていたか」の主語で始まる（数字羅列になっていない）
+- [ ] 週次サマリーの /reports/{W}/ がブラウザで開き、summary-detail.js が自動描画されている
 
 ---
 
@@ -511,7 +564,8 @@ playbook.md を読んでください。
 git pull して最新の data.json を取得してください。
 W{XX} の Phase 2 を実行してください。
 ボトルネック10件の bottleneck-{1-10}-content.json 生成 → commit & push までお願いします。
-※ report.html が data.json から週次サマリーを動的描画するため index.html 生成は不要です。
+※ 週次サマリーは `reports/{YYYY}-w{WW}/index.html` を手書きで作成（Phase 2.9）。
+  詳細部分（ファネル28日 / BN10件）は `summary-detail.js` が data.json から自動描画します。
 ※ content.json は 2-3 ファイルずつ並列 Agent で生成してタイムアウトを回避してください。
 
 【重要】施策化レビューレイヤー:

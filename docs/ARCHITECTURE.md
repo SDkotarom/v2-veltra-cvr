@@ -23,8 +23,10 @@ v2-veltra-cvr/
 │   ├── auth.js                      Google OAuth 認証
 │   ├── nav.js                       サイドナビゲーション（全ページ共通）
 │   ├── funnel-def.js                ファネル定義（ステップ名・イベント名）
-│   ├── report.html                  週次サマリーテンプレート（動的描画）★NEW
-│   ├── report.css                   週次サマリーCSS
+│   ├── report.html                  /report.html?week=… → /reports/{W}/ へリダイレクト（後方互換）
+│   ├── report.css                   週次サマリー基本CSS（トークン・カード等）
+│   ├── summary.css                  週次サマリー専用スタイル（結論/論拠/やるべきこと） ★NEW
+│   ├── summary-detail.js            週次サマリー詳細部分の自動描画 ★NEW
 │   ├── bottleneck.html              ボトルネック分析テンプレート（動的描画）
 │   ├── bottleneck.css               ボトルネック分析ページのCSS
 │   └── bottleneck.js                アコーディオン等のUI操作JS
@@ -46,7 +48,7 @@ v2-veltra-cvr/
 ├── reports/                         週次レポート格納
 │   ├── index.html                   アーカイブ一覧ページ
 │   └── {YYYY}-w{WW}/                週別ディレクトリ（例: 2026-w13 〜 2026-w16）
-│       ├── index.html               リダイレクト → /report.html?week={YYYY}-w{WW}
+│       ├── index.html               週次サマリーページ（手書き・結論/論拠/やるべきこと+詳細自動描画）★
 │       ├── data.json                GA4分析データ（+bottleneck summary +progress）
 │       └── bottleneck-{1-10}-content.json   ボトルネック分析コンテンツ
 │
@@ -69,18 +71,22 @@ v2-veltra-cvr/
 ### 2.1 週次サマリーページ
 
 ```
-┌─────────────────────┐     fetch      ┌──────────────────────────────┐
-│  /report.html       │ ──────────────→│ /reports/{week}/data.json    │
-│  URL: ?week=2026-w14│                └──────────────────────────────┘
-│  CSS: /report.css   │
-└─────────────────────┘
+┌──────────────────────────────────┐   fetch ./data.json   ┌───────────────────────────┐
+│  /reports/{YYYY-wNN}/index.html  │ ─────────────────────→│ /reports/{W}/data.json    │
+│  - 結論（手書き）                 │                        └───────────────────────────┘
+│  - 論拠（手書き・3カード）        │
+│  - やるべきこと（手書き・3項目）  │                        summary-detail.js が
+│  - <div id="summary-detail">      │ ←─自動描画─────────── ファネル28日/進捗/BN10件を注入
+│  CSS: /report.css + /summary.css │
+└──────────────────────────────────┘
 ```
 
-**URL形式**: `/report.html?week=2026-w14`（または `/reports/2026-w14/` → リダイレクト）
+**URL形式**: `/reports/2026-w14/`（正規）
+`/report.html?week=2026-w14` はルート互換のため `/reports/2026-w14/` へ自動リダイレクト。
 
-- `data.json` からファネル転換率、WoW変化、KPI、ボトルネックリストを描画
-- トピック（改善/悪化）は WoW データから自動生成
-- 各週の `index.html` はリダイレクトのみ（`generate-week.py` で自動生成）
+- **結論 / 論拠 / やるべきこと** の3セクションは <strong>週ごとに手書き</strong>（スポット分析）。ユーザー行動観察を主文、数字は補強の原則。
+- **詳細セクション**（ファネル28日・進捗バー・ボトルネック10件）は `summary-detail.js` が `./data.json` から自動描画。
+- 手順は `playbook.md` の Phase 2.9 を参照。
 
 ### 2.2 ボトルネック分析ページ
 
