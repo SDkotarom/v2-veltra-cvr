@@ -61,3 +61,18 @@ ToolSearch で "run_report" を検索 → mcp__*__run_report ツールを取得
 ```
 
 詳細な手順は `docs/playbook.md` のセクション4「Phase 1: データ取得」を参照。
+
+---
+
+## KPIダッシュボード（/kpi.html）更新漏れ防止
+
+週次更新時にまず `summary-data.json` の `monthly` 配列を当月値で上書きする（他ファイルと同じ Phase 1 ステップ）。加えて **KPI ダッシュボード固有の更新**は以下：
+
+| 頻度 | ファイル | 対象 |
+|------|---------|------|
+| 週次 | `summary-data.json` | `monthly[].{sessions,purchases,cvr}` — 当月速報 |
+| **月次確定時** | `summary-data.json` | `monthly_notes["YYYY-MM"].{summary,good,bad}` — 前月の分析コメント |
+| **四半期確定時** | `summary-data.json` | `targets.{baseline_cvr, monthly_cvr, annual_cvr, stretch_cvr, stretch_revenue*}` を再計算 |
+| **四半期確定時** | `kpi.html` | arrow-row の 3 つのハードコード CVR 表示値（`biz-cvr-current / target / stretch`）+ 進捗ラベル + stretch-note |
+
+完全な手順・分析コメントのテンプレート・計算式は `docs/playbook.md` セクション11「KPIダッシュボード（/kpi.html）の更新」を参照。
