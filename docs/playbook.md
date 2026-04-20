@@ -376,9 +376,17 @@ validate-report.py 実行
       "other": { ..., "sub_areas": [{ "name", "key", "sessions", "purchases", "cvr" }] }
     }
   },
-  "bottlenecks": [{ "rank", "title", "stage", "segment", "gap", "impact_sessions" }, ...]
+  "bottlenecks": [{ "rank", "title", "stage", "segment", "gap", "impact_sessions" }, ...],
+  "progress": {
+    "overall": { "completed": number, "total": 10, "percentage": 0-100 },
+    "bottlenecks": [{ "rank", "status": "pending|analysis_done|action_done|complete", "proto_done", "proto_total" }, ...],
+    "updated_at": "ISO8601"
+  }
 }
 ```
+
+> 💡 `progress` は `report.html` のボトルネック進捗バー描画に使用。
+> Phase 2 の各ボトルネック完了時に `status` を更新、`overall.completed` と `percentage` を再計算する。
 
 ### summary-data.json / weekly-summary.json
 

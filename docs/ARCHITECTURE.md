@@ -1,6 +1,6 @@
 # ARCHITECTURE.md — ボトルネック分析レポート アーキテクチャ
 
-> 最終更新: 2026-04-13（施策化レビューレイヤー追加: implementation_check + feasibility）
+> 最終更新: 2026-04-20（ボトルネック分析進捗バー追加: data.json.progress）
 
 ---
 
@@ -45,13 +45,9 @@ v2-veltra-cvr/
 │
 ├── reports/                         週次レポート格納
 │   ├── index.html                   アーカイブ一覧ページ
-│   ├── 2026-w13/
-│   │   ├── index.html               リダイレクト → /report.html?week=2026-w13
-│   │   ├── data.json                GA4分析データ（+bottleneck summary）
-│   │   └── bottleneck-{1-10}-content.json   ボトルネック分析コンテンツ
-│   └── 2026-w14/
-│       ├── index.html               リダイレクト → /report.html?week=2026-w14
-│       ├── data.json                GA4分析データ（+bottleneck summary）
+│   └── {YYYY}-w{WW}/                週別ディレクトリ（例: 2026-w13 〜 2026-w16）
+│       ├── index.html               リダイレクト → /report.html?week={YYYY}-w{WW}
+│       ├── data.json                GA4分析データ（+bottleneck summary +progress）
 │       └── bottleneck-{1-10}-content.json   ボトルネック分析コンテンツ
 │
 ├── scripts/                         スクリプト
@@ -140,7 +136,7 @@ v2-veltra-cvr/
 
 | ファイル | スコープ | 内容 |
 |----------|----------|------|
-| `data.json` | 週単位 | GA4分析データ（meta, baseline, funnel_7d, segments, bottlenecks） |
+| `data.json` | 週単位 | GA4分析データ（meta, baseline, funnel_7d, segments, bottlenecks, progress） |
 | `bottleneck-{N}-content.json` | ページ単位 | 仮説・施策・競合比較・検証チェックリスト |
 | `reports-index.json` | 全体 | 全週のインデックス（週ID, 日付範囲, パス） |
 | `weekly-summary.json` | 全体 | 週次サマリー（KPI推移） |
@@ -444,3 +440,37 @@ content.json × 10
 - `scripts/generate-week.py`: `calc_week_meta()` を日〜土に変更
 - `scripts/validate-report.py`: バリデーション条件を日曜始まりに更新
 - `docs/playbook.md`: 日付範囲テーブルを更新
+
+### 2026-04-20: ボトルネック分析進捗バー追加 & pct 変数衝突修正
+
+**施策**: `report.html` にボトルネック分析の進捗可視化UIを追加。
+
+**追加内容**:
+- プログレスバー + 「N/10 件完了（X%）」表示
+- 各ボトルネック行に状態バッジ（○未着手 / ◔分析完了 / ◑打ち手完了 / ✓完了）
+- `data.json` に `progress` オブジェクトを追加（`overall` + `bottlenecks[].status`）
+
+**progress スキーマ**:
+```jsonc
+"progress": {
+  "overall": { "completed": 0, "total": 10, "percentage": 0 },
+  "bottlenecks": [
+    {
+      "rank": 1,
+      "status": "pending",        // "pending" | "analysis_done" | "action_done" | "complete"
+      "proto_done": 0,            // action_done 時の施策プロトタイプ完了数
+      "proto_total": 9
+    }
+  ],
+  "updated_at": "2026-04-20T07:30:00+09:00"
+}
+```
+
+**バグ修正**:
+- 進捗バー実装時に `var pct = Math.round(...)` を `render()` 内に宣言したところ、
+  var hoisting によりファイル先頭の `pct()` 関数（パーセント整形）がシャドーイングされ、
+  ファネルサマリー等の `pct(rate)` 呼び出しが `pct is not a function` で失敗していた。
+- ローカル変数を `progPct` にリネームして衝突を解消（`report.html`）。
+
+**教訓**: `report.html` 内では既存ヘルパー関数名（`pct`, `pp`, `fmtK`, `fmtNum`）を
+ローカル `var` で再宣言しない。var hoisting により関数スコープ全体がシャドー化される。
