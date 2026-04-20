@@ -5,95 +5,8 @@
 <script src="/auth.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/summary.css">
 <title>W16（4/12〜4/18）サマリー | 週次ボトルネック分析</title>
-<style>
-  /* ── Summary hero ───────────────────────── */
-  .summary-hero{padding:44px 44px 32px;background:linear-gradient(180deg,#FFF7F6 0%,#fff 100%);border-bottom:1px solid var(--border)}
-  .summary-kicker{display:inline-block;font-size:11px;font-weight:900;letter-spacing:.16em;color:var(--red);text-transform:uppercase;margin-bottom:14px;padding:4px 10px;background:var(--red-light);border-radius:4px}
-  .summary-headline{font-size:26px;font-weight:900;line-height:1.55;margin-bottom:16px;color:var(--text);letter-spacing:-.01em}
-  .summary-headline em{color:var(--red);font-style:normal;background:linear-gradient(transparent 62%,#ffe1df 62%);padding:0 2px}
-  .summary-sub{font-size:15px;color:var(--text2);line-height:1.85}
-  .summary-kpi-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:24px;background:#fff;border-radius:10px;border:1px solid var(--border);overflow:hidden}
-  .skpi{padding:16px 20px;border-right:1px solid var(--border)}
-  .skpi:last-child{border-right:none}
-  .skpi-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--text3);text-transform:uppercase;margin-bottom:6px}
-  .skpi-val{font-family:'DM Sans';font-size:24px;font-weight:900;line-height:1.1}
-  .skpi-wow{font-size:12px;font-weight:700;margin-top:6px}
-  .skpi-wow.up{color:#1a8c4e}
-  .skpi-wow.down{color:#c0392b}
-
-  /* ── Section labels ─────────────────────── */
-  .sec-tag{display:inline-flex;align-items:center;gap:10px;padding:24px 44px 6px}
-  .sec-num{font-family:'DM Sans';font-size:12px;font-weight:900;letter-spacing:.14em;padding:4px 10px;background:var(--text);color:#fff;border-radius:4px}
-  .sec-num.red{background:var(--red)}
-  .sec-main{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--text3);text-transform:uppercase}
-  .sec-big{font-size:22px;font-weight:900;padding:2px 44px 4px;line-height:1.5}
-  .sec-sub{font-size:13px;color:var(--text3);padding:0 44px 16px;line-height:1.6}
-
-  /* ── Evidence cards ─────────────────────── */
-  .evidence-grid{padding:8px 44px 32px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-  .evidence-card{border:1px solid var(--border);border-radius:12px;padding:22px 22px 20px;background:#fff;position:relative;display:flex;flex-direction:column}
-  .evidence-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--red);border-radius:12px 0 0 12px}
-  .evidence-num{font-family:'DM Sans';font-size:11px;font-weight:900;letter-spacing:.14em;color:var(--red);margin-bottom:10px}
-  .evidence-title{font-size:15px;font-weight:800;line-height:1.55;margin-bottom:14px;color:var(--text);min-height:46px}
-  .evidence-metric{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
-  .evidence-big{font-family:'DM Sans';font-size:34px;font-weight:900;line-height:1;color:var(--text)}
-  .evidence-big.red{color:var(--red)}
-  .evidence-unit{font-size:13px;font-weight:700;color:var(--text3)}
-  .evidence-comp{font-size:12px;color:var(--text3);margin-bottom:14px;line-height:1.5}
-  .evidence-bar{display:flex;gap:2px;margin-bottom:12px;align-items:flex-end;height:44px}
-  .evidence-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
-  .evidence-bar-bar{width:100%;background:var(--border);border-radius:2px 2px 0 0;min-height:4px}
-  .evidence-bar-bar.red{background:var(--red)}
-  .evidence-bar-label{font-size:10px;color:var(--text3);font-weight:700}
-  .evidence-desc{font-size:13px;color:var(--text2);line-height:1.7;margin-top:auto;padding-top:10px;border-top:1px dashed var(--border)}
-
-  /* ── Action list ────────────────────────── */
-  .action-list{padding:4px 44px 28px}
-  .action-item{display:flex;gap:18px;padding:22px 0;border-bottom:1px solid var(--border)}
-  .action-item:last-child{border-bottom:none}
-  .action-prio{font-family:'DM Sans';font-size:40px;font-weight:900;color:var(--red);flex-shrink:0;line-height:.9;width:44px}
-  .action-prio.amber{color:var(--amber)}
-  .action-prio.blue{color:#1b82c5}
-  .action-body{flex:1;min-width:0}
-  .action-tags{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
-  .action-tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;border:1px solid var(--border);color:var(--text2);letter-spacing:.04em;white-space:nowrap}
-  .action-tag.stage{background:var(--red-light);color:var(--red);border-color:var(--red)}
-  .action-tag.new{background:#fff4e0;color:var(--amber);border-color:var(--amber)}
-  .action-tag.done{background:#e6f8ee;color:#2dae6c;border-color:#2dae6c}
-  .action-title{font-size:17px;font-weight:800;line-height:1.55;margin-bottom:8px;color:var(--text)}
-  .action-why{font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:10px}
-  .action-why strong{color:var(--text)}
-  .action-sublist{margin:8px 0 12px;padding:12px 16px;background:var(--bg);border-radius:8px}
-  .action-sublist a{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px;text-decoration:none;color:var(--text);border-bottom:1px solid var(--border)}
-  .action-sublist a:last-child{border-bottom:none}
-  .action-sublist a:hover{color:var(--red)}
-  .action-sublist .asl-rank{font-family:'DM Sans';font-weight:900;color:var(--red);margin-right:10px;font-size:13px;flex-shrink:0;width:28px}
-  .action-sublist .asl-title{flex:1;min-width:0;font-weight:600;line-height:1.5}
-  .action-sublist .asl-impact{font-family:'DM Sans';font-weight:900;color:var(--red);margin-left:10px;font-size:13px;flex-shrink:0}
-  .action-sublist .asl-arrow{color:var(--text3);margin-left:10px;flex-shrink:0}
-  .action-link{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:700;color:var(--red);text-decoration:none}
-  .action-link:hover{text-decoration:underline}
-
-  /* ── Deep link to detail ────────────────── */
-  .deep-link{display:flex;justify-content:space-between;align-items:center;padding:22px 44px;background:var(--bg);border-top:1px solid var(--border);text-decoration:none;color:var(--text);transition:background .12s}
-  .deep-link:hover{background:#efece6}
-  .deep-link-text{font-size:14px;color:var(--text2);line-height:1.5}
-  .deep-link-text strong{display:block;font-size:16px;color:var(--text);margin-bottom:3px;font-weight:800}
-  .deep-link-arrow{font-size:22px;color:var(--red);font-weight:700;margin-left:16px;flex-shrink:0}
-
-  @media(max-width:768px){
-    .summary-hero{padding:28px 22px 22px}
-    .summary-headline{font-size:20px}
-    .summary-kpi-strip{grid-template-columns:1fr}
-    .skpi{border-right:none;border-bottom:1px solid var(--border)}
-    .evidence-grid{grid-template-columns:1fr;padding:8px 22px 24px}
-    .sec-tag,.sec-big,.sec-sub,.action-list,.deep-link{padding-left:22px;padding-right:22px}
-    .action-item{flex-wrap:wrap}
-    .action-prio{font-size:32px;width:40px}
-    .evidence-title{min-height:auto}
-  }
-</style>
 </head>
 <body>
 <div id="app">
@@ -116,14 +29,14 @@
     <div class="summary-hero">
       <div class="summary-kicker">W16 SPOT ANALYSIS</div>
       <div class="summary-headline">
-        流入 <em>+51%急増</em> を受け止めきれず、<br>
-        CVR は <em>1.41% → 0.94%（-33%）</em> に崩落。<br>
-        原因は <em>②→③（AC到達→検討）</em> の急減 <em>-5.84pp</em>。
+        商品ページに来ても、<em>「予約を検討する」ところまで進まない</em>ユーザーが急増した週。<br>
+        来訪は倍近く増えたのに、予約数は <em>ほぼ横ばい</em>。
       </div>
       <div class="summary-sub">
-        AC到達者は 27万 → 50万（+84%）に倍増したが、カレンダー閲覧（検討）は <strong>35K → 36K とほぼ横ばい</strong>。
-        「来訪はするが検討に進まない」低意向トラフィックが流入構造を押し下げ、予約完了数は前週比 +0.9% にとどまった。
-        流入の量より、<strong>流入の質とAC到達後の検討導線</strong>が今週の最優先課題。
+        広告やSEO経由で<strong>「とりあえず開いた」ユーザーが大量に流入</strong>したが、その多くは<strong>料金・空席・プランを見に行く前に離脱</strong>している。
+        商品ページ（AC）には+84% 到達しているのに、予約カレンダーを開く人数はほぼ前週と同じ（+1.5%）。
+        「ページは開いたが、ここで予約しようと思える決め手がなかった」— <strong>商品ページの情報設計が、増えた流入の温度感に追いついていない</strong>週。
+        流入を受け止める側（ランディング〜商品ページ）の改善が、流入拡大より先。
       </div>
       <div class="summary-kpi-strip">
         <div class="skpi">
@@ -148,61 +61,55 @@
   <!-- ── 論拠 (Evidence) ────────────────────── -->
   <div class="card">
     <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">Evidence — 論拠</span></div>
-    <div class="sec-big">CVR崩落の構造は「検討段階の詰まり」に集中</div>
-    <div class="sec-sub">7日WoWで②→③ のみが大きく悪化。他の段階はむしろ改善または微変化で、単一ボトルネックに起因する変化と断定できる。</div>
+    <div class="sec-big">ユーザーは来ている — でも「ここで予約する」ところまで辿り着いていない</div>
+    <div class="sec-sub">広告・SEOで流入は増えたが、商品ページで手が止まっている。「見るだけ」で帰るユーザーの増加が、数字の崩落に表れている。</div>
     <div class="evidence-grid">
 
-      <!-- Evidence 1 -->
+      <!-- Evidence 1 — user behavior + data -->
       <div class="evidence-card">
-        <div class="evidence-num">E.01 — ファネル別WoW</div>
-        <div class="evidence-title">悪化は ②→③ だけ。他3段階は中立〜改善</div>
+        <div class="evidence-num">E.01 — ユーザー行動</div>
+        <div class="evidence-title">商品ページを開いた10人中9人が、予約カレンダーを見ずに帰っている</div>
         <div class="evidence-metric">
-          <div class="evidence-big red">-5.84<span class="evidence-unit">pp</span></div>
+          <div class="evidence-big red">7.16<span class="evidence-unit">%</span></div>
         </div>
-        <div class="evidence-comp">②→③（AC到達→検討）12.99% → 7.16%</div>
+        <div class="evidence-comp">②→③（AC→検討）率 12.99% → 7.16%（-5.84pp）</div>
         <div class="evidence-bar">
           <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:18%;background:#1a8c4e"></div><div class="evidence-bar-label">①→②<br>+4.0</div></div>
           <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:100%"></div><div class="evidence-bar-label">②→③<br>-5.8</div></div>
           <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:5%;background:#aaa"></div><div class="evidence-bar-label">③→④<br>+0.3</div></div>
           <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:6%;background:#aaa"></div><div class="evidence-bar-label">④→⑤<br>-0.8</div></div>
         </div>
-        <div class="evidence-desc">他の段階は軒並み中立〜プラス。CVR低下は <strong>②→③ の単一要因</strong> と特定できる。</div>
+        <div class="evidence-desc">他の段階（フォーム・決済）は改善〜中立で、<strong>「AC到達の直後」で止まる一点に問題が集中</strong>。商品ページを開いても「日程・料金を見に行く動機」まで作れていない状態。</div>
       </div>
 
-      <!-- Evidence 2 -->
+      <!-- Evidence 2 — user behavior + data -->
       <div class="evidence-card">
-        <div class="evidence-num">E.02 — 流入の質</div>
-        <div class="evidence-title">AC到達は倍増、検討はほぼ横ばい</div>
+        <div class="evidence-num">E.02 — 流入と反応の乖離</div>
+        <div class="evidence-title">商品ページの来訪者は倍増、でも予約カレンダーを開いた人数はほぼ変わらない</div>
         <div class="evidence-metric">
           <div class="evidence-big">+84<span class="evidence-unit">%</span></div>
-          <div style="font-size:14px;color:var(--text3);font-weight:700">vs</div>
+          <div style="font-size:14px;color:var(--text3);font-weight:700">／</div>
           <div class="evidence-big red">+1.5<span class="evidence-unit">%</span></div>
         </div>
-        <div class="evidence-comp">AC到達 27万→50万 ／ カレンダー閲覧 35,069→35,599</div>
+        <div class="evidence-comp">商品ページ到達 27万→50万 ／ カレンダー閲覧 35,069→35,599</div>
         <div class="evidence-bar">
           <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:54%;background:#aaa"></div><div class="evidence-bar-label">AC前週<br>270K</div></div>
           <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:100%;background:#aaa"></div><div class="evidence-bar-label">AC今週<br>497K</div></div>
           <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:7%"></div><div class="evidence-bar-label">検討前週<br>35K</div></div>
           <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:7.2%"></div><div class="evidence-bar-label">検討今週<br>36K</div></div>
         </div>
-        <div class="evidence-desc">AC到達した新規トラフィックが<strong>カレンダー閲覧まで進まなかった</strong>＝低意向流入が支配的な構造。</div>
+        <div class="evidence-desc">「広告で見た商品を確認しに来た」までは機能している。<strong>「よし、予約を検討しよう」と次の行動を起こさせる情報が不足</strong>している可能性。</div>
       </div>
 
-      <!-- Evidence 3 -->
+      <!-- Evidence 3 — user type -->
       <div class="evidence-card">
-        <div class="evidence-num">E.03 — 28日ベースライン</div>
-        <div class="evidence-title">②→③悪化は今週だけでなく中期トレンド</div>
+        <div class="evidence-num">E.03 — ユーザー層</div>
+        <div class="evidence-title">流入の6割は新規ユーザー — でも彼らの予約率は全体の1/2.5</div>
         <div class="evidence-metric">
-          <div class="evidence-big red">-3.10<span class="evidence-unit">pp</span></div>
+          <div class="evidence-big red">0.49<span class="evidence-unit">%</span></div>
         </div>
-        <div class="evidence-comp">28日WoW ②→③ が 4段階中 最大の悪化</div>
-        <div class="evidence-bar">
-          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:45%;background:#1a8c4e"></div><div class="evidence-bar-label">①→②<br>+2.5</div></div>
-          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:100%"></div><div class="evidence-bar-label">②→③<br>-3.1</div></div>
-          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:3%;background:#aaa"></div><div class="evidence-bar-label">③→④<br>-0.0</div></div>
-          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:8%;background:#aaa"></div><div class="evidence-bar-label">④→⑤<br>+0.5</div></div>
-        </div>
-        <div class="evidence-desc">単発の変動ではなく<strong>継続トレンド</strong>。②→③に対する中長期の施策投入が必要。</div>
+        <div class="evidence-comp">新規ユーザー CVR 0.49% ／ 全体 1.25% ／ 構成比 60.7%</div>
+        <div class="evidence-desc">新規ユーザーは<strong>「初めて見る商品に予約を入れる不安」</strong>を抱えやすい層。料金の透明性、レビュー、キャンセルポリシーなど<strong>「踏み出す安心材料」</strong>の設計が構造的に不足。BN#1 (新規×④→⑤)、BN#3 (新規×③→④) も同じ層の別段階での詰まり。</div>
       </div>
 
     </div>
@@ -211,8 +118,8 @@
   <!-- ── やるべきこと (Action) ──────────────── -->
   <div class="card">
     <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">Action — やるべきこと</span></div>
-    <div class="sec-big">短期の原因特定と、中期の既存ボトルネック実装を並走</div>
-    <div class="sec-sub">W16の瞬間的なCVR崩落（短期）と、28日ベースラインで継続する構造的ボトルネック（中期）を切り分けて動く。</div>
+    <div class="sec-big">流入を増やすより「受け止める側」を強くする</div>
+    <div class="sec-sub">商品ページで止まっているユーザーをカレンダーまで導く施策を最優先。並行して、分析済みボトルネック10件の実装フェーズを進める。</div>
     <div class="action-list">
 
       <!-- Action 1 -->
@@ -224,13 +131,14 @@
             <span class="action-tag stage">②→③ AC到達→検討</span>
             <span class="action-tag">優先度: 最高</span>
           </div>
-          <div class="action-title">②→③ 急減 -5.84pp の原因特定（流入経路 × ページ別ドロップ）</div>
+          <div class="action-title">「商品ページで止まっているユーザー」が誰で、どのページかを特定する</div>
           <div class="action-why">
-            今週の流入 +51% は <strong>どの経路・どのエリアから来たか</strong> を切り分け、「AC到達するがカレンダーに進まない」セグメントを特定する。
-            キャンペーン流入・広告クリエイティブ・SEO流入変化のいずれかが有力候補。<strong>このボトルネックは28日ランキング#1〜10 には含まれない新規観点</strong>のため、次週の分析対象に追加する必要がある。
+            商品ページに来たのにカレンダーまで進まないユーザーが急増。<strong>どの流入経路（広告？SEO？）で来た、どのエリアの商品ページで離脱しているか</strong>を切り分ける。
+            広告クリエイティブと商品ページの期待値ギャップ、季節商品のカレンダー未掲載、在庫切れ表示による離脱などが候補。
+            <strong>この観点は既存ボトルネック10件に含まれない新規課題</strong>のため、次週の分析対象に追加する。
           </div>
           <div class="action-why" style="color:var(--text3);margin-bottom:0">
-            確認クエリ: チャネル×②→③ 率のWoW比較 / エリア×②→③ 率のWoW比較 / ランディングページ別のAC→検討 率
+            確認クエリ: チャネル×②→③ 率のWoW比較 / エリア×②→③ 率のWoW比較 / ランディングページ別の AC→検討 率
           </div>
         </div>
       </div>
@@ -244,31 +152,32 @@
             <span class="action-tag">中期</span>
             <span class="action-tag">優先度: 高</span>
           </div>
-          <div class="action-title">既存ボトルネック Top3 の施策実装推進（インパクト合計 1.26M セッション）</div>
+          <div class="action-title">既存ボトルネック Top3 を「ユーザーがどこで詰まっているか」の順に施策化</div>
           <div class="action-why">
-            10件のボトルネック分析は完了済み（100%）。<strong>実装フェーズに移行</strong>する。インパクト上位3件を優先的に施策化し、A/Bテスト計画を立てる。
+            分析は10件すべて完了（100%）。次は <strong>実装フェーズ</strong>。影響セッション数の上位3件から着手する。
+            共通項は「<strong>モバイル・新規ユーザー・検索流入</strong>でどこかの段階で詰まっている」— W16で見えた「商品ページで止まる」問題と根本は同じ構造。
           </div>
           <div class="action-sublist">
-            <a href="/bottleneck.html?week=2026-w16&num=2">
+            <a href="#summary-detail">
               <span class="asl-rank">#2</span>
-              <span class="asl-title">モバイルの ①→② が 32.0%（全体比 -23.0pp）</span>
+              <span class="asl-title">モバイルで『自分に合うAC』を見つけられず、比較疲れで離脱している</span>
               <span class="asl-impact">450K</span>
               <span class="asl-arrow">→</span>
             </a>
-            <a href="/bottleneck.html?week=2026-w16&num=1">
+            <a href="#summary-detail">
               <span class="asl-rank">#1</span>
-              <span class="asl-title">新規ユーザーの ④→⑤ が 51.1%（全体比 -25.9pp）</span>
+              <span class="asl-title">新規ユーザーが『長いフォーム＋最終価格の不意打ち』で決済直前に諦めている</span>
               <span class="asl-impact">499K</span>
               <span class="asl-arrow">→</span>
             </a>
-            <a href="/bottleneck.html?week=2026-w16&num=3">
+            <a href="#summary-detail">
               <span class="asl-rank">#3</span>
-              <span class="asl-title">リピーターの ①→② が 27.1%（全体比 -27.9pp）</span>
+              <span class="asl-title">リピーターが『前回見たAC』を思い出せず、探し疲れで離脱している</span>
               <span class="asl-impact">315K</span>
               <span class="asl-arrow">→</span>
             </a>
           </div>
-          <a class="action-link" href="/report.html?week=2026-w16">ボトルネック10件すべてを見る →</a>
+          <a class="action-link" href="#summary-detail">ボトルネック10件すべてを下で見る ↓</a>
         </div>
       </div>
 
@@ -281,25 +190,19 @@
             <span class="action-tag stage">新規ユーザー</span>
             <span class="action-tag">優先度: 中</span>
           </div>
-          <div class="action-title">新規ユーザー流入比率と CVR のウォッチ</div>
+          <div class="action-title">新規ユーザーの「不安要素」を継続ウォッチ</div>
           <div class="action-why">
-            新規ユーザーは 60.7% を占めるが CVR は <strong>0.49%</strong>（全体 1.25% の約 1/2.5）。W16 の流入急増もこの層が中心と推定される。
-            次週以降も<strong>新規比率の変動 × ②→③率</strong>を合わせて観測し、W16 が一過性か構造変化かを見極める。
+            今週の流入増はほぼ新規ユーザー（構成比 60.7%）。彼らの CVR 0.49% は<strong>全体の半分以下</strong>で、料金不安・空席不安・キャンセル不安の解消設計が追いついていない。
+            来週以降も <strong>新規比率 × ②→③率</strong> を見て、W16 が一過性（キャンペーンの反動）か、構造変化（流入源の質低下）かを見極める。
           </div>
         </div>
       </div>
 
     </div>
-
-    <!-- Deep link to detail -->
-    <a class="deep-link" href="/report.html?week=2026-w16">
-      <div class="deep-link-text">
-        <strong>詳細データを見る → 週次ボトルネック分析レポート</strong>
-        ファネル通過率の28日ベースライン、セグメント別内訳（チャネル / デバイス / 新規リピーター / エリア20件）、ボトルネック10件の分析と打ち手
-      </div>
-      <div class="deep-link-arrow">→</div>
-    </a>
   </div>
+
+  <!-- ── 詳細セクション（summary-detail.js が注入） ─── -->
+  <div id="summary-detail" style="scroll-margin-top:24px"></div>
 
   <!-- ── Footer ─────────────────────────────── -->
   <div class="card">
@@ -312,5 +215,6 @@
 </div>
 
 <script src="/nav.js"></script>
+<script src="/summary-detail.js"></script>
 </body>
 </html>

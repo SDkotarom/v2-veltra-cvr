@@ -3,21 +3,211 @@
 <head>
 <meta charset="UTF-8">
 <script src="/auth.js"></script>
-<meta http-equiv="refresh" content="0;url=/report.html?week=2026-w15">
-<title>W15（4/5〜4/11） レポート</title>
-<!--
-  W15 ベースライン数値 (2026-03-15〜2026-04-11)
-  sessions: 2,910,722
-  CVR: 1.41%
-  ①→②: 52.5%
-  ②→③: 13.9%
-  ③→④: 40.0%
-  ④→⑤: 76.5%
-  期間: 3/15〜4/11
--->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/summary.css">
+<title>W15（4/5〜4/11）サマリー | 週次ボトルネック分析</title>
 </head>
 <body>
-<script>location.replace('/report.html?week=2026-w15');</script>
-<p><a href="/report.html?week=2026-w15">W15（4/5〜4/11） レポートへ移動</a></p>
+<div id="app">
+  <!-- ── Header ─────────────────────────────── -->
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">週次サマリー<br><strong>W15（4/5〜4/11）</strong></div>
+    </div>
+    <div style="padding:22px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:13px;line-height:1.8;color:var(--text2)">
+      <div><span style="color:var(--text3);font-weight:700">分析対象</span><br>W15 単週（2026-04-05 〜 2026-04-11）<br>前週 W14（2026-03-29 〜 2026-04-04）との比較</div>
+      <div><span style="color:var(--text3);font-weight:700">レポート発行</span><br>2026-04-13（月）</div>
+      <div><span style="color:var(--text3);font-weight:700">GA4 Property</span><br>347074845</div>
+    </div>
+  </div>
+
+  <!-- ── 結論 (Conclusion) ──────────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num red">01</span><span class="sec-main">Conclusion — 結論</span></div>
+    <div class="summary-hero">
+      <div class="summary-kicker">W15 SPOT ANALYSIS</div>
+      <div class="summary-headline">
+        商品ページを開いても、<em>予約カレンダーまで進むユーザーが激減</em>した週。<br>
+        カレンダー閲覧が <em>前週比 -62%</em>。予約への"入口"そのものが見えなくなっている。
+      </div>
+      <div class="summary-sub">
+        「商品ページは見たのに、そこから日程・空席を確認する」行動が壊滅的に減少。
+        ②→③（AC到達→検討）率は <strong>27.5% → 13.0%（-14.5pp）</strong>と急落。
+        一方、カレンダーまでたどり着いた少数のユーザーは<strong>意向→完了率 +22.6pp で最後まで走り切っている</strong>。
+        つまり、予約したい人は予約している。<strong>「予約するかどうか検討する入口」が壊れた</strong>週。
+        商品ページからカレンダーへの導線（CTA・ボタン・カレンダー表示切替）、あるいは在庫切れ／空席切れによる非表示に何かが起きている可能性。
+      </div>
+      <div class="summary-kpi-strip">
+        <div class="skpi">
+          <div class="skpi-label">セッション（W15単週）</div>
+          <div class="skpi-val">713,394</div>
+          <div class="skpi-wow down">▼ -1.9% WoW</div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">予約完了（W15単週）</div>
+          <div class="skpi-val">10,033</div>
+          <div class="skpi-wow down">▼ -5.7% WoW</div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">CVR（W15単週）</div>
+          <div class="skpi-val" style="color:var(--red)">1.41%</div>
+          <div class="skpi-wow flat">▼ -0.06pp WoW</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 論拠 (Evidence) ────────────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">Evidence — 論拠</span></div>
+    <div class="sec-big">「予約検討の入口」だけが壊れた — 他の段階はむしろ好調</div>
+    <div class="sec-sub">検討段階（カレンダー閲覧）だけが大きく下落。たどり着いたユーザーは高い完了率で走り切っているのが特徴的。</div>
+    <div class="evidence-grid">
+
+      <!-- Evidence 1 -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.01 — 壊れた箇所</div>
+        <div class="evidence-title">商品ページからカレンダーを開くユーザーが、前週の半分以下</div>
+        <div class="evidence-metric">
+          <div class="evidence-big red">-62<span class="evidence-unit">%</span></div>
+        </div>
+        <div class="evidence-comp">カレンダー閲覧数 92,941 → 35,069（絶対数ベース）</div>
+        <div class="evidence-bar">
+          <div class="evidence-bar-col"><div class="evidence-bar-bar green" style="height:33%"></div><div class="evidence-bar-label">①→②<br>+7.5</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:100%"></div><div class="evidence-bar-label">②→③<br>-14.5</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar green" style="height:74%"></div><div class="evidence-bar-label">③→④<br>+17.1</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar green" style="height:98%"></div><div class="evidence-bar-label">④→⑤<br>+22.6</div></div>
+        </div>
+        <div class="evidence-desc">前段階（AC到達）も後段階（意向→完了）も改善しているのに、<strong>②→③ だけが単独で崩落</strong>。特定機能か表示ロジックに障害が起きている疑いが強い。</div>
+      </div>
+
+      <!-- Evidence 2 -->
+      <div class="evidence-card green">
+        <div class="evidence-num">E.02 — 残った層の強さ</div>
+        <div class="evidence-title">カレンダーまでたどり着いたユーザーは、ほぼ予約完了まで走った</div>
+        <div class="evidence-metric">
+          <div class="evidence-big green">+22.6<span class="evidence-unit">pp</span></div>
+        </div>
+        <div class="evidence-comp">④→⑤（意向→完了）40.67% → 63.32%</div>
+        <div class="evidence-desc">「検討を開始した人」は <strong>かなり意向が高かった</strong>可能性。カレンダー閲覧の減少が「興味本位で冷やかす層」を除外してしまったため、残った層の完了率が大きく見えている可能性が高い。つまり<strong>予約数は減った</strong>が、CVR低下が最小限に留まったのはこの「濃いユーザーの完走」に救われた。</div>
+      </div>
+
+      <!-- Evidence 3 -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.03 — 影響の広がり</div>
+        <div class="evidence-title">全体の予約は -5.7%。濃いユーザーの完走でなんとか持ちこたえた</div>
+        <div class="evidence-metric">
+          <div class="evidence-big red">-602</div>
+          <div class="evidence-unit">予約</div>
+        </div>
+        <div class="evidence-comp">予約完了 10,635 → 10,033（-5.7% / -602件）</div>
+        <div class="evidence-desc">「検討の入口の崩壊」は放置すれば、意向の高い残存層が一巡した後に<strong>予約数が大きく落ちるリスク</strong>がある。W15 はまだ耐えたが、W16以降でのCVR悪化リスクが高い（実際、翌週W16でCVRが0.94%まで急落）。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── やるべきこと (Action) ──────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">Action — やるべきこと</span></div>
+    <div class="sec-big">「検討の入口」を最優先で復旧 — 根本的な障害調査から</div>
+    <div class="sec-sub">この週の ②→③ 崩落は特定機能の障害が疑われる。技術面の確認を最優先で実施。</div>
+    <div class="action-list">
+
+      <!-- Action 1 -->
+      <div class="action-item">
+        <div class="action-prio amber">1</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag new">NEW / 緊急</span>
+            <span class="action-tag stage">②→③</span>
+            <span class="action-tag">優先度: 最高</span>
+          </div>
+          <div class="action-title">カレンダー閲覧 -62% の根本原因を特定（技術障害の疑い）</div>
+          <div class="action-why">
+            ②→③ の-14.5pp は自然なユーザー行動変化としては大きすぎる。<strong>何らかの障害</strong>が疑われる。
+            商品ページのカレンダー表示ロジック、CTA ボタン、在庫/空席切れによる非表示、カレンダーイベント（GA4_vtjp_ex_yokka_view_booking_calendar）の発火欠落など、技術起因を最優先で確認する。
+          </div>
+          <div class="action-why" style="color:var(--text3);margin-bottom:0">
+            確認項目: カレンダーイベントの発火率 / エリア別カレンダー表示 / 在庫切れ商品比率 / ページ別の AC→カレンダー 率
+          </div>
+        </div>
+      </div>
+
+      <!-- Action 2 -->
+      <div class="action-item">
+        <div class="action-prio">2</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag done">分析完了 10/10</span>
+            <span class="action-tag">中期</span>
+            <span class="action-tag">優先度: 高</span>
+          </div>
+          <div class="action-title">ボトルネック Top3 の施策推進（新規・リピーター・モバイル全体の改善）</div>
+          <div class="action-why">
+            分析完了済み10件の施策実装を進める。特にBN#1（新規×②→③）は今週の急落と同じ段階の構造ボトルネックで、影響最大。
+            ここの改善は今週の急性問題とも重なる。
+          </div>
+          <div class="action-sublist">
+            <a href="#summary-detail">
+              <span class="asl-rank">#1</span>
+              <span class="asl-title">新規ユーザーが商品ページで「検討」まで進めない（new×②→③）</span>
+              <span class="asl-impact">779K</span>
+              <span class="asl-arrow">→</span>
+            </a>
+            <a href="#summary-detail">
+              <span class="asl-rank">#2</span>
+              <span class="asl-title">リピーターですら商品ページにたどり着けない（returning×①→②）</span>
+              <span class="asl-impact">1.17M</span>
+              <span class="asl-arrow">→</span>
+            </a>
+            <a href="#summary-detail">
+              <span class="asl-rank">#3</span>
+              <span class="asl-title">モバイル流入の商品ページ到達率が全体比 -31.5pp（mobile×①→②）</span>
+              <span class="asl-impact">2.08M</span>
+              <span class="asl-arrow">→</span>
+            </a>
+          </div>
+          <a class="action-link" href="#summary-detail">ボトルネック10件すべてを下で見る ↓</a>
+        </div>
+      </div>
+
+      <!-- Action 3 -->
+      <div class="action-item">
+        <div class="action-prio blue">3</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag">継続監視</span>
+            <span class="action-tag stage">②→③ 回復</span>
+            <span class="action-tag">優先度: 最高</span>
+          </div>
+          <div class="action-title">次週の ②→③ 回復有無の確認 — 回復しなければ致命的</div>
+          <div class="action-why">
+            今週は濃いユーザーの完走に救われたが、この状態が続けば<strong>予約の総量が大きく落ちる</strong>。
+            W16で ②→③ が戻らなければ、CVR急落の可能性が極めて高い。緊急対応の要否を W16 月曜で判断する。
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 詳細セクション（summary-detail.js が注入） ─── -->
+  <div id="summary-detail" style="scroll-margin-top:24px"></div>
+
+  <!-- ── Footer ─────────────────────────────── -->
+  <div class="card">
+    <div class="footer">
+      <span>VELTRA CVR改善チーム — UIUX Design Squad</span>
+      <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+      <span>2026-04-13</span>
+    </div>
+  </div>
+</div>
+
+<script src="/nav.js"></script>
+<script src="/summary-detail.js"></script>
 </body>
 </html>
