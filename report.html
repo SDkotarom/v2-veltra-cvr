@@ -169,6 +169,38 @@
     html += '</div></div>';
 
     // ── BOTTLENECK LIST ──
+    var progress = data.progress || null;
+    var progStatusMap = {};
+    var progOverall = { completed: 0, total: bns.length || 10, percentage: 0 };
+    if (progress) {
+      (progress.bottlenecks || []).forEach(function(p){ progStatusMap[p.rank] = p; });
+      progOverall = progress.overall || progOverall;
+    }
+
+    var STATUS_META = {
+      pending:       { icon: '○', label: '未着手',     color: '#999',    bg: '#F5F5F5' },
+      analysis_done: { icon: '◔', label: '分析完了',   color: '#E88B00', bg: '#FFF4E0' },
+      action_done:   { icon: '◑', label: '打ち手完了', color: '#1B82C5', bg: '#EBF4FA' },
+      complete:      { icon: '✓', label: '完了',       color: '#2DAE6C', bg: '#E6F8EE' }
+    };
+
+    html += '<div class="card">';
+    html += '<div class="sec-label">ボトルネック分析 進捗</div>';
+    html += '<hr class="divider-solid">';
+    html += '<div style="padding:20px 44px 8px">';
+    var pct = Math.round(progOverall.percentage || 0);
+    html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">';
+    html += '<div style="font-size:14px;font-weight:700;color:var(--text2)">分析進捗</div>';
+    html += '<div style="font-size:13px;color:var(--text3)"><strong style="color:var(--text1);font-size:16px">' + (progOverall.completed || 0) + '</strong> / ' + (progOverall.total || 10) + ' 件完了（' + pct + '%）</div>';
+    html += '</div>';
+    html += '<div style="background:#F5F5F5;height:12px;border-radius:6px;overflow:hidden">';
+    html += '<div style="background:linear-gradient(90deg,#2DAE6C 0%,#1B82C5 100%);height:100%;width:' + pct + '%;transition:width .4s"></div>';
+    html += '</div>';
+    if (progress && progress.updated_at) {
+      html += '<div style="margin-top:6px;font-size:11px;color:var(--text3);text-align:right">最終更新: ' + progress.updated_at.substring(0,16).replace('T',' ') + '</div>';
+    }
+    html += '</div></div>';
+
     html += '<div class="card">';
     html += '<div class="sec-label">ボトルネックリスト</div>';
     html += '<hr class="divider-solid">';
@@ -179,13 +211,21 @@
       var gapPct = Math.round(Math.abs(bn.gap) * 100);
       var link = '/bottleneck.html?week=' + week + '&num=' + bn.rank;
 
+      var bnProg = progStatusMap[bn.rank] || { status: 'pending', proto_done: 0, proto_total: 9 };
+      var sm = STATUS_META[bnProg.status] || STATUS_META.pending;
+      var statusExtra = '';
+      if (bnProg.status === 'action_done' && bnProg.proto_done != null) {
+        statusExtra = ' ' + bnProg.proto_done + '/' + (bnProg.proto_total || 9);
+      }
+      var statusBadge = '<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:' + sm.color + ';background:' + sm.bg + ';padding:3px 8px;border-radius:10px;white-space:nowrap">' + sm.icon + ' ' + sm.label + statusExtra + '</span>';
+
       html += '<div class="bn-acc-item">';
       html += '<a class="bn-acc-header" href="' + link + '">';
       html += '<div class="bn-acc-rank">#' + bn.rank + '</div>';
       html += '<div class="bn-acc-body">';
       html += '<div class="bn-acc-title">' + bn.title + '</div>';
       html += '<div class="bn-acc-tags"><span class="bn-acc-tag red">' + stageLabel + '</span>';
-      html += '<span class="bn-acc-tag">' + bn.segment + '</span></div>';
+      html += '<span class="bn-acc-tag">' + bn.segment + '</span>' + statusBadge + '</div>';
       html += '</div>';
       html += '<div class="bn-acc-meta"><div class="bn-acc-gap-label">全体比乖離</div><div class="bn-acc-gap">-' + gapPct + '%</div></div>';
       html += '<div class="bn-acc-arrow">→</div>';
