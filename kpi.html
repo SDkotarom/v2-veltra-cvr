@@ -45,6 +45,22 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .kpi-tbl .cvr-sub{font-size:11px;font-weight:500;margin-top:4px;display:flex;flex-direction:column;gap:2px;align-items:flex-end;color:var(--text3);line-height:1.4}
 .kpi-tbl .cvr-sub .gap-pos,.kpi-tbl .cvr-sub .gap-neg{font-weight:700}
 .kpi-tbl .cvr-sub .gap-label{color:var(--text3);margin-right:3px}
+/* Expandable month row */
+.kpi-tbl tbody tr.month-row{cursor:pointer;transition:background .12s}
+.kpi-tbl tbody tr.month-row:hover{background:rgba(232,66,63,.04)}
+.kpi-tbl tbody tr.month-row .toggle-icon{display:inline-block;font-size:9px;color:var(--text3);transition:transform .15s;margin-right:6px;line-height:1}
+.kpi-tbl tbody tr.month-row.expanded .toggle-icon{transform:rotate(90deg);color:var(--red)}
+.kpi-tbl tbody tr.month-detail>td{padding:0;background:var(--bg);border-bottom:1px solid var(--border)}
+.detail-content{padding:20px 28px 22px}
+.detail-summary{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;line-height:1.6;padding-left:12px;border-left:3px solid var(--red)}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.detail-col h4{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.detail-col.good h4{color:var(--green)}
+.detail-col.bad h4{color:var(--red)}
+.detail-col ul{list-style:none;padding:0;margin:0}
+.detail-col li{font-size:13px;line-height:1.65;color:var(--text);padding:4px 0 4px 18px;position:relative}
+.detail-col.good li::before{content:'+';color:var(--green);font-weight:900;position:absolute;left:0;font-family:'DM Sans',sans-serif}
+.detail-col.bad li::before{content:'−';color:var(--red);font-weight:900;position:absolute;left:0;font-family:'DM Sans',sans-serif}
 
 /* Status badges */
 .st-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;white-space:nowrap;display:inline-block}
@@ -93,6 +109,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .schedule-bar .sch-tag{background:var(--red);color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:6px;letter-spacing:.03em}
 
 @media(max-width:768px){
+  .detail-grid{grid-template-columns:1fr;gap:18px}
   .kpi-strip{grid-template-columns:1fr 1fr}
   .kpi-strip-cell{border-bottom:1px solid var(--border)}
   .tbl-wrap{padding:0 16px 20px;overflow-x:auto}
@@ -287,10 +304,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   var _curYM = _now.getFullYear() + '-' + String(_now.getMonth()+1).padStart(2,'0');
   function isCurrentMonth(monthStr){ return monthStr === _curYM; }
 
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
   // ── Load data ──
   fetch('/summary-data.json').then(function(r){return r.json()}).then(function(data){
     var monthly = data.monthly;
     var targets = data.targets;
+    var monthlyNotes = data.monthly_notes || {};
     var monthlyTarget = targets.monthly_cvr;   // 0.01515
     var annualTarget  = targets.annual_cvr;    // 0.01515
 
@@ -429,12 +449,19 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         if(prev){ totalS25matched += prev.sessions; totalP25matched += prev.purchases; }
       }
 
+      var note = monthlyNotes[m.month];
+      var hasNote = !!note;
+
       var tr = document.createElement('tr');
       if(isPartial) tr.style.opacity = '0.6';
+      if(hasNote) tr.className = 'month-row';
       var yoyStr = yoyDiff!==null ? pp(yoyDiff) : '—';
       var yoyCls = yoyDiff!==null ? gapClass(yoyDiff) : 'gap-neut';
+      var monthCell = (hasNote ? '<span class="toggle-icon">▶</span>' : '')
+        + MONTH_LABELS[mi]
+        + (isPartial?' <span style="font-size:11px;color:var(--amber);font-weight:700">速報</span>':'');
       tr.innerHTML =
-        '<td>'+MONTH_LABELS[mi]+(isPartial?' <span style="font-size:11px;color:var(--amber);font-weight:700">速報</span>':'')+'</td>'+
+        '<td>'+monthCell+'</td>'+
         '<td>'+fmt(m.sessions)+'</td>'+
         '<td>'+fmt(m.purchases)+'</td>'+
         '<td class="dim">'+pct(monthlyTarget)+'</td>'+
@@ -450,6 +477,29 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
           ? '<span class="st-badge" style="background:#fffbeb;color:var(--amber)">集計中</span>'
           : badge(m.cvr, monthlyTarget))+'</td>';
       tbody.appendChild(tr);
+
+      if(hasNote){
+        var goodList = (note.good||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join('');
+        var badList = (note.bad||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join('');
+        var detailTr = document.createElement('tr');
+        detailTr.className = 'month-detail';
+        detailTr.style.display = 'none';
+        detailTr.innerHTML = '<td colspan="7">'
+          +'<div class="detail-content">'
+            +(note.summary?'<div class="detail-summary">'+esc(note.summary)+'</div>':'')
+            +'<div class="detail-grid">'
+              +'<div class="detail-col good"><h4>良かった点</h4><ul>'+(goodList||'<li style="color:var(--text3)">—</li>')+'</ul></div>'
+              +'<div class="detail-col bad"><h4>課題</h4><ul>'+(badList||'<li style="color:var(--text3)">—</li>')+'</ul></div>'
+            +'</div>'
+          +'</div>'
+        +'</td>';
+        tbody.appendChild(detailTr);
+        tr.addEventListener('click', function(){
+          var open = detailTr.style.display !== 'none';
+          detailTr.style.display = open ? 'none' : 'table-row';
+          tr.classList.toggle('expanded', !open);
+        });
+      }
     });
 
     // YTD行（確定月のみ）
