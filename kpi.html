@@ -40,6 +40,11 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .kpi-tbl .gap-neg{color:var(--red);font-weight:700}
 .kpi-tbl .gap-neut{color:var(--text3)}
 .kpi-tbl .dim{color:var(--text3);font-weight:400}
+.kpi-tbl td.cvr-cell{padding:10px 14px;line-height:1.2}
+.kpi-tbl .cvr-main{font-family:'DM Sans';font-size:17px;font-weight:900}
+.kpi-tbl .cvr-sub{font-size:11px;font-weight:500;margin-top:4px;display:flex;gap:10px;justify-content:flex-end;color:var(--text3)}
+.kpi-tbl .cvr-sub .gap-pos,.kpi-tbl .cvr-sub .gap-neg{font-weight:700}
+.kpi-tbl .cvr-sub .gap-label{color:var(--text3);margin-right:3px}
 
 /* Status badges */
 .st-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;white-space:nowrap;display:inline-block}
@@ -84,7 +89,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   .kpi-strip{grid-template-columns:1fr 1fr}
   .kpi-strip-cell{border-bottom:1px solid var(--border)}
   .tbl-wrap{padding:0 16px 20px;overflow-x:auto}
-  .kpi-tbl{min-width:700px}
+  .kpi-tbl{min-width:620px}
   .biz-grid{grid-template-columns:1fr}
   .biz-cell{border-right:none;border-bottom:1px solid var(--border)}
   .arrow-row{flex-direction:column;gap:8px;padding:16px}
@@ -111,13 +116,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   <hr class="divider-solid">
   <div class="arrow-row">
     <div class="ar-box">
-      <div class="ar-label">現在 CVR</div>
-      <div class="ar-val" id="biz-cvr-current">1.50%</div>
+      <div class="ar-label">現在 CVR（1〜3月）</div>
+      <div class="ar-val" id="biz-cvr-current">1.415%</div>
     </div>
     <div class="ar-arrow">→</div>
     <div class="ar-box ar-target">
       <div class="ar-label">改善後 CVR</div>
-      <div class="ar-val" id="biz-cvr-target">1.515%</div>
+      <div class="ar-val" id="biz-cvr-target">1.429%</div>
     </div>
     <div style="font-size:13px;color:var(--green);font-weight:700;background:var(--green-light);padding:6px 14px;border-radius:8px">+1% 改善</div>
   </div>
@@ -155,7 +160,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   <hr class="divider-solid">
 
   <!-- Progress toward target -->
-  <div class="sec-label">目標 CVR 1.515% への進捗</div>
+  <div class="sec-label">目標 CVR 1.429% への進捗</div>
   <hr class="divider-solid">
   <div class="prog-wrap" style="padding-top:20px">
     <div class="prog-bar-bg">
@@ -165,7 +170,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <div class="prog-labels">
       <span>0%</span>
       <span id="prog-label-current"></span>
-      <span>目標 1.515%</span>
+      <span>目標 1.429%</span>
     </div>
   </div>
 
@@ -183,11 +188,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
           <th>月</th>
           <th>セッション数</th>
           <th>CV数</th>
-          <th>CVR 実績</th>
-          <th>月次目標</th>
-          <th>GAP vs 目標</th>
+          <th>目標 CVR</th>
+          <th>実績 CVR</th>
           <th>前年 CVR</th>
-          <th>YOY 変化</th>
           <th>ステータス</th>
         </tr>
       </thead>
@@ -414,15 +417,21 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
       var tr = document.createElement('tr');
       if(isPartial) tr.style.opacity = '0.6';
+      var yoyStr = yoyDiff!==null ? pp(yoyDiff) : '—';
+      var yoyCls = yoyDiff!==null ? gapClass(yoyDiff) : 'gap-neut';
       tr.innerHTML =
         '<td>'+MONTH_LABELS[mi]+(isPartial?' <span style="font-size:11px;color:var(--amber);font-weight:700">速報</span>':'')+'</td>'+
         '<td>'+fmt(m.sessions)+'</td>'+
         '<td>'+fmt(m.purchases)+'</td>'+
-        '<td style="font-weight:900">'+pct(m.cvr)+'</td>'+
         '<td class="dim">'+pct(monthlyTarget)+'</td>'+
-        '<td class="'+gapClass(gapVsTarget)+'">'+pp(gapVsTarget)+'</td>'+
+        '<td class="cvr-cell">'
+          +'<div class="cvr-main">'+pct(m.cvr)+'</div>'
+          +'<div class="cvr-sub">'
+            +'<span><span class="gap-label">目標</span><span class="'+gapClass(gapVsTarget)+'">'+pp(gapVsTarget)+'</span></span>'
+            +'<span><span class="gap-label">YOY</span><span class="'+yoyCls+'">'+yoyStr+'</span></span>'
+          +'</div>'
+        +'</td>'+
         '<td class="dim">'+(prevCvr!==null?pct(prevCvr):'—')+'</td>'+
-        '<td class="'+(yoyDiff!==null?gapClass(yoyDiff):'dim')+'">'+(yoyDiff!==null?pp(yoyDiff):'—')+'</td>'+
         '<td>'+(isPartial
           ? '<span class="st-badge" style="background:#fffbeb;color:var(--amber)">集計中</span>'
           : badge(m.cvr, monthlyTarget))+'</td>';
@@ -437,15 +446,21 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
     var ytdTr = document.createElement('tr');
     ytdTr.className = 'ytd-row';
+    var ytdYoyStr = ytdYoy!==null ? pp(ytdYoy) : '—';
+    var ytdYoyCls = ytdYoy!==null ? gapClass(ytdYoy) : 'gap-neut';
     ytdTr.innerHTML =
       '<td>確定計（1〜'+(lastFullMonth?(monthIndex(lastFullMonth)+1):'?')+'月）</td>'+
       '<td>'+fmt(totalS26)+'</td>'+
       '<td>'+fmt(totalP26)+'</td>'+
-      '<td style="font-weight:900;color:var(--red)">'+pct(ytdCvrCalc)+'</td>'+
       '<td class="dim">'+pct(annualTarget)+'</td>'+
-      '<td class="'+gapClass(ytdGap)+'">'+pp(ytdGap)+'</td>'+
+      '<td class="cvr-cell">'
+        +'<div class="cvr-main" style="color:var(--red)">'+pct(ytdCvrCalc)+'</div>'
+        +'<div class="cvr-sub">'
+          +'<span><span class="gap-label">目標</span><span class="'+gapClass(ytdGap)+'">'+pp(ytdGap)+'</span></span>'
+          +'<span><span class="gap-label">YOY</span><span class="'+ytdYoyCls+'">'+ytdYoyStr+'</span></span>'
+        +'</div>'
+      +'</td>'+
       '<td class="dim">'+(ytd25Cvr>0?pct(ytd25Cvr):'—')+'</td>'+
-      '<td class="'+(ytdYoy!==null?gapClass(ytdYoy):'dim')+'">'+(ytdYoy!==null?pp(ytdYoy):'—')+'</td>'+
       '<td>'+badge(ytdCvrCalc, annualTarget)+'</td>';
     tbody.appendChild(ytdTr);
 
@@ -519,7 +534,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   }).catch(function(e){
     console.error('Failed to load summary-data.json:', e);
-    document.getElementById('monthly-tbody').innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--red);padding:24px">データの読み込みに失敗しました</td></tr>';
+    document.getElementById('monthly-tbody').innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--red);padding:24px">データの読み込みに失敗しました</td></tr>';
   });
 })();
 </script>
