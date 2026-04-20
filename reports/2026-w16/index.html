@@ -27,32 +27,34 @@
   <div class="card">
     <div class="sec-tag"><span class="sec-num red">01</span><span class="sec-main">Conclusion — 結論</span></div>
     <div class="summary-hero">
-      <div class="summary-kicker">W16 SPOT ANALYSIS</div>
+      <div class="summary-kicker">W16 SPOT ANALYSIS — データ品質インシデント</div>
       <div class="summary-headline">
-        商品ページに来ても、<em>「予約を検討する」ところまで進まない</em>ユーザーが急増した週。<br>
-        来訪は倍近く増えたのに、予約数は <em>ほぼ横ばい</em>。
+        W16 は CVR悪化の週ではない。<br>
+        4/14〜4/16 に <em>シンガポールAWS発のbot 約38.9万セッション</em>が流入し分母を希釈。<br>
+        <em class="green">bot除外の実質CVRは +0.05pt の微改善</em>。購入数は <em class="green">+4.4%</em>（9,895→10,328）増。
       </div>
       <div class="summary-sub">
-        広告やSEO経由で<strong>「とりあえず開いた」ユーザーが大量に流入</strong>したが、その多くは<strong>料金・空席・プランを見に行く前に離脱</strong>している。
-        商品ページ（AC）には+84% 到達しているのに、予約カレンダーを開く人数はほぼ前週と同じ（+1.5%）。
-        「ページは開いたが、ここで予約しようと思える決め手がなかった」— <strong>商品ページの情報設計が、増えた流入の温度感に追いついていない</strong>週。
-        流入を受け止める側（ランディング〜商品ページ）の改善が、流入拡大より先。
+        見かけ上 CVR 1.37% → 0.94%（-0.43pt）と大幅悪化に見えるが、<strong>原因はユーザー行動ではなく計測基盤</strong>。
+        Direct × Desktop チャネルに 3日間で通常比 +590% のスクレイピング由来トラフィックが流入し、セッション数だけが水増しされた。
+        <strong>購入数は前週比 +4.4% 増（+433件）</strong>、実ユーザーの予約行動はむしろ改善している。
+        「CVR急落」と誤認してユーザー体験施策にリソースを振ると<strong>的外れ</strong>になる。
+        今週の本当の課題は<strong>「分母を汚染しているbotへの WAF 対応」と「raw/bot除外 CVR の二本併記」</strong>。
       </div>
       <div class="summary-kpi-strip">
         <div class="skpi">
-          <div class="skpi-label">セッション（W16単週）</div>
-          <div class="skpi-val">1,079,726</div>
-          <div class="skpi-wow up">▲ +51.4% WoW</div>
-        </div>
-        <div class="skpi">
-          <div class="skpi-label">予約完了（W16単週）</div>
-          <div class="skpi-val">10,127</div>
-          <div class="skpi-wow up">▲ +0.9% WoW</div>
-        </div>
-        <div class="skpi">
-          <div class="skpi-label">CVR（W16単週）</div>
+          <div class="skpi-label">raw CVR（見かけ）</div>
           <div class="skpi-val" style="color:var(--red)">0.94%</div>
-          <div class="skpi-wow down">▼ -0.47pp / -33% WoW</div>
+          <div class="skpi-wow down">▼ -0.43pt（bot希釈）</div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">bot除外 実質CVR</div>
+          <div class="skpi-val" style="color:var(--green)">~1.42%</div>
+          <div class="skpi-wow up">▲ +0.05pt / W15 1.37%</div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">実ユーザー予約数</div>
+          <div class="skpi-val" style="color:var(--green)">10,328</div>
+          <div class="skpi-wow up">▲ +4.4% WoW（+433件）</div>
         </div>
       </div>
     </div>
@@ -61,55 +63,53 @@
   <!-- ── 論拠 (Evidence) ────────────────────── -->
   <div class="card">
     <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">Evidence — 論拠</span></div>
-    <div class="sec-big">ユーザーは来ている — でも「ここで予約する」ところまで辿り着いていない</div>
-    <div class="sec-sub">広告・SEOで流入は増えたが、商品ページで手が止まっている。「見るだけ」で帰るユーザーの増加が、数字の崩落に表れている。</div>
+    <div class="sec-big">bot流入の指紋は7項目一致、実ユーザー行動は改善トレンド</div>
+    <div class="sec-sub">GA4 を country × browser × OS × hour × pagePath の6軸で深堀りすると、発信源・稼働パターン・標的が完全に一致。一方、同期間の購入行動は前週比プラス。</div>
     <div class="evidence-grid">
 
-      <!-- Evidence 1 — user behavior + data -->
+      <!-- Evidence 1: bot identified -->
       <div class="evidence-card">
-        <div class="evidence-num">E.01 — ユーザー行動</div>
-        <div class="evidence-title">商品ページを開いた10人中9人が、予約カレンダーを見ずに帰っている</div>
+        <div class="evidence-num">E.01 — 犯人の指紋</div>
+        <div class="evidence-title">シンガポール AWS ap-southeast-1、Chrome×Win10 に統一、48時間連続バッチ</div>
         <div class="evidence-metric">
-          <div class="evidence-big red">7.16<span class="evidence-unit">%</span></div>
+          <div class="evidence-big red">99.98<span class="evidence-unit">%</span></div>
         </div>
-        <div class="evidence-comp">②→③（AC→検討）率 12.99% → 7.16%（-5.84pp）</div>
+        <div class="evidence-comp">単一シグネチャ一致率（Chrome × Windows 10 × Singapore）</div>
         <div class="evidence-bar">
-          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:18%;background:#1a8c4e"></div><div class="evidence-bar-label">①→②<br>+4.0</div></div>
-          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:100%"></div><div class="evidence-bar-label">②→③<br>-5.8</div></div>
-          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:5%;background:#aaa"></div><div class="evidence-bar-label">③→④<br>+0.3</div></div>
-          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:6%;background:#aaa"></div><div class="evidence-bar-label">④→⑤<br>-0.8</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:4%;background:#aaa"></div><div class="evidence-bar-label">4/13<br>7K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:57%"></div><div class="evidence-bar-label">4/14<br>118K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:100%"></div><div class="evidence-bar-label">4/15<br>209K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:30%"></div><div class="evidence-bar-label">4/16<br>62K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:3%;background:#aaa"></div><div class="evidence-bar-label">4/17<br>6K</div></div>
         </div>
-        <div class="evidence-desc">他の段階（フォーム・決済）は改善〜中立で、<strong>「AC到達の直後」で止まる一点に問題が集中</strong>。商品ページを開いても「日程・料金を見に行く動機」まで作れていない状態。</div>
+        <div class="evidence-desc">4/14 13時にピタッと開始、4/16 14時にピタッと停止。購入率 <strong>0.03%</strong>（169件 / 389K sess）。都道府県47ページを網羅巡回する<strong>インバウンド向け商品DBスクレイパー</strong>と断定。2025年Q4のChina bot と同種でプロキシ移行の可能性。</div>
       </div>
 
-      <!-- Evidence 2 — user behavior + data -->
-      <div class="evidence-card">
-        <div class="evidence-num">E.02 — 流入と反応の乖離</div>
-        <div class="evidence-title">商品ページの来訪者は倍増、でも予約カレンダーを開いた人数はほぼ変わらない</div>
+      <!-- Evidence 2: real user behavior improved -->
+      <div class="evidence-card green">
+        <div class="evidence-num">E.02 — 実ユーザー行動</div>
+        <div class="evidence-title">bot除外で見れば、予約数は +4.4% 増加している</div>
         <div class="evidence-metric">
-          <div class="evidence-big">+84<span class="evidence-unit">%</span></div>
-          <div style="font-size:14px;color:var(--text3);font-weight:700">／</div>
-          <div class="evidence-big red">+1.5<span class="evidence-unit">%</span></div>
+          <div class="evidence-big green">+433<span class="evidence-unit">件</span></div>
         </div>
-        <div class="evidence-comp">商品ページ到達 27万→50万 ／ カレンダー閲覧 35,069→35,599</div>
-        <div class="evidence-bar">
-          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:54%;background:#aaa"></div><div class="evidence-bar-label">AC前週<br>270K</div></div>
-          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:100%;background:#aaa"></div><div class="evidence-bar-label">AC今週<br>497K</div></div>
-          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:7%"></div><div class="evidence-bar-label">検討前週<br>35K</div></div>
-          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:7.2%"></div><div class="evidence-bar-label">検討今週<br>36K</div></div>
-        </div>
-        <div class="evidence-desc">「広告で見た商品を確認しに来た」までは機能している。<strong>「よし、予約を検討しよう」と次の行動を起こさせる情報が不足</strong>している可能性。</div>
+        <div class="evidence-comp">購入 W15 9,895 → W16 10,328（+4.4%）／ botは購入ほぼゼロ</div>
+        <div class="evidence-desc">bot は商品DB収集が目的のためカート・フォームに触れない（購入0.03%）。したがって<strong>購入数は botの影響をほぼ受けない純粋な実ユーザー指標</strong>。前週比 +4.4% は「ユーザー行動はむしろ良化」を示す。<strong>CVR崩落は起きていない</strong>。raw CVR 0.94% は「実流入 ~73万 + bot ~37万」が合算された見かけ上の数字。</div>
       </div>
 
-      <!-- Evidence 3 — user type -->
+      <!-- Evidence 3: continuing trend, not one-off -->
       <div class="evidence-card">
-        <div class="evidence-num">E.03 — ユーザー層</div>
-        <div class="evidence-title">流入の6割は新規ユーザー — でも彼らの予約率は全体の1/2.5</div>
+        <div class="evidence-num">E.03 — 継続トレンド</div>
+        <div class="evidence-title">Direct×Desktop の bot汚染は 3月から段階的に悪化、W16 でピーク</div>
         <div class="evidence-metric">
-          <div class="evidence-big red">0.49<span class="evidence-unit">%</span></div>
+          <div class="evidence-big red">0.22<span class="evidence-unit">%</span></div>
         </div>
-        <div class="evidence-comp">新規ユーザー CVR 0.49% ／ 全体 1.25% ／ 構成比 60.7%</div>
-        <div class="evidence-desc">新規ユーザーは<strong>「初めて見る商品に予約を入れる不安」</strong>を抱えやすい層。料金の透明性、レビュー、キャンセルポリシーなど<strong>「踏み出す安心材料」</strong>の設計が構造的に不足。BN#1 (新規×④→⑤)、BN#3 (新規×③→④) も同じ層の別段階での詰まり。</div>
+        <div class="evidence-comp">Direct × Desktop 月次CVR：2月 2.57% → 3月 1.13% → 4月 0.22%</div>
+        <div class="evidence-bar">
+          <div class="evidence-bar-col"><div class="evidence-bar-bar green" style="height:100%"></div><div class="evidence-bar-label">2月<br>2.57%</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:44%;background:#d97706"></div><div class="evidence-bar-label">3月<br>1.13%</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:9%"></div><div class="evidence-bar-label">4月<br>0.22%</div></div>
+        </div>
+        <div class="evidence-desc">単発イベントではなく、<strong>3月から継続的に汚染が拡大</strong>し W16 で一気に顕在化。WAF未対策のまま放置すれば5月以降も再来リスク高（月次バッチなら 5/14 前後が次回候補）。<strong>1週間の事故ではなく構造的な計測基盤問題</strong>。</div>
       </div>
 
     </div>
@@ -118,82 +118,83 @@
   <!-- ── やるべきこと (Action) ──────────────── -->
   <div class="card">
     <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">Action — やるべきこと</span></div>
-    <div class="sec-big">流入を増やすより「受け止める側」を強くする</div>
-    <div class="sec-sub">商品ページで止まっているユーザーをカレンダーまで導く施策を最優先。並行して、分析済みボトルネック10件の実装フェーズを進める。</div>
+    <div class="sec-big">課題は「計測基盤」— ユーザー体験施策ではなく bot 対応と KPI 二本化</div>
+    <div class="sec-sub">見かけCVR悪化に引きずられて UI/UX 施策を振るのは誤り。bot除去で計測をクリーンにし、意思決定を正すのが最優先。</div>
     <div class="action-list">
 
-      <!-- Action 1 -->
+      <!-- Action 1: WAF block -->
       <div class="action-item">
         <div class="action-prio amber">1</div>
         <div class="action-body">
           <div class="action-tags">
-            <span class="action-tag new">NEW / 短期</span>
-            <span class="action-tag stage">②→③ AC到達→検討</span>
+            <span class="action-tag new">NEW / 今週中</span>
+            <span class="action-tag stage">WAF / インフラ</span>
             <span class="action-tag">優先度: 最高</span>
           </div>
-          <div class="action-title">「商品ページで止まっているユーザー」が誰で、どのページかを特定する</div>
+          <div class="action-title">AWS ap-southeast-1 IPレンジ と fingerprint をWAFでブロック</div>
           <div class="action-why">
-            商品ページに来たのにカレンダーまで進まないユーザーが急増。<strong>どの流入経路（広告？SEO？）で来た、どのエリアの商品ページで離脱しているか</strong>を切り分ける。
-            広告クリエイティブと商品ページの期待値ギャップ、季節商品のカレンダー未掲載、在庫切れ表示による離脱などが候補。
-            <strong>この観点は既存ボトルネック10件に含まれない新規課題</strong>のため、次週の分析対象に追加する。
+            今回のbotは <strong>住宅IPプロキシを使っていない</strong>（AWSから直接発信）ため、<strong>IPレンジブロックだけで 88% 即除去</strong>できる。
+            AWS公開IPレンジJSONから <code>ap-southeast-1 / EC2</code> を抽出して WAFルールに投入するだけ。<strong>半日工数で終わる</strong>。
+            補完として「Singapore × Chrome Win10 × Referer空 × /jp/japan/* アクセス」のfingerprintルールを追加し、残り12%もカバー。
           </div>
           <div class="action-why" style="color:var(--text3);margin-bottom:0">
-            確認クエリ: チャネル×②→③ 率のWoW比較 / エリア×②→③ 率のWoW比較 / ランディングページ別の AC→検討 率
+            ステップ: ① AWS IPレンジJSON取得（10分）② AWS WAF IPSet 作成 + Block Rule 追加（2時間）③ fingerprint補完ルール（4時間）④ CloudWatch で BlockedRequests 監視
           </div>
         </div>
       </div>
 
-      <!-- Action 2 -->
+      <!-- Action 2: KPI split -->
       <div class="action-item">
-        <div class="action-prio">2</div>
+        <div class="action-prio amber">2</div>
         <div class="action-body">
           <div class="action-tags">
-            <span class="action-tag done">分析完了 10/10</span>
-            <span class="action-tag">中期</span>
+            <span class="action-tag new">NEW / 計測基盤</span>
+            <span class="action-tag stage">ダッシュボード</span>
+            <span class="action-tag">優先度: 最高</span>
+          </div>
+          <div class="action-title">CVR を「raw」「bot除外」の2本併記に — 意思決定を誤らないため</div>
+          <div class="action-why">
+            今週の誤解の根本原因は <strong>raw CVR 一本で判断していた</strong>こと。GA4 探索レポートで Direct × Desktop を除外した参考CVRを並行計測し、
+            KPIダッシュボード / 週次サマリー / ボトルネックレポートの<strong>全てに2本併記</strong>する。
+            戦略ガイド「非bot比率90%以上」ルールを運用規則に昇格。
+          </div>
+          <div class="action-why" style="color:var(--text3);margin-bottom:0">
+            出力先: kpi.html / weekly-summary.json に <code>cvr_raw</code> と <code>cvr_clean</code> の2フィールド追加
+          </div>
+        </div>
+      </div>
+
+      <!-- Action 3: Alert -->
+      <div class="action-item">
+        <div class="action-prio">3</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag">中期 / 監視</span>
+            <span class="action-tag stage">アラート</span>
             <span class="action-tag">優先度: 高</span>
           </div>
-          <div class="action-title">既存ボトルネック Top3 を「ユーザーがどこで詰まっているか」の順に施策化</div>
+          <div class="action-title">bot再来の早期検知アラート（次回候補 5/14前後）</div>
           <div class="action-why">
-            分析は10件すべて完了（100%）。次は <strong>実装フェーズ</strong>。影響セッション数の上位3件から着手する。
-            共通項は「<strong>モバイル・新規ユーザー・検索流入</strong>でどこかの段階で詰まっている」— W16で見えた「商品ページで止まる」問題と根本は同じ構造。
+            月次バッチの可能性が高く<strong>5/14 前後の再来リスク大</strong>。
+            「Singapore × Direct × Desktop の日次セッションが 5,000 超」の条件で Slack #veltra-cvr-alerts に即通知する自動ルールを設定。
+            異常検知の基準は「Sessions WoW +20% 超」の週すべてで必ずデータ品質チェックを入れる運用に昇格。
           </div>
-          <div class="action-sublist">
-            <a href="#summary-detail">
-              <span class="asl-rank">#2</span>
-              <span class="asl-title">モバイルで『自分に合うAC』を見つけられず、比較疲れで離脱している</span>
-              <span class="asl-impact">450K</span>
-              <span class="asl-arrow">→</span>
-            </a>
-            <a href="#summary-detail">
-              <span class="asl-rank">#1</span>
-              <span class="asl-title">新規ユーザーが『長いフォーム＋最終価格の不意打ち』で決済直前に諦めている</span>
-              <span class="asl-impact">499K</span>
-              <span class="asl-arrow">→</span>
-            </a>
-            <a href="#summary-detail">
-              <span class="asl-rank">#3</span>
-              <span class="asl-title">リピーターが『前回見たAC』を思い出せず、探し疲れで離脱している</span>
-              <span class="asl-impact">315K</span>
-              <span class="asl-arrow">→</span>
-            </a>
-          </div>
-          <a class="action-link" href="#summary-detail">ボトルネック10件すべてを下で見る ↓</a>
         </div>
       </div>
 
-      <!-- Action 3 -->
+      <!-- Action 4: Sideways finding -->
       <div class="action-item">
-        <div class="action-prio blue">3</div>
+        <div class="action-prio blue">4</div>
         <div class="action-body">
           <div class="action-tags">
-            <span class="action-tag">継続監視</span>
-            <span class="action-tag stage">新規ユーザー</span>
+            <span class="action-tag">継続調査</span>
+            <span class="action-tag stage">Organic × Mobile</span>
             <span class="action-tag">優先度: 中</span>
           </div>
-          <div class="action-title">新規ユーザーの「不安要素」を継続ウォッチ</div>
+          <div class="action-title">Organic Search × Mobile の月次 -20% 減速を並行調査</div>
           <div class="action-why">
-            今週の流入増はほぼ新規ユーザー（構成比 60.7%）。彼らの CVR 0.49% は<strong>全体の半分以下</strong>で、料金不安・空席不安・キャンセル不安の解消設計が追いついていない。
-            来週以降も <strong>新規比率 × ②→③率</strong> を見て、W16 が一過性（キャンペーンの反動）か、構造変化（流入源の質低下）かを見極める。
+            bot騒ぎと別に、最大セグメント（全体の約25%）の <strong>Organic × Mobile が月次 -20% 減速</strong>中。
+            月20万セッション・約1,400予約の逸失相当。Search Console で表示回数・順位・CTR の推移を確認し、SEO本体の問題か WAF副作用か切り分ける。
           </div>
         </div>
       </div>
