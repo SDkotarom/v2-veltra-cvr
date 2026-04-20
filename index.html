@@ -59,6 +59,11 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .graph-legend .lg-bar{width:12px;height:12px;border-radius:2px}
 .graph-legend .lg-dot{width:10px;height:10px;border-radius:50%}
 .graph-legend .lg-dash{width:18px;height:0;border-top:2px dashed}
+.graph-legend .lg-line{width:18px;height:3px;border-radius:2px;flex-shrink:0}
+.graph-legend .lg-clickable{cursor:pointer;user-select:none;padding:3px 8px;border-radius:4px;transition:background .12s,opacity .12s}
+.graph-legend .lg-clickable:hover{background:var(--bg)}
+.graph-legend .lg-clickable.lg-off{opacity:.32}
+.graph-legend .lg-clickable.lg-off .lg-line,.graph-legend .lg-clickable.lg-off .lg-dot{background:#aaa !important;box-shadow:none !important}
 .graph-body{position:relative;padding-left:44px;padding-right:44px}
 .graph-area{position:relative;height:200px;border-bottom:1px solid var(--border)}
 .graph-svg{width:100%;height:100%;overflow:visible}
@@ -323,6 +328,38 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div><!-- /funnel-content -->
 </div>
 
+<!-- Funnel pass rate trend -->
+<div class="card">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:28px 44px 12px">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="sec-label" style="padding:0">ファネル通過率 推移</div>
+      <span class="info-tip" title="各週のベースライン（直近28日間）ファネル通過率の推移です。&#10;凡例をクリックすると表示/非表示を切り替えられます。">?</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="funnel-mode-toggle" id="funnel-graph-period-toggle"></div>
+    </div>
+  </div>
+  <div class="graph-wrap" style="padding-top:12px">
+    <div class="graph-header">
+      <div class="graph-legend" id="funnel-graph-legend"></div>
+    </div>
+    <div class="graph-body">
+      <div class="graph-axis-l" id="funnel-graph-axis-l"></div>
+      <div class="graph-area">
+        <svg class="graph-svg" id="funnel-graph-svg" viewBox="0 0 800 200" preserveAspectRatio="none"></svg>
+      </div>
+      <div class="graph-labels-x" id="funnel-graph-x-labels"></div>
+    </div>
+  </div>
+  <div id="funnel-graph-table-wrap" style="overflow-x:auto;padding:20px 44px 28px;border-top:1px solid var(--border);margin-top:8px"></div>
+</div>
+
+<!-- Funnel graph tooltip -->
+<div class="graph-tooltip" id="funnel-graph-tooltip">
+  <div class="gt-label" id="fgt-label"></div>
+  <div id="fgt-rows"></div>
+</div>
+
 <!-- Segment breakdown -->
 <div class="card">
   <div style="display:flex;align-items:baseline;justify-content:space-between;padding:28px 44px 12px">
@@ -388,6 +425,14 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   var funnelMode = '28d'; // '28d' or '7d'
   var graphMode = 'monthly'; // 'monthly' or 'weekly'
   var graphPeriod = '24m'; // '3m', '6m', '12m', '24m'
+  var funnelGraphPeriod = '12m'; // '1m', '3m', '6m', '12m'
+  var funnelGraphVisibility = { '1_to_2': true, '2_to_3': true, '3_to_4': true, '4_to_5': true };
+  var FUNNEL_STEPS = [
+    { key: '1_to_2', label: '①→②', name: '流入 → AC到達',    color: '#E8423F' },
+    { key: '2_to_3', label: '②→③', name: 'AC到達 → 検討',    color: '#f59e0b' },
+    { key: '3_to_4', label: '③→④', name: '検討 → 意向',      color: '#3b82f6' },
+    { key: '4_to_5', label: '④→⑤', name: '意向 → 完了',      color: '#10b981' }
+  ];
   var reportsIndex = null;
   var weekDataCache = {};
   var currentData = null; // aggregated or single week
@@ -674,6 +719,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         loadWeekData(w.data_path, function(d) {
           weekDataCache[w.week_id] = d;
           renderGraph();
+          renderFunnelGraph();
         });
       }
     });
@@ -744,7 +790,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     renderMonthlyKPI(meta);
     renderFunnel(currentData, weekDataCache[latest.week_id]);
     buildPeriodButtons();
+    buildFunnelGraphPeriodButtons();
     renderGraph();
+    renderFunnelGraph();
   }
 
   // ── 月次KPIストリップ（kpi.html と同一ロジック）────
@@ -1356,6 +1404,208 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
     // Render annotations
     _renderAnnotations(points, n, mode);
+  }
+
+  // ── Funnel trend graph ───────────────────────────
+  var funnelGraphPeriodOptions = [
+    { id: '1m',  label: '1ヶ月', weeks: 5 },
+    { id: '3m',  label: '3ヶ月', weeks: 13 },
+    { id: '6m',  label: '半年',  weeks: 26 },
+    { id: '12m', label: '1年',   weeks: 52 }
+  ];
+
+  function buildFunnelGraphPeriodButtons() {
+    var container = document.getElementById('funnel-graph-period-toggle');
+    if (!container) return;
+    container.innerHTML = funnelGraphPeriodOptions.map(function(o) {
+      return '<button class="fmt-btn ' + (funnelGraphPeriod === o.id ? 'active' : 'inactive') + '" onclick="setFunnelGraphPeriod(\'' + o.id + '\')">' + o.label + '</button>';
+    }).join('');
+  }
+
+  window.setFunnelGraphPeriod = function(p) {
+    funnelGraphPeriod = p;
+    buildFunnelGraphPeriodButtons();
+    renderFunnelGraph();
+  };
+
+  window.toggleFunnelLegend = function(key) {
+    funnelGraphVisibility[key] = !funnelGraphVisibility[key];
+    renderFunnelGraph();
+  };
+
+  function renderFunnelGraph() {
+    if (!reportsIndex || !reportsIndex.weeks) return;
+    var points = [];
+    reportsIndex.weeks.forEach(function(w) {
+      var d = weekDataCache[w.week_id];
+      if (!d || !d.baseline || !d.baseline.conversion_rates) return;
+      var cr = d.baseline.conversion_rates;
+      var label = w.week_id.replace(/^\d{4}-/, '').toUpperCase();
+      points.push({
+        label: label,
+        fullLabel: (d.meta && d.meta.week_label) ? d.meta.week_label : w.week_id,
+        week_id: w.week_id,
+        rates: {
+          '1_to_2': cr['1_to_2'],
+          '2_to_3': cr['2_to_3'],
+          '3_to_4': cr['3_to_4'],
+          '4_to_5': cr['4_to_5']
+        }
+      });
+    });
+    if (!points.length) return;
+
+    // Filter by period
+    var opt = funnelGraphPeriodOptions.filter(function(o){ return o.id === funnelGraphPeriod; })[0];
+    if (opt) points = points.slice(-opt.weeks);
+
+    _drawFunnelGraph(points);
+  }
+
+  function _drawFunnelGraph(points) {
+    var svg = document.getElementById('funnel-graph-svg');
+    if (!svg) return;
+    var W = 800, H = 200;
+    var pad = { l: 8, r: 8, t: 24, b: 4 };
+    var plotH = H - pad.t - pad.b;
+    var plotW = W - pad.l - pad.r;
+    var n = points.length;
+
+    // Y scale based on visible stages
+    var visibleSteps = FUNNEL_STEPS.filter(function(s){ return funnelGraphVisibility[s.key]; });
+    var allRates = [];
+    points.forEach(function(p) {
+      visibleSteps.forEach(function(s) {
+        var v = p.rates[s.key];
+        if (v != null) allRates.push(v);
+      });
+    });
+    var maxY = allRates.length ? Math.min(1, Math.max.apply(null, allRates) * 1.15) : 1;
+    var minY = 0;
+    function yPos(v) { return H - pad.b - ((v - minY) / (maxY - minY)) * plotH; }
+    function xCenter(i) { return pad.l + (n === 1 ? plotW / 2 : (i / Math.max(1, n - 1)) * plotW); }
+
+    // Grid
+    var gridSteps = [0, 0.25, 0.5, 0.75, 1.0];
+    var gridSvg = gridSteps.map(function(s) {
+      var y = H - pad.b - s * plotH;
+      return '<line x1="' + pad.l + '" y1="' + y + '" x2="' + (W - pad.r) + '" y2="' + y + '" stroke="#ece9e4" stroke-width="1"/>';
+    }).join('');
+
+    // Lines
+    var linesSvg = FUNNEL_STEPS.map(function(s) {
+      if (!funnelGraphVisibility[s.key]) return '';
+      var d = points.map(function(p, i) {
+        var v = p.rates[s.key];
+        if (v == null) return '';
+        return (i === 0 ? 'M' : 'L') + xCenter(i) + ',' + yPos(v);
+      }).filter(Boolean).join(' ');
+      var path = n > 1 ? '<path d="' + d + '" fill="none" stroke="' + s.color + '" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>' : '';
+      var dots = points.map(function(p, i) {
+        var v = p.rates[s.key];
+        if (v == null) return '';
+        return '<circle cx="' + xCenter(i) + '" cy="' + yPos(v) + '" r="' + (n > 8 ? 3.5 : 5) + '" fill="' + s.color + '" stroke="#fff" stroke-width="' + (n > 8 ? 1.5 : 2) + '"/>';
+      }).join('');
+      return path + dots;
+    }).join('');
+
+    // Hit areas per x-column (invisible, covers all visible stages)
+    var hitSvg = points.map(function(p, i) {
+      var cx = xCenter(i);
+      var colW = n === 1 ? plotW : plotW / Math.max(1, n - 1);
+      return '<rect x="' + (cx - colW / 2) + '" y="' + pad.t + '" width="' + colW + '" height="' + plotH + '" fill="transparent" data-idx="' + i + '" style="cursor:pointer"/>';
+    }).join('');
+
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.innerHTML = gridSvg + linesSvg + hitSvg;
+
+    // Tooltip
+    var tooltip = document.getElementById('funnel-graph-tooltip');
+    var fgtLabel = document.getElementById('fgt-label');
+    var fgtRows = document.getElementById('fgt-rows');
+    svg.querySelectorAll('rect[data-idx]').forEach(function(el) {
+      el.addEventListener('mouseover', function() {
+        var idx = parseInt(el.getAttribute('data-idx'));
+        var p = points[idx];
+        if (!p) return;
+        fgtLabel.textContent = p.fullLabel || p.label;
+        var rows = FUNNEL_STEPS.map(function(s) {
+          if (!funnelGraphVisibility[s.key]) return '';
+          var v = p.rates[s.key];
+          var vStr = v != null ? (v * 100).toFixed(1) + '%' : '—';
+          return '<div class="gt-row"><div class="gt-dot" style="background:' + s.color + '"></div><span>' + s.label + ' ' + vStr + '</span></div>';
+        }).filter(Boolean).join('');
+        fgtRows.innerHTML = rows;
+        tooltip.style.display = 'block';
+      });
+      el.addEventListener('mousemove', function(e) {
+        tooltip.style.left = (e.clientX + 14) + 'px';
+        tooltip.style.top = (e.clientY - 10) + 'px';
+      });
+      el.addEventListener('mouseout', function() { tooltip.style.display = 'none'; });
+    });
+
+    // X labels
+    var xl = document.getElementById('funnel-graph-x-labels');
+    xl.style.cssText = 'display:block;position:relative;height:20px;margin-top:6px;font-size:11px;color:var(--text3);font-family:DM Sans';
+    xl.innerHTML = points.map(function(p, i) {
+      var pctX = n === 1 ? 50 : (i / Math.max(1, n - 1)) * 100;
+      return '<span style="position:absolute;left:' + pctX + '%;transform:translateX(-50%)">' + p.label + '</span>';
+    }).join('');
+
+    // Left Y axis
+    var axL = document.getElementById('funnel-graph-axis-l');
+    axL.innerHTML = [maxY, maxY * 0.75, maxY * 0.5, maxY * 0.25, 0].map(function(v) {
+      return '<span>' + (v * 100).toFixed(0) + '%</span>';
+    }).join('');
+
+    // Legend (clickable)
+    var legend = document.getElementById('funnel-graph-legend');
+    legend.innerHTML = FUNNEL_STEPS.map(function(s) {
+      var off = funnelGraphVisibility[s.key] ? '' : ' lg-off';
+      return '<div class="lg-item lg-clickable' + off + '" onclick="toggleFunnelLegend(\'' + s.key + '\')" title="クリックで表示/非表示">' +
+        '<div class="lg-line" style="background:' + s.color + '"></div>' +
+        '<span style="font-weight:700">' + s.label + '</span>' +
+        '<span style="color:var(--text3)">' + s.name + '</span>' +
+        '</div>';
+    }).join('');
+
+    // Table below
+    var tableWrap = document.getElementById('funnel-graph-table-wrap');
+    if (tableWrap) {
+      var thStyle = 'font-size:11px;font-weight:700;color:var(--text3);border-bottom:2px solid var(--text);padding:5px 8px;text-align:center;white-space:nowrap';
+      var thLeft = 'font-size:11px;font-weight:700;color:var(--text3);border-bottom:2px solid var(--text);padding:5px 10px 5px 0;text-align:left;white-space:nowrap';
+      var tdStyle = 'font-family:DM Sans;font-size:13px;font-weight:700;color:var(--text);border-bottom:1px solid var(--border);padding:6px 8px;text-align:center;white-space:nowrap';
+      var tdLabel = 'font-size:11px;font-weight:700;color:var(--text3);border-bottom:1px solid var(--border);padding:6px 10px 6px 0;text-align:left;white-space:nowrap';
+      var tdDiff = 'font-size:11px;padding:3px 8px;text-align:center;white-space:nowrap;color:var(--text3)';
+
+      var thCells = '<th style="' + thLeft + '"></th>';
+      points.forEach(function(p) {
+        thCells += '<th style="' + thStyle + '">' + p.label + '</th>';
+      });
+
+      var rows = '';
+      FUNNEL_STEPS.forEach(function(s) {
+        if (!funnelGraphVisibility[s.key]) return;
+        var cells = '<td style="' + tdLabel + '"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:' + s.color + ';vertical-align:middle;margin-right:6px"></span>' + s.label + '</td>';
+        points.forEach(function(p, i) {
+          var v = p.rates[s.key];
+          var vStr = v != null ? (v * 100).toFixed(1) + '%' : '—';
+          var prev = i > 0 ? points[i - 1].rates[s.key] : null;
+          var diffHtml = '';
+          if (v != null && prev != null) {
+            var diff = v - prev;
+            var sign = diff >= 0 ? '▲' : '▼';
+            var col = diff >= 0 ? 'var(--green)' : 'var(--red)';
+            diffHtml = '<div style="font-size:10px;font-weight:700;color:' + col + ';margin-top:2px">' + sign + Math.abs(diff * 100).toFixed(2) + 'pp</div>';
+          }
+          cells += '<td style="' + tdStyle + '">' + vStr + diffHtml + '</td>';
+        });
+        rows += '<tr>' + cells + '</tr>';
+      });
+
+      tableWrap.innerHTML = '<table style="border-collapse:collapse;width:max-content;min-width:100%"><thead><tr>' + thCells + '</tr></thead><tbody>' + rows + '</tbody></table>';
+    }
   }
 
   // ── Archive block ─────────────────────────────────
