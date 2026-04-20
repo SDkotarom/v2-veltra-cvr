@@ -76,3 +76,19 @@ ToolSearch で "run_report" を検索 → mcp__*__run_report ツールを取得
 | **四半期確定時** | `kpi.html` | arrow-row の 3 つのハードコード CVR 表示値（`biz-cvr-current / target / stretch`）+ 進捗ラベル + stretch-note |
 
 完全な手順・分析コメントのテンプレート・計算式は `docs/playbook.md` セクション11「KPIダッシュボード（/kpi.html）の更新」を参照。
+
+---
+
+## ボトルネックのタイトル作成ルール（Phase 1 / Phase 2 共通）
+
+`data.json` と `bottleneck-N-content.json` のタイトルは **「誰が・どこで・どう困っているか」を1文で描く課題目線**で書く。数値（%・pp）は `tags` / `deviation` / `description_html` が担当するのでタイトル枠では繰り返さない。
+
+❌ NG: `新規ユーザーの意向→完了率が 51.1%（全体 76.9% から -25.9pp）`
+✅ OK: `新規ユーザーが『長いフォーム＋最終価格の不意打ち』で決済直前に諦めている`
+
+タイトル書き換えは **Step 1.5（behavior_context）完了後に Step 1.6 として必ず実施**し、以下3箇所を同時に更新する：
+- `reports/{W}/data.json` の `bottlenecks[].title`
+- `reports/{W}/bottleneck-N-content.json` の `title`
+- `reports/{W}/index.html`（Phase 2.9 の週次サマリー）の Action 2 Top3 `.asl-title` ハードコード箇所
+
+詳細ルールは `docs/playbook.md` Phase 2 Step 1.6 を参照。
