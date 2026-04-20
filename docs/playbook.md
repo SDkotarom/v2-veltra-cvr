@@ -260,9 +260,15 @@ Vercel が自動デプロイ。
 #### Step 1: 既存実装の把握
 
 Phase 2 開始前に以下を必ず読み込む:
+- **`docs/site-features.md`: ページ別の現仕様スナップショット（最優先・人手更新）** ★
+- **`docs/captures/*.png`: 該当ページのPC/SPキャプチャ（視覚的裏付け）** ★
 - `known-implementations.json`: 実装済み機能カタログ（カテゴリ別、キーワード付き）
 - `feasibility-constraints.json`: 10カテゴリの実務制約チェックリスト
 - `annotations.json`: 直近のリリースイベント（新機能が追加されている可能性）
+
+> ★ `site-features.md` と `captures/` は Phase 2 の **最初に必ず読む**。
+> ボトルネックが該当するページ（例: ACページ→セクション5）のキャプチャを `Read` ツールで視覚的に確認してから打ち手を考える。
+> ユーザーから会話中に「覚えて: XX機能は既にある」と言われたら、その場で `site-features.md` の該当セクションと `known-implementations.json` の両方を更新する。
 
 #### Step 2: 各 action の implementation_check 記入
 
@@ -515,11 +521,13 @@ W{XX} の Phase 2 を実行してください。
 ※ content.json は 2-3 ファイルずつ並列 Agent で生成してタイムアウトを回避してください。
 
 【重要】施策化レビューレイヤー:
-1. known-implementations.json を最初に読み、実装済み機能を把握してください
-2. feasibility-constraints.json を読み、制約チェックリストを把握してください
-3. 各 action に implementation_check と feasibility を記入してください
-4. status が "already_exists" の施策は代替案に差し替えてください
-5. 完了後 python3 scripts/audit-actions.py --week W{XX} で重複チェックを実行してください
+1. ★最優先: docs/site-features.md を読み、ページ別の現仕様を把握してください
+2. ★該当ボトルネックのページキャプチャ（docs/captures/xxx-pc.png / xxx-sp.png）をReadで視覚確認してください
+3. known-implementations.json を読み、実装済み機能を把握してください
+4. feasibility-constraints.json を読み、制約チェックリストを把握してください
+5. 各 action に implementation_check と feasibility を記入してください
+6. status が "already_exists" の施策は代替案に差し替えてください
+7. 完了後 python3 scripts/audit-actions.py --week W{XX} で重複チェックを実行してください
 ```
 
 **修正対応（アカウントB）**:
@@ -544,6 +552,34 @@ https://v2-veltra-cvr.vercel.app/reports/{YYYY}-w{WW}/ を確認して、
 ---
 
 ## 11. データファイルのメンテナンス
+
+### site-features.md の更新（最優先・手動運用）
+
+`docs/site-features.md` は **VELTRAサイトの現仕様を人手で固定するドキュメント**。ページ単位で「今サイトに何があるか」を書く。打ち手提案時の重複回避に最も効く情報源。
+
+**更新タイミング**:
+- ユーザーが会話中に「覚えて: XX機能は既にある」と言った瞬間（Claudeが即 Edit）
+- サイト改修の情報を受け取った都度
+- 月次で棚卸し（`annotations.json` の直近リリースと照合）
+
+**更新フロー（「覚えて」対応）**:
+1. ユーザー発話例:「ACページ（SP）のカレンダーはもう翌月覗き見できる」
+2. Claude が該当セクション（§5 AC詳細ページ）に追記
+3. 同時に `known-implementations.json` の該当カテゴリにもキーワード付きで追記
+4. `git add docs/site-features.md known-implementations.json && git commit -m "docs: ACページ翌月カレンダー覗き見の現状メモ追記"`
+
+### docs/captures/ の更新
+
+`docs/captures/` は主要ページのPC/SPキャプチャ置き場。Claude（multi-modal）が現物UIを視覚的に把握するため。
+
+**更新タイミング**:
+- 初回セットアップ時（全14枚目安、`docs/captures/README.md` 参照）
+- 大きな改修（UI標準化・ヘッダーリデザイン等）があった都度
+- 四半期に1度の棚卸しで差分確認
+
+**使い方**:
+- Phase 2 で特定ボトルネックを分析するときに、該当ページのキャプチャ（例: `ac-sp.png`）を `Read` で読み込む
+- 読み込む枚数は2〜3枚まで（文脈節約）
 
 ### known-implementations.json の更新
 
