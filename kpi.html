@@ -82,6 +82,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .arrow-row .ar-box .ar-val{font-family:'DM Sans';font-size:26px;font-weight:900}
 .arrow-row .ar-arrow{font-size:24px;color:var(--text3)}
 .arrow-row .ar-box.ar-target .ar-val{color:var(--green)}
+.arrow-row .ar-box.ar-target .ar-label{color:var(--green)}
+.arrow-row .ar-box.ar-stretch{background:#fffbeb}
+.arrow-row .ar-box.ar-stretch .ar-val{color:var(--amber)}
+.arrow-row .ar-box.ar-stretch .ar-label{color:var(--amber)}
+.stretch-note{display:flex;align-items:center;gap:14px;padding:14px 44px;background:#fffbeb;font-size:13px;color:var(--text2);line-height:1.5}
+.stretch-note .sn-tag{background:var(--amber);color:#fff;font-weight:700;padding:3px 12px;border-radius:6px;font-size:11px;letter-spacing:.05em;flex-shrink:0}
+.stretch-note strong{color:var(--amber);font-weight:900}
 .schedule-bar{display:flex;align-items:center;gap:12px;padding:12px 44px 24px;font-size:14px;color:var(--text2)}
 .schedule-bar .sch-tag{background:var(--red);color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:6px;letter-spacing:.03em}
 
@@ -121,15 +128,19 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     </div>
     <div class="ar-arrow">→</div>
     <div class="ar-box ar-target">
-      <div class="ar-label">改善後 CVR</div>
+      <div class="ar-label">主目標（+1%）</div>
       <div class="ar-val" id="biz-cvr-target">1.429%</div>
     </div>
-    <div style="font-size:13px;color:var(--green);font-weight:700;background:var(--green-light);padding:6px 14px;border-radius:8px">+1% 改善</div>
+    <div class="ar-arrow">→</div>
+    <div class="ar-box ar-stretch">
+      <div class="ar-label">ストレッチ（YOY）</div>
+      <div class="ar-val" id="biz-cvr-stretch">1.557%</div>
+    </div>
   </div>
   <hr class="divider-solid">
   <div class="biz-grid">
     <div class="biz-cell">
-      <div class="bl">売上インパクト</div>
+      <div class="bl">売上インパクト（主目標）</div>
       <div class="bv">30億 → 30.3億</div>
       <div class="bs">+3,000万円の売上増</div>
     </div>
@@ -139,10 +150,14 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="bs">100万 × 5名 × 2ヶ月</div>
     </div>
     <div class="biz-cell biz-accent">
-      <div class="bl">ROI</div>
+      <div class="bl">ROI（主目標）</div>
       <div class="bv">+200%</div>
       <div class="bs">投資対効果 3倍</div>
     </div>
+  </div>
+  <div class="stretch-note">
+    <span class="sn-tag">ストレッチ</span>
+    <span>前年同期 YOY水準（1.557%）到達で、売上 <strong>+約3億円（30億 → 33億）</strong> / ROI <strong>+2,900%</strong>。目的は YOY への復帰。</span>
   </div>
   <hr class="divider-solid">
   <div class="schedule-bar">
