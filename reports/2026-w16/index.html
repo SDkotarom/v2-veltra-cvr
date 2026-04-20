@@ -27,18 +27,16 @@
   <div class="card">
     <div class="sec-tag"><span class="sec-num red">01</span><span class="sec-main">Conclusion — 結論</span></div>
     <div class="summary-hero">
-      <div class="summary-kicker">W16 SPOT ANALYSIS — データ品質インシデント</div>
+      <div class="summary-kicker">W16 / データ品質インシデント</div>
       <div class="summary-headline">
-        W16 は CVR悪化の週ではない。<br>
-        4/14〜4/16 に <em>シンガポールAWS発のbot 約38.9万セッション</em>が流入し分母を希釈。<br>
-        <em class="green">bot除外の実質CVRは +0.05pt の微改善</em>。購入数は <em class="green">+4.4%</em>（9,895→10,328）増。
+        <em class="green">実ユーザーのCVR・購入は前週比で微改善</em>。<br>
+        raw CVR が <em>0.94%（-0.43pt）</em> に見えるのは、4/14〜4/16 に Direct×Desktop へ流入した Singapore AWS bot 約 <em>38.9万セッション</em> による分母希釈。<br>
+        bot除外の実質CVR <em class="green">1.42%（+0.05pt）</em>、購入数 <em class="green">10,328件（+4.4%）</em>。
       </div>
       <div class="summary-sub">
-        見かけ上 CVR 1.37% → 0.94%（-0.43pt）と大幅悪化に見えるが、<strong>原因はユーザー行動ではなく計測基盤</strong>。
-        Direct × Desktop チャネルに 3日間で通常比 +590% のスクレイピング由来トラフィックが流入し、セッション数だけが水増しされた。
-        <strong>購入数は前週比 +4.4% 増（+433件）</strong>、実ユーザーの予約行動はむしろ改善している。
-        「CVR急落」と誤認してユーザー体験施策にリソースを振ると<strong>的外れ</strong>になる。
-        今週の本当の課題は<strong>「分母を汚染しているbotへの WAF 対応」と「raw/bot除外 CVR の二本併記」</strong>。
+        Direct × Desktop に 3日間で通常比 +590% のスクレイピング由来トラフィック。購入数は前週比 +433件で、実ユーザー行動に悪化はない。
+        今週の対応対象は UI/UX 施策ではなく、<strong>(1) 該当bot への WAF ブロック</strong>、<strong>(2) raw/bot除外 CVR の2本併記運用への移行</strong>、<strong>(3) 再来検知アラート</strong>の3点。
+        raw CVR 一本で判断するとユーザー体験施策に誤ってリソースを振る。
       </div>
       <div class="summary-kpi-strip">
         <div class="skpi">
