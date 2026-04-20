@@ -223,13 +223,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <thead>
         <tr>
           <th>四半期</th>
-          <th>2026 セッション</th>
-          <th>2026 CV数</th>
-          <th>2026 CVR</th>
-          <th>2025 セッション</th>
-          <th>2025 CV数</th>
-          <th>2025 CVR</th>
-          <th>YOY CVR変化</th>
+          <th>セッション数</th>
+          <th>CV数</th>
+          <th>目標 CVR</th>
+          <th>実績 CVR</th>
+          <th>前年 CVR</th>
+          <th>ステータス</th>
         </tr>
       </thead>
       <tbody id="quarterly-tbody"></tbody>
@@ -503,18 +502,29 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       var cvr26 = s26>0?p26/s26:0;
       var cvr25 = s25>0?p25/s25:0;
       var yoyQ = has26 && has25 ? cvr26-cvr25 : null;
+      var gapQ = has26 ? cvr26 - monthlyTarget : null;
+      var yoyStrQ = yoyQ!==null ? pp(yoyQ) : '—';
+      var yoyClsQ = yoyQ!==null ? gapClass(yoyQ) : 'gap-neut';
 
       var tr = document.createElement('tr');
       if(!has26) tr.style.opacity = '0.35';
+      var cvrCell = has26
+        ? '<td class="cvr-cell">'
+            +'<div class="cvr-main">'+pct(cvr26)+'</div>'
+            +'<div class="cvr-sub">'
+              +'<span><span class="gap-label">目標</span><span class="'+gapClass(gapQ)+'">'+pp(gapQ)+'</span></span>'
+              +'<span><span class="gap-label">YOY</span><span class="'+yoyClsQ+'">'+yoyStrQ+'</span></span>'
+            +'</div>'
+          +'</td>'
+        : '<td class="dim">—</td>';
       tr.innerHTML =
         '<td>'+q.label+'</td>'+
         '<td>'+(has26?fmt(s26):'—')+'</td>'+
         '<td>'+(has26?fmt(p26):'—')+'</td>'+
-        '<td style="font-weight:900">'+(has26?pct(cvr26):'—')+'</td>'+
-        '<td>'+(has25?fmt(s25):'—')+'</td>'+
-        '<td>'+(has25?fmt(p25):'—')+'</td>'+
-        '<td style="font-weight:900">'+(has25?pct(cvr25):'—')+'</td>'+
-        '<td class="'+(yoyQ!==null?gapClass(yoyQ):'dim')+'">'+(yoyQ!==null?pp(yoyQ):'—')+'</td>';
+        '<td class="dim">'+pct(monthlyTarget)+'</td>'+
+        cvrCell+
+        '<td class="dim">'+(has25?pct(cvr25):'—')+'</td>'+
+        '<td>'+(has26?badge(cvr26, monthlyTarget):'<span class="dim">—</span>')+'</td>';
       qTbody.appendChild(tr);
     });
 
