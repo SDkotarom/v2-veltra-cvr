@@ -8,53 +8,86 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--red:#E8423F;--red-light:#FFF5F5;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1;--border-dash:#d0cec8;--green:#16a34a;--green-light:#f0fdf4;--amber:#d97706;--amber-light:#fffbeb;--blue:#1B82C5;--blue-light:#EFF6FC;--indigo:#6366F1;--sky:#0EA5E9;--orange:#F59E0B}
-body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);padding:48px 32px;max-width:1200px;margin:0 auto;font-size:18px}
+:root{
+  --red:#E8423F;--red-light:#FFF5F5;--bg:#f5f4f0;--card:#fff;
+  --text:#1a1a1a;--text2:#555;--text3:#999;--border:#e8e6e1;
+  --green:#16a34a;--green-light:#f0fdf4;--amber:#d97706;--amber-light:#fffbeb;
+  --blue:#1B82C5;--blue-light:#EFF6FC;
+  --c-top:#E8423F;--c-top-light:#FFF0EF;
+  --c-area:#0EA5E9;--c-area-light:#EDF9FE;
+  --c-ac:#F59E0B;--c-ac-light:#FFF7E8;
+  --c-ctg:#6366F1;--c-ctg-light:#EFF0FF;
+}
+body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);padding:48px 32px;max-width:1200px;margin:0 auto;font-size:16px;line-height:1.6}
 .card{background:var(--card);border-radius:16px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.header-band{background:var(--blue);padding:24px 44px;display:flex;justify-content:space-between;align-items:center}
+.header-band{background:var(--blue);padding:28px 44px;display:flex;justify-content:space-between;align-items:center}
 .header-band .logo{font-family:'DM Sans';font-weight:900;font-size:26px;color:#fff;letter-spacing:.04em;border:2px solid rgba(255,255,255,.6);padding:4px 14px;border-radius:5px}
 .header-band .title{font-family:'DM Sans';font-size:22px;font-weight:500;color:rgba(255,255,255,.9)}
-.sec-label{padding:28px 44px 12px;font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
-.callout{background:var(--blue-light);border-left:4px solid var(--blue);padding:20px 28px;margin:0 44px 28px;border-radius:0 8px 8px 0}
-.callout .ct{font-size:16px;font-weight:700;color:var(--blue);margin-bottom:8px}
-.callout .cb{font-size:15px;color:var(--text2);line-height:1.8}
-.intro{padding:22px 44px 6px;font-size:15px;color:var(--text2);line-height:1.8}
-.meta-row{padding:0 44px 24px;font-size:13px;color:var(--text3)}
+.sec-label{padding:36px 44px 16px;font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
+.intro{padding:22px 44px 4px;font-size:17px;color:var(--text2);line-height:1.8}
+.meta-row{padding:0 44px 28px;font-size:13px;color:var(--text3)}
 .meta-row span{margin-right:18px}
 
-/* Comparison table */
-.cmp-table-wrap{padding:0 44px 32px;overflow-x:auto}
-.cmp-table{width:100%;border-collapse:collapse;font-size:14px}
-.cmp-table th{text-align:left;font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:12px 12px;border-bottom:2px solid var(--text);white-space:nowrap}
-.cmp-table td{padding:14px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
-.cmp-table td.name{font-weight:700;color:var(--text)}
-.cmp-table td.num{font-family:'DM Sans';font-variant-numeric:tabular-nums;white-space:nowrap}
-.cmp-table td.cvr{font-family:'DM Sans';font-weight:900;font-size:16px;font-variant-numeric:tabular-nums;white-space:nowrap}
-.entry-tag{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:8px;vertical-align:middle}
-.bar-cell{min-width:160px}
-.bar-track{background:var(--bg);height:9px;border-radius:4px;overflow:hidden;position:relative}
-.bar-fill{height:100%;border-radius:4px}
-.path{font-size:12px;color:var(--text3);margin-top:2px}
+/* Hero finding */
+.hero-msg{padding:8px 44px 28px}
+.hero-headline{font-size:26px;font-weight:900;color:var(--text);line-height:1.4;margin-bottom:12px}
+.hero-headline .h-red{color:var(--red)}
+.hero-sub{font-size:17px;color:var(--text2);line-height:1.85}
+.hero-sub b{color:var(--text);font-weight:700}
+
+/* Big CVR comparison (4 panels) */
+.cvr-grid{padding:0 44px 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.cvr-card{border:2px solid var(--border);border-radius:14px;padding:20px 18px;position:relative;overflow:hidden;background:#fff}
+.cvr-card.top{border-color:var(--c-top);background:var(--c-top-light)}
+.cvr-card.area{border-color:var(--c-area);background:var(--c-area-light)}
+.cvr-card.ac{border-color:var(--c-ac);background:var(--c-ac-light)}
+.cvr-card.ctg{border-color:var(--c-ctg);background:var(--c-ctg-light)}
+.cvr-card .cv-entry{font-size:15px;font-weight:700;color:var(--text);letter-spacing:.02em;margin-bottom:2px;display:flex;align-items:center;gap:6px}
+.cvr-card .cv-path{font-size:11px;color:var(--text3);font-family:monospace;margin-bottom:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cvr-card .cv-big{font-family:'DM Sans';font-weight:900;font-size:44px;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-bottom:4px}
+.cvr-card.top .cv-big{color:var(--c-top)}
+.cvr-card.area .cv-big{color:var(--c-area)}
+.cvr-card.ac .cv-big{color:var(--c-ac)}
+.cvr-card.ctg .cv-big{color:var(--c-ctg)}
+.cvr-card .cv-label{font-size:11px;color:var(--text3);font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.cvr-card .cv-sess{font-family:'DM Sans';font-size:15px;color:var(--text2);margin-top:12px;font-variant-numeric:tabular-nums}
+.cvr-card .cv-sess .b{font-weight:900;color:var(--text)}
+.cvr-card .cv-rank{position:absolute;top:16px;right:16px;background:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-family:'DM Sans';font-weight:900;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+/* Grouped CVR bar chart row */
+.cvr-rel{padding:0 44px 28px}
+.cvr-rel h3{font-size:14px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
+.cvr-rel-row{display:grid;grid-template-columns:160px 1fr 80px;gap:14px;align-items:center;padding:10px 0}
+.cvr-rel-row .name{font-weight:700;font-size:15px;color:var(--text);display:flex;align-items:center;gap:8px}
+.cvr-rel-row .name .d{width:12px;height:12px;border-radius:3px}
+.cvr-rel-row .track{height:28px;background:var(--bg);border-radius:6px;overflow:hidden;position:relative}
+.cvr-rel-row .fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:12px;color:#fff;font-family:'DM Sans';font-weight:900;font-size:15px}
+.cvr-rel-row .val{font-family:'DM Sans';font-weight:900;font-size:18px;text-align:right;font-variant-numeric:tabular-nums;color:var(--text)}
+
+@media(max-width:900px){
+  body{padding:24px 12px;font-size:15px}
+  .header-band,.sec-label,.intro,.meta-row,.hero-msg,.cvr-grid,.cvr-rel{padding-left:20px;padding-right:20px}
+  .cvr-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .cvr-card .cv-big{font-size:38px}
+  .hero-headline{font-size:22px}
+  .cvr-rel-row{grid-template-columns:120px 1fr 60px;gap:8px}
+  .cvr-rel-row .name{font-size:13px}
+}
 
 .footer{padding:24px 44px;font-size:13px;color:var(--text3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
-
-@media(max-width:768px){
-  body{padding:24px 12px;font-size:16px}
-  .header-band{padding:18px 20px}
-  .sec-label,.callout,.cmp-table-wrap,.footer,.intro,.meta-row{padding-left:20px;padding-right:20px}
-  .callout{margin-left:20px;margin-right:20px}
-}
 </style>
 </head>
 <body>
 
+<!-- ======================== Header ======================== -->
 <div class="card">
   <div class="header-band">
     <div class="logo">V2</div>
     <div class="title">エントリー別 CVR ジャーニー分析</div>
   </div>
   <div class="intro">
-    ユーザーが最初に着地したページ（landingPage）ごとに、到達ファネル・デバイス・新規/リピーター・遷移先ページを比較し、「どの入り口からのCVR体験が良いか／なぜ違いが出るか」を仮説化したレポートです。
+    着地ページ別に <b>CVR / ファネル / 次の遷移 / UI操作シグナル</b> を並べて、<br>
+    「どの入り口からのCVR体験が良いか・なぜ違いが出るか」を仮説化したレポート。
   </div>
   <div class="meta-row">
     <span>期間: <b>2026-03-22 〜 2026-04-18 (28日)</b></span>
@@ -66,79 +99,83 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <!-- ======================== Hero finding ======================== -->
 <div class="card">
   <div class="sec-label">Section 0 &mdash; 結論ファースト</div>
-  <div class="callout">
-    <div class="ct">結論 — CVRが最も高い入り口は「GlobalTOP」。ただし"TOP自体が強い"のではなく、"TOP着地は帰ってきた既存客が多い"のが実体。</div>
-    <div class="cb">
-      GlobalTOP 着地の CVR は <b>2.28%</b> で他の入り口の <b>約1.6倍〜2倍</b>。ただしこれは TOP ページの UI が優れているからではなく、"リピーターが直接 /jp/ を踏んでからウィッシュリスト・マイページ経由で購入へ向かう" というパターンが効いている（リピーターCVR <b>4.81%</b>、新規CVR <b>0.62%</b>、差 <b>7.8倍</b>）。<br>
-      逆に「カテゴリ」「エリア」「AC」着地は新規の検索流入が多く、CVRは 1.07〜1.21% 帯。ボトルネックは "新規に対するTOPの意向形成" と "AC→別ACの横移動中の意向消滅" に集約される。
+  <div class="hero-msg">
+    <div class="hero-headline">
+      CVRが最も高い入り口は <span class="h-red">GlobalTOP (2.28%)</span>。<br>
+      ただし"TOPが強い"のではなく<br>
+      <span class="h-red">"TOP着地はリピーターが多い"</span>のが実体。
+    </div>
+    <div class="hero-sub">
+      GlobalTOP着地は他の入り口の <b>1.6〜2.1倍</b> のCVR。内訳を見ると<br>
+      &nbsp;&nbsp;・<b>リピーターCVR = 4.81%</b>（TOP経由で再訪 → ウィッシュリスト／マイページ経由で購入）<br>
+      &nbsp;&nbsp;・<b>新規CVR = 0.62%</b>（TOPに来ても意向は弱く、離脱）<br>
+      <b style="color:var(--red)">差は7.8倍</b>。つまりTOPページの本質的な伸びしろは「新規に対する意向形成」。<br>
+      一方でカテゴリ／エリア／AC 着地は新規検索流入が多くCVRは <b>1.07〜1.21%</b> 帯。ここのボトルネックは <b>AC→別AC横移動中の意向消滅</b>。
     </div>
   </div>
 </div>
 
-<!-- ======================== Entry comparison ======================== -->
+<!-- ======================== 4-entry CVR cards (BIG) ======================== -->
 <div class="card">
-  <div class="sec-label">Section 1 &mdash; 4エントリー比較（28日・全デバイス）</div>
-  <div class="cmp-table-wrap">
-    <table class="cmp-table">
-      <thead>
-        <tr>
-          <th>エントリー</th>
-          <th class="num" style="text-align:right">Sessions</th>
-          <th class="num" style="text-align:right">Purchases</th>
-          <th style="text-align:right">CVR (session)</th>
-          <th class="bar-cell">CVR ビジュアル</th>
-          <th class="num" style="text-align:right">Bounce</th>
-          <th class="num" style="text-align:right">PV/Sess</th>
-          <th class="num" style="text-align:right">Dur(s)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="name"><span class="entry-tag" style="background:#E8423F"></span>GlobalTOP<div class="path">/jp/ (完全一致)</div></td>
-          <td class="num" style="text-align:right">222,134</td>
-          <td class="num" style="text-align:right">5,058</td>
-          <td class="cvr" style="text-align:right;color:#E8423F">2.28%</td>
-          <td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:100%;background:#E8423F"></div></div></td>
-          <td class="num" style="text-align:right">51.4%</td>
-          <td class="num" style="text-align:right">4.07</td>
-          <td class="num" style="text-align:right">260</td>
-        </tr>
-        <tr>
-          <td class="name"><span class="entry-tag" style="background:#0EA5E9"></span>エリアページ<div class="path">/jp/{region}/... (pure)</div></td>
-          <td class="num" style="text-align:right">322,989</td>
-          <td class="num" style="text-align:right">3,893</td>
-          <td class="cvr" style="text-align:right;color:#0EA5E9">1.21%</td>
-          <td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:53%;background:#0EA5E9"></div></div></td>
-          <td class="num" style="text-align:right">44.7%</td>
-          <td class="num" style="text-align:right">3.55</td>
-          <td class="num" style="text-align:right">293</td>
-        </tr>
-        <tr>
-          <td class="name"><span class="entry-tag" style="background:#F59E0B"></span>ACページ<div class="path">landing に /a/ を含む</div></td>
-          <td class="num" style="text-align:right">1,116,508</td>
-          <td class="num" style="text-align:right">12,040</td>
-          <td class="cvr" style="text-align:right;color:#F59E0B">1.08%</td>
-          <td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:47%;background:#F59E0B"></div></div></td>
-          <td class="num" style="text-align:right">54.9%</td>
-          <td class="num" style="text-align:right">2.04</td>
-          <td class="num" style="text-align:right">200</td>
-        </tr>
-        <tr>
-          <td class="name"><span class="entry-tag" style="background:#6366F1"></span>カテゴリページ<div class="path">landing に /ctg を含む</div></td>
-          <td class="num" style="text-align:right">718,973</td>
-          <td class="num" style="text-align:right">7,702</td>
-          <td class="cvr" style="text-align:right;color:#6366F1">1.07%</td>
-          <td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:47%;background:#6366F1"></div></div></td>
-          <td class="num" style="text-align:right">29.0%</td>
-          <td class="num" style="text-align:right">3.10</td>
-          <td class="num" style="text-align:right">287</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="sec-label">Section 1 &mdash; エントリー別CVR（28日・全デバイス）</div>
+
+  <div class="cvr-grid">
+    <div class="cvr-card top">
+      <div class="cv-rank">1</div>
+      <div class="cv-entry">🏠 GlobalTOP</div>
+      <div class="cv-path">/jp/</div>
+      <div class="cv-label">CVR (session)</div>
+      <div class="cv-big">2.28<span style="font-size:24px">%</span></div>
+      <div class="cv-sess"><span class="b">222,134</span> sess / <span class="b">5,058</span> purch</div>
+    </div>
+    <div class="cvr-card area">
+      <div class="cv-rank">2</div>
+      <div class="cv-entry">🗾 エリアページ</div>
+      <div class="cv-path">/jp/{region}/...</div>
+      <div class="cv-label">CVR (session)</div>
+      <div class="cv-big">1.21<span style="font-size:24px">%</span></div>
+      <div class="cv-sess"><span class="b">322,989</span> sess / <span class="b">3,893</span> purch</div>
+    </div>
+    <div class="cvr-card ac">
+      <div class="cv-rank">3</div>
+      <div class="cv-entry">🎫 ACページ</div>
+      <div class="cv-path">.../a/...</div>
+      <div class="cv-label">CVR (session)</div>
+      <div class="cv-big">1.08<span style="font-size:24px">%</span></div>
+      <div class="cv-sess"><span class="b">1,116,508</span> sess / <span class="b">12,040</span> purch</div>
+    </div>
+    <div class="cvr-card ctg">
+      <div class="cv-rank">4</div>
+      <div class="cv-entry">📂 カテゴリ</div>
+      <div class="cv-path">.../ctg...</div>
+      <div class="cv-label">CVR (session)</div>
+      <div class="cv-big">1.07<span style="font-size:24px">%</span></div>
+      <div class="cv-sess"><span class="b">718,973</span> sess / <span class="b">7,702</span> purch</div>
+    </div>
   </div>
-  <div style="padding:0 44px 28px;font-size:13px;color:var(--text3);line-height:1.8">
-    ※「エリアページ」は region 正規表現 (`^/jp/(hawaii|asia|oceania|japan|beach_resort|europe|north_america|latin_america|mideast|africa)/`) で絞り込み。プロモーション・マイページを含む広義フィルタでは sessions 106.4万、CVR 1.41% となる。<br>
-    ※ 上記は「ファーストビュー着地」のみで集計。セッション中に複数ページを経由した後のイベントは次セクションで分解。
+
+  <div class="cvr-rel">
+    <h3>CVR 相対比較（GlobalTOP = 100%）</h3>
+    <div class="cvr-rel-row">
+      <div class="name"><span class="d" style="background:var(--c-top)"></span>GlobalTOP</div>
+      <div class="track"><div class="fill" style="width:100%;background:var(--c-top)">2.28%</div></div>
+      <div class="val" style="color:var(--c-top)">×1.00</div>
+    </div>
+    <div class="cvr-rel-row">
+      <div class="name"><span class="d" style="background:var(--c-area)"></span>エリア</div>
+      <div class="track"><div class="fill" style="width:53%;background:var(--c-area)">1.21%</div></div>
+      <div class="val" style="color:var(--c-area)">×0.53</div>
+    </div>
+    <div class="cvr-rel-row">
+      <div class="name"><span class="d" style="background:var(--c-ac)"></span>AC</div>
+      <div class="track"><div class="fill" style="width:47%;background:var(--c-ac)">1.08%</div></div>
+      <div class="val" style="color:var(--c-ac)">×0.47</div>
+    </div>
+    <div class="cvr-rel-row">
+      <div class="name"><span class="d" style="background:var(--c-ctg)"></span>カテゴリ</div>
+      <div class="track"><div class="fill" style="width:47%;background:var(--c-ctg)">1.07%</div></div>
+      <div class="val" style="color:var(--c-ctg)">×0.47</div>
+    </div>
   </div>
 </div>
 
