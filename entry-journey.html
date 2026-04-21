@@ -72,6 +72,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   .hero-headline{font-size:22px}
   .cvr-rel-row{grid-template-columns:120px 1fr 60px;gap:8px}
   .cvr-rel-row .name{font-size:13px}
+  .ac-to-ac-grid{grid-template-columns:1fr !important}
 }
 
 /* =================== Journey Map (per entry) =================== */
@@ -804,6 +805,200 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         ピーク時のCVR 1.45%は <b>CTG より高い</b>が、<b>新規 0.50% vs リピ 2.98%</b> と差が大きい。新規は「ハワイ → オアフ → ワイキキ → AC」と階層を降りる必要があり、<b>ページ数が多いほど離脱リスク</b>。<br>
         <br>
         施策方向：①エリアページに <b>ファーストビューで人気AC上位</b> を出して階層スキップ、②TOP戻り10,880pv が発生している＝「エリアページからTOPに戻す導線」は無駄。<b>エリア同士の横移動（北海道↔東京↔沖縄）を容易にする</b>（globalナビ or エリア比較）。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Section 5: AC Journey Map (AC→AC focus) ============ -->
+<div class="card jm" style="--c:var(--c-ac)">
+  <div class="jm-head">
+    <div class="jm-icon">🎟️</div>
+    <div class="jm-title-wrap">
+      <div class="jm-title">ACページ 着地 <span style="color:var(--c-ac);font-size:14px;margin-left:8px">（&rarr; 別ACへの横移動に注目）</span></div>
+      <div class="jm-path">landingPage に <code>/a/</code> を含む</div>
+    </div>
+    <div class="jm-cvr-box">
+      <div class="jm-cvr-lbl">CVR (session)</div>
+      <div class="jm-cvr-val" style="color:var(--c-ac)">1.08%</div>
+      <div class="jm-cvr-sub">111.7万sess / 12,040 purchases</div>
+    </div>
+  </div>
+
+  <div class="jm-strip">
+    <div class="jm-strip-cell">
+      <div class="ks-lbl">直帰率</div>
+      <div class="ks-val" style="color:var(--red)">54.9%</div>
+      <div class="ks-sub">4エントリー中 <b>最悪</b></div>
+    </div>
+    <div class="jm-strip-cell">
+      <div class="ks-lbl">PV/セッション</div>
+      <div class="ks-val">2.04</div>
+      <div class="ks-sub">ほぼAC1枚で終わる</div>
+    </div>
+    <div class="jm-strip-cell">
+      <div class="ks-lbl">平均滞在</div>
+      <div class="ks-val">200<span class="u">s</span></div>
+      <div class="ks-sub">最短（CTGより -87s）</div>
+    </div>
+    <div class="jm-strip-cell">
+      <div class="ks-lbl">AC PV/セッション</div>
+      <div class="ks-val" style="color:var(--c-ac)">1.67</div>
+      <div class="ks-sub">約 <b>40%</b> が複数AC閲覧</div>
+    </div>
+  </div>
+
+  <div class="jm-sec-title">① ユーザーファネル（AC着地 → 購入）</div>
+  <div class="jm-funnel">
+    <div class="jm-f-row">
+      <div class="step">着地ユーザー</div>
+      <div class="bar"><div class="fill" style="width:100%;background:var(--c-ac)">897,923</div></div>
+      <div class="pct">100%</div>
+    </div>
+    <div class="jm-drop">↓ 0.07% ロスト（定義上 AC到達≒着地）</div>
+    <div class="jm-f-row">
+      <div class="step">AC到達</div>
+      <div class="bar"><div class="fill" style="width:100%;background:var(--c-ac)">897,328</div></div>
+      <div class="pct">99.9%</div>
+    </div>
+    <div class="jm-drop">↓ カレンダー未開 <b>93.3%</b> ロスト（ここが最大の壁）</div>
+    <div class="jm-f-row">
+      <div class="step">カレンダー表示</div>
+      <div class="bar"><div class="fill" style="width:6.7%;background:var(--c-ac)">60,304</div></div>
+      <div class="pct">6.7%</div>
+    </div>
+    <div class="jm-drop">↓ フォーム未着手 <b>68.7%</b> ロスト</div>
+    <div class="jm-f-row">
+      <div class="step">フォーム開始</div>
+      <div class="bar"><div class="fill" style="width:2.1%;background:var(--c-ac)">18,879</div></div>
+      <div class="pct">2.1%</div>
+    </div>
+    <div class="jm-drop">↓ フォーム離脱 <b>36.2%</b></div>
+    <div class="jm-f-row">
+      <div class="step">購入</div>
+      <div class="bar"><div class="fill" style="width:1.4%;background:var(--green)">12,040</div></div>
+      <div class="pct" style="color:var(--green)"><b>1.34%</b></div>
+    </div>
+  </div>
+
+  <!-- AC→AC 特化ブロック -->
+  <div class="jm-sec-title">② AC→AC 横移動の実態</div>
+  <div style="padding:0 44px 0;display:grid;grid-template-columns:1fr 1fr;gap:24px" class="ac-to-ac-grid">
+    <div style="background:#FFFBEB;border:1px solid #FCD34D;border-radius:14px;padding:22px">
+      <div style="font-size:12px;color:#92400E;font-weight:700;letter-spacing:.06em">AC PAGEVIEWS / SESSION</div>
+      <div style="font-size:52px;font-weight:900;font-family:'DM Sans';color:var(--c-ac);line-height:1;margin-top:8px;font-variant-numeric:tabular-nums">1.67</div>
+      <div style="font-size:13px;color:var(--text2);margin-top:10px">
+        着地セッション <b>111.6万</b> に対してAC閲覧数 <b>186.8万</b><br>
+        → 1セッションあたり <b>平均1.67枚のAC</b> を見ている<br>
+        → 約 <b>40%</b> のセッションが <b>2枚以上のACを比較</b>
+      </div>
+    </div>
+    <div style="background:#FEF2F2;border:1px solid #FCA5A5;border-radius:14px;padding:22px">
+      <div style="font-size:12px;color:#991B1B;font-weight:700;letter-spacing:.06em">BOUNCE</div>
+      <div style="font-size:52px;font-weight:900;font-family:'DM Sans';color:var(--red);line-height:1;margin-top:8px;font-variant-numeric:tabular-nums">54.9<span style="font-size:26px">%</span></div>
+      <div style="font-size:13px;color:var(--text2);margin-top:10px">
+        AC着地の <b>半数超が1枚で去る</b><br>
+        → AC→AC を回遊するのは残り45%の中の約40%<br>
+        → <b>比較したい人は最初からエリア/カテゴリに行く</b> 仮説
+      </div>
+    </div>
+  </div>
+
+  <div class="jm-sec-title">③ 次に踏むページ（Top5 / 28日PV）</div>
+  <div class="jm-next">
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">🎟️</span><span>富山AC 176703<span class="np-path">/jp/japan/toyama/a/176703</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:100%;background:var(--c-ac)"></div></div>
+      <div class="np-pv">5,538<span class="u">pv</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">🎟️</span><span>ソウルAC 12954<span class="np-path">/jp/asia/korea/seoul/a/12954</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:85%;background:var(--c-ac)"></div></div>
+      <div class="np-pv">4,713<span class="u">pv</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">🎟️</span><span>東京AC 170809<span class="np-path">/jp/japan/tokyo/a/170809?cid=hp</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:75%;background:var(--c-ac)"></div></div>
+      <div class="np-pv">4,184<span class="u">pv</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">🎟️</span><span>大阪AC 121936<span class="np-path">/jp/japan/osaka/a/121936</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:73%;background:var(--c-ac)"></div></div>
+      <div class="np-pv">4,020<span class="u">pv</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">🎟️</span><span>東京AC 171041<span class="np-path">/jp/japan/tokyo/a/171041</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:66%;background:var(--c-ac)"></div></div>
+      <div class="np-pv">3,643<span class="u">pv</span></div>
+    </div>
+  </div>
+  <div style="padding:0 44px;font-size:12px;color:var(--text3);margin-top:-6px">※ 次ページTOP5が全て別AC＝"レコメンド/関連AC経由の横移動" が主な回遊パターン</div>
+
+  <div class="jm-sec-title">④ UI操作シグナル（1,000セッションあたり）</div>
+  <div class="jm-signals">
+    <div class="sig strong">
+      <div class="ic">👁️</div>
+      <div class="val">1,365<span class="unit">‰</span></div>
+      <div class="lbl">view_item<br>(=1.67枚見てる)</div>
+    </div>
+    <div class="sig weak">
+      <div class="ic">📜</div>
+      <div class="val">261<span class="unit">‰</span></div>
+      <div class="lbl">スクロール到達<br>ACページの26%のみ</div>
+    </div>
+    <div class="sig weak">
+      <div class="ic">❤️</div>
+      <div class="val">5.9<span class="unit">‰</span></div>
+      <div class="lbl">ウィッシュリスト<br>追加</div>
+    </div>
+    <div class="sig strong">
+      <div class="ic">🛒</div>
+      <div class="val">10.8<span class="unit">‰</span></div>
+      <div class="lbl">購入イベント</div>
+    </div>
+  </div>
+
+  <div class="jm-sec-title">⑤ セグメント内訳：誰が買っているか</div>
+  <div class="jm-seg">
+    <div class="jm-seg-block">
+      <h4>新規 vs リピーター（CVR）</h4>
+      <div class="jm-seg-row">
+        <div class="sl">🆕 新規</div>
+        <div class="sb"><div class="f" style="width:15%;background:#999">0.39%</div></div>
+        <div class="sv lo">741,838</div>
+      </div>
+      <div class="jm-seg-row">
+        <div class="sl">🔁 リピ</div>
+        <div class="sb"><div class="f" style="width:100%;background:var(--green)">2.67%</div></div>
+        <div class="sv hi">342,846</div>
+      </div>
+      <div style="font-size:12px;color:var(--text3);margin-top:6px">リピは新規の <b style="color:var(--green)">×6.9</b>（TOP×7.8 に次ぐ大差）<br>新規ACLP着地は <b>直接流入の大半が離脱</b>（広告/SNS/SEOの質要確認）</div>
+    </div>
+    <div class="jm-seg-block">
+      <h4>デバイス別（CVR）</h4>
+      <div class="jm-seg-row">
+        <div class="sl">💻 PC</div>
+        <div class="sb"><div class="f" style="width:38%;background:#999">0.56%</div></div>
+        <div class="sv lo">531,664</div>
+      </div>
+      <div class="jm-seg-row">
+        <div class="sl">📱 SP</div>
+        <div class="sb"><div class="f" style="width:100%;background:var(--green)">1.48%</div></div>
+        <div class="sv hi">603,778</div>
+      </div>
+      <div style="font-size:12px;color:var(--text3);margin-top:6px">SPはPCの <b style="color:var(--green)">×2.6</b>（この差もTOPと同じ傾向） → <b>PC AC着地のCVR 0.56%</b> は全LP中最低、広告着地点の最適化余地大</div>
+    </div>
+  </div>
+
+  <div class="jm-hypo">
+    <div class="hypo-card">
+      <div class="ht">🧠 行動仮説</div>
+      <div class="hb">
+        ACページは <b>広告/SEO/SNSで1商品ピンポイント着地</b> → 半数がそこで離脱、残りの40%が <b>関連AC/別エリアACへ1.67枚回遊</b> する二峰型。<br>
+        <br>
+        <b>カレンダー未開 93%</b> が全LP中最悪。着地直後のカレンダー視認性（特にPC）、価格と空き状況の即時表示、<b>「日程を選んでください」という誘引</b>が弱い可能性が高い。<br>
+        <br>
+        施策候補：①<b>AC LPのファーストビューにカレンダー＋価格</b>を置く（既にSP翌月覗き見は2026-04導入、効果検証待ち）、②<b>離脱間際の関連AC表示</b>（モーダル/フッターカルーセル）、③<b>新規×PC着地者に対する"比較できる導線"</b>（現状は1枚見て去るだけ）。
       </div>
     </div>
   </div>
