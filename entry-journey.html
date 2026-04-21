@@ -74,6 +74,88 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   .cvr-rel-row .name{font-size:13px}
 }
 
+/* =================== Journey Map (per entry) =================== */
+.jm-head{padding:24px 44px 0;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.jm-icon{font-size:44px;line-height:1}
+.jm-title-wrap{flex:1}
+.jm-title{font-size:24px;font-weight:900;color:var(--text);line-height:1.2}
+.jm-path{font-family:monospace;font-size:13px;color:var(--text3);margin-top:4px}
+.jm-cvr-box{text-align:right}
+.jm-cvr-lbl{font-size:11px;color:var(--text3);font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.jm-cvr-val{font-family:'DM Sans';font-size:42px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.jm-cvr-sub{font-size:12px;color:var(--text3);margin-top:4px;font-variant-numeric:tabular-nums}
+.jm-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:20px 44px 0;margin-top:20px;border-top:1px dashed var(--border)}
+.jm-strip-cell{text-align:center;padding:12px 8px}
+.jm-strip-cell .s-lbl{font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.jm-strip-cell .s-val{font-family:'DM Sans';font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--text)}
+.jm-strip-cell .s-val .u{font-size:13px;color:var(--text3);font-weight:500}
+
+/* Funnel horizontal bars */
+.jm-sec-title{padding:32px 44px 14px;font-size:16px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:10px}
+.jm-sec-title::before{content:"";width:4px;height:20px;border-radius:2px;background:var(--text)}
+.jm-funnel{padding:4px 44px 12px}
+.jm-f-row{display:grid;grid-template-columns:130px 1fr 120px;gap:16px;align-items:center;padding:10px 0;position:relative}
+.jm-f-row .f-step{font-weight:700;font-size:14px;color:var(--text)}
+.jm-f-row .f-step .num{font-family:'DM Sans';font-weight:900;font-size:11px;color:#fff;background:var(--text3);border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;margin-right:6px}
+.jm-f-row .f-bar{height:36px;border-radius:6px;background:var(--bg);overflow:hidden;position:relative}
+.jm-f-row .f-bar .fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:14px;color:#fff;font-family:'DM Sans';font-weight:900;font-size:16px;font-variant-numeric:tabular-nums;min-width:60px}
+.jm-f-row .f-pct{font-family:'DM Sans';font-weight:900;font-size:18px;color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
+.jm-f-row .f-pct .sub{font-size:11px;font-weight:500;color:var(--text3);display:block;margin-top:-2px}
+.jm-drop{padding:4px 0 4px 130px;font-size:12px;color:var(--red);font-weight:700;display:flex;align-items:center;gap:6px}
+.jm-drop::before{content:"↓";font-size:14px}
+
+/* Next pages visualization */
+.jm-next{padding:0 44px 12px}
+.jm-next-row{display:grid;grid-template-columns:1fr 120px 100px;gap:14px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--border)}
+.jm-next-row:last-child{border-bottom:none}
+.jm-next-row .np-label{font-size:14px;color:var(--text);font-weight:600;display:flex;align-items:center;gap:8px}
+.jm-next-row .np-icon{font-size:18px;flex-shrink:0}
+.jm-next-row .np-path{font-family:monospace;font-size:11px;color:var(--text3);display:block;margin-top:2px;font-weight:400}
+.jm-next-row .np-bar{height:18px;background:var(--bg);border-radius:4px;overflow:hidden}
+.jm-next-row .np-bar .fill{height:100%}
+.jm-next-row .np-pv{font-family:'DM Sans';font-weight:900;font-size:15px;text-align:right;font-variant-numeric:tabular-nums;color:var(--text)}
+.jm-next-row .np-pv .u{font-size:11px;color:var(--text3);font-weight:500}
+
+/* UI signal grid */
+.jm-signals{padding:0 44px 12px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.sig{border-radius:10px;padding:14px 14px;text-align:center}
+.sig.strong{background:var(--green-light);color:var(--green)}
+.sig.weak{background:var(--red-light);color:var(--red)}
+.sig.neutral{background:var(--bg);color:var(--text2)}
+.sig .ic{font-size:22px;line-height:1;margin-bottom:6px}
+.sig .val{font-family:'DM Sans';font-size:24px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.sig .unit{font-size:11px;font-weight:500;opacity:.7}
+.sig .lbl{font-size:12px;font-weight:700;margin-top:6px}
+
+/* Hypothesis callout */
+.jm-hypo{padding:20px 44px 28px}
+.hypo-card{background:var(--amber-light);border:1px solid var(--amber);border-radius:12px;padding:18px 22px}
+.hypo-card .ht{font-size:13px;font-weight:900;color:var(--amber);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.hypo-card .hb{font-size:15px;color:var(--text);line-height:1.85}
+.hypo-card .hb b{color:var(--amber);font-weight:900}
+
+/* Device/Returning split viz (horizontal stacked) */
+.jm-seg{padding:0 44px 20px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.jm-seg-block h4{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;letter-spacing:.02em}
+.jm-seg-row{display:grid;grid-template-columns:90px 1fr 70px;gap:10px;align-items:center;padding:8px 0;font-size:13px}
+.jm-seg-row .sl{color:var(--text);font-weight:600;display:flex;align-items:center;gap:6px}
+.jm-seg-row .sb{height:20px;background:var(--bg);border-radius:4px;overflow:hidden}
+.jm-seg-row .sb .f{height:100%;display:flex;align-items:center;padding:0 8px;color:#fff;font-family:'DM Sans';font-weight:700;font-size:11px;font-variant-numeric:tabular-nums;min-width:40px}
+.jm-seg-row .sv{font-family:'DM Sans';font-weight:900;font-variant-numeric:tabular-nums;text-align:right}
+.jm-seg-row .sv.hi{color:var(--green)}
+.jm-seg-row .sv.lo{color:var(--red)}
+
+@media(max-width:900px){
+  .jm-head,.jm-strip,.jm-sec-title,.jm-funnel,.jm-next,.jm-signals,.jm-hypo,.jm-seg{padding-left:20px;padding-right:20px}
+  .jm-strip{grid-template-columns:1fr 1fr}
+  .jm-f-row{grid-template-columns:100px 1fr 80px;gap:10px}
+  .jm-drop{padding-left:100px}
+  .jm-next-row{grid-template-columns:1fr 80px 70px;gap:10px}
+  .jm-signals{grid-template-columns:1fr 1fr}
+  .jm-seg{grid-template-columns:1fr}
+  .jm-cvr-val{font-size:34px}
+}
+
 .footer{padding:24px 44px;font-size:13px;color:var(--text3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 </style>
 </head>
@@ -175,6 +257,174 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="name"><span class="d" style="background:var(--c-ctg)"></span>カテゴリ</div>
       <div class="track"><div class="fill" style="width:47%;background:var(--c-ctg)">1.07%</div></div>
       <div class="val" style="color:var(--c-ctg)">×0.47</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== Section 2: GlobalTOP ======================== -->
+<div class="card">
+  <div class="sec-label">Section 2 &mdash; GlobalTOP のジャーニー</div>
+
+  <div class="jm-head">
+    <div class="jm-icon">🏠</div>
+    <div class="jm-title-wrap">
+      <div class="jm-title">GlobalTOP 着地</div>
+      <div class="jm-path">/jp/ (exact)</div>
+    </div>
+    <div class="jm-cvr-box">
+      <div class="jm-cvr-lbl">CVR</div>
+      <div class="jm-cvr-val" style="color:var(--c-top)">2.28%</div>
+      <div class="jm-cvr-sub">222,134 sess / 5,058 purch</div>
+    </div>
+  </div>
+
+  <div class="jm-strip">
+    <div class="jm-strip-cell"><div class="s-lbl">Bounce</div><div class="s-val">51<span class="u">%</span></div></div>
+    <div class="jm-strip-cell"><div class="s-lbl">PV / Sess</div><div class="s-val">4.07</div></div>
+    <div class="jm-strip-cell"><div class="s-lbl">Duration</div><div class="s-val">260<span class="u">s</span></div></div>
+    <div class="jm-strip-cell"><div class="s-lbl">Engaged</div><div class="s-val">48.6<span class="u">%</span></div></div>
+  </div>
+
+  <div class="jm-sec-title">① 5段階ファネル（ユーザーベース）</div>
+  <div class="jm-funnel">
+    <div class="jm-f-row">
+      <div class="f-step"><span class="num">1</span>着地</div>
+      <div class="f-bar"><div class="fill" style="width:100%;background:var(--c-top)">154,277</div></div>
+      <div class="f-pct">100%<span class="sub">users</span></div>
+    </div>
+    <div class="jm-drop">−79.0pp 離脱（ほとんどがTOPで完結＝bookmark戻り）</div>
+    <div class="jm-f-row">
+      <div class="f-step"><span class="num">2</span>AC到達</div>
+      <div class="f-bar"><div class="fill" style="width:21%;background:var(--c-top)">32,405</div></div>
+      <div class="f-pct">21.0%<span class="sub">of landed</span></div>
+    </div>
+    <div class="jm-drop">−14.3pp（AC見てもカレンダー開かず）</div>
+    <div class="jm-f-row">
+      <div class="f-step"><span class="num">3</span>カレンダー閲覧</div>
+      <div class="f-bar"><div class="fill" style="width:6.7%;background:var(--c-top)">10,344</div></div>
+      <div class="f-pct">6.7%<span class="sub">of landed</span></div>
+    </div>
+    <div class="jm-drop">−1.6pp（日程＋価格見て離脱は少ない）</div>
+    <div class="jm-f-row">
+      <div class="f-step"><span class="num">4</span>フォーム着手</div>
+      <div class="f-bar"><div class="fill" style="width:5.1%;background:var(--c-top)">7,916</div></div>
+      <div class="f-pct">5.1%<span class="sub">of landed</span></div>
+    </div>
+    <div class="jm-drop">−1.8pp（フォームで64%が完了＝良い）</div>
+    <div class="jm-f-row">
+      <div class="f-step"><span class="num">5</span>購入完了</div>
+      <div class="f-bar"><div class="fill" style="width:3.3%;background:var(--c-top)">5,058</div></div>
+      <div class="f-pct" style="color:var(--c-top)">3.3%<span class="sub">user CVR</span></div>
+    </div>
+  </div>
+
+  <div class="jm-sec-title">② 次に踏むページ（Top10 / 28日PV）</div>
+  <div class="jm-next">
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">❤️</span><span>ウィッシュリスト<span class="np-path">/jp/wishlist/</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:100%;background:var(--c-top)"></div></div>
+      <div class="np-pv">83,953<span class="u">pv</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">🔍</span><span>検索<span class="np-path">/jp/search/</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:41%;background:var(--c-top)"></div></div>
+      <div class="np-pv">34,086<span class="u">pv</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">📝</span><span>予約フォーム<span class="np-path">/jp/booking</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:17%;background:var(--c-top)"></div></div>
+      <div class="np-pv">13,895<span class="u">pv</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">👤</span><span>マイページ予約履歴<span class="np-path">/jp/mypage/booking_list/</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:10%;background:var(--c-top)"></div></div>
+      <div class="np-pv">8,640<span class="u">pv</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">🌺</span><span>オアフ島<span class="np-path">/jp/hawaii/oahu/</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:7%;background:var(--c-top)"></div></div>
+      <div class="np-pv">5,467<span class="u">pv</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">✅</span><span>購入完了<span class="np-path">/jp/booking/reservation_complete2</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:6%;background:var(--c-top)"></div></div>
+      <div class="np-pv">5,414<span class="u">pv</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">🎁</span><span>春プロモ<span class="np-path">/jp/promotion/2026spring/</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:3%;background:var(--c-top)"></div></div>
+      <div class="np-pv">2,557<span class="u">pv</span></div>
+    </div>
+  </div>
+
+  <div class="jm-sec-title">③ UI操作シグナル（1,000セッションあたり）</div>
+  <div class="jm-signals">
+    <div class="sig strong">
+      <div class="ic">📜</div>
+      <div class="val">799<span class="unit">‰</span></div>
+      <div class="lbl">スクロール到達<br>(90%深度)</div>
+    </div>
+    <div class="sig strong">
+      <div class="ic">👁️</div>
+      <div class="val">901<span class="unit">‰</span></div>
+      <div class="lbl">view_item<br>(AC閲覧)</div>
+    </div>
+    <div class="sig neutral">
+      <div class="ic">🔍</div>
+      <div class="val">29<span class="unit">‰</span></div>
+      <div class="lbl">検索フィルター<br>クリック</div>
+    </div>
+    <div class="sig neutral">
+      <div class="ic">❤️</div>
+      <div class="val">33<span class="unit">‰</span></div>
+      <div class="lbl">ウィッシュリスト<br>追加</div>
+    </div>
+  </div>
+
+  <div class="jm-sec-title">④ セグメント内訳：誰が買っているか</div>
+  <div class="jm-seg">
+    <div class="jm-seg-block">
+      <h4>新規 vs リピーター（CVR）</h4>
+      <div class="jm-seg-row">
+        <div class="sl">🆕 新規</div>
+        <div class="sb"><div class="f" style="width:13%;background:#999">0.62%</div></div>
+        <div class="sv lo">122,361</div>
+      </div>
+      <div class="jm-seg-row">
+        <div class="sl">🔁 リピ</div>
+        <div class="sb"><div class="f" style="width:100%;background:var(--green)">4.81%</div></div>
+        <div class="sv hi">89,448</div>
+      </div>
+      <div style="font-size:12px;color:var(--text3);margin-top:6px">リピーターは新規の <b style="color:var(--green)">×7.8</b></div>
+    </div>
+    <div class="jm-seg-block">
+      <h4>デバイス別（CVR）</h4>
+      <div class="jm-seg-row">
+        <div class="sl">💻 PC</div>
+        <div class="sb"><div class="f" style="width:39%;background:#999">1.39%</div></div>
+        <div class="sv">122,240</div>
+      </div>
+      <div class="jm-seg-row">
+        <div class="sl">📱 SP</div>
+        <div class="sb"><div class="f" style="width:100%;background:var(--green)">3.57%</div></div>
+        <div class="sv hi">92,476</div>
+      </div>
+      <div style="font-size:12px;color:var(--text3);margin-top:6px">SPはPCの <b style="color:var(--green)">×2.6</b>（TOPに来るSP=アプリ風リピ）</div>
+    </div>
+  </div>
+
+  <div class="jm-hypo">
+    <div class="hypo-card">
+      <div class="ht">🧠 行動仮説</div>
+      <div class="hb">
+        TOPに来るユーザーは <b>"また予約しに戻ってきたリピーター"</b> が主力。着地後の導線は3つに分岐する：<br>
+        &nbsp;&nbsp;① <b>ウィッシュリスト</b>（8.4万PV）で前回保存したACを思い出し、そこから再比較<br>
+        &nbsp;&nbsp;② <b>検索</b>（3.4万PV）で今回のテーマを入力して絞り込み<br>
+        &nbsp;&nbsp;③ <b>直接 /jp/booking</b>（1.4万PV）＝前回中断の再開<br>
+        <br>
+        新規にとってTOPは「何を選べばいいか分からない巨大なLP」になっており、<b>TOP経由の新規CVR 0.62%</b> は構造的に低い。<br>
+        <b>新規に対してはTOP着地を減らし、興味領域(エリア/カテゴリ)に直接誘導する方が安全</b>。一方リピーターは今のウィッシュリスト/マイページ導線が効いており、この動線をもっと早く見せる／続けて見せる設計が伸びしろ。
+      </div>
     </div>
   </div>
 </div>
