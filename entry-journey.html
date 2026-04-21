@@ -75,6 +75,39 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   .ac-to-ac-grid{grid-template-columns:1fr !important}
 }
 
+/* =================== Section 6: Cross-cutting =================== */
+.cc-matrix{padding:0 44px 8px;display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:13px}
+.cc-matrix .cc-h{background:#F9FAFB;font-weight:700;color:var(--text2);padding:10px 12px;text-align:center;font-size:11px;letter-spacing:.04em;text-transform:uppercase}
+.cc-matrix .cc-l{background:#F9FAFB;font-weight:700;padding:10px 12px;color:var(--text)}
+.cc-matrix .cc-v{background:#fff;padding:10px 12px;text-align:center;font-variant-numeric:tabular-nums}
+.cc-matrix .cc-v.best{background:#ECFDF5;color:#065F46;font-weight:700}
+.cc-matrix .cc-v.worst{background:#FEF2F2;color:#991B1B;font-weight:700}
+.cc-insights{padding:16px 44px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.cc-card{background:#F9FAFB;border:1px solid var(--border);border-radius:14px;padding:18px}
+.cc-card .cc-no{font-family:'DM Sans';font-size:11px;font-weight:800;color:var(--red);letter-spacing:.12em}
+.cc-card .cc-t{font-size:15px;font-weight:700;margin:4px 0 8px;line-height:1.4}
+.cc-card .cc-b{font-size:12px;color:var(--text2);line-height:1.65}
+.cc-card .cc-b b{color:var(--text)}
+
+.act-table{padding:8px 44px 8px}
+.act-row{display:grid;grid-template-columns:60px 1fr 220px 120px;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--border)}
+.act-row:last-child{border-bottom:none}
+.act-prio{font-family:'DM Sans';font-size:22px;font-weight:900;text-align:center;padding:6px 0;border-radius:10px;color:#fff}
+.act-prio.p1{background:var(--red)}
+.act-prio.p2{background:#F59E0B}
+.act-prio.p3{background:#6B7280}
+.act-desc .t{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px}
+.act-desc .d{font-size:12px;color:var(--text2);line-height:1.55}
+.act-target{font-size:11px;color:var(--text2);line-height:1.4}
+.act-target .tag{display:inline-block;background:#EEF2FF;color:#3730A3;padding:2px 8px;border-radius:6px;margin-right:4px;margin-bottom:2px;font-weight:700;font-size:10px}
+.act-impact{text-align:center;font-family:'DM Sans';font-weight:800;font-size:15px}
+@media(max-width:900px){
+  .cc-matrix{grid-template-columns:100px repeat(4,1fr);font-size:11px}
+  .cc-insights{grid-template-columns:1fr}
+  .act-row{grid-template-columns:50px 1fr;gap:8px}
+  .act-target,.act-impact{grid-column:2/3}
+}
+
 /* =================== Journey Map (per entry) =================== */
 .jm-head{padding:24px 44px 0;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .jm-icon{font-size:44px;line-height:1}
@@ -1001,6 +1034,195 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         施策候補：①<b>AC LPのファーストビューにカレンダー＋価格</b>を置く（既にSP翌月覗き見は2026-04導入、効果検証待ち）、②<b>離脱間際の関連AC表示</b>（モーダル/フッターカルーセル）、③<b>新規×PC着地者に対する"比較できる導線"</b>（現状は1枚見て去るだけ）。
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ============ Section 6: Cross-cutting Hypotheses & Actions ============ -->
+<div class="card">
+  <div class="sec-label">Section 6 &mdash; 横断サマリー：4入り口の比較と打ち手候補</div>
+
+  <!-- 比較マトリクス -->
+  <div style="padding:4px 44px 12px;font-size:13px;color:var(--text2)">4エントリー横並び比較（最良=緑／最悪=赤）</div>
+  <div class="cc-matrix">
+    <div class="cc-h">指標</div>
+    <div class="cc-h" style="color:#E8423F">🏠 TOP</div>
+    <div class="cc-h" style="color:#6366F1">📂 CTG</div>
+    <div class="cc-h" style="color:#0EA5E9">🗺️ エリア</div>
+    <div class="cc-h" style="color:#F59E0B">🎟️ AC</div>
+
+    <div class="cc-l">セッション</div>
+    <div class="cc-v">22.2万</div>
+    <div class="cc-v">71.9万</div>
+    <div class="cc-v">32.3万</div>
+    <div class="cc-v">111.7万</div>
+
+    <div class="cc-l">CVR (session)</div>
+    <div class="cc-v best">2.28%</div>
+    <div class="cc-v">1.07%</div>
+    <div class="cc-v">1.21%</div>
+    <div class="cc-v worst">1.08%</div>
+
+    <div class="cc-l">直帰率</div>
+    <div class="cc-v">51.4%</div>
+    <div class="cc-v best">29.0%</div>
+    <div class="cc-v">44.7%</div>
+    <div class="cc-v worst">54.9%</div>
+
+    <div class="cc-l">PV / セッション</div>
+    <div class="cc-v best">4.07</div>
+    <div class="cc-v">3.10</div>
+    <div class="cc-v">3.55</div>
+    <div class="cc-v worst">2.04</div>
+
+    <div class="cc-l">平均滞在</div>
+    <div class="cc-v">260s</div>
+    <div class="cc-v">287s</div>
+    <div class="cc-v best">293s</div>
+    <div class="cc-v worst">200s</div>
+
+    <div class="cc-l">新規CVR</div>
+    <div class="cc-v">0.62%</div>
+    <div class="cc-v">0.60%</div>
+    <div class="cc-v">0.50%</div>
+    <div class="cc-v worst">0.39%</div>
+
+    <div class="cc-l">リピCVR</div>
+    <div class="cc-v best">4.81%</div>
+    <div class="cc-v">2.17%</div>
+    <div class="cc-v">2.98%</div>
+    <div class="cc-v">2.67%</div>
+
+    <div class="cc-l">リピ/新規倍率</div>
+    <div class="cc-v worst">×7.8</div>
+    <div class="cc-v best">×3.6</div>
+    <div class="cc-v">×6.0</div>
+    <div class="cc-v">×6.9</div>
+
+    <div class="cc-l">SP / PC CVR比</div>
+    <div class="cc-v worst">SP×2.6</div>
+    <div class="cc-v best">ほぼ同</div>
+    <div class="cc-v">PC優勢</div>
+    <div class="cc-v">SP×2.6</div>
+
+    <div class="cc-l">カレンダー到達率</div>
+    <div class="cc-v best">6.7%</div>
+    <div class="cc-v">7.8%</div>
+    <div class="cc-v">12.3%</div>
+    <div class="cc-v worst">6.7%</div>
+  </div>
+
+  <!-- 横断インサイト -->
+  <div class="cc-insights">
+    <div class="cc-card">
+      <div class="cc-no">INSIGHT 01</div>
+      <div class="cc-t">「新規CVR」が全LP共通のボトルネック（0.4〜0.6%帯）</div>
+      <div class="cc-b">
+        入り口が変わっても <b>新規のCVRは0.39〜0.62%の範囲</b> に収まる。逆にリピーターは2.17〜4.81%とLPで倍以上の差。<br>
+        → <b>新規の壁はLPではなく「AC詳細〜カレンダー〜フォーム」の下流</b> にあり、下流UX改善の方がLP最適化より効く可能性。
+      </div>
+    </div>
+    <div class="cc-card">
+      <div class="cc-no">INSIGHT 02</div>
+      <div class="cc-t">TOPは「リピ×SPのハブ」、他3つは別キャラ</div>
+      <div class="cc-b">
+        TOPのSP CVR 3.57%（PCの2.6倍）＋リピ4.81%（4LP最高）は、<b>アプリ/ブックマーク経由のリピ再訪が主力</b>であることを示す。<br>
+        一方CTG/エリアは <b>新規がSEO/広告で直接計画する</b> LP、ACは <b>広告ピンポイント着地＋一部比較</b>。役割が完全に分離。
+      </div>
+    </div>
+    <div class="cc-card">
+      <div class="cc-no">INSIGHT 03</div>
+      <div class="cc-t">共通の最大ドロップは「AC到達 → カレンダー表示」</div>
+      <div class="cc-b">
+        4LPすべてで <b>AC閲覧→カレンダー到達で70〜93%落ちる</b>。特にACLP着地は93%ロスト（全セッション1.67枚ACを見るのにカレンダー率6.7%）。<br>
+        → <b>AC詳細ページの「日程→価格→空き」UX改善</b> はCVR全体を押し上げる最有効レバー。
+      </div>
+    </div>
+  </div>
+
+  <!-- 打ち手候補 -->
+  <div class="jm-sec-title">💡 打ち手候補（優先度付き）</div>
+  <div class="act-table">
+    <div class="act-row">
+      <div class="act-prio p1">P1</div>
+      <div class="act-desc">
+        <div class="t">AC詳細ページのカレンダー/価格のファーストビュー表示</div>
+        <div class="d">カレンダー到達率 6.7〜12.3%の全LP共通ボトルネックを直接解消。SP翌月覗き見（2026-04既出）の効果検証を起点に、PC版も同等UXへ。価格/空き即時表示（Globick）と連動。</div>
+      </div>
+      <div class="act-target">
+        <span class="tag">AC詳細</span><span class="tag">PC/SP</span><br>
+        受益LP: CTG/エリア/AC (<b>215.9万sess</b>)
+      </div>
+      <div class="act-impact" style="color:var(--red)">+0.3pp<br><span style="font-size:10px;color:var(--text3)">全体CVR換算</span></div>
+    </div>
+
+    <div class="act-row">
+      <div class="act-prio p1">P1</div>
+      <div class="act-desc">
+        <div class="t">PC×新規×AC着地 (CVR 0.56% / 53.2万sess) 専用の導線改善</div>
+        <div class="d">全セグメント中最低CVRの塊。広告/SNS着地の質＋AC 1枚で去らせない設計（関連AC/比較/エリア横移動）。新規・PCだけに最適化ビューを出すAB検討余地大。</div>
+      </div>
+      <div class="act-target">
+        <span class="tag">AC詳細 PC</span><span class="tag">新規</span><br>
+        対象: <b>53.2万sess</b>
+      </div>
+      <div class="act-impact" style="color:var(--red)">+0.2pp</div>
+    </div>
+
+    <div class="act-row">
+      <div class="act-prio p2">P2</div>
+      <div class="act-desc">
+        <div class="t">TOPを「新規専用の絞り込みHub」化（or 新規にはエリア直送）</div>
+        <div class="d">TOPのリピ CVR 4.81% / 新規 0.62% の7.8倍差は構造的。新規には「行き先選択 → エリア/カテゴリLP」に直送する方が安全。TOP面はリピ向けウィッシュリスト/マイページ優先で。</div>
+      </div>
+      <div class="act-target">
+        <span class="tag">TOP</span><span class="tag">新規セグ</span><br>
+        対象: <b>12.2万 新規sess</b>
+      </div>
+      <div class="act-impact" style="color:#F59E0B">+0.1pp</div>
+    </div>
+
+    <div class="act-row">
+      <div class="act-prio p2">P2</div>
+      <div class="act-desc">
+        <div class="t">エリアページのファーストビューに「人気AC Top3」を出して階層スキップ</div>
+        <div class="d">エリアはPV 3.55/滞在293秒と最長回遊。「ハワイ → オアフ → ワイキキ → AC」の階層を降りる途中で離脱する新規が多い仮説。上位ACを先出しして直行を促進。</div>
+      </div>
+      <div class="act-target">
+        <span class="tag">エリア</span><span class="tag">PC/SP</span><br>
+        対象: <b>32.3万sess</b>
+      </div>
+      <div class="act-impact" style="color:#F59E0B">+0.1pp</div>
+    </div>
+
+    <div class="act-row">
+      <div class="act-prio p3">P3</div>
+      <div class="act-desc">
+        <div class="t">AC → 関連AC／別エリアAC への横移動UX（離脱間際の推薦）</div>
+        <div class="d">AC直帰 55% / AC PV 1.67。比較したい層は現状40%で、この層の離脱を引き止めれば +数百CV 規模。スクロールデプス低下＋離脱モーダル／固定フッターカルーセルが候補。</div>
+      </div>
+      <div class="act-target">
+        <span class="tag">AC詳細</span><span class="tag">ウィッシュ連携</span><br>
+        対象: AC直帰 <b>約61万sess</b>
+      </div>
+      <div class="act-impact" style="color:#6B7280">+0.05pp</div>
+    </div>
+
+    <div class="act-row">
+      <div class="act-prio p3">P3</div>
+      <div class="act-desc">
+        <div class="t">カテゴリページのフォーム離脱(-36%)は下流改善＝フォーム自体の見直し</div>
+        <div class="d">CTG のフォーム開始 12,045→購入 7,702（-36%）はWF Form 項目最適化／3Dセキュアフロー／エラーハンドリングなどフォーム単体の改善で直接効く。週次ボトルネック分析と重ね合わせ。</div>
+      </div>
+      <div class="act-target">
+        <span class="tag">予約フォーム</span><br>
+        受益LP: 全LP共通
+      </div>
+      <div class="act-impact" style="color:#6B7280">+0.1pp<br><span style="font-size:10px;color:var(--text3)">（フォーム起点）</span></div>
+    </div>
+  </div>
+
+  <div style="padding:16px 44px 28px;font-size:12px;color:var(--text3);line-height:1.7">
+    ※ インパクト(+pp)は「該当セグメントのCVRが改善した場合の全体CVR押し上げ幅」の粗い見積。AB/パイロット検証で精緻化前提。
   </div>
 </div>
 
