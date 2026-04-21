@@ -99,6 +99,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .fmt-btn{font-size:12px;font-weight:700;padding:5px 14px;border-radius:6px;border:none;cursor:pointer;transition:background .12s,color .12s;font-family:inherit}
 .fmt-btn.active{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .fmt-btn.inactive{background:transparent;color:var(--text3)}
+.fmt-btn:disabled,.fmt-btn.disabled{background:transparent !important;color:#d0cec8 !important;cursor:not-allowed !important;box-shadow:none !important}
 
 /* Funnel */
 .funnel-bar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:28px 44px}
@@ -1425,14 +1426,59 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     { id: '12m', label: '1年',   months: 12 }
   ];
 
+  function _getFunnelAvailableCount() {
+    if (!reportsIndex || !reportsIndex.weeks) return 0;
+    if (funnelGraphMode === 'weekly') {
+      var n = 0;
+      reportsIndex.weeks.forEach(function(w) {
+        var d = weekDataCache[w.week_id];
+        if (d && d.baseline && d.baseline.conversion_rates) n++;
+      });
+      return n;
+    }
+    var months = {};
+    reportsIndex.weeks.forEach(function(w) {
+      var d = weekDataCache[w.week_id];
+      var cur = d && d.funnel_7d && d.funnel_7d.current_week;
+      if (cur && cur.funnel && cur.date_start) months[cur.date_start.slice(0, 7)] = 1;
+    });
+    return Object.keys(months).length;
+  }
+
+  function _periodRequiredCount(opt) {
+    return funnelGraphMode === 'weekly' ? Math.round(opt.months * 4.3) : opt.months;
+  }
+
   function buildFunnelGraphPeriodButtons() {
     var container = document.getElementById('funnel-graph-period-toggle');
     if (!container) return;
     var options = funnelGraphMode === 'weekly' ? funnelPeriodOptionsWeekly : funnelPeriodOptionsMonthly;
+    var available = _getFunnelAvailableCount();
+    var unit = funnelGraphMode === 'weekly' ? '週' : 'ヶ月';
+
+    // Reset period if current selection not in this mode's options
     var validIds = options.map(function(o){ return o.id; });
     if (validIds.indexOf(funnelGraphPeriod) === -1) funnelGraphPeriod = options[options.length - 1].id;
+
+    // If the current selection requires more data than available, fall back to the
+    // largest enabled option (or keep smallest if nothing fits).
+    var currentOpt = options.filter(function(o){ return o.id === funnelGraphPeriod; })[0];
+    if (currentOpt && available < _periodRequiredCount(currentOpt)) {
+      var fallback = null;
+      for (var i = options.length - 1; i >= 0; i--) {
+        if (available >= _periodRequiredCount(options[i])) { fallback = options[i].id; break; }
+      }
+      funnelGraphPeriod = fallback || options[0].id;
+    }
+
     container.innerHTML = options.map(function(o) {
-      return '<button class="fmt-btn ' + (funnelGraphPeriod === o.id ? 'active' : 'inactive') + '" onclick="setFunnelGraphPeriod(\'' + o.id + '\')">' + o.label + '</button>';
+      var need = _periodRequiredCount(o);
+      var disabled = available < need;
+      var cls = disabled ? 'disabled' : (funnelGraphPeriod === o.id ? 'active' : 'inactive');
+      var attrs = disabled
+        ? ' disabled title="データ不足（必要: ' + need + unit + ' / 現在: ' + available + unit + '）"'
+        : ' onclick="setFunnelGraphPeriod(\'' + o.id + '\')"';
+      return '<button class="fmt-btn ' + cls + '"' + attrs + '>' + o.label + '</button>';
     }).join('');
   }
 
@@ -1517,15 +1563,14 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
   function renderFunnelGraph() {
     if (!reportsIndex || !reportsIndex.weeks) return;
+    // Rebuild buttons every render so disabled state reflects latest cache
+    buildFunnelGraphPeriodButtons();
     var points = funnelGraphMode === 'weekly' ? _collectFunnelWeeklyPoints() : _collectFunnelMonthlyPoints();
     if (!points.length) return;
 
     var options = funnelGraphMode === 'weekly' ? funnelPeriodOptionsWeekly : funnelPeriodOptionsMonthly;
     var opt = options.filter(function(o){ return o.id === funnelGraphPeriod; })[0];
-    if (opt) {
-      var count = funnelGraphMode === 'weekly' ? Math.round(opt.months * 4.3) : opt.months;
-      points = points.slice(-count);
-    }
+    if (opt) points = points.slice(-_periodRequiredCount(opt));
 
     _drawFunnelGraph(points);
   }
