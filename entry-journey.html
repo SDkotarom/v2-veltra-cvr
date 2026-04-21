@@ -75,6 +75,34 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   .ac-to-ac-grid{grid-template-columns:1fr !important}
 }
 
+/* =================== Section 5.5: Sankey (paths) =================== */
+.sk-intro{padding:4px 44px 12px;font-size:13px;color:var(--text2);line-height:1.7}
+.sk-intro .note{display:inline-block;background:#FEF3C7;border:1px solid #FCD34D;border-radius:8px;padding:6px 12px;margin-top:8px;color:#78350F;font-size:12px;font-weight:700}
+.sk-grid{padding:0 20px 12px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.sk-item{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.sk-item-head{padding:16px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border)}
+.sk-item-head .ic{font-size:30px}
+.sk-item-head .tt{flex:1}
+.sk-item-head .tt .nm{font-size:16px;font-weight:900}
+.sk-item-head .tt .mt{font-size:12px;color:var(--text3);font-family:monospace;margin-top:2px}
+.sk-item-head .sm{text-align:right;font-family:'DM Sans';font-size:12px;color:var(--text3);line-height:1.35}
+.sk-item-head .sm b{font-size:18px;font-weight:900;color:var(--text);display:block}
+.sk-svg-wrap{padding:14px 10px 18px}
+.sk-svg{width:100%;height:auto;display:block}
+.sk-svg .lp-rect{filter:drop-shadow(0 1px 2px rgba(0,0,0,.06))}
+.sk-svg .bk-rect{filter:drop-shadow(0 1px 2px rgba(0,0,0,.05))}
+.sk-svg .lp-label{font-weight:900;font-size:13px;fill:#fff;font-family:'Noto Sans JP','DM Sans',sans-serif}
+.sk-svg .lp-sub{font-size:11px;fill:#fff;opacity:.85;font-family:'DM Sans'}
+.sk-svg .bk-name{font-weight:700;font-size:12px;fill:#111827;font-family:'Noto Sans JP','DM Sans',sans-serif}
+.sk-svg .bk-sub{font-size:10px;fill:#6B7280;font-family:'DM Sans'}
+.sk-svg .bk-pct{font-weight:900;font-size:12px;fill:var(--text);font-family:'DM Sans'}
+.sk-item-foot{padding:10px 20px 16px;font-size:11px;color:var(--text3);line-height:1.5;border-top:1px solid var(--border)}
+.sk-item-foot b{color:var(--text2)}
+@media(max-width:900px){
+  .sk-grid{grid-template-columns:1fr;padding:0 20px}
+  .sk-intro{padding-left:20px;padding-right:20px}
+}
+
 /* =================== Section 6: Cross-cutting =================== */
 .cc-matrix{padding:0 44px 8px;display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:13px}
 .cc-matrix .cc-h{background:#F9FAFB;font-weight:700;color:var(--text2);padding:10px 12px;text-align:center;font-size:11px;letter-spacing:.04em;text-transform:uppercase}
@@ -1153,6 +1181,170 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     </div>
   </div>
 </div>
+
+<!-- ============ Section 5.5: Sankey 行動経路 ============ -->
+<div class="card">
+  <div class="sec-label">Section 5.5 &mdash; 着地 → 行動経路 サンキー（セッション到達ベース）</div>
+  <div class="sk-intro">
+    各エントリーLPから <b>どの主要ページに到達したか</b> をセッション数ベースでリボン表示。リボン幅は「着地LPセッションのうち、その移動先ページを1回以上閲覧したセッション数」。<br>
+    <span class="note">⚠ セッションは複数経路をまたげる（例: Wishlist も AC詳細 も閲覧） → 到達率の合計は100%を超え得ます。これは<b>ユーザーの実際の回遊パターン</b>です。</span>
+  </div>
+  <div class="sk-grid">
+    <div class="sk-item" id="sk-top"></div>
+    <div class="sk-item" id="sk-ctg"></div>
+    <div class="sk-item" id="sk-area"></div>
+    <div class="sk-item" id="sk-ac"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const sankeyData = {
+    top: {
+      color:'#E8423F', icon:'🏠', label:'GlobalTOP', path:'/jp/ (完全一致)',
+      total:221190, cv:5058, cvr:0.0228,
+      buckets:[
+        {icon:'❤️', label:'ウィッシュリスト', color:'#EC4899', sess:63505},
+        {icon:'🎟️', label:'AC詳細ページ', color:'#F59E0B', sess:59747},
+        {icon:'🔍', label:'検索', color:'#8B5CF6', sess:29822},
+        {icon:'👤', label:'マイページ', color:'#6366F1', sess:15138},
+        {icon:'📝', label:'予約フォーム', color:'#0EA5E9', sess:10057},
+        {icon:'✅', label:'購入完了', color:'#10B981', sess:4126, isCv:true}
+      ],
+      footnote:'<b>読み筋:</b> ウィッシュリスト・AC詳細が双璧。TOP着地の約1/3が WL、1/4が AC。リピーターが「前回保存したもの」を開き直して購入する動線。'
+    },
+    ctg: {
+      color:'#6366F1', icon:'📂', label:'カテゴリページ', path:'landingPage に /ctg',
+      total:718973, cv:7702, cvr:0.0107,
+      buckets:[
+        {icon:'🎟️', label:'AC詳細ページ', color:'#F59E0B', sess:286281},
+        {icon:'📝', label:'予約フォーム', color:'#0EA5E9', sess:18239},
+        {icon:'🏠', label:'TOP 戻り', color:'#9CA3AF', sess:9945},
+        {icon:'👤', label:'マイページ', color:'#6366F1', sess:7248},
+        {icon:'✅', label:'購入完了', color:'#10B981', sess:7052, isCv:true},
+        {icon:'❤️', label:'ウィッシュリスト', color:'#EC4899', sess:3370}
+      ],
+      footnote:'<b>読み筋:</b> 40% が AC詳細に遷移する一本道。WL/検索/マイページは <b>1%未満</b>。SEO/広告で意図が固まった層→カテゴリ→AC の直列動線が支配的。'
+    },
+    area: {
+      color:'#0EA5E9', icon:'🗺️', label:'エリアページ', path:'/jp/{region}/... (/a/,/ctg 除く)',
+      total:322989, cv:3893, cvr:0.0121,
+      buckets:[
+        {icon:'🎟️', label:'AC詳細ページ', color:'#F59E0B', sess:52571},
+        {icon:'📂', label:'カテゴリ', color:'#6366F1', sess:27918},
+        {icon:'📝', label:'予約フォーム', color:'#0EA5E9', sess:3953},
+        {icon:'🏠', label:'TOP 戻り', color:'#9CA3AF', sess:3881},
+        {icon:'👤', label:'マイページ', color:'#6366F1', sess:3272},
+        {icon:'✅', label:'購入完了', color:'#10B981', sess:1572, isCv:true}
+      ],
+      footnote:'<b>読み筋:</b> AC (16%) → CTG (9%) と「絞り込みながら降りる」経路。WL/検索は極めて小さく、<b>旅行計画を新規で立てているユーザー</b>が主。'
+    },
+    ac: {
+      color:'#F59E0B', icon:'🎟️', label:'ACページ', path:'landingPage に /a/',
+      total:1116508, cv:12040, cvr:0.0108,
+      buckets:[
+        {icon:'🎟️', label:'別AC（AC→AC）', color:'#F59E0B', sess:446600},
+        {icon:'📂', label:'カテゴリ', color:'#6366F1', sess:49969},
+        {icon:'📝', label:'予約フォーム', color:'#0EA5E9', sess:29763},
+        {icon:'🏠', label:'TOP 戻り', color:'#9CA3AF', sess:19578},
+        {icon:'🗾', label:'エリアページ', color:'#0EA5E9', sess:11338},
+        {icon:'✅', label:'購入完了', color:'#10B981', sess:11236, isCv:true},
+        {icon:'👤', label:'マイページ', color:'#6366F1', sess:10741},
+        {icon:'❤️', label:'ウィッシュリスト', color:'#EC4899', sess:10124}
+      ],
+      footnote:'<b>読み筋:</b> 40% が「別ACを見る」= 比較モードが主流。CTG経由で「同ジャンル他AC」を探す層も5%。<b>AC詳細ページは比較動線のハブ</b>であり、ここの離脱対策(関連AC露出)は全LPに効く。'
+    }
+  };
+
+  function fmt(n){ return n.toLocaleString(); }
+
+  function renderSankey(data, mount) {
+    const W = 560, H = 340;
+    const lpX = 20, lpW = 100, lpY = 20, lpH = 300;
+    const bkX = 330, bkW = 30;
+    const buckets = [...data.buckets].sort((a,b)=>b.sess - a.sess);
+    // Scale: max bucket height normalized so total ≤ 300px
+    const pcts = buckets.map(b => b.sess / data.total); // reach %
+    const totalPct = pcts.reduce((a,c)=>a+c,0);
+    const scale = (totalPct > 1) ? (lpH / (totalPct * data.total)) : (lpH / data.total);
+    // Compute bucket heights
+    const heights = buckets.map(b => Math.max(6, Math.min(120, b.sess * scale)));
+    const sumHeights = heights.reduce((a,c)=>a+c,0);
+    const gap = Math.max(4, (lpH - sumHeights) / Math.max(1, buckets.length - 1));
+    const actualGap = (sumHeights > lpH) ? 3 : gap;
+    const adjustScale = (sumHeights > lpH) ? (lpH - 3*(buckets.length-1)) / sumHeights : 1;
+    const finalHeights = heights.map(h => h * adjustScale);
+
+    let svg = `<svg viewBox="0 0 ${W} ${H}" class="sk-svg" preserveAspectRatio="xMidYMid meet">`;
+
+    // LP rectangle
+    svg += `<rect class="lp-rect" x="${lpX}" y="${lpY}" width="${lpW}" height="${lpH}" rx="10" fill="${data.color}"/>`;
+    svg += `<text class="lp-label" x="${lpX+lpW/2}" y="${lpY+lpH/2-4}" text-anchor="middle" font-size="36">${data.icon}</text>`;
+    svg += `<text class="lp-label" x="${lpX+lpW/2}" y="${lpY+lpH/2+22}" text-anchor="middle">${data.label}</text>`;
+    svg += `<text class="lp-sub" x="${lpX+lpW/2}" y="${lpY+lpH/2+40}" text-anchor="middle">${fmt(data.total)} sess</text>`;
+    svg += `<text class="lp-sub" x="${lpX+lpW/2}" y="${lpY+lpH/2+56}" text-anchor="middle">CVR ${(data.cvr*100).toFixed(2)}%</text>`;
+
+    // Buckets + flows
+    let bkY = lpY + (lpH - finalHeights.reduce((a,c)=>a+c,0) - (buckets.length-1)*actualGap)/2;
+    if (bkY < 0) bkY = 0;
+    let lpCumRatio = 0;
+    const totalFinalH = finalHeights.reduce((a,c)=>a+c,0);
+
+    buckets.forEach((b, i) => {
+      const h = finalHeights[i];
+      const bkMidY = bkY + h/2;
+      // LP-side endpoint: proportional allocation across LP rect
+      const lpPortion = h / totalFinalH;
+      const lpStartY = lpY + (lpH * (lpCumRatio));
+      const lpMidY = lpStartY + (lpH * lpPortion)/2;
+      lpCumRatio += lpPortion;
+
+      // Flow path (bezier)
+      const x1 = lpX + lpW, y1 = lpMidY;
+      const x2 = bkX, y2 = bkMidY;
+      const cx1 = x1 + (x2 - x1) * 0.5;
+      const cx2 = x1 + (x2 - x1) * 0.5;
+      svg += `<path d="M ${x1} ${y1} C ${cx1} ${y1}, ${cx2} ${y2}, ${x2} ${y2}"
+                   stroke="${b.color}" stroke-width="${h}"
+                   fill="none" opacity="${b.isCv ? 0.55 : 0.35}" stroke-linecap="butt"/>`;
+
+      // Bucket rectangle
+      svg += `<rect class="bk-rect" x="${bkX}" y="${bkY}" width="${bkW}" height="${h}" rx="4" fill="${b.color}" opacity="${b.isCv ? 1 : 0.9}"/>`;
+
+      // Label
+      const lx = bkX + bkW + 10;
+      const pct = (b.sess / data.total * 100);
+      svg += `<text class="bk-name" x="${lx}" y="${bkMidY - 3}">${b.icon} ${b.label}</text>`;
+      svg += `<text class="bk-sub" x="${lx}" y="${bkMidY + 12}">${fmt(b.sess)} sess &nbsp;·&nbsp; <tspan class="bk-pct" fill="${b.isCv ? '#047857' : '#374151'}">${pct.toFixed(1)}%</tspan></text>`;
+
+      bkY += h + actualGap;
+    });
+
+    svg += '</svg>';
+    return svg;
+  }
+
+  function renderItem(key) {
+    const d = sankeyData[key];
+    const mount = document.getElementById('sk-'+key);
+    if (!mount) return;
+    mount.innerHTML = `
+      <div class="sk-item-head">
+        <div class="ic">${d.icon}</div>
+        <div class="tt">
+          <div class="nm">${d.label}</div>
+          <div class="mt">${d.path}</div>
+        </div>
+        <div class="sm"><b>${fmt(d.total)}</b>sess着地<br>${fmt(d.cv)} CV (${(d.cvr*100).toFixed(2)}%)</div>
+      </div>
+      <div class="sk-svg-wrap">${renderSankey(d)}</div>
+      <div class="sk-item-foot">${d.footnote}</div>
+    `;
+  }
+
+  ['top','ctg','area','ac'].forEach(renderItem);
+})();
+</script>
 
 <!-- ============ Section 6: Cross-cutting Hypotheses & Actions ============ -->
 <div class="card">
