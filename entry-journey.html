@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>エントリー別CVRジャーニー — VELTRA CVR REPORT</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#E8423F;--red-light:#FFF5F5;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1;--border-dash:#d0cec8;--green:#16a34a;--green-light:#f0fdf4;--amber:#d97706;--amber-light:#fffbeb;--blue:#1B82C5;--blue-light:#EFF6FC;--indigo:#6366F1;--sky:#0EA5E9;--orange:#F59E0B}
+body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);padding:48px 32px;max-width:1200px;margin:0 auto;font-size:18px}
+.card{background:var(--card);border-radius:16px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.header-band{background:var(--blue);padding:24px 44px;display:flex;justify-content:space-between;align-items:center}
+.header-band .logo{font-family:'DM Sans';font-weight:900;font-size:26px;color:#fff;letter-spacing:.04em;border:2px solid rgba(255,255,255,.6);padding:4px 14px;border-radius:5px}
+.header-band .title{font-family:'DM Sans';font-size:22px;font-weight:500;color:rgba(255,255,255,.9)}
+.sec-label{padding:28px 44px 12px;font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
+.callout{background:var(--blue-light);border-left:4px solid var(--blue);padding:20px 28px;margin:0 44px 28px;border-radius:0 8px 8px 0}
+.callout .ct{font-size:16px;font-weight:700;color:var(--blue);margin-bottom:8px}
+.callout .cb{font-size:15px;color:var(--text2);line-height:1.8}
+.intro{padding:22px 44px 6px;font-size:15px;color:var(--text2);line-height:1.8}
+.meta-row{padding:0 44px 24px;font-size:13px;color:var(--text3)}
+.meta-row span{margin-right:18px}
+
+/* Comparison table */
+.cmp-table-wrap{padding:0 44px 32px;overflow-x:auto}
+.cmp-table{width:100%;border-collapse:collapse;font-size:14px}
+.cmp-table th{text-align:left;font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:12px 12px;border-bottom:2px solid var(--text);white-space:nowrap}
+.cmp-table td{padding:14px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.cmp-table td.name{font-weight:700;color:var(--text)}
+.cmp-table td.num{font-family:'DM Sans';font-variant-numeric:tabular-nums;white-space:nowrap}
+.cmp-table td.cvr{font-family:'DM Sans';font-weight:900;font-size:16px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.entry-tag{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:8px;vertical-align:middle}
+.bar-cell{min-width:160px}
+.bar-track{background:var(--bg);height:9px;border-radius:4px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:4px}
+.path{font-size:12px;color:var(--text3);margin-top:2px}
+
+.footer{padding:24px 44px;font-size:13px;color:var(--text3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+@media(max-width:768px){
+  body{padding:24px 12px;font-size:16px}
+  .header-band{padding:18px 20px}
+  .sec-label,.callout,.cmp-table-wrap,.footer,.intro,.meta-row{padding-left:20px;padding-right:20px}
+  .callout{margin-left:20px;margin-right:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header-band">
+    <div class="logo">V2</div>
+    <div class="title">エントリー別 CVR ジャーニー分析</div>
+  </div>
+  <div class="intro">
+    ユーザーが最初に着地したページ（landingPage）ごとに、到達ファネル・デバイス・新規/リピーター・遷移先ページを比較し、「どの入り口からのCVR体験が良いか／なぜ違いが出るか」を仮説化したレポートです。
+  </div>
+  <div class="meta-row">
+    <span>期間: <b>2026-03-22 〜 2026-04-18 (28日)</b></span>
+    <span>GA4: <b>347074845</b></span>
+    <span>CVR基準: <b>ecommercePurchases / sessions</b></span>
+  </div>
+</div>
+
+<!-- ======================== Hero finding ======================== -->
+<div class="card">
+  <div class="sec-label">Section 0 &mdash; 結論ファースト</div>
+  <div class="callout">
+    <div class="ct">結論 — CVRが最も高い入り口は「GlobalTOP」。ただし"TOP自体が強い"のではなく、"TOP着地は帰ってきた既存客が多い"のが実体。</div>
+    <div class="cb">
+      GlobalTOP 着地の CVR は <b>2.28%</b> で他の入り口の <b>約1.6倍〜2倍</b>。ただしこれは TOP ページの UI が優れているからではなく、"リピーターが直接 /jp/ を踏んでからウィッシュリスト・マイページ経由で購入へ向かう" というパターンが効いている（リピーターCVR <b>4.81%</b>、新規CVR <b>0.62%</b>、差 <b>7.8倍</b>）。<br>
+      逆に「カテゴリ」「エリア」「AC」着地は新規の検索流入が多く、CVRは 1.07〜1.21% 帯。ボトルネックは "新規に対するTOPの意向形成" と "AC→別ACの横移動中の意向消滅" に集約される。
+    </div>
+  </div>
+</div>
+
+<!-- ======================== Entry comparison ======================== -->
+<div class="card">
+  <div class="sec-label">Section 1 &mdash; 4エントリー比較（28日・全デバイス）</div>
+  <div class="cmp-table-wrap">
+    <table class="cmp-table">
+      <thead>
+        <tr>
+          <th>エントリー</th>
+          <th class="num" style="text-align:right">Sessions</th>
+          <th class="num" style="text-align:right">Purchases</th>
+          <th style="text-align:right">CVR (session)</th>
+          <th class="bar-cell">CVR ビジュアル</th>
+          <th class="num" style="text-align:right">Bounce</th>
+          <th class="num" style="text-align:right">PV/Sess</th>
+          <th class="num" style="text-align:right">Dur(s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="name"><span class="entry-tag" style="background:#E8423F"></span>GlobalTOP<div class="path">/jp/ (完全一致)</div></td>
+          <td class="num" style="text-align:right">222,134</td>
+          <td class="num" style="text-align:right">5,058</td>
+          <td class="cvr" style="text-align:right;color:#E8423F">2.28%</td>
+          <td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:100%;background:#E8423F"></div></div></td>
+          <td class="num" style="text-align:right">51.4%</td>
+          <td class="num" style="text-align:right">4.07</td>
+          <td class="num" style="text-align:right">260</td>
+        </tr>
+        <tr>
+          <td class="name"><span class="entry-tag" style="background:#0EA5E9"></span>エリアページ<div class="path">/jp/{region}/... (pure)</div></td>
+          <td class="num" style="text-align:right">322,989</td>
+          <td class="num" style="text-align:right">3,893</td>
+          <td class="cvr" style="text-align:right;color:#0EA5E9">1.21%</td>
+          <td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:53%;background:#0EA5E9"></div></div></td>
+          <td class="num" style="text-align:right">44.7%</td>
+          <td class="num" style="text-align:right">3.55</td>
+          <td class="num" style="text-align:right">293</td>
+        </tr>
+        <tr>
+          <td class="name"><span class="entry-tag" style="background:#F59E0B"></span>ACページ<div class="path">landing に /a/ を含む</div></td>
+          <td class="num" style="text-align:right">1,116,508</td>
+          <td class="num" style="text-align:right">12,040</td>
+          <td class="cvr" style="text-align:right;color:#F59E0B">1.08%</td>
+          <td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:47%;background:#F59E0B"></div></div></td>
+          <td class="num" style="text-align:right">54.9%</td>
+          <td class="num" style="text-align:right">2.04</td>
+          <td class="num" style="text-align:right">200</td>
+        </tr>
+        <tr>
+          <td class="name"><span class="entry-tag" style="background:#6366F1"></span>カテゴリページ<div class="path">landing に /ctg を含む</div></td>
+          <td class="num" style="text-align:right">718,973</td>
+          <td class="num" style="text-align:right">7,702</td>
+          <td class="cvr" style="text-align:right;color:#6366F1">1.07%</td>
+          <td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:47%;background:#6366F1"></div></div></td>
+          <td class="num" style="text-align:right">29.0%</td>
+          <td class="num" style="text-align:right">3.10</td>
+          <td class="num" style="text-align:right">287</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="padding:0 44px 28px;font-size:13px;color:var(--text3);line-height:1.8">
+    ※「エリアページ」は region 正規表現 (`^/jp/(hawaii|asia|oceania|japan|beach_resort|europe|north_america|latin_america|mideast|africa)/`) で絞り込み。プロモーション・マイページを含む広義フィルタでは sessions 106.4万、CVR 1.41% となる。<br>
+    ※ 上記は「ファーストビュー着地」のみで集計。セッション中に複数ページを経由した後のイベントは次セクションで分解。
+  </div>
+</div>
+
+<div class="footer">
+  <span>VELTRA CVR REPORT &mdash; Entry Journey Analysis</span>
+  <span>GA4 Property 347074845 / 2026-03-22 〜 2026-04-18</span>
+</div>
+
+<script src="/nav.js"></script>
+</body>
+</html>
