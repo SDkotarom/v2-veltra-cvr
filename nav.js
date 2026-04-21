@@ -73,6 +73,7 @@
   var isCycle    = (path === '/cycle.html');
   var isAnalysis = (path === '/analysis.html');
   var isBehaviorGuide = (path === '/behavior-guide.html');
+  var isEntryJourney = (path === '/entry-journey.html');
   var isArchive = (path === '/reports/' || path === '/reports/index.html');
   var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
   var qp = new URLSearchParams(location.search);
@@ -144,6 +145,8 @@
       append(homeA, mkCurrent('分析ガイド'));
     } else if (isBehaviorGuide) {
       append(homeA, mkCurrent('行動仮説ガイド'));
+    } else if (isEntryJourney) {
+      append(homeA, bnA, mkCurrent('エントリー別CVRジャーニー'));
     } else if (isWeekSummary || isReport) {
       append(homeA, bnA, mkCurrent(wid));
     } else if (isBottleneck) {
@@ -417,6 +420,15 @@
         nav.appendChild(renderWeekBlock(w, bns, isLatest));
       });
     }
+
+    // ■ エントリー別CVRジャーニー（ボトルネック分析配下の関連分析）
+    var ejA = document.createElement('a');
+    ejA.href = '/entry-journey.html';
+    ejA.className = 'nav-item' + (isEntryJourney ? ' nav-active' : '');
+    ejA.style.marginLeft = '12px';
+    ejA.appendChild(makeIcon('analysis'));
+    ejA.appendChild(document.createTextNode('エントリー別CVRジャーニー'));
+    nav.appendChild(ejA);
 
     nav.appendChild(makeSep());
 
