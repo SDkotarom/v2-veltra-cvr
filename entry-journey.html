@@ -108,6 +108,38 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   .act-target,.act-impact{grid-column:2/3}
 }
 
+/* =================== New vs Returning compare =================== */
+.nr-hero{padding:4px 44px 20px;display:grid;grid-template-columns:1fr 36px 1fr;align-items:center;gap:14px}
+.nr-hero-box{background:#F9FAFB;border:1px solid var(--border);border-radius:16px;padding:20px 22px;text-align:center}
+.nr-hero-box.ret{background:#ECFDF5;border-color:#A7F3D0}
+.nr-hero-box .lbl{font-size:12px;color:var(--text3);font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.nr-hero-box .big{font-family:'DM Sans';font-size:48px;font-weight:900;line-height:1;margin:6px 0;font-variant-numeric:tabular-nums;color:#6B7280}
+.nr-hero-box.ret .big{color:#047857}
+.nr-hero-box .sub{font-size:12px;color:var(--text2);font-variant-numeric:tabular-nums}
+.nr-hero-mid{text-align:center;font-family:'DM Sans';font-weight:900;font-size:22px;color:var(--red);line-height:1.2}
+.nr-hero-mid span{font-size:10px;display:block;font-weight:700;color:var(--text3);letter-spacing:.06em;margin-top:4px}
+.nr-panels{padding:4px 44px 16px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.nr-panel{border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.nr-panel.new .ph{background:#F3F4F6;color:#374151}
+.nr-panel.ret .ph{background:#D1FAE5;color:#065F46}
+.nr-panel .ph{padding:14px 18px;font-weight:900;font-size:15px;display:flex;align-items:center;gap:8px;justify-content:space-between}
+.nr-panel .ph .agg{font-family:'DM Sans';font-size:13px;font-weight:700}
+.nr-row{display:grid;grid-template-columns:90px 1fr 70px;gap:10px;align-items:center;padding:12px 18px;border-top:1px solid var(--border);font-size:13px}
+.nr-row .nl{font-weight:700}
+.nr-row .nbar{background:#F3F4F6;height:22px;border-radius:6px;position:relative;overflow:hidden}
+.nr-row .nbar .nfill{height:100%;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:'DM Sans';font-weight:800;font-size:12px;border-radius:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.nr-panel.new .nbar .nfill{background:#9CA3AF}
+.nr-panel.ret .nbar .nfill{background:#10B981}
+.nr-row .ns{text-align:right;font-size:11px;color:var(--text3);font-variant-numeric:tabular-nums}
+.nr-insight{margin:0 44px 24px;padding:16px 20px;background:#FFFBEB;border:1px solid #FCD34D;border-left:4px solid #F59E0B;border-radius:10px;font-size:13px;color:#78350F;line-height:1.7}
+.nr-insight b{color:#92400E}
+@media(max-width:900px){
+  .nr-hero{grid-template-columns:1fr;gap:10px}
+  .nr-hero-mid{transform:rotate(90deg)}
+  .nr-panels{grid-template-columns:1fr;padding-left:20px;padding-right:20px}
+  .nr-insight{margin-left:20px;margin-right:20px}
+}
+
 /* =================== Journey Map (per entry) =================== */
 .jm-head{padding:24px 44px 0;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .jm-icon{font-size:44px;line-height:1}
@@ -292,6 +324,91 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="track"><div class="fill" style="width:47%;background:var(--c-ctg)">1.07%</div></div>
       <div class="val" style="color:var(--c-ctg)">×0.47</div>
     </div>
+  </div>
+</div>
+
+<!-- ======================== Section 1.5: New vs Returning ======================== -->
+<div class="card">
+  <div class="sec-label">Section 1.5 &mdash; 新規 vs リピーター（LP別CVR）</div>
+
+  <!-- 全体ヒーロー -->
+  <div class="nr-hero">
+    <div class="nr-hero-box">
+      <div class="lbl">🆕 新規ユーザー（4LP合算）</div>
+      <div class="big">0.49<span style="font-size:24px">%</span></div>
+      <div class="sub">1,922,287 sess &middot; 9,354 purchases</div>
+    </div>
+    <div class="nr-hero-mid">×5.8<span>リピが新規の</span></div>
+    <div class="nr-hero-box ret">
+      <div class="lbl">🔁 リピーター（4LP合算）</div>
+      <div class="big">2.86<span style="font-size:24px">%</span></div>
+      <div class="sub">1,063,217 sess &middot; 30,429 purchases</div>
+    </div>
+  </div>
+
+  <!-- 左: 新規 / 右: リピ -->
+  <div class="nr-panels">
+    <!-- 新規パネル -->
+    <div class="nr-panel new">
+      <div class="ph">
+        <span>🆕 新規ユーザー</span>
+        <span class="agg">全LP 0.39〜0.62% に頭打ち</span>
+      </div>
+      <div class="nr-row">
+        <div class="nl" style="color:#E8423F">🏠 TOP</div>
+        <div class="nbar"><div class="nfill" style="width:100%">0.62%</div></div>
+        <div class="ns">122,361 sess<br>757 purch</div>
+      </div>
+      <div class="nr-row">
+        <div class="nl" style="color:#6366F1">📂 CTG</div>
+        <div class="nbar"><div class="nfill" style="width:97%">0.60%</div></div>
+        <div class="ns">461,975 sess<br>2,750 purch</div>
+      </div>
+      <div class="nr-row">
+        <div class="nl" style="color:#0EA5E9">🗺️ エリア</div>
+        <div class="nbar"><div class="nfill" style="width:81%">0.50%</div></div>
+        <div class="ns">596,113 sess<br>2,971 purch<br><span style="color:#9CA3AF">※広義</span></div>
+      </div>
+      <div class="nr-row">
+        <div class="nl" style="color:#F59E0B">🎟️ AC</div>
+        <div class="nbar"><div class="nfill" style="width:63%">0.39%</div></div>
+        <div class="ns">741,838 sess<br>2,876 purch</div>
+      </div>
+    </div>
+
+    <!-- リピパネル -->
+    <div class="nr-panel ret">
+      <div class="ph">
+        <span>🔁 リピーター</span>
+        <span class="agg">TOPが突出 (4.81%)</span>
+      </div>
+      <div class="nr-row">
+        <div class="nl" style="color:#E8423F">🏠 TOP</div>
+        <div class="nbar"><div class="nfill" style="width:100%">4.81%</div></div>
+        <div class="ns">89,448 sess<br>4,301 purch</div>
+      </div>
+      <div class="nr-row">
+        <div class="nl" style="color:#0EA5E9">🗺️ エリア</div>
+        <div class="nbar"><div class="nfill" style="width:62%">2.98%</div></div>
+        <div class="ns">402,615 sess<br>12,012 purch<br><span style="color:#9CA3AF">※広義</span></div>
+      </div>
+      <div class="nr-row">
+        <div class="nl" style="color:#F59E0B">🎟️ AC</div>
+        <div class="nbar"><div class="nfill" style="width:55%">2.67%</div></div>
+        <div class="ns">342,846 sess<br>9,164 purch</div>
+      </div>
+      <div class="nr-row">
+        <div class="nl" style="color:#6366F1">📂 CTG</div>
+        <div class="nbar"><div class="nfill" style="width:45%">2.17%</div></div>
+        <div class="ns">228,308 sess<br>4,952 purch</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nr-insight">
+    <b>読み取り:</b> 新規ユーザーのCVRは <b>LPが何であっても 0.4〜0.6% に収束</b>（最大差0.23pp）。<br>
+    一方 <b>リピはLPで大きくばらつき</b>（2.17〜4.81%、最大差2.64pp）、特に <b>TOP着地のリピ 4.81%</b> が突出。<br>
+    これは <b>「TOPはリピーターが再訪するハブ」</b> という仮説を裏付け、逆に <b>「新規のボトルネックはLP選択ではなく下流(AC〜カレンダー〜フォーム)」</b> にあることを示す。
   </div>
 </div>
 
