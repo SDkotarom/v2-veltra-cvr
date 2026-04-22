@@ -33,6 +33,18 @@
     '.site-nav .nav-bn-item a.nav-active{background:#fff;color:#E8423F;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.07)}' +
     '.site-nav .nav-bn-item .bn-num{font-family:"DM Sans",sans-serif;font-weight:700;color:#ccc;font-size:12px;flex-shrink:0}' +
     '.site-nav .nav-bn-item a.nav-active .bn-num{color:#E8423F}' +
+    /* Spot analysis group (collapsible) */
+    '.site-nav .nav-spot-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;margin:1px 0;color:#666;font-size:14px;transition:background .12s}' +
+    '.site-nav .nav-spot-row:hover{background:rgba(255,255,255,.6);color:#1a1a1a}' +
+    '.site-nav .nav-spot-row.has-active{color:#1a1a1a;font-weight:700}' +
+    '.site-nav .nav-spot-toggle{font-size:9px;color:#bbb;margin-left:auto;transition:transform .15s;line-height:1;flex-shrink:0}' +
+    '.site-nav .nav-spot-toggle.open{transform:rotate(90deg)}' +
+    '.site-nav .nav-spot-list{padding-left:4px;margin-bottom:2px}' +
+    '.site-nav .nav-spot-item a{display:flex;align-items:center;gap:8px;padding:7px 10px 7px 16px;font-size:13px;color:#777;border-radius:8px;text-decoration:none;line-height:1.4;transition:background .12s}' +
+    '.site-nav .nav-spot-item a:hover{background:rgba(255,255,255,.7);color:#1a1a1a}' +
+    '.site-nav .nav-spot-item a.nav-active{background:#fff;color:#E8423F;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.07)}' +
+    '.site-nav .nav-spot-item .spot-dot{font-size:10px;color:#ccc;flex-shrink:0}' +
+    '.site-nav .nav-spot-item a.nav-active .spot-dot{color:#E8423F}' +
     /* Main area */
     '.site-main{min-width:0}' +
     '@media(max-width:900px){.site-layout{grid-template-columns:1fr;padding:0}.site-nav{display:none}.site-main{padding:0}}' +
@@ -146,7 +158,7 @@
     } else if (isBehaviorGuide) {
       append(homeA, mkCurrent('行動仮説ガイド'));
     } else if (isEntryJourney) {
-      append(homeA, bnA, mkCurrent('エントリー別CVRジャーニー'));
+      append(homeA, mkCurrent('スポット分析'), mkCurrent('エントリー別CVRジャーニー'));
     } else if (isWeekSummary || isReport) {
       append(homeA, bnA, mkCurrent(wid));
     } else if (isBottleneck) {
@@ -162,6 +174,13 @@
 
   // ── Expand state ─────────────────────────────────
   var expandedWeeks = {};
+  var spotExpanded = isEntryJourney; // default open when viewing a spot page
+
+  // ── Spot analysis registry ───────────────────────
+  // Add future spot analyses here.
+  var SPOT_ITEMS = [
+    { id: 'entry-journey', href: '/entry-journey.html', label: 'エントリー別CVRジャーニー', match: function(){ return isEntryJourney; } }
+  ];
 
   // ── SVG icons ────────────────────────────────────
   function icon(d, vb) {
@@ -404,6 +423,48 @@
 
     nav.appendChild(makeSep());
 
+    // ■ スポット分析（折りたたみ）
+    var hasActiveSpot = SPOT_ITEMS.some(function(s){ return s.match(); });
+    var spotRow = document.createElement('div');
+    spotRow.className = 'nav-spot-row' + (hasActiveSpot ? ' has-active' : '');
+    spotRow.appendChild(makeIcon('analysis'));
+    spotRow.appendChild(document.createTextNode('スポット分析'));
+    var spotToggle = document.createElement('span');
+    spotToggle.className = 'nav-spot-toggle' + (spotExpanded ? ' open' : '');
+    spotToggle.textContent = '▶';
+    spotRow.appendChild(spotToggle);
+
+    var spotList = document.createElement('div');
+    spotList.className = 'nav-spot-list';
+    spotList.style.display = spotExpanded ? 'block' : 'none';
+
+    SPOT_ITEMS.forEach(function (s) {
+      var item = document.createElement('div');
+      item.className = 'nav-spot-item';
+      var a = document.createElement('a');
+      a.href = s.href;
+      if (s.match()) a.className = 'nav-active';
+      var dot = document.createElement('span');
+      dot.className = 'spot-dot';
+      dot.textContent = '●';
+      a.appendChild(dot);
+      a.appendChild(document.createTextNode(s.label));
+      item.appendChild(a);
+      spotList.appendChild(item);
+    });
+
+    spotRow.addEventListener('click', function () {
+      var open = spotList.style.display !== 'none';
+      spotList.style.display = open ? 'none' : 'block';
+      spotToggle.className = 'nav-spot-toggle' + (open ? '' : ' open');
+      spotExpanded = !open;
+    });
+
+    nav.appendChild(spotRow);
+    nav.appendChild(spotList);
+
+    nav.appendChild(makeSep());
+
     // ■ ボトルネック分析
     var bnA = document.createElement('a');
     bnA.href = '/reports/';
@@ -420,15 +481,6 @@
         nav.appendChild(renderWeekBlock(w, bns, isLatest));
       });
     }
-
-    // ■ エントリー別CVRジャーニー（ボトルネック分析配下の関連分析）
-    var ejA = document.createElement('a');
-    ejA.href = '/entry-journey.html';
-    ejA.className = 'nav-item' + (isEntryJourney ? ' nav-active' : '');
-    ejA.style.marginLeft = '12px';
-    ejA.appendChild(makeIcon('analysis'));
-    ejA.appendChild(document.createTextNode('エントリー別CVRジャーニー'));
-    nav.appendChild(ejA);
 
     nav.appendChild(makeSep());
 
