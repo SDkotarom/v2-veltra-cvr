@@ -37,7 +37,10 @@
     '.site-nav .nav-spot-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;margin:1px 0;color:#666;font-size:14px;transition:background .12s}' +
     '.site-nav .nav-spot-row:hover{background:rgba(255,255,255,.6);color:#1a1a1a}' +
     '.site-nav .nav-spot-row.has-active{color:#1a1a1a;font-weight:700}' +
-    '.site-nav .nav-spot-toggle{font-size:9px;color:#bbb;margin-left:auto;transition:transform .15s;line-height:1;flex-shrink:0}' +
+    '.site-nav .nav-spot-row .nav-icon{flex-shrink:0;width:20px;height:20px;opacity:.45}' +
+    '.site-nav .nav-spot-row.has-active .nav-icon{opacity:1}' +
+    '.site-nav .nav-spot-row .nav-spot-label{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
+    '.site-nav .nav-spot-toggle{font-size:9px;color:#bbb;transition:transform .15s;line-height:1;flex-shrink:0}' +
     '.site-nav .nav-spot-toggle.open{transform:rotate(90deg)}' +
     '.site-nav .nav-spot-list{padding-left:4px;margin-bottom:2px}' +
     '.site-nav .nav-spot-item a{display:flex;align-items:center;gap:8px;padding:7px 10px 7px 16px;font-size:13px;color:#777;border-radius:8px;text-decoration:none;line-height:1.4;transition:background .12s}' +
@@ -428,7 +431,10 @@
     var spotRow = document.createElement('div');
     spotRow.className = 'nav-spot-row' + (hasActiveSpot ? ' has-active' : '');
     spotRow.appendChild(makeIcon('analysis'));
-    spotRow.appendChild(document.createTextNode('スポット分析'));
+    var spotLabel = document.createElement('span');
+    spotLabel.className = 'nav-spot-label';
+    spotLabel.textContent = 'スポット分析';
+    spotRow.appendChild(spotLabel);
     var spotToggle = document.createElement('span');
     spotToggle.className = 'nav-spot-toggle' + (spotExpanded ? ' open' : '');
     spotToggle.textContent = '▶';
