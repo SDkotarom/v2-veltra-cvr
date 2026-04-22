@@ -1186,14 +1186,16 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 <div class="card">
   <div class="sec-label">Section 5.5 &mdash; 着地 → 行動経路 サンキー（セッション到達ベース）</div>
   <div class="sk-intro">
-    各エントリーLPから <b>どの主要ページに到達したか</b> をセッション数ベースでリボン表示。リボン幅は「着地LPセッションのうち、その移動先ページを1回以上閲覧したセッション数」。<br>
-    <span class="note">⚠ セッションは複数経路をまたげる（例: Wishlist も AC詳細 も閲覧） → 到達率の合計は100%を超え得ます。これは<b>ユーザーの実際の回遊パターン</b>です。</span>
+    5つのエントリーLPから <b>どの主要ページに到達したか</b> をセッション数ベースでリボン表示。リボン幅は「着地LPセッションのうち、その移動先ページを1回以上閲覧したセッション数」。<br>
+    <span class="note">⚠ セッションは複数経路をまたげる（例: Wishlist も AC詳細 も閲覧） → 到達率の合計は100%を超え得ます。これは<b>ユーザーの実際の回遊パターン</b>です。</span><br>
+    <span class="note" style="background:#EDE9FE;border-color:#C4B5FD;color:#5B21B6;margin-top:6px">👤 <b>5番目のLP: マイページ (11.7万sess / CVR 2.07%)</b> — アプリ/ブックマーク経由の「再訪コアリピ」のハブ。TOP着地の半分以上の規模で、CVRはAC/CTG/エリアより高い。</span>
   </div>
   <div class="sk-grid">
     <div class="sk-item" id="sk-top"></div>
     <div class="sk-item" id="sk-ctg"></div>
     <div class="sk-item" id="sk-area"></div>
     <div class="sk-item" id="sk-ac"></div>
+    <div class="sk-item sk-item-mypage" id="sk-mypage"></div>
   </div>
 </div>
 
@@ -1253,6 +1255,22 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         {icon:'❤️', label:'ウィッシュリスト', color:'#EC4899', sess:10124}
       ],
       footnote:'<b>読み筋:</b> 40% が「別ACを見る」= 比較モードが主流。CTG経由で「同ジャンル他AC」を探す層も5%。<b>AC詳細ページは比較動線のハブ</b>であり、ここの離脱対策(関連AC露出)は全LPに効く。'
+    },
+    mypage: {
+      color:'#8B5CF6', icon:'👤', label:'マイページ (再訪ハブ)', path:'landingPage に /jp/mypage',
+      total:117513, cv:2430, cvr:0.0207,
+      buckets:[
+        {icon:'🎟️', label:'AC詳細ページ', color:'#F59E0B', sess:24168},
+        {icon:'📋', label:'予約履歴/予約詳細', color:'#06B6D4', sess:14484},
+        {icon:'🎫', label:'マイクーポン', color:'#EC4899', sess:11228},
+        {icon:'🏠', label:'TOP 戻り', color:'#9CA3AF', sess:8752},
+        {icon:'📞', label:'サポート/お問い合わせ', color:'#64748B', sess:8042},
+        {icon:'📝', label:'予約フォーム', color:'#0EA5E9', sess:5499},
+        {icon:'🔍', label:'検索', color:'#8B5CF6', sess:4553},
+        {icon:'✅', label:'購入完了', color:'#10B981', sess:2228, isCv:true},
+        {icon:'❤️', label:'ウィッシュリスト', color:'#EC4899', sess:1854}
+      ],
+      footnote:'<b>読み筋:</b> MyPageは<b>「ログイン後すぐ買う」コアリピのハブ</b>。11.7万sess/CVR 2.07% は AC/CTG/エリアより高い。予約履歴(12%)・クーポン(10%)で「前回の行動」を参照してACへ(21%)。※ 予約履歴14.5k は<b>「予約したつもりの初心者が再確認」</b> or <b>「常連が履歴から再予約」</b>の両者が混在し得る — Clarity録画で要深掘り。'
     }
   };
 
@@ -1342,7 +1360,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     `;
   }
 
-  ['top','ctg','area','ac'].forEach(renderItem);
+  ['top','ctg','area','ac','mypage'].forEach(renderItem);
 })();
 </script>
 
