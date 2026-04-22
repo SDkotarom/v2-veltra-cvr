@@ -304,8 +304,16 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="cv-big">2.28<span style="font-size:24px">%</span></div>
       <div class="cv-sess"><span class="b">222,134</span> sess / <span class="b">5,058</span> purch</div>
     </div>
-    <div class="cvr-card area">
+    <div class="cvr-card mypage" style="--c-mp:#8B5CF6">
       <div class="cv-rank">2</div>
+      <div class="cv-entry">👤 マイページ</div>
+      <div class="cv-path">/jp/mypage...</div>
+      <div class="cv-label">CVR (session)</div>
+      <div class="cv-big">2.07<span style="font-size:24px">%</span></div>
+      <div class="cv-sess"><span class="b">117,513</span> sess / <span class="b">2,430</span> purch</div>
+    </div>
+    <div class="cvr-card area">
+      <div class="cv-rank">3</div>
       <div class="cv-entry">🗾 エリアページ</div>
       <div class="cv-path">/jp/{region}/...</div>
       <div class="cv-label">CVR (session)</div>
@@ -313,7 +321,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="cv-sess"><span class="b">322,989</span> sess / <span class="b">3,893</span> purch</div>
     </div>
     <div class="cvr-card ac">
-      <div class="cv-rank">3</div>
+      <div class="cv-rank">4</div>
       <div class="cv-entry">🎫 ACページ</div>
       <div class="cv-path">.../a/...</div>
       <div class="cv-label">CVR (session)</div>
@@ -321,7 +329,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="cv-sess"><span class="b">1,116,508</span> sess / <span class="b">12,040</span> purch</div>
     </div>
     <div class="cvr-card ctg">
-      <div class="cv-rank">4</div>
+      <div class="cv-rank">5</div>
       <div class="cv-entry">📂 カテゴリ</div>
       <div class="cv-path">.../ctg...</div>
       <div class="cv-label">CVR (session)</div>
@@ -1187,14 +1195,21 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   <div class="sec-label">Section 5.5 &mdash; 着地 → 行動経路 サンキー（セッション到達ベース）</div>
   <div class="sk-intro">
     5つのエントリーLPから <b>どの主要ページに到達したか</b> をセッション数ベースでリボン表示。リボン幅は「着地LPセッションのうち、その移動先ページを1回以上閲覧したセッション数」。<br>
-    <span class="note">⚠ セッションは複数経路をまたげる（例: Wishlist も AC詳細 も閲覧） → 到達率の合計は100%を超え得ます。これは<b>ユーザーの実際の回遊パターン</b>です。</span><br>
-    <span class="note" style="background:#EDE9FE;border-color:#C4B5FD;color:#5B21B6;margin-top:6px">👤 <b>5番目のLP: マイページ (11.7万sess / CVR 2.07%)</b> — アプリ/ブックマーク経由の「再訪コアリピ」のハブ。TOP着地の半分以上の規模で、CVRはAC/CTG/エリアより高い。</span>
+    <span class="note">⚠ セッションは複数経路をまたげる（例: Wishlist も AC詳細 も閲覧） → 到達率の合計は100%を超え得ます。これは<b>ユーザーの実際の回遊パターン</b>です。</span>
+    <div style="margin-top:12px;padding:14px 16px;background:#FEF2F2;border:1px solid #FCA5A5;border-left:4px solid var(--red);border-radius:10px;font-size:12px;color:#7F1D1D;line-height:1.7">
+      <b style="color:#991B1B;font-size:13px">🎯 並び順：手を入れた方がいい順（影響 = 規模 × 改善余地）</b><br>
+      <b>① 🎟️ AC</b> 111.7万sess × CVR 1.08% → <b>最大改善余地</b>（カレンダー未開93%=全LP共通の本体）<br>
+      <b>② 📂 CTG</b> 71.9万sess × CVR 1.07% → AC同様の下流課題、ボリューム2位<br>
+      <b>③ 🗺️ エリア</b> 32.3万sess × CVR 1.21% → 階層回遊での離脱、FV上位AC表示余地<br>
+      <b>④ 🏠 TOP</b> 22.2万sess × CVR 2.28% → 既に高CVR、新規を別LPへ逃す方向<br>
+      <b>⑤ 👤 MyPage</b> 11.7万sess × CVR 2.07% → 既にワーク、予約履歴の二重用途切り分けが次段
+    </div>
   </div>
   <div class="sk-grid">
-    <div class="sk-item" id="sk-top"></div>
+    <div class="sk-item" id="sk-ac"></div>
     <div class="sk-item" id="sk-ctg"></div>
     <div class="sk-item" id="sk-area"></div>
-    <div class="sk-item" id="sk-ac"></div>
+    <div class="sk-item" id="sk-top"></div>
     <div class="sk-item sk-item-mypage" id="sk-mypage"></div>
   </div>
 </div>
@@ -1360,7 +1375,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     `;
   }
 
-  ['top','ctg','area','ac','mypage'].forEach(renderItem);
+  ['ac','ctg','area','top','mypage'].forEach(renderItem);
 })();
 </script>
 
