@@ -17,6 +17,7 @@
   --c-area:#0EA5E9;--c-area-light:#EDF9FE;
   --c-ac:#F59E0B;--c-ac-light:#FFF7E8;
   --c-ctg:#6366F1;--c-ctg-light:#EFF0FF;
+  --c-mp:#8B5CF6;--c-mp-light:#F5F3FF;
 }
 body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);padding:48px 32px;max-width:1200px;margin:0 auto;font-size:16px;line-height:1.6}
 .card{background:var(--card);border-radius:16px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
@@ -1203,6 +1204,196 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div>
 </div>
 
+<!-- ============ Section 5.2: MyPage Journey Map (core returning hub) ============ -->
+<div class="card jm" style="--c:var(--c-mp)">
+  <div class="jm-head">
+    <div class="jm-icon">👤</div>
+    <div class="jm-title-wrap">
+      <div class="jm-title">マイページ 着地 <span style="color:var(--c-mp);font-size:14px;margin-left:8px">（&rarr; 同トリップ内クロスセルの主戦場）</span></div>
+      <div class="jm-path">landingPage に <code>/jp/mypage</code></div>
+    </div>
+    <div class="jm-cvr-box">
+      <div class="jm-cvr-lbl">CVR (session)</div>
+      <div class="jm-cvr-val" style="color:var(--c-mp)">2.07%</div>
+      <div class="jm-cvr-sub">11.8万sess / 2,430 purchases</div>
+    </div>
+  </div>
+
+  <div class="jm-strip">
+    <div class="jm-strip-cell">
+      <div class="ks-lbl">直帰率</div>
+      <div class="ks-val" style="color:var(--green)">38.1%</div>
+      <div class="ks-sub">5LP中 <b>2番目に良い</b></div>
+    </div>
+    <div class="jm-strip-cell">
+      <div class="ks-lbl">PV/セッション</div>
+      <div class="ks-val">3.58</div>
+      <div class="ks-sub">多階層回遊（履歴/クーポン/AC）</div>
+    </div>
+    <div class="jm-strip-cell">
+      <div class="ks-lbl">平均滞在</div>
+      <div class="ks-val" style="color:var(--green)">363<span class="u">s</span></div>
+      <div class="ks-sub">5LP中 <b>最長</b>（ACの1.8倍）</div>
+    </div>
+    <div class="jm-strip-cell">
+      <div class="ks-lbl">PC/SP CVR比</div>
+      <div class="ks-val" style="color:var(--c-mp)">PC×2.1</div>
+      <div class="ks-sub">PC 3.68% vs SP 1.74%</div>
+    </div>
+  </div>
+
+  <div class="jm-sec-title">① セッションファネル（MyPage着地 → 購入）</div>
+  <div class="jm-funnel">
+    <div class="jm-f-row">
+      <div class="step">着地セッション</div>
+      <div class="bar"><div class="fill" style="width:100%;background:var(--c-mp)">117,513</div></div>
+      <div class="pct">100%</div>
+    </div>
+    <div class="jm-drop">↓ MyPage内のみで完結 <b>79.4%</b>（ACに進まず）</div>
+    <div class="jm-f-row">
+      <div class="step">AC詳細到達</div>
+      <div class="bar"><div class="fill" style="width:20.6%;background:var(--c-mp)">24,168</div></div>
+      <div class="pct">20.6%</div>
+    </div>
+    <div class="jm-drop">↓ カレンダー/フォーム未到達 <b>77.2%</b> ロスト</div>
+    <div class="jm-f-row">
+      <div class="step">予約フォーム</div>
+      <div class="bar"><div class="fill" style="width:4.7%;background:var(--c-mp)">5,499</div></div>
+      <div class="pct">4.7%</div>
+    </div>
+    <div class="jm-drop">↓ フォーム離脱 <b>59.5%</b></div>
+    <div class="jm-f-row">
+      <div class="step">購入完了</div>
+      <div class="bar"><div class="fill" style="width:1.9%;background:var(--green)">2,228</div></div>
+      <div class="pct" style="color:var(--green)"><b>1.90%</b></div>
+    </div>
+  </div>
+  <div style="padding:0 44px;font-size:12px;color:var(--text3);margin-top:-4px">※ 他LPのファネルはユーザーベース／このLPはセッションベース（MyPageはログイン済＋再訪多数でuser=sessがずれる）</div>
+
+  <div class="jm-sec-title">② 次に踏むページ（Top9 / 28日セッション到達）</div>
+  <div class="jm-next">
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">🎟️</span><span>AC詳細ページ<span class="np-path">/jp/.../a/...</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:100%;background:var(--c-mp)"></div></div>
+      <div class="np-pv">24,168<span class="u">sess</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">📋</span><span>予約履歴/予約詳細<span class="np-path">/jp/mypage/booking_list/ ・ /jp/ticket/bookings/...</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:60%;background:var(--c-mp)"></div></div>
+      <div class="np-pv">14,484<span class="u">sess</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">🎫</span><span>マイクーポン<span class="np-path">/jp/mypage/my_coupon/...</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:46%;background:var(--c-mp)"></div></div>
+      <div class="np-pv">11,228<span class="u">sess</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">🏠</span><span>TOP 戻り<span class="np-path">/jp/</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:36%;background:var(--c-mp)"></div></div>
+      <div class="np-pv">8,752<span class="u">sess</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">📞</span><span>サポート/お問い合わせ<span class="np-path">/jp/support/・/jp/inquiry/...</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:33%;background:var(--c-mp)"></div></div>
+      <div class="np-pv">8,042<span class="u">sess</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">📝</span><span>予約フォーム<span class="np-path">/jp/booking・/booking/mail_confirmation</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:23%;background:var(--c-mp)"></div></div>
+      <div class="np-pv">5,499<span class="u">sess</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">🔍</span><span>検索<span class="np-path">/jp/search/...</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:19%;background:var(--c-mp)"></div></div>
+      <div class="np-pv">4,553<span class="u">sess</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">✅</span><span>購入完了<span class="np-path">/jp/booking/reservation_complete2</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:9%;background:var(--green)"></div></div>
+      <div class="np-pv">2,228<span class="u">sess</span></div>
+    </div>
+    <div class="jm-next-row">
+      <div class="np-label"><span class="np-icon">❤️</span><span>ウィッシュリスト<span class="np-path">/jp/wishlist/</span></span></div>
+      <div class="np-bar"><div class="fill" style="width:8%;background:var(--c-mp)"></div></div>
+      <div class="np-pv">1,854<span class="u">sess</span></div>
+    </div>
+  </div>
+
+  <div class="jm-sec-title">③ UI挙動シグナル（1,000セッションあたり）</div>
+  <div class="jm-signals">
+    <div class="sig strong">
+      <div class="ic">⏱️</div>
+      <div class="val">363<span class="unit">s</span></div>
+      <div class="lbl">平均滞在<br>5LP中最長</div>
+    </div>
+    <div class="sig strong">
+      <div class="ic">📄</div>
+      <div class="val">3.58</div>
+      <div class="lbl">PV/セッション<br>深い回遊</div>
+    </div>
+    <div class="sig neutral">
+      <div class="ic">🎟️</div>
+      <div class="val">206<span class="unit">‰</span></div>
+      <div class="lbl">AC詳細到達<br>21%</div>
+    </div>
+    <div class="sig strong">
+      <div class="ic">🎫</div>
+      <div class="val">96<span class="unit">‰</span></div>
+      <div class="lbl">クーポン閲覧<br>10%</div>
+    </div>
+  </div>
+
+  <div class="jm-sec-title">④ セグメント内訳：誰が買っているか</div>
+  <div class="jm-seg">
+    <div class="jm-seg-block">
+      <h4>新規 vs リピーター（CVR）</h4>
+      <div class="jm-seg-row">
+        <div class="sl">🆕 新規<sup style="color:#9CA3AF">※</sup></div>
+        <div class="sb"><div class="f" style="width:100%;background:#9CA3AF">2.84%</div></div>
+        <div class="sv lo">19,341</div>
+      </div>
+      <div class="jm-seg-row">
+        <div class="sl">🔁 リピ</div>
+        <div class="sb"><div class="f" style="width:79%;background:var(--green)">2.25%</div></div>
+        <div class="sv hi">83,699</div>
+      </div>
+      <div style="font-size:12px;color:var(--text3);margin-top:6px">※ MyPageはログイン必須のため「新規」ラベルの多くは <b>Cookie切れの実質リピ</b>。構造的異常値。</div>
+    </div>
+    <div class="jm-seg-block">
+      <h4>デバイス別（CVR）</h4>
+      <div class="jm-seg-row">
+        <div class="sl">💻 PC</div>
+        <div class="sb"><div class="f" style="width:100%;background:var(--c-mp)">3.68%</div></div>
+        <div class="sv hi">21,466</div>
+      </div>
+      <div class="jm-seg-row">
+        <div class="sl">📱 SP</div>
+        <div class="sb"><div class="f" style="width:47%;background:var(--c-mp)">1.74%</div></div>
+        <div class="sv">93,709</div>
+      </div>
+      <div style="font-size:12px;color:var(--text3);margin-top:6px">PC優勢（×2.1）— PCから MyPage を使うのは <b>じっくり予約確認する層</b>、SPは履歴チェック程度で離脱</div>
+    </div>
+  </div>
+
+  <div class="jm-hypo">
+    <div class="hypo-card">
+      <div class="ht">🧠 行動仮説 — 「同トリップ内クロスセルの主戦場」</div>
+      <div class="hb">
+        MyPage着地は <b>既にアカウント持ちのログイン済みユーザー</b>。CVR 2.07% は AC/CTG/Area の約2倍だが、<b>絶対数は2,430 CV と小さい</b>（AC着地の20%）。<br>
+        <br>
+        行動は3系統に分かれる:<br>
+        &nbsp;&nbsp;① <b>予約履歴確認</b>（14.5k sess / 12.3%）— 既予約の再確認 or 履歴から再予約候補探し<br>
+        &nbsp;&nbsp;② <b>マイクーポン参照</b>（11.2k / 9.6%）— 未使用クーポンの確認 → 対応ACを探しに行く<br>
+        &nbsp;&nbsp;③ <b>サポート/お問い合わせ</b>（8.0k / 6.8%）— 困りごと解決モード<br>
+        <br>
+        <b>最大のCVRレバーは「①の予約履歴に同トリップ関連ACを差し込む」</b>。14.5k sess という確実に来てる着地層へ、「この旅行に追加で選ばれているAC TOP3」「残日数で予約可能な空港送迎」「出発前に使えるクーポン対象AC」等を出せば、クロスセル CVR を段階的に積める。<br>
+        <br>
+        一方 MyPage はリピの"完成度が高い層"なので、ここでCVR倍増を狙うより <b>"トリップあたり件数"の底上げ</b>と捉えるのが正しい。年複数回旅行を狙うのではなく、1旅行で3-5件買ってもらう設計。
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ============ Section 5.5: Sankey 行動経路 ============ -->
 <div class="card">
   <div class="sec-label">Section 5.5 &mdash; 着地 → 行動経路 サンキー（セッション到達ベース）</div>
@@ -1587,6 +1778,32 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         受益LP: 全LP共通
       </div>
       <div class="act-impact" style="color:#6B7280">+0.1pp<br><span style="font-size:10px;color:var(--text3)">（フォーム起点）</span></div>
+    </div>
+
+    <div class="act-row">
+      <div class="act-prio p2">P2</div>
+      <div class="act-desc">
+        <div class="t">MyPage「予約履歴」に同トリップ内クロスセル差し込み（Persona A レバー）</div>
+        <div class="d">予約履歴到達 14.5k sess / クーポン閲覧 11.2k sess / サポート閲覧 8.0k sess という<b>"ログイン済み確定客"</b>が毎月可視化されるのに、そこでの追加提示が弱い。「この旅行に追加で選ばれているAC TOP3」「残日数で買える送迎/eSIM/保険」「未使用クーポン対象AC」を差し込む。うざさを避けるため、タイミング=予約完了直後&出発3日前、フォーマット=MyPage内セクション/メール、対象=同目的地・同日付近のみ。</div>
+      </div>
+      <div class="act-target">
+        <span class="tag">MyPage</span><span class="tag">予約完了</span><span class="tag">メール</span><br>
+        対象: MyPage11.8万sess＋既購入者全員（ACQ後）
+      </div>
+      <div class="act-impact" style="color:#F59E0B">+件数/人<br><span style="font-size:10px;color:var(--text3)">（トリップあたり<br>購入件数底上げ）</span></div>
+    </div>
+
+    <div class="act-row">
+      <div class="act-prio p3">P3</div>
+      <div class="act-desc">
+        <div class="t">予約フォームに「ついでに追加」オプション（eSIM / 送迎 / 保険 の決済途中チェック）</div>
+        <div class="d">別ページ誘導ではなく<b>決済フロー内に1クリックで追加できるチェック</b>。興奮のピーク＋離脱リスクが低いタイミングでのマイクロクロスセル。「空港でタクシー待たない送迎」「現地 WiFi 探さない eSIM」のように"ユーザーの不便を先回り"する文言で価値提示。</div>
+      </div>
+      <div class="act-target">
+        <span class="tag">予約フォーム</span><br>
+        受益: 全LP共通 / 約30,000購入/月
+      </div>
+      <div class="act-impact" style="color:#6B7280">AOV+<br><span style="font-size:10px;color:var(--text3)">（客単価向上）</span></div>
     </div>
   </div>
 
