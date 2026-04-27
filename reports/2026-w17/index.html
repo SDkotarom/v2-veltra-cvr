@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/summary.css">
+<title>W17（4/19〜4/25）サマリー | 週次ボトルネック分析</title>
+</head>
+<body>
+<div id="app">
+  <!-- ── Header ─────────────────────────────── -->
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">週次サマリー<br><strong>W17（4/19〜4/25）</strong></div>
+    </div>
+    <div style="padding:22px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:13px;line-height:1.8;color:var(--text2)">
+      <div><span style="color:var(--text3);font-weight:700">分析対象</span><br>W17 単週（2026-04-19 〜 2026-04-25）<br>前週 W16（2026-04-12 〜 2026-04-18）との比較</div>
+      <div><span style="color:var(--text3);font-weight:700">レポート発行</span><br>2026-04-27（月）</div>
+      <div><span style="color:var(--text3);font-weight:700">GA4 Property</span><br>347074845</div>
+    </div>
+  </div>
+
+  <!-- ── 結論 (Conclusion) ──────────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num red">01</span><span class="sec-main">Conclusion — 結論</span></div>
+    <div class="summary-hero">
+      <div class="summary-kicker">W17 / サイト障害インシデント（4/24〜4/26朝）</div>
+      <div class="summary-headline">
+        W17 後半に <em class="red">AWS Memcached ノード障害</em>でサイト全体が 504 Gateway Time-out。<br>
+        <em class="red">4/24（金）CVR 0.66% / 4/25（土）0.96%</em> と通常の <em>1/2〜1/3 まで激減</em>し、推定 <em class="red">−1,450件 / −¥9.4M の取りこぼし</em>。<br>
+        4/26（日・W18初日）の CVR 1.22% への即時回復が、これが <em class="green">「障害による一過性の落ち込み」</em>であることを裏付ける。<br>
+        <strong>ユーザー行動の構造的悪化ではない</strong> — 障害がなければ W17 は前週並みの水準で着地していた。
+      </div>
+      <div class="summary-sub">
+        W17 の見かけ CVR 1.10% は、3 つの<strong>独立した特殊要因が重なった結果</strong>:
+        <strong>(1) 4/24〜4/25 のサイト障害</strong>（504 で「フォーム入っても完了できない」状況、最大の負の要因）、
+        <strong>(2) Singapore × Chrome × Win bot の継続</strong>（W16 から半減も指紋一致で残存、分母希釈）、
+        <strong>(3) 4/20 為替マージン変更</strong>（EU 3.9% / TWD・SGD・MYR 0% / 他 2.9%、影響は小さく中立〜微プラスと推定）。<br>
+        <strong>今週優先するべきは、障害の再発防止アラート整備と、bot WAF ブロック。</strong>
+        ユーザー体験施策（BN1〜BN3）は GW 繁忙期前にこの 2 件と並行で着手する。
+      </div>
+      <div class="summary-kpi-strip">
+        <div class="skpi">
+          <div class="skpi-label">W17 raw CVR（見かけ）</div>
+          <div class="skpi-val" style="color:var(--red)">1.10%</div>
+          <div class="skpi-wow">▲ vs W16 raw 0.94% / ▼ vs W15 1.41%</div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">障害日 4/24 CVR</div>
+          <div class="skpi-val" style="color:var(--red)">0.66%</div>
+          <div class="skpi-wow down">▼ 通常比 約 1/2 → 1/3</div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">障害復旧後 4/26 CVR</div>
+          <div class="skpi-val" style="color:var(--green)">1.22%</div>
+          <div class="skpi-wow up">▲ 即日で通常水準へ復帰</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 論拠 (Evidence) ────────────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">Evidence — 論拠</span></div>
+    <div class="sec-big">障害日の CVR 崩落と復旧、bot 継続、為替変更 — 3 つの独立要因を重ねて読む</div>
+    <div class="sec-sub">日次 CVR 推移を見ると、4/24〜4/25 だけが極端な外れ値。bot は通常曜日にも継続発信。為替は方向としては中立〜微プラス。</div>
+    <div class="evidence-grid">
+
+      <!-- Evidence 1: site outage primary driver -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.01 — サイト障害が CVR 崩落の主因</div>
+        <div class="evidence-title">4/24・4/25 だけ CVR が通常の 1/2〜1/3、4/26 即日復旧で因果は明確</div>
+        <div class="evidence-metric">
+          <div class="evidence-big red">−1,450<span class="evidence-unit">件</span></div>
+        </div>
+        <div class="evidence-comp">障害日 2 日間の取りこぼし推定（通常 CVR 約 1.4% で再計算した期待値との差）</div>
+        <div class="evidence-bar">
+          <div class="evidence-bar-col"><div class="evidence-bar-bar green" style="height:90%"></div><div class="evidence-bar-label">4/19<br>1.77%</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:48%;background:#aaa"></div><div class="evidence-bar-label">4/20<br>0.94%</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:47%;background:#aaa"></div><div class="evidence-bar-label">4/21<br>0.93%</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:56%;background:#aaa"></div><div class="evidence-bar-label">4/22<br>1.10%</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:67%;background:#aaa"></div><div class="evidence-bar-label">4/23<br>1.32%</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:33%"></div><div class="evidence-bar-label">4/24<br>0.66%</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar red" style="height:49%"></div><div class="evidence-bar-label">4/25<br>0.96%</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar green" style="height:62%"></div><div class="evidence-bar-label">4/26<br>1.22%</div></div>
+        </div>
+        <div class="evidence-desc">AWS Memcached ノード障害で <strong>サイト全体が 504 Gateway Time-out</strong>。SEM 広告チームの観測でも「クリックは届いているのに Booking が激減」を確認済み。
+        4/24（金）827件 / 4/25（土）1,122件 vs 通常想定 ~1,750件・~1,640件、合計 <strong>約 −1,450件 ≒ −¥9.4M</strong>（平均単価 ¥6,500 想定）の取りこぼし。
+        4/26（日）に即座に通常水準へ復帰しており、<strong>ユーザー行動の構造変化ではなくサイト可用性の問題</strong>と確定。
+        対応者: Jeff（休日返上）。検知はできていたが社内周知が遅れた点が次の改善ポイント。</div>
+      </div>
+
+      <!-- Evidence 2: bot continued -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.02 — bot は撤退していない（W16 から継続）</div>
+        <div class="evidence-title">Singapore × Chrome × Windows が 17.1万 sess/週で残存、4/20・4/21・4/24 にスパイク</div>
+        <div class="evidence-metric">
+          <div class="evidence-big" style="color:#d97706">99.5<span class="evidence-unit">%</span></div>
+        </div>
+        <div class="evidence-comp">Singapore セッションの Chrome × Windows 占有率 = 171,101 / 171,982</div>
+        <div class="evidence-desc">W16 のピーク（4/15: 209K/日）より縮小したが、<strong>同じ指紋（Singapore × Chrome × Win、Direct × Desktop ~25万 sess、購入率 0.01% / 17件のみ）</strong>で継続発信。
+        4/20（火）50K・4/21（火）48K・4/24（金）33K と <strong>火・木のバッチパターン</strong>。日次 CVR がこれらの日に 0.93〜0.94% まで沈んでいるのは <strong>bot による分母希釈の独立した影響</strong>。
+        bot 除外 W17 実質 CVR は約 <strong>1.37%</strong>（W16 1.42% から -0.05pt、ほぼ横ばい）。WAF ブロックが未実装のままなのが根本原因で、GW 繁忙期に再ピークを打つリスクが残る。</div>
+      </div>
+
+      <!-- Evidence 3: bottleneck pattern -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.03 — 構造的ボトルネックは W16 と同じ 10 件</div>
+        <div class="evidence-title">障害・bot の特殊要因を取り除いても、決済直前の諦めは依然 -26.7pp / 月60万人影響</div>
+        <div class="evidence-metric">
+          <div class="evidence-big red">−26.7<span class="evidence-unit">pp</span></div>
+        </div>
+        <div class="evidence-comp">新規ユーザー ④→⑤ W17 28d 50.1% / 全体ベースライン 76.8%（W16 同セグメント -25.9pp）</div>
+        <div class="evidence-desc">28日ローリングのセグメント分析では、<strong>Top10 ボトルネックの並びは W16 とほぼ同じ</strong>: BN1 新規 ④→⑤、BN2 モバイル ①→②、BN3 リピーター ①→②、BN5 モバイル ④→⑤、BN6 Organic ④→⑤...
+        障害と bot は単週ノイズだが、<strong>構造的な転換問題（決済直前で諦める新規 / AC にたどり着けないモバイル / 思い出せず去るリピーター）は 2 週連続で同じ場所に残っている</strong>。
+        GW 繁忙期前に BN1〜BN3 の打ち手着手が引き続き急務。</div>
+      </div>
+
+      <!-- Evidence 4: FX rate change -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.04 — 4/20 為替変更（中立〜微プラス想定）</div>
+        <div class="evidence-title">EU 3.9% / TWD・SGD・MYR 0% / その他 2.9% — 主に値下げ方向で CVR には不利には働きにくい</div>
+        <div class="evidence-metric">
+          <div class="evidence-big" style="color:#9ca3af">~0</div>
+        </div>
+        <div class="evidence-comp">価格戦略チームによる 4/20 適用、CVR 変動への寄与は今週の数字には小さい想定</div>
+        <div class="evidence-desc">為替マージン引き下げは <strong>表示価格を下げる方向</strong>に働くため、CVR には基本プラス寄与（特に Singapore・台湾・マレーシアからの購買者）。
+        kotarom（CVR チーム）の Slack でも「普通そちらは良い方向に働きそう」と言及。<strong>W17 の見かけ CVR 悪化を為替で説明することはできない</strong>。
+        来週 W18 のレポートで通貨×エリア別の CVR/購入数を切り出して、為替変更の純効果を分離測定する（障害と bot のノイズが除けるため）。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── やるべきこと (Action) ──────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">Action — やるべきこと</span></div>
+    <div class="sec-big">障害周知フローの整備 + WAF ブロック完了 + GW 前に BN1〜BN3 着手の 3 本立て</div>
+    <div class="sec-sub">障害・bot・構造課題の 3 つを並行で潰す。意思決定を誤らないため、見かけ CVR ではなく「障害除外 + bot 除外」の実質値で議論する習慣を本格適用。</div>
+    <div class="action-list">
+
+      <!-- Action 1: incident comms -->
+      <div class="action-item">
+        <div class="action-prio amber">1</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag new">NEW / 緊急</span>
+            <span class="action-tag stage">障害対応 / 周知フロー</span>
+            <span class="action-tag">優先度: 最高</span>
+          </div>
+          <div class="action-title">サイト障害の社内周知フローを整備（4/24〜4/25 で広告チームへの通知が遅れた）</div>
+          <div class="action-why">
+            検知自体は SRE 側で行われていたが、<strong>SEM 広告チームが「CVR 急落の原因が障害だ」と把握したのは 4/27（月）の朝</strong>。その間、広告投資の判断や CVR 報告に「障害情報なし」の状態でデータを見ていた。
+            <strong>同じ事象を二度起こさないため</strong>、障害発生時に <code>#urgent-issues</code> から自動で関係チャネル（CVR / SEM / マーケ / 経営）へ周知される運用を Mayumi さん・Jeff さんと合意する。
+            また、障害日が含まれる週の<strong>レポートには「障害アノテーション」を必ず記載</strong>し、見かけの数字に引きずられないようにする。
+          </div>
+          <div class="action-why" style="color:var(--text3);margin-bottom:0">
+            ステップ: ① <code>#urgent-issues</code> から関係チャネルへの自動転送設定（1日）② annotations.json に障害イベントを記録するルール文書化（半日）③ CVR ダッシュ KPI に「障害日除外」トグルを追加（中期）
+          </div>
+        </div>
+      </div>
+
+      <!-- Action 2: WAF block -->
+      <div class="action-item">
+        <div class="action-prio amber">2</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag">引き継ぎ / 緊急</span>
+            <span class="action-tag stage">WAF / インフラ</span>
+            <span class="action-tag">優先度: 最高</span>
+          </div>
+          <div class="action-title">WAF ブロックを今週中に完了 — bot は週次バッチ化して継続中</div>
+          <div class="action-why">
+            W16 の Action 1 で書いた <code>AWS ap-southeast-1 / Singapore × Chrome × Windows</code> ブロックが <strong>未だ未実装のまま</strong>、bot は週次バッチに切り替えて継続発信中（4/20・4/21・4/24 にスパイク）。
+            このまま GW（5/1〜5/6）を迎えると <strong>繁忙期で再びピークを打つリスク</strong>がある（W16 ピーク 4/15 の規模なら raw CVR が再び 1% を割る）。
+            AWS IP レンジ JSON 投入 + Singapore × Chrome × Windows × Referer 空 fingerprint ルールの 2 段構えを <strong>今週中（4/27〜5/2）</strong>に必達。
+          </div>
+        </div>
+      </div>
+
+      <!-- Action 3: BN1-3 user experience start -->
+      <div class="action-item">
+        <div class="action-prio">3</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag">既存 BN Top3</span>
+            <span class="action-tag stage">UX / フォーム / AC</span>
+            <span class="action-tag">優先度: 高</span>
+          </div>
+          <div class="action-title">GW 前に「決済直前の諦め」「AC に辿り着けないモバイル/リピーター」を着手</div>
+          <div class="action-why">
+            Top3 ボトルネックは <strong>W16 と同じ顔ぶれが 2 週連続</strong>。障害・bot 騒動が一段落するまで先送りしていると、GW 繁忙期に「ボトルネックは知っていたが手は打てていない」状態になる。
+            BN1〜BN3 のうち <strong>quick wins（effort=S, 制約なし）</strong>から先行着手すれば 1〜2週間で実装可能。
+          </div>
+          <div class="action-why" style="color:var(--text3);margin-bottom:0">
+            <a href="bottleneck-1.html" style="color:var(--red);font-weight:700;text-decoration:underline">BN1</a>: <span class="asl-title">新規ユーザーが『長いフォーム＋最終価格の不意打ち』で決済直前に諦めている</span>（新規 ④→⑤ -26.7pp / 月60万人影響）<br>
+            <a href="bottleneck-2.html" style="color:var(--red);font-weight:700;text-decoration:underline">BN2</a>: <span class="asl-title">モバイルで『自分に合うAC』を見つけられず、比較疲れで離脱している</span>（モバイル ①→② -24.1pp / 月50万人影響）<br>
+            <a href="bottleneck-3.html" style="color:var(--red);font-weight:700;text-decoration:underline">BN3</a>: <span class="asl-title">リピーターが『前回見たAC』を思い出せず、探し疲れで離脱している</span>（リピーター ①→② -28.2pp / 月34万人影響）
+          </div>
+        </div>
+      </div>
+
+      <!-- Action 4: KPI dual-track + FX measure -->
+      <div class="action-item">
+        <div class="action-prio blue">4</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag">継続 / 計測基盤</span>
+            <span class="action-tag stage">ダッシュボード / 為替分析</span>
+            <span class="action-tag">優先度: 中</span>
+          </div>
+          <div class="action-title">CVR は「raw / 障害除外 / bot 除外」の 3 本立てを kpi.html に反映 + 為替変更の通貨別効果測定</div>
+          <div class="action-why">
+            W16 で書いた raw / bot 除外の 2 本立てに、<strong>「障害日除外」軸を追加</strong>。意思決定の精度を上げる。
+            また、<strong>4/20 為替変更の純効果</strong>を W18 のレポートで通貨×エリア別 CVR で切り出し測定する（W17 は障害と bot で交絡しているため、W18 の純粋な比較が必要）。
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 詳細セクション（summary-detail.js が注入） ─── -->
+  <div id="summary-detail" style="scroll-margin-top:24px"></div>
+
+  <!-- ── Footer ─────────────────────────────── -->
+  <div class="card">
+    <div class="footer">
+      <span>VELTRA CVR改善チーム — UIUX Design Squad</span>
+      <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+      <span>2026-04-27</span>
+    </div>
+  </div>
+</div>
+
+<script src="/nav.js"></script>
+<script src="/summary-detail.js"></script>
+</body>
+</html>
