@@ -16,6 +16,46 @@
 
 ---
 
+## 1.1 GA4 MCP の利用環境（⚠️ 起動環境で挙動が変わる）
+
+GA4 MCP（`mcp__*__run_report` 等）は **Claude Desktop アプリ / Claude Code Desktop アプリでのみ動作**する。
+**ブラウザ版 Claude Code（claude.ai/code）/ プレーンな Claude Code CLI（ターミナル単独起動）** からは MCP の UUID が deferred tool として一覧に表示されるが、**呼び出しても応答しない**（タイムアウト or 即時エラー）。
+
+### 起動環境マトリクス
+
+| 起動環境 | GA4 MCP | Phase 1 実行 | この playbook の手順 |
+|---------|--------|------------|---------------------|
+| Claude Desktop アプリ | ✅ 動く | ✅ 可 | そのまま実行 |
+| Claude Code Desktop アプリ | ✅ 動く | ✅ 可 | そのまま実行 |
+| Claude Code CLI（ターミナル） | ❌ 不通 | ❌ 不可 | scaffold + meta 系 JSON のみ更新、Phase 1 は別途 Desktop で実行 |
+| ブラウザ版 Claude Code（claude.ai/code） | ❌ 不通 | ❌ 不可 | 同上 |
+| Web Claude.ai | ❌（Code 機能なし） | ❌ | 対象外 |
+
+> 補足: ルートの `CLAUDE.md` 冒頭に「**GA4 MCP ツールが自動的に利用可能**」と書いてあるが、これは **Desktop セッション前提**の表現。非 Desktop 環境にも該当する記述ではない。
+
+### 非 Desktop 環境で GA4 MCP 系タスクが来た時の手順
+
+ユーザーが「W○○ レポート更新して」「GA4 を引いて」「Phase 1 走らせて」等を依頼した時、**起動環境を最初にユーザーに宣言**し、非 Desktop なら**先に確認を取ってから**着手する。
+
+```
+[Claude] 今このセッションは Claude Code CLI（あるいはブラウザ版）から起動されています。
+GA4 MCP は Desktop アプリ限定なのでこの環境からは引けません。どうしますか？
+  (a) Desktop セッションに切り替えて実行する
+  (b) GA4 不要部分（scaffold / playbook 更新 / 過去データ参照のみのレビュー等）だけこちらで進める
+  (c) GA4 から手動エクスポートした CSV/数値をペーストしてもらう
+```
+
+**やってはいけないこと**:
+- 黙って `mcp__*__run_report` を試行する → タイムアウトで session が固まる
+- 動かない MCP の応答を勝手に推測値で埋める → 実データと乖離した嘘レポートが出る
+- 「とりあえず scaffold だけ更新しておきますね」と勝手に進めて、ユーザーの意図と違う結果になる
+
+**やっていいこと**:
+- 起動環境のヒント探し（deferred tools 一覧に `mcp__*__run_report` がいるか、それを呼んで即応答するか）
+- ユーザーが「(b) だけ進めて」と答えた時の scaffold + 文書更新
+
+---
+
 ## 2. リポジトリ構成
 
 ```
@@ -566,7 +606,7 @@ validate-report.py 実行
 |--------|--------|------|
 | スキャフォールド生成 | **Python スクリプト** | 定型処理、AIコスト不要 |
 | content.json スケルトン生成 | **Python スクリプト** | `--skeleton` で自動生成、AIコスト不要 |
-| GA4 クエリ実行 | **Sonnet** | MCP操作は定型、判断不要 |
+| GA4 クエリ実行 | **Sonnet** | MCP操作は定型、判断不要 ※ **GA4 MCP は Desktop 限定（Section 1.1 参照）** |
 | data.json 組み立て | **Sonnet** | クエリ結果の整形 |
 | summary/weekly JSON 更新 | **Sonnet** | 追記のみ |
 | ボトルネック分析（ランキング） | **Opus** | セグメント間の相対比較に判断力が必要 |
@@ -607,6 +647,7 @@ validate-report.py 実行
 - [ ] **週次サマリーページ（`reports/{W}/index.html`）が作成済み** — 結論/論拠/やるべきこと の3セクション + 詳細自動描画
 - [ ] 週次サマリーの結論ヘッドラインが「ユーザーが何をしていたか」の主語で始まる（数字羅列になっていない）※データ汚染週は除く
 - [ ] 週次サマリーの /reports/{W}/ がブラウザで開き、summary-detail.js が自動描画されている
+- [ ] **起動環境の確認**: 非 Desktop セッション（Claude Code CLI / ブラウザ版）から GA4 MCP を呼ぼうとしていない（Section 1.1 参照）。Desktop 不可な場合は scaffold + 文書更新のみで止め、data.json の baseline/segments は null のまま放置している。
 
 ---
 
@@ -635,8 +676,10 @@ Claude Code の `schedule` スキルで設定:
 
 | アカウント | 用途 | モデル | 特徴 |
 |------------|------|--------|------|
-| **アカウントA**（ベルトラ） | GA4 MCP接続・データ取得 | Sonnet | GA4 MCP に直接接続可 |
+| **アカウントA**（ベルトラ） | GA4 MCP接続・データ取得 | Sonnet | GA4 MCP に直接接続可（**Desktop アプリ限定** — Section 1.1） |
 | **アカウントB**（分析） | 分析・コンテンツ生成・デプロイ | Opus / Sonnet 切替 | GA4 MCP 接続不可 |
+
+> ⚠️ アカウントAでも、起動環境が **Claude Code CLI / ブラウザ版 Claude Code** の時は GA4 MCP が動かない。Phase 1 を回す時は必ず Desktop アプリ（Claude Desktop / Claude Code Desktop）から起動する。詳しくは Section 1.1 の起動環境マトリクス参照。
 
 ### Phase別 指示テンプレート（コピペ用）
 
