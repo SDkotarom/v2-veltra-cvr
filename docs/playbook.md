@@ -502,13 +502,18 @@ python3 scripts/validate-report.py --week {YYYY}-w{WW}
 
 #### 検証項目（スクリプトが自動チェック）
 1. `reports-index.json` の日付・ラベルが正しいか
-2. サマリーページのベースライン数値が data.json と一致するか
-3. 日付範囲（ローリング期間）が正しいか
-4. 用語統一（回遊段階→流入→AC到達 等）
-5. 全10件の bottleneck HTML が存在するか
-6. weekly-summary.json / archive-meta.json が更新されているか
-7. ファビコンURL が正しいか
-8. 「仮想データ」表記が残っていないか
+2. サマリーページの構造（`<div id="summary-detail">` ＋ `summary-detail.js` 参照）と data.json の baseline 妥当性
+3. 用語統一（回遊段階→流入→AC到達 等）
+4. 全10件の `bottleneck-N-content.json` が存在するか（詳細ページは `/bottleneck.html?id=N&week=W` で動的描画）
+5. weekly-summary.json / archive-meta.json が更新されているか
+6. ファビコンURL が正しいか
+7. behavior_context（estimated_action / evidence×2 / page_role_check / subtraction_check）が記入されているか
+8. 全施策に implementation_check / feasibility が記入されているか
+9. 「仮想データ」表記が残っていないか
+
+> 📌 **設計メモ**: `reports/{W}/index.html` は週の物語（Conclusion / Evidence / Action の3セクション）を手書きする場所。
+> 28日ベースライン・ファネル・進捗・BN10件 は `<div id="summary-detail">` 内に `summary-detail.js` が `data.json` から動的描画する。
+> validator は HTML 内の baseline 数値を直接探さず、構造とデータソース（data.json）の整合性を見る。
 
 #### エラー時の対応フロー
 
@@ -631,8 +636,8 @@ validate-report.py 実行
 - [ ] `python3 scripts/validate-report.py` がエラー0件で通る
 - [ ] weekly-summary.json に新しい週が追加されている
 - [ ] archive-meta.json の updatedAt が更新されている
-- [ ] w{XX}/index.html のベースライン数値が data.json と一致
-- [ ] w{XX}/index.html の「分析対象データ」日付がローリング期間（例: 3/9〜4/5）と一致
+- [ ] w{XX}/index.html に `<div id="summary-detail">` と `summary-detail.js` 参照があり、ベースライン・ファネル・進捗・BN10件が動的描画されている
+- [ ] w{XX}/index.html の「分析対象」表記が単週（date_start〜date_end）になっており、ローリング期間（28日）は `summary-detail.js` 側に委ねている
 - [ ] プロトタイプがVELTRAデザインシステム準拠（`#1B82C5` blue CTA）
 - [ ] 競合分析のファビコンが正しい URL
 - [ ] 全10件の content.json に `behavior_context` が存在（`estimated_action` 非空、`evidence` 2件以上、`page_role_check` 非空、`subtraction_check` 非空）
