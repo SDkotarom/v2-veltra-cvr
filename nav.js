@@ -89,6 +89,8 @@
   var isAnalysis = (path === '/analysis.html');
   var isBehaviorGuide = (path === '/behavior-guide.html');
   var isEntryJourney = (path === '/entry-journey.html');
+  var isPlanning = (path === '/planning/' || path === '/planning/index.html');
+  var isPlanningItem = /^\/planning\/.+\.html$/.test(path) && !isPlanning;
   var isArchive = (path === '/reports/' || path === '/reports/index.html');
   var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
   var qp = new URLSearchParams(location.search);
@@ -162,6 +164,10 @@
       append(homeA, mkCurrent('行動仮説ガイド'));
     } else if (isEntryJourney) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('エントリー別CVRジャーニー'));
+    } else if (isPlanning) {
+      append(homeA, mkCurrent('施策案'));
+    } else if (isPlanningItem) {
+      append(homeA, mkA('施策案', '/planning/'), mkCurrent('ドキュメント'));
     } else if (isWeekSummary || isReport) {
       append(homeA, bnA, mkCurrent(wid));
     } else if (isBottleneck) {
@@ -268,6 +274,11 @@
       addPath('M4 19.5A2.5 2.5 0 0 1 6.5 17H20');
       addPath('M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z');
       addLine(9,7,15,7); addLine(9,11,13,11);
+    } else if (type === 'planning') {
+      // Lightbulb (idea / proposal)
+      addPath('M9 18h6');
+      addPath('M10 22h4');
+      addPath('M12 2a7 7 0 0 0-4 12.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26A7 7 0 0 0 12 2z');
     }
     return svg;
   }
@@ -423,6 +434,14 @@
     kpiA.appendChild(makeIcon('kpi'));
     kpiA.appendChild(document.createTextNode('KPIダッシュボード'));
     nav.appendChild(kpiA);
+
+    // ■ 施策案
+    var planA = document.createElement('a');
+    planA.href = '/planning/';
+    planA.className = 'nav-item' + (isPlanning || isPlanningItem ? ' nav-active' : '');
+    planA.appendChild(makeIcon('planning'));
+    planA.appendChild(document.createTextNode('施策案'));
+    nav.appendChild(planA);
 
     nav.appendChild(makeSep());
 
