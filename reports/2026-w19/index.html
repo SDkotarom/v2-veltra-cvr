@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/summary.css">
+<title>W19（5/3〜5/9）サマリー | 週次ボトルネック分析</title>
+</head>
+<body>
+<div id="app">
+  <!-- ── Header ─────────────────────────────── -->
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">週次サマリー<br><strong>W19（5/3〜5/9）</strong></div>
+    </div>
+    <div style="padding:22px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:13px;line-height:1.8;color:var(--text2)">
+      <div><span style="color:var(--text3);font-weight:700">分析対象</span><br>W19 単週（2026-05-03 〜 2026-05-09、Sun-Sat・GW後半週）<br>前週 W18（2026-04-26 〜 2026-05-02）との7日比較</div>
+      <div><span style="color:var(--text3);font-weight:700">レポート発行</span><br>2026-05-11（月）</div>
+      <div><span style="color:var(--text3);font-weight:700">GA4 Property</span><br>347074845</div>
+    </div>
+  </div>
+
+  <!-- ── 結論 (Conclusion) ──────────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num red">01</span><span class="sec-main">Conclusion — 結論</span></div>
+    <div class="summary-hero">
+      <div class="summary-kicker">W19 / GW後半週・データ品質インシデント継続</div>
+      <div class="summary-headline">
+        GW 後半に入り <em>セッションは +5.9%（937K → 992K）</em>に増えたのに、<em class="red">予約完了は -15.2%（12,003 → 10,175件）</em>と逆方向に動き、<br>
+        <em class="red">CVR は 1.28% → 1.03%（-0.26pt）</em>に後退。
+        ただし<strong>これは「ユーザーが買わなくなった」のではなく、Singapore × Chrome × Windows bot が依然 19.7%（195K/週）流入し続けて分母を希釈している</strong>のが主因。
+        <strong>bot 除外で見た「実ユーザー CVR」は 1.27%（28日ベース）</strong>で W18 から大きく崩れていない。<br>
+        加えて <em>②→③（AC到達→検討）が WoW -2.52pp</em> 悪化し、<strong>GW 連休の旅行計画モードから日常モードへ切り替わる過渡期で「カレンダーを押す手前で止まる」層が増えている</strong>のが今週の構造変化。<br>
+        <strong>WAF 運用の事実確認 + 実ユーザー指標での経過観察 + Top3 ボトルネック継続実装</strong>の3本立てが今週のテーマ。
+      </div>
+      <div class="summary-sub">
+        W19 は GW の重心日（5/3 Sun〜5/6 Wed の4連休 + 5/7〜5/9 の3営業日）を含む過渡週。
+        <strong>(1) bot 状況</strong> — Singapore × Chrome × Win bot は <strong>28日で 774K セッション（19.7%）／週次で 195K セッション</strong>残存。
+        W18 までの観察から WAF ブロックが入った可能性を疑っていたが、<strong>W19 を見る限り bot 流入は減っていない</strong>。WAF ルール適用状況の事実確認が優先。
+        <strong>(2) 実ユーザー指標</strong> — bot 除外 28日 CVR は <strong>1.327%</strong>（rawは 1.066%）で、前年同月（2025-05 月次 CVR 1.404%）との差は -0.08pp まで縮む。「見かけの崩れ」と「実態の崩れ」を分けて読む。
+        <strong>(3) ②→③ -2.52pp</strong> — 5/3-5/6 の GW 重心日は「予約検討」のピーク、5/7-5/9 は通常モードに戻る過渡。
+        AC ページから予約カレンダーを開く行動の鈍化は、GW の反動なのか恒常変化なのか W20 で見極める。<br>
+        <strong>構造ボトルネック Top3 は W16/W17/W18/W19 と 4 週連続同じ顔ぶれ</strong>: BN1 新規 ④→⑤、BN2 モバイル ①→②、BN3 リピーター ①→②。<strong>GW 後の繁忙期に向け、Quick Wins から実装を進める時期に入っている。</strong>
+      </div>
+      <div class="summary-kpi-strip">
+        <div class="skpi">
+          <div class="skpi-label">W19 CVR（7日・raw）</div>
+          <div class="skpi-val" style="color:var(--red)">1.03%</div>
+          <div class="skpi-wow down">▼ vs W18 7d 1.28% / -0.26pt</div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">W19 予約完了数</div>
+          <div class="skpi-val" style="color:var(--red)">10,175</div>
+          <div class="skpi-wow down">▼ vs W18 7d 12,003 / -15.2%</div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">W19 セッション</div>
+          <div class="skpi-val">992,561</div>
+          <div class="skpi-wow up">▲ vs W18 7d 937,137 / +5.9%（うち bot 195K）</div>
+        </div>
+      </div>
+      <div style="margin-top:18px;padding:14px 20px;border-left:4px solid #d97706;background:#fff7ed;font-size:13px;line-height:1.8;color:var(--text2);border-radius:6px">
+        <strong style="color:#d97706">⚠ データ品質インシデント（W16 から継続）:</strong>
+        Singapore × Chrome × Windows bot が 19.7% の分母希釈を起こしているため、上記 raw CVR は実ユーザーの転換率を過小評価している。
+        実ユーザー CVR（bot 除外・28日ベース）は <strong style="color:var(--text1)">1.327%</strong>（raw 1.07%、差 +0.26pp）。
+        ボトルネック分析・施策化の議論は <strong>実ユーザー指標を主軸</strong>に進めること。
+      </div>
+      <div style="margin-top:14px;padding:12px 20px;background:var(--bg);border-radius:6px;font-size:13px;line-height:1.7;color:var(--text2)">
+        <strong style="color:var(--text3);font-weight:700">28日ベースライン参照（4/12〜5/9・rolling 28d / raw）</strong>:
+        セッション <strong>3,938,505</strong> / 予約完了 41,985 / CVR <strong>1.07%</strong>。
+        ファネル通過率: ①→² <strong>54.8%</strong>（WoW -0.52pp）／ ②→³ <strong>9.0%</strong>（WoW -0.45pp）／ ③→⁴ <strong>42.4%</strong>（WoW +0.67pp）／ ④→⑤ 73.4%（WoW -2.35pp）。
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 論拠 (Evidence) ────────────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">Evidence — 論拠</span></div>
+    <div class="sec-big">bot 希釈の継続 + GW 後の②→③過渡変化 + 構造課題の固着 — 3 つを切り分けて読む</div>
+    <div class="sec-sub">セッション +5.9% / 購入 -15.2% という 21pt の乖離は単独でデータ品質インシデントのトリガー条件。daily/country/browser 深堀りでは Singapore × Chrome × Win の bot 指紋が W18 と同水準で継続を確認。一方で活ユーザー指標では W18 から横ばい。</div>
+    <div class="evidence-grid">
+
+      <!-- Evidence 1: bot continues -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.01 — Singapore × Chrome × Windows bot は W19 も同水準で継続</div>
+        <div class="evidence-title">28日で 774K セッション（19.7%）／週次で 195K セッション。activeUsers/sessions 比 1.015 は bot の指紋</div>
+        <div class="evidence-metric">
+          <div class="evidence-big" style="color:#d97706">19.7<span class="evidence-unit">%</span></div>
+        </div>
+        <div class="evidence-comp">W19 7d 全セッション 992K 中、SG×Chrome×Win = 195K（19.7%） / W18 28d 観測値（17.1万/週）と同水準</div>
+        <div class="evidence-bar">
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:30%;background:#d97706"></div><div class="evidence-bar-label">5/3<br>38K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:60%;background:#d97706"></div><div class="evidence-bar-label">5/4<br>77K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:23%;background:#d97706"></div><div class="evidence-bar-label">5/5<br>29K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:8%;background:#d97706"></div><div class="evidence-bar-label">5/6<br>9K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:6%;background:#d97706"></div><div class="evidence-bar-label">5/7<br>7K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:14%;background:#d97706"></div><div class="evidence-bar-label">5/8<br>17K</div></div>
+          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:17%;background:#d97706"></div><div class="evidence-bar-label">5/9<br>21K</div></div>
+        </div>
+        <div class="evidence-desc">国 × ブラウザ × OS で見ると、W19 7d で <strong>Singapore × Chrome × Windows = 195,236 セッション</strong>（全体の 19.7%、日本国内 Safari iOS 244K に次ぐ第2位）。
+        Singapore 全体の <strong>activeUsers / sessions 比は 1.015</strong>（人間は通常 0.80〜0.90）で bot の典型指紋。
+        5/4（月・Greenery Day）に <strong>76,749 セッション</strong>のスパイクを記録、通常 Direct 流入では説明できない不自然な突出。<strong>WAF Singapore × Chrome × Win ルールは少なくとも W19 期間中はブロックに至っていない</strong>か、ブロックされても残党が抜けてきている。
+        bot 除外 28日 CVR は <strong>1.327%</strong>（raw 1.066%、+0.26pp）、bot 除外 28日購入数は <strong>41,970 件（raw 41,985 から -15 件のみ）</strong>— bot は分母だけ膨らませて分子にはほぼ寄与しない構造のまま。</div>
+      </div>
+
+      <!-- Evidence 2: 2→3 weakening -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.02 — ②→③（AC到達→検討）が WoW -2.52pp、GW後の検討モード切替</div>
+        <div class="evidence-title">7日 ②→③ 11.84% → 9.32%、ACページに来てもカレンダーを押さない層が GW 後に増加</div>
+        <div class="evidence-metric">
+          <div class="evidence-big" style="color:#d97706">-2.52<span class="evidence-unit">pp</span></div>
+        </div>
+        <div class="evidence-comp">②→③ W18 7d 11.84% / W19 7d 9.32%。28日ベースでは -0.45pp（9.50% → 9.05%）と影響は限定的</div>
+        <div class="evidence-desc">W19 7d の ②→③ AC到達→検討率は <strong>9.32%（W18 7d 11.84% から -2.52pp）</strong>。これは <strong>4 ファネル段階のなかで最大の WoW 悪化</strong>。
+        ただし背景は <strong>GW 重心日（5/3-5/6）から通常モード（5/7-5/9）への過渡</strong>。W18 7d は GW 直前準備期（4/26-5/2）で「予約カレンダー押下」が活発化していた反動が出ている可能性が高い。
+        28日ローリングで見ると ②→③ は 9.05%（W18 28d 9.30% から -0.45pp）と動きが小さく、<strong>恒常変化というより GW 反動による単週の谷</strong>と読むのが自然。
+        他のファネル段階は <strong>①→② -0.38pp / ③→④ +0.54pp / ④→⑤ -0.68pp</strong> と落ち着いている。来週 W20 で ②→③ が 10% 台に戻れば仮説確定。戻らない場合、ACページのカレンダー導線（Step 0 で観察した「商品ページのスクロール下部に出るカレンダー」周辺）の摩擦増加を疑う。</div>
+      </div>
+
+      <!-- Evidence 3: structural bottleneck 4 weeks running -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.03 — 構造的ボトルネック Top3 は 4 週連続で同じ顔ぶれ</div>
+        <div class="evidence-title">新規 ④→⑤ / モバイル ①→② / リピーター ①→② が W16-W19 で固着、新規 ④→⑤ -24.3pp / 月63万人影響</div>
+        <div class="evidence-metric">
+          <div class="evidence-big red">−24.3<span class="evidence-unit">pp</span></div>
+        </div>
+        <div class="evidence-comp">新規 ④→⑤ W19 28d 49.13% / 全体 73.43%。W18 -25.8pp / W17 -26.7pp / W16 -25.9pp と 4 週連続で -24〜-27pp レンジ</div>
+        <div class="evidence-desc">28日ローリングのセグメント分析では、<strong>Top10 ボトルネックの並びは W18 とほぼ同じ</strong>: BN1 新規 ④→⑤、BN2 モバイル ①→②、BN3 リピーター ①→②、BN4 新規 ③→④、BN5 Organic Search ①→②、BN6 モバイル ④→⑤、BN7 Organic Search ④→⑤、BN8 Direct ④→⑤、BN9 デスクトップ ①→②、BN10 新規 ①→②。
+        <strong>4 週連続で同じ問題が同じ場所に居続けている</strong>のは「現状の打ち手では動かない構造課題」であることを示しており、<strong>Quick Wins から実装フェーズへの移行タイミング</strong>。
+        BN1 の新規 ④→⑤ は月間 <strong>63万人（impact_sessions）</strong>に影響、BN2 モバイル ①→② は <strong>52万人</strong>、BN3 リピーター ①→② は <strong>35万人</strong>。3 件合計で月 150万人規模に効く優先順位は揺らがない。
+        GW が終わって繁忙期前の今こそ <strong>BN1 のフォーム引き算（必須項目を代表者1名のみ・同行者は予約後）／BN3 のリピーター AC 再表示</strong>を MIB 開発でスコープ確定する時期。</div>
+      </div>
+
+      <!-- Evidence 4: real-user metrics holding -->
+      <div class="evidence-card">
+        <div class="evidence-num">E.04 — 実ユーザー指標は W18 から横ばい、見かけの崩れは bot 希釈</div>
+        <div class="evidence-title">bot 除外 28日 CVR 1.327% は W18 想定値（bot 同程度除外で約 1.34%）と同水準、悪化トレンドではない</div>
+        <div class="evidence-metric">
+          <div class="evidence-big green">1.327<span class="evidence-unit">%</span></div>
+        </div>
+        <div class="evidence-comp">bot 除外 28日: sessions 3.16M / 購入 41,970 / CVR 1.327% — raw 1.066% から +0.26pp / 前年同月 2025-05 月次 1.404% との差 -0.08pp</div>
+        <div class="evidence-desc">W19 28日 raw データは sessions 3.94M / 購入 41,985 / CVR 1.066% で、見かけは前年同月（2025-05 1.404%）から -0.34pp 沈んでいる。
+        しかし<strong>Singapore × Chrome × Win bot 774,241 セッションを除外</strong>すると 28日 sessions 3.16M / 購入 41,970（-15件のみ）/ <strong>CVR 1.327%</strong>と、前年同月との乖離は <strong>-0.08pp</strong> まで縮まる。
+        前年同月 2025-05 もリゾート GW シーズンの相対的に低めの CVR 月（前年同月のYoY水準 baseline 1.404% に対し近年トレンドは 1.4〜1.5% レンジ）なので、<strong>「実ユーザーは前年水準から大きく崩れていない」</strong>と判断できる。
+        この週の数字を経営層に報告する際は <strong>「raw 1.07% / bot 除外 1.33% / 前年水準 1.40%」の3点</strong>を併記する運用を W17 で宣言済み。<strong>kpi.html への bot 除外トグル実装</strong>は来月の月次確定までに完了させる。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── やるべきこと (Action) ──────────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">Action — やるべきこと</span></div>
+    <div class="sec-big">WAF 運用の事実確認 + 構造課題 BN1-3 の実装フェーズ移行 + ②→③ 単週谷の継続観察</div>
+    <div class="sec-sub">「データ品質を直す」「数字を作らずに来る本物のユーザーに効く施策を入れる」「単週の谷は来週まで様子見」の3本立て。W19 で構造課題は明確に固着が確認されたので、議論より実装に資源を寄せる時期。</div>
+    <div class="action-list">
+
+      <!-- Action 1: WAF status confirmation (URGENT) -->
+      <div class="action-item">
+        <div class="action-prio red">1</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag new">CHECK / 緊急</span>
+            <span class="action-tag stage">WAF / インフラ運用確認</span>
+            <span class="action-tag">優先度: 最高</span>
+          </div>
+          <div class="action-title">WAF Singapore × Chrome × Windows ルールが本当に動いているのか事実確認 — bot 195K/週が抜けてきている</div>
+          <div class="action-why">
+            W18 サマリーで <strong>「WAF ブロックが運用に入っている可能性が高い」</strong>と書いたが、W19 では bot 流入が <strong>19.7%（195K/週）で W18 と同水準</strong>のまま継続しており、<strong>結果から見て WAF ルールはまだ効いていない</strong>。
+            Mayumi さん／インフラチームへ <strong>「WAF Singapore × Chrome × Win ルールの現在のステータス（適用済か未適用か）／ブロック数の推移／除外条件」</strong>を即日確認。
+            未適用なら <strong>5月の GW 後繁忙期と前年同月比較が両方汚れる</strong>ため、最優先で適用着手。適用済なのに数字が変わっていないなら、bot 側がルールを回避している＝検知条件を更新する必要あり。
+          </div>
+          <div class="action-why" style="color:var(--text3);margin-bottom:0">
+            ステップ: ① WAF ルール現在のステータス／ブロック数を確認（半日）② 未適用なら適用日程を Mayumi さんと合意（1日）③ 適用済なら 5/4 のスパイク 77K が抜けた理由を追加調査（1日）④ kpi.html に bot 除外トグル実装の優先度を上げる（来月確定までに完了）
+          </div>
+        </div>
+      </div>
+
+      <!-- Action 2: BN Top3 to implementation phase -->
+      <div class="action-item">
+        <div class="action-prio">2</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag">既存 BN Top3 / 実装フェーズ移行</span>
+            <span class="action-tag stage">UX / フォーム / リピーター動線 / モバイル探索</span>
+            <span class="action-tag">優先度: 高</span>
+          </div>
+          <div class="action-title">構造課題 4 週固着確認 — BN1 / BN2 / BN3 の Quick Wins を Sprint 計画へ正式投入</div>
+          <div class="action-why">
+            <strong>W16 / W17 / W18 / W19 の 4 週連続で Top3 が同じ顔ぶれ</strong>であることが確定。これは「議論を続けても動かない構造課題」のシグナルで、<strong>Quick Wins（effort=S・制約なし）から実装フェーズへ移行するタイミング</strong>。
+            BN1（新規 ④→⑤）と BN2（モバイル ①→②）は月50〜60万人規模に効き、施策化レビュー Step 5 の audit で <strong>effort=S かつ重複なし</strong>の Quick Wins が複数特定済み。MIB 開発の次 Sprint（5/12-5/23）へ 3 件をスコープ確定。
+            並行で BN3（リピーター ①→②）は GW 後にリピーター層がもう一度動く可能性が残るため、ウィッシュリスト・最近見た AC の再表示系を先行 A/B 投入。
+          </div>
+          <div class="action-why" style="color:var(--text3);margin-bottom:0">
+            <a href="/bottleneck.html?week=2026-w19&num=1" style="color:var(--red);font-weight:700;text-decoration:underline">BN1</a>: <span class="asl-title">新規ユーザーが『長いフォーム＋最終価格の不意打ち』で決済直前に諦めている</span>（新規 ④→⑤ -24.3pp / 月63万人影響）<br>
+            <a href="/bottleneck.html?week=2026-w19&num=2" style="color:var(--red);font-weight:700;text-decoration:underline">BN2</a>: <span class="asl-title">モバイルで『自分に合うAC』を見つけられず、比較疲れで離脱している</span>（モバイル ①→② -24.7pp / 月52万人影響）<br>
+            <a href="/bottleneck.html?week=2026-w19&num=3" style="color:var(--red);font-weight:700;text-decoration:underline">BN3</a>: <span class="asl-title">リピーターが『前回見たAC』を思い出せず、探し疲れで離脱している</span>（リピーター ①→② -28.6pp / 月35万人影響）
+          </div>
+        </div>
+      </div>
+
+      <!-- Action 3: 2→3 weakening monitoring + dashboard -->
+      <div class="action-item">
+        <div class="action-prio blue">3</div>
+        <div class="action-body">
+          <div class="action-tags">
+            <span class="action-tag">継続 / 計測基盤</span>
+            <span class="action-tag stage">②→③ 単週谷の見極め / kpi.html bot 除外トグル</span>
+            <span class="action-tag">優先度: 中</span>
+          </div>
+          <div class="action-title">②→③ -2.52pp が GW 反動か恒常変化かを W20 で見極め + kpi.html に bot 除外トグル実装</div>
+          <div class="action-why">
+            W19 7d の <strong>②→③ -2.52pp</strong> は GW 重心日（5/3-5/6）→通常モード（5/7-5/9）の過渡反動と読んだが、来週 W20（5/10-5/16・通常週）で <strong>②→③ が 10% 台に戻るかどうか</strong>で仮説確定。
+            戻らない場合、AC ページのカレンダー導線（特に「商品ページ下部のカレンダーまで scroll する前に離脱」）周辺の摩擦増加を疑う。AC ページの scroll depth × calendar click rate の追加クエリを W20 で実行。<br>
+            並行で <strong>kpi.html に bot 除外 / raw / 障害除外 のトグル実装</strong>を 5 月末（月次確定）までに完了。W17 サマリーで宣言した「raw / 障害除外 / bot 除外 3本立て」の運用を kpi ダッシュボード上で実体化させる。
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 詳細セクション（summary-detail.js が注入） ─── -->
+  <div id="summary-detail" style="scroll-margin-top:24px"></div>
+
+  <!-- ── Footer ─────────────────────────────── -->
+  <div class="card">
+    <div class="footer">
+      <span>VELTRA CVR改善チーム — UIUX Design Squad</span>
+      <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+      <span>2026-05-11</span>
+    </div>
+  </div>
+</div>
+
+<script src="/nav.js"></script>
+<script src="/summary-detail.js"></script>
+</body>
+</html>
