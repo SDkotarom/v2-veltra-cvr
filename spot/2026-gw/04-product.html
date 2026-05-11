@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/spot/spot.css">
+<title>04 商品ポートフォリオ | 2026 GW CVR スポット分析</title>
+<style>:root{--accent:#d97706;--accent-bg:#fed7aa}</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">スポット分析 #04<br><strong>📦 商品ポートフォリオ</strong></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sub-hero" style="background:linear-gradient(135deg,#fff7ed 0%,#fff 80%)">
+      <div class="sub-breadcrumb"><a href="/spot/2026-gw-cvr-decline.html">← 3 年比較スポット分析</a> / <strong>04 商品ポートフォリオ</strong></div>
+      <div class="sub-tag">Area 04 — Product portfolio</div>
+      <h1 class="sub-headline">
+        GW 期間に <em>「来訪したが買いたい商品がない」</em>状態が発生していなかったか — <br>
+        欠品・在庫不足・新商品開発の停滞が <em>-0.05pp</em> 寄与の疑い。
+      </h1>
+      <div class="sub-lede">
+        集客は +51% で増えたのに購入は +3.7%（W19 YoY）のミスマッチは、<strong>「来訪したのに買えなかった / 買いたいものがなかった」</strong>体験を多発させている可能性を示唆。
+        特に GW 需要ピークの<strong>沖縄・ハワイ・バリ・台湾</strong>で人気商品の在庫切れ、新商品投入の遅れ、パートナー供給枠の不足が起きていなかったか即時検証必要。
+        この領域は <strong>UIUX では絶対に解決できず</strong>、商品企画・パートナーチームのオペレーション改善が必須。
+      </div>
+
+      <div class="sub-score">
+        <div class="sub-score-card">
+          <div class="sub-score-label">主要エリア商品数（推定）</div>
+          <div class="sub-score-val" style="font-size:24px">~6,000</div>
+          <div class="sub-score-note">沖縄・ハワイ・バリ・台湾合計、エリア別在庫稼働率は未集計</div>
+        </div>
+        <div class="sub-score-card">
+          <div class="sub-score-label">推定 CVR 寄与</div>
+          <div class="sub-score-val">-0.05pp</div>
+          <div class="sub-score-note">bot 除外後 -0.22pp の約 23%</div>
+        </div>
+        <div class="sub-score-card">
+          <div class="sub-score-label">担当部門</div>
+          <div class="sub-score-val" style="font-size:18px">商品 + パートナー</div>
+          <div class="sub-score-note">欠品ログ・新商品リズム・供給契約の見直し</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data backing -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">01</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">データ裏付け</span>
+      <h2 class="sub-sec-title">商品ポートフォリオの 4 観点</h2>
+    </div>
+    <div class="sub-data">
+      <div class="sub-data-card alarm">
+        <div class="sub-data-num">D.01 — 集客 vs 購入の乖離</div>
+        <div class="sub-data-title">W19 集客 +51% / 購入 +3.7% — 「買いたいものがなかった」の典型像</div>
+        <div class="sub-data-body">
+          GW で需要は明確に増えたが供給が追いついていない可能性。来訪したユーザーが <strong>「希望商品が満席 / 希望日程不可 / 思っていた商品がない」</strong>で離脱しているケースが多発した疑い。
+          <span class="sub-data-stat">乖離率 14:1</span>
+        </div>
+      </div>
+      <div class="sub-data-card warn">
+        <div class="sub-data-num">D.02 — エリア別 CVR（未集計）</div>
+        <div class="sub-data-title">data.json の segments.area が空で取得できていない</div>
+        <div class="sub-data-body">
+          W19 GA4 クエリで area 別 CVR を取得していない（Q7-Q8 を実行していない）。<strong>沖縄 / ハワイ / バリ / 台湾 / グアム ごとに CVR を出して、GW で特に下がったエリアを特定</strong>する必要がある。来週 Q7-Q8 の追加実行が必須。
+          <span class="sub-data-stat">SQL 追加実行待ち</span>
+        </div>
+      </div>
+      <div class="sub-data-card warn">
+        <div class="sub-data-num">D.03 — 欠品ログ</div>
+        <div class="sub-data-title">「予約しようとしたが満席だった」セッション数は不可視</div>
+        <div class="sub-data-body">
+          GA4 で予約フォーム到達 → カレンダー満席表示 → 離脱の動線が計測されていない可能性。
+          <strong>商品データベース + フォームイベントログ</strong>で「希望日満席率」を抽出する SQL が必要。
+          <span class="sub-data-stat">計測基盤の追加必要</span>
+        </div>
+      </div>
+      <div class="sub-data-card info">
+        <div class="sub-data-num">D.04 — 新商品投入リズム</div>
+        <div class="sub-data-title">2025 vs 2026 で新商品掲載数の月次推移を比較</div>
+        <div class="sub-data-body">
+          2025 年のピーク CVR を支えていたのが「新商品の継続投入」だった可能性。2026 で投入リズムが鈍化していれば、リピーターが「もう見たことのある商品ばかり」と感じて離脱に繋がる。商品 DB 直接抽出で要検証。
+          <span class="sub-data-stat">商品 DB 抽出待ち</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Issues -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num">02</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">課題抽出</span>
+      <h2 class="sub-sec-title">商品ポートフォリオの 4 構造課題</h2>
+    </div>
+    <div class="sub-issues">
+      <div class="sub-issue">
+        <div class="sub-issue-rank">①</div>
+        <div class="sub-issue-body">
+          <div class="sub-issue-title">GW 需要ピーク時の主力エリアの在庫不足</div>
+          <div class="sub-issue-text">
+            沖縄・ハワイ・バリ・台湾で「人気商品が満席で予約取れず離脱」が GW 中に多発していた疑い。<strong>パートナーとの供給契約で連休枠を増やせるか</strong>を即時確認、足りない場合は来年 GW に向けて契約見直し。
+          </div>
+          <div class="sub-issue-impact">推定影響 -0.02pp</div>
+        </div>
+      </div>
+      <div class="sub-issue">
+        <div class="sub-issue-rank">②</div>
+        <div class="sub-issue-body">
+          <div class="sub-issue-title">差別化商品の不在</div>
+          <div class="sub-issue-text">
+            Klook/KKday と同じパートナー・同じ商品を扱っていて、価格でしか差別化できない状態。<strong>ベルトラ独占商品・パッケージ商品・テーマ商品</strong>の開発が停滞しているなら見直しが必要。
+          </div>
+          <div class="sub-issue-impact">推定影響 -0.02pp</div>
+        </div>
+      </div>
+      <div class="sub-issue">
+        <div class="sub-issue-rank">③</div>
+        <div class="sub-issue-body">
+          <div class="sub-issue-title">欠品時の代替商品誘導が弱い</div>
+          <div class="sub-issue-text">
+            希望商品が満席のとき、現状は「予約できません」で止まる UX。<strong>「似たアクティビティ Top3」「同じ日程で空きあり」を即提案</strong>すれば取りこぼし減らせる。UIUX 並走で実装可能。
+          </div>
+          <div class="sub-issue-impact">推定影響 -0.01pp</div>
+        </div>
+      </div>
+      <div class="sub-issue">
+        <div class="sub-issue-rank">④</div>
+        <div class="sub-issue-body">
+          <div class="sub-issue-title">新商品投入リズムの鈍化（要検証）</div>
+          <div class="sub-issue-text">
+            リピーター来訪時に「新規性のあるラインアップ」が見せられないと「いつもの商品で十分」と他社流出。<strong>月次新商品投入数の YoY 推移</strong>を商品 DB から抽出して確認。鈍化していればパートナー新規開拓を緊急化。
+          </div>
+          <div class="sub-issue-impact">推定影響 -0.01pp</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hypotheses -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num">03</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">仮説設計</span>
+      <h2 class="sub-sec-title">商品改善の 4 仮説</h2>
+    </div>
+    <div class="sub-hypo">
+      <table class="sub-hypo-table">
+        <thead><tr><th>ID</th><th>仮説</th><th>担当</th><th>想定効果</th><th>検証方法</th></tr></thead>
+        <tbody>
+          <tr><td class="id">Pr-H1</td><td><strong>欠品ログの SQL 抽出</strong> — フォーム到達 → 満席表示 → 離脱のセッション数をエリア × 日程別に可視化</td><td>商品 + Data</td><td class="eff">+0.01pp</td><td class="check">SQL 抽出後、「希望日満席率」高エリアを特定、来年 GW に向け供給契約強化</td></tr>
+          <tr><td class="id">Pr-H2</td><td><strong>代替商品自動提案</strong> — 満席時に「同日程で別商品」「同エリアで類似アクティビティ」を即提案する UI</td><td>UIUX + 商品</td><td class="eff">+0.02pp</td><td class="check">A/B 4 週、満席時離脱率 → 代替購入率の遷移</td></tr>
+          <tr><td class="id">Pr-H3</td><td><strong>新商品月次投入リズム強化</strong> — 月 50 件以上の新商品を継続投入、リピーター向け「NEW」セクション設置</td><td>商品 + パートナー</td><td class="eff">+0.02pp</td><td class="check">新商品セクションの CTR、リピーター ②→³ 改善</td></tr>
+          <tr><td class="id">Pr-H4</td><td><strong>独占 / パッケージ商品開発</strong> — Klook/KKday にない「ベルトラ独占」商品を Q3 までに 20 件投入</td><td>商品 + パートナー</td><td class="eff">+0.02pp</td><td class="check">独占商品の購入数 + ブランド差別化指標</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">04</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">打ち手案</span>
+      <h2 class="sub-sec-title">商品改善の 4 アクション</h2>
+    </div>
+    <div class="sub-actions">
+      <div class="sub-action p0">
+        <div class="sub-action-icon">📋</div>
+        <div class="sub-action-body">
+          <div class="sub-action-meta">P0 緊急 / 担当: 商品 + Data / Effort: S</div>
+          <span class="sub-action-prio">Pr-A1</span>
+          <div class="sub-action-title">GW 欠品ログ SQL 抽出（5/16 までに完了）</div>
+          <ul>
+            <li>5/3-5/9 のフォーム到達 → 満席表示 → 離脱を日付 × エリア × 商品で抽出</li>
+            <li>「希望日満席率」上位 20 商品をリスト化</li>
+            <li>マーケと共有して<strong>満席商品への広告投資の停止</strong>判断</li>
+          </ul>
+        </div>
+      </div>
+      <div class="sub-action p1">
+        <div class="sub-action-icon">🔄</div>
+        <div class="sub-action-body">
+          <div class="sub-action-meta">P1 重要 / 担当: UIUX + 商品 / Effort: M</div>
+          <span class="sub-action-prio">Pr-A2</span>
+          <div class="sub-action-title">満席時の代替商品自動提案 UI</div>
+          <ul>
+            <li>カレンダー満席表示と同時に「同日程 / 別商品」「同商品 / 別日程」「類似アクティビティ」3 タブ提案</li>
+            <li>レコメンドエンジン or ルールベースで初期実装</li>
+            <li>BN1 フォーム引き算と並走、A/B 4 週で効果検証</li>
+          </ul>
+        </div>
+      </div>
+      <div class="sub-action p1">
+        <div class="sub-action-icon">🆕</div>
+        <div class="sub-action-body">
+          <div class="sub-action-meta">P1 重要 / 担当: 商品 + パートナー / Effort: L</div>
+          <span class="sub-action-prio">Pr-A3</span>
+          <div class="sub-action-title">新商品投入リズム強化 + パートナー新規開拓加速</div>
+          <ul>
+            <li>月次新商品投入数の目標を 50 件以上に再設定</li>
+            <li>沖縄・ハワイ・バリ・台湾の<strong>新規パートナー開拓を緊急化</strong></li>
+            <li>サイトトップに「今月の NEW」セクション設置（リピーター向け）</li>
+          </ul>
+        </div>
+      </div>
+      <div class="sub-action p2">
+        <div class="sub-action-icon">🌟</div>
+        <div class="sub-action-body">
+          <div class="sub-action-meta">P2 中期 / 担当: 商品 + パートナー / Effort: XL</div>
+          <span class="sub-action-prio">Pr-A4</span>
+          <div class="sub-action-title">独占 / パッケージ商品の本格開発</div>
+          <ul>
+            <li>Q3 までに 20 件の「ベルトラ独占」アクティビティを投入</li>
+            <li>複数アクティビティをパッケージ化（「沖縄 3 日コンプリート」等）</li>
+            <li>Klook/KKday との<strong>商品レベル差別化</strong>でブランド独自性確立</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Roadmap -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num">05</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">ロードマップ</span>
+      <h2 class="sub-sec-title">商品改善の段階的展開（6 週）</h2>
+    </div>
+    <div class="sub-road">
+      <div class="sub-road-grid">
+        <div class="sub-road-step"><div class="sub-road-when">W20</div><div class="sub-road-title">欠品ログ SQL 抽出完了</div><div class="sub-road-body">5/16 までに Pr-A1 完了、満席商品リスト共有、マーケと広告停止判断。</div></div>
+        <div class="sub-road-step"><div class="sub-road-when">W21-22</div><div class="sub-road-title">代替提案 UI 設計</div><div class="sub-road-body">Pr-A2 のワイヤー設計と実装、5/26 週 A/B 投入。</div></div>
+        <div class="sub-road-step"><div class="sub-road-when">W23-25</div><div class="sub-road-title">新商品投入加速</div><div class="sub-road-body">Pr-A3 月次新商品 50 件投入再開、NEW セクション稼働、リピーター誘導測定。</div></div>
+        <div class="sub-road-step"><div class="sub-road-when">W26-</div><div class="sub-road-title">独占商品ロードマップ</div><div class="sub-road-body">Pr-A4 Q3 までの 20 件投入計画策定、パートナー協議開始。</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sub-nav">
+      <div class="sub-nav-title">6 領域ナビゲーション</div>
+      <div class="sub-nav-grid">
+        <a href="/spot/2026-gw/01-macro.html" class="sub-nav-item"><span class="sub-nav-num">🌐 01</span><span class="sub-nav-name">マクロ環境</span></a>
+        <a href="/spot/2026-gw/02-competitive.html" class="sub-nav-item"><span class="sub-nav-num">⚔ 02</span><span class="sub-nav-name">競合シェア</span></a>
+        <a href="/spot/2026-gw/03-pricing.html" class="sub-nav-item"><span class="sub-nav-num">💴 03</span><span class="sub-nav-name">価格戦略</span></a>
+        <a href="/spot/2026-gw/04-product.html" class="sub-nav-item active"><span class="sub-nav-num">📦 04</span><span class="sub-nav-name">商品</span></a>
+        <a href="/spot/2026-gw/05-customer-behavior.html" class="sub-nav-item"><span class="sub-nav-num">👤 05</span><span class="sub-nav-name">顧客行動</span></a>
+        <a href="/spot/2026-gw/06-uiux.html" class="sub-nav-item"><span class="sub-nav-num">🏗 06</span><span class="sub-nav-name">UIUX</span></a>
+      </div>
+    </div>
+    <div class="sub-return">
+      <a href="/spot/2026-gw-cvr-decline.html">← 親ページに戻る</a>
+      <span style="color:var(--text3)">2026-05-11 v1 / 担当: 商品 + パートナー</span>
+    </div>
+  </div>
+
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

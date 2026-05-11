@@ -6,7 +6,128 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/report.css">
 <link rel="stylesheet" href="/summary.css">
-<title>W19（5/3〜5/9）サマリー | 週次ボトルネック分析</title>
+<title>W19（5/3〜5/9）サマリー | 緊急・GW異常レポート</title>
+<style>
+/* ───── W19 緊急インフォグラフィック ───── */
+.alert-hero{padding:32px 44px 28px;background:linear-gradient(135deg,#fff1f1 0%,#fff 70%);border-bottom:3px solid #c0392b}
+.alert-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:.14em;color:#fff;background:#c0392b;padding:6px 14px;border-radius:4px;margin-bottom:18px;text-transform:uppercase}
+.alert-tag::before{content:'🚨';font-size:14px}
+.alert-headline{font-size:30px;font-weight:900;line-height:1.45;margin-bottom:16px;letter-spacing:-.01em;color:#1a1a1a}
+.alert-headline em{font-style:normal;color:#c0392b;background:linear-gradient(transparent 60%,#ffe1df 60%);padding:0 2px}
+.alert-sub{font-size:14px;color:var(--text2);line-height:1.85;margin-bottom:20px}
+.alert-sub strong{color:#c0392b}
+
+/* mismatch chart: sessions vs purchases */
+.mismatch{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0 8px}
+.mismatch-card{background:#fff;border:2px solid;border-radius:10px;padding:14px 16px;text-align:left}
+.mismatch-card.sessions{border-color:#1b82c5}
+.mismatch-card.purch{border-color:#c0392b}
+.mismatch-card.cvr{border-color:#c0392b;background:#fff5f5}
+.mismatch-label{font-size:10px;font-weight:900;letter-spacing:.1em;color:var(--text3);margin-bottom:6px;text-transform:uppercase}
+.mismatch-val{font-family:'DM Sans';font-size:32px;font-weight:900;line-height:1;letter-spacing:-.02em}
+.mismatch-card.sessions .mismatch-val{color:#1b82c5}
+.mismatch-card.purch .mismatch-val{color:#9a3412}
+.mismatch-card.cvr .mismatch-val{color:#c0392b}
+.mismatch-delta{font-size:11px;font-weight:700;color:var(--text3);margin-top:4px;line-height:1.5}
+.mismatch-delta.up{color:#1a8c4e}
+.mismatch-delta.down{color:#c0392b}
+
+/* YoY GW週 trend */
+.yoy-block{padding:24px 44px}
+.yoy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.yoy-card{border:1px solid var(--border);border-radius:10px;padding:14px 18px;background:#fff}
+.yoy-card.gap{background:#fff5f5;border-color:#fca5a5}
+.yoy-wk{font-family:'DM Sans';font-size:13px;font-weight:900;letter-spacing:.06em;color:var(--text3);margin-bottom:8px}
+.yoy-row{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;line-height:1.7;padding:3px 0}
+.yoy-row .y25{color:var(--text3)}
+.yoy-row .y26{font-weight:900;color:#c0392b}
+.yoy-row .y26.green{color:#1a8c4e}
+.yoy-delta{font-family:'DM Sans';font-weight:900;font-size:18px;color:#c0392b;text-align:right;margin-top:6px;padding-top:6px;border-top:1px dashed var(--border)}
+
+/* 要因分析 — Cause breakdown */
+.cause-block{padding:8px 44px 28px}
+.cause-bar{display:flex;height:60px;border-radius:8px;overflow:hidden;border:1px solid var(--border);margin-bottom:14px}
+.cause-seg{display:flex;flex-direction:column;justify-content:center;align-items:center;color:#fff;font-weight:800;font-size:11px;padding:0 4px;text-align:center}
+.cause-seg.uiux{background:#c0392b}
+.cause-seg.market{background:#d97706}
+.cause-seg.price{background:#1b82c5}
+.cause-seg.product{background:#7c3aed}
+.cause-seg.compete{background:#666}
+.cause-seg.other{background:#aaa}
+.cause-seg .seg-val{font-family:'DM Sans';font-size:14px;font-weight:900;line-height:1.2}
+.cause-seg .seg-name{font-size:9px;font-weight:700;letter-spacing:.04em}
+
+.cause-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+.cause-card{border:1px solid var(--border);border-radius:10px;padding:14px 16px;background:#fff;border-left:4px solid var(--red)}
+.cause-card.uiux{border-left-color:#c0392b}
+.cause-card.market{border-left-color:#d97706}
+.cause-card.price{border-left-color:#1b82c5}
+.cause-card.product{border-left-color:#7c3aed}
+.cause-card.compete{border-left-color:#666}
+.cause-card.other{border-left-color:#aaa}
+.cause-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.cause-icon{font-size:22px}
+.cause-name{font-size:13px;font-weight:900;letter-spacing:.04em}
+.cause-est{margin-left:auto;font-family:'DM Sans';font-size:14px;font-weight:900;color:#c0392b}
+.cause-body{font-size:12px;color:var(--text2);line-height:1.65;margin-bottom:6px}
+.cause-team{font-size:11px;font-weight:700;color:var(--text3);padding-top:8px;border-top:1px dashed var(--border)}
+.cause-team strong{color:#1b82c5}
+
+/* Hypotheses table */
+.hypo-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.hypo-table th{background:#1f2937;color:#fff;padding:8px 10px;font-size:10px;letter-spacing:.06em;text-align:left;font-weight:900}
+.hypo-table td{padding:10px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.55}
+.hypo-table td.id{font-family:'DM Sans';font-weight:900;color:var(--red);white-space:nowrap;width:50px}
+.hypo-table td.lead{font-weight:700;white-space:nowrap;width:120px}
+.hypo-table td.eff{font-family:'DM Sans';font-weight:900;color:#1a8c4e;text-align:right;white-space:nowrap;width:70px}
+.hypo-table td.check{font-size:11px;color:var(--text3);width:240px}
+.hypo-table tr.uiux td.id{color:#c0392b}
+.hypo-table tr.market td.id{color:#d97706}
+.hypo-table tr.price td.id{color:#1b82c5}
+.hypo-table tr.product td.id{color:#7c3aed}
+
+/* Cross-team meeting agenda */
+.agenda-block{padding:24px 44px;background:#fef9e7;border-top:2px solid #d97706;border-bottom:2px solid #d97706}
+.agenda-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+.agenda-card{background:#fff;border:1px solid #fcd34d;border-radius:10px;padding:14px 16px}
+.agenda-team{font-size:11px;font-weight:900;color:#9a3412;letter-spacing:.06em;margin-bottom:6px;text-transform:uppercase}
+.agenda-task{font-size:13px;font-weight:800;line-height:1.45;margin-bottom:6px}
+.agenda-q{font-size:11px;color:var(--text3);line-height:1.6}
+.agenda-q::before{content:'Q: ';font-weight:900;color:#9a3412}
+
+/* Action cards */
+.ig-actions{padding:8px 44px 28px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.ig-action{display:flex;gap:16px;padding:18px 20px;background:#fff;border:1px solid var(--border);border-radius:12px;border-left:6px solid var(--red)}
+.ig-action.p0{border-left-color:#c0392b;background:#fff5f5}
+.ig-action.p1{border-left-color:#d97706}
+.ig-action.p2{border-left-color:#1b82c5}
+.ig-action.p3{border-left-color:#2dae6c}
+.ig-action-icon{font-size:28px;line-height:1;flex-shrink:0}
+.ig-action-body{flex:1;min-width:0}
+.ig-action-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.ig-action-prio{font-family:'DM Sans';font-size:11px;font-weight:900;padding:3px 8px;color:#fff;border-radius:4px;letter-spacing:.05em}
+.ig-action.p0 .ig-action-prio{background:#c0392b}
+.ig-action.p1 .ig-action-prio{background:#d97706}
+.ig-action.p2 .ig-action-prio{background:#1b82c5}
+.ig-action.p3 .ig-action-prio{background:#2dae6c}
+.ig-action-when{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.06em}
+.ig-action-title{font-size:15px;font-weight:800;line-height:1.45;margin-bottom:8px}
+.ig-action-bullets{margin:0;padding:0;list-style:none}
+.ig-action-bullets li{font-size:12px;color:var(--text2);line-height:1.65;padding-left:14px;position:relative;margin-bottom:3px}
+.ig-action-bullets li::before{content:'▸';position:absolute;left:0;font-weight:900;color:var(--red)}
+.ig-action.p0 .ig-action-bullets li::before{color:#c0392b}
+.ig-action.p1 .ig-action-bullets li::before{color:#d97706}
+.ig-action.p2 .ig-action-bullets li::before{color:#1b82c5}
+.ig-action.p3 .ig-action-bullets li::before{color:#2dae6c}
+.ig-action-bullets li strong{color:var(--text)}
+
+@media(max-width:768px){
+  .alert-hero{padding:24px 22px 22px}
+  .alert-headline{font-size:22px}
+  .mismatch,.yoy-grid,.cause-grid,.agenda-grid,.ig-actions{grid-template-columns:1fr}
+  .yoy-block,.cause-block,.agenda-block{padding-left:22px;padding-right:22px}
+}
+</style>
 </head>
 <body>
 <div id="app">
@@ -14,271 +135,438 @@
   <div class="card">
     <div class="header-band">
       <div class="logo">V2</div>
-      <div class="right">週次サマリー<br><strong>W19（5/3〜5/9）</strong></div>
+      <div class="right">週次サマリー<br><strong>W19（5/3〜5/9）緊急レポート</strong></div>
     </div>
-    <div style="padding:22px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:13px;line-height:1.8;color:var(--text2)">
-      <div><span style="color:var(--text3);font-weight:700">分析対象</span><br>W19 単週（2026-05-03 〜 2026-05-09、Sun-Sat・GW後半週）<br>前週 W18（2026-04-26 〜 2026-05-02）との7日比較</div>
-      <div><span style="color:var(--text3);font-weight:700">レポート発行 / 更新</span><br>2026-05-11（月） / 同日 SRE bot レポート反映で再考察</div>
-      <div><span style="color:var(--text3);font-weight:700">GA4 Property</span><br>347074845</div>
+    <div style="padding:18px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:12px;line-height:1.7;color:var(--text2)">
+      <div><span style="color:var(--text3);font-weight:700">分析対象</span><br>W19 単週（GW後半週・連休 4 日 + 営業 3 日）</div>
+      <div><span style="color:var(--text3);font-weight:700">比較基準</span><br>2025-W19（前年同期）+ KPI 目標（kpi.html）</div>
+      <div><span style="color:var(--text3);font-weight:700">発行</span><br>2026-05-11 / SRE bot レポート + クロスチーム視点</div>
+      <div><span style="color:var(--text3);font-weight:700">GA4</span><br>347074845</div>
     </div>
   </div>
 
-  <!-- ── 結論 (Conclusion) ──────────────────── -->
+  <!-- ─────────── 01 緊急結論 ─────────── -->
   <div class="card">
-    <div class="sec-tag"><span class="sec-num red">01</span><span class="sec-main">Conclusion — 結論</span></div>
-    <div class="summary-hero">
-      <div class="summary-kicker">W19 / 実質 CVR は前年水準にほぼ並ぶ — raw 1.07% の悪化は bot 分母希釈の副産物</div>
-      <div class="summary-headline">
-        <em class="red">raw CVR 1.03%（W18 7d 1.28% から -0.26pp）</em>は見かけの悪化、<br>
-        <em class="green">bot 除外後の <strong>実質 CVR は 28日で 1.33%、前年同月（2025-05 月次 1.404%）から -0.07pp</strong></em>でほぼ並ぶ水準。<br>
-        <strong>「VELTRA の購買力は前年から崩れていない、残り -0.07pp が真の構造改善余地」</strong>がこの週の正しい読み方。<br>
-        WoW 7d 実質 CVR は <em class="red">1.46% → 1.16%（-0.30pp）</em>だが、これは GW 重心日（5/3-5/6 連休）+ post-GW 平日（5/7-5/9）の<strong>季節反動</strong>であり、構造課題ではない。
+    <div class="sec-tag"><span class="sec-num red">01</span><span class="sec-main">緊急 — GW なのに前年水準を大きく下回る</span></div>
+
+    <div class="alert-hero">
+      <div class="alert-tag">URGENT — Cross-team action required</div>
+      <div class="alert-headline">
+        観光予約のピークである <em>GW W19 で CVR が前年比 -0.33pp</em>。<br>
+        集客は <em>+51%</em>（657K→993K）増えたのに、購入は <em>+3.7%</em>（9,814→10,175）しか伸びていない。<br>
+        <span style="color:#c0392b">月 ¥75M の機会損失</span> — UIUX 単独では絶対に解けない構造課題。
       </div>
-      <div class="summary-sub">
-        この週を読み解く核心は <strong>「3 つのレイヤーを切り分けて見る」</strong>こと。<br>
-        <strong>(1) bot レイヤー（WAF 軽減済み・監視継続中）</strong> — SRE 報告（2026-05-11）で <strong>WAF は 4/17 から運用中、ピーク比 -71% に bot を抑え込めている</strong>と判明。
-        ただし発生源（AWS Singapore DC <code>3.172.106.64/26</code> 等）からの bot は IP プール変更で再来し続け、<strong>正常時 baseline（27K/週）の 4.1 倍（113K/週）が残存</strong>。
-        bot 自体の CVR は ≈0% で分母だけ膨らませる構造なので、raw CVR は実態より約 -0.27pp 沈んで見える。<br>
-        <strong>(2) 季節レイヤー（GW 反動）</strong> — W18 7d（4/26-5/2）は GW 立ち上がり期で「直前の予約検討」が活発化した一方、W19 7d は GW 重心 4 連休（5/3-5/6）+ post-GW 営業 3 日。
-        既に旅行に出ている人が多い時期で物理的に新規予約が減る。②→³ -2.52pp の急変も同じ季節要因で、W20（通常週）で 10% 台に戻れば仮説確定。<br>
-        <strong>(3) 構造レイヤー（残り -0.07pp が真の改善余地）</strong> — bot と季節を引き算した「実態としての CVR 差」は前年から -0.07pp に絞り込める。
-        この -0.07pp を埋めるのが <strong>BN1〜BN3（新規 ④→⑤ / モバイル ①→² / リピーター ①→²）の 4 週連続固着</strong>。bot 駆除に資源を割くより、構造課題の Quick Wins 実装に資源を寄せるほうが ROI が高い局面。
+      <div class="alert-sub">
+        通常 GW 週は「旅行直前の予約確定」需要が集中して CVR が上昇するはずの期間。それが <strong>2025 W19 1.492% → 2026 W19 実質 1.16%（推定、bot 除外後）</strong>と <strong>-0.33pp</strong> 後退している。
+        <br>
+        集客の伸び（+51%）と購入の伸び（+3.7%）の乖離は <strong>「広告で広く集めたが買わない」</strong>状態を示しており、サイト UX の問題だけでは説明できない。
+        <strong>マーケティング / 価格 / 商品 / パートナー / 競合分析</strong>の各チームと至急議論し、UIUX 改善と並走で根本対策を打つ必要がある。
       </div>
-      <div class="summary-kpi-strip">
-        <div class="skpi">
-          <div class="skpi-label">W19 raw CVR（7日）</div>
-          <div class="skpi-val" style="color:var(--red)">1.03%</div>
-          <div class="skpi-wow down">▼ vs W18 7d 1.28% / -0.26pp（見かけ）</div>
+
+      <!-- Mismatch chart: sessions vs purchases vs CVR -->
+      <div class="mismatch">
+        <div class="mismatch-card sessions">
+          <div class="mismatch-label">セッション（W19 raw）</div>
+          <div class="mismatch-val">+51%</div>
+          <div class="mismatch-delta up">2025 657K → 2026 993K<br>※ bot 113K 含む。除外しても +34%</div>
         </div>
-        <div class="skpi">
-          <div class="skpi-label">W19 <strong>実質</strong> CVR（7日・bot除外）</div>
-          <div class="skpi-val" style="color:var(--text1)">1.16%</div>
-          <div class="skpi-wow down">▼ vs W18 7d 実質 1.46% / -0.30pp（GW反動）</div>
+        <div class="mismatch-card purch">
+          <div class="mismatch-label">予約完了（W19）</div>
+          <div class="mismatch-val">+3.7%</div>
+          <div class="mismatch-delta down">2025 9,814 → 2026 10,175<br>※ 集客増に対して圧倒的に未到達</div>
         </div>
-        <div class="skpi">
-          <div class="skpi-label">W19 <strong>実質</strong> CVR（28日・bot除外）</div>
-          <div class="skpi-val" style="color:var(--green)">1.33%</div>
-          <div class="skpi-wow up">≒ 前年同月 1.40% / -0.07pp（実態並ぶ）</div>
+        <div class="mismatch-card cvr">
+          <div class="mismatch-label">実質 CVR（bot除外）</div>
+          <div class="mismatch-val">-0.33pp</div>
+          <div class="mismatch-delta down">2025 1.49% → 2026 1.16%<br>※ 月 ¥75M の機会損失</div>
         </div>
       </div>
-      <div style="margin-top:18px;padding:14px 20px;border-left:4px solid #2DAE6C;background:#f0fdf4;font-size:13px;line-height:1.8;color:var(--text2);border-radius:6px">
-        <strong style="color:#1a8c4e">💡 経営層へ報告するときの 1 行</strong>:
-        「raw 1.07% / 実質 1.33% / 前年同期 1.40%。実態としては前年水準にほぼ並んでおり、残り -0.07pp が構造改善余地」。
-        単独で raw を持ち出すと『前年から大崩れ』に誤読される。<strong>3 軸併記が運用上の必須フォーマット</strong>。
-      </div>
+
+      <!-- Spot analysis pointer -->
+      <a href="/spot/2026-gw-cvr-decline.html" style="display:flex;align-items:center;gap:14px;margin-top:18px;padding:16px 20px;background:#fff5f5;border:2px solid #c0392b;border-radius:10px;text-decoration:none;color:var(--text);transition:background .15s">
+        <div style="font-size:30px;line-height:1;flex-shrink:0">📊</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:11px;font-weight:900;letter-spacing:.1em;color:#c0392b;text-transform:uppercase;margin-bottom:4px">関連スポット分析（クロスチーム提示用）</div>
+          <div style="font-size:15px;font-weight:800;line-height:1.5;margin-bottom:4px;color:#1a1a1a">3 年比較で見る CVR 構造低下 — 2024 / 2025 / 2026</div>
+          <div style="font-size:12px;color:var(--text2);line-height:1.55">W19 -0.33pp は単発ではなく Q1 から続く構造劣化の一部。bot 除外しても 2025 → 2026 で -0.15pp 後退、2 年経過で改善ゼロの本質課題を 1 ページで提示。</div>
+        </div>
+        <div style="font-size:24px;color:#c0392b;font-weight:900;flex-shrink:0">→</div>
+      </a>
     </div>
   </div>
 
-  <!-- ── 論拠 (Evidence) ────────────────────── -->
+  <!-- ─────────── YoY GW 週推移 ─────────── -->
   <div class="card">
-    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">Evidence — 論拠 & 考察</span></div>
-    <div class="sec-big">bot は軽減済みだが未解決、季節要因が WoW を支配、構造課題は -0.07pp の絞り込み済み — 3 レイヤーで考察する</div>
-    <div class="sec-sub">事実の羅列より、「数字が何を意味するか／なぜそうなったか／だから何をすべきか」を厚く書く。raw の見かけ崩壊と実態の安定を切り分けるのが今週の読み方の鍵。</div>
-    <div class="evidence-grid">
-
-      <!-- E.01 — WAF effective but residual bot -->
-      <div class="evidence-card">
-        <div class="evidence-num">E.01 — WAF は効いている、ただし「対処済み」ではなく「軽減済み・監視継続中」</div>
-        <div class="evidence-title">SRE bot レポート（2026-05-11）：ピーク 394K → 直近 113K/週（-71%）、しかし正常 baseline（27K/週）の 4.1 倍残存</div>
-        <div class="evidence-metric">
-          <div class="evidence-big" style="color:#d97706">4.1<span class="evidence-unit">x</span></div>
+    <div class="sec-tag"><span class="sec-num">YoY</span><span class="sec-main">前年同期との GW 連続週比較</span></div>
+    <div class="yoy-block">
+      <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+        2025 は GW 前後で <strong>CVR 1.5%超を 4 週連続維持</strong>していたのに対し、2026 は <strong>同期間で 1.0〜1.4% 帯</strong>。GW 連休の特需効果が今年は出ていない。
+      </div>
+      <div class="yoy-grid">
+        <div class="yoy-card gap">
+          <div class="yoy-wk">W17（4/19-4/25）</div>
+          <div class="yoy-row"><span>2025 CVR</span><span class="y25">1.587%</span></div>
+          <div class="yoy-row"><span>2026 raw / 実質</span><span class="y26">1.102% / ≈1.25%</span></div>
+          <div class="yoy-delta">-0.34pp</div>
         </div>
-        <div class="evidence-comp">SG bot 流入推移: W15 正常 27,270 → W16 ピーク 393,959（14.4倍） → W17 WAF直後 170,809（6.3倍） → W18+W19 平均 112,554（4.1倍）</div>
-        <div class="evidence-bar">
-          <div class="evidence-bar-col"><div class="evidence-bar-bar green" style="height:7%"></div><div class="evidence-bar-label">W15<br>27K</div></div>
-          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:100%;background:#d97706"></div><div class="evidence-bar-label">W16<br>394K</div></div>
-          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:43%;background:#d97706"></div><div class="evidence-bar-label">W17<br>171K</div></div>
-          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:29%;background:#d97706"></div><div class="evidence-bar-label">W18<br>113K</div></div>
-          <div class="evidence-bar-col"><div class="evidence-bar-bar" style="height:29%;background:#d97706"></div><div class="evidence-bar-label">W19<br>113K</div></div>
+        <div class="yoy-card gap">
+          <div class="yoy-wk">W18（4/26-5/2）</div>
+          <div class="yoy-row"><span>2025 CVR</span><span class="y25">1.582%</span></div>
+          <div class="yoy-row"><span>2026 raw / 実質</span><span class="y26">1.226% / ≈1.39%</span></div>
+          <div class="yoy-delta">-0.19pp</div>
         </div>
-        <div class="evidence-desc">
-        <strong>考察</strong>: W18 当初レポートでは「WAF が運用に入っている可能性が高い」と書いたが、それは正確には<strong>「ピーク比 -71% まで効いている、しかし正常水準には届いていない」</strong>が実態だった。
-        SRE 側の調査で発生源は <strong>AWS Singapore データセンター（<code>3.172.106.64/26</code>、<code>3.172.18.128/26</code>）</strong>と特定済みで、4/17 に当該サブネットをブロック済み。<br>
-        <strong>では何が問題か</strong>: ブロック後も同じ AWS IP プール内の別 IP から再来し続けている。手口は <strong>Chromium Headless + UA を 42〜45 種ローテーション + 都道府県ページを組織的クロール</strong>で、明確に人間に擬態する設計。
-        <strong>単純な IP/UA ベースのルールでは追いきれない段階</strong>に攻撃が進化している。<br>
-        <strong>含意</strong>: 同じ手口の追加ブロックを続けるよりも、<strong>behavioral detection（クリック分布／滞在時間／カーソル動き／フィンガープリント）への WAF 高度化</strong>が次の打ち手。
-        並行で <strong>GA4 内部フィルタで Singapore セッション除外</strong>の選択肢も議論する（精度 vs 運用コストのトレードオフ）。
+        <div class="yoy-card gap">
+          <div class="yoy-wk">W19（5/3-5/9）</div>
+          <div class="yoy-row"><span>2025 CVR</span><span class="y25">1.492%</span></div>
+          <div class="yoy-row"><span>2026 raw / 実質</span><span class="y26">1.025% / ≈1.16%</span></div>
+          <div class="yoy-delta">-0.33pp</div>
         </div>
       </div>
-
-      <!-- E.02 — Real CVR holds vs YoY -->
-      <div class="evidence-card">
-        <div class="evidence-num">E.02 — 実質 CVR は前年水準に並ぶ — 「VELTRA は崩れていない」が事実</div>
-        <div class="evidence-title">28日 実質 CVR 1.333%、2025-05 月次 1.404% から -0.07pp で実態並ぶ。raw 1.066% は bot 分母希釈の副産物</div>
-        <div class="evidence-metric">
-          <div class="evidence-big green">-0.07<span class="evidence-unit">pp</span></div>
-        </div>
-        <div class="evidence-comp">28日 実質 CVR 1.333%（raw 1.066%、+0.27pp）/ 2025-05 月次 1.404% / 2026-04 月次 raw 1.199%（bot 同程度含む）から +0.13pp</div>
-        <div class="evidence-desc">
-        <strong>考察</strong>: bot を引き算した実態としての CVR は前年同月（2025-05 月次 1.404%）と <strong>-0.07pp</strong> しか差がない。
-        これは「VELTRA のサイトとしての購買力は前年から実質的に崩れていない」ことを示す。<br>
-        では W19 raw CVR 1.066% という見かけの悪化（前年 -0.34pp）は何だったかというと、<strong>そのうち約 -0.27pp は bot 分母希釈の副産物</strong>で、純粋なサイト評価の悪化ではない。<br>
-        <strong>含意1（経営報告フォーマット）</strong>: raw 単独で報告すると「-0.34pp 悪化」に見え、経営判断ミスを誘発する。
-        「<strong>raw / 実質 / 前年同期</strong>」3 軸併記が必要。W17 サマリーで宣言した運用を <code>kpi.html</code> の bot 除外トグル実装で本格化する。<br>
-        <strong>含意2（資源配分）</strong>: 残り <strong>-0.07pp</strong> が「真に埋めるべき構造改善余地」。月間 CV ベースで換算すると <strong>約 ¥6,800 万 / 月の機会損失</strong>（前年比 sessions × -0.07pp × 平均客単価）。
-        これは bot を完全駆除した後にも残る金額で、<strong>BN1〜BN3 Quick Wins への投資 ROI が極めて高い</strong>ことを意味する。
-        </div>
+      <div style="margin-top:16px;padding:12px 16px;background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;font-size:12px;line-height:1.7">
+        <strong style="color:#991b1b">KPI ダッシュボード（<a href="/kpi.html" style="color:#991b1b;text-decoration:underline">/kpi.html</a>）の目標比較</strong><br>
+        ・実質 1.33%（28d） vs <strong>主目標 1.429%</strong> → <strong>-0.10pp（月 ¥17M 未達）</strong><br>
+        ・実質 1.33%（28d） vs <strong>ストレッチ 1.557%（前年 YOY 水準）</strong> → <strong>-0.22pp（月 ¥40M 未達）</strong><br>
+        ・実質 1.16%（W19 単週） vs 2025 W19 1.492% → <strong>-0.33pp（月 ¥75M 機会損失）</strong>
       </div>
-
-      <!-- E.03 — WoW seasonal swing not structural -->
-      <div class="evidence-card">
-        <div class="evidence-num">E.03 — 実質 CVR WoW -0.30pp は GW 反動の季節要因、構造課題ではない</div>
-        <div class="evidence-title">W18 7d 実質 1.46% → W19 7d 実質 1.16%（-0.30pp）。②→³ -2.52pp の急変も同じ季節要因の同期</div>
-        <div class="evidence-metric">
-          <div class="evidence-big" style="color:#d97706">-0.30<span class="evidence-unit">pp</span></div>
-        </div>
-        <div class="evidence-comp">W18 7d（4/26-5/2 GW直前の予約検討期）vs W19 7d（5/3-5/6 GW重心 + 5/7-5/9 post-GW）— 旅行行動の段階が真逆</div>
-        <div class="evidence-desc">
-        <strong>考察</strong>: なぜ W18 と W19 で実質 CVR が -0.30pp 動いたかを「曜日／カレンダー」レベルで分解する。<br>
-        <strong>W18（4/26 日 – 5/2 金）の意味</strong>: GW（4/29〜5/6）の<strong>直前準備期</strong>に当たる。「明日から休み、ぎりぎりで現地アクティビティを押さえよう」という<strong>高意向で短納期のセッション</strong>が集中する週。
-        ②→³ AC到達→検討率（カレンダー押下）も 11.84% と高水準で、これは「日程を実際に確定する」行動が活発化していたシグナル。<br>
-        <strong>W19（5/3 日 – 5/9 土）の意味</strong>: <strong>GW 重心 4 連休（5/3〜5/6）</strong>と <strong>post-GW 営業 3 日（5/7 木 〜 5/9 土）</strong>の組み合わせ。
-        重心日は既に旅行している人が多く、現地アクティビティの予約はピーク後、post-GW は反動疲労期。
-        ②→³ が 9.32% に落ちたのは「日程を確定する人」が物理的に減ったため、構造劣化ではなく季節シフト。<br>
-        <strong>判別ロジック</strong>: 来週 <strong>W20（5/10〜5/16、通常週）</strong>で ②→³ が 10% 台に戻れば GW 反動仮説確定。
-        戻らない場合のみ、AC ページのカレンダー導線（商品ページ下部 scroll → カレンダー click）の摩擦増加を疑う追加調査に進む。<br>
-        <strong>含意</strong>: <strong>W19 単週の数字に過剰反応して構造的な打ち手を打つのは過誤</strong>。W20 までは「観測」、W20 で確定後に必要なら追加打ち手を投入するのが正しい順番。
-        </div>
-      </div>
-
-      <!-- E.04 — Structural BN固着 4 weeks -->
-      <div class="evidence-card">
-        <div class="evidence-num">E.04 — 構造的ボトルネック Top3 は 4 週連続固着 — bot/季節を引いて残る本物の課題</div>
-        <div class="evidence-title">新規 ④→⑤ -24.3pp / モバイル ①→² -24.7pp / リピーター ①→² -28.6pp、W16-W19 で同じ場所が動かない</div>
-        <div class="evidence-metric">
-          <div class="evidence-big red">4<span class="evidence-unit">週固着</span></div>
-        </div>
-        <div class="evidence-comp">BN1 新規 ④→⑤ 49.13% / 全体 73.43% / 月63万人影響、W16-W19 で gap -24〜-27pp レンジ内で安定</div>
-        <div class="evidence-desc">
-        <strong>考察</strong>: bot 影響と季節要因を引き算した後に残る「実態としての構造課題」は、毎週同じ場所に居続けている <strong>BN1（新規 ④→⑤）・BN2（モバイル ①→²）・BN3（リピーター ①→²）</strong>の 3 件。<br>
-        <strong>4 週連続で動かないことの意味</strong>: 「議論を続けても／観測を続けても自然には動かない構造課題」のシグナル。
-        bot や障害や季節要因のような外生変動と違い、<strong>サイトの仕様変更（フォーム引き算・モバイル UI 改善・リピーター履歴活用）を打たない限り動かない</strong>性質のもの。<br>
-        <strong>影響量の実感</strong>: BN1 単独で月 63 万人、BN2 で 52 万人、BN3 で 35 万人に影響。3 件合計で<strong>月 150 万人規模</strong>がこの瞬間にも『買いそびれて』いる。
-        E.02 で算出した「真の構造改善余地 -0.07pp / 月¥6,800 万」のうち、<strong>BN Top3 で吸収できるのは推定 -0.04〜-0.05pp（月 ¥4,000 万規模）</strong>と見積もる。<br>
-        <strong>含意</strong>: <strong>「分析フェーズはもう終わり、実装フェーズに入る時期」</strong>。施策化レビュー Step 5 audit で effort=S かつ重複なしの Quick Wins が 90 件中複数特定済み。
-        MIB 開発の <strong>次 Sprint（5/12-5/23）</strong>にスコープ確定し、A/B 投入で 4 週後（W23 ≈ 6/1）に初回効果検証。
-        </div>
-      </div>
-
     </div>
   </div>
 
-  <!-- ── やるべきこと (Action) ──────────────── -->
+  <!-- ─────────── 02 要因分析（UIUX + 非UIUX） ─────────── -->
   <div class="card">
-    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">Action — やるべきこと</span></div>
-    <div class="sec-big">WAF 高度化（IP ベース → behavioral）+ 3 軸 CVR 報告フォーマット定常化 + 構造課題 BN1-3 実装フェーズ移行</div>
-    <div class="sec-sub">「データ品質を直す」フェーズから「正しいデータで正しい打ち手を打つ」フェーズへ。bot 軽減済みの今、資源配分の重心は構造課題側へ寄せる時期。</div>
-    <div class="action-list">
+    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">要因分析 — -0.33pp の内訳推定</span></div>
+    <div class="sec-sub" style="padding-top:6px">UIUX 単独では半分しか説明できない。マーケ / 価格 / 商品 / 競合の非 UIUX 要因が同等以上に効いている可能性。</div>
 
-      <!-- Action 1: WAF upgrade + GA4 filter -->
-      <div class="action-item">
-        <div class="action-prio red">1</div>
-        <div class="action-body">
-          <div class="action-tags">
-            <span class="action-tag new">WAF 高度化</span>
-            <span class="action-tag stage">SRE / インフラ / GA4 運用</span>
-            <span class="action-tag">優先度: 高</span>
-          </div>
-          <div class="action-title">単純 IP ブロック → behavioral detection への WAF 高度化を SRE に正式リクエスト、並行で GA4 フィルタ検討</div>
-          <div class="action-why">
-            <strong>WAF は効いている（ピーク比 -71%）、しかし baseline 4.1 倍残存</strong>という SRE 報告を受け、次の打ち手を 2 系統で進める。<br>
-            <strong>① WAF 高度化（SRE 主管）</strong>: 同じ AWS IP プールから別 IP で再来する bot に対し、IP/UA ベースの追加ブロックは追いかけっこになる。
-            クリック分布（人間は粗・bot は均等）、滞在時間（人間は ms 単位のばらつき・bot は規則的）、カーソル動き、フィンガープリント（Canvas / WebGL）など <strong>behavioral signal を組み合わせた検出ルール</strong>を SRE / Mayumi さんに提案、5/12 週で実装可否ヒアリング。<br>
-            <strong>② GA4 内部フィルタ（CVR 報告主管）</strong>: 仮に WAF 高度化に時間がかかる場合、GA4 内で Singapore セッションを除外する内部フィルタの設定を検討。
-            ただし「Singapore」全部を切ると正常 SG ユーザー（W15 baseline 27K/週）も巻き込むトレードオフ。<strong>AWS DC 由来の Singapore のみフィルタする精度設計</strong>を Analytics チームと議論。
-          </div>
-          <div class="action-why" style="color:var(--text3);margin-bottom:0">
-            ステップ: ① SRE に behavioral detection upgrade の実装可否ヒアリング（5/12 週）／② Analytics チームに GA4 フィルタ精度設計を相談（5/13）／③ <strong>W17〜W19 WAF 効果レビューを SRE に正式依頼</strong>（5/12）／④ kpi.html に bot 除外トグル実装（5月末月次確定までに完了）
-          </div>
+    <div class="cause-block">
+      <!-- 100% stacked bar showing breakdown of -0.33pp -->
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;font-weight:700;letter-spacing:.06em;text-transform:uppercase">推定内訳 — 合計 -0.33pp / 100%</div>
+      <div class="cause-bar">
+        <div class="cause-seg uiux" style="flex:21">
+          <div class="seg-val">-0.07pp</div>
+          <div class="seg-name">UIUX 構造</div>
+        </div>
+        <div class="cause-seg market" style="flex:24">
+          <div class="seg-val">-0.08pp</div>
+          <div class="seg-name">マーケ流入質</div>
+        </div>
+        <div class="cause-seg price" style="flex:18">
+          <div class="seg-val">-0.06pp</div>
+          <div class="seg-name">価格/為替</div>
+        </div>
+        <div class="cause-seg product" style="flex:15">
+          <div class="seg-val">-0.05pp</div>
+          <div class="seg-name">商品/在庫</div>
+        </div>
+        <div class="cause-seg compete" style="flex:15">
+          <div class="seg-val">-0.05pp</div>
+          <div class="seg-name">競合</div>
+        </div>
+        <div class="cause-seg other" style="flex:7">
+          <div class="seg-val">-0.02pp</div>
+          <div class="seg-name">他</div>
         </div>
       </div>
 
-      <!-- Action 2: 3-axis CVR reporting -->
-      <div class="action-item">
-        <div class="action-prio">2</div>
-        <div class="action-body">
-          <div class="action-tags">
-            <span class="action-tag">経営報告フォーマット</span>
-            <span class="action-tag stage">CVR 3 軸併記 / kpi.html</span>
-            <span class="action-tag">優先度: 高</span>
+      <div class="cause-grid">
+
+        <div class="cause-card uiux">
+          <div class="cause-head">
+            <span class="cause-icon">🏗</span>
+            <span class="cause-name">UIUX 構造課題</span>
+            <span class="cause-est">-0.07pp</span>
           </div>
-          <div class="action-title">CVR を「raw / 実質（bot除外） / 前年同期」3 軸併記する報告運用を全レポートで定常化</div>
-          <div class="action-why">
-            W19 で改めて明確になったのは、<strong>raw 単独の報告は経営判断ミスを誘発する</strong>こと。
-            W19 で言えば「raw 1.07%、前年 -0.34pp」と単独報告すれば「VELTRA 大崩れ」と誤読されるが、実態は「実質 1.33%、前年 -0.07pp、ほぼ並ぶ」。<br>
-            <strong>標準フォーマット</strong>: 全週次 / 月次 / KPI ダッシュボードで以下 3 つを常時併記する。<br>
-            ・<strong>raw CVR</strong>（GA4 そのまま、bot 含む）<br>
-            ・<strong>実質 CVR</strong>（bot 除外、AWS Singapore サブネット由来を引いたもの）<br>
-            ・<strong>前年同期 CVR</strong>（comparable base としての参照点）<br>
-            <code>kpi.html</code> にトグルを実装し、デフォルトで「実質 CVR」を表示、注釈で「raw との差は bot 影響」を併記。
-            月次確定時の <code>monthly_notes</code> も同様に 3 軸併記運用に移行。
+          <div class="cause-body">
+            BN Top3 が <strong>4 週連続固着</strong>（新規 ④→⑤ -24.3pp / モバイル ①→² -24.7pp / リピーター ①→² -28.6pp）。
+            前年も同じ構造課題は存在したが、解消されていない＝持続的劣化要因。
           </div>
+          <div class="cause-team">対応 <strong>UIUX Design Squad / MIB 開発</strong> ／ 既に audit 済、Sprint 投入待ち</div>
+        </div>
+
+        <div class="cause-card market">
+          <div class="cause-head">
+            <span class="cause-icon">📢</span>
+            <span class="cause-name">マーケ流入質劣化</span>
+            <span class="cause-est">-0.08pp</span>
+          </div>
+          <div class="cause-body">
+            Direct +51% sess / Paid Search 大幅増だが <strong>CVR 0.5〜1.4%</strong>と低い。bot 除外しても「広く集めたが買わない」流入が増えている疑い。
+            <strong>SEM 入札 / ターゲティング / KPI 設計の見直し</strong>が必要。
+          </div>
+          <div class="cause-team">対応 <strong>マーケティングチーム</strong> ／ SEM ROAS、Direct トラフィック純化、ターゲット ABM 見直し</div>
+        </div>
+
+        <div class="cause-card price">
+          <div class="cause-head">
+            <span class="cause-icon">💴</span>
+            <span class="cause-name">価格/為替</span>
+            <span class="cause-est">-0.06pp</span>
+          </div>
+          <div class="cause-body">
+            <strong>4/20 為替マージン変更</strong>（EU 3.9% / TWD・SGD・MYR 0% / 他 2.9%）の純効果が未測定。
+            円安進行 + パートナー価格上昇でベルトラの実効価格が競合に対して劣位の可能性。
+          </div>
+          <div class="cause-team">対応 <strong>価格戦略 / Revenue Management</strong> ／ マージン変更純効果、競合価格弾性、ダイナミックプライシング検討</div>
+        </div>
+
+        <div class="cause-card product">
+          <div class="cause-head">
+            <span class="cause-icon">📦</span>
+            <span class="cause-name">商品/在庫</span>
+            <span class="cause-est">-0.05pp</span>
+          </div>
+          <div class="cause-body">
+            GW 向け人気エリア（沖縄・ハワイ・バリ等）で <strong>在庫切れ・売り切れ・新商品不足</strong>が発生していなかったか未検証。
+            来訪したがピッタリの商品が見つからない＝離脱の温床。
+          </div>
+          <div class="cause-team">対応 <strong>商品企画 / パートナーチーム</strong> ／ GW 期間中の在庫稼働率、欠品ログ、新商品投入リズム</div>
+        </div>
+
+        <div class="cause-card compete">
+          <div class="cause-head">
+            <span class="cause-icon">⚔</span>
+            <span class="cause-name">競合シフト</span>
+            <span class="cause-est">-0.05pp</span>
+          </div>
+          <div class="cause-body">
+            Klook / KKday / じゃらん遊び の <strong>GW キャンペーン優位性</strong>。
+            ユーザーが予約フォームまで来てから「他社も見てから」離脱（Organic Search ④→⑤ -17.0pp ＝ 約 21 万人 / 月の流出ライン）。
+          </div>
+          <div class="cause-team">対応 <strong>競合分析 / ブランド戦略</strong> ／ 競合 GW 価格 / キャンペーン / レビュー数比較、独自価値（無料キャンセル等）の上部訴求</div>
+        </div>
+
+        <div class="cause-card other">
+          <div class="cause-head">
+            <span class="cause-icon">📊</span>
+            <span class="cause-name">②→³ 弱化 + その他</span>
+            <span class="cause-est">-0.02pp</span>
+          </div>
+          <div class="cause-body">
+            W19 で ②→³ AC→検討率が <strong>WoW -2.52pp</strong>。デバイス mix shift（モバイル比率 53.1%、前年から数 pp 増）も全体 CVR を引き下げ。
+          </div>
+          <div class="cause-team">対応 <strong>Analytics / Data チーム</strong> ／ W20 通常週で ②→³ 季節 vs 恒常を判別、mix shift の trend 追跡</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── 03 仮説設計（UIUX + 非UIUX） ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">仮説設計 — -0.33pp ギャップを埋めるための 7 仮説</span></div>
+    <div class="sec-sub" style="padding-top:6px">UIUX 3 仮説（既知）+ 非 UIUX 4 仮説（新規）を組み合わせて検証。リード部門を明示。</div>
+
+    <div style="padding:8px 44px 28px">
+      <table class="hypo-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>仮説</th>
+            <th>担当</th>
+            <th>想定効果</th>
+            <th>検証方法</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="uiux">
+            <td class="id">H1</td>
+            <td><strong>フォーム引き算（BN1）</strong> — 新規 ④→⑤ 49% → 55% を狙う。必須項目を代表者 1 名のみ、同行者は予約後収集、アカウント作成任意化</td>
+            <td class="lead">UIUX / MIB</td>
+            <td class="eff">+0.04pp</td>
+            <td class="check">A/B 4 週間。新規 ④→⑤ 通過率と購入数で評価</td>
+          </tr>
+          <tr class="uiux">
+            <td class="id">H2</td>
+            <td><strong>モバイル探索改善（BN2）</strong> — 上位 3 件に主観タグ（定番 / 穴場 / 初心者向け）、目的別タブ</td>
+            <td class="lead">UIUX / MIB</td>
+            <td class="eff">+0.03pp</td>
+            <td class="check">A/B 4 週間。モバイル ①→² + scroll depth</td>
+          </tr>
+          <tr class="uiux">
+            <td class="id">H3</td>
+            <td><strong>リピーター履歴活用（BN3）</strong> — Cookie ベースで「最近見た AC」をトップ最上部表示</td>
+            <td class="lead">UIUX / MIB</td>
+            <td class="eff">+0.02pp</td>
+            <td class="check">A/B 4 週間。リピーター ①→² + 再訪離脱率</td>
+          </tr>
+          <tr class="market">
+            <td class="id">H4</td>
+            <td><strong>マーケ流入純化</strong> — SEM 入札を「購入意図」キーワードに寄せる、ブランドキーワードと比較系の入札差別化、Direct 集計の bot 除外運用</td>
+            <td class="lead">マーケ</td>
+            <td class="eff">+0.05pp</td>
+            <td class="check">SEM ROAS の段階的検証、Direct / Organic CVR 改善</td>
+          </tr>
+          <tr class="price">
+            <td class="id">H5</td>
+            <td><strong>価格戦略</strong> — 4/20 為替変更の純効果検証、競合と乖離が大きい商品の価格弾性分析、最終価格を商品ページ上部に表示（不意打ち回避）</td>
+            <td class="lead">価格戦略</td>
+            <td class="eff">+0.04pp</td>
+            <td class="check">通貨×エリア別 CVR、競合価格モニタリング、A/B 価格表示位置</td>
+          </tr>
+          <tr class="product">
+            <td class="id">H6</td>
+            <td><strong>商品/在庫</strong> — GW 期間の欠品ログ精査、人気エリア（沖縄・ハワイ・バリ）の新商品開発・在庫拡充、パートナーと GW 期間の供給契約強化</td>
+            <td class="lead">商品企画</td>
+            <td class="eff">+0.04pp</td>
+            <td class="check">エリア × カテゴリ別 CVR、在庫稼働率、欠品時の代替誘導率</td>
+          </tr>
+          <tr class="market">
+            <td class="id">H7</td>
+            <td><strong>競合独自価値訴求</strong> — 無料キャンセル / 日本語サポート / 直前予約可 等の独自価値を商品ページ上部に集約表示、Klook/KKday との差別化 LP</td>
+            <td class="lead">ブランド / UIUX</td>
+            <td class="eff">+0.03pp</td>
+            <td class="check">Organic Search ④→⑤ 改善、ブランド検索率、競合タブ滞在時間</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:14px;padding:12px 16px;background:#f0fdf4;border:1px solid #86efac;border-radius:8px;font-size:12px;line-height:1.7;color:var(--text2)">
+        <strong style="color:#1a8c4e">合計想定効果: +0.25pp</strong> （-0.33pp の約 76% を埋められる試算）。残り -0.08pp は仮説外要因（季節・マクロ景気）で吸収する想定。
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── 04 クロスチーム緊急アジェンダ ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">04</span><span class="sec-main">緊急クロスチーム会議のアジェンダ草案（5/12週開催推奨）</span></div>
+    <div class="agenda-block">
+      <div style="font-size:13px;line-height:1.7;color:var(--text2);margin-bottom:6px">
+        UIUX チーム単独では -0.07pp しか吸収できない。残り -0.26pp を埋めるために<strong>マーケ / 価格 / 商品 / 競合分析</strong>を巻き込んだ緊急ミーティングが必要。各チームへの問いを以下に整理。
+      </div>
+      <div class="agenda-grid">
+
+        <div class="agenda-card">
+          <div class="agenda-team">📢 マーケティングチーム</div>
+          <div class="agenda-task">GW 期間中の広告投資 ROAS と CVR 寄与を即時棚卸し</div>
+          <div class="agenda-q">SEM・ディスプレイ・SNS 各チャネルの投資額 × ROAS × CVR の前年比較。「集めたのに買われない」セッションがどの広告から来ているか特定。Direct 流入の純化（bot 除外運用）も同期化。</div>
+        </div>
+
+        <div class="agenda-card">
+          <div class="agenda-team">💴 価格戦略 / Revenue Management</div>
+          <div class="agenda-task">4/20 為替マージン変更の純効果 + 競合価格モニタリング</div>
+          <div class="agenda-q">通貨別（EU 3.9% / 0% アジア / 他 2.9%）の CVR 変動を W18-W19 で測定。Klook / KKday と人気商品の価格差を可視化、円安局面の戦略を再設計。</div>
+        </div>
+
+        <div class="agenda-card">
+          <div class="agenda-team">📦 商品企画 / パートナー</div>
+          <div class="agenda-task">GW 期間の欠品・在庫稼働ログ抽出 + 来期供給契約</div>
+          <div class="agenda-q">5/3-5/9 で人気エリア（沖縄・ハワイ・バリ・台湾）の在庫切れ件数。欠品時の代替商品誘導率。GW 翌週（W20-21）も繁忙期は続く想定で来期の供給契約強化。</div>
+        </div>
+
+        <div class="agenda-card">
+          <div class="agenda-team">⚔ 競合分析 / ブランド</div>
+          <div class="agenda-task">Klook / KKday の GW キャンペーン構造分析</div>
+          <div class="agenda-q">競合の GW 期間キャンペーン（クーポン / 割引率 / バンドル）を一覧化。ベルトラの独自価値（無料キャンセル・日本語サポート・直前予約可）が上位に来ているか UX 監査。</div>
+        </div>
+
+        <div class="agenda-card">
+          <div class="agenda-team">🛡 SRE / インフラ</div>
+          <div class="agenda-task">WAF を behavioral detection に高度化 + フォレンジック共有</div>
+          <div class="agenda-q">SG AWS DC bot は WAF（4/17）後も baseline の 4.1 倍残存。IP/UA ベースの追加ブロックは追いかけっこなので、クリック分布 / 滞在時間 / フィンガープリント等を組み合わせた behavioral signal 検出ルールへ upgrade。</div>
+        </div>
+
+        <div class="agenda-card">
+          <div class="agenda-team">📊 Analytics / Data</div>
+          <div class="agenda-task">CVR 3 軸併記運用 + GW 取り逃しコホート分析</div>
+          <div class="agenda-q">raw / 実質 / 前年同期の 3 軸併記を kpi.html に実装。W19 で予約しなかった高意向セッションのコホート分析、CRM 連携で再リターゲット可能か検討。</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── 05 至急アクション ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num red">05</span><span class="sec-main">至急アクション — 7 日以内に着手</span></div>
+    <div class="ig-actions">
+
+      <div class="ig-action p0">
+        <div class="ig-action-icon">🚨</div>
+        <div class="ig-action-body">
+          <div class="ig-action-head">
+            <span class="ig-action-prio">P0 緊急</span>
+            <span class="ig-action-when">5/12（月）開催目標</span>
+          </div>
+          <div class="ig-action-title">クロスチーム緊急ミーティング招集 — 6 チーム合同</div>
+          <ul class="ig-action-bullets">
+            <li>マーケ / 価格 / 商品 / 競合 / SRE / Analytics の <strong>6 チーム合同</strong></li>
+            <li>議題は本レポート §04 アジェンダ草案を叩き台にする</li>
+            <li>各チームから <strong>7 日以内に初期データ・打ち手案を持ち寄り</strong>、5/19 週に意思決定会議</li>
+            <li>司会・取り纏めはプロダクト責任者または CMO</li>
+          </ul>
         </div>
       </div>
 
-      <!-- Action 3: BN Top3 to implementation phase -->
-      <div class="action-item">
-        <div class="action-prio">3</div>
-        <div class="action-body">
-          <div class="action-tags">
-            <span class="action-tag">実装フェーズ移行</span>
-            <span class="action-tag stage">BN1 フォーム引き算 / BN2 モバイル探索 / BN3 リピーター履歴</span>
-            <span class="action-tag">優先度: 高</span>
+      <div class="ig-action p1">
+        <div class="ig-action-icon">🔍</div>
+        <div class="ig-action-body">
+          <div class="ig-action-head">
+            <span class="ig-action-prio">P1 緊急</span>
+            <span class="ig-action-when">5/12-5/16</span>
           </div>
-          <div class="action-title">BN Top3 を Sprint へ正式投入 — 「分析する週」を終え「実装する月」へ</div>
-          <div class="action-why">
-            <strong>真の構造改善余地 -0.07pp（月 ¥6,800 万）</strong>のうち BN Top3 で吸収できるのは <strong>推定 -0.04〜-0.05pp（月 ¥4,000 万規模）</strong>と見積もる。
-            4 週連続で同じ場所に居続けている＝<strong>サイト仕様を変えない限り自然には動かない</strong>性質。観測を続けても効果ゼロ、実装してはじめて動く。<br>
-            <strong>次 Sprint（5/12〜5/23）スコープ確定 3 件</strong>:<br>
-            <a href="/bottleneck.html?week=2026-w19&num=1" style="color:var(--red);font-weight:700;text-decoration:underline">BN1</a> <span class="asl-title">新規ユーザーが『長いフォーム＋最終価格の不意打ち』で決済直前に諦めている</span> — フォーム必須項目を代表者 1 名のみ／同行者情報は予約完了後収集（effort=S）<br>
-            <a href="/bottleneck.html?week=2026-w19&num=2" style="color:var(--red);font-weight:700;text-decoration:underline">BN2</a> <span class="asl-title">モバイルで『自分に合う AC』を見つけられず、比較疲れで離脱している</span> — エリアトップ上位 3 件に『定番 / 穴場 / 初心者向け』バッジ表示（effort=S）<br>
-            <a href="/bottleneck.html?week=2026-w19&num=3" style="color:var(--red);font-weight:700;text-decoration:underline">BN3</a> <span class="asl-title">リピーターが『前回見た AC』を思い出せず、探し疲れで離脱している</span> — Cookie ベースで「最近見た AC」をトップ最上部表示（effort=S）<br>
-            <strong>検証スケジュール</strong>: 5/26 週 A/B 投入 → W23（≈ 6/1）初回効果検証 → W26（≈ 6/22）本格判定。
-          </div>
+          <div class="ig-action-title">GW 取り逃し定量化 — 広告 × 商品 × エリア × デバイス で深掘り</div>
+          <ul class="ig-action-bullets">
+            <li>「2025 W19 CVR で W19 実質 sessions が買えば +2,956 件」の<strong>取り逃しコホート</strong>を特定</li>
+            <li>どの広告 / どの商品 / どのエリア / どのデバイスで一番取りこぼしたか</li>
+            <li>BigQuery + GA4 raw export で詳細 SQL 抽出</li>
+            <li>マーケ・商品・価格チームに即フィードバック</li>
+          </ul>
         </div>
       </div>
 
-      <!-- Action 4: 2→3 W20 observation -->
-      <div class="action-item">
-        <div class="action-prio blue">4</div>
-        <div class="action-body">
-          <div class="action-tags">
-            <span class="action-tag">継続観察</span>
-            <span class="action-tag stage">②→³ -2.52pp 季節 vs 恒常判別</span>
-            <span class="action-tag">優先度: 中</span>
+      <div class="ig-action p2">
+        <div class="ig-action-icon">⚔</div>
+        <div class="ig-action-body">
+          <div class="ig-action-head">
+            <span class="ig-action-prio">P2 重要</span>
+            <span class="ig-action-when">5/12-5/19</span>
           </div>
-          <div class="action-title">W19 ②→³ -2.52pp が GW 反動か恒常変化かを W20（5/10〜5/16）で見極め</div>
-          <div class="action-why">
-            E.03 で書いた通り、W19 の ②→³（AC到達→検討） -2.52pp は GW 重心日の季節反動と仮説立てている。
-            <strong>W20 は通常週</strong>（5/10 日〜 5/16 土、祝日なし）なので、ここで ②→³ が <strong>10% 台に戻れば仮説確定</strong>、構造的な追加打ち手は不要と判断。<br>
-            戻らない場合に限り、<strong>AC ページのカレンダー導線深掘り</strong>（scroll depth × calendar click rate × 商品ページ下部表示位置）の追加 GA4 クエリを W20 末で実行。
-            この場合に限って BN2 / BN3 と並列でカレンダー導線改善の Quick Wins を提案する。
+          <div class="ig-action-title">競合 GW キャンペーン + 価格テスト純効果 並行リサーチ</div>
+          <ul class="ig-action-bullets">
+            <li>Klook / KKday / じゃらん遊び の GW キャンペーン詳細（割引率 / バンドル / クーポン）一覧化</li>
+            <li>4/20 為替マージン変更の純効果を <strong>通貨 × エリア別 CVR</strong> で測定</li>
+            <li>人気商品（沖縄・ハワイ・バリ）の競合 vs ベルトラ価格差を可視化</li>
+            <li>UI レベルの独自価値訴求案（無料キャンセル等の上部配置）を UIUX チームへ展開</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ig-action p3">
+        <div class="ig-action-icon">🚀</div>
+        <div class="ig-action-body">
+          <div class="ig-action-head">
+            <span class="ig-action-prio">P3 並走</span>
+            <span class="ig-action-when">5/12-5/23 Sprint</span>
           </div>
+          <div class="ig-action-title">UIUX BN Top3 Quick Wins を実装フェーズへ正式投入</div>
+          <ul class="ig-action-bullets">
+            <li><a href="/bottleneck.html?week=2026-w19&num=1" style="color:#1a8c4e;font-weight:700;text-decoration:underline">BN1</a> フォーム引き算 / <a href="/bottleneck.html?week=2026-w19&num=2" style="color:#1a8c4e;font-weight:700;text-decoration:underline">BN2</a> モバイル探索 / <a href="/bottleneck.html?week=2026-w19&num=3" style="color:#1a8c4e;font-weight:700;text-decoration:underline">BN3</a> リピーター履歴</li>
+            <li>UIUX 単独では <strong>+0.07pp（合計効果の 21%）</strong>。クロスチーム施策と<strong>並走</strong>でないと効果が小さい</li>
+            <li>5/26 A/B 投入 → W23（6/1）初回検証</li>
+            <li>WAF 高度化（IP → behavioral）は SRE と並走で進行</li>
+          </ul>
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- ── 詳細セクション（summary-detail.js が注入） ─── -->
+  <!-- ─────────── 詳細セクション ─────────── -->
   <div id="summary-detail" style="scroll-margin-top:24px"></div>
 
-  <!-- ── 28日ベースライン参照（raw） ─── -->
+  <!-- ─────────── 28日参照 ─────────── -->
   <div class="card">
-    <div class="sec-tag"><span class="sec-num">参照</span><span class="sec-main">28日ベースライン素データ（4/12〜5/9・raw、bot 含む）</span></div>
-    <div style="padding:18px 44px;font-size:13px;line-height:1.9;color:var(--text2)">
-      raw セッション <strong>3,938,505</strong> / 予約完了 <strong>41,985</strong> / raw CVR <strong>1.07%</strong>。
-      ファネル通過率（raw）: ①→² <strong>54.8%</strong>（WoW -0.52pp）／ ②→³ <strong>9.0%</strong>（WoW -0.45pp）／ ③→⁴ <strong>42.4%</strong>（WoW +0.67pp）／ ④→⑤ 73.4%（WoW -2.35pp）。
-      <br><span style="color:var(--text3)">※ Conclusion / Evidence セクションで議論する CVR は bot 除外後の「実質 CVR」です。raw 値は GA4 そのままの参照値として併記。</span>
+    <div class="sec-tag"><span class="sec-num">参照</span><span class="sec-main">28日 raw ベースライン（4/12〜5/9・bot 含む）</span></div>
+    <div style="padding:14px 44px;font-size:12px;line-height:1.8;color:var(--text2)">
+      セッション <strong>3,938,505</strong> / 予約完了 <strong>41,985</strong> / raw CVR <strong>1.07%</strong>。
+      ファネル: ①→² <strong>54.8%</strong> ／ ②→³ <strong>9.0%</strong> ／ ③→⁴ <strong>42.4%</strong> ／ ④→⑤ 73.4%。
+      <span style="color:var(--text3)">※ 議論主軸は bot 除外後の「実質 CVR」。raw は参照値。</span>
     </div>
   </div>
 
   <!-- ── Footer ─────────────────────────────── -->
   <div class="card">
     <div class="footer">
-      <span>VELTRA CVR改善チーム — UIUX Design Squad</span>
+      <span>VELTRA CVR改善チーム — UIUX Design Squad（with Cross-team escalation）</span>
       <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
-      <span>2026-05-11（同日 SRE bot レポート反映で再考察）</span>
+      <span>2026-05-11 v3 (緊急クロスチーム版)</span>
     </div>
   </div>
 </div>
