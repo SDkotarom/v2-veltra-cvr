@@ -188,6 +188,22 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .graph-tooltip .gt-row{display:flex;align-items:center;gap:6px}
 .graph-tooltip .gt-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
+/* Anomaly exclude checkbox */
+.anomaly-toggle{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);cursor:pointer;user-select:none;padding:4px 10px;border:1px solid var(--border);border-radius:6px;background:#fff;transition:background .12s,border-color .12s}
+.anomaly-toggle:hover{background:var(--bg);border-color:var(--text3)}
+.anomaly-toggle input{cursor:pointer;margin:0;accent-color:var(--red)}
+.anomaly-toggle.is-on{background:#fff5f5;border-color:var(--red);color:var(--text)}
+.anomaly-tip{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--border);color:var(--text3);font-size:10px;font-weight:700;cursor:help;position:relative;vertical-align:middle}
+.anomaly-tip:hover .anomaly-tip-body{display:block}
+.anomaly-tip-body{display:none;position:absolute;bottom:calc(100% + 8px);right:-8px;background:var(--text);color:#fff;padding:12px 14px;border-radius:8px;font-size:12px;font-weight:400;line-height:1.7;width:340px;z-index:20;box-shadow:0 4px 12px rgba(0,0,0,.2);white-space:normal;text-align:left}
+.anomaly-tip-body::after{content:'';position:absolute;top:100%;right:14px;border:6px solid transparent;border-top-color:var(--text)}
+.anomaly-tip-body .att-title{font-weight:700;margin-bottom:6px;color:#fff}
+.anomaly-tip-body .att-section{margin-top:8px}
+.anomaly-tip-body .att-label{color:#ffb;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.anomaly-tip-body ul{margin:4px 0 0;padding-left:16px}
+.anomaly-tip-body li{margin-bottom:2px}
+.anomaly-tip-body code{background:rgba(255,255,255,.12);padding:1px 4px;border-radius:3px;font-size:11px}
+
 @media(max-width:768px){.kpi-strip{grid-template-columns:1fr 1fr}.kpi-strip-cell{border-bottom:1px solid var(--border)}.funnel-bar-grid{grid-template-columns:1fr 1fr}.funnel-ov-row{grid-template-columns:1fr}.funnel-ov-cell::after{display:none}}
 </style>
 </head>
@@ -230,9 +246,38 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 
 <!-- Annual trend graph -->
 <div class="card">
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:28px 44px 12px">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:28px 44px 12px;flex-wrap:wrap;gap:12px">
     <div class="sec-label" style="padding:0">セッション数 &amp; CVR推移</div>
-    <div style="display:flex;align-items:center;gap:12px">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <label class="anomaly-toggle" id="anomaly-toggle-label">
+        <input type="checkbox" id="anomaly-toggle" onchange="setExcludeAnomaly(this.checked)">
+        <span>異常値を除く</span>
+        <span class="anomaly-tip" onclick="event.preventDefault();event.stopPropagation()">?
+          <span class="anomaly-tip-body" id="anomaly-tip-body">
+            <div class="att-title">「異常値」の定義</div>
+            <div>Singapore × Chrome × Windows の bot トラフィック（W16 以降継続して検出）。購入数はほぼゼロのため、母数だけを薄めて見かけの CVR を下げている。</div>
+            <div class="att-section">
+              <div class="att-label">判定基準</div>
+              <ul>
+                <li>GA4 上で当該フィンガープリント一致のセッション</li>
+                <li>Singapore 活用ユーザー/セッション比 ≈ 1.0（人間は 0.80〜0.90）</li>
+                <li>bot 由来の購入は 28日累計 15 件（実質 0%）</li>
+              </ul>
+            </div>
+            <div class="att-section">
+              <div class="att-label">計算式</div>
+              <div>実質CVR = 購入数 ÷ (セッション数 − <code>bot_sessions</code>)</div>
+            </div>
+            <div class="att-section">
+              <div class="att-label">対象期間</div>
+              <div>2026-W16 〜 W19 / 月次 2026-04・2026-05</div>
+            </div>
+            <div class="att-section" style="font-size:11px;color:#bbb">
+              出典: <code>reports/2026-w19/data.json</code> の <code>data_quality</code>（bot_sessions_28d = 774,241 / share 19.66%）を週次へ按分。<code>bot_sessions</code> 未設定の週はそのまま raw CVR を表示。
+            </div>
+          </span>
+        </span>
+      </label>
       <div class="funnel-mode-toggle" id="graph-period-toggle"></div>
       <div class="funnel-mode-toggle">
         <button class="fmt-btn active" id="graph-mode-monthly" onclick="setGraphMode('monthly')">月次</button>
@@ -430,6 +475,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   var funnelMode = '28d'; // '28d' or '7d'
   var graphMode = 'monthly'; // 'monthly' or 'weekly'
   var graphPeriod = '24m'; // '3m', '6m', '12m', '24m'
+  var excludeAnomaly = false; // 異常値(bot)を除外した実質CVRを表示するか
   var funnelGraphMode = 'monthly'; // 'monthly' or 'weekly'
   var funnelGraphPeriod = '24m'; // matches active mode options
   var funnelGraphVisibility = { '1_to_2': true, '2_to_3': true, '3_to_4': true, '4_to_5': true };
@@ -591,6 +637,37 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     var el = document.getElementById('annotation-detail');
     if (el) el.style.display = 'none';
     _activeAnnotationIdx = null;
+  };
+
+  // ── Anomaly exclusion toggle ─────────────────────
+  // 各データ点に bot_sessions が設定されていれば、
+  //   実質CVR = purchases / (sessions - bot_sessions)
+  // で置き換える。bot の購入数は実質0件のため purchases は調整しない。
+  function adjustPoint(p) {
+    if (!excludeAnomaly || !p.bot_sessions) return p;
+    var adjSess = Math.max(1, p.sessions - p.bot_sessions);
+    var adjCvr = p.purchases != null ? p.purchases / adjSess : p.cvr * (p.sessions / adjSess);
+    return {
+      label: p.label,
+      fullLabel: p.fullLabel,
+      sessions: adjSess,
+      purchases: p.purchases,
+      cvr: adjCvr,
+      bot_sessions: p.bot_sessions,
+      raw_sessions: p.sessions,
+      raw_cvr: p.cvr,
+      adjusted: true
+    };
+  }
+  function adjustPoints(points) {
+    return points.map(adjustPoint);
+  }
+
+  window.setExcludeAnomaly = function(on) {
+    excludeAnomaly = !!on;
+    var label = document.getElementById('anomaly-toggle-label');
+    if (label) label.classList.toggle('is-on', excludeAnomaly);
+    renderGraph();
   };
 
   // ── Graph mode toggle ────────────────────────────
@@ -1213,10 +1290,17 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       var yr = w.week.slice(0, 4);
       var wk = w.week.slice(4);
       var label = yr.slice(2) + '/W' + wk;
-      return { label: label, cvr: w.cvr, sessions: w.sessions, fullLabel: yr + '-W' + wk };
+      return {
+        label: label,
+        cvr: w.cvr,
+        sessions: w.sessions,
+        purchases: w.purchases,
+        bot_sessions: w.bot_sessions || 0,
+        fullLabel: yr + '-W' + wk
+      };
     });
     if (!points.length) return;
-    _drawGraph(filterByPeriod(points), data.targets || targets, allWeeklyMap, 'weekly');
+    _drawGraph(adjustPoints(filterByPeriod(points)), data.targets || targets, allWeeklyMap, 'weekly');
   }
 
   function _renderGraphPoints(data) {
@@ -1226,10 +1310,17 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     monthly.forEach(function(m) { allMonthlyMap[m.month] = m; });
     var points = monthly.map(function(m) {
       var parts = m.month.split('-');
-      return { label: parts[0].slice(2) + '/' + parts[1], cvr: m.cvr, sessions: m.sessions, fullLabel: m.month };
+      return {
+        label: parts[0].slice(2) + '/' + parts[1],
+        cvr: m.cvr,
+        sessions: m.sessions,
+        purchases: m.purchases,
+        bot_sessions: m.bot_sessions || 0,
+        fullLabel: m.month
+      };
     });
     if (!points.length) return;
-    _drawGraph(filterByPeriod(points), graphTargets, allMonthlyMap, 'monthly');
+    _drawGraph(adjustPoints(filterByPeriod(points)), graphTargets, allMonthlyMap, 'monthly');
   }
 
   function _drawGraph(points, graphTargets, allMap, mode) {
@@ -1279,8 +1370,16 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       points.map(function(p, i) {
         var cx = xCenter(i), cy = yCVR(p.cvr);
         var showLabel = (n <= 6) || (i === 0) || (i === n - 1) || (i % 3 === 0);
-        return '<circle cx="' + cx + '" cy="' + cy + '" r="' + (n > 8 ? 3.5 : 5) + '" fill="var(--red)" stroke="#fff" stroke-width="' + (n > 8 ? 1.5 : 2) + '"/>' +
-          (showLabel ? '<text x="' + cx + '" y="' + (cy - 9) + '" text-anchor="middle" font-size="' + (n > 8 ? 9 : 11) + '" font-family="DM Sans" font-weight="700" fill="var(--red)">' + fmtPct(p.cvr, 2) + '</text>' : '');
+        var isAdj = !!p.adjusted;
+        var dotR = n > 8 ? 3.5 : 5;
+        // Adjusted (実質CVR) ポイントは中空リング + アスタリスクで識別
+        var dotSvg = isAdj
+          ? '<circle cx="' + cx + '" cy="' + cy + '" r="' + (dotR + 1.5) + '" fill="#fff" stroke="var(--red)" stroke-width="' + (n > 8 ? 1.8 : 2.4) + '"/>'
+          : '<circle cx="' + cx + '" cy="' + cy + '" r="' + dotR + '" fill="var(--red)" stroke="#fff" stroke-width="' + (n > 8 ? 1.5 : 2) + '"/>';
+        var labelSvg = showLabel
+          ? '<text x="' + cx + '" y="' + (cy - 9) + '" text-anchor="middle" font-size="' + (n > 8 ? 9 : 11) + '" font-family="DM Sans" font-weight="700" fill="var(--red)">' + fmtPct(p.cvr, 2) + (isAdj ? '*' : '') + '</text>'
+          : '';
+        return dotSvg + labelSvg;
       }).join('');
 
     // Invisible hit areas — bar rects + dot circles only (not full slot width)
@@ -1312,9 +1411,14 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         var idx = parseInt(el.getAttribute('data-idx'));
         var p = points[idx];
         if (!p) return;
-        gtLabel.textContent = p.fullLabel || p.label;
-        gtSessions.textContent = 'Sessions: ' + fmt(p.sessions);
-        gtCvr.textContent = 'CVR: ' + fmtPct(p.cvr, 2);
+        gtLabel.textContent = (p.fullLabel || p.label) + (p.adjusted ? '  (実質)' : '');
+        if (p.adjusted) {
+          gtSessions.innerHTML = 'Sessions: ' + fmt(p.sessions) + ' <span style="color:#bbb;font-size:11px">(raw ' + fmt(p.raw_sessions) + ' / bot ▲' + fmt(p.bot_sessions) + ')</span>';
+          gtCvr.innerHTML = '実質CVR: ' + fmtPct(p.cvr, 2) + ' <span style="color:#bbb;font-size:11px">(raw ' + fmtPct(p.raw_cvr, 2) + ')</span>';
+        } else {
+          gtSessions.textContent = 'Sessions: ' + fmt(p.sessions);
+          gtCvr.textContent = 'CVR: ' + fmtPct(p.cvr, 2);
+        }
         function diffHtml(diff) {
           var s = diff >= 0 ? '▲' : '▼';
           var c = diff >= 0 ? '#22c55e' : '#ef4444';
@@ -1386,7 +1490,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       var tdDiff = 'font-size:12px';
       var pad = 'padding:5px 8px;text-align:center;white-space:nowrap;';
       var thCells = '<th style="text-align:left;' + thStyle + ';padding:5px 10px 5px 0"></th>';
-      var cvrCells = '<td style="font-size:11px;font-weight:700;color:var(--text3);padding:6px 10px 6px 0;white-space:nowrap;border-bottom:1px solid var(--border)">CVR</td>';
+      var cvrLabel = excludeAnomaly ? '実質CVR' : 'CVR';
+      var cvrCells = '<td style="font-size:11px;font-weight:700;color:var(--text3);padding:6px 10px 6px 0;white-space:nowrap;border-bottom:1px solid var(--border)">' + cvrLabel + '</td>';
       var wowCells = mode === 'weekly' ? '<td style="font-size:11px;font-weight:700;color:var(--text3);padding:6px 10px 6px 0;white-space:nowrap;border-bottom:1px solid var(--border)">WoW</td>' : null;
       var yoyCells = '<td style="font-size:11px;font-weight:700;color:var(--text3);padding:6px 10px 6px 0;white-space:nowrap">' + (mode === 'weekly' ? 'YOY' : 'YOY') + '</td>';
       points.forEach(function(p, i) {
@@ -1394,7 +1499,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         var yoyData = allMap ? allMap[yoyKey] : null;
         var yoyDiff = yoyData ? p.cvr - yoyData.cvr : null;
         thCells += '<th style="' + pad + thStyle + '">' + p.label + '</th>';
-        cvrCells += '<td style="' + pad + tdStyle + '">' + fmtPct(p.cvr, 2) + '</td>';
+        var cvrTxt = fmtPct(p.cvr, 2) + (p.adjusted ? '<span style="color:var(--red);font-size:10px;vertical-align:super">*</span>' : '');
+        cvrCells += '<td style="' + pad + tdStyle + '">' + cvrTxt + '</td>';
         if (mode === 'weekly') {
           var prev = i > 0 ? points[i - 1] : null;
           var wowDiff = prev ? p.cvr - prev.cvr : null;
