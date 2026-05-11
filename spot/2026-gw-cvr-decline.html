@@ -160,16 +160,19 @@
     <div class="spot-hero">
       <div class="spot-tag">SPOT ANALYSIS — Cross-team escalation</div>
       <h1 class="spot-headline">
-        2025 年に積み上げた CVR 改善分を <em>1 年で全て喪失</em>、<br>
-        2026 年は <em>2024 年水準まで後退</em>。<br>
-        bot を除外しても Q1 から続く<em>構造的劣化</em>のトレンド。
+        2025 → 2026 で <em>matched Jan-May は実質 -0.12pp</em>、<br>
+        繁忙期 <em>12-1月 年末年始は既に -0.15pp 崩壊</em>済み。<br>
+        真の test は <em>7-8月 お盆</em>。5月中の対策着手で運命が決まる。
       </h1>
       <div class="spot-lede">
-        W19 サマリーで取り上げた「GW W19 で前年比 -0.33pp」は <strong>単発の異常ではなく Q1 から続いている構造低下の一部</strong>。
-        bot 影響を完全に除外しても、2026 年 1〜3 月の月次 CVR は 2025 年同期から <strong>毎月 -0.10〜-0.20pp 後退</strong>している。
-        4〜5 月は bot 影響が加算され見かけはさらに悪化するが、本質は <strong>「2025 で稼いだ +0.10〜+0.20pp の改善分を 2026 で失っている」</strong>こと。
+        ⚠ <strong>当初版の修正</strong>: 「2026 通年平均 1.27% で 2024 水準まで後退」は<strong>過小評価</strong>でした。
+        2026 は Jan-May の 5 ヶ月分しかなく、<strong>CVR が高い 7-8月（夏休み・お盆）を含まないため平均値が機械的に低く出る</strong>ためです。<strong>matched 同期比較</strong>で見直すと:<br><br>
+        • <strong>2025 Jan-May 1.542%</strong>（公平なベンチマーク）<br>
+        • <strong>2026 Jan-May raw 1.331% / 実質 ~1.42%</strong> → <strong>raw -0.21pp / 実質 -0.12pp</strong><br><br>
+        さらに重要な発見: <strong>2025 の通年は良かった」のではなく、12-1月 繁忙期から既に崩れていた</strong>。
+        2024末→25始 1.527% → 2025末→26始 1.379% で <strong>-0.15pp の繁忙期崩壊</strong>が既発。
         <br><br>
-        本書はクロスチーム議論用に、3 年（2024 / 2025 / 2026）の月次・週次 CVR 推移を可視化し、UIUX 単独では解けない構造要因を整理する。
+        次の真の test は <strong>2026 7-8月（夏休み・お盆）</strong>。<strong>5月中（残り 3 週）に他チーム並走の対策が走らないと、夏需要で再び -0.15〜-0.20pp の崩れが発生</strong>し、年間 CVR 目標が達成不能になる。
       </div>
     </div>
 
@@ -177,7 +180,8 @@
     <div class="spot-toc">
       <div class="spot-toc-title">本書の構成</div>
       <ul class="spot-toc-list">
-        <li><a href="#sec01">01 3 年スナップショット</a></li>
+        <li><a href="#sec01">01 公平 matched 比較</a></li>
+        <li><a href="#sec01b">01.5 繁忙期推移（7-8月 / 12-1月）</a></li>
         <li><a href="#sec02">02 月次トレンド</a></li>
         <li><a href="#sec03">03 GW 期間特化比較</a></li>
         <li><a href="#sec04">04 5 つの発見</a></li>
@@ -188,41 +192,114 @@
     </div>
   </div>
 
-  <!-- 01 — 3 year snapshot -->
+  <!-- 01 — Matched Jan-May (fair YoY) -->
   <div class="card" id="sec01">
     <div class="spot-sec">
       <span class="spot-sec-num red">01</span>
-      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">3 年スナップショット</span>
-      <h2 class="spot-sec-title">3 年で見ると「上がって戻った」だけ — 改善蓄積ゼロ</h2>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">公平 matched 比較</span>
+      <h2 class="spot-sec-title">同期 Jan-May で見れば 2025→2026 で 実質 -0.12pp</h2>
     </div>
-    <div class="spot-sec-sub">月次平均 CVR（GA4 月次・raw）で見る 3 年比較。2025 がピーク、2026 で 2024 水準に逆戻り。</div>
+    <div class="spot-sec-sub">2026 は 5 ヶ月分しか確定していないため「通年平均」比較は CVR 高月（7-8月）を含まず<strong>過小評価</strong>になる。<strong>matched 同期（Jan-May）</strong>で見直すのが正しい。</div>
 
     <div class="spot-3card">
-      <div class="spot-card b2024">
-        <div class="spot-card-yr">2024 年（base year）</div>
-        <div class="spot-card-cvr">1.43<span style="font-size:24px">%</span></div>
+      <div class="spot-card b2025" style="border-color:#1a8c4e">
+        <div class="spot-card-yr">2025 Jan-May 同期</div>
+        <div class="spot-card-cvr" style="color:#1a8c4e">1.542<span style="font-size:24px">%</span></div>
         <div class="spot-card-context">
-          通年平均（4-12月）。<strong>COVID 後の回復基調</strong>、月次 1.18〜1.61% で推移。GW（5月）は 1.18% で年間最低、夏〜秋にかけて持ち直し。
+          5 ヶ月 volume-weighted（sess 14.7M / purch 227K）。Q1（1.45〜1.62%）と Apr-May（1.40〜1.64%）で堅調。<strong>公平なベンチマーク</strong>。
         </div>
       </div>
-      <div class="spot-card b2025">
-        <div class="spot-card-yr">2025 年（peak year）</div>
-        <div class="spot-card-cvr">1.50<span style="font-size:24px">%</span></div>
+      <div class="spot-card b2026" style="border-color:#c0392b">
+        <div class="spot-card-yr">2026 Jan-May 実績</div>
+        <div class="spot-card-cvr" style="color:#c0392b">1.331<span style="font-size:24px">%</span></div>
         <div class="spot-card-context">
-          通年平均。<strong>2024 比で +0.07pp 改善</strong>、月次 1.39〜1.68% で堅調。Q1（1.45〜1.62%）も Q2（1.40〜1.68%）も安定。<strong>GW W19 は 1.49%</strong>。
+          同期 raw（sess 14.3M / purch 191K）。bot 除外 <strong>実質 ~1.42%</strong>、前年同期比 <strong>raw -0.21pp / 実質 -0.12pp</strong>。月 ¥40〜70M 規模の機会損失。
         </div>
       </div>
-      <div class="spot-card b2026">
-        <div class="spot-card-yr">2026 年（reversion）</div>
-        <div class="spot-card-cvr">1.27<span style="font-size:24px">%</span></div>
+      <div class="spot-card b2024" style="border-color:#d97706;background:#fff7ed">
+        <div class="spot-card-yr">⚠ 真の test: 2026 7-8月</div>
+        <div class="spot-card-cvr" style="color:#9a3412">未到来</div>
         <div class="spot-card-context">
-          1-5 月平均（途中値）、<strong>2025 比 -0.23pp</strong>。Q1 から毎月 2025 を下回り、bot 加算で 4-5 月はさらに悪化。実質ベースでも 2024 水準（1.43%）程度で 2 年改善ゼロ。
+          2024 7-8月 1.476% → 2025 7-8月 1.517%（+0.04pp）→ 2026 ?。<strong>5月中の対策着手</strong>で運命が決まる、お盆繁忙期の取りこぼしリスク最大。
         </div>
       </div>
     </div>
 
     <div style="padding:8px 44px 24px;font-size:13px;color:var(--text2);line-height:1.8;background:#fef9e7;border-top:1px solid #fcd34d;border-bottom:1px solid #fcd34d">
-      <strong style="color:#9a3412">含意</strong>: 2025 年は VELTRA にとって <strong>+0.07pp の改善年</strong>だったが、2026 年でその改善分（+0.07pp）を全て失った上に追加で約 -0.16pp 沈み込んでいる。bot 影響を控えめに見積もっても <strong>2026 年は 2024 年水準（横ばい〜微減）</strong>。2 年間の施策・投資が CVR 観点でリターンを生んでいない。
+      <strong style="color:#9a3412">含意</strong>:
+      <strong>(1)</strong> 「通年平均で比べる」は 7-8月（高 CVR月）が抜けるため過小評価のリスク。<strong>matched 同期比較が公平</strong>。
+      <strong>(2)</strong> 実質 -0.12pp（matched Jan-May）でも前年同期から確実に後退している事実は変わらない、機会損失は月 ¥40M 規模。
+      <strong>(3)</strong> 本当の分岐点は <strong>2026 7-8月（お盆繁忙期）</strong>。残り 3 週で他チーム並走の対策が走らなければ夏需要も -0.15pp 程度の崩れが起きる。
+    </div>
+  </div>
+
+  <!-- 01b — Peak season trend (NEW) -->
+  <div class="card" id="sec01b">
+    <div class="spot-sec">
+      <span class="spot-sec-num">01.5</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">繁忙期推移</span>
+      <h2 class="spot-sec-title">「2025 ピーク年」は誤読 — 繁忙期は既に 2025 末から崩壊</h2>
+    </div>
+    <div class="spot-sec-sub">ベルトラの本当のピーク月は <strong>7-8月（夏休み・お盆）</strong> と <strong>12-1月（年末年始）</strong>。通年平均ではなく繁忙期で比較するのが本質。</div>
+
+    <div style="padding:8px 44px 24px">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:14px">
+
+        <!-- Summer (7-8月) -->
+        <div style="background:#fff;border:2px solid #2dae6c;border-radius:12px;padding:18px 20px">
+          <div style="font-size:11px;font-weight:900;color:#1a8c4e;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">🌻 夏休み・お盆（7-8月）</div>
+          <div style="font-family:'DM Sans';font-size:14px;line-height:1.9">
+            <div style="display:flex;justify-content:space-between"><span>2024 7-8月（volume-weighted）</span><strong>1.476%</strong></div>
+            <div style="display:flex;justify-content:space-between;color:#1a8c4e"><span>2025 7-8月</span><strong>1.517% (+0.04pp)</strong></div>
+            <div style="display:flex;justify-content:space-between;color:#d97706;border-top:1px dashed #ccc;padding-top:6px;margin-top:6px"><span>2026 7-8月</span><strong>未到来 ⚠</strong></div>
+          </div>
+          <div style="margin-top:10px;padding:10px 12px;background:#fff7ed;border-radius:6px;font-size:11px;line-height:1.6;color:#9a3412">
+            <strong>リスク</strong>: 2026 Jan-May が前年同期 -0.12pp 実質後退。同パターンが続けば 2026 7-8月は 1.40% 程度に沈み、年間目標達成不能に。<br>
+            お盆ピーク（8月中旬）に効く施策は <strong>6 月中投入が現実的タイムライン</strong>、5月中の意思決定必須。
+          </div>
+        </div>
+
+        <!-- Winter (12-1月) -->
+        <div style="background:#fff;border:2px solid #c0392b;border-radius:12px;padding:18px 20px">
+          <div style="font-size:11px;font-weight:900;color:#c0392b;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">❄ 年末年始（12-1月）</div>
+          <div style="font-family:'DM Sans';font-size:14px;line-height:1.9">
+            <div style="display:flex;justify-content:space-between"><span>2024-12 + 2025-01</span><strong>1.527%</strong></div>
+            <div style="display:flex;justify-content:space-between;color:#c0392b;border-top:1px dashed #ccc;padding-top:6px;margin-top:6px"><span>2025-12 + 2026-01</span><strong>1.379% (-0.15pp)</strong></div>
+          </div>
+          <div style="margin-top:10px;padding:10px 12px;background:#fff5f5;border-radius:6px;font-size:11px;line-height:1.6;color:#991b1b">
+            <strong>既発</strong>: 2024-12 1.614%（年間最高）→ 2025-12 1.410%（-0.20pp）で年末需要が崩れ、2026-01 1.352% でさらに継続。<strong>「2025 平均が良かった」は表面で、繁忙期は既に崩壊していた</strong>。
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Monthly peak table -->
+      <table style="width:100%;border-collapse:collapse;font-size:12px;background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden">
+        <thead><tr style="background:#1f2937;color:#fff">
+          <th style="padding:9px 10px;font-size:10px;letter-spacing:.06em;font-weight:900;text-align:left">月（区分）</th>
+          <th style="padding:9px 10px;text-align:right;font-size:10px;letter-spacing:.06em;font-weight:900">2024 CVR</th>
+          <th style="padding:9px 10px;text-align:right;font-size:10px;letter-spacing:.06em;font-weight:900">2025 CVR</th>
+          <th style="padding:9px 10px;text-align:right;font-size:10px;letter-spacing:.06em;font-weight:900">2026 CVR</th>
+          <th style="padding:9px 10px;text-align:right;font-size:10px;letter-spacing:.06em;font-weight:900">25vs24</th>
+          <th style="padding:9px 10px;text-align:right;font-size:10px;letter-spacing:.06em;font-weight:900">26vs25</th>
+        </tr></thead>
+        <tbody style="font-family:'DM Sans'">
+          <tr style="background:#fff7ed"><td style="padding:7px 10px"><strong>7月（夏休み開始）</strong></td><td style="padding:7px 10px;text-align:right">1.474%</td><td style="padding:7px 10px;text-align:right;color:#1a8c4e">1.492%</td><td style="padding:7px 10px;text-align:right;color:#aaa">— 未到来</td><td style="padding:7px 10px;text-align:right;color:#1a8c4e">+0.02pp</td><td style="padding:7px 10px;text-align:right;color:#d97706">⚠ test 待ち</td></tr>
+          <tr style="background:#fff7ed"><td style="padding:7px 10px"><strong>8月（お盆 ピーク）</strong></td><td style="padding:7px 10px;text-align:right">1.479%</td><td style="padding:7px 10px;text-align:right;color:#1a8c4e">1.541%</td><td style="padding:7px 10px;text-align:right;color:#aaa">— 未到来</td><td style="padding:7px 10px;text-align:right;color:#1a8c4e">+0.06pp</td><td style="padding:7px 10px;text-align:right;color:#d97706">⚠ 最重要 test</td></tr>
+          <tr style="background:#fff5f5"><td style="padding:7px 10px"><strong>12月（年末）</strong></td><td style="padding:7px 10px;text-align:right;color:#1a8c4e">1.614%</td><td style="padding:7px 10px;text-align:right;color:#c0392b">1.410%</td><td style="padding:7px 10px;text-align:right;color:#aaa">— 未到来</td><td style="padding:7px 10px;text-align:right;color:#c0392b"><strong>-0.20pp</strong></td><td style="padding:7px 10px;text-align:right;color:#aaa">—</td></tr>
+          <tr style="background:#fff5f5"><td style="padding:7px 10px"><strong>1月（年始）</strong></td><td style="padding:7px 10px;text-align:right;color:#aaa">—</td><td style="padding:7px 10px;text-align:right">1.450%</td><td style="padding:7px 10px;text-align:right;color:#c0392b">1.352%</td><td style="padding:7px 10px;text-align:right;color:#aaa">—</td><td style="padding:7px 10px;text-align:right;color:#c0392b"><strong>-0.10pp</strong></td></tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top:14px;padding:14px 18px;background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;font-size:13px;line-height:1.75">
+        <strong style="color:#991b1b">本質的含意</strong>:
+        <ul style="margin:8px 0 0 18px;padding:0">
+          <li><strong>「2025 = peak year」は表面の話</strong>。実は 2025-12 で前年 -0.20pp の繁忙期崩壊が始まっており、それが 2026 全月に継続している</li>
+          <li>2026 1-5月の -0.12pp 実質後退は <strong>「2025 末からの構造低下の延長」</strong>であって、突然始まった話ではない</li>
+          <li>最も重要な変数は <strong>2026 7-8月（お盆）</strong>。ここで前年 1.49〜1.54% を維持できるか、それとも -0.15pp 崩れて 1.30%台に沈むかが年間 KPI 達成の分岐点</li>
+          <li>お盆の打ち手は <strong>6 月中投入が現実的タイムライン</strong> → 仕様確定は <strong>5 月中（残り 3 週）必須</strong></li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -361,11 +438,13 @@
       </div>
 
       <div class="spot-finding alarm">
-        <div class="spot-finding-num">F.02 — 2 年改善ゼロ</div>
-        <div class="spot-finding-title">2024 → 2026 で 2 年経過、実質 CVR は横ばい〜微減</div>
+        <div class="spot-finding-num">F.02 — 繁忙期は既に崩壊（2025-12 から）</div>
+        <div class="spot-finding-title">「2025 ピーク年」は表面、12-1月 年末年始は 2024→2025 で -0.15pp 既崩れ</div>
         <div class="spot-finding-body">
-          2024 通年平均 1.43%、2026 実質推定 1.43〜1.45%。<strong>2 年間の施策・投資が CVR にリターンを生んでいない</strong>。2025 の +0.07pp は 1 年限りの瞬間風速だった可能性。
-          <span class="spot-finding-stat">2 年 ROI ≈ 0</span>
+          2024-12（1.614% 年間最高）→ 2025-12（1.410%）で <strong>-0.20pp 大崩れ</strong>、2026-01 でも継続。
+          通年平均で「2025 良かった」と見るのは誤読、<strong>繁忙期では既に崩壊が始まっていた</strong>。次は 2026 7-8月 お盆で同パターンが起きるリスク。
+          <span class="spot-finding-stat">年末 -0.20pp</span>
+          <span class="spot-finding-stat">年始 -0.10pp</span>
         </div>
       </div>
 
@@ -584,6 +663,20 @@
     </div>
 
     <div class="spot-actions">
+
+      <div class="spot-action p0">
+        <div class="spot-action-icon">🌻</div>
+        <div class="spot-action-body">
+          <span class="spot-action-prio">P0 最緊急</span>
+          <div class="spot-action-title">夏需要（7-8月 お盆）対策の 5月中意思決定 — 6月中投入が必須タイムライン</div>
+          <ul>
+            <li><strong>2026 7-8月で前年水準（1.49〜1.54%）を維持できるかが年間 KPI 達成の分岐点</strong></li>
+            <li>お盆繁忙期に効く施策は <strong>6 月中投入が現実的タイムライン</strong>、5 月中（残り 3 週）に仕様確定必須</li>
+            <li>UIUX BN Top3 / 価格戦略 / 商品在庫 / マーケ流入質の <strong>4 領域並走必須</strong></li>
+            <li>残り 3 週で意思決定が走らない場合、夏需要も -0.15〜-0.20pp の崩れが起き、年間 KPI 達成不能化</li>
+          </ul>
+        </div>
+      </div>
 
       <div class="spot-action p0">
         <div class="spot-action-icon">🚨</div>
