@@ -48,6 +48,23 @@
     '.site-nav .nav-spot-item a.nav-active{background:#fff;color:#E8423F;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.07)}' +
     '.site-nav .nav-spot-item .spot-dot{font-size:10px;color:#ccc;flex-shrink:0}' +
     '.site-nav .nav-spot-item a.nav-active .spot-dot{color:#E8423F}' +
+    /* Nested spot children (sub-pages under a parent spot analysis) */
+    '.site-nav .nav-spot-parent{display:flex;align-items:center;gap:8px;padding:7px 10px 7px 16px;font-size:13px;color:#777;border-radius:8px;text-decoration:none;line-height:1.4;cursor:pointer;transition:background .12s}' +
+    '.site-nav .nav-spot-parent:hover{background:rgba(255,255,255,.7);color:#1a1a1a}' +
+    '.site-nav .nav-spot-parent.has-active{color:#1a1a1a;font-weight:700}' +
+    '.site-nav .nav-spot-parent-link{flex:1;color:inherit;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
+    '.site-nav .nav-spot-parent.nav-active{background:#fff;color:#E8423F;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.07)}' +
+    '.site-nav .nav-spot-parent.nav-active .nav-spot-parent-link{color:#E8423F}' +
+    '.site-nav .nav-spot-parent .spot-dot{font-size:10px;color:#ccc;flex-shrink:0}' +
+    '.site-nav .nav-spot-parent.nav-active .spot-dot,.site-nav .nav-spot-parent.has-active .spot-dot{color:#E8423F}' +
+    '.site-nav .nav-spot-children{padding-left:14px;margin:2px 0 4px;border-left:1px dashed rgba(0,0,0,.1);margin-left:22px}' +
+    '.site-nav .nav-spot-child a{display:flex;align-items:center;gap:6px;padding:5px 10px 5px 10px;font-size:12px;color:#888;border-radius:6px;text-decoration:none;line-height:1.3;transition:background .12s}' +
+    '.site-nav .nav-spot-child a:hover{background:rgba(255,255,255,.7);color:#1a1a1a}' +
+    '.site-nav .nav-spot-child a.nav-active{background:#fff;color:#E8423F;font-weight:700}' +
+    '.site-nav .nav-spot-child .child-dot{font-size:9px;color:#ccc;flex-shrink:0}' +
+    '.site-nav .nav-spot-child a.nav-active .child-dot{color:#E8423F}' +
+    '.site-nav .nav-spot-parent-toggle{font-size:8px;color:#bbb;transition:transform .15s;line-height:1;flex-shrink:0;cursor:pointer;padding:2px 4px}' +
+    '.site-nav .nav-spot-parent-toggle.open{transform:rotate(90deg)}' +
     /* Main area */
     '.site-main{min-width:0}' +
     '@media(max-width:900px){.site-layout{grid-template-columns:1fr;padding:0}.site-nav{display:none}.site-main{padding:0}}' +
@@ -89,6 +106,15 @@
   var isAnalysis = (path === '/analysis.html');
   var isBehaviorGuide = (path === '/behavior-guide.html');
   var isEntryJourney = (path === '/entry-journey.html');
+  var isGwDecline = (path === '/spot/2026-gw-cvr-decline.html');
+  var isGwMacro = (path === '/spot/2026-gw/01-macro.html');
+  var isGwCompetitive = (path === '/spot/2026-gw/02-competitive.html');
+  var isGwPricing = (path === '/spot/2026-gw/03-pricing.html');
+  var isGwProduct = (path === '/spot/2026-gw/04-product.html');
+  var isGwBehavior = (path === '/spot/2026-gw/05-customer-behavior.html');
+  var isGwUiux = (path === '/spot/2026-gw/06-uiux.html');
+  var isGwSub = isGwMacro || isGwCompetitive || isGwPricing || isGwProduct || isGwBehavior || isGwUiux;
+  var isAnySpot = isEntryJourney || isGwDecline || isGwSub;
   var isArchive = (path === '/reports/' || path === '/reports/index.html');
   var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
   var qp = new URLSearchParams(location.search);
@@ -162,6 +188,17 @@
       append(homeA, mkCurrent('行動仮説ガイド'));
     } else if (isEntryJourney) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('エントリー別CVRジャーニー'));
+    } else if (isGwDecline) {
+      append(homeA, mkCurrent('スポット分析'), mkCurrent('2026 GW CVR 構造低下'));
+    } else if (isGwSub) {
+      var subLabel = isGwMacro ? '01 マクロ環境'
+        : isGwCompetitive ? '02 競合シェア'
+        : isGwPricing ? '03 価格戦略'
+        : isGwProduct ? '04 商品'
+        : isGwBehavior ? '05 顧客行動'
+        : isGwUiux ? '06 UIUX 構造課題'
+        : '';
+      append(homeA, mkCurrent('スポット分析'), mkA('2026 GW CVR 構造低下', '/spot/2026-gw-cvr-decline.html'), mkCurrent(subLabel));
     } else if (isWeekSummary || isReport) {
       append(homeA, bnA, mkCurrent(wid));
     } else if (isBottleneck) {
@@ -177,11 +214,27 @@
 
   // ── Expand state ─────────────────────────────────
   var expandedWeeks = {};
-  var spotExpanded = isEntryJourney; // default open when viewing a spot page
+  var spotExpanded = isAnySpot; // default open when viewing any spot page
+  var gwDeclineExpanded = isGwDecline || isGwSub; // sub-tree default open on its pages
 
   // ── Spot analysis registry ───────────────────────
-  // Add future spot analyses here.
+  // Hierarchical: items may have a `children` array for sub-pages.
   var SPOT_ITEMS = [
+    {
+      id: 'gw-decline',
+      href: '/spot/2026-gw-cvr-decline.html',
+      label: '🚨 2026 GW CVR 構造低下',
+      match: function(){ return isGwDecline; },
+      hasActiveChild: function(){ return isGwSub; },
+      children: [
+        { id: 'gw-01', href: '/spot/2026-gw/01-macro.html',             label: '01 マクロ環境',    match: function(){ return isGwMacro; } },
+        { id: 'gw-02', href: '/spot/2026-gw/02-competitive.html',       label: '02 競合シェア',    match: function(){ return isGwCompetitive; } },
+        { id: 'gw-03', href: '/spot/2026-gw/03-pricing.html',           label: '03 価格戦略',      match: function(){ return isGwPricing; } },
+        { id: 'gw-04', href: '/spot/2026-gw/04-product.html',           label: '04 商品',          match: function(){ return isGwProduct; } },
+        { id: 'gw-05', href: '/spot/2026-gw/05-customer-behavior.html', label: '05 顧客行動',      match: function(){ return isGwBehavior; } },
+        { id: 'gw-06', href: '/spot/2026-gw/06-uiux.html',              label: '06 UIUX 構造課題', match: function(){ return isGwUiux; } }
+      ]
+    },
     { id: 'entry-journey', href: '/entry-journey.html', label: 'エントリー別CVRジャーニー', match: function(){ return isEntryJourney; } }
   ];
 
@@ -445,18 +498,74 @@
     spotList.style.display = spotExpanded ? 'block' : 'none';
 
     SPOT_ITEMS.forEach(function (s) {
-      var item = document.createElement('div');
-      item.className = 'nav-spot-item';
-      var a = document.createElement('a');
-      a.href = s.href;
-      if (s.match()) a.className = 'nav-active';
-      var dot = document.createElement('span');
-      dot.className = 'spot-dot';
-      dot.textContent = '●';
-      a.appendChild(dot);
-      a.appendChild(document.createTextNode(s.label));
-      item.appendChild(a);
-      spotList.appendChild(item);
+      if (s.children && s.children.length) {
+        // Parent with children: parent row + toggle + children list
+        var parentRow = document.createElement('div');
+        var parentActive = s.match();
+        var hasChildActive = s.hasActiveChild ? s.hasActiveChild() : false;
+        parentRow.className = 'nav-spot-parent' + (parentActive ? ' nav-active' : (hasChildActive ? ' has-active' : ''));
+
+        var pDot = document.createElement('span');
+        pDot.className = 'spot-dot';
+        pDot.textContent = '●';
+        parentRow.appendChild(pDot);
+
+        var pLink = document.createElement('a');
+        pLink.href = s.href;
+        pLink.className = 'nav-spot-parent-link';
+        pLink.textContent = s.label;
+        pLink.addEventListener('click', function(ev){ ev.stopPropagation(); });
+        parentRow.appendChild(pLink);
+
+        var pToggle = document.createElement('span');
+        var expanded = parentActive || hasChildActive || gwDeclineExpanded;
+        pToggle.className = 'nav-spot-parent-toggle' + (expanded ? ' open' : '');
+        pToggle.textContent = '▶';
+        parentRow.appendChild(pToggle);
+
+        spotList.appendChild(parentRow);
+
+        var childList = document.createElement('div');
+        childList.className = 'nav-spot-children';
+        childList.style.display = expanded ? 'block' : 'none';
+        s.children.forEach(function(c){
+          var ci = document.createElement('div');
+          ci.className = 'nav-spot-child';
+          var ca = document.createElement('a');
+          ca.href = c.href;
+          if (c.match()) ca.className = 'nav-active';
+          var cd = document.createElement('span');
+          cd.className = 'child-dot';
+          cd.textContent = '└';
+          ca.appendChild(cd);
+          ca.appendChild(document.createTextNode(c.label));
+          ci.appendChild(ca);
+          childList.appendChild(ci);
+        });
+        spotList.appendChild(childList);
+
+        // Toggle children open/close on the row click (except when clicking the parent link)
+        parentRow.addEventListener('click', function(ev){
+          if (ev.target === pLink) return;
+          var open = childList.style.display !== 'none';
+          childList.style.display = open ? 'none' : 'block';
+          pToggle.className = 'nav-spot-parent-toggle' + (open ? '' : ' open');
+        });
+      } else {
+        // Flat item
+        var item = document.createElement('div');
+        item.className = 'nav-spot-item';
+        var a = document.createElement('a');
+        a.href = s.href;
+        if (s.match()) a.className = 'nav-active';
+        var dot = document.createElement('span');
+        dot.className = 'spot-dot';
+        dot.textContent = '●';
+        a.appendChild(dot);
+        a.appendChild(document.createTextNode(s.label));
+        item.appendChild(a);
+        spotList.appendChild(item);
+      }
     });
 
     spotRow.addEventListener('click', function () {
