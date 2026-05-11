@@ -150,15 +150,31 @@
       "month": "2026-04",
       "sessions": 3702663,
       "purchases": 44391,
-      "cvr": 0.011989
+      "cvr": 0.011989,
+      "bot_sessions": 528241,
+      "anomaly": true
     },
     {
       "month": "2026-05",
       "sessions": 1248600,
       "purchases": 13607,
-      "cvr": 0.010898
+      "cvr": 0.010898,
+      "bot_sessions": 246093,
+      "anomaly": true
     }
   ],
+  "anomaly_definition": {
+    "label": "Singapore × Chrome × Windows bot（W16〜継続）",
+    "first_detected": "2026-W16",
+    "criteria": [
+      "GA4 上で Singapore × Chrome × Windows のフィンガープリント一致セッション",
+      "Singapore 活用ユーザー/セッション比 ≈ 1.0（人間ベンチマークは 0.80〜0.90）",
+      "購入数はほぼゼロ（28日累計で 15 件 / セッション 774K — 実質 0%）"
+    ],
+    "adjustment": "実質CVR = 購入数 ÷ (セッション数 − bot_sessions)。bot の購入は実質ゼロのため購入数は調整しない。",
+    "source": "W19 reports/2026-w19/data.json の data_quality ブロック（bot_sessions_28d = 774,241 / bot_share_28d = 19.66%）を週次に按分。月次は週次合算（W18/W19 跨月分は日割り）。",
+    "affected_periods": ["2026-W16", "2026-W17", "2026-W18", "2026-W19", "2026-04", "2026-05"]
+  },
   "targets": {
     "monthly_cvr": 0.014293,
     "annual_cvr": 0.014293,

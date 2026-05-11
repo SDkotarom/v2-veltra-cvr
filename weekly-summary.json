@@ -408,25 +408,45 @@
       "week": "202616",
       "sessions": 1079726,
       "purchases": 10127,
-      "cvr": 0.009379
+      "cvr": 0.009379,
+      "bot_sessions": 230241,
+      "anomaly": true
     },
     {
       "week": "202617",
       "sessions": 878367,
       "purchases": 9680,
-      "cvr": 0.011021
+      "cvr": 0.011021,
+      "bot_sessions": 171000,
+      "anomaly": true
     },
     {
       "week": "202618",
       "sessions": 947820,
       "purchases": 11618,
-      "cvr": 0.012258
+      "cvr": 0.012258,
+      "bot_sessions": 178000,
+      "anomaly": true
     },
     {
       "week": "202619",
       "sessions": 992561,
       "purchases": 10175,
-      "cvr": 0.010251
+      "cvr": 0.010251,
+      "bot_sessions": 195236,
+      "anomaly": true
     }
-  ]
+  ],
+  "anomaly_definition": {
+    "label": "Singapore × Chrome × Windows bot（W16〜継続）",
+    "first_detected": "2026-W16",
+    "criteria": [
+      "GA4 上で Singapore × Chrome × Windows のフィンガープリント一致セッション",
+      "Singapore 活用ユーザー/セッション比 ≈ 1.0（人間ベンチマークは 0.80〜0.90）",
+      "購入数はほぼゼロ（28日累計で 15 件 / セッション 774K — 実質 0%）"
+    ],
+    "adjustment": "実質CVR = 購入数 ÷ (セッション数 − bot_sessions)。bot の購入は実質ゼロのため購入数は調整しない。",
+    "source": "W19 reports/2026-w19/data.json の data_quality ブロック（bot_sessions_28d = 774,241 / bot_share_28d = 19.66%）を週次に按分。W17 残存 171K は 2026-04 月次ノート由来。",
+    "affected_periods": ["2026-W16", "2026-W17", "2026-W18", "2026-W19", "2026-04", "2026-05"]
+  }
 }
