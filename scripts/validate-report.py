@@ -90,62 +90,40 @@ def check_reports_index(week_id, data):
     else:
         error("week_label が空です")
 
-# ── 検証2: サマリーページのベースライン数値 ──────────
+# ── 検証2: サマリーページの構造 + data.json ベースライン整合 ──────────
+# 設計: reports/{W}/index.html は「週の物語」を手書き（Phase 2.9）。
+#       28日ベースライン・ファネル・進捗・BN10件 は <div id="summary-detail"> 内に
+#       summary-detail.js が data.json から動的描画する。
+#       → 28日ベースライン数値を index.html 内に直接書く必要はない。
 def check_summary_page(week_id, data):
-    print(f"\n[2] reports/{week_id}/index.html ベースライン数値")
+    print(f"\n[2] reports/{week_id}/index.html 構造 + data.json 整合")
     html = read_html(ROOT / "reports" / week_id / "index.html")
     if not html:
         return
-    
-    bl = data["baseline"]
-    
-    # セッション数
-    sessions = bl["sessions"]
-    sessions_m = f"{sessions/1e6:.2f}M"
-    sessions_comma = f"{sessions:,}"
-    if sessions_comma in html or sessions_m in html:
-        ok(f"セッション数: {sessions:,}")
+
+    # 構造チェック: summary-detail.js の動的描画依存
+    if 'id="summary-detail"' in html:
+        ok("動的描画ホスト <div id=\"summary-detail\"> あり")
     else:
-        error(f"セッション数 {sessions:,} がHTML内に見つかりません")
-    
-    # CVR
-    cvr_pct = f"{bl['cvr']*100:.2f}%"
-    if cvr_pct in html:
-        ok(f"CVR: {cvr_pct}")
+        error("<div id=\"summary-detail\"> が見つかりません — summary-detail.js の描画先がない")
+    if "summary-detail.js" in html:
+        ok("summary-detail.js を読み込み")
     else:
-        # 小数点1桁も許容
-        cvr_pct1 = f"{bl['cvr']*100:.1f}%"
-        if cvr_pct1 in html:
-            ok(f"CVR: {cvr_pct1}")
-        else:
-            error(f"CVR {cvr_pct} がHTML内に見つかりません")
-    
-    # 通過率（④→⑤はサマリーページではCVRとして表示されるためスキップ）
-    rates = bl["conversion_rates"]
-    for key, label in [("1_to_2", "①→②"), ("2_to_3", "②→③"), ("3_to_4", "③→④")]:
-        rate = rates.get(key)
-        if rate is None:
-            continue
-        rate_pct = f"{rate*100:.1f}%"
-        if rate_pct in html:
-            ok(f"{label}: {rate_pct}")
-        else:
-            error(f"{label} {rate_pct} がHTML内に見つかりません")
-    
-    # 日付範囲
-    meta = data.get("meta", {})
-    rolling_start = meta.get("rolling_start", "")
-    rolling_end = meta.get("rolling_end", "")
-    if rolling_start and rolling_end:
-        # 月/日形式に変換（例: 2026-03-09 → 3/9）
-        rs = rolling_start.split("-")
-        re_ = rolling_end.split("-")
-        date_str = f"{int(rs[1])}/{int(rs[2])}〜{int(re_[1])}/{int(re_[2])}"
-        if date_str in html:
-            ok(f"日付範囲: {date_str}")
-        else:
-            error(f"日付範囲 '{date_str}' がHTML内に見つかりません")
-    
+        error("summary-detail.js の <script> 参照がありません")
+
+    # data.json ベースライン整合: index.html ではなく data.json 自体の妥当性を検証
+    bl = data.get("baseline") or {}
+    if not bl.get("sessions") or not bl.get("purchases") or not bl.get("cvr"):
+        error("data.json baseline に sessions/purchases/cvr が揃っていない")
+    else:
+        ok(f"baseline 28d: sessions={bl['sessions']:,} / purchases={bl['purchases']:,} / cvr={bl['cvr']*100:.3f}%")
+    rates = bl.get("conversion_rates") or {}
+    missing_rates = [k for k in ("1_to_2", "2_to_3", "3_to_4", "4_to_5") if rates.get(k) is None]
+    if missing_rates:
+        error(f"data.json baseline.conversion_rates 欠損: {missing_rates}")
+    else:
+        ok(f"baseline 通過率: 1→2={rates['1_to_2']*100:.1f}% / 2→3={rates['2_to_3']*100:.1f}% / 3→4={rates['3_to_4']*100:.1f}% / 4→5={rates['4_to_5']*100:.1f}%")
+
     # 「仮想データ」チェック
     if "仮想データ" in html:
         error("「仮想データ」表記が残っています")
@@ -174,17 +152,19 @@ def check_terminology(week_id):
     if not found_any:
         ok("全ファイルで用語統一済み")
 
-# ── 検証4: ボトルネック詳細ページの存在 ──────────────
+# ── 検証4: ボトルネック content.json の存在 ──────────────
+# 設計: ボトルネック詳細ページは /bottleneck.html?id=N&week=W で動的描画される。
+#       静的な bottleneck-N.html は存在せず、content.json が描画ソース。
 def check_bottleneck_pages(week_id):
-    print(f"\n[4] ボトルネック詳細ページ")
+    print(f"\n[4] ボトルネック content.json")
     report_dir = ROOT / "reports" / week_id
-    
+
     for i in range(1, 11):
-        path = report_dir / f"bottleneck-{i}.html"
+        path = report_dir / f"bottleneck-{i}-content.json"
         if path.exists():
-            ok(f"bottleneck-{i}.html 存在")
+            ok(f"bottleneck-{i}-content.json 存在")
         else:
-            error(f"bottleneck-{i}.html が見つかりません")
+            error(f"bottleneck-{i}-content.json が見つかりません")
 
 # ── 検証5: summary-data.json / weekly-summary.json ──
 def check_summary_files(week_id, data):
