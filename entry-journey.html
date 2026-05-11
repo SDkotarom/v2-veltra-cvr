@@ -252,6 +252,99 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 }
 
 .footer{padding:24px 44px;font-size:13px;color:var(--text3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* =================== Section 1.6: CV Volume & CVR Decomposition =================== */
+.sec-hero{padding:18px 44px 4px;font-size:15px;color:var(--text2);line-height:1.85}
+.sec-hero b{color:var(--text);font-weight:700}
+.sec-hero .hl{background:#FEF3C7;padding:1px 6px;border-radius:3px;color:#78350F;font-weight:700}
+.vol-rank{padding:18px 44px 8px}
+.vol-rank h3{font-size:13px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
+.vol-row{display:grid;grid-template-columns:130px 1fr 110px;gap:14px;align-items:center;padding:8px 0}
+.vol-row .vname{font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px}
+.vol-row .vname .dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.vol-row .vbar{height:36px;background:var(--bg);border-radius:6px;overflow:hidden;position:relative}
+.vol-row .vfill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:14px;color:#fff;font-family:'DM Sans';font-weight:900;font-size:16px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.vol-row .vmeta{text-align:right;font-size:11px;color:var(--text3);line-height:1.4;font-variant-numeric:tabular-nums}
+.vol-row .vmeta b{color:var(--text);font-size:13px;font-weight:800;display:block}
+.vol-tot{margin:14px 44px 8px;padding:12px 16px;background:#F9FAFB;border:1px dashed var(--border);border-radius:10px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--text2);flex-wrap:wrap;gap:8px}
+.vol-tot .b{font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--text);margin-right:6px}
+.vol-tot .tag{display:inline-block;background:#FFF5F5;border:1px solid #FCA5A5;color:#991B1B;padding:3px 10px;border-radius:14px;font-size:11px;font-weight:700}
+
+/* Bubble chart */
+.bub-wrap{padding:18px 24px 22px}
+.bub-wrap h3{padding:0 20px;font-size:13px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.bub-svg{width:100%;height:auto;display:block;max-width:880px;margin:0 auto}
+.bub-cap{padding:6px 20px 0;font-size:12px;color:var(--text2);text-align:center;line-height:1.6}
+.bub-cap b{color:var(--text)}
+
+/* Stacked CV bars */
+.stack-wrap{padding:18px 44px 8px}
+.stack-wrap h3{font-size:13px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.stack-leg{display:flex;gap:18px;justify-content:flex-end;font-size:11px;color:var(--text2);margin-bottom:10px}
+.stack-leg span{display:flex;align-items:center;gap:6px}
+.stack-leg .ki{width:14px;height:14px;border-radius:3px}
+.stack-row{display:grid;grid-template-columns:130px 1fr 180px;gap:14px;align-items:center;padding:7px 0}
+.stack-row .sname{font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px}
+.stack-row .sbar-wrap{height:36px;border-radius:6px;overflow:hidden;display:flex;background:#F3F4F6;position:relative}
+.stack-row .sb-new{background:#9CA3AF;color:#fff;height:100%;display:flex;align-items:center;justify-content:center;font-family:'DM Sans';font-weight:800;font-size:12px;font-variant-numeric:tabular-nums;min-width:0}
+.stack-row .sb-ret{background:#10B981;color:#fff;height:100%;display:flex;align-items:center;justify-content:center;font-family:'DM Sans';font-weight:800;font-size:12px;font-variant-numeric:tabular-nums;min-width:0}
+.stack-row .smeta{font-size:11px;color:var(--text3);line-height:1.5;font-variant-numeric:tabular-nums;text-align:right}
+.stack-row .smeta b{color:var(--text);font-weight:800}
+.stack-note{padding:8px 44px 8px;font-size:11px;color:var(--text3);line-height:1.6}
+
+/* CVR decomposition table */
+.dec-wrap{padding:18px 44px 16px}
+.dec-wrap h3{font-size:13px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+.dec-table{display:grid;grid-template-columns:120px repeat(4,1fr) 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:13px}
+.dec-table .dh{background:#F9FAFB;padding:12px 8px;font-weight:700;font-size:10.5px;color:var(--text2);text-align:center;letter-spacing:.04em;text-transform:uppercase;line-height:1.4}
+.dec-table .dl{background:#fff;padding:14px 12px;font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px}
+.dec-table .dv{background:#fff;padding:14px 8px;text-align:center;font-variant-numeric:tabular-nums}
+.dec-table .dv .vbig{font-family:'DM Sans';font-size:16px;font-weight:900;color:var(--text);line-height:1.1}
+.dec-table .dv .vsub{font-size:10px;color:var(--text3);font-weight:600;margin-top:3px}
+.dec-table .dv.warn{background:#FEF2F2}
+.dec-table .dv.warn .vbig{color:#991B1B}
+.dec-table .dv.good{background:#ECFDF5}
+.dec-table .dv.good .vbig{color:#065F46}
+.dec-table .dv.eq .vbig{color:var(--red)}
+.dec-arrow{padding:14px 44px 0;font-size:12px;color:var(--text2);text-align:center;line-height:1.7}
+.dec-arrow b{color:var(--text)}
+
+/* What-if simulation cards */
+.sim-grid{padding:18px 44px 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.sim-card{background:#fff;border:2px solid var(--border);border-radius:14px;padding:18px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.sim-card.hot{border-color:var(--red);background:linear-gradient(135deg,#FFF5F5 0%,#fff 70%)}
+.sim-card.mid{border-color:#F59E0B;background:linear-gradient(135deg,#FFFBEB 0%,#fff 70%)}
+.sim-card .sim-tag{font-family:'DM Sans';font-size:10px;color:#fff;background:var(--text3);padding:2px 8px;border-radius:10px;align-self:flex-start;font-weight:800;letter-spacing:.06em}
+.sim-card.hot .sim-tag{background:var(--red)}
+.sim-card.mid .sim-tag{background:#F59E0B}
+.sim-card .sim-cond{font-size:13.5px;font-weight:700;color:var(--text);margin:10px 0 14px;line-height:1.55}
+.sim-card .sim-cond .hl{background:#FEF3C7;padding:1px 5px;border-radius:3px}
+.sim-card .sim-arrow{font-size:11px;color:var(--text3);margin:6px 0 0;text-align:center;letter-spacing:.04em}
+.sim-card .sim-cv{font-family:'DM Sans';font-weight:900;font-size:38px;line-height:1;text-align:center;font-variant-numeric:tabular-nums;color:#9CA3AF;margin:2px 0 2px}
+.sim-card.hot .sim-cv{color:var(--red)}
+.sim-card.mid .sim-cv{color:#D97706}
+.sim-card .sim-cv-sub{text-align:center;font-size:11px;color:var(--text3);margin-top:2px}
+.sim-card .sim-cv-year{text-align:center;font-size:11.5px;color:var(--text2);margin-top:8px;font-weight:600}
+.sim-card .sim-cv-year b{color:var(--text);font-family:'DM Sans';font-weight:900}
+.sim-card .sim-formula{margin-top:auto;padding-top:12px;border-top:1px dashed var(--border);font-size:10.5px;color:var(--text3);font-family:'DM Sans',monospace;line-height:1.6;font-variant-numeric:tabular-nums}
+
+@media(max-width:900px){
+  .sec-hero,.vol-rank,.stack-wrap,.dec-wrap,.sim-grid{padding-left:20px;padding-right:20px}
+  .bub-wrap{padding-left:8px;padding-right:8px}
+  .sim-grid{grid-template-columns:1fr}
+  .dec-table{grid-template-columns:80px repeat(5,1fr);font-size:11px}
+  .dec-table .dh{font-size:9.5px;padding:8px 4px}
+  .dec-table .dl{padding:10px 6px;font-size:11.5px}
+  .dec-table .dv{padding:10px 4px}
+  .dec-table .dv .vbig{font-size:13px}
+  .vol-row{grid-template-columns:90px 1fr 90px;gap:8px}
+  .vol-row .vmeta{font-size:10px}
+  .vol-row .vmeta b{font-size:11px}
+  .vol-row .vfill{font-size:13px;padding-left:10px}
+  .stack-row{grid-template-columns:80px 1fr 130px;gap:8px}
+  .stack-row .smeta{font-size:10px}
+  .vol-tot{margin-left:20px;margin-right:20px}
+}
 </style>
 </head>
 <body>
@@ -459,6 +552,318 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
     <b>読み取り:</b> MyPageを除けば新規CVRは <b>LPが何であっても 0.4〜0.6% に収束</b>（最大差0.23pp）。MyPageの新規2.84%はログイン必須の構造上 "new" 判定の多くが Cookie切れのリピであるため、実態はリピ寄り。<br>
     一方 <b>リピはLPで大きくばらつき</b>（2.17〜4.81%、最大差2.64pp）、特に <b>TOP着地のリピ 4.81%</b> が突出。MyPageリピは2.25% で4番目 — 既にCVRが出ている層なので追加の伸びしろは限定的。<br>
     → <b>新規のボトルネックはLP選択ではなく下流(AC〜カレンダー〜フォーム)</b>、<b>リピのハブはTOPと MyPage の2系統</b>、という二段階の構造が見える。
+  </div>
+</div>
+
+<!-- ======================== Section 1.6: CV総数 と CVR差の正体 ======================== -->
+<div class="card">
+  <div class="sec-label">Section 1.6 &mdash; CV総数の真実 と CVR差の正体（なぜCTG/ACのCVRは低いのか）</div>
+
+  <div class="sec-hero">
+    CVR順位（<b>TOP &gt; MyPage &gt; エリア &gt; AC ≈ CTG</b>）と <b>CV件数</b>順位は <span class="hl">真逆</span>。<br>
+    本セクションでは「<b>CVを最も稼いでいるのはどこか</b>」「<b>なぜAC/CTGのCVRは低いのか</b>」を <b>新規/リピの構成比 × 各層のCVR</b> に分解して可視化する。
+  </div>
+
+  <!-- ───────── Block A: CV絶対量ランキング ───────── -->
+  <div class="vol-rank">
+    <h3>① 📦 CV絶対量ランキング（28日合計 = 31,123 CV）— CVR順位とは真逆</h3>
+
+    <div class="vol-row">
+      <div class="vname"><span class="dot" style="background:var(--c-ac)"></span>🎟️ AC</div>
+      <div class="vbar"><div class="vfill" style="width:100%;background:var(--c-ac)">12,040 CV（38.7%）</div></div>
+      <div class="vmeta"><b>1,116,508 sess</b>CVR 1.08%</div>
+    </div>
+    <div class="vol-row">
+      <div class="vname"><span class="dot" style="background:var(--c-ctg)"></span>📂 CTG</div>
+      <div class="vbar"><div class="vfill" style="width:64%;background:var(--c-ctg)">7,702 CV（24.7%）</div></div>
+      <div class="vmeta"><b>718,973 sess</b>CVR 1.07%</div>
+    </div>
+    <div class="vol-row">
+      <div class="vname"><span class="dot" style="background:var(--c-top)"></span>🏠 TOP</div>
+      <div class="vbar"><div class="vfill" style="width:42%;background:var(--c-top)">5,058 CV（16.2%）</div></div>
+      <div class="vmeta"><b>222,134 sess</b>CVR 2.28%</div>
+    </div>
+    <div class="vol-row">
+      <div class="vname"><span class="dot" style="background:var(--c-area)"></span>🗾 エリア</div>
+      <div class="vbar"><div class="vfill" style="width:32%;background:var(--c-area)">3,893 CV（12.5%）</div></div>
+      <div class="vmeta"><b>322,989 sess</b>CVR 1.21%</div>
+    </div>
+    <div class="vol-row">
+      <div class="vname"><span class="dot" style="background:var(--c-mp)"></span>👤 MyPage</div>
+      <div class="vbar"><div class="vfill" style="width:20%;background:var(--c-mp)">2,430 CV（7.8%）</div></div>
+      <div class="vmeta"><b>117,513 sess</b>CVR 2.07%</div>
+    </div>
+  </div>
+  <div class="vol-tot">
+    <div><span class="b">12,040 CV</span>= AC（全CVの<b>約4割</b>）<span style="color:var(--text3)">／</span><span class="b">19,742 CV</span>= AC + CTG（全CVの<b>63%</b>）</div>
+    <div class="tag">★ ボリュームのレバーは AC ＞ CTG</div>
+  </div>
+
+  <!-- ───────── Block B: バブルチャート (Sessions × CVR × CV) ───────── -->
+  <div class="bub-wrap">
+    <h3>② 🔵 セッション規模 × CVR の関係（バブルサイズ ＝ CV件数）</h3>
+    <svg class="bub-svg" viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="LP別 セッション数とCVRの散布図">
+      <!-- background -->
+      <rect x="0" y="0" width="800" height="420" fill="#fff"/>
+      <!-- gridlines / Y -->
+      <g stroke="#E5E7EB" stroke-width="1">
+        <line x1="60" y1="30"  x2="770" y2="30"/>
+        <line x1="60" y1="113" x2="770" y2="113"/>
+        <line x1="60" y1="195" x2="770" y2="195"/>
+        <line x1="60" y1="278" x2="770" y2="278"/>
+        <line x1="60" y1="360" x2="770" y2="360"/>
+      </g>
+      <!-- gridlines / X -->
+      <g stroke="#F3F4F6" stroke-width="1">
+        <line x1="224" y1="30" x2="224" y2="360"/>
+        <line x1="388" y1="30" x2="388" y2="360"/>
+        <line x1="551" y1="30" x2="551" y2="360"/>
+        <line x1="715" y1="30" x2="715" y2="360"/>
+      </g>
+      <!-- axis -->
+      <line x1="60" y1="360" x2="770" y2="360" stroke="#1a1a1a" stroke-width="1.5"/>
+      <line x1="60" y1="30"  x2="60"  y2="360" stroke="#1a1a1a" stroke-width="1.5"/>
+      <!-- Y labels -->
+      <g font-family="DM Sans" font-size="11" fill="#6B7280" text-anchor="end">
+        <text x="54" y="34">2.5%</text>
+        <text x="54" y="117">2.0%</text>
+        <text x="54" y="199">1.5%</text>
+        <text x="54" y="282">1.0%</text>
+        <text x="54" y="364">0.5%</text>
+      </g>
+      <!-- X labels -->
+      <g font-family="DM Sans" font-size="11" fill="#6B7280" text-anchor="middle">
+        <text x="60"  y="380">0</text>
+        <text x="224" y="380">300K</text>
+        <text x="388" y="380">600K</text>
+        <text x="551" y="380">900K</text>
+        <text x="715" y="380">1.2M</text>
+      </g>
+      <!-- Axis titles -->
+      <text x="415" y="408" font-family="Noto Sans JP" font-size="12" font-weight="700" fill="#374151" text-anchor="middle">セッション数（28日）</text>
+      <text x="22"  y="195" font-family="Noto Sans JP" font-size="12" font-weight="700" fill="#374151" text-anchor="middle" transform="rotate(-90 22 195)">CVR（session）</text>
+
+      <!-- Average CVR reference line (1.246%) -->
+      <line x1="60" y1="237" x2="770" y2="237" stroke="#9CA3AF" stroke-width="1" stroke-dasharray="4 4"/>
+      <text x="765" y="232" font-family="DM Sans" font-size="10" fill="#6B7280" text-anchor="end">5LP平均 CVR 1.25%</text>
+
+      <!-- AC bubble (1.08% CVR, 1.12M sess, 12,040 CV) -->
+      <g>
+        <circle cx="670" cy="264" r="50" fill="#F59E0B" fill-opacity=".22" stroke="#F59E0B" stroke-width="2"/>
+        <text x="670" y="261" font-family="DM Sans" font-size="14" font-weight="900" fill="#92400E" text-anchor="middle">🎟️ AC</text>
+        <text x="670" y="279" font-family="DM Sans" font-size="11" font-weight="800" fill="#92400E" text-anchor="middle">12,040 CV</text>
+      </g>
+      <!-- CTG bubble (1.07%, 719K sess, 7,702 CV) -->
+      <g>
+        <circle cx="453" cy="266" r="40" fill="#6366F1" fill-opacity=".22" stroke="#6366F1" stroke-width="2"/>
+        <text x="453" y="263" font-family="DM Sans" font-size="13" font-weight="900" fill="#3730A3" text-anchor="middle">📂 CTG</text>
+        <text x="453" y="279" font-family="DM Sans" font-size="11" font-weight="800" fill="#3730A3" text-anchor="middle">7,702 CV</text>
+      </g>
+      <!-- エリア bubble (1.21%, 323K sess, 3,893 CV) -->
+      <g>
+        <circle cx="236" cy="243" r="27" fill="#0EA5E9" fill-opacity=".22" stroke="#0EA5E9" stroke-width="2"/>
+        <text x="236" y="240" font-family="DM Sans" font-size="11" font-weight="900" fill="#075985" text-anchor="middle">🗾 エリア</text>
+        <text x="236" y="254" font-family="DM Sans" font-size="10" font-weight="800" fill="#075985" text-anchor="middle">3,893</text>
+      </g>
+      <!-- TOP bubble (2.28%, 222K sess, 5,058 CV) -->
+      <g>
+        <circle cx="181" cy="66" r="30" fill="#E8423F" fill-opacity=".22" stroke="#E8423F" stroke-width="2"/>
+        <text x="181" y="63" font-family="DM Sans" font-size="12" font-weight="900" fill="#991B1B" text-anchor="middle">🏠 TOP</text>
+        <text x="181" y="77" font-family="DM Sans" font-size="10" font-weight="800" fill="#991B1B" text-anchor="middle">5,058</text>
+      </g>
+      <!-- MyPage bubble (2.07%, 118K sess, 2,430 CV) -->
+      <g>
+        <circle cx="124" cy="101" r="21" fill="#8B5CF6" fill-opacity=".22" stroke="#8B5CF6" stroke-width="2"/>
+        <text x="124" y="100" font-family="DM Sans" font-size="10" font-weight="900" fill="#5B21B6" text-anchor="middle">👤 MP</text>
+        <text x="124" y="112" font-family="DM Sans" font-size="9" font-weight="800" fill="#5B21B6" text-anchor="middle">2,430</text>
+      </g>
+
+      <!-- Quadrant labels -->
+      <text x="100" y="48" font-family="Noto Sans JP" font-size="11" fill="#9CA3AF" font-weight="700">★ 高CVR・小規模</text>
+      <text x="765" y="48" font-family="Noto Sans JP" font-size="11" fill="#9CA3AF" font-weight="700" text-anchor="end">高CVR・大規模（理想）</text>
+      <text x="100" y="352" font-family="Noto Sans JP" font-size="11" fill="#9CA3AF" font-weight="700">低CVR・小規模</text>
+      <text x="765" y="352" font-family="Noto Sans JP" font-size="11" fill="#9CA3AF" font-weight="700" text-anchor="end">低CVR・大規模（伸びしろ最大）→</text>
+    </svg>
+    <div class="bub-cap">
+      <b>AC/CTG</b> は右下＝<b>大規模 × 低CVR</b>＝CVR を <b>+0.1pp 動かすだけで 数百〜千CV単位</b> 動く伸びしろ最大ゾーン。<br>
+      <b>TOP/MyPage</b> は左上＝<b>小規模 × 高CVR</b>＝既に効率的だがボリュームが小さい。
+    </div>
+  </div>
+
+  <!-- ───────── Block C: 新規/リピ別 CV内訳（積み上げ棒） ───────── -->
+  <div class="stack-wrap">
+    <h3>③ 🆕🔁 LP別 CV内訳 — 新規 vs リピ どちらが何件稼いでいるか</h3>
+    <div class="stack-leg">
+      <span><span class="ki" style="background:#9CA3AF"></span>新規ユーザー由来 CV</span>
+      <span><span class="ki" style="background:#10B981"></span>リピーター由来 CV</span>
+    </div>
+
+    <!-- AC: new 2876 / ret 9164 (total 12040) ; bar 100% -->
+    <div class="stack-row">
+      <div class="sname"><span style="font-size:18px">🎟️</span> AC</div>
+      <div class="sbar-wrap">
+        <div class="sb-new" style="width:23.9%">2,876</div>
+        <div class="sb-ret" style="width:76.1%">9,164</div>
+      </div>
+      <div class="smeta">計 <b>12,040 CV</b><br>新規24% / リピ76%</div>
+    </div>
+    <!-- CTG: new 2750 / ret 4952 (total 7702); width relative to 12040 -->
+    <div class="stack-row">
+      <div class="sname"><span style="font-size:18px">📂</span> CTG</div>
+      <div class="sbar-wrap" style="background:#fff;border:1px dashed #E5E7EB">
+        <div class="sb-new" style="width:22.8%">2,750</div>
+        <div class="sb-ret" style="width:41.1%">4,952</div>
+      </div>
+      <div class="smeta">計 <b>7,702 CV</b><br>新規36% / リピ64%</div>
+    </div>
+    <!-- TOP: new 757 / ret 4301 (total 5058) -->
+    <div class="stack-row">
+      <div class="sname"><span style="font-size:18px">🏠</span> TOP</div>
+      <div class="sbar-wrap" style="background:#fff;border:1px dashed #E5E7EB">
+        <div class="sb-new" style="width:6.3%">757</div>
+        <div class="sb-ret" style="width:35.7%">4,301</div>
+      </div>
+      <div class="smeta">計 <b>5,058 CV</b><br>新規15% / リピ85%</div>
+    </div>
+    <!-- エリア narrow: estimated split from broad ratio (19.8% new) -->
+    <div class="stack-row">
+      <div class="sname"><span style="font-size:18px">🗾</span> エリア</div>
+      <div class="sbar-wrap" style="background:#fff;border:1px dashed #E5E7EB">
+        <div class="sb-new" style="width:6.4%">~771</div>
+        <div class="sb-ret" style="width:25.9%">~3,122</div>
+      </div>
+      <div class="smeta">計 <b>3,893 CV</b><br>新規20% / リピ80%<sup>※</sup></div>
+    </div>
+    <!-- MyPage -->
+    <div class="stack-row">
+      <div class="sname"><span style="font-size:18px">👤</span> MyPage</div>
+      <div class="sbar-wrap" style="background:#fff;border:1px dashed #E5E7EB">
+        <div class="sb-new" style="width:4.6%">550</div>
+        <div class="sb-ret" style="width:15.6%">1,880</div>
+      </div>
+      <div class="smeta">計 <b>2,430 CV</b><br>新規23%<sup>※</sup> / リピ77%</div>
+    </div>
+    <div class="stack-note">
+      ※ エリアは新規/リピ内訳が「広義(/jp/配下)」しか取れないため narrow CV総数 3,893 に同比率(19.8%/80.2%)を当てた推定。<br>
+      ※ MyPage はログイン必須のため「新規」ラベルは Cookie切れの実質リピを多く含む。
+    </div>
+  </div>
+
+  <!-- ───────── Block D: CVR差の正体（2要因分解） ───────── -->
+  <div class="dec-wrap">
+    <h3>④ 🔍 CVR差の正体 — 全体CVR ＝ 新規セッション比率 × 新規CVR ＋ リピ比率 × リピCVR</h3>
+    <div class="dec-table">
+      <div class="dh">LP</div>
+      <div class="dh">新規セッション比率<br><span style="font-weight:500;text-transform:none">(高い＝CVR下押し)</span></div>
+      <div class="dh">新規CVR<br><span style="font-weight:500;text-transform:none">(LP問わずほぼ一定)</span></div>
+      <div class="dh">リピCVR<br><span style="font-weight:500;text-transform:none">(LPで大きく変動)</span></div>
+      <div class="dh">＝ 合算 全体CVR</div>
+      <div class="dh">CVRが低い<br>主な要因</div>
+
+      <!-- TOP -->
+      <div class="dl"><span style="font-size:16px">🏠</span> TOP</div>
+      <div class="dv good"><div class="vbig">57.8%</div><div class="vsub">122,361 / 211,809</div></div>
+      <div class="dv"><div class="vbig">0.62%</div><div class="vsub">757 CV</div></div>
+      <div class="dv good"><div class="vbig">4.81%</div><div class="vsub">4,301 CV</div></div>
+      <div class="dv eq"><div class="vbig">2.28%</div><div class="vsub">(0.36 + 2.03 pp)</div></div>
+      <div class="dv" style="font-size:11px;color:#065F46;font-weight:700"><div class="vbig" style="color:#065F46;font-size:13px">— 模範ケース</div><div class="vsub">リピが強い</div></div>
+
+      <!-- エリア -->
+      <div class="dl"><span style="font-size:16px">🗾</span> エリア<sub style="font-size:9px;color:#9CA3AF">広義</sub></div>
+      <div class="dv"><div class="vbig">59.7%</div><div class="vsub">596,113 / 998,728</div></div>
+      <div class="dv warn"><div class="vbig">0.50%</div><div class="vsub">2,971 CV</div></div>
+      <div class="dv"><div class="vbig">2.98%</div><div class="vsub">12,012 CV</div></div>
+      <div class="dv eq"><div class="vbig">1.50%</div><div class="vsub">(0.30 + 1.20 pp)</div></div>
+      <div class="dv" style="font-size:11px;color:#92400E;font-weight:700"><div class="vbig" style="color:#92400E;font-size:13px">⚠ 新規CVR低</div><div class="vsub">階層を降りる途中で離脱</div></div>
+
+      <!-- CTG -->
+      <div class="dl"><span style="font-size:16px">📂</span> CTG</div>
+      <div class="dv warn"><div class="vbig">66.9%</div><div class="vsub">461,975 / 690,283</div></div>
+      <div class="dv"><div class="vbig">0.60%</div><div class="vsub">2,750 CV</div></div>
+      <div class="dv warn"><div class="vbig">2.17%</div><div class="vsub">4,952 CV</div></div>
+      <div class="dv eq"><div class="vbig">1.07%</div><div class="vsub">(0.40 + 0.72 pp)</div></div>
+      <div class="dv" style="font-size:11px;color:#991B1B;font-weight:700"><div class="vbig" style="color:#991B1B;font-size:13px">⚠ 新規多×リピCVR最低</div><div class="vsub">SEO/広告新規が下流で詰まる</div></div>
+
+      <!-- AC -->
+      <div class="dl"><span style="font-size:16px">🎟️</span> AC</div>
+      <div class="dv warn"><div class="vbig">68.4%</div><div class="vsub">741,838 / 1,084,684</div></div>
+      <div class="dv warn"><div class="vbig">0.39%</div><div class="vsub">2,876 CV</div></div>
+      <div class="dv"><div class="vbig">2.67%</div><div class="vsub">9,164 CV</div></div>
+      <div class="dv eq"><div class="vbig">1.08%</div><div class="vsub">(0.27 + 0.84 pp)</div></div>
+      <div class="dv" style="font-size:11px;color:#991B1B;font-weight:700"><div class="vbig" style="color:#991B1B;font-size:13px">⚠ 新規最多×新規CVR最低</div><div class="vsub">広告ピン着地→1枚で離脱</div></div>
+    </div>
+
+    <div class="dec-arrow">
+      <b>読み筋:</b> AC/CTG のCVRが低いのは<b>偶然ではなく構造的</b>。①新規セッション比率が <b>66〜68%</b>（TOP 58% / エリア 60% より高い）、②さらに <b>AC の新規CVRは 0.39%</b> で全LP中最低。<br>
+      新規CVR は <b>LPに依らず 0.39〜0.62% に収束</b> ＝ 入り口を変えても下流(AC→カレンダー→フォーム)で詰まる構造は同じ。レバーは <b>下流UX × ボリューム最大ゾーン(AC)</b> に集中投下が最効率。
+    </div>
+  </div>
+
+  <!-- ───────── Block E: シミュレーション ───────── -->
+  <div class="vol-rank" style="padding-bottom:4px">
+    <h3>⑤ 🧪 もし○○なら何CV増える？ — ボリューム × UXレバーの試算（28日）</h3>
+  </div>
+  <div class="sim-grid">
+    <!-- Sim 1: AC新規 0.39% → 0.50% (エリア並み) -->
+    <div class="sim-card mid">
+      <div class="sim-tag">CASE 1</div>
+      <div class="sim-cond">
+        🎟️ <b>AC の新規CVR</b> が <span class="hl">0.39% → 0.50%</span><br>
+        （エリア並みになったら）
+      </div>
+      <div class="sim-arrow">▼ CV件数の増分</div>
+      <div class="sim-cv">+816</div>
+      <div class="sim-cv-sub">CV / 28日</div>
+      <div class="sim-cv-year">年換算 <b>+10,600 CV</b></div>
+      <div class="sim-formula">
+        741,838 sess × (0.50% − 0.39%)<br>
+        = 741,838 × 0.0011 ≈ <b>+816 CV</b><br>
+        AC全体CVR: 1.08% → <b>1.16%</b>
+      </div>
+    </div>
+
+    <!-- Sim 2: AC新規 0.39% → 0.62% (TOP並み) -->
+    <div class="sim-card hot">
+      <div class="sim-tag">CASE 2 ★最大インパクト</div>
+      <div class="sim-cond">
+        🎟️ <b>AC の新規CVR</b> が <span class="hl">0.39% → 0.62%</span><br>
+        （TOP並みになったら）
+      </div>
+      <div class="sim-arrow">▼ CV件数の増分</div>
+      <div class="sim-cv">+1,706</div>
+      <div class="sim-cv-sub">CV / 28日</div>
+      <div class="sim-cv-year">年換算 <b>+22,200 CV</b></div>
+      <div class="sim-formula">
+        741,838 sess × (0.62% − 0.39%)<br>
+        = 741,838 × 0.0023 ≈ <b>+1,706 CV</b><br>
+        AC全体CVR: 1.08% → <b>1.24%</b>
+      </div>
+    </div>
+
+    <!-- Sim 3: 全LP新規CVR +0.1pp -->
+    <div class="sim-card mid">
+      <div class="sim-tag">CASE 3</div>
+      <div class="sim-cond">
+        <b>全LP の新規CVR</b> が <span class="hl">一律 +0.1pp</span><br>
+        （下流UX改善で底上げ）
+      </div>
+      <div class="sim-arrow">▼ CV件数の増分</div>
+      <div class="sim-cv">+1,942</div>
+      <div class="sim-cv-sub">CV / 28日</div>
+      <div class="sim-cv-year">年換算 <b>+25,200 CV</b></div>
+      <div class="sim-formula">
+        新規総セッション 1,941,628<br>
+        × 0.001 ≈ <b>+1,942 CV</b><br>
+        全体CVR: 1.25% → <b>1.32%</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="nr-insight" style="margin:18px 44px 24px">
+    <b>結論ファースト（このセクション）:</b><br>
+    1.「<b>CVRが低い＝改善余地が大きい</b>」とは限らない。AC/CTG のCVRが低い主因は <b>①新規セッション比率が高い ＋ ②新規ユーザーは LPに関係なく下流で詰まる</b> という構造で、<b>これは入り口を変えても直らない</b>。<br>
+    2. しかしAC/CTGは <b>セッション規模が全LPの63%</b>を占めるため、CVRを <b>+0.1pp 動かすだけで +1,000〜2,000 CV/28日</b>。<b>CVボリュームを稼ぐレバーはここに集中投下するのが最効率</b>。<br>
+    3. 具体的レバーは「AC詳細ページのカレンダー/価格をファーストビューに出す」「PC×新規×AC着地の比較動線を作る」など <b>下流UX改善</b>（Section 6 の P1/P2 と一致）。
   </div>
 </div>
 
