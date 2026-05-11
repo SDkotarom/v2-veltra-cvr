@@ -540,18 +540,76 @@
           return;
         }
         items.forEach(function (it) {
-          var item = document.createElement('div');
-          item.className = 'nav-spot-item';
-          var a = document.createElement('a');
-          a.href = '/planning/' + it.file;
-          if (path === '/planning/' + it.file) a.className = 'nav-active';
-          var dot = document.createElement('span');
-          dot.className = 'spot-dot';
-          dot.textContent = '●';
-          a.appendChild(dot);
-          a.appendChild(document.createTextNode(it.title || it.file));
-          item.appendChild(a);
-          planList.appendChild(item);
+          var hasChildren = it.children && it.children.length > 0;
+          var itemHref = '/planning/' + it.file;
+          var isItemActive = (path === itemHref);
+          var hasActiveChild = hasChildren && it.children.some(function (c) {
+            return path === '/planning/' + c.file;
+          });
+
+          if (hasChildren) {
+            // Parent with toggle and children list (mirrors spot-parent pattern)
+            var parentRow = document.createElement('div');
+            parentRow.className = 'nav-spot-parent' + (isItemActive ? ' nav-active' : (hasActiveChild ? ' has-active' : ''));
+
+            var pDot = document.createElement('span');
+            pDot.className = 'spot-dot';
+            pDot.textContent = '●';
+            parentRow.appendChild(pDot);
+
+            var pLink = document.createElement('a');
+            pLink.href = itemHref;
+            pLink.className = 'nav-spot-parent-link';
+            pLink.textContent = it.title || it.file;
+            parentRow.appendChild(pLink);
+
+            var childOpen = isItemActive || hasActiveChild;
+            var pToggle = document.createElement('span');
+            pToggle.className = 'nav-spot-parent-toggle' + (childOpen ? ' open' : '');
+            pToggle.textContent = '▶';
+            parentRow.appendChild(pToggle);
+            planList.appendChild(parentRow);
+
+            var childList = document.createElement('div');
+            childList.className = 'nav-spot-children';
+            childList.style.display = childOpen ? 'block' : 'none';
+            it.children.forEach(function (c) {
+              var ci = document.createElement('div');
+              ci.className = 'nav-spot-child';
+              var ca = document.createElement('a');
+              ca.href = '/planning/' + c.file;
+              if (path === '/planning/' + c.file) ca.className = 'nav-active';
+              var cdot = document.createElement('span');
+              cdot.className = 'child-dot';
+              cdot.textContent = '●';
+              ca.appendChild(cdot);
+              ca.appendChild(document.createTextNode(c.title || c.file));
+              ci.appendChild(ca);
+              childList.appendChild(ci);
+            });
+            planList.appendChild(childList);
+
+            pToggle.addEventListener('click', function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              var open = childList.style.display !== 'none';
+              childList.style.display = open ? 'none' : 'block';
+              pToggle.className = 'nav-spot-parent-toggle' + (open ? '' : ' open');
+            });
+          } else {
+            var item = document.createElement('div');
+            item.className = 'nav-spot-item';
+            var a = document.createElement('a');
+            a.href = itemHref;
+            if (isItemActive) a.className = 'nav-active';
+            var dot = document.createElement('span');
+            dot.className = 'spot-dot';
+            dot.textContent = '●';
+            a.appendChild(dot);
+            a.appendChild(document.createTextNode(it.title || it.file));
+            item.appendChild(a);
+            planList.appendChild(item);
+          }
         });
       })
       .catch(function () {
