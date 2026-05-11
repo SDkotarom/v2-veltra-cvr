@@ -488,13 +488,79 @@
     kpiA.appendChild(document.createTextNode('KPIダッシュボード'));
     nav.appendChild(kpiA);
 
-    // ■ 施策案
-    var planA = document.createElement('a');
-    planA.href = '/planning/';
-    planA.className = 'nav-item' + (isPlanning || isPlanningItem ? ' nav-active' : '');
-    planA.appendChild(makeIcon('planning'));
-    planA.appendChild(document.createTextNode('施策案'));
-    nav.appendChild(planA);
+    // ■ 施策案（折りたたみ：manifest.json から子リンクを読み込む）
+    var planExpanded = isPlanning || isPlanningItem;
+    var planRow = document.createElement('div');
+    planRow.className = 'nav-spot-row' + (isPlanning || isPlanningItem ? ' has-active' : '');
+    planRow.appendChild(makeIcon('planning'));
+    var planLabelWrap = document.createElement('a');
+    planLabelWrap.href = '/planning/';
+    planLabelWrap.className = 'nav-spot-label';
+    planLabelWrap.style.cssText = 'color:inherit;text-decoration:none;display:block';
+    planLabelWrap.textContent = '施策案';
+    planRow.appendChild(planLabelWrap);
+    var planToggle = document.createElement('span');
+    planToggle.className = 'nav-spot-toggle' + (planExpanded ? ' open' : '');
+    planToggle.textContent = '▶';
+    planRow.appendChild(planToggle);
+
+    var planList = document.createElement('div');
+    planList.className = 'nav-spot-list';
+    planList.style.display = planExpanded ? 'block' : 'none';
+    var planLoading = document.createElement('div');
+    planLoading.className = 'nav-spot-item';
+    planLoading.style.cssText = 'padding:6px 16px;font-size:12px;color:#bbb';
+    planLoading.textContent = '読み込み中…';
+    planList.appendChild(planLoading);
+
+    // Toggle: clicking the toggle (not the label) flips the list
+    planToggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var open = planList.style.display !== 'none';
+      planList.style.display = open ? 'none' : 'block';
+      planToggle.className = 'nav-spot-toggle' + (open ? '' : ' open');
+      planExpanded = !open;
+    });
+
+    nav.appendChild(planRow);
+    nav.appendChild(planList);
+
+    // Populate planning sub-items async from manifest.json
+    fetch('/planning/manifest.json', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        var items = (data && data.items) || [];
+        planList.innerHTML = '';
+        if (!items.length) {
+          var empty = document.createElement('div');
+          empty.style.cssText = 'padding:6px 16px;font-size:12px;color:#bbb';
+          empty.textContent = '（まだありません）';
+          planList.appendChild(empty);
+          return;
+        }
+        items.forEach(function (it) {
+          var item = document.createElement('div');
+          item.className = 'nav-spot-item';
+          var a = document.createElement('a');
+          a.href = '/planning/' + it.file;
+          if (path === '/planning/' + it.file) a.className = 'nav-active';
+          var dot = document.createElement('span');
+          dot.className = 'spot-dot';
+          dot.textContent = '●';
+          a.appendChild(dot);
+          a.appendChild(document.createTextNode(it.title || it.file));
+          item.appendChild(a);
+          planList.appendChild(item);
+        });
+      })
+      .catch(function () {
+        planList.innerHTML = '';
+        var err = document.createElement('div');
+        err.style.cssText = 'padding:6px 16px;font-size:12px;color:#bbb';
+        err.textContent = '読み込み失敗';
+        planList.appendChild(err);
+      });
 
     nav.appendChild(makeSep());
 
