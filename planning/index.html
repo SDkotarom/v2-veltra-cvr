@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>施策案 — VELTRA CVR REPORT</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#E8423F;--red-light:#FFF5F5;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1}
+body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.7}
+
+.page-header{background:var(--card);border-radius:16px;margin-bottom:24px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.header-band{background:var(--red);padding:20px 36px;display:flex;justify-content:space-between;align-items:center}
+.header-band .logo{font-family:'DM Sans';font-weight:900;font-size:22px;color:#fff;letter-spacing:.04em;border:2px solid rgba(255,255,255,.6);padding:4px 14px;border-radius:5px}
+.header-band .title{font-family:'DM Sans';font-size:18px;font-weight:500;color:rgba(255,255,255,.9)}
+.intro{padding:24px 36px 28px}
+.intro h1{font-size:24px;font-weight:900;margin-bottom:8px;letter-spacing:-.01em}
+.intro .desc{font-size:14px;color:var(--text2);line-height:1.8}
+.intro .meta{font-size:12px;color:var(--text3);margin-top:10px;font-family:ui-monospace,monospace}
+
+.list{display:grid;grid-template-columns:1fr;gap:14px}
+.item{background:var(--card);border-radius:14px;padding:22px 28px;box-shadow:0 1px 3px rgba(0,0,0,.04);border:1px solid var(--border);transition:box-shadow .15s,transform .15s;text-decoration:none;color:inherit;display:block}
+.item:hover{box-shadow:0 4px 14px rgba(0,0,0,.08);transform:translateY(-1px)}
+.item .topline{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.item .date{font-family:ui-monospace,monospace;font-size:12px;color:var(--text3);font-weight:700;letter-spacing:.05em}
+.item .source{font-size:11px;padding:2px 8px;background:var(--red-light);color:var(--red);border-radius:4px;font-weight:700;letter-spacing:.03em}
+.item .author{font-size:12px;color:var(--text3)}
+.item h3{font-size:18px;font-weight:800;margin-bottom:8px;line-height:1.5;color:var(--text)}
+.item .summary{font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:12px}
+.item .tags{display:flex;gap:6px;flex-wrap:wrap}
+.item .tag{font-size:11px;padding:3px 10px;background:#f0ede8;color:var(--text2);border-radius:999px;font-weight:600}
+.item .arrow{float:right;color:var(--red);font-weight:700;font-size:14px}
+
+.empty{padding:48px 32px;text-align:center;color:var(--text3);background:var(--card);border-radius:14px;border:1px dashed var(--border)}
+
+.note-card{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:18px 24px;margin-top:24px;font-size:13px;color:#78350f;line-height:1.8}
+.note-card strong{color:#92400e;font-weight:700}
+.note-card code{background:rgba(255,255,255,.7);padding:1px 6px;border-radius:4px;font-family:ui-monospace,monospace;font-size:12px}
+</style>
+</head>
+<body>
+<script src="/nav.js"></script>
+
+<div class="page-header">
+  <div class="header-band">
+    <span class="logo">VELTRA</span>
+    <span class="title">PLANNING</span>
+  </div>
+  <div class="intro">
+    <h1>施策案</h1>
+    <div class="desc">ボトルネック分析から派生した個別施策の具体化レポートを格納しています。Google スプレッドシートの施策リストに紐づく深掘りドキュメントの社内共有用です。</div>
+    <div class="meta" id="meta-line">—</div>
+  </div>
+</div>
+
+<div class="list" id="list">
+  <div class="empty">読み込み中…</div>
+</div>
+
+<div class="note-card">
+  <strong>📝 ファイルを追加するには</strong><br>
+  HTMLファイルを <code>planning/</code> 配下に配置し、<code>planning/manifest.json</code> の <code>items</code> 先頭に1エントリ追加 → コミット＆プッシュで自動的にこの一覧に表示されます。
+</div>
+
+<script>
+(function(){
+  var listEl = document.getElementById('list');
+  var metaEl = document.getElementById('meta-line');
+
+  fetch('/planning/manifest.json', {cache: 'no-store'})
+    .then(function(r){ if(!r.ok) throw new Error('manifest load failed'); return r.json(); })
+    .then(function(data){
+      var items = (data && data.items) || [];
+      if (!items.length) {
+        listEl.innerHTML = '<div class="empty">まだ施策案ドキュメントはありません。</div>';
+        metaEl.textContent = '0 件';
+        return;
+      }
+      metaEl.textContent = items.length + ' 件のドキュメント';
+      listEl.innerHTML = '';
+      items.forEach(function(it){
+        var a = document.createElement('a');
+        a.href = '/planning/' + it.file;
+        a.className = 'item';
+        a.target = '_blank';
+        a.rel = 'noopener';
+
+        var top = document.createElement('div');
+        top.className = 'topline';
+        if (it.date) {
+          var d = document.createElement('span'); d.className = 'date'; d.textContent = it.date;
+          top.appendChild(d);
+        }
+        if (it.source) {
+          var s = document.createElement('span'); s.className = 'source'; s.textContent = it.source;
+          top.appendChild(s);
+        }
+        if (it.author) {
+          var au = document.createElement('span'); au.className = 'author'; au.textContent = '担当: ' + it.author;
+          top.appendChild(au);
+        }
+        a.appendChild(top);
+
+        var h = document.createElement('h3');
+        h.textContent = it.title || it.file;
+        var arr = document.createElement('span'); arr.className = 'arrow'; arr.textContent = '→';
+        h.appendChild(arr);
+        a.appendChild(h);
+
+        if (it.summary) {
+          var sm = document.createElement('div'); sm.className = 'summary'; sm.textContent = it.summary;
+          a.appendChild(sm);
+        }
+
+        if (it.tags && it.tags.length) {
+          var tg = document.createElement('div'); tg.className = 'tags';
+          it.tags.forEach(function(t){
+            var sp = document.createElement('span'); sp.className = 'tag'; sp.textContent = '#' + t;
+            tg.appendChild(sp);
+          });
+          a.appendChild(tg);
+        }
+
+        listEl.appendChild(a);
+      });
+    })
+    .catch(function(e){
+      listEl.innerHTML = '<div class="empty">一覧の読み込みに失敗しました: ' + (e && e.message ? e.message : '不明なエラー') + '</div>';
+    });
+})();
+</script>
+</body>
+</html>
