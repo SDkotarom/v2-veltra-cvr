@@ -8,7 +8,7 @@
     "rolling_end": "2026-05-09",
     "ga4_property": "347074845",
     "generated_at": "2026-05-11T08:30:00+09:00",
-    "note": "Sun-Sat format. Rolling 28d: 2026-04-12 to 2026-05-09. Singapore×Chrome×Win bot still active (~774K sess / 28d, ~195K sess / 7d). Bot-excluded 28d: 3,164,264 sess / 41,970 purch / CVR 1.327%."
+    "note": "Sun-Sat format. Rolling 28d: 2026-04-12 to 2026-05-09. SRE 2026-05-11 bot レポート反映: WAF（4/17適用）後 ピーク比 -71% も baseline 4.1倍残存。実質 CVR 28d 1.33%（raw 1.07%）= 前年同月 -0.07pp でほぼ並ぶ水準。"
   },
   "baseline": {
     "sessions": 3938505,
@@ -35,26 +35,61 @@
     }
   },
   "data_quality": {
-    "status": "contaminated",
-    "incident": "Singapore × Chrome × Windows bot (W16から継続)",
-    "bot_sessions_28d": 774241,
-    "bot_share_28d": 0.1966,
-    "bot_purchases_28d": 15,
-    "clean_28d": {
-      "sessions": 3164264,
-      "purchases": 41970,
-      "cvr": 0.013264
+    "status": "contaminated_but_waf_mitigated",
+    "incident": "Singapore AWS DC (3.172.106.64/26, 3.172.18.128/26) からの Chromium Headless / UA ローテーション bot",
+    "source": "SRE bot 影響レポート 2026-05-11",
+    "waf_status": "4/17 適用済 — ピーク比 -71%（W16 394K → 直近 113K/週）。ただし正常時 baseline（27K/週）の 4.1 倍残存、IP プール変更による再来を継続観測",
+    "bot_volume": {
+      "w15_baseline_per_week": 27270,
+      "w16_peak_per_week": 393959,
+      "w17_post_waf_per_week": 170809,
+      "w18_w19_avg_per_week": 112554,
+      "ratio_vs_baseline": 4.1,
+      "reduction_vs_peak": 0.714
     },
-    "bot_sessions_7d": 195236,
-    "bot_share_7d": 0.1967,
-    "clean_7d": {
-      "sessions": 803980
+    "bot_purchase_cvr": "≈ 0%（W16: 0.004%、W17: 0.011%）— 分母希釈のみで分子にはほぼ寄与しない",
+    "w19_28d_corrected": {
+      "raw_sessions": 3938505,
+      "raw_purchases": 41985,
+      "raw_cvr": 0.01066,
+      "bot_sessions_28d": 789876,
+      "bot_share_28d": 0.2006,
+      "real_sessions": 3148629,
+      "real_purchases": 41985,
+      "real_cvr": 0.013335,
+      "yoy_2025_05_monthly_cvr": 0.014041,
+      "yoy_delta_pp": -0.00071,
+      "interpretation": "実質 CVR は前年同月から -0.07pp で実態としてはほぼ並ぶ水準。raw との差 +0.27pp は bot 分母希釈の副産物。"
+    },
+    "w19_7d_corrected": {
+      "raw_sessions": 992561,
+      "raw_purchases": 10175,
+      "raw_cvr": 0.010251,
+      "bot_sessions_7d_estimate": 112554,
+      "bot_share_7d": 0.1134,
+      "real_sessions": 880007,
+      "real_purchases": 10175,
+      "real_cvr": 0.011563,
+      "wow_real_cvr_pp": -0.00299,
+      "interpretation": "WoW 実質 CVR -0.30pp は GW 重心日(5/3-5/6 連休) + post-GW 平日(5/7-5/9) の季節要因が主因。構造課題ではない。"
+    },
+    "w18_7d_corrected_retrospective": {
+      "raw_sessions": 947820,
+      "raw_purchases": 11618,
+      "raw_cvr": 0.012259,
+      "bot_sessions_7d_estimate": 112554,
+      "bot_share_7d": 0.1188,
+      "real_sessions": 835266,
+      "real_purchases": 11618,
+      "real_cvr": 0.013909,
+      "note": "W18 当初レポートでは「WAF が効いている可能性が高い」と書いたが、SRE 報告で『57%減も baseline の 4.1倍残存』と判明。bot 影響は W18 でも継続していた。"
     },
     "notes": [
-      "Singapore活用ユーザー/セッション比 1.015 ≒ 1 — bot指紋（人間は通常0.80〜0.90）",
-      "5/4にSG bot spike 76,749セッション — GW後半の異常スパイク",
-      "5/4 Direct +102K spike も bot 影響（GW合間のため正規Direct増は説明困難）",
-      "bot除外CVRは 1.327%（rawは 1.066%）で前年同期1.604%との乖離は -0.28pp に縮む"
+      "WAF（AWS 当該サブネット ブロック）は 4/17 から運用中で、ピーク比 -71% に bot を抑え込んでいる",
+      "ただし同じ AWS IP プールからの新規 IP で再来しており、UA は 42〜45 種ローテーション・Chromium Headless で人間擬態",
+      "単純 IP ブロックの限界に達しており、behavioral detection / fingerprint 検出への WAF 高度化が必要",
+      "経営層への報告は『raw / 実質 / 前年同期』の 3 軸併記運用に切り替える（W17 サマリーで宣言済）",
+      "GA4 内部フィルタで Singapore セッション除外する選択肢も検討中（精度 vs 運用コストのトレードオフ）"
     ]
   },
   "funnel_7d": {

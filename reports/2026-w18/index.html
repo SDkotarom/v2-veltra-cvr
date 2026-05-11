@@ -23,9 +23,50 @@
     </div>
   </div>
 
+  <!-- ── 2026-05-11 追記: SRE bot レポートを受けた事後考察 ──────── -->
+  <div class="card" style="border-left:4px solid #2DAE6C">
+    <div class="sec-tag"><span class="sec-num" style="background:#1a8c4e">追記</span><span class="sec-main">2026-05-11 SRE bot レポートを受けた事後考察</span></div>
+    <div style="padding:24px 44px;font-size:13px;line-height:1.9;color:var(--text2)">
+      <p style="margin:0 0 14px">
+      当初 W18 サマリーの Evidence E.04 で <strong>「WAF ブロックが運用に入っている可能性が高い」</strong>と書いたが、これは方向としては正しいものの<strong>楽観的過ぎる読み</strong>だった。
+      2026-05-11 SRE 提供の bot 影響レポートで以下が確定:
+      </p>
+      <ul style="margin:0 0 14px 20px;padding:0">
+        <li>WAF は <strong>4/17 適用済</strong>（AWS Singapore サブネット <code>3.172.106.64/26</code>, <code>3.172.18.128/26</code> をブロック）— <strong>方向は正しかった</strong></li>
+        <li>ピーク比 -71% に bot を抑え込めたが、<strong>正常 baseline（W15 27,270/週）の 4.1 倍（112,554/週）が残存</strong>している</li>
+        <li>同じ AWS IP プールから別 IP・UA ローテーション・Chromium Headless で再来し続けている</li>
+        <li>つまり W18 は <strong>「WAF 適用済だが実態としては bot 影響が継続していた週」</strong>であり、当初の「Direct CVR 0.59% は通常水準」評価は希釈後の見かけの数字</li>
+      </ul>
+      <p style="margin:0 0 14px">
+      <strong>W18 実質 CVR の再計算</strong>: bot 推定 112,554 セッション / 週 を引いた実質ベース → 7日 実質 sessions 835,266 / 購入 11,618 / <strong>実質 CVR 1.391%</strong>（raw 1.226% から +0.17pp）。
+      前年同月 2025-05 月次 1.404% から <strong>-0.013pp で実態としてはほぼ並ぶ水準</strong>だったことが事後判明。
+      W18 の「障害復旧で CVR が本来あるべき水準に戻った」という当初評価は<strong>方向として正しく、しかも実態はもっとポジティブだった</strong>（前年水準にほぼ並ぶ）。
+      </p>
+      <p style="margin:0 0 14px">
+      <strong>W17 → W18 → W19 の実質 CVR トレンド再構成</strong>（bot 除外・7日ベース）:
+      </p>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px">
+        <thead><tr style="border-bottom:2px solid #e8e6e1;text-align:left">
+          <th style="padding:6px 10px">週</th><th style="padding:6px 10px">raw CVR</th><th style="padding:6px 10px">bot 推定</th><th style="padding:6px 10px">実質 CVR</th><th style="padding:6px 10px">何が起きた</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #e8e6e1"><td style="padding:6px 10px">W17（4/20-4/26）</td><td style="padding:6px 10px;color:var(--red)">1.02%</td><td style="padding:6px 10px">170K/週</td><td style="padding:6px 10px;color:var(--red)">≈ 1.25%</td><td style="padding:6px 10px">サイト障害 4/24-25 の谷 + WAF 直後で bot 残存</td></tr>
+          <tr style="border-bottom:1px solid #e8e6e1"><td style="padding:6px 10px"><strong>W18（4/27-5/3）</strong></td><td style="padding:6px 10px;color:var(--green)">1.23%</td><td style="padding:6px 10px">113K/週</td><td style="padding:6px 10px;color:var(--green)"><strong>≈ 1.39%</strong></td><td style="padding:6px 10px"><strong>障害復帰 + GW直前準備、実態は前年水準に並ぶ</strong></td></tr>
+          <tr><td style="padding:6px 10px">W19（5/3-5/9）</td><td style="padding:6px 10px;color:var(--red)">1.03%</td><td style="padding:6px 10px">113K/週</td><td style="padding:6px 10px">≈ 1.16%</td><td style="padding:6px 10px">GW重心日(5/3-5/6) + post-GW反動、季節要因で WoW -0.24pp</td></tr>
+        </tbody>
+      </table>
+      <p style="margin:0">
+      <strong>含意</strong>: W18 → W19 の raw -0.20pp 悪化は「<strong>季節反動 -0.24pp + 構造課題横ばい + bot 横ばい</strong>」の組み合わせ。
+      bot 残存 4.1 倍は WAF 対応の<strong>「軽減済み・監視継続」</strong>状態であり、SRE への次の依頼は behavioral detection への高度化。
+      W18 で立てた「BN1〜BN3 Quick Wins 着手」方針は<strong>そのまま W19 でも有効</strong>、むしろ実装フェーズへの移行を急ぐ局面。
+      <a href="/reports/2026-w19/" style="color:var(--red);font-weight:700">→ W19 サマリーで詳細</a>
+      </p>
+    </div>
+  </div>
+
   <!-- ── 結論 (Conclusion) ──────────────────── -->
   <div class="card">
-    <div class="sec-tag"><span class="sec-num red">01</span><span class="sec-main">Conclusion — 結論</span></div>
+    <div class="sec-tag"><span class="sec-num red">01</span><span class="sec-main">Conclusion — 結論 <span style="font-size:11px;font-weight:400;color:var(--text3);margin-left:8px">（当初執筆、上記追記で補正）</span></span></div>
     <div class="summary-hero">
       <div class="summary-kicker">W18 / GW週・サイト障害から完全復帰</div>
       <div class="summary-headline">
