@@ -7,8 +7,11 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--red:#E8423F;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1}
-body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;align-items:center;justify-content:center;min-height:100vh}
+:root{--red:#E8423F;--red-light:#FFF5F5;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1}
+body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ===== Login screen (centered card) ===== */
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh}
 .login-card{background:var(--card);border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,.04);padding:48px;text-align:center;max-width:400px;width:90%}
 .site-title{font-family:'DM Sans';font-size:22px;font-weight:900;color:var(--red);letter-spacing:.04em;margin-bottom:8px}
 .logo{font-family:'DM Sans';font-weight:900;font-size:18px;color:var(--red);letter-spacing:.04em;border:2px solid var(--red);padding:3px 10px;border-radius:4px;display:inline-block;margin-bottom:24px}
@@ -16,31 +19,115 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 .login-card p{font-size:15px;color:var(--text2);margin-bottom:32px;line-height:1.7}
 #g_id_onload,#g_btn{display:flex;justify-content:center}
 .error{color:var(--red);font-size:14px;margin-top:16px;display:none}
+
+/* ===== Portal screen (after login) ===== */
+.portal{display:none;max-width:1100px;margin:0 auto;padding:48px 32px 64px}
+.portal.is-active{display:block}
+.portal-header{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:24px}
+.portal-header .band{background:var(--red);padding:18px 32px;display:flex;justify-content:space-between;align-items:center;color:#fff}
+.portal-header .band .logo-box{font-family:'DM Sans';font-weight:900;font-size:20px;color:#fff;letter-spacing:.04em;border:2px solid rgba(255,255,255,.6);padding:3px 12px;border-radius:5px}
+.portal-header .band .title-text{font-family:'DM Sans';font-size:16px;font-weight:500;color:rgba(255,255,255,.9)}
+.portal-header .body{padding:22px 32px}
+.portal-header h1{font-size:24px;font-weight:900;margin-bottom:6px;letter-spacing:-.01em}
+.portal-header .lead{font-size:15px;color:var(--text2);line-height:1.7}
+.portal-header .user-row{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:14px;color:var(--text3)}
+.portal-header .user-row .who{font-family:ui-monospace,monospace;font-size:13px}
+.portal-header .user-row .signout{background:none;border:1px solid var(--border);color:var(--text2);font-size:13px;padding:5px 14px;border-radius:6px;cursor:pointer;font-family:inherit}
+.portal-header .user-row .signout:hover{background:var(--bg);color:var(--text)}
+
+.section-label{font-size:14px;font-weight:700;letter-spacing:.12em;color:var(--text3);text-transform:uppercase;margin:28px 4px 12px}
+
+/* Quick links - main nav cards */
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.quick-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;text-decoration:none;color:inherit;transition:transform .12s,box-shadow .12s,border-color .12s;display:flex;align-items:center;gap:12px}
+.quick-card:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.07);border-color:var(--red)}
+.quick-card .qc-icon{width:38px;height:38px;background:var(--red-light);color:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.quick-card .qc-name{font-size:15px;font-weight:700;color:var(--text);line-height:1.4}
+.quick-card .qc-sub{font-size:13px;color:var(--text3);margin-top:2px}
+
+/* Planning cards */
+.plan-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.plan-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 26px;text-decoration:none;color:inherit;transition:transform .12s,box-shadow .12s;display:block}
+.plan-card:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.plan-card .topline{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.plan-card .date{font-family:ui-monospace,monospace;font-size:13px;color:var(--text3);font-weight:700}
+.plan-card .source{font-size:13px;padding:2px 10px;background:var(--red-light);color:var(--red);border-radius:5px;font-weight:700}
+.plan-card .author{font-size:13px;color:var(--text3)}
+.plan-card h3{font-size:18px;font-weight:800;line-height:1.5;margin-bottom:8px}
+.plan-card .summary{font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:12px}
+.plan-card .tags{display:flex;gap:6px;flex-wrap:wrap}
+.plan-card .tag{font-size:13px;padding:3px 12px;background:#f0ede8;color:var(--text2);border-radius:999px;font-weight:600}
+.plan-empty{padding:32px;text-align:center;color:var(--text3);background:var(--card);border-radius:12px;border:1px dashed var(--border);font-size:14px}
+
+@media(max-width:600px){
+  .portal{padding:24px 16px 48px}
+  .quick-grid{grid-template-columns:1fr 1fr}
+  .quick-card{padding:14px}
+  .quick-card .qc-icon{width:32px;height:32px;font-size:16px}
+  .quick-card .qc-name{font-size:13px}
+}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-<div class="login-card">
-  <div class="site-title">VELTRA CVR REPORT</div>
-  <div class="logo">V2</div>
-  <h1>ログインが必要です</h1>
-  <p>Googleアカウントでサインインしてください</p>
-  <div id="g_id_onload"
-       data-client_id="454478601729-sl1q6ra7epc29kr46kn48850tnltha6m.apps.googleusercontent.com"
-       data-callback="onSignIn"
-       data-auto_prompt="false">
+
+<!-- ====== Login screen ====== -->
+<div class="login-wrap" id="login-screen">
+  <div class="login-card">
+    <div class="site-title">VELTRA CVR REPORT</div>
+    <div class="logo">V2</div>
+    <h1>ログインが必要です</h1>
+    <p>Googleアカウントでサインインしてください</p>
+    <div id="g_id_onload"
+         data-client_id="454478601729-sl1q6ra7epc29kr46kn48850tnltha6m.apps.googleusercontent.com"
+         data-callback="onSignIn"
+         data-auto_prompt="false">
+    </div>
+    <div id="g_btn" class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left"
+         data-width="300">
+    </div>
+    <div class="error" id="error">認証に失敗しました。もう一度お試しください。</div>
   </div>
-  <div id="g_btn" class="g_id_signin"
-       data-type="standard"
-       data-size="large"
-       data-theme="outline"
-       data-text="sign_in_with"
-       data-shape="rectangular"
-       data-logo_alignment="left"
-       data-width="300">
-  </div>
-  <div class="error" id="error">認証に失敗しました。もう一度お試しください。</div>
 </div>
+
+<!-- ====== Portal screen (after login) ====== -->
+<div class="portal" id="portal-screen">
+  <div class="portal-header">
+    <div class="band">
+      <span class="logo-box">VELTRA V2</span>
+      <span class="title-text">CVR REPORT PORTAL</span>
+    </div>
+    <div class="body">
+      <h1>ようこそ</h1>
+      <div class="lead">VELTRA日本語サイト CVR分析・施策のハブ。下から任意のレポート・施策案にアクセスしてください。</div>
+      <div class="user-row">
+        <span class="who" id="user-email">—</span>
+        <button class="signout" id="signout-btn">ログアウト</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">メインコンテンツ</div>
+  <div class="quick-grid">
+    <a class="quick-card" href="/"><span class="qc-icon">📊</span><div><div class="qc-name">サマリー</div><div class="qc-sub">週次トップ</div></div></a>
+    <a class="quick-card" href="/kpi.html"><span class="qc-icon">🎯</span><div><div class="qc-name">KPIダッシュボード</div><div class="qc-sub">目標と進捗</div></div></a>
+    <a class="quick-card" href="/reports/"><span class="qc-icon">📈</span><div><div class="qc-name">ボトルネック分析</div><div class="qc-sub">週次レポート</div></div></a>
+    <a class="quick-card" href="/spot/2026-gw-cvr-decline.html"><span class="qc-icon">🚨</span><div><div class="qc-name">スポット分析</div><div class="qc-sub">2026 GW CVR 構造低下</div></div></a>
+    <a class="quick-card" href="/cycle.html"><span class="qc-icon">🔄</span><div><div class="qc-name">CVR改善サイクル</div><div class="qc-sub">運用フロー</div></div></a>
+  </div>
+
+  <div class="section-label">施策案ドキュメント</div>
+  <div class="plan-grid" id="plan-grid">
+    <div class="plan-empty">読み込み中…</div>
+  </div>
+</div>
+
 <script>
 function onSignIn(response) {
   if (response.credential) {
@@ -51,13 +138,77 @@ function onSignIn(response) {
       name: payload.name,
       exp: payload.exp
     }));
-    var redirect = sessionStorage.getItem('auth_redirect') || '/';
+    var redirect = sessionStorage.getItem('auth_redirect');
     sessionStorage.removeItem('auth_redirect');
-    location.replace(redirect);
+    // If user came here via an auth redirect, go back to that page. Otherwise show portal.
+    if (redirect && redirect !== location.href) {
+      location.replace(redirect);
+    } else {
+      showPortal();
+    }
   } else {
     document.getElementById('error').style.display = 'block';
   }
 }
+
+function showPortal() {
+  var raw = sessionStorage.getItem('gauth_user');
+  if (!raw) return;
+  var u;
+  try { u = JSON.parse(raw); } catch (e) { return; }
+  document.getElementById('login-screen').style.display = 'none';
+  var portal = document.getElementById('portal-screen');
+  portal.classList.add('is-active');
+  document.getElementById('user-email').textContent = u.email || u.name || '';
+  loadPlanning();
+}
+
+document.getElementById('signout-btn').addEventListener('click', function () {
+  sessionStorage.removeItem('gauth_user');
+  location.reload();
+});
+
+function loadPlanning() {
+  var grid = document.getElementById('plan-grid');
+  fetch('/planning/manifest.json', { cache: 'no-store' })
+    .then(function (r) { if (!r.ok) throw new Error('manifest load failed'); return r.json(); })
+    .then(function (data) {
+      var items = (data && data.items) || [];
+      if (!items.length) {
+        grid.innerHTML = '<div class="plan-empty">まだ施策案ドキュメントはありません。</div>';
+        return;
+      }
+      grid.innerHTML = '';
+      items.forEach(function (it) {
+        var a = document.createElement('a');
+        a.className = 'plan-card';
+        a.href = '/planning/' + it.file;
+
+        var top = document.createElement('div'); top.className = 'topline';
+        if (it.date)   { var d = document.createElement('span'); d.className = 'date';   d.textContent = it.date;   top.appendChild(d); }
+        if (it.source) { var s = document.createElement('span'); s.className = 'source'; s.textContent = it.source; top.appendChild(s); }
+        if (it.author) { var au= document.createElement('span'); au.className= 'author'; au.textContent = '担当: ' + it.author; top.appendChild(au); }
+        a.appendChild(top);
+
+        var h = document.createElement('h3'); h.textContent = it.title || it.file; a.appendChild(h);
+        if (it.summary) { var sm = document.createElement('div'); sm.className = 'summary'; sm.textContent = it.summary; a.appendChild(sm); }
+        if (it.tags && it.tags.length) {
+          var tg = document.createElement('div'); tg.className = 'tags';
+          it.tags.forEach(function (t) { var sp = document.createElement('span'); sp.className = 'tag'; sp.textContent = '#' + t; tg.appendChild(sp); });
+          a.appendChild(tg);
+        }
+        grid.appendChild(a);
+      });
+    })
+    .catch(function (e) {
+      grid.innerHTML = '<div class="plan-empty">読み込みに失敗しました: ' + (e && e.message ? e.message : '不明なエラー') + '</div>';
+    });
+}
+
+// On load: if already logged in, show portal. Otherwise stay on login screen.
+(function () {
+  if (sessionStorage.getItem('gauth_user')) showPortal();
+})();
 </script>
 </body>
 </html>

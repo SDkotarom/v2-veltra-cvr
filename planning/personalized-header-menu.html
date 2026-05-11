@@ -448,13 +448,13 @@ section { padding: 44px 0; }
 <!-- TOC -->
 <div class="toc-bar">
   <div class="toc-inner">
-    <div class="toc-item active" onclick="scrollTo('sec1')">① なぜやるか</div>
-    <div class="toc-item" onclick="scrollTo('sec2')">② データ分析・課題抽出</div>
-    <div class="toc-item" onclick="scrollTo('sec3')">③ 行動分析</div>
-    <div class="toc-item" onclick="scrollTo('sec4')">④ 仮説設計</div>
-    <div class="toc-item" onclick="scrollTo('sec5')">⑤ 打ち手・フェーズ計画</div>
-    <div class="toc-item" onclick="scrollTo('sec6')">⑥ UIモック</div>
-    <div class="toc-item" onclick="scrollTo('sec7')">⑦ KPI・スケジュール</div>
+    <div class="toc-item active" onclick="scrollToSection('sec1')">① なぜやるか</div>
+    <div class="toc-item" onclick="scrollToSection('sec2')">② データ分析・課題抽出</div>
+    <div class="toc-item" onclick="scrollToSection('sec3')">③ 行動分析</div>
+    <div class="toc-item" onclick="scrollToSection('sec4')">④ 仮説設計</div>
+    <div class="toc-item" onclick="scrollToSection('sec5')">⑤ 打ち手・フェーズ計画</div>
+    <div class="toc-item" onclick="scrollToSection('sec6')">⑥ UIモック</div>
+    <div class="toc-item" onclick="scrollToSection('sec7')">⑦ KPI・スケジュール</div>
   </div>
 </div>
 
@@ -1166,7 +1166,7 @@ function switchTab(btn, id) {
   btn.classList.add('active');
   document.getElementById(id).classList.add('active');
 }
-function scrollTo(id) {
+function scrollToSection(id) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
