@@ -454,7 +454,8 @@ section { padding: 44px 0; }
     <div class="toc-item" onclick="scrollToSection('sec4')">④ 仮説設計</div>
     <div class="toc-item" onclick="scrollToSection('sec5')">⑤ 打ち手・フェーズ計画</div>
     <div class="toc-item" onclick="scrollToSection('sec6')">⑥ UIモック</div>
-    <div class="toc-item" onclick="scrollToSection('sec7')">⑦ KPI・スケジュール</div>
+    <div class="toc-item" onclick="scrollToSection('sec7')">⑦ 計測設計</div>
+    <div class="toc-item" onclick="scrollToSection('sec8')">⑧ KPI・スケジュール</div>
   </div>
 </div>
 
@@ -766,6 +767,27 @@ section { padding: 44px 0; }
     <div class="section-desc">いきなりパーソナライズロジックを組むのは現実的でない。静的実装から始め、Brazeを経て段階的に高度化する。</div>
   </div>
 
+  <!-- Q&A: Why not Braze from start -->
+  <div style="background:var(--white);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:16px 20px;margin-bottom:20px;">
+    <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px;">❓ Q: 最初からBrazeを使えば？ Phase 1の静的実装は不要では？</div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:10px;">
+      <strong style="color:var(--text);">A: Phase 1のUI改修はBrazeを使うとしても必須。並行実行が現実的。</strong>
+    </div>
+    <div style="font-size:11px;color:var(--text2);line-height:1.7;">
+      Phase 1は「<strong>既存メニュー項目「閲覧履歴」「保存リスト」を実物表示に拡張する</strong>」UI改修であり、Brazeを使うかどうかとは独立に必要な作業。BrazeのContent Cardsも、このUIの「枠」に表示する形になる。<br><br>
+      <strong style="color:var(--text);">フェーズの実態：</strong>
+      <ul style="margin:6px 0 0 18px;padding:0;">
+        <li><strong>Phase 1A：</strong>既存メニューのUI拡張＋既存閲覧履歴データを表示（フロントエンドのみ、3〜5日）</li>
+        <li><strong>Phase 1B：</strong>URL文脈による静的JSON補完（Brazeのフォールバック用としても機能）</li>
+        <li><strong>Phase 2：</strong>同じUIスロットにBraze配信ロジックを上乗せ（Brazeカードあり→Braze、なし→Phase 1の表示にフォールバック）</li>
+      </ul>
+    </div>
+    <div style="margin-top:12px;padding:10px 14px;background:var(--green-bg);border:1px solid var(--green-border);border-radius:6px;font-size:11px;color:var(--text2);line-height:1.7;">
+      <strong style="color:var(--green);">💡 推奨：Phase 1とPhase 2を並行で着手する。</strong>
+      Phase 1のUI改修は3〜5日で完成しリリース可能。同期間にBraze側でSDK確認・Content Cards設計・Brazeセグメント作成を進める。Phase 1リリース後 1〜2週間でBrazeカード配信開始の流れ。「静的→Braze」ではなく「<strong style="color:var(--text);">UI先行、データソース後追い</strong>」と捉えるのが正確。
+    </div>
+  </div>
+
   <div class="phase-stack">
     <div class="phase-card">
       <div class="phase-header">
@@ -897,185 +919,270 @@ section { padding: 44px 0; }
     <button class="mockup-tab" onclick="switchTab(this,'m4')">🟣 Phase 2<br><small style="font-weight:400;opacity:0.8;">Braze連携</small></button>
   </div>
 
-  <!-- PC 1A -->
+  <!-- m1: PC Asis vs Tobe (Phase 1A) -->
   <div class="mockup-panel active" id="m1">
-    <div class="mock-pill p1"><span class="dot"></span>Phase 1A — sessionStorage: 直近閲覧AC</div>
+    <div class="mock-pill p1"><span class="dot"></span>Phase 1A — PC：既存メニューを実物表示に拡張</div>
     <div class="mockup-wrap">
-      <div class="v-header">
-        <div class="v-header-row">
-          <div class="v-logo">VeL·ToA</div>
-          <div class="v-search">🔍 <span>行き先、やりたいことから探す</span></div>
-          <div class="v-icons">
-            <div class="v-btn">❤️ <span>お気に入り</span></div>
-            <div class="v-btn hl" style="position:relative;">✨ <span>おすすめ</span><div class="v-dot"></div></div>
-            <div class="v-btn">👤 <span>田中さん</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:flex-start;">
+
+        <!-- Asis -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:0.07em;">⬅ ASIS — 現状のメニュー</div>
+          <div class="v-header">
+            <div class="v-header-row">
+              <div class="v-logo">VeL·ToA</div>
+              <div class="v-search">🔍 <span>行き先、やりたいことから探す</span></div>
+              <div class="v-icons">
+                <div class="v-btn">👤 <span>ようこそ、KotaroMさん</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="v-dropdown">
+            <div style="padding:14px 16px 10px;text-align:center;color:#e03535;font-size:12px;font-weight:700;">ようこそ、KotaroMさん</div>
+            <div style="padding:0 16px;border-top:1px solid #eaeef3;">
+              <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f4f6f9;font-size:12px;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f4f6f9;font-size:12px;"><span>⏱ 閲覧履歴</span><span style="color:#666;">0</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f4f6f9;font-size:12px;"><span>📝 予約履歴</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f4f6f9;font-size:12px;"><span>💬 体験談</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f4f6f9;font-size:12px;"><span>🅿 ポイント履歴</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f4f6f9;font-size:12px;"><span>🏷 クーポン</span></div>
+            </div>
+            <div style="padding:10px 16px;background:#fef2f2;border-top:1px solid #fccfcf;font-size:11px;color:#d93535;line-height:1.5;">
+              ❌ 閲覧履歴・保存リストは<strong>カウントのみ</strong>。中身を見るには別ページ遷移が必須
+            </div>
           </div>
         </div>
+
+        <!-- Tobe -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--p1);margin-bottom:8px;letter-spacing:0.07em;">➡ TOBE — Phase 1A改善後</div>
+          <div class="v-header">
+            <div class="v-header-row">
+              <div class="v-logo">VeL·ToA</div>
+              <div class="v-search">🔍 <span>行き先、やりたいことから探す</span></div>
+              <div class="v-icons">
+                <div class="v-btn hl" style="position:relative;">👤 <span>ようこそ、KotaroMさん</span><div class="v-dot"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="v-dropdown">
+            <div style="padding:14px 16px 10px;text-align:center;color:#e03535;font-size:12px;font-weight:700;">ようこそ、KotaroMさん</div>
+            <div class="v-dd-section" style="background:#eef3fd;border-top:1px solid var(--accent-border);">
+              <div class="v-dd-lbl" style="color:var(--accent);">⏱ 閲覧履歴 <span style="color:#666;font-weight:500;">3件</span></div>
+              <div class="v-ac">
+                <div class="v-ac-thumb">🌋</div>
+                <div style="flex:1;min-width:0;"><div class="v-ac-name">ハワイ島 キラウエア火山＋星空観賞</div><div class="v-ac-meta">📍 ハワイ島 ⭐ 4.76</div></div>
+                <div class="v-ac-price">¥38,694〜</div>
+              </div>
+              <div class="v-ac">
+                <div class="v-ac-thumb">🚢</div>
+                <div style="flex:1;min-width:0;"><div class="v-ac-name">サンセット・ディナークルーズ</div><div class="v-ac-meta">📍 オアフ島 ⭐ 4.71</div></div>
+                <div class="v-ac-price">¥14,349〜</div>
+              </div>
+              <div class="v-ac">
+                <div class="v-ac-thumb">🌅</div>
+                <div style="flex:1;min-width:0;"><div class="v-ac-name">ハレアカラ山頂サンライズ＋Road to Hana</div><div class="v-ac-meta">📍 マウイ島 ⭐ 4.67</div></div>
+                <div class="v-ac-price">¥43,530〜</div>
+              </div>
+              <div style="text-align:right;padding-top:5px;"><span style="font-size:10px;color:var(--accent);">すべての履歴を見る →</span></div>
+            </div>
+            <div style="padding:0 16px;">
+              <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f4f6f9;font-size:12px;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f4f6f9;font-size:12px;"><span>📝 予約履歴</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f4f6f9;font-size:12px;"><span>🅿 ポイント履歴</span></div>
+            </div>
+            <div style="padding:10px 16px;background:var(--green-bg);border-top:1px solid var(--green-border);font-size:11px;color:var(--green);line-height:1.5;">
+              ✅ 既存メニュー項目を<strong>実物TOP3表示</strong>に拡張。1タップでACへ
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div class="v-dropdown">
-        <div class="v-dd-head">
-          <div class="v-dd-title">✨ あなたへのおすすめ</div>
-          <div class="v-dd-link">すべての閲覧履歴 →</div>
-        </div>
-        <div class="v-dd-section">
-          <div class="v-dd-lbl">📍 最近チェックしたアクティビティ</div>
-          <div class="v-ac">
-            <div class="v-ac-thumb">🌋</div>
-            <div style="flex:1;min-width:0;"><div class="v-ac-name">ハワイ島 キラウエア火山ツアー＋マウナケア星空観賞</div><div class="v-ac-meta">📍 ハワイ島 ⭐ 4.76 (1,262件)</div></div>
-            <div class="v-ac-price">¥38,694〜</div>
-          </div>
-          <div class="v-ac">
-            <div class="v-ac-thumb">🚢</div>
-            <div style="flex:1;min-width:0;"><div class="v-ac-name">サンセット・ディナークルーズ（ホエールウォッチング付）</div><div class="v-ac-meta">📍 オアフ島 ⭐ 4.71 (1,057件)</div></div>
-            <div class="v-ac-price">¥14,349〜</div>
-          </div>
-          <div class="v-ac">
-            <div class="v-ac-thumb">🌅</div>
-            <div style="flex:1;min-width:0;"><div class="v-ac-name">マウイ島 ハレアカラ山頂サンライズ＋Road to Hana</div><div class="v-ac-meta">📍 マウイ島 ⭐ 4.67 (1,357件)</div></div>
-            <div class="v-ac-price">¥43,530〜</div>
-          </div>
-        </div>
-        <div class="v-dd-footer">閲覧履歴をすべて見る →</div>
+      <div style="margin-top:14px;padding:11px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:11px;color:var(--text2);line-height:1.7;">
+        <strong style="color:var(--text);">変更点：</strong>既存の「⏱ 閲覧履歴」項目を実物表示セクションに昇格。サムネ・AC名・価格を直接表示し、各行クリックでAC詳細へ直接遷移。「保存リスト」も同様に拡張可能。Asis比でメニュー内のクリック→AC到達ステップが<strong>2→1</strong>に削減。
       </div>
-      <p style="font-size:11px;color:var(--muted);margin-top:10px;">※ ACページ閲覧時にsessionStorage/localStorageに記録。ログイン済みユーザーのみ表示。</p>
     </div>
   </div>
 
-  <!-- PC Phase 2 -->
+  <!-- m2: SP Asis vs Tobe (Phase 1A) -->
   <div class="mockup-panel" id="m2">
+    <div class="mock-pill p1"><span class="dot"></span>Phase 1A — SP：既存ハンバーガーメニューを実物表示に拡張</div>
+    <div class="mockup-wrap">
+      <div class="sp-wrap" style="justify-content:flex-start;">
+
+        <!-- SP Asis -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:0.07em;">⬅ ASIS — 現状のメニュー</div>
+          <div class="sp-frame">
+            <div style="background:#fff;width:230px;font-family:'Noto Sans JP',sans-serif;">
+              <div style="padding:12px 14px;text-align:center;color:#e03535;font-size:12px;font-weight:700;border-bottom:1px solid #eaeef3;">ようこそ、KotaroMさん</div>
+              <div style="padding:0 14px;font-size:11px;">
+                <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
+                <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;"><span>⏱ 閲覧履歴</span><span style="color:#666;">0</span></div>
+                <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;"><span>📝 予約履歴</span></div>
+                <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;"><span>💬 体験談</span></div>
+                <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;"><span>🅿 ポイント履歴</span></div>
+                <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;"><span>🏷 クーポン</span></div>
+                <div style="display:flex;justify-content:space-between;padding:10px 0;"><span>📧 メール配信確認</span></div>
+              </div>
+              <div style="padding:10px 14px;background:#fef2f2;border-top:1px solid #fccfcf;font-size:10px;color:#d93535;line-height:1.5;">
+                ❌ カウントのみ・実物が見えない
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SP Tobe -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--p1);margin-bottom:8px;letter-spacing:0.07em;">➡ TOBE — Phase 1A改善後</div>
+          <div class="sp-frame">
+            <div style="background:#fff;width:230px;font-family:'Noto Sans JP',sans-serif;">
+              <div style="padding:12px 14px;text-align:center;color:#e03535;font-size:12px;font-weight:700;border-bottom:1px solid #eaeef3;">ようこそ、KotaroMさん</div>
+              <div style="background:#eef3fd;padding:10px 14px;border-bottom:1px solid var(--accent-border);">
+                <div style="font-size:9px;font-weight:700;color:var(--accent);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:7px;">⏱ 閲覧履歴 <span style="color:#666;font-weight:500;">3件</span></div>
+                <div class="sp-ac-row" style="border-bottom:1px solid #dde7f8;"><div class="sp-ac-thumb">🌋</div><div><div class="sp-ac-name">キラウエア火山＋星空</div><div class="sp-ac-price">¥38,694〜</div></div></div>
+                <div class="sp-ac-row" style="border-bottom:1px solid #dde7f8;"><div class="sp-ac-thumb">🚢</div><div><div class="sp-ac-name">サンセット・ディナークルーズ</div><div class="sp-ac-price">¥14,349〜</div></div></div>
+                <div class="sp-ac-row"><div class="sp-ac-thumb">🌅</div><div><div class="sp-ac-name">ハレアカラ山頂サンライズ</div><div class="sp-ac-price">¥43,530〜</div></div></div>
+                <div style="text-align:right;padding-top:6px;font-size:9px;color:var(--accent);">すべての履歴 →</div>
+              </div>
+              <div style="padding:0 14px;font-size:11px;">
+                <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
+                <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;"><span>📝 予約履歴</span></div>
+                <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;"><span>🅿 ポイント履歴</span></div>
+                <div style="display:flex;justify-content:space-between;padding:10px 0;"><span>🏷 クーポン</span></div>
+              </div>
+              <div style="padding:10px 14px;background:var(--green-bg);border-top:1px solid var(--green-border);font-size:10px;color:var(--green);line-height:1.5;">
+                ✅ 既存項目を実物TOP3表示に昇格
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div style="margin-top:14px;padding:11px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:11px;color:var(--text2);line-height:1.7;">
+        <strong style="color:var(--text);">SPの特徴：</strong>SPメニューは縦長で全項目を一度に見渡せるため、PCのドロップダウン以上に実物表示の効果が高い。閲覧履歴がメニュー最上部に展開されることで、スクロール前にACへの導線が確保される。
+      </div>
+    </div>
+  </div>
+
+  <!-- m3: Phase 1B URL Context -->
+  <div class="mockup-panel" id="m3">
+    <div class="mock-pill p1"><span class="dot"></span>Phase 1B — エリア／メインスポット文脈の追加（/hawaii/ 配下閲覧中）</div>
+    <div class="mockup-wrap">
+      <div class="sp-wrap" style="justify-content:flex-start;align-items:flex-start;">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--p1);margin-bottom:8px;letter-spacing:0.07em;">SP — ハワイエリアページ閲覧中</div>
+          <div class="sp-frame">
+            <div style="background:#fff;width:230px;font-family:'Noto Sans JP',sans-serif;">
+              <div style="padding:12px 14px;text-align:center;color:#e03535;font-size:12px;font-weight:700;border-bottom:1px solid #eaeef3;">ようこそ、KotaroMさん</div>
+              <!-- 閲覧履歴 -->
+              <div style="background:#eef3fd;padding:10px 14px;border-bottom:1px solid var(--accent-border);">
+                <div style="font-size:9px;font-weight:700;color:var(--accent);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:7px;">⏱ 閲覧履歴 <span style="color:#666;font-weight:500;">3件</span></div>
+                <div class="sp-ac-row"><div class="sp-ac-thumb">🌋</div><div><div class="sp-ac-name">キラウエア火山＋星空</div><div class="sp-ac-price">¥38,694〜</div></div></div>
+              </div>
+              <!-- エリア文脈追加セクション -->
+              <div style="background:#f0faf6;padding:10px 14px;border-bottom:1px solid var(--green-border);">
+                <div style="font-size:9px;font-weight:700;color:var(--green);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:7px;">🌺 ハワイで人気のアクティビティ</div>
+                <div class="sp-ac-row" style="border-bottom:1px solid #c8eddc;"><div class="sp-ac-thumb">🐬</div><div><div class="sp-ac-name">イルカと泳ぐドルフィンスイム</div><div class="sp-ac-price">¥17,820〜</div></div></div>
+                <div class="sp-ac-row" style="border-bottom:1px solid #c8eddc;"><div class="sp-ac-thumb">🌅</div><div><div class="sp-ac-name">ダイヤモンドヘッド登頂</div><div class="sp-ac-price">¥10,154〜</div></div></div>
+                <div class="sp-ac-row"><div class="sp-ac-thumb">⛵</div><div><div class="sp-ac-name">サンセット・カタマランクルーズ</div><div class="sp-ac-price">¥9,500〜</div></div></div>
+                <div style="text-align:right;padding-top:6px;font-size:9px;color:var(--green);">ハワイのACをすべて見る →</div>
+              </div>
+              <div style="padding:0 14px;font-size:11px;">
+                <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
+                <div style="display:flex;justify-content:space-between;padding:10px 0;"><span>📝 予約履歴</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="max-width:280px;">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:0.07em;">静的JSON設計（週次更新）</div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;">
+            <pre style="font-size:10px;color:var(--text2);line-height:1.7;overflow-x:auto;white-space:pre-wrap;margin:0;">{
+  "/hawaii": [...],
+  "/hawaii/oahu": [...],
+  "/hawaii/big-island": [...],
+  "/japan/okinawa": [...],
+  "/japan/tokyo": [...],
+  
+  // メインスポット粒度
+  "spot:kilauea": [...],
+  "spot:diamond-head": [...]
+}</pre>
+          </div>
+          <div style="margin-top:10px;padding:10px 12px;background:var(--orange-bg);border:1px solid var(--orange-border);border-radius:8px;font-size:11px;color:var(--text2);line-height:1.7;">
+            <strong style="color:var(--orange);">戦略軸との接続：</strong>旅程短期化により「メインスポット中心」になる傾向に対し、JSONキーをエリア／スポットの2段階にすることで該当エリアの定番ACに迷わず誘導できる。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- m4: Phase 2 Braze -->
+  <div class="mockup-panel" id="m4">
     <div class="mock-pill p2"><span class="dot"></span>Phase 2 — Braze Content Cards（閲覧行動トリガー）</div>
     <div class="mockup-wrap">
-      <div class="v-header">
-        <div class="v-header-row">
-          <div class="v-logo">VeL·ToA</div>
-          <div class="v-search">🔍 <span>行き先、やりたいことから探す</span></div>
-          <div class="v-icons">
-            <div class="v-btn">❤️ <span>お気に入り</span></div>
-            <div class="v-btn hl" style="position:relative;">✨ <span>おすすめ</span><div class="v-dot"></div></div>
-            <div class="v-btn">👤 <span>田中さん</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:flex-start;">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--p2);margin-bottom:8px;letter-spacing:0.07em;">PC — Braze配信時</div>
+          <div class="v-header">
+            <div class="v-header-row">
+              <div class="v-logo">VeL·ToA</div>
+              <div class="v-search">🔍 <span>行き先、やりたいことから探す</span></div>
+              <div class="v-icons">
+                <div class="v-btn hl" style="position:relative;">👤 <span>ようこそ、KotaroMさん</span><div class="v-dot"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="v-dropdown">
+            <div style="padding:14px 16px 10px;text-align:center;color:#e03535;font-size:12px;font-weight:700;">ようこそ、KotaroMさん</div>
+            <!-- Brazeカード: カレンダー離脱リターゲット -->
+            <div class="v-dd-alert">
+              <div class="v-dd-alert-lbl">⏰ あのアクティビティ、まだ空いています</div>
+              <div class="v-ac" style="padding:4px 0;">
+                <div class="v-ac-thumb">🌋</div>
+                <div style="flex:1;min-width:0;"><div class="v-ac-name">ハワイ島 キラウエア火山ツアー</div><div class="v-ac-meta" style="color:#c9610e;">🔥 5月の空きあり・残り少ない</div></div>
+                <div style="text-align:right;"><div class="v-ac-price">¥38,694〜</div><div style="font-size:9px;color:var(--green);margin-top:1px;white-space:nowrap;">すぐ予約 ▶</div></div>
+              </div>
+            </div>
+            <!-- Brazeカード: エリア興味タグ -->
+            <div class="v-dd-section">
+              <div class="v-dd-lbl">🌺 ハワイを見ているあなたへ</div>
+              <div class="v-ac">
+                <div class="v-ac-thumb">🐬</div>
+                <div style="flex:1;min-width:0;"><div class="v-ac-name">イルカと泳ぐドルフィンスイム（即確定）</div><div class="v-ac-meta">📍 オアフ島 ⭐ 4.82</div></div>
+                <div class="v-ac-price">¥17,820〜</div>
+              </div>
+              <div class="v-ac">
+                <div class="v-ac-thumb">🌈</div>
+                <div style="flex:1;min-width:0;"><div class="v-ac-name">ダイヤモンドヘッド登頂＋ホノルル市内観光</div><div class="v-ac-meta">📍 オアフ島 ⭐ 4.54</div></div>
+                <div class="v-ac-price">¥10,154〜</div>
+              </div>
+            </div>
+            <div style="padding:0 16px;">
+              <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f4f6f9;font-size:12px;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f4f6f9;font-size:12px;"><span>⏱ 閲覧履歴</span><span style="color:#666;">3</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 0;font-size:12px;"><span>📝 予約履歴</span></div>
+            </div>
+            <div style="padding:8px 16px;background:var(--purple-bg);border-top:1px solid var(--purple-border);font-size:10px;color:var(--p2);text-align:center;">Brazeから配信中 — 非エンジニアがダッシュボードで内容変更可能</div>
           </div>
         </div>
-      </div>
-      <div class="v-dropdown">
-        <div class="v-dd-head">
-          <div class="v-dd-title">✨ あなたへのおすすめ</div>
-          <div class="v-dd-link">設定 →</div>
-        </div>
-        <div class="v-dd-alert">
-          <div class="v-dd-alert-lbl">⏰ あのアクティビティ、まだ空いています</div>
-          <div class="v-ac" style="padding:4px 0;">
-            <div class="v-ac-thumb">🌋</div>
-            <div style="flex:1;min-width:0;"><div class="v-ac-name">ハワイ島 キラウエア火山ツアー</div><div class="v-ac-meta" style="color:#c9610e;">🔥 5月の空きあり・残り少ない</div></div>
-            <div style="text-align:right;"><div class="v-ac-price">¥38,694〜</div><div style="font-size:9px;color:var(--green);margin-top:1px;white-space:nowrap;">すぐ予約 ▶</div></div>
-          </div>
-        </div>
-        <div class="v-dd-section">
-          <div class="v-dd-lbl">🌺 ハワイを見ているあなたへ</div>
-          <div class="v-ac">
-            <div class="v-ac-thumb">🐬</div>
-            <div style="flex:1;min-width:0;"><div class="v-ac-name">イルカと泳ぐ！ドルフィンスイムツアー（即確定）</div><div class="v-ac-meta">📍 オアフ島 ⭐ 4.82 (890件)</div></div>
-            <div class="v-ac-price">¥17,820〜</div>
-          </div>
-          <div class="v-ac">
-            <div class="v-ac-thumb">🌈</div>
-            <div style="flex:1;min-width:0;"><div class="v-ac-name">ダイヤモンドヘッド登頂＋ホノルル市内観光</div><div class="v-ac-meta">📍 オアフ島 ⭐ 4.54 (2,033件)</div></div>
-            <div class="v-ac-price">¥10,154〜</div>
-          </div>
-        </div>
-        <div class="v-dd-footer" style="font-size:10px;color:var(--muted);">Brazeから配信 — 非エンジニアがBrazeダッシュボードで内容変更可能</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- SP 1A -->
-  <div class="mockup-panel" id="m3">
-    <div class="mock-pill p1"><span class="dot"></span>Phase 1A — SPハンバーガーメニュー（直近閲覧AC）</div>
-    <div class="mockup-wrap">
-      <div class="sp-wrap">
         <div>
-          <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">① ヘッダー（✨バッジ追加）</p>
-          <div class="sp-frame">
-            <div class="sp-hdr">
-              <span style="font-size:19px;color:#444;">☰</span>
-              <div class="sp-logo">VeL·ToA</div>
-              <div class="sp-icons">
-                <div class="sp-icon">🔍</div>
-                <div class="sp-icon hl" style="position:relative;">✨<div style="position:absolute;top:-1px;right:-1px;width:7px;height:7px;background:#e03535;border-radius:50%;border:1.5px solid #fff;"></div></div>
-                <div class="sp-icon">👤</div>
-              </div>
+          <div style="font-size:11px;font-weight:700;color:var(--p2);margin-bottom:8px;letter-spacing:0.07em;">Brazeトリガーシナリオ</div>
+          <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
+            <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:8px;">⏰ シナリオ1：カレンダー離脱</div>
+            <div style="font-size:11px;color:var(--text2);line-height:1.7;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border);">
+              GTMの <code style="font-size:10px;background:var(--surface);padding:1px 5px;border-radius:3px;">view_calendar</code> イベント → 48h以内に <code style="font-size:10px;background:var(--surface);padding:1px 5px;border-radius:3px;">ecommerce_purchase</code> なし → 「まだ空きあります」カードを最上部に表示。3DS失敗以外の離脱を回収。
             </div>
-            <div style="background:#f7f8fa;padding:14px;font-size:11px;color:#bbb;text-align:center;min-height:50px;display:flex;align-items:center;justify-content:center;">ページコンテンツ</div>
-          </div>
-        </div>
-        <div>
-          <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">② メニューオープン（パーソナライズセクションが最上部）</p>
-          <div class="sp-frame">
-            <div style="display:flex;">
-              <div class="sp-menu">
-                <div class="sp-menu-hdr">
-                  <div class="sp-menu-hdr-title">✨ あなたへのおすすめ</div>
-                  <div class="sp-menu-hdr-sub">最近チェックしたAC</div>
-                </div>
-                <div class="sp-menu-sec">
-                  <div class="sp-ac-row"><div class="sp-ac-thumb">🌋</div><div><div class="sp-ac-name">キラウエア火山ツアー</div><div class="sp-ac-price">¥38,694〜</div></div></div>
-                  <div class="sp-ac-row"><div class="sp-ac-thumb">🚢</div><div><div class="sp-ac-name">サンセット・ディナークルーズ</div><div class="sp-ac-price">¥14,349〜</div></div></div>
-                  <div class="sp-ac-row"><div class="sp-ac-thumb">🌅</div><div><div class="sp-ac-name">ハレアカラ山頂サンライズ</div><div class="sp-ac-price">¥43,530〜</div></div></div>
-                </div>
-                <div class="sp-menu-footer">閲覧履歴をすべて見る →</div>
-                <div class="sp-menu-link">ツアー・アクティビティ <span>›</span></div>
-                <div class="sp-menu-link">お気に入りリスト <span>›</span></div>
-                <div class="sp-menu-link">マイページ <span>›</span></div>
-              </div>
-              <div class="sp-overlay"></div>
+            <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:8px;">🏷 シナリオ2：エリア興味タグ</div>
+            <div style="font-size:11px;color:var(--text2);line-height:1.7;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border);">
+              /hawaii/ 配下を2ページ以上閲覧 → "interested_hawaii" タグ付与（30日保持）→ ハワイ関連ACをContent Cardsで配信。Phase 1Bの静的JSONより精度高く動的。
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SP 1B -->
-  <div class="mockup-panel" id="m4">
-    <div class="mock-pill p1"><span class="dot"></span>Phase 1B — エリア文脈（/hawaii/ 閲覧中）</div>
-    <div class="mockup-wrap">
-      <div class="sp-wrap">
-        <div>
-          <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">ハワイエリアページ閲覧中にメニューを開くと</p>
-          <div class="sp-frame">
-            <div style="display:flex;">
-              <div class="sp-menu">
-                <div class="sp-menu-hdr" style="background:#1565c0;">
-                  <div class="sp-menu-hdr-title">🌺 ハワイのおすすめ</div>
-                  <div class="sp-menu-hdr-sub">今見ているエリアから</div>
-                </div>
-                <div class="sp-menu-sec">
-                  <div class="sp-menu-lbl">今週の人気 TOP3</div>
-                  <div class="sp-ac-row"><div class="sp-ac-thumb">🌋</div><div><div class="sp-ac-name">キラウエア火山＋マウナケア星空</div><div class="sp-ac-price">¥38,694〜</div></div></div>
-                  <div class="sp-ac-row"><div class="sp-ac-thumb">🐬</div><div><div class="sp-ac-name">イルカと泳ぐ！ドルフィンスイム</div><div class="sp-ac-price">¥17,820〜</div></div></div>
-                  <div class="sp-ac-row"><div class="sp-ac-thumb">🌅</div><div><div class="sp-ac-name">ダイヤモンドヘッド登頂＋市内観光</div><div class="sp-ac-price">¥10,154〜</div></div></div>
-                </div>
-                <div class="sp-menu-footer" style="color:#1565c0;">ハワイのACをすべて見る →</div>
-                <div class="sp-menu-link">ツアー・アクティビティ <span>›</span></div>
-                <div class="sp-menu-link">お気に入りリスト <span>›</span></div>
-              </div>
-              <div class="sp-overlay"></div>
+            <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:8px;">🎯 シナリオ3：スポット粒度の興味</div>
+            <div style="font-size:11px;color:var(--text2);line-height:1.7;">
+              個別ACページを2回以上閲覧 → そのACの周辺・関連ACを配信（メインスポット起点での提案を実現）。<strong style="color:var(--p2);">戦略軸①「メインスポットで取りこぼさない」</strong>に直接寄与。
             </div>
-          </div>
-        </div>
-        <div style="max-width:250px;">
-          <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">静的JSON（週次更新）</p>
-          <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;">
-            <pre style="font-size:10px;color:var(--text2);line-height:1.7;overflow-x:auto;white-space:pre-wrap;">{
-  "/hawaii": [
-    { "id":"181152",
-      "name":"キラウエア火山...",
-      "price": 38694,
-      "rating": 4.76 }
-  ],
-  "/japan/tokyo": [...],
-  "/japan/okinawa": [...]
-}</pre>
-            <p style="font-size:10px;color:var(--muted);margin-top:8px;">週次でJSONを差し替えるだけ。マーケが自己更新可能。</p>
           </div>
         </div>
       </div>
