@@ -482,7 +482,7 @@ code.inline {
   <div class="mockup-panel active" id="m1">
     <div class="mock-pill p1"><span class="dot"></span>カード A — 直近 3 件の閲覧 AC を新しい順に表示</div>
     <div class="mockup-wrap">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:flex-start;">
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:flex-start;">
         <div>
           <div style="font-size:13px;font-weight:700;color:var(--p1);margin-bottom:10px;letter-spacing:0.07em;">PC</div>
           <div class="v-header">
@@ -549,8 +549,14 @@ code.inline {
           </div>
         </div>
       </div>
-      <div style="margin-top:14px;padding:12px 16px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text2);line-height:1.7;">
-        <strong>発火条件：</strong>ログイン済み Traveler が AC ページを 1 件以上閲覧（<code>viewed_ac</code> 受信時に <code>last_viewed_ac_1/2/3_*</code> が自動更新）。データ蓄積待ち不要、即発火。
+      <div style="margin-top:18px;padding:14px 18px;background:#fff;border:1px solid var(--border);border-radius:8px;">
+        <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:0.07em;">発火条件と中身</div>
+        <ul class="bullet-list">
+          <li>ログイン済み Traveler が AC ページを <strong>1 件以上閲覧</strong>すれば即発火（データ蓄積待ち不要）</li>
+          <li><code class="inline">viewed_ac</code> 受信時に Braze Workflow が <code>last_viewed_ac_1/2/3_*</code> 属性を新しい順にスライド更新</li>
+          <li>カード内容は <strong>Liquid テンプレート</strong>でカスタム属性を埋め込み（サムネ・名前・エリア・⭐ 評価・価格・遷移 URL）</li>
+          <li>順序は新しい順（時系列）。「見た回数が多い順」ではない</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -559,33 +565,63 @@ code.inline {
   <div class="mockup-panel" id="m2">
     <div class="mock-pill p1"><span class="dot"></span>カード B — エリア閲覧中に、そのエリアのルールベース上位 AC を表示</div>
     <div class="mockup-wrap">
-      <div class="sp-wrap" style="justify-content:flex-start;align-items:flex-start;">
-        <div class="sp-frame">
-          <div style="background:#fff;width:100%;font-family:'Noto Sans JP',sans-serif;">
-            <div style="padding:14px;text-align:center;color:#e03535;font-size:14px;font-weight:700;border-bottom:1px solid #eaeef3;">ようこそ、KotaroMさん</div>
-            <div style="background:#eef3fd;padding:11px 14px;border-bottom:1px solid var(--accent-border);">
-              <div style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;">⏱ 閲覧履歴</div>
-              <div class="sp-ac-row"><div class="sp-ac-thumb">🌋</div><div><div class="sp-ac-name">キラウエア火山＋星空</div><div class="sp-ac-price">¥38,694〜</div></div></div>
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:flex-start;">
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--p1);margin-bottom:10px;letter-spacing:0.07em;">PC（/hawaii/ 配下を閲覧中）</div>
+          <div class="v-header">
+            <div class="v-header-row">
+              <div class="v-logo">Veltra</div>
+              <div class="v-search">🔍 <span>行き先、やりたいことから探す</span></div>
+              <div class="v-icons"><div class="v-btn hl" style="position:relative;">👤 <span>ようこそ、KotaroMさん</span><div class="v-dot"></div></div></div>
             </div>
-            <div style="background:#f0faf6;padding:11px 14px;border-bottom:1px solid var(--green-border);">
-              <div style="font-size:11px;font-weight:700;color:var(--green);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;">🌺 ハワイで人気の AC</div>
-              <div class="sp-ac-row" style="border-bottom:1px solid #c8eddc;"><div class="sp-ac-thumb">🐬</div><div><div class="sp-ac-name">イルカと泳ぐドルフィンスイム</div><div class="sp-ac-price">¥17,820〜</div></div></div>
-              <div class="sp-ac-row" style="border-bottom:1px solid #c8eddc;"><div class="sp-ac-thumb">🌅</div><div><div class="sp-ac-name">ダイヤモンドヘッド登頂</div><div class="sp-ac-price">¥10,154〜</div></div></div>
-              <div class="sp-ac-row"><div class="sp-ac-thumb">⛵</div><div><div class="sp-ac-name">カタマランクルーズ</div><div class="sp-ac-price">¥9,500〜</div></div></div>
+          </div>
+          <div class="v-dropdown">
+            <div style="padding:14px 16px 12px;text-align:center;color:#e03535;font-size:14px;font-weight:700;">ようこそ、KotaroMさん</div>
+            <div class="v-dd-section" style="background:#eef3fd;border-top:1px solid var(--accent-border);">
+              <div class="v-dd-lbl" style="color:var(--accent);">⏱ 閲覧履歴</div>
+              <div class="v-ac"><div class="v-ac-thumb">🌋</div><div style="flex:1;min-width:0;"><div class="v-ac-name">キラウエア火山＋星空観賞</div><div class="v-ac-meta">📍 ハワイ島 ⭐ 4.76</div></div><div class="v-ac-price">¥38,694〜</div></div>
             </div>
-            <div style="padding:0 14px;font-size:13px;">
-              <div style="display:flex;justify-content:space-between;padding:11px 0;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
+            <div class="v-dd-section" style="background:#f0faf6;border-top:1px solid var(--green-border);">
+              <div class="v-dd-lbl" style="color:var(--green);">🌺 ハワイで人気の AC</div>
+              <div class="v-ac"><div class="v-ac-thumb">🐬</div><div style="flex:1;min-width:0;"><div class="v-ac-name">イルカと泳ぐドルフィンスイム</div><div class="v-ac-meta">📍 オアフ島 ⭐ 4.82</div></div><div class="v-ac-price">¥17,820〜</div></div>
+              <div class="v-ac"><div class="v-ac-thumb">🌅</div><div style="flex:1;min-width:0;"><div class="v-ac-name">ダイヤモンドヘッド登頂</div><div class="v-ac-meta">📍 オアフ島 ⭐ 4.54</div></div><div class="v-ac-price">¥10,154〜</div></div>
+              <div class="v-ac"><div class="v-ac-thumb">⛵</div><div style="flex:1;min-width:0;"><div class="v-ac-name">カタマランクルーズ</div><div class="v-ac-meta">📍 オアフ島 ⭐ 4.71</div></div><div class="v-ac-price">¥9,500〜</div></div>
+            </div>
+            <div style="padding:0 16px;border-top:1px solid #eaeef3;">
+              <div style="display:flex;justify-content:space-between;padding:10px 0;font-size:14px;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
             </div>
           </div>
         </div>
-        <div style="max-width:340px;">
-          <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;">発火条件と中身</div>
-          <ul class="bullet-list">
-            <li>/hawaii/ 配下を閲覧した Traveler が <strong>"Hawaii Interest" セグメント</strong>に自動所属</li>
-            <li>カード内の 5 件は <strong>3 条件 AND（page_view 上位／⭐ 4.0 以上＋体験談 10 件以上／営業中）の月次バッチで自動選定</strong></li>
-            <li>初期 4 エリア（ハワイ・韓国・グアム・タイ）を Day 4 から配信。Day 8 で静的フォールバック → 自動選定リストに切替</li>
-          </ul>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--p1);margin-bottom:10px;letter-spacing:0.07em;">SP（/hawaii/ 配下を閲覧中）</div>
+          <div class="sp-frame">
+            <div style="background:#fff;width:100%;font-family:'Noto Sans JP',sans-serif;">
+              <div style="padding:14px;text-align:center;color:#e03535;font-size:14px;font-weight:700;border-bottom:1px solid #eaeef3;">ようこそ、KotaroMさん</div>
+              <div style="background:#eef3fd;padding:11px 14px;border-bottom:1px solid var(--accent-border);">
+                <div style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;">⏱ 閲覧履歴</div>
+                <div class="sp-ac-row"><div class="sp-ac-thumb">🌋</div><div><div class="sp-ac-name">キラウエア火山＋星空</div><div class="sp-ac-price">¥38,694〜</div></div></div>
+              </div>
+              <div style="background:#f0faf6;padding:11px 14px;border-bottom:1px solid var(--green-border);">
+                <div style="font-size:11px;font-weight:700;color:var(--green);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;">🌺 ハワイで人気の AC</div>
+                <div class="sp-ac-row" style="border-bottom:1px solid #c8eddc;"><div class="sp-ac-thumb">🐬</div><div><div class="sp-ac-name">イルカと泳ぐドルフィンスイム</div><div class="sp-ac-price">¥17,820〜</div></div></div>
+                <div class="sp-ac-row" style="border-bottom:1px solid #c8eddc;"><div class="sp-ac-thumb">🌅</div><div><div class="sp-ac-name">ダイヤモンドヘッド登頂</div><div class="sp-ac-price">¥10,154〜</div></div></div>
+                <div class="sp-ac-row"><div class="sp-ac-thumb">⛵</div><div><div class="sp-ac-name">カタマランクルーズ</div><div class="sp-ac-price">¥9,500〜</div></div></div>
+              </div>
+              <div style="padding:0 14px;font-size:13px;">
+                <div style="display:flex;justify-content:space-between;padding:11px 0;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div style="margin-top:18px;padding:14px 18px;background:#fff;border:1px solid var(--border);border-radius:8px;">
+        <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:0.07em;">発火条件と中身</div>
+        <ul class="bullet-list">
+          <li>過去 7 日に対象エリア URL（例：<code>/hawaii/</code>）を <strong>2 ページ以上閲覧</strong>した Traveler が「Hawaii Interest」セグメントに自動所属</li>
+          <li>カード内の <strong>上位 5 件は 3 条件 AND の月次バッチで自動選定</strong>：①直近 30 日 page_view 上位／②⭐ 4.0 以上＋体験談 10 件以上／③営業中</li>
+          <li>初期 4 エリア（ハワイ・韓国・グアム・タイ）。Day 4 は静的フォールバックで先行スタート、Day 8 で自動選定リストに切替</li>
+          <li>個人視聴回数ベースで動かない。出し分けは「どのエリアのリストを見せるか」だけ</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -594,9 +630,9 @@ code.inline {
   <div class="mockup-panel" id="m3">
     <div class="mock-pill p2"><span class="dot"></span>カード C — カレンダー開いて 48 時間以内に未購入の AC を最上部に表示</div>
     <div class="mockup-wrap">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:flex-start;">
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:flex-start;">
         <div>
-          <div style="font-size:13px;font-weight:700;color:var(--p2);margin-bottom:10px;">PC</div>
+          <div style="font-size:13px;font-weight:700;color:var(--p2);margin-bottom:10px;letter-spacing:0.07em;">PC</div>
           <div class="v-header">
             <div class="v-header-row">
               <div class="v-logo">Veltra</div>
@@ -621,14 +657,33 @@ code.inline {
           </div>
         </div>
         <div>
-          <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;">発火条件と中身</div>
-          <ul class="bullet-list">
-            <li>既存 GTM <code class="inline">view_calendar</code> イベントを Braze にも送信</li>
-            <li><strong>48 時間以内</strong>に <code class="inline">ecommerce_purchase</code> がなければセグメント所属</li>
-            <li>離脱した AC の情報（<code>calendar_abandon_ac_*</code>）がカスタム属性として保存され、Liquid テンプレートで動的に表示</li>
-            <li>48 時間経過 or 購入完了で自動的にセグメントから外れる</li>
-          </ul>
+          <div style="font-size:13px;font-weight:700;color:var(--p2);margin-bottom:10px;letter-spacing:0.07em;">SP</div>
+          <div class="sp-frame">
+            <div style="background:#fff;width:100%;font-family:'Noto Sans JP',sans-serif;">
+              <div style="padding:14px;text-align:center;color:#e03535;font-size:14px;font-weight:700;border-bottom:1px solid #eaeef3;">ようこそ、KotaroMさん</div>
+              <div style="background:#fff8ed;padding:11px 14px;border-bottom:1px solid #f0e0c0;">
+                <div style="font-size:11px;font-weight:700;color:#c9610e;letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;">⏰ あのアクティビティ、まだ空いています</div>
+                <div class="sp-ac-row"><div class="sp-ac-thumb">🌋</div><div><div class="sp-ac-name">キラウエア火山ツアー</div><div class="sp-ac-price" style="color:#c9610e;">🔥 残りわずか ¥38,694〜</div></div></div>
+              </div>
+              <div style="background:#eef3fd;padding:11px 14px;border-bottom:1px solid var(--accent-border);">
+                <div style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;">⏱ 閲覧履歴</div>
+                <div class="sp-ac-row"><div class="sp-ac-thumb">🚢</div><div><div class="sp-ac-name">サンセット・ディナークルーズ</div><div class="sp-ac-price">¥14,349〜</div></div></div>
+              </div>
+              <div style="padding:0 14px;font-size:13px;">
+                <div style="display:flex;justify-content:space-between;padding:11px 0;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div style="margin-top:18px;padding:14px 18px;background:#fff;border:1px solid var(--border);border-radius:8px;">
+        <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:0.07em;">発火条件と中身</div>
+        <ul class="bullet-list">
+          <li>既存 GTM <code class="inline">view_calendar</code> イベントを Braze にも送信開始（イベント受信時に <code>calendar_abandon_ac_*</code> 属性に AC 情報を保存）</li>
+          <li><strong>48 時間以内</strong>に <code class="inline">ecommerce_purchase</code> がない Traveler がセグメント所属</li>
+          <li>Liquid テンプレートで保存属性を埋め込んで動的表示。離脱したまさにその AC をそのまま再提示（レコメンドではなくリターゲット）</li>
+          <li>48 時間経過 or 購入完了で属性クリア＋セグメント離脱。優先度を最上位に振るため、他カードの上に表示される</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -637,9 +692,9 @@ code.inline {
   <div class="mockup-panel" id="m4">
     <div class="mock-pill p2"><span class="dot"></span>カード D — 過去購入エリアの上位 AC をリピート訴求</div>
     <div class="mockup-wrap">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:flex-start;">
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:flex-start;">
         <div>
-          <div style="font-size:13px;font-weight:700;color:var(--p2);margin-bottom:10px;">PC</div>
+          <div style="font-size:13px;font-weight:700;color:var(--p2);margin-bottom:10px;letter-spacing:0.07em;">PC（過去ハワイ購入者）</div>
           <div class="v-header">
             <div class="v-header-row">
               <div class="v-logo">Veltra</div>
@@ -662,14 +717,35 @@ code.inline {
           </div>
         </div>
         <div>
-          <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;">発火条件と中身</div>
-          <ul class="bullet-list">
-            <li><code class="inline">ecommerce_purchase</code> 受信時に <code>last_purchase_area</code> 属性を保存（例：<code>hawaii</code>）</li>
-            <li>その属性が立っている Traveler に対し、<strong>カード B と同じ自動選定リスト</strong>をそのエリアに対して適用</li>
-            <li>直近購入から <strong>90 日</strong>で属性自動クリア、セグメントから外れる</li>
-            <li>「前回購入したエリア」という個人文脈と、エリア上位 AC というルール選定の合成。データ蓄積不要、初回購入時から即発火</li>
-          </ul>
+          <div style="font-size:13px;font-weight:700;color:var(--p2);margin-bottom:10px;letter-spacing:0.07em;">SP（過去ハワイ購入者）</div>
+          <div class="sp-frame">
+            <div style="background:#fff;width:100%;font-family:'Noto Sans JP',sans-serif;">
+              <div style="padding:14px;text-align:center;color:#e03535;font-size:14px;font-weight:700;border-bottom:1px solid #eaeef3;">ようこそ、KotaroMさん</div>
+              <div style="background:#f3eefe;padding:11px 14px;border-bottom:1px solid var(--purple-border);">
+                <div style="font-size:11px;font-weight:700;color:#6b33c5;letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;">🎯 前回ハワイで購入したあなたへ</div>
+                <div class="sp-ac-row" style="border-bottom:1px solid #d9c8f5;"><div class="sp-ac-thumb">🐬</div><div><div class="sp-ac-name">ドルフィンスイム</div><div class="sp-ac-price">¥17,820〜</div></div></div>
+                <div class="sp-ac-row" style="border-bottom:1px solid #d9c8f5;"><div class="sp-ac-thumb">🌅</div><div><div class="sp-ac-name">ダイヤモンドヘッド登頂</div><div class="sp-ac-price">¥10,154〜</div></div></div>
+                <div class="sp-ac-row"><div class="sp-ac-thumb">⛵</div><div><div class="sp-ac-name">カタマランクルーズ</div><div class="sp-ac-price">¥9,500〜</div></div></div>
+              </div>
+              <div style="background:#eef3fd;padding:11px 14px;border-bottom:1px solid var(--accent-border);">
+                <div style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;">⏱ 閲覧履歴</div>
+                <div class="sp-ac-row"><div class="sp-ac-thumb">🌋</div><div><div class="sp-ac-name">キラウエア火山＋星空</div><div class="sp-ac-price">¥38,694〜</div></div></div>
+              </div>
+              <div style="padding:0 14px;font-size:13px;">
+                <div style="display:flex;justify-content:space-between;padding:11px 0;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div style="margin-top:18px;padding:14px 18px;background:#fff;border:1px solid var(--border);border-radius:8px;">
+        <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:0.07em;">発火条件と中身</div>
+        <ul class="bullet-list">
+          <li><code class="inline">ecommerce_purchase</code> 受信時に <code>last_purchase_area</code> 属性を保存（例：<code>hawaii</code>）。直近購入から <strong>90 日</strong>で属性自動クリア</li>
+          <li>属性が立っている Traveler に対し、<strong>カード B と同じ 3 条件 AND の月次バッチ自動選定リスト</strong>をそのエリアに対して適用</li>
+          <li>個人文脈（前回購入エリア）× ルール選定（エリア上位 AC）の合成。データ蓄積不要、初回購入時から即発火</li>
+          <li>「前回ハワイで購入したあなたへ」など Liquid テンプレートでエリア名を埋め込んで動的に見出し生成</li>
+        </ul>
       </div>
     </div>
   </div>
