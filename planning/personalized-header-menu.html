@@ -704,6 +704,36 @@ code.inline {
     <div class="subsec-eyebrow">B. CARD SPECIFICATIONS</div>
     <div class="subsec-title">ステップ2：3つのカードの詳細仕様</div>
 
+    <!-- 選び方ロジックの全体像 -->
+    <div style="margin-bottom:22px;padding:18px 22px;background:var(--accent-bg);border:1px solid var(--accent-border);border-radius:10px;">
+      <div style="font-size:14px;font-weight:800;color:var(--accent);letter-spacing:0.04em;margin-bottom:12px;">⓪ どうやって表示する AC を選ぶか</div>
+      <table class="kpi-table" style="margin-top:0;">
+        <thead>
+          <tr><th style="width:14%;">カード</th><th style="width:30%;">何を出すか</th><th>選び方ロジック</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag green">CARD A</span><br><small style="color:var(--muted);">閲覧履歴</small></td>
+            <td><strong>本人が直近に見た 3 件</strong></td>
+            <td><strong>新しい順</strong>（時系列）。Braze の <code>last_viewed_ac_1/2/3_*</code> をスライド更新するだけ。「見た回数が多い順」ではない</td>
+          </tr>
+          <tr>
+            <td><span class="tag green">CARD B</span><br><small style="color:var(--muted);">エリア人気</small></td>
+            <td><strong>そのエリアの人気 AC（マーケ事前選定）</strong></td>
+            <td><strong>マーケが事前にエリアごとに手で選んだ固定リスト</strong>。個人の視聴回数ベースで動かない。出し分けは「どのエリアのリストを見せるか」だけ（ハワイ閲覧者→ハワイリスト 等）</td>
+          </tr>
+          <tr>
+            <td><span class="tag orange">CARD C</span><br><small style="color:var(--muted);">カレンダー離脱</small></td>
+            <td><strong>本人がカレンダー開いたが買わなかった、その AC</strong></td>
+            <td><strong>レコメンドではなく本人リターゲット</strong>。48 時間以内に <code>view_calendar</code> 発火＋未購入のとき、その AC をそのまま再表示する</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:12px;font-size:13px;color:var(--text2);line-height:1.7;">
+        <strong>ポイント：</strong>個人の視聴回数を集計してレコメンドしているのは <strong>カード A のみ（しかも回数ではなく時系列順）</strong>。B はマーケキュレーション、C は本人リターゲット。<strong>視聴回数 → スコア化 → レコメンドエンジン</strong> 的な処理はこの段階では入れていない（外部レコメンド API 連携の領域）。
+      </div>
+    </div>
+
     <!-- カードA -->
     <div class="logic-card">
       <div class="logic-card-head">
