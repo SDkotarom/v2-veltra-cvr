@@ -747,11 +747,11 @@ code.inline {
   <!-- B. カード仕様 -->
   <div class="subsec">
     <div class="subsec-eyebrow">B. CARD SPECIFICATIONS</div>
-    <div class="subsec-title">ステップ2：3つのカードの詳細仕様</div>
+    <div class="subsec-title">ステップ2：4つのカードの詳細仕様</div>
 
     <!-- 選び方ロジックの全体像 -->
     <div style="margin-bottom:22px;padding:18px 22px;background:var(--accent-bg);border:1px solid var(--accent-border);border-radius:10px;">
-      <div style="font-size:14px;font-weight:800;color:var(--accent);letter-spacing:0.04em;margin-bottom:12px;">⓪ どうやって表示する AC を選ぶか</div>
+      <div style="font-size:14px;font-weight:800;color:var(--accent);letter-spacing:0.04em;margin-bottom:12px;">どうやって表示する AC を選ぶか</div>
       <table class="kpi-table" style="margin-top:0;">
         <thead>
           <tr><th style="width:14%;">カード</th><th style="width:30%;">何を出すか</th><th>選び方ロジック</th></tr>
@@ -759,23 +759,28 @@ code.inline {
         <tbody>
           <tr>
             <td><span class="tag green">CARD A</span><br><small style="color:var(--muted);">閲覧履歴</small></td>
-            <td><strong>本人が直近に見た 3 件</strong></td>
+            <td><strong>Traveler が直近に見た 3 件</strong></td>
             <td><strong>新しい順</strong>（時系列）。Braze の <code>last_viewed_ac_1/2/3_*</code> をスライド更新するだけ。「見た回数が多い順」ではない</td>
           </tr>
           <tr>
             <td><span class="tag green">CARD B</span><br><small style="color:var(--muted);">エリア人気</small></td>
             <td><strong>そのエリアの「ルールベース上位 AC」5件</strong></td>
-            <td><strong>3条件のAND で月次バッチ自動選定</strong>：①直近30日 page_view 上位／②⭐ 4.0 以上＆体験談 10件以上／③営業中。個人の視聴回数ベースでは動かない。出し分けは「どのエリアのリストを見せるか」だけ（ハワイ閲覧者→ハワイリスト 等）。マーケは「除外フィルタ」だけかける（不適切掲載・季節終了等）</td>
+            <td><strong>3条件のAND で月次バッチ自動選定</strong>：①直近30日 page_view 上位／②⭐ 4.0 以上＆体験談 10件以上／③営業中。個人の視聴回数ベースでは動かない。出し分けは「どのエリアのリストを見せるか」だけ（ハワイ閲覧者→ハワイリスト 等）</td>
           </tr>
           <tr>
             <td><span class="tag orange">CARD C</span><br><small style="color:var(--muted);">カレンダー離脱</small></td>
-            <td><strong>本人がカレンダー開いたが買わなかった、その AC</strong></td>
-            <td><strong>レコメンドではなく本人リターゲット</strong>。48 時間以内に <code>view_calendar</code> 発火＋未購入のとき、その AC をそのまま再表示する</td>
+            <td><strong>Traveler がカレンダー開いたが買わなかった、その AC</strong></td>
+            <td><strong>Traveler のリターゲット</strong>。48 時間以内に <code>view_calendar</code> 発火＋未購入のとき、その AC をそのまま再表示する</td>
+          </tr>
+          <tr>
+            <td><span class="tag green">CARD D</span><br><small style="color:var(--muted);">購入履歴ベース</small></td>
+            <td><strong>過去に購入したエリアの「ルールベース上位 AC」</strong></td>
+            <td><strong>過去購入エリアに対する Card B と同じ自動選定</strong>（3条件AND）。トリガーは <code>ecommerce_purchase</code> 受信で <code>last_purchase_area</code> 属性が立っている Traveler。「前回ハワイで購入したあなたへ」のような訴求</td>
           </tr>
         </tbody>
       </table>
       <div style="margin-top:12px;font-size:13px;color:var(--text2);line-height:1.7;">
-        <strong>ポイント：</strong>個人の視聴を使っているのは <strong>カード A（時系列）と C（リターゲット）のみ</strong>。B は<strong>「ルールベースで全ユーザー共通の人気上位5件」</strong>をエリアごとに自動選定（GA4 + 在庫DB の月次バッチ、マーケは除外フィルタのみ）。<strong>視聴回数 → スコア化 → レコメンドエンジン</strong>的な個人最適化はこの段階では入れていない（外部レコメンド API 連携の領域）。
+        <strong>ポイント：</strong>個人の視聴を使っているのは <strong>カード A（時系列）と C（リターゲット）のみ</strong>。B は<strong>「ルールベースで全ユーザー共通の人気上位5件」</strong>をエリアごとに自動選定（GA4 + 在庫DB の月次バッチ）。<strong>視聴回数 → スコア化 → レコメンドエンジン</strong>的な個人最適化はこの段階では入れていない（外部レコメンド API 連携の領域）。
       </div>
     </div>
 
@@ -837,7 +842,7 @@ code.inline {
         </div>
         <div class="logic-row">
           <div class="logic-row-label">運用フロー</div>
-          <div class="logic-row-value"><strong>月次バッチ</strong>で GA4 + 在庫DB から候補リストを自動生成 → スプレッドシート出力 → <strong>マーケは「不適切掲載の除外」のみ（30分作業）</strong>→ Braze Content Card 用 JSON にエクスポート。"マーケが手で選ぶ"作業は発生しない</div>
+          <div class="logic-row-value"><strong>月次バッチ</strong>で GA4 + 在庫DB から候補リストを自動生成 → Braze Content Card 用 JSON にエクスポート。人手で並び替える作業は発生しない</div>
         </div>
         <div class="logic-row">
           <div class="logic-row-label">「人気」定義の A/B 検証</div>
@@ -871,14 +876,45 @@ code.inline {
           <div class="logic-row-value">48時間で自動的にセグメントから外れる。購入完了でも即座にクリア。</div>
         </div>
         <div class="logic-row">
-          <div class="logic-row-label">マーケ管理範囲</div>
-          <div class="logic-row-value">見出し文言とデザインのみ。AC情報は自動。</div>
+          <div class="logic-row-label">Braze 上の編集可能箇所</div>
+          <div class="logic-row-value">見出し文言とデザインのみ。AC 情報は自動取得（Liquid で属性を埋め込み）</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- カードD -->
+    <div class="logic-card">
+      <div class="logic-card-head">
+        <span class="logic-card-badge d">CARD D</span>
+        <div class="logic-card-title">🎯 購入履歴ベース（前回購入エリアの上位AC）</div>
+        <div class="logic-card-priority">優先度<strong> Medium</strong></div>
+      </div>
+      <div class="logic-card-body">
+        <div class="logic-row">
+          <div class="logic-row-label">配信対象（セグメント）</div>
+          <div class="logic-row-value"><code>last_purchase_area</code> 属性が設定済みの Traveler（過去90日以内に <code>ecommerce_purchase</code> 発火）。エリア別にセグメント分岐</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">AC 選定ロジック</div>
+          <div class="logic-row-value"><strong>Card B と同じ 3条件AND の月次バッチ自動選定</strong>を、<code>last_purchase_area</code> のエリアに対して適用。「前回購入したエリアの今月の人気上位5件」を表示</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">表示内容</div>
+          <div class="logic-row-value">「🎯 前回ハワイで購入したあなたへ」見出し＋当該エリアの上位 AC（Card B と同じ自動選定リスト）</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">有効期限</div>
+          <div class="logic-row-value">直近購入から 90 日。期限を超えると属性自動クリアでセグメントから外れる</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">Braze 上の編集可能箇所</div>
+          <div class="logic-row-value">見出し文言・配信スケジュール。AC 情報は Card B の自動選定リストを共有</div>
         </div>
       </div>
     </div>
 
     <div style="margin-top:14px;padding:14px 18px;background:var(--accent-bg);border:1px solid var(--accent-border);border-radius:8px;font-size:14px;line-height:1.75;">
-      <strong>カードの優先順位ロジック：</strong>① C（緊急性・購入直前）→ ② A（最も個人化）→ ③ B（文脈依存）→ ④ フォールバック（全体人気AC）。<strong>BrazeのContent Cards priority設定</strong>で制御。
+      <strong>カードの優先順位ロジック：</strong>① C（緊急性・購入直前）→ ② D（リピート意欲）→ ③ A（最も個人化）→ ④ B（文脈依存）→ ⑤ フォールバック（全体人気AC）。<strong>BrazeのContent Cards priority設定</strong>で制御。
     </div>
   </div>
 
@@ -911,7 +947,7 @@ code.inline {
         <ul>
           <li><span class="pri">1位</span><strong>カードC：</strong>「⏰ キラウエア火山ツアー、まだ空きあります」（最上部）</li>
           <li><span class="pri">2位</span><strong>カードA：</strong>⏱ 閲覧履歴TOP3（ハレアカラ／ディナークルーズ／キラウエア）</li>
-          <li><span class="pri">3位</span><strong>カードB：</strong>🌺 ハワイで人気のAC TOP3（マーケ事前キュレーション）</li>
+          <li><span class="pri">3位</span><strong>カードB：</strong>🌺 ハワイで人気のAC TOP5（ルールベース自動選定：page_view 上位＋⭐4.0以上＋営業中）</li>
         </ul>
       </div>
     </div>
@@ -925,7 +961,7 @@ code.inline {
     <div class="callout blue" style="margin-bottom:18px;">
       <div class="callout-icon">⚡</div>
       <div class="callout-body">
-        <strong>Phase 分割せず、3カード（A・B・C）をローンチ時点で全部稼働させ、Braze ダッシュボード上で A/B テストを並行運用する。</strong>開発作業は Week 1 の 5日のみ。以降は Braze 内のセグメント・カード・Liquid を編集するだけで、複数の検証が同時並行で回せる。
+        <strong>Phase 分割せず、4カード（A・B・C・D）をローンチ時点で全部稼働させ、Braze ダッシュボード上で A/B テストを並行運用する。</strong>開発作業は Week 1 の 5日のみ。以降は Braze 内のセグメント・カード・Liquid を編集するだけで、複数の検証が同時並行で回せる。
       </div>
     </div>
 
@@ -934,7 +970,7 @@ code.inline {
       <li><strong>カードA（閲覧履歴）：</strong>TOP3 を表示するか／TOP5 を表示するか／「同エリア人気を併記」するか</li>
       <li><strong>カードB（エリア人気）：</strong>初期4エリア（ハワイ・韓国・グアム・タイ）でスタート、稼働後にスポット粒度（30+）を段階追加して並走させ CTR で比較</li>
       <li><strong>カードC（カレンダー離脱）：</strong>コピー違い（「まだ空きあります」/「あと◯日で満席の可能性」）、48h vs 72h のトリガー時間差</li>
-      <li><strong>カード優先度：</strong>3カードの並び順（離脱C → 履歴A → エリアB） vs（履歴A → 離脱C → エリアB）の比較</li>
+      <li><strong>カード優先度：</strong>4カードの並び順（離脱C → 購入D → 履歴A → エリアB）vs（履歴A → 離脱C → 購入D → エリアB）の比較</li>
       <li><strong>追加カード D（購入履歴ベース）：</strong>初期から仕込んで「前回ハワイで購入したあなたへ」も並行検証（<code>last_purchase_area</code> 属性使用）</li>
     </ul>
 
