@@ -102,6 +102,18 @@ section { padding: 48px 0; }
 .section-desc { color: var(--text2); font-size: 15px; max-width: 720px; line-height: 1.7; }
 .divider { height: 1px; background: var(--border); }
 
+/* SUB SECTION */
+.subsec { margin-bottom: 36px; }
+.subsec-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--muted); letter-spacing: 0.12em; margin-bottom: 4px; text-transform: uppercase;
+}
+.subsec-title {
+  font-size: 18px; font-weight: 800; color: var(--text);
+  margin-bottom: 14px; padding-bottom: 10px;
+  border-bottom: 2px solid var(--text);
+}
+
 /* BULLET LIST */
 .bullet-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
 .bullet-list li {
@@ -110,13 +122,9 @@ section { padding: 48px 0; }
 }
 .bullet-list li::before {
   content: '●'; position: absolute; left: 0; top: 0;
-  color: var(--accent); font-size: 10px; line-height: 1.7 * 1.5;
+  color: var(--accent); font-size: 10px; line-height: 2.55;
 }
 .bullet-list li strong { color: var(--text); font-weight: 700; }
-.bullet-list .sub-bullet {
-  padding-left: 38px; font-size: 14px; color: var(--text2);
-}
-.bullet-list .sub-bullet::before { content: '◦'; left: 22px; color: var(--muted); }
 
 /* CALLOUT */
 .callout {
@@ -131,6 +139,13 @@ section { padding: 48px 0; }
 .callout-icon { font-size: 22px; flex-shrink: 0; line-height: 1.4; }
 .callout-body { font-size: 15px; line-height: 1.75; color: var(--text); }
 .callout-body strong { color: var(--text); }
+
+/* CODE INLINE */
+code.inline {
+  font-family: 'DM Mono', monospace; font-size: 13px;
+  background: var(--surface); padding: 2px 7px; border-radius: 4px;
+  color: var(--text); border: 1px solid var(--border);
+}
 
 /* STAT CARDS */
 .stat-row {
@@ -226,22 +241,141 @@ section { padding: 48px 0; }
 .sp-ac-name { font-size: 12px; font-weight: 600; color: #0f1623; line-height: 1.3; }
 .sp-ac-price { font-size: 12px; color: #0058c4; font-weight: 700; }
 
-/* PHASE BLOCK (lightweight) */
-.phase-bullet {
-  background: var(--white); border: 1px solid var(--border); border-radius: 10px;
-  padding: 16px 20px; display: flex; gap: 16px; align-items: flex-start;
+/* LOGIC CARD */
+.logic-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; margin-bottom: 16px;
 }
-.phase-badge {
-  flex-shrink: 0; padding: 6px 14px; border-radius: 100px;
+.logic-card-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 20px; border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.logic-card-badge {
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.05em; padding: 4px 10px; border-radius: 4px;
+}
+.logic-card-badge.a { background: var(--accent); color: #fff; }
+.logic-card-badge.b { background: var(--green); color: #fff; }
+.logic-card-badge.c { background: var(--orange); color: #fff; }
+.logic-card-badge.d { background: var(--purple); color: #fff; }
+.logic-card-title { font-size: 16px; font-weight: 800; flex: 1; }
+.logic-card-priority {
+  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted);
+}
+.logic-card-priority strong { color: var(--text); }
+.logic-card-body { padding: 18px 20px; }
+.logic-row {
+  display: grid; grid-template-columns: 130px 1fr; gap: 16px;
+  padding: 9px 0; border-bottom: 1px solid #f4f6f9; font-size: 14px;
+  align-items: start;
+}
+.logic-row:last-child { border-bottom: none; }
+.logic-row-label {
+  color: var(--muted); font-weight: 700; font-size: 12px; padding-top: 2px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.logic-row-value { color: var(--text); line-height: 1.6; }
+.logic-row-value code {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  background: var(--surface); padding: 1px 6px; border-radius: 3px;
+}
+
+/* DATA FLOW */
+.flow-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
+.flow-step {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px 18px;
+}
+.flow-step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--text); color: #fff;
   font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 700;
-  letter-spacing: 0.04em;
+  margin-bottom: 10px;
 }
-.phase-badge.p1 { background: var(--accent-bg); color: var(--p1); }
-.phase-badge.p2 { background: var(--purple-bg); color: var(--p2); }
-.phase-badge.p3 { background: var(--green-bg); color: var(--p3); }
-.phase-content { flex: 1; }
-.phase-content-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
-.phase-content-desc { font-size: 14px; color: var(--text2); line-height: 1.7; }
+.flow-step-title { font-size: 14px; font-weight: 800; margin-bottom: 6px; }
+.flow-step-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.flow-step-code {
+  margin-top: 10px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 9px 11px;
+  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text);
+  line-height: 1.6; word-break: break-all;
+}
+
+/* SCENARIO */
+.scenario {
+  background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+  padding: 22px 24px; margin-top: 16px;
+}
+.scenario-head {
+  font-size: 15px; font-weight: 800; margin-bottom: 14px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+.scenario-timeline { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+.scenario-event {
+  display: flex; gap: 12px; font-size: 13px; line-height: 1.6;
+}
+.scenario-time {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  color: var(--muted); min-width: 100px;
+}
+.scenario-action { color: var(--text); }
+.scenario-result {
+  background: var(--accent-bg); border: 1px solid var(--accent-border);
+  border-radius: 8px; padding: 12px 16px; margin-top: 12px;
+}
+.scenario-result-title {
+  font-size: 13px; font-weight: 700; color: var(--accent);
+  margin-bottom: 8px;
+}
+.scenario-result ul { list-style: none; padding: 0; margin: 0; }
+.scenario-result li {
+  font-size: 13px; line-height: 1.6; padding: 3px 0;
+  display: flex; gap: 8px; align-items: baseline;
+}
+.scenario-result li strong { color: var(--text); }
+.scenario-result .pri {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  background: var(--white); color: var(--accent); padding: 1px 7px; border-radius: 4px;
+  border: 1px solid var(--accent-border);
+}
+
+/* PHASE COMPARISON */
+.phase-compare {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px;
+}
+.phase-compare-col {
+  background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden;
+}
+.phase-compare-col.p1 { border-top: 3px solid var(--accent); }
+.phase-compare-col.p2 { border-top: 3px solid var(--purple); }
+.phase-compare-head {
+  padding: 14px 18px; border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.phase-compare-tag {
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.phase-compare-col.p1 .phase-compare-tag { color: var(--accent); }
+.phase-compare-col.p2 .phase-compare-tag { color: var(--purple); }
+.phase-compare-title { font-size: 16px; font-weight: 800; margin-top: 4px; }
+.phase-compare-body { padding: 16px 18px; }
+.phase-compare-body ul { list-style: none; padding: 0; margin: 0; }
+.phase-compare-body li {
+  font-size: 14px; line-height: 1.65; padding: 6px 0;
+  padding-left: 22px; position: relative;
+  border-bottom: 1px solid #f4f6f9;
+}
+.phase-compare-body li:last-child { border-bottom: none; }
+.phase-compare-body li::before {
+  content: '✓'; position: absolute; left: 0; top: 6px;
+  font-size: 14px; font-weight: 700;
+}
+.phase-compare-col.p1 .phase-compare-body li::before { color: var(--accent); }
+.phase-compare-col.p2 .phase-compare-body li::before { color: var(--purple); }
 
 /* KPI table */
 .kpi-table {
@@ -285,6 +419,9 @@ section { padding: 48px 0; }
 
 @media (max-width: 740px) {
   .stat-row { grid-template-columns: 1fr 1fr; }
+  .flow-grid { grid-template-columns: 1fr; }
+  .phase-compare { grid-template-columns: 1fr; }
+  .logic-row { grid-template-columns: 1fr; gap: 4px; }
   .doc-header { padding: 28px 22px; }
   .container { padding: 0 18px; }
 }
@@ -298,7 +435,7 @@ section { padding: 48px 0; }
     <div class="doc-badge">🎯 CVR施策企画書 — W15仮説3-施策H</div>
     <h1>ヘッダーパーソナライズメニュー<br>リピーターの「再発見」を設計する</h1>
     <div class="doc-header-sub">
-      ログイン後メニューの「閲覧履歴・保存リスト」は既に存在するがカウントのみ。実物（AC TOP3）を表示する改善。Braze活用で開発工数は半日〜1日、以降はダッシュボード運用で完結。
+      ログイン後メニューの「閲覧履歴・保存リスト」は既に存在するがカウントのみ。実物（AC TOP3）をBrazeで配信する改善。レコメンドシステムは作らず、Brazeのカスタム属性とセグメントだけで実現する。
     </div>
     <div class="doc-meta">
       <div class="doc-meta-chip"><span>担当</span><strong>Kotaro</strong></div>
@@ -312,13 +449,13 @@ section { padding: 48px 0; }
 <div class="toc-bar">
   <div class="toc-inner">
     <div class="toc-item active" onclick="scrollToSection('sec1')">① 結論（具体案）</div>
-    <div class="toc-item" onclick="scrollToSection('sec2')">② 期待効果・検証方法</div>
-    <div class="toc-item" onclick="scrollToSection('sec3')">③ なぜやるか（背景・問題）</div>
-    <div class="toc-item" onclick="scrollToSection('sec4')">④ 課題と打ち手方向性</div>
+    <div class="toc-item" onclick="scrollToSection('sec2')">② レコメンドロジック詳細</div>
+    <div class="toc-item" onclick="scrollToSection('sec3')">③ 期待効果・スケジュール</div>
+    <div class="toc-item" onclick="scrollToSection('sec4')">④ なぜやるか（背景）</div>
   </div>
 </div>
 
-<!-- ① 結論（モック） -->
+<!-- ① 結論 -->
 <div class="container">
 <section id="sec1">
   <div class="section-header">
@@ -329,32 +466,28 @@ section { padding: 48px 0; }
   <div class="callout blue">
     <div class="callout-icon">🎯</div>
     <div class="callout-body">
-      <strong>既存メニューの「閲覧履歴」「保存リスト」を実物TOP3表示に拡張。</strong>サムネ・名前・価格を直接見せ、1タップでACへ。Brazeを介してエリア文脈・カレンダー離脱リターゲットも段階的に追加。
+      <strong>既存メニューの「閲覧履歴」「保存リスト」を実物TOP3表示に拡張。</strong>サムネ・名前・価格を直接見せ、1タップでACへ。エリア文脈・カレンダー離脱リターゲットも追加。<strong>全てBrazeのContent Cardsで配信</strong>。
     </div>
   </div>
 
   <div class="mockup-tabs">
     <button class="mockup-tab active" onclick="switchTab(this,'m1')">🖥️ PC<br>Asis → Tobe</button>
     <button class="mockup-tab" onclick="switchTab(this,'m2')">📱 SP<br>Asis → Tobe</button>
-    <button class="mockup-tab" onclick="switchTab(this,'m3')">🗺️ Phase 1B<br>エリア文脈</button>
-    <button class="mockup-tab" onclick="switchTab(this,'m4')">🟣 Phase 2<br>Braze連携</button>
+    <button class="mockup-tab" onclick="switchTab(this,'m3')">🗺️ エリア文脈<br>ハワイ閲覧中</button>
+    <button class="mockup-tab" onclick="switchTab(this,'m4')">⏰ カレンダー離脱<br>リターゲット</button>
   </div>
 
-  <!-- m1: PC Asis vs Tobe -->
   <div class="mockup-panel active" id="m1">
     <div class="mock-pill p1"><span class="dot"></span>PC — 既存メニューを実物表示に拡張</div>
     <div class="mockup-wrap">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:flex-start;">
-
         <div>
           <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;letter-spacing:0.07em;">⬅ ASIS — 現状</div>
           <div class="v-header">
             <div class="v-header-row">
-              <div class="v-logo">VeL·ToA</div>
+              <div class="v-logo">Veltra</div>
               <div class="v-search">🔍 <span>行き先、やりたいことから探す</span></div>
-              <div class="v-icons">
-                <div class="v-btn">👤 <span>ようこそ、KotaroMさん</span></div>
-              </div>
+              <div class="v-icons"><div class="v-btn">👤 <span>ようこそ、KotaroMさん</span></div></div>
             </div>
           </div>
           <div class="v-dropdown">
@@ -364,134 +497,67 @@ section { padding: 48px 0; }
               <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;font-size:14px;"><span>⏱ 閲覧履歴</span><span style="color:#666;">0</span></div>
               <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;font-size:14px;"><span>📝 予約履歴</span></div>
               <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;font-size:14px;"><span>💬 体験談</span></div>
-              <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;font-size:14px;"><span>🅿 ポイント履歴</span></div>
             </div>
-            <div style="padding:11px 16px;background:#fef2f2;border-top:1px solid #fccfcf;font-size:13px;color:#d93535;line-height:1.5;">
-              ❌ カウントのみ・実物が見えない
-            </div>
+            <div style="padding:11px 16px;background:#fef2f2;border-top:1px solid #fccfcf;font-size:13px;color:#d93535;">❌ カウントのみ・実物が見えない</div>
           </div>
         </div>
-
         <div>
           <div style="font-size:13px;font-weight:700;color:var(--p1);margin-bottom:10px;letter-spacing:0.07em;">➡ TOBE — 改善後</div>
           <div class="v-header">
             <div class="v-header-row">
-              <div class="v-logo">VeL·ToA</div>
+              <div class="v-logo">Veltra</div>
               <div class="v-search">🔍 <span>行き先、やりたいことから探す</span></div>
-              <div class="v-icons">
-                <div class="v-btn hl" style="position:relative;">👤 <span>ようこそ、KotaroMさん</span><div class="v-dot"></div></div>
-              </div>
+              <div class="v-icons"><div class="v-btn hl" style="position:relative;">👤 <span>ようこそ、KotaroMさん</span><div class="v-dot"></div></div></div>
             </div>
           </div>
           <div class="v-dropdown">
             <div style="padding:14px 16px 10px;text-align:center;color:#e03535;font-size:14px;font-weight:700;">ようこそ、KotaroMさん</div>
             <div class="v-dd-section" style="background:#eef3fd;border-top:1px solid var(--accent-border);">
               <div class="v-dd-lbl" style="color:var(--accent);">⏱ 閲覧履歴 <span style="color:#666;font-weight:500;">3件</span></div>
-              <div class="v-ac">
-                <div class="v-ac-thumb">🌋</div>
-                <div style="flex:1;min-width:0;"><div class="v-ac-name">ハワイ島 キラウエア火山＋星空観賞</div><div class="v-ac-meta">📍 ハワイ島 ⭐ 4.76</div></div>
-                <div class="v-ac-price">¥38,694〜</div>
-              </div>
-              <div class="v-ac">
-                <div class="v-ac-thumb">🚢</div>
-                <div style="flex:1;min-width:0;"><div class="v-ac-name">サンセット・ディナークルーズ</div><div class="v-ac-meta">📍 オアフ島 ⭐ 4.71</div></div>
-                <div class="v-ac-price">¥14,349〜</div>
-              </div>
-              <div class="v-ac">
-                <div class="v-ac-thumb">🌅</div>
-                <div style="flex:1;min-width:0;"><div class="v-ac-name">ハレアカラ山頂サンライズ</div><div class="v-ac-meta">📍 マウイ島 ⭐ 4.67</div></div>
-                <div class="v-ac-price">¥43,530〜</div>
-              </div>
-              <div style="text-align:right;padding-top:6px;"><span style="font-size:12px;color:var(--accent);">すべての履歴を見る →</span></div>
+              <div class="v-ac"><div class="v-ac-thumb">🌋</div><div style="flex:1;min-width:0;"><div class="v-ac-name">ハワイ島 キラウエア火山＋星空観賞</div><div class="v-ac-meta">📍 ハワイ島 ⭐ 4.76</div></div><div class="v-ac-price">¥38,694〜</div></div>
+              <div class="v-ac"><div class="v-ac-thumb">🚢</div><div style="flex:1;min-width:0;"><div class="v-ac-name">サンセット・ディナークルーズ</div><div class="v-ac-meta">📍 オアフ島 ⭐ 4.71</div></div><div class="v-ac-price">¥14,349〜</div></div>
+              <div class="v-ac"><div class="v-ac-thumb">🌅</div><div style="flex:1;min-width:0;"><div class="v-ac-name">ハレアカラ山頂サンライズ</div><div class="v-ac-meta">📍 マウイ島 ⭐ 4.67</div></div><div class="v-ac-price">¥43,530〜</div></div>
             </div>
             <div style="padding:0 16px;">
               <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;font-size:14px;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
-              <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f6f9;font-size:14px;"><span>📝 予約履歴</span></div>
-              <div style="display:flex;justify-content:space-between;padding:10px 0;font-size:14px;"><span>🅿 ポイント履歴</span></div>
+              <div style="display:flex;justify-content:space-between;padding:10px 0;font-size:14px;"><span>📝 予約履歴</span></div>
             </div>
-            <div style="padding:11px 16px;background:var(--green-bg);border-top:1px solid var(--green-border);font-size:13px;color:var(--green);line-height:1.5;">
-              ✅ 実物TOP3表示。1タップでACへ
-            </div>
+            <div style="padding:11px 16px;background:var(--green-bg);border-top:1px solid var(--green-border);font-size:13px;color:var(--green);">✅ 実物TOP3表示。1タップでACへ</div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 
-  <!-- m2: SP Asis vs Tobe -->
   <div class="mockup-panel" id="m2">
-    <div class="mock-pill p1"><span class="dot"></span>SP — 既存ハンバーガーメニューを実物表示に拡張</div>
+    <div class="mock-pill p1"><span class="dot"></span>SP — ハンバーガーメニューを実物表示に拡張</div>
     <div class="mockup-wrap">
       <div class="sp-wrap" style="justify-content:flex-start;">
-
         <div>
-          <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;letter-spacing:0.07em;">⬅ ASIS — 現状</div>
+          <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;letter-spacing:0.07em;">⬅ ASIS</div>
           <div class="sp-frame">
             <div style="background:#fff;width:100%;font-family:'Noto Sans JP',sans-serif;">
-              <div style="padding:14px 14px;text-align:center;color:#e03535;font-size:14px;font-weight:700;border-bottom:1px solid #eaeef3;">ようこそ、KotaroMさん</div>
+              <div style="padding:14px;text-align:center;color:#e03535;font-size:14px;font-weight:700;border-bottom:1px solid #eaeef3;">ようこそ、KotaroMさん</div>
               <div style="padding:0 14px;font-size:13px;">
                 <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f4f6f9;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
                 <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f4f6f9;"><span>⏱ 閲覧履歴</span><span style="color:#666;">0</span></div>
                 <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f4f6f9;"><span>📝 予約履歴</span></div>
                 <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f4f6f9;"><span>💬 体験談</span></div>
-                <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f4f6f9;"><span>🅿 ポイント履歴</span></div>
-                <div style="display:flex;justify-content:space-between;padding:11px 0;"><span>🏷 クーポン</span></div>
-              </div>
-              <div style="padding:11px 14px;background:#fef2f2;border-top:1px solid #fccfcf;font-size:12px;color:#d93535;">
-                ❌ カウントのみ・実物が見えない
+                <div style="display:flex;justify-content:space-between;padding:11px 0;"><span>🅿 ポイント履歴</span></div>
               </div>
             </div>
           </div>
         </div>
-
         <div>
-          <div style="font-size:13px;font-weight:700;color:var(--p1);margin-bottom:10px;letter-spacing:0.07em;">➡ TOBE — 改善後</div>
+          <div style="font-size:13px;font-weight:700;color:var(--p1);margin-bottom:10px;letter-spacing:0.07em;">➡ TOBE</div>
           <div class="sp-frame">
             <div style="background:#fff;width:100%;font-family:'Noto Sans JP',sans-serif;">
-              <div style="padding:14px 14px;text-align:center;color:#e03535;font-size:14px;font-weight:700;border-bottom:1px solid #eaeef3;">ようこそ、KotaroMさん</div>
+              <div style="padding:14px;text-align:center;color:#e03535;font-size:14px;font-weight:700;border-bottom:1px solid #eaeef3;">ようこそ、KotaroMさん</div>
               <div style="background:#eef3fd;padding:11px 14px;border-bottom:1px solid var(--accent-border);">
-                <div style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;">⏱ 閲覧履歴 <span style="color:#666;font-weight:500;">3件</span></div>
+                <div style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;">⏱ 閲覧履歴 3件</div>
                 <div class="sp-ac-row" style="border-bottom:1px solid #dde7f8;"><div class="sp-ac-thumb">🌋</div><div><div class="sp-ac-name">キラウエア火山＋星空</div><div class="sp-ac-price">¥38,694〜</div></div></div>
                 <div class="sp-ac-row" style="border-bottom:1px solid #dde7f8;"><div class="sp-ac-thumb">🚢</div><div><div class="sp-ac-name">サンセット・ディナークルーズ</div><div class="sp-ac-price">¥14,349〜</div></div></div>
                 <div class="sp-ac-row"><div class="sp-ac-thumb">🌅</div><div><div class="sp-ac-name">ハレアカラ山頂サンライズ</div><div class="sp-ac-price">¥43,530〜</div></div></div>
-                <div style="text-align:right;padding-top:7px;font-size:11px;color:var(--accent);">すべての履歴 →</div>
-              </div>
-              <div style="padding:0 14px;font-size:13px;">
-                <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f4f6f9;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
-                <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f4f6f9;"><span>📝 予約履歴</span></div>
-                <div style="display:flex;justify-content:space-between;padding:11px 0;"><span>🅿 ポイント履歴</span></div>
-              </div>
-              <div style="padding:11px 14px;background:var(--green-bg);border-top:1px solid var(--green-border);font-size:12px;color:var(--green);">
-                ✅ 実物TOP3表示。1タップでACへ
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- m3: Phase 1B エリア文脈 -->
-  <div class="mockup-panel" id="m3">
-    <div class="mock-pill p1"><span class="dot"></span>Phase 1B — エリア／メインスポット文脈（/hawaii/ 閲覧中）</div>
-    <div class="mockup-wrap">
-      <div class="sp-wrap" style="justify-content:flex-start;align-items:flex-start;">
-        <div>
-          <div style="font-size:13px;font-weight:700;color:var(--p1);margin-bottom:10px;">SP — ハワイエリアページ閲覧中</div>
-          <div class="sp-frame">
-            <div style="background:#fff;width:100%;font-family:'Noto Sans JP',sans-serif;">
-              <div style="padding:14px 14px;text-align:center;color:#e03535;font-size:14px;font-weight:700;border-bottom:1px solid #eaeef3;">ようこそ、KotaroMさん</div>
-              <div style="background:#eef3fd;padding:11px 14px;border-bottom:1px solid var(--accent-border);">
-                <div style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;">⏱ 閲覧履歴 <span style="color:#666;font-weight:500;">3件</span></div>
-                <div class="sp-ac-row"><div class="sp-ac-thumb">🌋</div><div><div class="sp-ac-name">キラウエア火山＋星空</div><div class="sp-ac-price">¥38,694〜</div></div></div>
-              </div>
-              <div style="background:#f0faf6;padding:11px 14px;border-bottom:1px solid var(--green-border);">
-                <div style="font-size:11px;font-weight:700;color:var(--green);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;">🌺 ハワイで人気のAC</div>
-                <div class="sp-ac-row" style="border-bottom:1px solid #c8eddc;"><div class="sp-ac-thumb">🐬</div><div><div class="sp-ac-name">イルカと泳ぐドルフィンスイム</div><div class="sp-ac-price">¥17,820〜</div></div></div>
-                <div class="sp-ac-row" style="border-bottom:1px solid #c8eddc;"><div class="sp-ac-thumb">🌅</div><div><div class="sp-ac-name">ダイヤモンドヘッド登頂</div><div class="sp-ac-price">¥10,154〜</div></div></div>
-                <div class="sp-ac-row"><div class="sp-ac-thumb">⛵</div><div><div class="sp-ac-name">サンセット・カタマランクルーズ</div><div class="sp-ac-price">¥9,500〜</div></div></div>
               </div>
               <div style="padding:0 14px;font-size:13px;">
                 <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f4f6f9;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
@@ -500,33 +566,56 @@ section { padding: 48px 0; }
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mockup-panel" id="m3">
+    <div class="mock-pill p1"><span class="dot"></span>エリア文脈 — /hawaii/ 配下を閲覧中</div>
+    <div class="mockup-wrap">
+      <div class="sp-wrap" style="justify-content:flex-start;align-items:flex-start;">
+        <div class="sp-frame">
+          <div style="background:#fff;width:100%;font-family:'Noto Sans JP',sans-serif;">
+            <div style="padding:14px;text-align:center;color:#e03535;font-size:14px;font-weight:700;border-bottom:1px solid #eaeef3;">ようこそ、KotaroMさん</div>
+            <div style="background:#eef3fd;padding:11px 14px;border-bottom:1px solid var(--accent-border);">
+              <div style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;">⏱ 閲覧履歴</div>
+              <div class="sp-ac-row"><div class="sp-ac-thumb">🌋</div><div><div class="sp-ac-name">キラウエア火山＋星空</div><div class="sp-ac-price">¥38,694〜</div></div></div>
+            </div>
+            <div style="background:#f0faf6;padding:11px 14px;border-bottom:1px solid var(--green-border);">
+              <div style="font-size:11px;font-weight:700;color:var(--green);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;">🌺 ハワイで人気のAC</div>
+              <div class="sp-ac-row" style="border-bottom:1px solid #c8eddc;"><div class="sp-ac-thumb">🐬</div><div><div class="sp-ac-name">イルカと泳ぐドルフィンスイム</div><div class="sp-ac-price">¥17,820〜</div></div></div>
+              <div class="sp-ac-row" style="border-bottom:1px solid #c8eddc;"><div class="sp-ac-thumb">🌅</div><div><div class="sp-ac-name">ダイヤモンドヘッド登頂</div><div class="sp-ac-price">¥10,154〜</div></div></div>
+              <div class="sp-ac-row"><div class="sp-ac-thumb">⛵</div><div><div class="sp-ac-name">カタマランクルーズ</div><div class="sp-ac-price">¥9,500〜</div></div></div>
+            </div>
+            <div style="padding:0 14px;font-size:13px;">
+              <div style="display:flex;justify-content:space-between;padding:11px 0;"><span>🤍 保存リスト</span><span style="color:#666;">1</span></div>
+            </div>
+          </div>
+        </div>
         <div style="max-width:320px;">
-          <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;">設計のポイント</div>
+          <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;">仕組み</div>
           <ul class="bullet-list">
-            <li><strong>エリア＋スポット2段階</strong>でJSONキー設計</li>
-            <li>/hawaii/、/hawaii/oahu/、個別スポットで段階的に絞り込み</li>
-            <li>戦略軸「メインスポット取りこぼし防止」への直接的アプローチ</li>
-            <li>週次でマーケが自己更新可能（エンジニア不要）</li>
+            <li>/hawaii/ 配下を閲覧したユーザーが <strong>"Hawaii Interest"セグメント</strong>に入る</li>
+            <li>そのセグメント向けの<strong>「ハワイ人気AC」カード</strong>が表示される</li>
+            <li>カードの内容（TOP3 AC）はマーケが<strong>Brazeダッシュボードで事前キュレーション</strong></li>
+            <li>週次または季節ごとに内容を更新可能</li>
           </ul>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- m4: Phase 2 Braze -->
   <div class="mockup-panel" id="m4">
-    <div class="mock-pill p2"><span class="dot"></span>Phase 2 — Braze Content Cards（閲覧行動トリガー）</div>
+    <div class="mock-pill p2"><span class="dot"></span>カレンダー離脱リターゲット — 48時間以内</div>
     <div class="mockup-wrap">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:flex-start;">
         <div>
-          <div style="font-size:13px;font-weight:700;color:var(--p2);margin-bottom:10px;">PC — Braze配信時</div>
+          <div style="font-size:13px;font-weight:700;color:var(--p2);margin-bottom:10px;">PC — 配信時</div>
           <div class="v-header">
             <div class="v-header-row">
-              <div class="v-logo">VeL·ToA</div>
+              <div class="v-logo">Veltra</div>
               <div class="v-search">🔍 <span>行き先、やりたいことから探す</span></div>
-              <div class="v-icons">
-                <div class="v-btn hl" style="position:relative;">👤 <span>ようこそ、KotaroMさん</span><div class="v-dot"></div></div>
-              </div>
+              <div class="v-icons"><div class="v-btn hl" style="position:relative;">👤 <span>ようこそ、KotaroMさん</span><div class="v-dot"></div></div></div>
             </div>
           </div>
           <div class="v-dropdown">
@@ -540,29 +629,19 @@ section { padding: 48px 0; }
               </div>
             </div>
             <div class="v-dd-section">
-              <div class="v-dd-lbl">🌺 ハワイを見ているあなたへ</div>
-              <div class="v-ac">
-                <div class="v-ac-thumb">🐬</div>
-                <div style="flex:1;min-width:0;"><div class="v-ac-name">イルカと泳ぐドルフィンスイム</div><div class="v-ac-meta">📍 オアフ島 ⭐ 4.82</div></div>
-                <div class="v-ac-price">¥17,820〜</div>
-              </div>
-              <div class="v-ac">
-                <div class="v-ac-thumb">🌈</div>
-                <div style="flex:1;min-width:0;"><div class="v-ac-name">ダイヤモンドヘッド登頂＋市内観光</div><div class="v-ac-meta">📍 オアフ島 ⭐ 4.54</div></div>
-                <div class="v-ac-price">¥10,154〜</div>
-              </div>
+              <div class="v-dd-lbl">⏱ 閲覧履歴</div>
+              <div class="v-ac"><div class="v-ac-thumb">🚢</div><div style="flex:1;min-width:0;"><div class="v-ac-name">サンセット・ディナークルーズ</div></div><div class="v-ac-price">¥14,349〜</div></div>
             </div>
-            <div style="padding:9px 16px;background:var(--purple-bg);border-top:1px solid var(--purple-border);font-size:12px;color:var(--p2);text-align:center;">Brazeから配信中 — 非エンジニアが管理可能</div>
           </div>
         </div>
-
         <div>
-          <div style="font-size:13px;font-weight:700;color:var(--p2);margin-bottom:10px;">Brazeトリガー3シナリオ</div>
+          <div style="font-size:13px;font-weight:700;color:var(--p2);margin-bottom:10px;">仕組み</div>
           <ul class="bullet-list">
-            <li><strong>⏰ カレンダー離脱：</strong>view_calendar後48h未購入 →「まだ空きあります」</li>
-            <li><strong>🏷 エリア興味タグ：</strong>/hawaii/配下2P以上閲覧 → ハワイAC配信</li>
-            <li><strong>🎯 スポット粒度：</strong>個別AC2回以上閲覧 → 関連AC配信</li>
-            <li>全てBrazeダッシュボードで配信内容・ABテスト・停止が可能</li>
+            <li>既存GTM <code class="inline">view_calendar</code> イベントをBrazeにも送信</li>
+            <li><strong>48時間以内</strong>に <code class="inline">ecommerce_purchase</code> がなければセグメントに入る</li>
+            <li>離脱したACの情報がBrazeのユーザー属性に保存されている</li>
+            <li>カードはそのAC情報を<strong>Liquidテンプレート</strong>で動的に表示</li>
+            <li>48時間経過 or 購入完了で自動的にセグメントから外れる</li>
           </ul>
         </div>
       </div>
@@ -573,12 +652,246 @@ section { padding: 48px 0; }
 </div>
 <div class="divider"></div>
 
-<!-- ② 期待効果・検証方法 -->
+<!-- ② レコメンドロジック詳細（メイン） -->
 <div class="container">
 <section id="sec2">
   <div class="section-header">
     <div class="section-num">SECTION 02</div>
-    <div class="section-title">期待効果・検証方法</div>
+    <div class="section-title">レコメンドロジック詳細 — Brazeで実現する方法</div>
+    <div class="section-desc">「どんなレコメンドを、どういう条件で、どう表示するか」を全て具体化。レコメンドシステムは作らず、<strong>Brazeのカスタム属性とセグメントだけで実現</strong>する。</div>
+  </div>
+
+  <div class="callout purple">
+    <div class="callout-icon">⚙️</div>
+    <div class="callout-body">
+      <strong>本施策はMLレコメンドではない。</strong>Brazeの標準機能（カスタムイベント／カスタム属性／セグメント／Content Cards／Liquidテンプレート）だけで動作するルールベース＋個人属性のハイブリッド設計。
+    </div>
+  </div>
+
+  <!-- A. データ収集 -->
+  <div class="subsec">
+    <div class="subsec-eyebrow">A. DATA COLLECTION</div>
+    <div class="subsec-title">ステップ1：Brazeに送る3つのイベント</div>
+
+    <div class="flow-grid">
+      <div class="flow-step">
+        <div class="flow-step-num">1</div>
+        <div class="flow-step-title">ACページ閲覧時</div>
+        <div class="flow-step-desc">ACページが表示されたら、AC情報をパラメータ付きでBrazeに送信。</div>
+        <div class="flow-step-code">braze.logCustomEvent("viewed_ac", {<br>&nbsp;&nbsp;ac_id, ac_name,<br>&nbsp;&nbsp;ac_thumbnail_url,<br>&nbsp;&nbsp;ac_price, ac_url,<br>&nbsp;&nbsp;ac_rating, area<br>})</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">2</div>
+        <div class="flow-step-title">カレンダー開示時</div>
+        <div class="flow-step-desc">既存GTMの view_calendar イベントをBrazeにも送信開始。AC情報を含める。</div>
+        <div class="flow-step-code">braze.logCustomEvent("view_calendar", {<br>&nbsp;&nbsp;ac_id, ac_name,<br>&nbsp;&nbsp;ac_thumbnail_url,<br>&nbsp;&nbsp;ac_price, ac_url<br>})</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">3</div>
+        <div class="flow-step-title">購入完了時</div>
+        <div class="flow-step-desc">予約完了時に購入情報を送信。Phase 2の購入履歴ベース配信で活用。</div>
+        <div class="flow-step-code">braze.logCustomEvent(<br>&nbsp;&nbsp;"ecommerce_purchase", {<br>&nbsp;&nbsp;ac_id, area, category,<br>&nbsp;&nbsp;purchase_at<br>})</div>
+      </div>
+    </div>
+
+    <div style="margin-top:18px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:14px;line-height:1.75;">
+      <strong>Braze側で起こること：</strong>これらのイベントを受信するたび、Braze内部でユーザー属性が自動更新される。例えば <code class="inline">viewed_ac</code> 受信時は <code class="inline">last_viewed_ac_1_*</code> 属性に最新ACを保存し、古い値は <code class="inline">last_viewed_ac_2_*</code> → <code class="inline">last_viewed_ac_3_*</code> へとシフトする（Brazeの「Update User Attribute via Event」アクションで設定）。
+    </div>
+  </div>
+
+  <!-- B. カード仕様 -->
+  <div class="subsec">
+    <div class="subsec-eyebrow">B. CARD SPECIFICATIONS</div>
+    <div class="subsec-title">ステップ2：3つのカードの詳細仕様</div>
+
+    <!-- カードA -->
+    <div class="logic-card">
+      <div class="logic-card-head">
+        <span class="logic-card-badge a">CARD A</span>
+        <div class="logic-card-title">⏱ 閲覧履歴TOP3</div>
+        <div class="logic-card-priority">優先度<strong> Medium</strong></div>
+      </div>
+      <div class="logic-card-body">
+        <div class="logic-row">
+          <div class="logic-row-label">配信対象（セグメント）</div>
+          <div class="logic-row-value"><code>last_viewed_ac_1_id</code> が存在する <strong>AND</strong> ログイン済みユーザー</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">データソース</div>
+          <div class="logic-row-value">Brazeカスタム属性 <code>last_viewed_ac_1_*</code> / <code>2_*</code> / <code>3_*</code>（viewed_acイベント受信時に自動シフト更新）</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">表示内容</div>
+          <div class="logic-row-value">Liquidテンプレートで属性値を動的に展開。3件のAC情報（サムネ・名前・価格・URL）をリスト表示。</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">マーケ管理範囲</div>
+          <div class="logic-row-value">テンプレートのデザイン・文言のみ。<strong>コンテンツ（どのACが表示されるか）は完全自動。</strong></div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">更新タイミング</div>
+          <div class="logic-row-value">ユーザーがACページを閲覧するたびリアルタイムに更新。次回メニュー開示時に反映。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- カードB -->
+    <div class="logic-card">
+      <div class="logic-card-head">
+        <span class="logic-card-badge b">CARD B</span>
+        <div class="logic-card-title">🌺 エリア人気AC（事前キュレーション）</div>
+        <div class="logic-card-priority">優先度<strong> Medium-Low</strong></div>
+      </div>
+      <div class="logic-card-body">
+        <div class="logic-row">
+          <div class="logic-row-label">配信対象（セグメント）</div>
+          <div class="logic-row-value">過去7日間に <code>page_view</code> イベントで対象エリアURL（例：<code>/hawaii/</code> 配下）を<strong>2回以上閲覧</strong>したユーザー。Brazeでエリア別にセグメントを作成。</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">セグメント例</div>
+          <div class="logic-row-value">"Hawaii Interest" / "Thailand Interest" / "Korea Interest" / "Okinawa Interest" 等、Phase 1は<strong>主要10〜15エリア</strong>でスタート</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">表示内容</div>
+          <div class="logic-row-value"><strong>マーケが事前にキュレーションしたAC TOP3</strong>を含むカード。各エリアごとに別カードを作成。</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">マーケ管理範囲</div>
+          <div class="logic-row-value"><strong>カード内のAC選定（週次〜月次で更新）</strong>。季節・キャンペーンに応じて差し替え。BrazeダッシュボードでABテストも可能。</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">更新タイミング</div>
+          <div class="logic-row-value">マーケがBrazeで編集 → 即時反映。エンジニア介在ゼロ。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- カードC -->
+    <div class="logic-card">
+      <div class="logic-card-head">
+        <span class="logic-card-badge c">CARD C</span>
+        <div class="logic-card-title">⏰ カレンダー離脱リターゲット</div>
+        <div class="logic-card-priority">優先度<strong> HIGH（最上部表示）</strong></div>
+      </div>
+      <div class="logic-card-body">
+        <div class="logic-row">
+          <div class="logic-row-label">配信対象（セグメント）</div>
+          <div class="logic-row-value">過去48時間以内に <code>view_calendar</code> を発火 <strong>AND</strong> その後に <code>ecommerce_purchase</code> なし</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">データソース</div>
+          <div class="logic-row-value">Brazeカスタム属性 <code>calendar_abandon_ac_*</code> と <code>calendar_abandon_at</code>（view_calendarイベント受信時に保存、購入完了時にクリア）</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">表示内容</div>
+          <div class="logic-row-value">「⏰ あのアクティビティ、まだ空いています」見出し＋離脱したAC情報。<strong>メニュー最上部に表示</strong>（priority設定）。</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">有効期限</div>
+          <div class="logic-row-value">48時間で自動的にセグメントから外れる。購入完了でも即座にクリア。</div>
+        </div>
+        <div class="logic-row">
+          <div class="logic-row-label">マーケ管理範囲</div>
+          <div class="logic-row-value">見出し文言とデザインのみ。AC情報は自動。</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;padding:14px 18px;background:var(--accent-bg);border:1px solid var(--accent-border);border-radius:8px;font-size:14px;line-height:1.75;">
+      <strong>カードの優先順位ロジック：</strong>① C（緊急性・購入直前）→ ② A（最も個人化）→ ③ B（文脈依存）→ ④ フォールバック（全体人気AC）。<strong>BrazeのContent Cards priority設定</strong>で制御。
+    </div>
+  </div>
+
+  <!-- C. シナリオ -->
+  <div class="subsec">
+    <div class="subsec-eyebrow">C. CONCRETE EXAMPLE</div>
+    <div class="subsec-title">ステップ3：具体例 — 田中さんのケース</div>
+
+    <div class="scenario">
+      <div class="scenario-head">田中さん（リピーター・ハワイ旅行検討中）の行動履歴</div>
+      <div class="scenario-timeline">
+        <div class="scenario-event"><div class="scenario-time">5/8 14:00</div><div class="scenario-action">ハワイ島キラウエア火山ツアーのACページを閲覧</div></div>
+        <div class="scenario-event"><div class="scenario-time">5/8 14:15</div><div class="scenario-action">オアフ島サンセット・ディナークルーズを閲覧</div></div>
+        <div class="scenario-event"><div class="scenario-time">5/8 14:30</div><div class="scenario-action">マウイ島ハレアカラサンライズを閲覧</div></div>
+        <div class="scenario-event"><div class="scenario-time">5/10 19:00</div><div class="scenario-action">キラウエア火山ツアーのカレンダーを開いた（→ 購入せず離脱）</div></div>
+        <div class="scenario-event"><div class="scenario-time">5/11 10:00</div><div class="scenario-action">/hawaii/oahu/ ページを閲覧</div></div>
+      </div>
+
+      <div style="font-size:13px;font-weight:700;margin-top:18px;margin-bottom:8px;color:var(--text);">Braze側のユーザー属性・セグメント状態</div>
+      <ul class="bullet-list" style="margin-bottom:14px;">
+        <li><code class="inline">last_viewed_ac_1</code> = ハレアカラサンライズ</li>
+        <li><code class="inline">last_viewed_ac_2</code> = サンセット・ディナークルーズ</li>
+        <li><code class="inline">last_viewed_ac_3</code> = キラウエア火山ツアー</li>
+        <li><code class="inline">calendar_abandon_ac</code> = キラウエア火山ツアー（5/10離脱、48h以内 ✓）</li>
+        <li>"Hawaii Interest" セグメントに所属 ✓</li>
+      </ul>
+
+      <div class="scenario-result">
+        <div class="scenario-result-title">5/11 11:00 に田中さんがメニューを開くと、こう表示される</div>
+        <ul>
+          <li><span class="pri">1位</span><strong>カードC：</strong>「⏰ キラウエア火山ツアー、まだ空きあります」（最上部）</li>
+          <li><span class="pri">2位</span><strong>カードA：</strong>⏱ 閲覧履歴TOP3（ハレアカラ／ディナークルーズ／キラウエア）</li>
+          <li><span class="pri">3位</span><strong>カードB：</strong>🌺 ハワイで人気のAC TOP3（マーケ事前キュレーション）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- D. Phase 1 vs Phase 2 -->
+  <div class="subsec" style="margin-bottom:0;">
+    <div class="subsec-eyebrow">D. PHASE COMPARISON</div>
+    <div class="subsec-title">ステップ4：Phase 1 と Phase 2 の明確な違い</div>
+
+    <div class="phase-compare">
+      <div class="phase-compare-col p1">
+        <div class="phase-compare-head">
+          <div class="phase-compare-tag">PHASE 1 — 2〜3週間</div>
+          <div class="phase-compare-title">ベーシック3カード運用</div>
+        </div>
+        <div class="phase-compare-body">
+          <ul>
+            <li>カードA・B・Cの<strong>3枚のContent Cards</strong>を設定</li>
+            <li>カードBのセグメントは<strong>主要10〜15エリア</strong>まで（Hawaii・Thailand・Korea・Okinawa等）</li>
+            <li>カードB内容はマーケが<strong>事前キュレーション</strong>（週次更新）</li>
+            <li>レコメンドは「URLパターン＋カスタム属性」のルールベース</li>
+            <li>BrazeのABテスト機能でカード文言を最適化</li>
+            <li>レポート：Brazeダッシュボード ＋ GA4</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase-compare-col p2">
+        <div class="phase-compare-head">
+          <div class="phase-compare-tag">PHASE 2 — 継続運用</div>
+          <div class="phase-compare-title">細分化・購入履歴・最適化</div>
+        </div>
+        <div class="phase-compare-body">
+          <ul>
+            <li>カードBの粒度を<strong>エリア → メインスポット</strong>に細分化（キラウエア閲覧／ダイヤモンドヘッド閲覧 等の個別セグメント）</li>
+            <li><strong>新カードD：購入履歴ベース</strong>追加。例「前回ハワイで購入したあなたへ」（<code>last_purchase_area</code> 属性使用）</li>
+            <li>セグメント数を30+に拡張、より精度の高いマッチング</li>
+            <li>Brazeの<strong>Connected Content</strong>でリアルタイム在庫表示（オプション）</li>
+            <li>長期データに基づくセグメント条件の最適化</li>
+            <li>戦略軸「メインスポット取りこぼし防止」への対応強化</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:18px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:14px;line-height:1.75;">
+      <strong>Phase 1 vs Phase 2 の本質的な違い：</strong>Phase 1は「全体ベースのエリア粒度」、Phase 2は「個別スポット粒度＋購入履歴」。<strong>どちらも開発リソース不要</strong>でBrazeダッシュボード操作で完結する。Phase 1の数字を見てからPhase 2のセグメント追加を判断する。
+    </div>
+  </div>
+
+</section>
+</div>
+<div class="divider"></div>
+
+<!-- ③ 期待効果・スケジュール -->
+<div class="container">
+<section id="sec3">
+  <div class="section-header">
+    <div class="section-num">SECTION 03</div>
+    <div class="section-title">期待効果・スケジュール</div>
   </div>
 
   <div style="font-size:15px;font-weight:700;margin-bottom:10px;">成功指標（KPI）</div>
@@ -623,23 +936,23 @@ section { padding: 48px 0; }
       <div class="roadmap-lbl" style="color:var(--p1);">Phase 0<small>スロット設置</small></div>
       <div class="roadmap-cells">
         <div class="roadmap-cell"><div class="roadmap-cell-title">Day 1</div><div class="roadmap-cell-desc">前提確認（Braze SDK等）</div><div class="phase-bar" style="background:var(--p1);width:100%;"></div></div>
-        <div class="roadmap-cell"><div class="roadmap-cell-title">Day 2〜3</div><div class="roadmap-cell-desc">スロット追加・SDK連携</div><div class="phase-bar" style="background:var(--p1);width:100%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">Day 2〜3</div><div class="roadmap-cell-desc">スロット追加・GTMイベント送信開始</div><div class="phase-bar" style="background:var(--p1);width:100%;"></div></div>
         <div class="roadmap-cell"><div class="roadmap-cell-title">Day 4〜5</div><div class="roadmap-cell-desc">QA・リリース<br>→開発依存終了</div><div class="phase-bar" style="background:var(--p1);width:80%;"></div></div>
       </div>
     </div>
     <div class="roadmap-row">
-      <div class="roadmap-lbl" style="color:var(--p2);">Phase 1<small>Braze運用</small></div>
+      <div class="roadmap-lbl" style="color:var(--p2);">Phase 1<small>3カード運用</small></div>
       <div class="roadmap-cells">
-        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 1</div><div class="roadmap-cell-desc">閲覧履歴カード作成</div><div class="phase-bar" style="background:var(--p2);width:100%;"></div></div>
-        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 2</div><div class="roadmap-cell-desc">エリア文脈カード追加</div><div class="phase-bar" style="background:var(--p2);width:100%;"></div></div>
-        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 3〜</div><div class="roadmap-cell-desc">カレンダー離脱・ABテスト</div><div class="phase-bar" style="background:var(--p2);width:60%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 1</div><div class="roadmap-cell-desc">カードA（閲覧履歴）設定<br>属性シフトの動作確認</div><div class="phase-bar" style="background:var(--p2);width:100%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 2</div><div class="roadmap-cell-desc">カードB（エリア）×10エリア<br>初期コンテンツ作成</div><div class="phase-bar" style="background:var(--p2);width:100%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 3〜</div><div class="roadmap-cell-desc">カードC（カレンダー離脱）<br>ABテスト・配信最適化</div><div class="phase-bar" style="background:var(--p2);width:60%;"></div></div>
       </div>
     </div>
     <div class="roadmap-row">
-      <div class="roadmap-lbl" style="color:var(--p3);">Phase 2<small>精緻化</small></div>
+      <div class="roadmap-lbl" style="color:var(--p3);">Phase 2<small>細分化・拡張</small></div>
       <div class="roadmap-cells">
-        <div class="roadmap-cell"><div class="roadmap-cell-title">Month 2〜</div><div class="roadmap-cell-desc">スポット粒度・購入履歴ベース</div><div class="phase-bar" style="background:var(--p3);width:50%;"></div></div>
-        <div class="roadmap-cell"><div class="roadmap-cell-title">継続</div><div class="roadmap-cell-desc">マーケ・PM自走運用</div><div class="phase-bar" style="background:var(--p3);width:30%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">Month 2〜</div><div class="roadmap-cell-desc">スポット粒度セグメント追加<br>カードD（購入履歴）導入</div><div class="phase-bar" style="background:var(--p3);width:50%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">継続</div><div class="roadmap-cell-desc">マーケ・PM自走運用<br>定期的なセグメント最適化</div><div class="phase-bar" style="background:var(--p3);width:30%;"></div></div>
       </div>
     </div>
   </div>
@@ -647,18 +960,18 @@ section { padding: 48px 0; }
   <div class="callout green" style="margin-top:18px;">
     <div class="callout-icon">🚀</div>
     <div class="callout-body">
-      <strong>開発依存は Phase 0 の5日のみ。</strong>以降は全てBrazeダッシュボード操作で完結。エンジニア工数を待たずにPM・マーケで継続改善できる。
+      <strong>開発依存は Phase 0 の5日のみ。</strong>以降は全てBrazeダッシュボード操作で完結。マーケ・PMが自走でカード内容変更・ABテスト・新セグメント追加が可能。
     </div>
   </div>
 </section>
 </div>
 <div class="divider"></div>
 
-<!-- ③ なぜやるか（背景・問題） -->
+<!-- ④ なぜやるか -->
 <div class="container">
-<section id="sec3">
+<section id="sec4">
   <div class="section-header">
-    <div class="section-num">SECTION 03</div>
+    <div class="section-num">SECTION 04</div>
     <div class="section-title">なぜやるか（背景・問題）</div>
   </div>
 
@@ -685,6 +998,14 @@ section { padding: 48px 0; }
     </div>
   </div>
 
+  <div style="margin-top:24px;font-size:15px;font-weight:700;margin-bottom:10px;">現状の課題（実画面確認 2026-05-11）</div>
+  <ul class="bullet-list">
+    <li><strong>既存メニューはカウントのみ。</strong>「保存リスト 1」「閲覧履歴 0」などテキスト＋数字だけで実物が見えない</li>
+    <li><strong>マイページの「あなたへのおすすめ」はパーソナライズ機能していない。</strong>閲覧履歴0でもスパが表示される静的コンテンツ</li>
+    <li><strong>エリアページのメニューに文脈なし。</strong>ハワイ閲覧中でも汎用リンクのみ</li>
+    <li><strong>結果：</strong>リピーターは再訪→汎用ページ→記憶頼りの探索→離脱、または長い回遊で失速</li>
+  </ul>
+
   <div style="margin-top:24px;font-size:15px;font-weight:700;margin-bottom:10px;">なぜ取り組むか</div>
   <ul class="bullet-list">
     <li><strong>2026重点は ②回遊→③検討。</strong>AC到達・カレンダー表示率の改善がここに直結</li>
@@ -706,60 +1027,9 @@ section { padding: 48px 0; }
   </div>
 </section>
 </div>
-<div class="divider"></div>
-
-<!-- ④ 課題と打ち手方向性 -->
-<div class="container">
-<section id="sec4">
-  <div class="section-header">
-    <div class="section-num">SECTION 04</div>
-    <div class="section-title">課題と打ち手方向性</div>
-  </div>
-
-  <div style="font-size:15px;font-weight:700;margin-bottom:10px;">現状の課題（実画面確認 2026-05-11）</div>
-  <ul class="bullet-list">
-    <li><strong>既存メニューはカウントのみ。</strong>「保存リスト 1」「閲覧履歴 0」などテキスト＋数字だけで実物が見えない</li>
-    <li><strong>マイページの「あなたへのおすすめ」はパーソナライズ機能していない。</strong>閲覧履歴0でもスパが表示される静的コンテンツ</li>
-    <li><strong>エリアページのメニューに文脈なし。</strong>ハワイ閲覧中でも汎用リンクのみ</li>
-    <li><strong>結果：</strong>リピーターは再訪→汎用ページ→記憶頼りの探索→離脱、または長い回遊で失速</li>
-  </ul>
-
-  <div style="margin-top:28px;font-size:15px;font-weight:700;margin-bottom:10px;">打ち手の方向性（3仮説）</div>
-  <ul class="bullet-list">
-    <li><strong>H1 既存メニュー拡張：</strong>「閲覧履歴」「保存リスト」をカウント→実物TOP3表示に。学習コストなし。<span style="color:var(--accent);">→ Phase 0+1で実現</span></li>
-    <li><strong>H2 URL文脈：</strong>閲覧エリア／メインスポットに応じて関連ACを出し分け。<span style="color:var(--accent);">→ Phase 1（Brazeセグメント）／Phase 2（スポット粒度）</span></li>
-    <li><strong>H3 カレンダー離脱リターゲット：</strong>view_calendar後48h未購入に「まだ空きあります」配信。<span style="color:var(--accent);">→ Phase 1（既存GTMイベント活用）</span></li>
-  </ul>
-
-  <div style="margin-top:28px;font-size:15px;font-weight:700;margin-bottom:10px;">3フェーズ実行計画</div>
-  <div style="display:flex;flex-direction:column;gap:12px;">
-    <div class="phase-bullet">
-      <div class="phase-badge p1">PHASE 0｜5日</div>
-      <div class="phase-content">
-        <div class="phase-content-title">Brazeコンテンツカード受け口の設置</div>
-        <div class="phase-content-desc">PC/SPメニュー上部にスロット追加＋GTMイベント確認。これ以降の開発依存ゼロ。</div>
-      </div>
-    </div>
-    <div class="phase-bullet">
-      <div class="phase-badge p2">PHASE 1｜2〜3週</div>
-      <div class="phase-content">
-        <div class="phase-content-title">Brazeコンテンツ運用 — 開発不要</div>
-        <div class="phase-content-desc">3カード（閲覧履歴／エリア文脈／カレンダー離脱）を配信。Brazeダッシュボードで完結、PM・マーケ自走可能。</div>
-      </div>
-    </div>
-    <div class="phase-bullet">
-      <div class="phase-badge p3">PHASE 2｜継続</div>
-      <div class="phase-content">
-        <div class="phase-content-title">配信ロジックの精緻化</div>
-        <div class="phase-content-desc">スポット粒度セグメント・購入履歴ベース配信・外部レコメンドAPI連携。引き続き開発リソース不要。</div>
-      </div>
-    </div>
-  </div>
-</section>
-</div>
 
 <div class="doc-footer">
-  VELTRA CVR向上チーム｜ヘッダーパーソナライズメニュー 企画書 v3.0｜2026-05-11<br>
+  VELTRA CVR向上チーム｜ヘッダーパーソナライズメニュー 企画書 v5.0｜2026-05-11<br>
   次のアクション：ClickUpにPRDとして登録 → Phase 0仕様確定・開発着手
 </div>
 
@@ -785,6 +1055,5 @@ window.addEventListener('scroll', () => {
   tocs.forEach((t, i) => t.classList.toggle('active', i === cur));
 });
 </script>
-<script src="/planning/back-nav.js"></script>
 </body>
 </html>
