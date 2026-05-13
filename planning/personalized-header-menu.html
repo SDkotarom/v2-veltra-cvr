@@ -618,9 +618,10 @@ code.inline {
         <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:0.07em;">発火条件と中身</div>
         <ul class="bullet-list">
           <li>過去 7 日に対象エリア URL（例：<code>/hawaii/</code>）を <strong>2 ページ以上閲覧</strong>した Traveler が「Hawaii Interest」セグメントに自動所属</li>
-          <li>カード内の <strong>上位 5 件は 3 条件 AND の月次バッチで自動選定</strong>：①直近 30 日 page_view 上位／②⭐ 4.0 以上＋体験談 10 件以上／③営業中</li>
-          <li>初期 4 エリア（ハワイ・韓国・グアム・タイ）。Day 4 は静的フォールバックで先行スタート、Day 8 で自動選定リストに切替</li>
-          <li>個人視聴回数ベースで動かない。出し分けは「どのエリアのリストを見せるか」だけ</li>
+          <li>カード内の <strong>上位 5 件は Braze Catalogs の 3 条件 AND 絞り込みで自動選定</strong>：①⭐ 評価 4.0 以上／②体験談 10 件以上／③営業中。評価 × 体験談数の重み付けで降順</li>
+          <li>Catalogs に AC マスタを <strong>月次 CSV アップロード</strong>するだけで運用維持（開発作業不要）</li>
+          <li>初期 4 エリア（ハワイ・韓国・グアム・タイ）。Day 4 から配信開始</li>
+          <li>+α で GA4 BigQuery 連携を追加すると「直近 30 日 page_view 上位」を選定基準に組み込み可能（開発 5〜7 日）</li>
         </ul>
       </div>
     </div>
@@ -742,8 +743,8 @@ code.inline {
         <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:0.07em;">発火条件と中身</div>
         <ul class="bullet-list">
           <li><code class="inline">ecommerce_purchase</code> 受信時に <code>last_purchase_area</code> 属性を保存（例：<code>hawaii</code>）。直近購入から <strong>90 日</strong>で属性自動クリア</li>
-          <li>属性が立っている Traveler に対し、<strong>カード B と同じ 3 条件 AND の月次バッチ自動選定リスト</strong>をそのエリアに対して適用</li>
-          <li>個人文脈（前回購入エリア）× ルール選定（エリア上位 AC）の合成。データ蓄積不要、初回購入時から即発火</li>
+          <li>属性が立っている Traveler に対し、<strong>カード B と同じ Braze Catalogs の 3 条件 AND 絞り込み</strong>をそのエリアに対して適用</li>
+          <li>個人文脈（前回購入エリア）× ルール選定（Catalogs から品質上位）の合成。データ蓄積不要、初回購入時から即発火</li>
           <li>「前回ハワイで購入したあなたへ」など Liquid テンプレートでエリア名を埋め込んで動的に見出し生成</li>
         </ul>
       </div>
@@ -822,7 +823,7 @@ code.inline {
           <tr>
             <td><span class="tag green">CARD B</span><br><small style="color:var(--muted);">エリア人気</small></td>
             <td><strong>そのエリアの「ルールベース上位 AC」5件</strong></td>
-            <td><strong>3条件のAND で月次バッチ自動選定</strong>：①直近30日 page_view 上位／②⭐ 4.0 以上＆体験談 10件以上／③営業中。個人の視聴回数ベースでは動かない。出し分けは「どのエリアのリストを見せるか」だけ（ハワイ閲覧者→ハワイリスト 等）</td>
+            <td><strong>Braze Catalogs の AC マスタから 3 条件 AND で自動絞り込み</strong>：①⭐ 評価 4.0 以上／②体験談 10 件以上／③営業中。<strong>評価 × 体験談数の重み付けで上位 5 件</strong>。個人の視聴回数ベースでは動かない。出し分けは「どのエリアのリストを見せるか」だけ（ハワイ閲覧者→ハワイリスト 等）</td>
           </tr>
           <tr>
             <td><span class="tag orange">CARD C</span><br><small style="color:var(--muted);">カレンダー離脱</small></td>
@@ -832,12 +833,51 @@ code.inline {
           <tr>
             <td><span class="tag green">CARD D</span><br><small style="color:var(--muted);">購入履歴ベース</small></td>
             <td><strong>過去に購入したエリアの「ルールベース上位 AC」</strong></td>
-            <td><strong>過去購入エリアに対する Card B と同じ自動選定</strong>（3条件AND）。トリガーは <code>ecommerce_purchase</code> 受信で <code>last_purchase_area</code> 属性が立っている Traveler。「前回ハワイで購入したあなたへ」のような訴求</td>
+            <td><strong>過去購入エリアに対する Card B と同じ Catalogs 絞り込み</strong>（評価＋体験談＋営業中 AND）。トリガーは <code>ecommerce_purchase</code> 受信で <code>last_purchase_area</code> 属性が立っている Traveler。「前回ハワイで購入したあなたへ」のような訴求</td>
           </tr>
         </tbody>
       </table>
       <div style="margin-top:12px;font-size:13px;color:var(--text2);line-height:1.7;">
-        <strong>ポイント：</strong>個人の視聴を使っているのは <strong>カード A（時系列）と C（リターゲット）のみ</strong>。B は<strong>「ルールベースで全ユーザー共通の人気上位5件」</strong>をエリアごとに自動選定（GA4 + 在庫DB の月次バッチ）。<strong>視聴回数 → スコア化 → レコメンドエンジン</strong>的な個人最適化はこの段階では入れていない（外部レコメンド API 連携の領域）。
+        <strong>ポイント：</strong>個人の視聴を使っているのは <strong>カード A（時系列）と C（リターゲット）のみ</strong>。B は<strong>「ルールベースで全 Traveler 共通の品質上位 5 件」</strong>をエリアごとに自動選定（Braze Catalogs）。D はその B のロジックを過去購入エリアに当てる。<strong>視聴回数 → スコア化 → レコメンドエンジン</strong>的な個人最適化はこの段階では入れていない（外部レコメンド API 連携の領域）。
+      </div>
+    </div>
+
+    <!-- 実装方式（Braze 単独可否） -->
+    <div style="margin-bottom:22px;padding:18px 22px;background:#fff;border:1px solid var(--border);border-radius:10px;">
+      <div style="font-size:14px;font-weight:800;color:var(--text);letter-spacing:0.04em;margin-bottom:12px;">実装方式 — Braze 単独で完結する範囲と「+α 開発」で広がること</div>
+      <table class="kpi-table" style="margin-top:0;">
+        <thead>
+          <tr>
+            <th style="width:11%;">カード</th>
+            <th style="width:43%;">Braze 単独で完結する範囲（開発 0 で初期ローンチ可）</th>
+            <th>+α（軽い開発）で追加できること</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag green">A</span><br><small style="color:var(--muted);">閲覧履歴</small></td>
+            <td>Braze SDK で <code>viewed_ac</code> 受信 → Workflow で <code>last_viewed_ac_1/2/3_*</code> をスライド更新 → Liquid で描画。<strong>完全 Braze 内で完結</strong></td>
+            <td>—（追加開発不要）</td>
+          </tr>
+          <tr>
+            <td><span class="tag green">B</span><br><small style="color:var(--muted);">エリア人気</small></td>
+            <td>Braze <strong>Catalogs</strong> に AC マスタ（id・name・thumb・price・rating・review_count・area・status）を <strong>月次 CSV アップロード</strong>。Liquid から <code>where: rating &gt;= 4.0 AND review_count &gt;= 10 AND status = active, sort: rating × review_count desc, limit 5</code> で抽出</td>
+            <td><strong>GA4 BigQuery export → Cloud Functions</strong> で「直近 30 日 page_view 上位」を Catalog の追加列に流し込み、選定条件に<strong>人気度軸</strong>を追加（5〜7 日開発）</td>
+          </tr>
+          <tr>
+            <td><span class="tag orange">C</span><br><small style="color:var(--muted);">カレンダー離脱</small></td>
+            <td>既存 GTM <code>view_calendar</code> イベントを Braze にも送信開始するだけ。Workflow で <code>calendar_abandon_ac_*</code> 属性を保存、セグメント条件で 48h 自動制御。<strong>完全 Braze 内で完結</strong></td>
+            <td>—（追加開発不要）</td>
+          </tr>
+          <tr>
+            <td><span class="tag green">D</span><br><small style="color:var(--muted);">購入履歴ベース</small></td>
+            <td>Braze SDK で <code>ecommerce_purchase</code> 受信 → <code>last_purchase_area</code> 属性を保存。<strong>B と同じ Catalogs を流用</strong>して購入エリアで絞り込み表示</td>
+            <td>B の +α と連動（人気度軸が入る）</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:12px;padding:12px 16px;background:var(--accent-bg);border:1px solid var(--accent-border);border-radius:6px;font-size:13px;color:var(--text);line-height:1.75;">
+        <strong>方針：</strong>初期ローンチは <strong>Braze 単独で完結（A・C は完全自動、B・D は月次 CSV 更新）</strong>。「直近の人気度」を反映したい場合の +α として GA4 BigQuery 連携を後追いで追加できる構造にしておく。開発リソースを使うのは「+α」を入れたくなった時だけ。
       </div>
     </div>
 
@@ -889,21 +929,21 @@ code.inline {
           <div class="logic-row-value"><strong>ハワイ・韓国・グアム・タイ（海外特化）</strong>でスタート。<br><strong>選定理由：</strong>(1) 戦略軸「海外旅行短期化」と整合（円安下でも需要が見込めるリピーター主戦場）／(2) いずれもエリアTOPセッション数で上位 (ハワイ40K・韓国13K・グアム9K)＋タイは情勢回復で伸び期待／(3) 季節依存が低くテスト品質が安定（富山・屋久島など季節限定エリアは除外）／(4) リピーター比率が高くカード B の効果が出やすい</div>
         </div>
         <div class="logic-row">
-          <div class="logic-row-label">AC 選定ロジック<br>（3条件の AND）</div>
+          <div class="logic-row-label">AC 選定ロジック<br>（Braze Catalogs 絞り込み）</div>
           <div class="logic-row-value">
-            ① <strong>トラフィック条件</strong>：エリア配下AC ページの直近30日 <code>page_view</code> 上位<br>
-            ② <strong>品質条件</strong>：⭐ 4.0 以上 ＆ 体験談 10件以上<br>
-            ③ <strong>販売状態</strong>：営業中（販売停止・季節終了・天候停止は除外）<br>
-            上記AND を満たす上位5件を「そのエリアの人気AC」として表示（A/B で TOP3 vs TOP5 を検証）
+            ① <strong>品質条件</strong>：⭐ 評価 4.0 以上 ＆ 体験談 10 件以上<br>
+            ② <strong>販売状態</strong>：営業中（販売停止・季節終了・天候停止は除外）<br>
+            ③ <strong>並び順</strong>：評価 × 体験談数の重み付けで降順、上位 5 件<br>
+            Liquid で Catalog を参照：<code>{% catalog_items 'ac_master' where: 'area=hawaii AND rating&gt;=4.0 AND review_count&gt;=10 AND status=active' sort: 'rating_score desc' limit: 5 %}</code>
           </div>
         </div>
         <div class="logic-row">
           <div class="logic-row-label">運用フロー</div>
-          <div class="logic-row-value"><strong>月次バッチ</strong>で GA4 + 在庫DB から候補リストを自動生成 → Braze Content Card 用 JSON にエクスポート。人手で並び替える作業は発生しない</div>
+          <div class="logic-row-value"><strong>月次に Braze Catalogs に CSV をアップロード</strong>（PM/マーケが Braze ダッシュボードで実行、開発作業不要）。Catalog 更新後は配信時に Liquid が新しいデータを参照</div>
         </div>
         <div class="logic-row">
-          <div class="logic-row-label">「人気」定義の A/B 検証</div>
-          <div class="logic-row-value">案A（page_view 上位＝注目）／案B（購入数上位＝実売）／案C（wishlist 追加上位＝欲しがられている）を Braze ダッシュボード上で並行検証。初期は案A、結果を見て切替</div>
+          <div class="logic-row-label">+α 開発で追加できる</div>
+          <div class="logic-row-value">GA4 BigQuery export → Cloud Functions の月次バッチで「直近 30 日 page_view 上位」を Catalog の追加列に流し込む。選定条件に <strong>人気度軸</strong>が加わり、case A（評価上位）vs case B（人気度上位）の A/B 検証が可能になる。開発工数 5〜7 日。<strong>初期ローンチには含めない</strong>（後追いで追加可能）</div>
         </div>
       </div>
     </div>
@@ -953,7 +993,7 @@ code.inline {
         </div>
         <div class="logic-row">
           <div class="logic-row-label">AC 選定ロジック</div>
-          <div class="logic-row-value"><strong>Card B と同じ 3条件AND の月次バッチ自動選定</strong>を、<code>last_purchase_area</code> のエリアに対して適用。「前回購入したエリアの今月の人気上位5件」を表示</div>
+          <div class="logic-row-value"><strong>Card B と同じ Braze Catalogs の 3 条件 AND 絞り込み</strong>を <code>last_purchase_area</code> のエリアに対して適用。「前回購入したエリアの品質上位 5 件」を表示</div>
         </div>
         <div class="logic-row">
           <div class="logic-row-label">表示内容</div>
@@ -1023,7 +1063,7 @@ code.inline {
         <ul>
           <li><span class="pri">上から1番目</span><strong>カードC：</strong>「⏰ キラウエア火山ツアー、まだ空きあります」（最上部）</li>
           <li><span class="pri">上から2番目</span><strong>カードA：</strong>⏱ 閲覧履歴TOP3（ハレアカラ／ディナークルーズ／キラウエア）</li>
-          <li><span class="pri">上から3番目</span><strong>カードB：</strong>🌺 ハワイで人気のAC TOP5（ルールベース自動選定：page_view 上位＋⭐4.0以上＋営業中）</li>
+          <li><span class="pri">上から3番目</span><strong>カードB：</strong>🌺 ハワイで人気のAC TOP5（Braze Catalogs 絞り込み：⭐ 評価 4.0+ ＋ 体験談 10件+ ＋ 営業中、評価×体験談数で降順）</li>
         </ul>
       </div>
     </div>
@@ -1109,7 +1149,7 @@ code.inline {
       <div class="roadmap-lbl" style="color:var(--p1);">仕込み<small>Day 1〜3</small></div>
       <div class="roadmap-cells">
         <div class="roadmap-cell"><div class="roadmap-cell-title">Day 1〜2</div><div class="roadmap-cell-desc">PC/SP メニューにスロット HTML を追加。GTM で 3 カスタムイベント送信を開始。Braze SDK 接続確認</div><div class="phase-bar" style="background:var(--p1);width:100%;"></div></div>
-        <div class="roadmap-cell"><div class="roadmap-cell-title">Day 3</div><div class="roadmap-cell-desc">Braze に 4 カード Liquid テンプレ＋4 エリアセグメント＋属性スライド Workflow を一括投入。Card B は静的フォールバック JSON で先行スタート</div><div class="phase-bar" style="background:var(--p1);width:100%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">Day 3</div><div class="roadmap-cell-desc">Braze に 4 カード Liquid テンプレ＋4 エリアセグメント＋属性スライド Workflow を一括投入。Card B/D 用に <strong>Braze Catalogs へ AC マスタ初版 CSV をアップロード</strong></div><div class="phase-bar" style="background:var(--p1);width:100%;"></div></div>
       </div>
     </div>
     <div class="roadmap-row">
@@ -1122,7 +1162,7 @@ code.inline {
     <div class="roadmap-row">
       <div class="roadmap-lbl" style="color:var(--p3);">自動選定切替<small>Day 8〜</small></div>
       <div class="roadmap-cells">
-        <div class="roadmap-cell"><div class="roadmap-cell-title">Day 8</div><div class="roadmap-cell-desc">Card B を静的フォールバック → 月次バッチの自動選定リストに切替（初回バッチ実行）</div><div class="phase-bar" style="background:var(--p3);width:100%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">月次</div><div class="roadmap-cell-desc">Braze Catalogs に AC マスタ CSV を月次アップロード（開発作業不要）</div><div class="phase-bar" style="background:var(--p3);width:100%;"></div></div>
         <div class="roadmap-cell"><div class="roadmap-cell-title">継続</div><div class="roadmap-cell-desc">A/B の勝ち variant を順次採用。エリア → スポット粒度への細分化、Connected Content など段階拡張</div><div class="phase-bar" style="background:var(--p3);width:60%;"></div></div>
       </div>
     </div>
@@ -1131,7 +1171,7 @@ code.inline {
   <div class="callout green" style="margin-top:18px;">
     <div class="callout-icon">🚀</div>
     <div class="callout-body">
-      <strong>開発作業は Day 1〜2 の実質 2 日のみ。</strong>Braze セットアップは Day 3 で完了し、Day 4 から 4 カード × 4 エリアを一斉配信＋ A/B 並行運用に入る。データ蓄積を待つ Card B は <strong>静的フォールバックで先行スタート</strong>し、Day 8 で自動選定リストに切り替えるので「データ溜まるまで何もできない」期間が発生しない。
+      <strong>開発作業は Day 1〜2 の実質 2 日のみ。</strong>Braze セットアップは Day 3 で完了し、Day 4 から 4 カード × 4 エリアを一斉配信＋ A/B 並行運用に入る。Card B/D は <strong>Braze Catalogs に AC マスタ CSV を月次アップロード</strong>するだけで運用が回るため、開発リソース待ちゼロ。<strong>+α で GA4 BigQuery 連携を追加すると「直近 30 日 page_view 上位」も選定基準に組み込み可能</strong>（5〜7 日開発、後追いで追加可能）。
     </div>
   </div>
 </section>
