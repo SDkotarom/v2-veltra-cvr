@@ -913,8 +913,27 @@ code.inline {
       </div>
     </div>
 
-    <div style="margin-top:14px;padding:14px 18px;background:var(--accent-bg);border:1px solid var(--accent-border);border-radius:8px;font-size:14px;line-height:1.75;">
-      <strong>カードの優先順位ロジック：</strong>① C（緊急性・購入直前）→ ② D（リピート意欲）→ ③ A（最も個人化）→ ④ B（文脈依存）→ ⑤ フォールバック（全体人気AC）。<strong>BrazeのContent Cards priority設定</strong>で制御。
+    <div style="margin-top:14px;padding:18px 22px;background:var(--accent-bg);border:1px solid var(--accent-border);border-radius:8px;font-size:14px;line-height:1.75;">
+      <div style="font-weight:800;color:var(--accent);margin-bottom:10px;">同時に複数カードが発火した場合の並び順</div>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;background:#fff;border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+        <thead>
+          <tr style="background:var(--surface);">
+            <th style="padding:8px 12px;text-align:left;width:8%;color:var(--muted);font-weight:700;">順</th>
+            <th style="padding:8px 12px;text-align:left;width:18%;color:var(--muted);font-weight:700;">カード</th>
+            <th style="padding:8px 12px;text-align:left;color:var(--muted);font-weight:700;">なぜこの順番か</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:8px 12px;font-weight:800;">1</td><td style="padding:8px 12px;"><strong>C</strong> カレンダー離脱</td><td style="padding:8px 12px;">カレンダーを開いて 48h 未購入＝<strong>「もうすぐ買いそう」シグナルが最強</strong>。最上部に置けば取りこぼし回収</td></tr>
+          <tr><td style="padding:8px 12px;font-weight:800;">2</td><td style="padding:8px 12px;"><strong>D</strong> 購入履歴ベース</td><td style="padding:8px 12px;">過去にどこかで買った経験＝<strong>支払い意欲・サイト信頼が確認済み</strong>。リピート訴求の効率が高い</td></tr>
+          <tr><td style="padding:8px 12px;font-weight:800;">3</td><td style="padding:8px 12px;"><strong>A</strong> 閲覧履歴 TOP3</td><td style="padding:8px 12px;">Traveler 本人が直接見ていた AC。再到達ニーズは高いが、まだ買うとは限らないので C/D の次</td></tr>
+          <tr><td style="padding:8px 12px;font-weight:800;">4</td><td style="padding:8px 12px;"><strong>B</strong> エリア人気</td><td style="padding:8px 12px;">エリアに来ているだけで本人の意欲は不明。「探索を補助する」位置づけ</td></tr>
+          <tr><td style="padding:8px 12px;font-weight:800;">5</td><td style="padding:8px 12px;">フォールバック</td><td style="padding:8px 12px;">上記いずれも発火しない時の汎用「全体人気 AC」</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:12px;font-size:13px;color:var(--text2);line-height:1.7;">
+        <strong>Braze 側の設定：</strong>各 Content Card に「priority（整数）」を割り当て（例：C=10／D=8／A=6／B=4／fallback=2）。複数カードが同じユーザーに該当した場合、Braze SDK が priority の高い順に並べてアプリ/サイトに返す。Braze ダッシュボードで数字を変えれば順番もリアルタイムで切替できる（A/B テストで順番違いも検証可能）。
+      </div>
     </div>
   </div>
 
