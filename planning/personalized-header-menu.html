@@ -435,7 +435,7 @@ code.inline {
     <div class="doc-badge">🎯 CVR施策企画書 — W15仮説3-施策H</div>
     <h1>ヘッダーパーソナライズメニュー<br>リピーターの「再発見」を設計する</h1>
     <div class="doc-header-sub">
-      ログイン後メニューの「閲覧履歴・保存リスト」は既に存在するがカウントのみ。実物（AC TOP3）をBrazeで配信する改善。レコメンドシステムは作らず、Brazeのカスタム属性とセグメントだけで実現する。
+      ログイン後メニューの「閲覧履歴」「保存リスト」は数字（件数）だけが表示されている。これを AC のサムネ・名前・価格を直接見せるカード表示に変える施策。レコメンドエンジンは作らず、Braze のカスタム属性とセグメントだけで実装する。
     </div>
     <div class="doc-meta">
       <div class="doc-meta-chip"><span>担当</span><strong>Kotaro</strong></div>
@@ -466,7 +466,7 @@ code.inline {
   <div class="callout blue">
     <div class="callout-icon">🎯</div>
     <div class="callout-body">
-      <strong>既存メニューの「閲覧履歴」「保存リスト」を実物TOP3表示に拡張。</strong>サムネ・名前・価格を直接見せ、1タップでACへ。エリア文脈・カレンダー離脱リターゲットも追加。<strong>全てBrazeのContent Cardsで配信</strong>。
+      <strong>既存メニューの「閲覧履歴」「保存リスト」を、カウント数字表示から AC のサムネ・名前・価格を直接見せるカード表示に変更。</strong>1 タップで AC ページに遷移。あわせてエリア文脈（閲覧中エリアの人気 AC）とカレンダー離脱リターゲット（カレンダー開いて未購入の AC を再提示）を追加。<strong>全て Braze の Content Cards で配信</strong>。
     </div>
   </div>
 
@@ -478,7 +478,7 @@ code.inline {
   </div>
 
   <div class="mockup-panel active" id="m1">
-    <div class="mock-pill p1"><span class="dot"></span>PC — 既存メニューを実物表示に拡張</div>
+    <div class="mock-pill p1"><span class="dot"></span>PC — 閲覧履歴を AC カード化（サムネ・名前・価格を直接表示）</div>
     <div class="mockup-wrap">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:flex-start;">
         <div>
@@ -507,7 +507,7 @@ code.inline {
               <div style="padding:8px 0;">パスワードの再設定</div>
               <div style="padding:8px 0;">メール認証</div>
             </div>
-            <div style="padding:11px 16px;background:#fef2f2;border-top:1px solid #fccfcf;font-size:13px;color:#d93535;">❌ カウントのみ・実物が見えない</div>
+            <div style="padding:11px 16px;background:#fef2f2;border-top:1px solid #fccfcf;font-size:13px;color:#d93535;">❌ カウント数字だけで、どの AC を見ていたか分からない</div>
           </div>
         </div>
         <div>
@@ -541,7 +541,7 @@ code.inline {
               <div style="padding:8px 0;">パスワードの再設定</div>
               <div style="padding:8px 0;">メール認証</div>
             </div>
-            <div style="padding:11px 16px;background:var(--green-bg);border-top:1px solid var(--green-border);font-size:13px;color:var(--green);">✅ 実物TOP3表示。1タップでACへ</div>
+            <div style="padding:11px 16px;background:var(--green-bg);border-top:1px solid var(--green-border);font-size:13px;color:var(--green);">✅ 直近 3 件の AC をサムネ・名前・価格付きで表示、1 タップで AC ページへ</div>
           </div>
         </div>
       </div>
@@ -549,7 +549,7 @@ code.inline {
   </div>
 
   <div class="mockup-panel" id="m2">
-    <div class="mock-pill p1"><span class="dot"></span>SP — ハンバーガーメニューを実物表示に拡張</div>
+    <div class="mock-pill p1"><span class="dot"></span>SP — ハンバーガーメニューを AC カード表示に拡張（PC と同パターン）</div>
     <div class="mockup-wrap">
       <div class="sp-wrap" style="justify-content:flex-start;">
         <div>
@@ -640,10 +640,10 @@ code.inline {
         <div style="max-width:320px;">
           <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px;">仕組み</div>
           <ul class="bullet-list">
-            <li>/hawaii/ 配下を閲覧したユーザーが <strong>"Hawaii Interest"セグメント</strong>に入る</li>
-            <li>そのセグメント向けの<strong>「ハワイ人気AC」カード</strong>が表示される</li>
-            <li>カードの内容（TOP3 AC）はマーケが<strong>Brazeダッシュボードで事前キュレーション</strong></li>
-            <li>週次または季節ごとに内容を更新可能</li>
+            <li>/hawaii/ 配下を閲覧した Traveler が <strong>"Hawaii Interest" セグメント</strong>に自動所属</li>
+            <li>そのセグメント向けの<strong>「ハワイで人気の AC」カード</strong>が表示される</li>
+            <li>カード内の AC は <strong>3 条件 AND（page_view 上位／⭐ 4.0 以上＋体験談 10 件以上／営業中）の月次バッチで自動選定</strong>。人手で並び替える作業は発生しない</li>
+            <li>月次更新。季節キャンペーンなど臨時更新は Braze 上で内容差し替え</li>
           </ul>
         </div>
       </div>
@@ -964,9 +964,9 @@ code.inline {
       <div class="scenario-result">
         <div class="scenario-result-title">5/11 11:00 に田中さんがメニューを開くと、こう表示される</div>
         <ul>
-          <li><span class="pri">1位</span><strong>カードC：</strong>「⏰ キラウエア火山ツアー、まだ空きあります」（最上部）</li>
-          <li><span class="pri">2位</span><strong>カードA：</strong>⏱ 閲覧履歴TOP3（ハレアカラ／ディナークルーズ／キラウエア）</li>
-          <li><span class="pri">3位</span><strong>カードB：</strong>🌺 ハワイで人気のAC TOP5（ルールベース自動選定：page_view 上位＋⭐4.0以上＋営業中）</li>
+          <li><span class="pri">上から1番目</span><strong>カードC：</strong>「⏰ キラウエア火山ツアー、まだ空きあります」（最上部）</li>
+          <li><span class="pri">上から2番目</span><strong>カードA：</strong>⏱ 閲覧履歴TOP3（ハレアカラ／ディナークルーズ／キラウエア）</li>
+          <li><span class="pri">上から3番目</span><strong>カードB：</strong>🌺 ハワイで人気のAC TOP5（ルールベース自動選定：page_view 上位＋⭐4.0以上＋営業中）</li>
         </ul>
       </div>
     </div>
@@ -1115,7 +1115,7 @@ code.inline {
 
   <div style="margin-top:24px;font-size:15px;font-weight:700;margin-bottom:10px;">現状の課題（実画面確認 2026-05-11）</div>
   <ul class="bullet-list">
-    <li><strong>既存メニューはカウントのみ。</strong>「保存リスト 1」「閲覧履歴 0」などテキスト＋数字だけで実物が見えない</li>
+    <li><strong>既存メニューはカウント表示のみ。</strong>「保存リスト 1」「閲覧履歴 0」のような数字だけで、Traveler がどの AC を見ていたか分からない</li>
     <li><strong>マイページの「あなたへのおすすめ」はパーソナライズ機能していない。</strong>閲覧履歴0でもスパが表示される静的コンテンツ</li>
     <li><strong>エリアページのメニューに文脈なし。</strong>ハワイ閲覧中でも汎用リンクのみ</li>
     <li><strong>結果：</strong>リピーターは再訪→汎用ページ→記憶頼りの探索→離脱、または長い回遊で失速</li>
