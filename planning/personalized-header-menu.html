@@ -719,8 +719,8 @@ code.inline {
           </tr>
           <tr>
             <td><span class="tag green">CARD B</span><br><small style="color:var(--muted);">エリア人気</small></td>
-            <td><strong>そのエリアの人気 AC（マーケ事前選定）</strong></td>
-            <td><strong>マーケが事前にエリアごとに手で選んだ固定リスト</strong>。個人の視聴回数ベースで動かない。出し分けは「どのエリアのリストを見せるか」だけ（ハワイ閲覧者→ハワイリスト 等）</td>
+            <td><strong>そのエリアの「ルールベース上位 AC」5件</strong></td>
+            <td><strong>3条件のAND で月次バッチ自動選定</strong>：①直近30日 page_view 上位／②⭐ 4.0 以上＆体験談 10件以上／③営業中。個人の視聴回数ベースでは動かない。出し分けは「どのエリアのリストを見せるか」だけ（ハワイ閲覧者→ハワイリスト 等）。マーケは「除外フィルタ」だけかける（不適切掲載・季節終了等）</td>
           </tr>
           <tr>
             <td><span class="tag orange">CARD C</span><br><small style="color:var(--muted);">カレンダー離脱</small></td>
@@ -730,7 +730,7 @@ code.inline {
         </tbody>
       </table>
       <div style="margin-top:12px;font-size:13px;color:var(--text2);line-height:1.7;">
-        <strong>ポイント：</strong>個人の視聴回数を集計してレコメンドしているのは <strong>カード A のみ（しかも回数ではなく時系列順）</strong>。B はマーケキュレーション、C は本人リターゲット。<strong>視聴回数 → スコア化 → レコメンドエンジン</strong> 的な処理はこの段階では入れていない（外部レコメンド API 連携の領域）。
+        <strong>ポイント：</strong>個人の視聴を使っているのは <strong>カード A（時系列）と C（リターゲット）のみ</strong>。B は<strong>「ルールベースで全ユーザー共通の人気上位5件」</strong>をエリアごとに自動選定（GA4 + 在庫DB の月次バッチ、マーケは除外フィルタのみ）。<strong>視聴回数 → スコア化 → レコメンドエンジン</strong>的な個人最適化はこの段階では入れていない（外部レコメンド API 連携の領域）。
       </div>
     </div>
 
@@ -769,7 +769,7 @@ code.inline {
     <div class="logic-card">
       <div class="logic-card-head">
         <span class="logic-card-badge b">CARD B</span>
-        <div class="logic-card-title">🌺 エリア人気AC（事前キュレーション）</div>
+        <div class="logic-card-title">🌺 エリア人気AC（ルールベース自動選定）</div>
         <div class="logic-card-priority">優先度<strong> Medium-Low</strong></div>
       </div>
       <div class="logic-card-body">
@@ -778,20 +778,25 @@ code.inline {
           <div class="logic-row-value">過去7日間に <code>page_view</code> イベントで対象エリアURL（例：<code>/hawaii/</code> 配下）を<strong>2回以上閲覧</strong>したユーザー。Brazeでエリア別にセグメントを作成。</div>
         </div>
         <div class="logic-row">
-          <div class="logic-row-label">セグメント例</div>
-          <div class="logic-row-value">"Hawaii Interest" / "Thailand Interest" / "Korea Interest" / "Okinawa Interest" 等、まず<strong>主要10〜15エリア</strong>でスタートし、A/B 並行運用でスポット粒度に段階拡張</div>
+          <div class="logic-row-label">初期テスト4エリア</div>
+          <div class="logic-row-value"><strong>ハワイ・韓国・グアム・タイ（海外特化）</strong>でスタート。<br><strong>選定理由：</strong>(1) 戦略軸「海外旅行短期化」と整合（円安下でも需要が見込めるリピーター主戦場）／(2) いずれもエリアTOPセッション数で上位 (ハワイ40K・韓国13K・グアム9K)＋タイは情勢回復で伸び期待／(3) 季節依存が低くテスト品質が安定（富山・屋久島など季節限定エリアは除外）／(4) リピーター比率が高くカード B の効果が出やすい</div>
         </div>
         <div class="logic-row">
-          <div class="logic-row-label">表示内容</div>
-          <div class="logic-row-value"><strong>マーケが事前にキュレーションしたAC TOP3</strong>を含むカード。各エリアごとに別カードを作成。</div>
+          <div class="logic-row-label">AC 選定ロジック<br>（3条件の AND）</div>
+          <div class="logic-row-value">
+            ① <strong>トラフィック条件</strong>：エリア配下AC ページの直近30日 <code>page_view</code> 上位<br>
+            ② <strong>品質条件</strong>：⭐ 4.0 以上 ＆ 体験談 10件以上<br>
+            ③ <strong>販売状態</strong>：営業中（販売停止・季節終了・天候停止は除外）<br>
+            上記AND を満たす上位5件を「そのエリアの人気AC」として表示（A/B で TOP3 vs TOP5 を検証）
+          </div>
         </div>
         <div class="logic-row">
-          <div class="logic-row-label">マーケ管理範囲</div>
-          <div class="logic-row-value"><strong>カード内のAC選定（週次〜月次で更新）</strong>。季節・キャンペーンに応じて差し替え。BrazeダッシュボードでABテストも可能。</div>
+          <div class="logic-row-label">運用フロー</div>
+          <div class="logic-row-value"><strong>月次バッチ</strong>で GA4 + 在庫DB から候補リストを自動生成 → スプレッドシート出力 → <strong>マーケは「不適切掲載の除外」のみ（30分作業）</strong>→ Braze Content Card 用 JSON にエクスポート。"マーケが手で選ぶ"作業は発生しない</div>
         </div>
         <div class="logic-row">
-          <div class="logic-row-label">更新タイミング</div>
-          <div class="logic-row-value">マーケがBrazeで編集 → 即時反映。エンジニア介在ゼロ。</div>
+          <div class="logic-row-label">「人気」定義の A/B 検証</div>
+          <div class="logic-row-value">案A（page_view 上位＝注目）／案B（購入数上位＝実売）／案C（wishlist 追加上位＝欲しがられている）を Braze ダッシュボード上で並行検証。初期は案A、結果を見て切替</div>
         </div>
       </div>
     </div>
@@ -882,7 +887,7 @@ code.inline {
     <div style="font-size:14px;font-weight:700;margin-bottom:10px;">並行で回す A/B テスト例（ローンチ後 4週目以降）</div>
     <ul class="bullet-list">
       <li><strong>カードA（閲覧履歴）：</strong>TOP3 を表示するか／TOP5 を表示するか／「同エリア人気を併記」するか</li>
-      <li><strong>カードB（エリア人気）：</strong>エリア粒度（10〜15）でスタート、稼働後にスポット粒度（30+）を段階追加して並走させ CTR で比較</li>
+      <li><strong>カードB（エリア人気）：</strong>初期4エリア（ハワイ・韓国・グアム・タイ）でスタート、稼働後にスポット粒度（30+）を段階追加して並走させ CTR で比較</li>
       <li><strong>カードC（カレンダー離脱）：</strong>コピー違い（「まだ空きあります」/「あと◯日で満席の可能性」）、48h vs 72h のトリガー時間差</li>
       <li><strong>カード優先度：</strong>3カードの並び順（離脱C → 履歴A → エリアB） vs（履歴A → 離脱C → エリアB）の比較</li>
       <li><strong>追加カード D（購入履歴ベース）：</strong>初期から仕込んで「前回ハワイで購入したあなたへ」も並行検証（<code>last_purchase_area</code> 属性使用）</li>
@@ -954,7 +959,7 @@ code.inline {
       <div class="roadmap-lbl" style="color:var(--p2);">セットアップ<small>Week 2〜3</small></div>
       <div class="roadmap-cells">
         <div class="roadmap-cell"><div class="roadmap-cell-title">Week 2</div><div class="roadmap-cell-desc">カードA（閲覧履歴）+ カードC（カレンダー離脱）を Braze 設定・配信開始</div><div class="phase-bar" style="background:var(--p2);width:100%;"></div></div>
-        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 3</div><div class="roadmap-cell-desc">カードB（エリア人気）×10〜15エリア＋カードD（購入履歴）初期セット投入</div><div class="phase-bar" style="background:var(--p2);width:100%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 3</div><div class="roadmap-cell-desc">カードB（エリア人気）×初期4エリア（ハワイ・韓国・グアム・タイ）＋カードD（購入履歴）初期セット投入</div><div class="phase-bar" style="background:var(--p2);width:100%;"></div></div>
       </div>
     </div>
     <div class="roadmap-row">
