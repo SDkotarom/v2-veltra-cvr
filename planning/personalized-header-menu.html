@@ -759,23 +759,23 @@ code.inline {
         <tbody>
           <tr>
             <td><span class="tag green">CARD A</span><br><small style="color:var(--muted);">閲覧履歴</small></td>
-            <td><strong>本人が直近に見た 3 件</strong></td>
+            <td><strong>Traveler が直近に見た 3 件</strong></td>
             <td><strong>新しい順</strong>（時系列）。Braze の <code>last_viewed_ac_1/2/3_*</code> をスライド更新するだけ。「見た回数が多い順」ではない</td>
           </tr>
           <tr>
             <td><span class="tag green">CARD B</span><br><small style="color:var(--muted);">エリア人気</small></td>
             <td><strong>そのエリアの「ルールベース上位 AC」5件</strong></td>
-            <td><strong>3条件のAND で月次バッチ自動選定</strong>：①直近30日 page_view 上位／②⭐ 4.0 以上＆体験談 10件以上／③営業中。個人の視聴回数ベースでは動かない。出し分けは「どのエリアのリストを見せるか」だけ（ハワイ閲覧者→ハワイリスト 等）。マーケは「除外フィルタ」だけかける（不適切掲載・季節終了等）</td>
+            <td><strong>3条件のAND で月次バッチ自動選定</strong>：①直近30日 page_view 上位／②⭐ 4.0 以上＆体験談 10件以上／③営業中。個人の視聴回数ベースでは動かない。出し分けは「どのエリアのリストを見せるか」だけ（ハワイ閲覧者→ハワイリスト 等）</td>
           </tr>
           <tr>
             <td><span class="tag orange">CARD C</span><br><small style="color:var(--muted);">カレンダー離脱</small></td>
-            <td><strong>本人がカレンダー開いたが買わなかった、その AC</strong></td>
-            <td><strong>レコメンドではなく本人リターゲット</strong>。48 時間以内に <code>view_calendar</code> 発火＋未購入のとき、その AC をそのまま再表示する</td>
+            <td><strong>Traveler がカレンダー開いたが買わなかった、その AC</strong></td>
+            <td><strong>Traveler のリターゲット</strong>。48 時間以内に <code>view_calendar</code> 発火＋未購入のとき、その AC をそのまま再表示する</td>
           </tr>
         </tbody>
       </table>
       <div style="margin-top:12px;font-size:13px;color:var(--text2);line-height:1.7;">
-        <strong>ポイント：</strong>個人の視聴を使っているのは <strong>カード A（時系列）と C（リターゲット）のみ</strong>。B は<strong>「ルールベースで全ユーザー共通の人気上位5件」</strong>をエリアごとに自動選定（GA4 + 在庫DB の月次バッチ、マーケは除外フィルタのみ）。<strong>視聴回数 → スコア化 → レコメンドエンジン</strong>的な個人最適化はこの段階では入れていない（外部レコメンド API 連携の領域）。
+        <strong>ポイント：</strong>個人の視聴を使っているのは <strong>カード A（時系列）と C（リターゲット）のみ</strong>。B は<strong>「ルールベースで全ユーザー共通の人気上位5件」</strong>をエリアごとに自動選定（GA4 + 在庫DB の月次バッチ）。<strong>視聴回数 → スコア化 → レコメンドエンジン</strong>的な個人最適化はこの段階では入れていない（外部レコメンド API 連携の領域）。
       </div>
     </div>
 
@@ -837,7 +837,7 @@ code.inline {
         </div>
         <div class="logic-row">
           <div class="logic-row-label">運用フロー</div>
-          <div class="logic-row-value"><strong>月次バッチ</strong>で GA4 + 在庫DB から候補リストを自動生成 → スプレッドシート出力 → <strong>マーケは「不適切掲載の除外」のみ（30分作業）</strong>→ Braze Content Card 用 JSON にエクスポート。"マーケが手で選ぶ"作業は発生しない</div>
+          <div class="logic-row-value"><strong>月次バッチ</strong>で GA4 + 在庫DB から候補リストを自動生成 → Braze Content Card 用 JSON にエクスポート。人手で並び替える作業は発生しない</div>
         </div>
         <div class="logic-row">
           <div class="logic-row-label">「人気」定義の A/B 検証</div>
