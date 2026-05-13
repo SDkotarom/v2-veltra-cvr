@@ -689,7 +689,7 @@ code.inline {
       <div class="flow-step">
         <div class="flow-step-num">3</div>
         <div class="flow-step-title">購入完了時</div>
-        <div class="flow-step-desc">予約完了時に購入情報を送信。Phase 2の購入履歴ベース配信で活用。</div>
+        <div class="flow-step-desc">予約完了時に購入情報を送信。購入履歴ベース配信（カードD）で活用。</div>
         <div class="flow-step-code">braze.logCustomEvent(<br>&nbsp;&nbsp;"ecommerce_purchase", {<br>&nbsp;&nbsp;ac_id, area, category,<br>&nbsp;&nbsp;purchase_at<br>})</div>
       </div>
     </div>
@@ -749,7 +749,7 @@ code.inline {
         </div>
         <div class="logic-row">
           <div class="logic-row-label">セグメント例</div>
-          <div class="logic-row-value">"Hawaii Interest" / "Thailand Interest" / "Korea Interest" / "Okinawa Interest" 等、Phase 1は<strong>主要10〜15エリア</strong>でスタート</div>
+          <div class="logic-row-value">"Hawaii Interest" / "Thailand Interest" / "Korea Interest" / "Okinawa Interest" 等、まず<strong>主要10〜15エリア</strong>でスタートし、A/B 並行運用でスポット粒度に段階拡張</div>
         </div>
         <div class="logic-row">
           <div class="logic-row-label">表示内容</div>
@@ -837,48 +837,29 @@ code.inline {
     </div>
   </div>
 
-  <!-- D. Phase 1 vs Phase 2 -->
+  <!-- D. A/B テスト並行運用 -->
   <div class="subsec" style="margin-bottom:0;">
-    <div class="subsec-eyebrow">D. PHASE COMPARISON</div>
-    <div class="subsec-title">ステップ4：Phase 1 と Phase 2 の明確な違い</div>
+    <div class="subsec-eyebrow">D. PARALLEL A/B TEST</div>
+    <div class="subsec-title">ステップ4：Braze ダッシュボードで A/B を並行運用</div>
 
-    <div class="phase-compare">
-      <div class="phase-compare-col p1">
-        <div class="phase-compare-head">
-          <div class="phase-compare-tag">PHASE 1 — 3〜4週間（ローンチ）</div>
-          <div class="phase-compare-title">3カード稼働まで</div>
-        </div>
-        <div class="phase-compare-body">
-          <ul>
-            <li><strong>Week 1（5日のみ）：</strong>スロット設置・GTMイベント送信開始（開発作業）</li>
-            <li><strong>Week 2〜4：</strong>カードA・B・Cを順次Brazeで設定・配信開始（PM/マーケ作業）</li>
-            <li>カードBのセグメントは<strong>主要10〜15エリア</strong>でスタート（Hawaii・Thailand・Korea・Okinawa等）</li>
-            <li>カードB内容はマーケが<strong>事前キュレーション</strong>（週次更新）</li>
-            <li>レコメンドロジックは「URLパターン＋カスタム属性」のルールベース</li>
-            <li>3カード稼働後にABテスト・配信最適化を開始</li>
-          </ul>
-        </div>
-      </div>
-      <div class="phase-compare-col p2">
-        <div class="phase-compare-head">
-          <div class="phase-compare-tag">PHASE 2 — Month 2以降（拡張・最適化）</div>
-          <div class="phase-compare-title">細分化と新しいレコメンド軸</div>
-        </div>
-        <div class="phase-compare-body">
-          <ul>
-            <li>開発作業<strong>ゼロ</strong>。すべてBrazeダッシュボード操作のみ</li>
-            <li>カードBの粒度を<strong>エリア → メインスポット</strong>に細分化（キラウエア閲覧／ダイヤモンドヘッド閲覧 等）</li>
-            <li><strong>新カードD：購入履歴ベース</strong>追加。「前回ハワイで購入したあなたへ」（<code>last_purchase_area</code> 属性使用）</li>
-            <li>セグメント数を30+に拡張、より精度の高いマッチング</li>
-            <li>Brazeの<strong>Connected Content</strong>でリアルタイム在庫表示（オプション）</li>
-            <li>戦略軸「メインスポット取りこぼし防止」への対応強化</li>
-          </ul>
-        </div>
+    <div class="callout blue" style="margin-bottom:18px;">
+      <div class="callout-icon">⚡</div>
+      <div class="callout-body">
+        <strong>Phase 分割せず、3カード（A・B・C）をローンチ時点で全部稼働させ、Braze ダッシュボード上で A/B テストを並行運用する。</strong>開発作業は Week 1 の 5日のみ。以降は Braze 内のセグメント・カード・Liquid を編集するだけで、複数の検証が同時並行で回せる。
       </div>
     </div>
 
+    <div style="font-size:14px;font-weight:700;margin-bottom:10px;">並行で回す A/B テスト例（ローンチ後 4週目以降）</div>
+    <ul class="bullet-list">
+      <li><strong>カードA（閲覧履歴）：</strong>TOP3 を表示するか／TOP5 を表示するか／「同エリア人気を併記」するか</li>
+      <li><strong>カードB（エリア人気）：</strong>エリア粒度（10〜15）でスタート、稼働後にスポット粒度（30+）を段階追加して並走させ CTR で比較</li>
+      <li><strong>カードC（カレンダー離脱）：</strong>コピー違い（「まだ空きあります」/「あと◯日で満席の可能性」）、48h vs 72h のトリガー時間差</li>
+      <li><strong>カード優先度：</strong>3カードの並び順（離脱C → 履歴A → エリアB） vs（履歴A → 離脱C → エリアB）の比較</li>
+      <li><strong>追加カード D（購入履歴ベース）：</strong>初期から仕込んで「前回ハワイで購入したあなたへ」も並行検証（<code>last_purchase_area</code> 属性使用）</li>
+    </ul>
+
     <div style="margin-top:18px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:14px;line-height:1.75;">
-      <strong>Phase 1 vs Phase 2 の本質的な違い：</strong>Phase 1は<strong>「3カードを動かすローンチフェーズ」</strong>でエリア粒度のレコメンドまで。Phase 2は<strong>「Brazeダッシュボード運用で配信を拡張するフェーズ」</strong>で個別スポット粒度・購入履歴・最適化を継続的に行う。Phase 1の数字を見てPhase 2の方向性を判断する。
+      <strong>Braze で並行運用するメリット：</strong>カード・セグメント・テンプレートが独立してるので、複数の A/B を同時に回しても干渉しない。開発を待たずに、データが出た順番に「勝ち variant」を採用してダッシュボードで切り替えるだけ。<strong>「順次フェーズ展開」ではなく「全カード並走 + 継続最適化」が Braze 運用の正しい姿</strong>。
     </div>
   </div>
 
@@ -897,7 +878,7 @@ code.inline {
   <div style="font-size:15px;font-weight:700;margin-bottom:10px;">成功指標（KPI）</div>
   <table class="kpi-table">
     <thead>
-      <tr><th>種別</th><th>指標</th><th>現状</th><th>Ph.1 目標</th><th>Ph.2 目標</th></tr>
+      <tr><th>種別</th><th>指標</th><th>現状</th><th>初期目標<br><small style="font-weight:400;color:var(--muted);">ローンチ 1ヶ月後</small></th><th>最適化後目標<br><small style="font-weight:400;color:var(--muted);">A/B 並行運用 3ヶ月後</small></th></tr>
     </thead>
     <tbody>
       <tr>
@@ -933,20 +914,25 @@ code.inline {
   <div style="font-size:15px;font-weight:700;margin-top:28px;margin-bottom:10px;">実装スケジュール</div>
   <div class="roadmap">
     <div class="roadmap-row">
-      <div class="roadmap-lbl" style="color:var(--p1);">Phase 1<small>ローンチ（3〜4週）</small></div>
+      <div class="roadmap-lbl" style="color:var(--p1);">開発<small>Week 1（5日）</small></div>
       <div class="roadmap-cells">
-        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 1<br><span style="color:var(--muted);font-weight:400;font-size:11px;">開発作業（5日）</span></div><div class="roadmap-cell-desc">スロット設置・GTMイベント送信開始・QA・リリース</div><div class="phase-bar" style="background:var(--p1);width:100%;"></div></div>
-        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 2</div><div class="roadmap-cell-desc">カードA（閲覧履歴）Braze設定<br>属性シフトの動作確認</div><div class="phase-bar" style="background:var(--p1);width:100%;"></div></div>
-        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 3</div><div class="roadmap-cell-desc">カードB（エリア）×10エリア<br>初期コンテンツ作成</div><div class="phase-bar" style="background:var(--p1);width:100%;"></div></div>
-        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 4〜</div><div class="roadmap-cell-desc">カードC（カレンダー離脱）<br>3カード本格配信・ABテスト開始</div><div class="phase-bar" style="background:var(--p1);width:80%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">Day 1〜3</div><div class="roadmap-cell-desc">PC/SPメニューにスロット設置<br>GTMで3カスタムイベント送信開始</div><div class="phase-bar" style="background:var(--p1);width:100%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">Day 4〜5</div><div class="roadmap-cell-desc">QA・リリース<br>→ 以降の開発依存ゼロ</div><div class="phase-bar" style="background:var(--p1);width:100%;"></div></div>
       </div>
     </div>
     <div class="roadmap-row">
-      <div class="roadmap-lbl" style="color:var(--p2);">Phase 2<small>拡張・最適化</small></div>
+      <div class="roadmap-lbl" style="color:var(--p2);">セットアップ<small>Week 2〜3</small></div>
       <div class="roadmap-cells">
-        <div class="roadmap-cell"><div class="roadmap-cell-title">Month 2〜</div><div class="roadmap-cell-desc">スポット粒度セグメント追加<br>(エリア → 個別スポットへ細分化)</div><div class="phase-bar" style="background:var(--p2);width:60%;"></div></div>
-        <div class="roadmap-cell"><div class="roadmap-cell-title">Month 2〜3</div><div class="roadmap-cell-desc">カードD（購入履歴ベース）導入<br>「前回ハワイで購入したあなたへ」等</div><div class="phase-bar" style="background:var(--p2);width:50%;"></div></div>
-        <div class="roadmap-cell"><div class="roadmap-cell-title">継続</div><div class="roadmap-cell-desc">マーケ・PM自走で運用<br>Connected Content・外部連携検討</div><div class="phase-bar" style="background:var(--p2);width:30%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 2</div><div class="roadmap-cell-desc">カードA（閲覧履歴）+ カードC（カレンダー離脱）を Braze 設定・配信開始</div><div class="phase-bar" style="background:var(--p2);width:100%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 3</div><div class="roadmap-cell-desc">カードB（エリア人気）×10〜15エリア＋カードD（購入履歴）初期セット投入</div><div class="phase-bar" style="background:var(--p2);width:100%;"></div></div>
+      </div>
+    </div>
+    <div class="roadmap-row">
+      <div class="roadmap-lbl" style="color:var(--p3);">並行 A/B 運用<small>Week 4〜 継続</small></div>
+      <div class="roadmap-cells">
+        <div class="roadmap-cell"><div class="roadmap-cell-title">Week 4〜</div><div class="roadmap-cell-desc">複数カードで A/B テスト同時稼働（コピー/順序/トリガー時間）</div><div class="phase-bar" style="background:var(--p3);width:100%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">Month 2〜</div><div class="roadmap-cell-desc">勝ちパターンを採用しつつ、エリア→スポット粒度へ段階拡張</div><div class="phase-bar" style="background:var(--p3);width:75%;"></div></div>
+        <div class="roadmap-cell"><div class="roadmap-cell-title">継続</div><div class="roadmap-cell-desc">マーケ・PM 自走で運用。Connected Content など追加検討</div><div class="phase-bar" style="background:var(--p3);width:40%;"></div></div>
       </div>
     </div>
   </div>
@@ -954,7 +940,7 @@ code.inline {
   <div class="callout green" style="margin-top:18px;">
     <div class="callout-icon">🚀</div>
     <div class="callout-body">
-      <strong>Phase 1の開発作業はWeek 1の5日のみ。</strong>Week 2以降は全てBrazeダッシュボードでの設定作業（マーケ・PMが対応）。Phase 2もBrazeダッシュボード操作のみ。
+      <strong>開発作業は Week 1 の 5日のみ。</strong>Week 2 以降は全て Braze ダッシュボード操作で、4カード（A・B・C・D）を並行で立ち上げ、Week 4 から複数の A/B テストを同時に回す。マーケ・PM が自走できるので、エンジニア工数を待たずに継続改善できる。
     </div>
   </div>
 </section>
@@ -1024,7 +1010,7 @@ code.inline {
 
 <div class="doc-footer">
   VELTRA CVR向上チーム｜ヘッダーパーソナライズメニュー 企画書 v5.0｜2026-05-11<br>
-  次のアクション：ClickUpにPRDとして登録 → Phase 1（Week 1の開発作業）仕様確定・着手
+  次のアクション：ClickUpにPRDとして登録 → Week 1 開発作業（スロット設置 + GTM）仕様確定・着手
 </div>
 
 <script>
