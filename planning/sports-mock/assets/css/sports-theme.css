@@ -1536,3 +1536,115 @@ a.league-card:hover .link-arrow::after { transform: translateX(3px); }
   .club-block { grid-template-columns: 1fr; gap: 20px; }
   .club-block.is-reverse { direction: ltr; }
 }
+
+/* ============================================================
+   Tips section (editorial / magazine-style cards)
+   Used on /planning/sports-mock/ and /baseball/
+   ============================================================ */
+.tip-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.tip-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-8);
+  padding: 22px 22px 20px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .15s, transform .15s, box-shadow .15s;
+  position: relative;
+  overflow: hidden;
+}
+.tip-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 36px;
+  height: 4px;
+  background: var(--tip-accent, var(--veltra));
+}
+.tip-card[href]:hover {
+  border-color: var(--ink-2);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-pop);
+}
+.tip-card .tip-cat {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tip-accent, var(--ink-3));
+  font-weight: 700;
+  margin-top: 8px;
+  margin-bottom: 14px;
+}
+.tip-card .tip-no {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-4);
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+.tip-card h3 {
+  font-size: var(--fs-16);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  margin: 0 0 10px;
+  text-wrap: pretty;
+}
+.tip-card p {
+  font-size: var(--fs-13);
+  color: var(--ink-2);
+  line-height: 1.75;
+  margin: 0;
+  text-wrap: pretty;
+}
+.tip-card .tip-more {
+  margin-top: auto;
+  padding-top: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tip-accent, var(--veltra));
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.02em;
+}
+.tip-card .tip-more::after { content: "→"; transition: transform .15s; }
+.tip-card[href]:hover .tip-more::after { transform: translateX(3px); }
+
+@media (max-width: 1024px) {
+  .tip-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .tip-grid { grid-template-columns: 1fr; }
+}
+
+/* "クラブ詳細を見る" link within league-page club-block */
+.club-block-desc .club-detail-link {
+  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--page-accent, var(--veltra));
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  padding: 8px 14px;
+  border: 1px solid var(--page-accent, var(--veltra));
+  border-radius: var(--r-4);
+  background: var(--paper);
+  transition: background .12s, color .12s;
+}
+.club-block-desc .club-detail-link::after { content: "→"; transition: transform .15s; }
+.club-block-desc .club-detail-link:hover {
+  background: var(--page-accent, var(--veltra));
+  color: #fff;
+}
+.club-block-desc .club-detail-link:hover::after { transform: translateX(3px); }
