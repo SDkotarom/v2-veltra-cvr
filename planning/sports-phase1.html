@@ -88,8 +88,11 @@
   .tree-subhead { font-size: 11px; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 4px; }
   .tree-subhead.muted { color: var(--text-muted); }
   .tree-leaf { font-size: 12px; padding: 4px 10px; border-left: 2px solid var(--accent-soft); background: #fff; border-radius: 0 4px 4px 0; line-height: 1.6; }
-  .tree-leaf small { color: var(--text-muted); font-size: 11px; }
+  .tree-leaf small { color: var(--text-muted); font-size: 11px; display: inline-block; margin-left: 6px; }
   .tree-leaf.muted { color: var(--text-muted); border-left-color: var(--border); background: transparent; }
+  .tree-leaf-group { display: flex; flex-direction: column; gap: 2px; margin-bottom: 4px; }
+  .tree-sub-leaf { font-size: 11px; padding: 2px 10px 2px 22px; color: var(--text-sub); line-height: 1.5; }
+  .tree-sub-leaf small { color: var(--text-muted); font-size: 10px; font-family: var(--font-mono); display: inline-block; margin-left: 4px; }
   .tree-col.ext { background: rgba(255,255,255,0.4); border: 1px dashed var(--border); border-radius: 6px; padding: 12px 20px 12px 14px; min-width: 180px; }
   .tree-col.ext + .tree-col:not(.ext)::before, .tree-col.ext::before { display: none; }
   .tree-lane-head { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.4; }
@@ -410,16 +413,28 @@
       <div class="tree-col">
         <div class="tree-group" style="margin-top:34px;">
           <div class="tree-subgroup">
-            <div class="tree-subhead">サッカー配下（リーグ別の詳細＋AC一覧）</div>
-            <div class="tree-leaf">プレミアリーグ<small>/soccer/premier/ — リーグ解説＋クラブ紹介（アーセナル・チェルシー）＋各クラブのAC一覧を1ページに統合</small></div>
-            <div class="tree-leaf">ラ・リーガ<small>/soccer/laliga/ — リーグ解説＋FCバルセロナ・レアル・マドリードのクラブ紹介＋AC一覧</small></div>
-            <div class="tree-leaf">リーグアン<small>/soccer/ligue1/ — リーグ解説＋PSGのクラブ紹介＋AC一覧</small></div>
+            <div class="tree-subhead">サッカー配下（リーグ → クラブ詳細）</div>
+            <div class="tree-leaf-group">
+              <div class="tree-leaf">プレミアリーグ<small>/soccer/premier/</small></div>
+              <div class="tree-sub-leaf">└ アーセナルFC<small>/premier/arsenal/</small></div>
+              <div class="tree-sub-leaf">└ チェルシーFC<small>/premier/chelsea/</small></div>
+            </div>
+            <div class="tree-leaf-group">
+              <div class="tree-leaf">ラ・リーガ<small>/soccer/laliga/</small></div>
+              <div class="tree-sub-leaf">└ FCバルセロナ<small>/laliga/barcelona/</small></div>
+              <div class="tree-sub-leaf">└ レアル・マドリード<small>/laliga/madrid/</small></div>
+            </div>
+            <div class="tree-leaf-group">
+              <div class="tree-leaf">リーグアン<small>/soccer/ligue1/</small></div>
+              <div class="tree-sub-leaf">└ パリ・サンジェルマン<small>/ligue1/psg/</small></div>
+            </div>
             <div class="tree-leaf muted">ブンデスリーガ <small>（準備中）</small></div>
             <div class="tree-leaf muted">セリエA <small>（準備中）</small></div>
           </div>
           <div class="tree-subgroup">
-            <div class="tree-subhead">野球配下</div>
-            <div class="tree-leaf">ドジャース／ヤンキース／レッドソックス／カブス／メッツ <small>＋他1球団（準備中）— 球団紹介＋AC一覧を野球ページ内に統合</small></div>
+            <div class="tree-subhead">野球配下（球団詳細）</div>
+            <div class="tree-leaf">ドジャース<small>/baseball/dodgers/</small></div>
+            <div class="tree-leaf muted">ヤンキース／レッドソックス／カブス／メッツ／他1球団 <small>（準備中）</small></div>
           </div>
           <div class="tree-subgroup">
             <div class="tree-subhead muted">他5種目</div>
@@ -434,7 +449,7 @@
         </div>
       </div>
     </div>
-    <p style="font-size:12px; color:var(--text-muted); margin:6px 0 0;">※ 各リーグ詳細ページは「リーグ解説 + クラブごとの紹介 + そのクラブのAC一覧」を1ページに統合する構成。クラブ専用のサブページは作らず、各クラブブロックの右に該当ACカードを並べる（クラブごとのAC一覧を兼ねる）。</p>
+    <p style="font-size:12px; color:var(--text-muted); margin:6px 0 0;">※ 構成：（1）リーグ／野球TOPページに「リーグ解説 + クラブ／球団紹介ブロック + そのクラブのAC一覧」を統合掲載、（2）さらに主要クラブ／球団は <strong>専用詳細ページ</strong>（arsenal／chelsea／barcelona／madrid／psg／dodgers）も並走で用意し、リーグページのカードから遷移可能。AC一覧は「リーグTOP（横断）」「リーグページ内のクラブブロック」「クラブ専用ページ」の3層で表示する。</p>
 
     <h3>スコープ外（先送り）</h3>
     <ul style="font-size:13px; padding-left:20px;">
