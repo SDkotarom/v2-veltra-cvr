@@ -2,13 +2,13 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<script src="/auth.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>スポーツナビゲーションページ｜プロジェクト計画 v0.1</title>
+<title>スポーツナビ｜Phase 1 個別案件詳細</title>
 <style>
   :root {
     --bg: #ffffff;
     --bg-sub: #f5f4ef;
-    --bg-card: #ffffff;
     --bg-accent: #eaf3de;
     --bg-warn: #faeeda;
     --bg-info: #e6f1fb;
@@ -17,7 +17,6 @@
     --text-sub: #555550;
     --text-muted: #8a8a85;
     --border: #e3e1d8;
-    --border-strong: #c9c7be;
     --accent: #2c5530;
     --accent-soft: #3b6d11;
     --link: #185fa5;
@@ -27,29 +26,24 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg-sub); color: var(--text); font-family: var(--font-sans); font-size: 14px; line-height: 1.7; }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 24px 96px; }
+  a { color: var(--link); }
 
-  header.head {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 28px 32px;
-    margin-bottom: 24px;
-  }
+  /* Cross-doc nav */
+  .xnav { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px 18px; margin-bottom: 16px; display: flex; gap: 10px; align-items: center; font-size: 13px; flex-wrap: wrap; }
+  .xnav .crumb { color: var(--text-muted); }
+  .xnav a { text-decoration: none; padding: 4px 10px; border-radius: 4px; }
+  .xnav a:hover { background: var(--bg-sub); }
+  .xnav .now { background: var(--bg-accent); color: var(--accent-soft); padding: 4px 10px; border-radius: 4px; font-weight: 500; }
+  .xnav .sep { color: var(--text-muted); }
+
+  header.head { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 28px 32px; margin-bottom: 24px; }
   header.head .meta { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
   header.head .meta .pill { font-size: 12px; padding: 3px 10px; border-radius: 999px; background: var(--bg-accent); color: var(--accent-soft); font-weight: 500; }
   header.head .meta .ver { font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); }
   header.head h1 { font-size: 24px; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.01em; }
   header.head p.lead { font-size: 14px; color: var(--text-sub); margin: 0; max-width: 760px; }
 
-  /* Executive summary */
-  .exec {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--accent);
-    border-radius: 8px;
-    padding: 24px 28px;
-    margin-bottom: 24px;
-  }
+  .exec { background: var(--bg); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 24px 28px; margin-bottom: 24px; }
   .exec h2 { font-size: 13px; font-weight: 500; color: var(--accent); margin: 0 0 10px; letter-spacing: 0.08em; text-transform: uppercase; }
   .exec .verdict { font-size: 18px; line-height: 1.6; font-weight: 500; margin: 0 0 18px; }
   .exec .verdict strong { background: linear-gradient(transparent 60%, #c9e0a8 60%); }
@@ -57,39 +51,14 @@
   .exec-card { background: var(--bg-sub); border-radius: 8px; padding: 14px 16px; }
   .exec-card .label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
   .exec-card .value { font-size: 16px; font-weight: 500; line-height: 1.4; }
-  .exec-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .exec-cols h3 { font-size: 13px; font-weight: 500; color: var(--text-muted); margin: 0 0 8px; letter-spacing: 0.05em; }
-  .exec-cols ul { margin: 0; padding-left: 20px; }
-  .exec-cols li { margin-bottom: 6px; font-size: 14px; }
-  .exec-foot { font-size: 13px; color: var(--text-muted); margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
 
-  /* Section */
-  section.sec {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 28px 32px;
-    margin-bottom: 20px;
-  }
+  section.sec { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 28px 32px; margin-bottom: 20px; }
   section.sec h2 { font-size: 18px; font-weight: 600; margin: 0 0 6px; display: flex; align-items: center; gap: 10px; }
   section.sec h2 .num { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); background: var(--bg-sub); padding: 3px 8px; border-radius: 4px; font-weight: 400; }
   section.sec .sec-lead { font-size: 13px; color: var(--text-sub); margin: 0 0 20px; }
   section.sec h3 { font-size: 15px; font-weight: 500; margin: 24px 0 10px; }
   section.sec h3:first-of-type { margin-top: 0; }
 
-  /* Grid cards */
-  .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .cards-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .card-sub {
-    background: var(--bg-sub);
-    border-radius: 8px;
-    padding: 16px;
-  }
-  .card-sub .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--bg); color: var(--text-sub); margin-bottom: 8px; }
-  .card-sub .ttl { font-size: 14px; font-weight: 500; margin: 0 0 4px; }
-  .card-sub .desc { font-size: 13px; color: var(--text-sub); margin: 0; line-height: 1.65; }
-
-  /* Table */
   table.tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
   table.tbl thead th { text-align: left; padding: 10px 12px; background: var(--bg-sub); font-weight: 500; border-bottom: 1px solid var(--border); }
   table.tbl tbody td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
@@ -97,60 +66,96 @@
   table.tbl td.muted { color: var(--text-sub); }
   table.tbl .b { font-weight: 500; }
 
-  /* Pills */
-  .pill-pri { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
-  .pill-pri.p1 { background: var(--bg-danger); color: #791f1f; }
-  .pill-pri.p2 { background: var(--bg-warn); color: #854f0b; }
-  .pill-pri.p3 { background: var(--bg-sub); color: var(--text-sub); }
-  .pill-pri.p0 { background: var(--bg-info); color: #0c447c; }
-
-  /* Sitemap */
-  .sitemap {
-    background: var(--bg-sub);
-    border-radius: 8px;
-    padding: 18px 22px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    line-height: 1.95;
-  }
-  .sitemap .c { color: var(--text-muted); }
-  .sitemap .b { font-weight: 600; color: var(--text); }
-  .sitemap .div { margin-top: 12px; }
-
-  /* Callouts */
-  .callout {
-    border-radius: 8px;
-    padding: 14px 18px;
-    font-size: 13px;
-    line-height: 1.7;
-    margin: 16px 0 0;
-  }
+  .callout { border-radius: 8px; padding: 14px 18px; font-size: 13px; line-height: 1.7; margin: 16px 0 0; }
   .callout.info { background: var(--bg-info); color: #0c447c; }
   .callout.warn { background: var(--bg-warn); color: #6d3f08; }
   .callout.accent { background: var(--bg-accent); color: #27500a; }
   .callout strong { font-weight: 600; }
   .callout code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 3px; font-family: var(--font-mono); font-size: 12px; }
 
-  /* 3-axis check */
-  .axis { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-  .axis-item { background: var(--bg-sub); border-radius: 8px; padding: 12px 14px; font-size: 13px; }
-  .axis-item .lbl { font-size: 11px; color: var(--text-muted); margin-bottom: 3px; }
-  .axis-item .val { font-weight: 500; margin-bottom: 4px; }
-  .axis-item.hit { background: var(--bg-accent); }
-  .axis-item.hit .val { color: var(--accent-soft); }
-  .axis-item.miss { opacity: 0.55; }
+  /* ============== Mockup styles ============== */
+  .mock-frame { background: #fff; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 20px 0 8px; }
+  .mock-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--bg-sub); border-bottom: 1px solid var(--border); font-size: 12px; color: var(--text-muted); }
+  .mock-bar .dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; }
+  .mock-bar .url { background: #fff; padding: 4px 10px; border-radius: 4px; margin-left: 8px; color: var(--text-sub); font-family: var(--font-mono); font-size: 11px; flex: 1; }
+  .mock-bar .ann { color: var(--accent-soft); font-weight: 500; }
+  .mock-anno { font-size: 11px; color: var(--text-muted); padding: 6px 14px 12px; background: var(--bg-sub); border-top: 1px dashed var(--border); margin-top: 0; }
 
-  /* Effect cards */
-  .eff { display: grid; grid-template-columns: 1fr; gap: 12px; }
-  .eff-card { background: var(--bg-sub); border-radius: 8px; padding: 18px 20px; display: grid; grid-template-columns: 100px 1fr; gap: 18px; align-items: start; }
-  .eff-card .lab { font-size: 12px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
-  .eff-card .body { font-size: 13px; }
-  .eff-card .body p { margin: 0 0 6px; line-height: 1.7; }
-  .eff-card .body p:last-child { margin-bottom: 0; }
-  .eff-card .body strong { font-weight: 500; }
-  .eff-card .body p span.tag { font-size: 11px; background: var(--bg); color: var(--text-sub); padding: 1px 6px; border-radius: 3px; margin-right: 6px; }
+  /* Veltra-ish header */
+  .v-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; border-bottom: 1px solid var(--border); }
+  .v-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+  .v-logo span { color: #e84d3a; }
+  .v-nav { display: flex; gap: 18px; font-size: 13px; color: var(--text-sub); }
+  .v-search { display: flex; align-items: center; gap: 6px; background: var(--bg-sub); padding: 6px 12px; border-radius: 4px; font-size: 12px; color: var(--text-muted); }
 
-  /* Phase blocks */
+  /* breadcrumb */
+  .v-crumb { padding: 10px 24px; background: var(--bg-sub); font-size: 12px; color: var(--text-sub); }
+  .v-crumb a { color: var(--text-sub); text-decoration: none; }
+  .v-crumb .arr { color: var(--text-muted); margin: 0 6px; }
+
+  /* hero */
+  .v-hero { padding: 32px 24px 24px; background: linear-gradient(135deg, #1e3a4c 0%, #2c5530 100%); color: white; }
+  .v-hero .eyebrow { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; margin-bottom: 6px; }
+  .v-hero h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .v-hero p { font-size: 14px; opacity: 0.85; margin: 0; max-width: 600px; line-height: 1.7; }
+  .v-hero .stat { display: flex; gap: 32px; margin-top: 20px; }
+  .v-hero .stat div { font-size: 12px; opacity: 0.8; }
+  .v-hero .stat strong { display: block; font-size: 22px; font-weight: 700; opacity: 1; }
+
+  /* sections */
+  .v-sec { padding: 28px 24px; border-bottom: 1px solid var(--border); }
+  .v-sec h2 { font-size: 18px; font-weight: 600; margin: 0 0 14px; display: flex; align-items: baseline; gap: 8px; }
+  .v-sec h2 .cnt { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+  .v-sec p.intro { font-size: 13px; color: var(--text-sub); margin: 0 0 16px; max-width: 700px; }
+
+  /* sport cards grid */
+  .sp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .sp-card { border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: #fff; text-decoration: none; color: inherit; transition: border-color 0.2s; }
+  .sp-card:hover { border-color: var(--accent-soft); }
+  .sp-card .ico { width: 36px; height: 36px; border-radius: 8px; background: var(--bg-sub); display: flex; align-items: center; justify-content: center; margin-bottom: 10px; font-size: 18px; }
+  .sp-card .ttl { font-size: 14px; font-weight: 600; margin: 0 0 4px; }
+  .sp-card .desc { font-size: 12px; color: var(--text-sub); margin: 0 0 8px; line-height: 1.5; }
+  .sp-card .meta { font-size: 11px; color: var(--text-muted); }
+
+  /* match schedule */
+  .sched { background: var(--bg-sub); border-radius: 8px; padding: 4px; }
+  .sched-row { display: grid; grid-template-columns: 80px 1fr 110px 90px; gap: 12px; padding: 10px 14px; align-items: center; background: #fff; border-radius: 6px; margin-bottom: 4px; font-size: 13px; }
+  .sched-row:last-child { margin-bottom: 0; }
+  .sched-row .date { font-weight: 600; }
+  .sched-row .date small { display: block; font-size: 11px; color: var(--text-muted); font-weight: 400; }
+  .sched-row .match { font-weight: 500; }
+  .sched-row .match small { color: var(--text-muted); font-size: 11px; display: block; font-weight: 400; }
+  .sched-row .city { font-size: 12px; color: var(--text-sub); }
+  .sched-row .btn { background: var(--bg-accent); color: var(--accent-soft); padding: 6px 10px; border-radius: 4px; font-size: 12px; font-weight: 500; text-align: center; text-decoration: none; }
+
+  /* ac cards (similar to existing veltra listing) */
+  .ac-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .ac-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: grid; grid-template-columns: 130px 1fr; }
+  .ac-thumb { background: linear-gradient(135deg, #c9d6db, #94a4ad); display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; text-align: center; padding: 8px; line-height: 1.4; }
+  .ac-body { padding: 12px 14px; }
+  .ac-body .ac-cat { font-size: 11px; color: var(--text-muted); }
+  .ac-body .ac-ttl { font-size: 13px; font-weight: 600; margin: 4px 0 6px; line-height: 1.4; }
+  .ac-body .ac-meta { display: flex; gap: 10px; font-size: 11px; color: var(--text-sub); margin-bottom: 6px; }
+  .ac-body .ac-price { font-size: 14px; font-weight: 700; color: #e84d3a; }
+  .ac-body .ac-price small { color: var(--text-muted); font-weight: 400; font-size: 11px; margin-right: 2px; }
+
+  /* teams grid */
+  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .team-card { border: 1px solid var(--border); border-radius: 6px; padding: 12px; background: #fff; }
+  .team-card .badge { width: 32px; height: 32px; border-radius: 50%; background: var(--bg-sub); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; }
+  .team-card .nm { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .team-card .loc { font-size: 11px; color: var(--text-muted); }
+
+  /* league pills */
+  .league-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .league-pill { background: var(--bg-sub); padding: 6px 12px; border-radius: 20px; font-size: 12px; color: var(--text-sub); }
+  .league-pill.active { background: var(--accent); color: #fff; }
+
+  /* annotation callouts on mockup */
+  .mockanno-row { display: grid; grid-template-columns: 30px 1fr; gap: 10px; font-size: 12px; padding: 5px 14px; align-items: start; color: var(--text-sub); }
+  .mockanno-row .n { background: var(--accent); color: #fff; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+
+  /* phase / task */
   .phase { background: var(--bg-sub); border-radius: 8px; padding: 16px 18px; margin-bottom: 10px; }
   .phase h4 { font-size: 14px; font-weight: 500; margin: 0 0 8px; display: flex; align-items: center; gap: 10px; }
   .phase h4 .ph-tag { font-family: var(--font-mono); font-size: 11px; background: var(--bg); color: var(--text-sub); padding: 2px 7px; border-radius: 4px; font-weight: 400; }
@@ -158,31 +163,12 @@
   .phase ul { margin: 0; padding-left: 20px; font-size: 13px; }
   .phase li { margin-bottom: 4px; line-height: 1.65; }
 
-  /* Footer */
-  .foot {
-    margin-top: 28px;
-    padding: 18px 22px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 13px;
-    color: var(--text-sub);
-    line-height: 1.75;
-  }
-  .foot strong { color: var(--text); }
+  .pill-pri { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
+  .pill-pri.p1 { background: var(--bg-danger); color: #791f1f; }
+  .pill-pri.p2 { background: var(--bg-warn); color: #854f0b; }
+  .pill-pri.p3 { background: var(--bg-sub); color: var(--text-sub); }
 
-  /* Anchor nav */
-  nav.toc {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px 20px;
-    margin-bottom: 24px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 4px;
-    font-size: 13px;
-  }
+  nav.toc { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 20px; margin-bottom: 24px; display: flex; flex-wrap: wrap; gap: 6px 4px; font-size: 13px; }
   nav.toc a { color: var(--text-sub); text-decoration: none; padding: 4px 10px; border-radius: 4px; }
   nav.toc a:hover { background: var(--bg-sub); color: var(--text); }
   nav.toc .sep { color: var(--text-muted); margin: 0 2px; }
@@ -191,406 +177,904 @@
     .wrap { padding: 20px 14px 64px; }
     header.head, section.sec, .exec { padding: 20px 18px; }
     .exec-grid { grid-template-columns: repeat(2, 1fr); }
-    .exec-cols { grid-template-columns: 1fr; gap: 14px; }
-    .cards-3, .cards-2, .axis { grid-template-columns: 1fr; }
-    .eff-card { grid-template-columns: 1fr; gap: 6px; }
+    .sp-grid, .team-grid { grid-template-columns: repeat(2, 1fr); }
+    .ac-grid { grid-template-columns: 1fr; }
+    .sched-row { grid-template-columns: 70px 1fr 80px; }
+    .sched-row .btn { grid-column: 1 / -1; }
   }
 </style>
 </head>
 <body>
 <div class="wrap">
 
+  <div class="xnav">
+    <span class="now">Phase 1 — 個別案件詳細</span>
+    <span class="sep">/</span>
+    <span style="color:var(--text-muted);">Phase 2 — 雛形化検討（後日整理）</span>
+  </div>
+
   <header class="head">
     <div class="meta">
-      <span class="pill">プロジェクト計画</span>
+      <span class="pill">Phase 1 — 個別案件詳細</span>
       <span class="ver">v0.1 · 2026-05-13</span>
     </div>
-    <h1>スポーツナビゲーションページ｜プロジェクト計画</h1>
-    <p class="lead">スポーツナビゲーションページ新設に関する相談（2026-04-21）を踏まえ、モック作成前にプロジェクトの「なぜ・どう作るか・期待効果・運用ルール」を整理する。本ドキュメントの方針合意をもって、モック作成・PRD起票に進む。</p>
+    <h1>スポーツナビ第1弾｜具体化ドキュメント</h1>
+    <p class="lead">「スポーツTOP + サッカー + 野球」の3ページをリリースするための具体ドキュメント。モック・原稿ダミー・タスク・スケジュール・論点を一通り詰めて、企画側に「動いている」状態で持って行くことを目的とする。雛形化（横展開ルール・運用基盤）の議論は別途Phase 2で扱う。</p>
   </header>
 
   <nav class="toc">
-    <a href="#exec">サマリー</a><span class="sep">/</span>
-    <a href="#s1">背景</a><span class="sep">/</span>
-    <a href="#s2">参考サイト分析</a><span class="sep">/</span>
-    <a href="#s3">サイトマップ</a><span class="sep">/</span>
-    <a href="#s4">効果仮説</a><span class="sep">/</span>
-    <a href="#s5">運用ルール</a><span class="sep">/</span>
-    <a href="#s6">論点・リスク</a><span class="sep">/</span>
-    <a href="#s7">タスク・スケジュール</a>
+    <a href="#p1-exec">サマリー</a><span class="sep">/</span>
+    <a href="#p1-scope">第1弾スコープ</a><span class="sep">/</span>
+    <a href="#p1-mock">モック</a><span class="sep">/</span>
+    <a href="#p1-copy">原稿ダミー</a><span class="sep">/</span>
+    <a href="#p1-tasks">タスク</a><span class="sep">/</span>
+    <a href="#p1-sched">スケジュール</a><span class="sep">/</span>
+    <a href="#p1-issues">論点</a>
   </nav>
 
-  <!-- =========== EXECUTIVE SUMMARY =========== -->
-  <section class="exec" id="exec">
+  <!-- ============ EXEC ============ -->
+  <section class="exec" id="p1-exec">
     <h2>Executive Summary（結論先出し）</h2>
-    <p class="verdict">エリアに分散するスポーツ観戦商品を <strong>「スポーツ × 種目」軸のテーマハブ</strong> として束ねるページ群を新設する。<strong>/theme/sports/ 配下の独立軸</strong>で第1弾リリースし、効果検証後にグロカテ統合を検討。</p>
+    <p class="verdict">第1弾は <strong>スポーツTOP + サッカー + 野球</strong> の3ページ。すべて <strong>静的HTMLで先にリリース</strong>し、ac連携は段階導入。サッカーは <strong>5大リーグ × 主要8クラブ</strong>、野球は <strong>MLB主要6球団</strong> をカバー、原稿は自作・写真エンブレム不使用。</p>
 
     <div class="exec-grid">
-      <div class="exec-card">
-        <div class="label">対象戦略軸</div>
-        <div class="value">メインスポット<br>取りこぼし防止</div>
-      </div>
-      <div class="exec-card">
-        <div class="label">主効果ファネル</div>
-        <div class="value">②回遊<br>（流入入口の拡張）</div>
-      </div>
-      <div class="exec-card">
-        <div class="label">第1弾スコープ</div>
-        <div class="value">スポーツTOP<br>+ サッカー1種目</div>
-      </div>
-      <div class="exec-card">
-        <div class="label">想定リリース</div>
-        <div class="value">合意後<br>10〜12週</div>
-      </div>
+      <div class="exec-card"><div class="label">第1弾ページ数</div><div class="value">3ページ<br>（TOP + 2種目）</div></div>
+      <div class="exec-card"><div class="label">カバー範囲</div><div class="value">サッカー5リーグ8クラブ<br>+ MLB 6球団</div></div>
+      <div class="exec-card"><div class="label">想定原稿量</div><div class="value">約18,000字<br>（自作・他社コピペ禁止）</div></div>
+      <div class="exec-card"><div class="label">想定リリース</div><div class="value">合意後<br>12〜14週</div></div>
     </div>
 
-    <div class="exec-cols">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
       <div>
-        <h3>何がわかったか</h3>
-        <ul>
-          <li>スポーツ観戦商品は「行先 → 体験」の現行導線で取りこぼされている</li>
-          <li>worldsports-c.com型のスポーツハブはVeltraに存在せず、SEOで露出できていない</li>
-          <li>戦略3軸の「メインスポット取りこぼし防止」に直結する目的型商材</li>
-          <li>類似ニーズ（ショー・高速バス）が今後発生する見込みあり、テンプレ化の価値高い</li>
+        <h3 style="font-size:13px; color:var(--text-muted); margin:0 0 8px; letter-spacing:0.05em;">何をやるか</h3>
+        <ul style="margin:0; padding-left:20px;">
+          <li style="margin-bottom:6px;">スポーツTOP：7種目を入口として並べる（うち2種目が実コンテンツ）</li>
+          <li style="margin-bottom:6px;">サッカーページ：5大リーグ＋主要クラブ＋試合スケジュール＋ac一覧</li>
+          <li style="margin-bottom:6px;">野球ページ：MLB主要球団＋スケジュール＋ac一覧（日本人選手在籍球団優先）</li>
+          <li style="margin-bottom:6px;">原稿はチーム名・大会・歴史・観戦ガイドを自作</li>
+          <li style="margin-bottom:6px;">スケジュールは初期は手動更新（CSV）でリリース</li>
         </ul>
       </div>
       <div>
-        <h3>何をすべきか</h3>
-        <ul>
-          <li>独立URL <code style="font-family: var(--font-mono); font-size: 12px; background: rgba(0,0,0,0.06); padding: 1px 4px; border-radius: 3px;">/theme/sports/</code> 配下にハブ構造を新設</li>
-          <li>テーマページは「絞り込む場」に役割を純化、予約は既存acに委譲</li>
-          <li>テーマページ量産の4ゲート（後述）を運用ルール化</li>
-          <li>第1弾はサッカー1種目で効果検証 → 他種目・他テーマへ展開</li>
+        <h3 style="font-size:13px; color:var(--text-muted); margin:0 0 8px; letter-spacing:0.05em;">先送りすること</h3>
+        <ul style="margin:0; padding-left:20px;">
+          <li style="margin-bottom:6px;">他種目（バスケ・テニス・ホッケー・ラグビー・モタスポ）の展開</li>
+          <li style="margin-bottom:6px;">スケジュール自動反映システム</li>
+          <li style="margin-bottom:6px;">グロカテへの統合</li>
+          <li style="margin-bottom:6px;">CMS化・運用基盤の本格整備（Phase 2 で議論）</li>
         </ul>
       </div>
     </div>
-
-    <div class="exec-foot">以下で根拠を詳述（背景 → 参考分析 → 構造 → 効果仮説 → 運用 → 論点 → タスク）。</div>
   </section>
 
-  <!-- =========== 1. 背景 =========== -->
-  <section class="sec" id="s1">
-    <h2><span class="num">01</span>背景：なぜスポーツナビが必要か</h2>
-    <p class="sec-lead">相談で提起された問題を構造化すると、課題は3層に分かれる。</p>
+  <!-- ============ SCOPE ============ -->
+  <section class="sec" id="p1-scope">
+    <h2><span class="num">01</span>第1弾スコープの詳細</h2>
+    <p class="sec-lead">なぜサッカー＋野球の2種目なのか、何をカバーして何をやらないかを明示する。原稿量と運用負荷で判断。</p>
 
-    <div class="cards-3">
-      <div class="card-sub">
-        <span class="tag">課題 1</span>
-        <div class="ttl">商品がエリアに分散</div>
-        <p class="desc">FCバルセロナ → スペイン/バルセロナ、アーセナル → 英国/ロンドン。サッカーで横断比較ができない。</p>
-      </div>
-      <div class="card-sub">
-        <span class="tag">課題 2</span>
-        <div class="ttl">SEOで露出しない</div>
-        <p class="desc">「サッカー観戦 海外」「NBA チケット」等の指名検索に対し、束ねるページが無く順位を取れない。</p>
-      </div>
-      <div class="card-sub">
-        <span class="tag">課題 3</span>
-        <div class="ttl">ファン動機に届かない</div>
-        <p class="desc">既存導線は「行先 → 体験」。Travelerが「特定スポーツのファン」として探す動線（試合 → 行先）と逆。</p>
-      </div>
-    </div>
-
-    <h3>戦略3軸との接続（上長確認済・5/11メモ）</h3>
-    <div class="axis">
-      <div class="axis-item hit">
-        <div class="lbl">軸 1</div>
-        <div class="val">メインスポット取りこぼし防止 ✓</div>
-        <div>スポーツ観戦は旅行のメイン目的になりやすい目的型商材。短期化トレンドにマッチ。</div>
-      </div>
-      <div class="axis-item">
-        <div class="lbl">軸 2</div>
-        <div class="val">迷わず買ってもらう</div>
-        <div>テーマページの「役割純化」によって間接的に寄与（情報の引き算原則）。</div>
-      </div>
-      <div class="axis-item miss">
-        <div class="lbl">軸 3</div>
-        <div class="val">滞在中プラスアルファ</div>
-        <div>本施策の直接スコープ外。スポーツacの関連商品レコメンドで別途扱う。</div>
-      </div>
-    </div>
-
-    <h3>対象カテゴリ（相談メモから）</h3>
+    <h3>「なぜサッカー＋野球の2種目から」の根拠</h3>
     <table class="tbl">
-      <thead><tr><th>カテゴリ</th><th>想定種目・内容</th><th>優先度</th></tr></thead>
       <tbody>
-        <tr><td class="b">スポーツ</td><td class="muted">サッカー / 野球 / バスケ / ホッケー / テニス / ラグビー / モタスポ</td><td><span class="pill-pri p1">第1弾</span></td></tr>
-        <tr><td class="b">ショー</td><td class="muted">ミュージカル / シルク / オペラ</td><td><span class="pill-pri p2">第2弾</span></td></tr>
-        <tr><td class="b">移動手段</td><td class="muted">世界の高速バス（80 → 600 ac、夏に拡大予定）</td><td><span class="pill-pri p3">第3弾</span></td></tr>
+        <tr><td class="b" style="width:24%;">SEO面</td><td>サッカー：「サッカー観戦 海外」「プレミアリーグ チケット」など指名検索が厚い／野球：「MLB 観戦」「大谷 試合 ツアー」など日本人選手起因の検索ボリュームが大きい。両軸で検証することでテーマハブの効果を多面的に評価できる。</td></tr>
+        <tr><td class="b">商品面</td><td>Veltra既存ac数が他種目より圧倒的に多い2種目。サッカー（FCバルセロナ・アーセナル・レアル・PSG・チェルシー等）／野球（ドジャース観戦・送迎・プリゲーム体験等）でハブとして並べる材料が揃う。</td></tr>
+        <tr><td class="b">原稿面</td><td>2種目並行で原稿執筆を約3〜4週間に収められる。3種目目以降は破綻リスクが高まる。</td></tr>
+        <tr><td class="b">テンプレ検証</td><td>1種目だけだと「型」がそのチーム固有か汎用かを判定しづらい。2種目で構造差分を出すことで、テンプレ化（Phase 2）の判断材料になる。</td></tr>
       </tbody>
     </table>
+
+    <h3>各ページのカバー範囲</h3>
+    <table class="tbl">
+      <thead><tr><th style="width:16%;">セクション</th><th>サッカーページ</th><th>野球ページ</th><th style="width:14%;">原稿量</th></tr></thead>
+      <tbody>
+        <tr><td class="b">ヒーロー</td><td>「世界のサッカー観戦」訴求コピー</td><td>「MLB現地観戦」訴求コピー</td><td class="muted">各200字</td></tr>
+        <tr><td class="b">観戦の魅力</td><td>欧州サッカー文化、現地観戦の価値</td><td>MLBの現地体験、日本人選手の活躍</td><td class="muted">各500字</td></tr>
+        <tr><td class="b">リーグ／地区</td><td>5リーグ（プレミア / リーガ / ブンデス / セリエA / リーグアン）</td><td>2リーグ（アメリカン / ナショナル） + 主要地区</td><td class="muted">2,000字 / 1,200字</td></tr>
+        <tr><td class="b">主要クラブ／球団</td><td>8チーム（バルサ・レアル・アーセナル・チェルシー・PSG等）</td><td>6球団（ドジャース・ヤンキース・レッドソックス・カブス・メッツ等）</td><td class="muted">3,200字 / 2,400字</td></tr>
+        <tr><td class="b">試合スケジュール</td><td>直近2ヶ月の主要試合（手動更新）</td><td>シーズン中の注目カード（手動更新）</td><td class="muted">表のみ</td></tr>
+        <tr><td class="b">ツアー一覧</td><td>既存ac 8〜12件のカードリンク</td><td>既存ac 6〜10件のカードリンク</td><td class="muted">既存ac利用</td></tr>
+        <tr><td class="b">観戦ガイド</td><td>チケット入手・スタジアム到着・服装・治安</td><td>球場到着・送迎・観戦マナー・球場グルメ</td><td class="muted">各1,500字</td></tr>
+        <tr><td class="b">FAQ</td><td>5問</td><td>5問</td><td class="muted">各800字</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px; color:var(--text-muted); margin:8px 0 0;">合計：サッカー約8,200字 + 野球約6,600字 + スポーツTOP用 約3,200字 = <strong>約18,000字</strong></p>
+
+    <h3>スコープ外（先送り）</h3>
+    <ul style="font-size:13px; padding-left:20px;">
+      <li>他種目（バスケ・テニス・ラグビー・ホッケー・モタスポ）の種目別ページ → スポーツTOPからは「準備中」表示で入口だけ用意</li>
+      <li>試合スケジュールの自動更新 → 手動CSVで運用</li>
+      <li>個別チームのサブページ（クラブごとの専用ページ） → カードからは既存acへ直リンク</li>
+      <li>多言語対応（英語版） → JPのみで第1弾を出す</li>
+    </ul>
   </section>
 
-  <!-- =========== 2. 参考サイト分析 =========== -->
-  <section class="sec" id="s2">
-    <h2><span class="num">02</span>参考サイト分析</h2>
-    <p class="sec-lead">共有された worldsports-c.com、Veltra既存ページ、競合OTAの3軸で構造を読み解く。</p>
+  <!-- ============ MOCK ============ -->
+  <section class="sec" id="p1-mock">
+    <h2><span class="num">02</span>モック</h2>
+    <p class="sec-lead">スポーツTOP / サッカー / 野球の3画面の実装イメージ。実装時のFigma起点とする。</p>
 
-    <h3>worldsports-c.com の構造</h3>
-    <table class="tbl">
-      <thead><tr><th style="width:24%;">階層</th><th>役割</th><th>取り入れる要素</th></tr></thead>
-      <tbody>
-        <tr><td class="b">スポーツTOP</td><td class="muted">「スポーツで括った見出し」を最上位に置き、検索ユーザーを種目単位で受ける</td><td>種目別カードによる入口提示</td></tr>
-        <tr><td class="b">種目別ページ</td><td class="muted">大会・リーグの紹介 → 主要チーム/開催地 → 観戦ツアー商品一覧</td><td>コンテンツと商品の併置構造、スケジュール表</td></tr>
-      </tbody>
-    </table>
+    <h3>① スポーツTOP（/jp/theme/sports/）</h3>
 
-    <h3>Veltra既存ページとの比較</h3>
-    <table class="tbl">
-      <thead><tr><th style="width:24%;">参考ページ</th><th>構造の特徴</th><th>スポーツナビへの示唆</th></tr></thead>
-      <tbody>
-        <tr><td class="b">FCバルセロナ a/17513</td><td class="muted">単品Acページ。試合スケジュール表が中核コンテンツ</td><td>スケジュール表のフォーマットは流用可。横断ページは ac へのリンクハブに徹する</td></tr>
-        <tr><td class="b">トロント a/200028</td><td class="muted">NHL観戦の都市別Ac。地域単位で完結</td><td>「種目 × 都市」のクロス表で観戦地を一覧化できる</td></tr>
-        <tr><td class="b">エリアTOP（例: ロンドン）</td><td class="muted">エリア起点・カテゴリ展開型。スポーツファンの動線にない</td><td>スポーツナビは<span class="b">エリア横断の独立軸</span>として作る必要あり</td></tr>
-      </tbody>
-    </table>
-
-    <h3>競合OTAの見せ方（推定・要追加調査）</h3>
-    <div class="cards-3">
-      <div class="card-sub">
-        <div class="ttl">Klook</div>
-        <p class="desc">テーマ別キュレーションページに強み。スポーツ単独カテゴリは限定的。</p>
+    <div class="mock-frame">
+      <div class="mock-bar">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="url">www.veltra.com/jp/theme/sports/</div>
+        <span class="ann">★ 新規URL</span>
       </div>
-      <div class="card-sub">
-        <div class="ttl">KKday</div>
-        <p class="desc">スポーツ観戦は都市ページ配下。横断ハブは持たない。</p>
+
+      <!-- Veltra header (シンプル化) -->
+      <div class="v-header">
+        <div class="v-logo">Veltra<span>.</span></div>
+        <div class="v-nav"><span>エリアから探す</span><span>カテゴリから探す</span><span>テーマから探す</span></div>
+        <div class="v-search">🔍 キーワード検索</div>
       </div>
-      <div class="card-sub">
-        <div class="ttl">GetYourGuide</div>
-        <p class="desc">「Football matches」等の横断カテゴリあり。SEO狙いが明確。</p>
+
+      <div class="v-crumb">
+        <a href="#">トップ</a><span class="arr">›</span><a href="#">テーマから探す</a><span class="arr">›</span>世界のスポーツ観戦
       </div>
-    </div>
-    <div class="callout warn"><strong>要追加調査:</strong> 競合の最新状況把握はキックオフ前に1〜2時間でブラウジング確認。SEO順位は Ahrefs MCP で別途調査。</div>
-  </section>
 
-  <!-- =========== 3. サイトマップ =========== -->
-  <section class="sec" id="s3">
-    <h2><span class="num">03</span>サイトマップ案</h2>
-    <p class="sec-lead">スポーツを「エリアと並ぶテーマ軸」として独立させる構造。URL設計とグロカテとの関係を明示。</p>
-
-    <h3>URL階層（第1弾）</h3>
-    <div class="sitemap">
-<div><span class="b">/jp/theme/sports/</span> <span class="c">— スポーツTOP</span></div>
-<div>├─ <span class="b">/jp/theme/sports/soccer/</span> <span class="c">— サッカー（第1弾着手）</span></div>
-<div>├─ /jp/theme/sports/baseball/ <span class="c">— 野球（MLB）</span></div>
-<div>├─ /jp/theme/sports/basketball/ <span class="c">— バスケ（NBA）</span></div>
-<div>├─ /jp/theme/sports/ice_hockey/ <span class="c">— アイスホッケー（NHL）</span></div>
-<div>├─ /jp/theme/sports/tennis/ <span class="c">— テニス（4大大会）</span></div>
-<div>├─ /jp/theme/sports/rugby/ <span class="c">— ラグビー</span></div>
-<div>└─ /jp/theme/sports/motorsports/ <span class="c">— モタスポ（F1等）</span></div>
-<div class="div">/jp/theme/show/ <span class="c">— ショー（第2弾・テンプレ流用）</span></div>
-<div>/jp/theme/transport/highway_bus/ <span class="c">— 高速バス（第3弾・テンプレ流用）</span></div>
-    </div>
-
-    <h3>URL設計のポイント</h3>
-    <table class="tbl">
-      <tbody>
-        <tr><td class="b" style="width:28%;">/theme/ プレフィックス</td><td>エリア構造（/jp/europe/...）と完全に独立。将来「ショー」「移動手段」も同パターンで増やせる。</td></tr>
-        <tr><td class="b">英語スラッグ</td><td>既存URL慣習に合わせる（/europe/, /asia/ 等と統一）。</td></tr>
-        <tr><td class="b">既存acはそのまま</td><td>予約は既存 a/17513 等で完結。テーマページはリンクハブに徹する（重複ページ問題を回避）。</td></tr>
-        <tr><td class="b">canonical設定</td><td>商品はacページをcanonicalとし、テーマページからは内部リンクで集約する。</td></tr>
-      </tbody>
-    </table>
-
-    <h3>ページ役割の定義（CVR戦略 Section 3 準拠）</h3>
-    <table class="tbl">
-      <thead><tr><th style="width:18%;">ページ</th><th style="width:22%;">役割</th><th>出す情報</th><th>出さない情報</th></tr></thead>
-      <tbody>
-        <tr><td class="b">スポーツTOP</td><td>種目の入口を一望</td><td class="muted">種目カード、人気観戦地、シーズンカレンダー</td><td class="muted">個別チームの試合詳細、価格比較</td></tr>
-        <tr><td class="b">種目別ページ</td><td>リーグ・チーム・大会を絞り込む</td><td class="muted">リーグ概要、チーム一覧、観戦Acカード、スケジュール</td><td class="muted">プラン詳細、座席詳細、決済情報</td></tr>
-      </tbody>
-    </table>
-
-    <h3>グロカテとの関係</h3>
-    <div class="callout warn"><strong>論点:</strong> 4/21メモで未決の「グロカテ使える？」について。<strong>結論案: 第1弾は別軸として独立リリース</strong>。理由は、グロカテ階層に組み込むと既存「カテゴリ × エリア」構造の変更範囲が大きく、初期コストが膨らむため。 <code>/theme/</code> 配下で独立公開し、効果検証後にグロカテ統合を判断する。<br>※ この判断はエンジニア合意が必要 → 論点表（Section 06）に記載。</div>
-  </section>
-
-  <!-- =========== 4. 効果仮説 =========== -->
-  <section class="sec" id="s4">
-    <h2><span class="num">04</span>効果仮説</h2>
-    <p class="sec-lead">「なぜこの構造で作るのか」を、SEO・UX・CVRの3視点で言語化する。施策判断と効果測定の根拠になる。</p>
-
-    <div class="eff">
-
-      <div class="eff-card">
-        <div class="lab">SEO</div>
-        <div class="body">
-          <p><span class="tag">狙うクエリ</span>「サッカー観戦 海外」「MLB 観戦 ツアー」「ウィンブルドン チケット」「F1 観戦 ツアー」など、種目・大会名での検索</p>
-          <p><span class="tag">仮説</span>現状これらクエリでVeltraは個別ac（深い階層）でしか露出していない。種目ハブを作ることで、内部リンクが集約され順位が上がる</p>
-          <p><span class="tag">測定</span>Ahrefs で対象キーワード群の順位と検索ボリュームを事前ベースライン化、3ヶ月後にYoY比較</p>
+      <div class="v-hero">
+        <div class="eyebrow">SPORTS · 世界のスポーツ観戦</div>
+        <h1>世界のスポーツ観戦ツアー・チケット</h1>
+        <p>欧州サッカー、米メジャースポーツ、四大テニス、F1まで。Travelerが現地でしか味わえない熱狂を、種目から探せるテーマハブ。</p>
+        <div class="stat">
+          <div><strong>7種目</strong>取扱中</div>
+          <div><strong>50+</strong>観戦ツアー</div>
+          <div><strong>20+</strong>都市</div>
         </div>
       </div>
 
-      <div class="eff-card">
-        <div class="lab">UX</div>
-        <div class="body">
-          <p><span class="tag">対象</span>「行先未定 × スポーツ目的」のTraveler（例：「夏に海外でサッカー観戦したい、場所は問わない」）</p>
-          <p><span class="tag">仮説</span>現状の「エリア → カテゴリ」では行先を先に決める必要があり、この層を取り逃がしている</p>
-          <p><span class="tag">測定</span>テーマページの直帰率、テーマ → ac遷移率、テーマ経由のCVR</p>
+      <div class="v-sec">
+        <h2>種目から選ぶ <span class="cnt">7種目</span></h2>
+        <p class="intro">行きたい試合・大会から、Travelerの旅のメインを設計できる。</p>
+        <div class="sp-grid">
+          <a class="sp-card">
+            <div class="ico" style="background:#1e3a4c; color:#fff;">⚽</div>
+            <div class="ttl">サッカー</div>
+            <div class="desc">プレミア・リーガ・ブンデス・セリエA・リーグアン</div>
+            <div class="meta">12ツアー · 8都市</div>
+          </a>
+          <a class="sp-card">
+            <div class="ico" style="background:#c1452f; color:#fff;">⚾</div>
+            <div class="ttl">野球（MLB）</div>
+            <div class="desc">ドジャース・ヤンキース他、現地観戦</div>
+            <div class="meta">8ツアー · 5都市</div>
+          </a>
+          <a class="sp-card">
+            <div class="ico" style="background:#d97706; color:#fff;">🏀</div>
+            <div class="ttl">バスケ（NBA）</div>
+            <div class="desc">レイカーズ・セルティックス他、シーズン観戦</div>
+            <div class="meta">準備中</div>
+          </a>
+          <a class="sp-card">
+            <div class="ico" style="background:#3b82f6; color:#fff;">🏒</div>
+            <div class="ttl">アイスホッケー（NHL）</div>
+            <div class="desc">トロント・モントリオール他、北米観戦</div>
+            <div class="meta">準備中</div>
+          </a>
+          <a class="sp-card">
+            <div class="ico" style="background:#65a30d; color:#fff;">🎾</div>
+            <div class="ttl">テニス（4大大会）</div>
+            <div class="desc">ウィンブルドン・全米・全仏・全豪</div>
+            <div class="meta">準備中</div>
+          </a>
+          <a class="sp-card">
+            <div class="ico" style="background:#7c3aed; color:#fff;">🏉</div>
+            <div class="ttl">ラグビー</div>
+            <div class="desc">オールブラックス他、聖地観戦</div>
+            <div class="meta">準備中</div>
+          </a>
+          <a class="sp-card">
+            <div class="ico" style="background:#dc2626; color:#fff;">🏁</div>
+            <div class="ttl">モタスポ（F1等）</div>
+            <div class="desc">モナコ・シルバーストン他、グランプリ</div>
+            <div class="meta">準備中</div>
+          </a>
+          <a class="sp-card" style="background:var(--bg-sub); border-style:dashed;">
+            <div class="ico" style="background:transparent; color:var(--text-muted);">+</div>
+            <div class="ttl" style="color:var(--text-muted);">その他</div>
+            <div class="desc">ボクシング、ゴルフ、他</div>
+            <div class="meta">準備中</div>
+          </a>
         </div>
       </div>
 
-      <div class="eff-card">
-        <div class="lab">CVR</div>
-        <div class="body">
-          <p><span class="tag">ファネル</span>主に <span class="b" style="font-weight:500;">②回遊</span>（新規流入の入口拡張）</p>
-          <p><span class="tag">仮説</span>目的型流入はCVRが高い傾向（既存 Direct = 2.98%）。テーマ流入のCVRも平均超えが見込める</p>
-          <p><span class="tag">測定</span>テーマページ landing セッションのCVRを、エリア landing と比較。3ヶ月で +0.1〜0.3pt の押し上げ寄与を狙う</p>
+      <div class="v-sec">
+        <h2>今シーズン注目の観戦地 <span class="cnt">人気3都市</span></h2>
+        <p class="intro">スポーツ × 都市の組み合わせから旅程を組み立てる。</p>
+        <div class="team-grid">
+          <div class="team-card"><div class="badge">BCN</div><div class="nm">バルセロナ</div><div class="loc">サッカー・F1</div></div>
+          <div class="team-card"><div class="badge">LDN</div><div class="nm">ロンドン</div><div class="loc">サッカー・テニス・ラグビー</div></div>
+          <div class="team-card"><div class="badge">LAX</div><div class="nm">ロサンゼルス</div><div class="loc">野球・バスケ</div></div>
+          <div class="team-card"><div class="badge">NYC</div><div class="nm">ニューヨーク</div><div class="loc">野球・テニス・バスケ</div></div>
         </div>
       </div>
 
+      <div class="v-sec">
+        <h2>シーズンカレンダー <span class="cnt">主要大会</span></h2>
+        <p class="intro">いつ何があるかから、旅の時期を決められる。</p>
+        <table class="tbl" style="background:#fff; border:1px solid var(--border); border-radius:8px; overflow:hidden;">
+          <thead><tr><th>月</th><th>主要大会・シーズン</th><th>種目</th></tr></thead>
+          <tbody>
+            <tr><td class="b">5月</td><td class="muted">欧州サッカー終盤戦・モナコGP</td><td class="muted">サッカー・F1</td></tr>
+            <tr><td class="b">6〜7月</td><td class="muted">ウィンブルドン・MLB開幕直後</td><td class="muted">テニス・野球</td></tr>
+            <tr><td class="b">8〜9月</td><td class="muted">プレミア開幕・全米オープン</td><td class="muted">サッカー・テニス</td></tr>
+            <tr><td class="b">10〜12月</td><td class="muted">NBA開幕・NFL本格化・ラグビー欧州</td><td class="muted">バスケ・ラグビー</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="v-sec" style="background:var(--bg-sub); border-bottom:none;">
+        <h2>スポーツ観戦の旅、その魅力</h2>
+        <p class="intro" style="max-width:none;">テレビでは伝わらない、スタジアムの熱気とファンの一体感。世界中のTravelerが「あの試合のためだけに」現地へ向かう、人生を彩る体験です。Veltraでは現地手配のスペシャリストが、チケットからスタジアムへの送迎までサポートします。</p>
+      </div>
+
+      <div class="mock-anno">
+        <div class="mockanno-row"><div class="n">1</div><div>ヒーローは「テーマ × 種目数 × 都市数」で量感を伝える。エンブレム・写真不使用のため、グラデーション背景+タイポでブランド感を出す。</div></div>
+        <div class="mockanno-row"><div class="n">2</div><div>種目カード8枚（7種目 + その他）。第1弾は「サッカー」「野球」の2種目を実コンテンツとして公開。他5種目は「準備中」表示で入口だけ確保し、SEO的に種目名キーワードを早期に押さえる。</div></div>
+        <div class="mockanno-row"><div class="n">3</div><div>シーズンカレンダーは「いつ行くべきか」を支援する独自コンテンツ。SEOで時期×種目クエリ（例：5月 海外サッカー 観戦）に対応する。</div></div>
+      </div>
     </div>
 
-    <h3>想定売上見込み（要試算）</h3>
-    <div class="callout info">
-      相談メモの「売上見込み」項目への試算アプローチ:
-      <ul style="margin:6px 0 0 0; padding-left:20px;">
-        <li>既存スポーツ観戦acの月間予約数を基準値とし、SEO流入増分 × 想定CVR で試算</li>
-        <li>スポーツ関連acの月間総セッションを GA4 (property 347074845) から抽出 → 種目別に按分</li>
-        <li>類似テーマページがあれば、その流入実績から係数を取って予測</li>
+    <h3 style="margin-top:36px;">② サッカー種目別ページ（/jp/theme/sports/soccer/）</h3>
+
+    <div class="mock-frame">
+      <div class="mock-bar">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="url">www.veltra.com/jp/theme/sports/soccer/</div>
+        <span class="ann">★ 新規URL</span>
+      </div>
+
+      <div class="v-header">
+        <div class="v-logo">Veltra<span>.</span></div>
+        <div class="v-nav"><span>エリアから探す</span><span>カテゴリから探す</span><span>テーマから探す</span></div>
+        <div class="v-search">🔍 キーワード検索</div>
+      </div>
+
+      <div class="v-crumb">
+        <a href="#">トップ</a><span class="arr">›</span><a href="#">テーマから探す</a><span class="arr">›</span><a href="#">世界のスポーツ観戦</a><span class="arr">›</span>サッカー
+      </div>
+
+      <div class="v-hero" style="background:linear-gradient(135deg, #0f4d4a 0%, #1e3a4c 100%);">
+        <div class="eyebrow">SOCCER · 世界のサッカー観戦</div>
+        <h1>海外サッカー観戦ツアー・チケット予約</h1>
+        <p>プレミアリーグ、ラ・リーガ、ブンデスリーガ、セリエA、リーグアン。Travelerが現地スタジアムの熱狂を体感する、Veltraのサッカー観戦ハブ。</p>
+        <div class="stat">
+          <div><strong>5</strong>大リーグ</div>
+          <div><strong>8</strong>主要クラブ</div>
+          <div><strong>12</strong>観戦ツアー</div>
+        </div>
+      </div>
+
+      <div class="v-sec">
+        <h2>リーグから選ぶ</h2>
+        <p class="intro">5大リーグそれぞれの個性とシーズンから、観戦時期と目的地を決められる。</p>
+        <div class="league-row" style="margin-bottom:16px;">
+          <span class="league-pill active">すべて</span>
+          <span class="league-pill">プレミアリーグ</span>
+          <span class="league-pill">ラ・リーガ</span>
+          <span class="league-pill">ブンデスリーガ</span>
+          <span class="league-pill">セリエA</span>
+          <span class="league-pill">リーグアン</span>
+        </div>
+        <div class="sp-grid" style="grid-template-columns:repeat(3, 1fr);">
+          <div class="sp-card" style="border-left:3px solid #3d195b;">
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">イングランド</div>
+            <div class="ttl">プレミアリーグ</div>
+            <div class="desc">世界最高峰の興行収入を誇る、エンタメ性と競技レベルの両立したリーグ。8月開幕、5月終了。</div>
+            <div class="meta">2クラブ取扱 · 8都市</div>
+          </div>
+          <div class="sp-card" style="border-left:3px solid #b9054b;">
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">スペイン</div>
+            <div class="ttl">ラ・リーガ</div>
+            <div class="desc">テクニカルなパスサッカーが特徴。エル・クラシコをはじめ世界的注目を集める対戦が多数。</div>
+            <div class="meta">2クラブ取扱 · 6都市</div>
+          </div>
+          <div class="sp-card" style="border-left:3px solid #1d2228;">
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">ドイツ</div>
+            <div class="ttl">ブンデスリーガ</div>
+            <div class="desc">熱狂的なサポーター文化と、スタジアム平均観客動員数で世界トップクラス。</div>
+            <div class="meta">準備中</div>
+          </div>
+          <div class="sp-card" style="border-left:3px solid #008c45;">
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">イタリア</div>
+            <div class="ttl">セリエA</div>
+            <div class="desc">戦術重視の伝統的サッカー。ミラノ・ローマ・トリノなど歴史的都市で観戦できる。</div>
+            <div class="meta">準備中</div>
+          </div>
+          <div class="sp-card" style="border-left:3px solid #002654;">
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">フランス</div>
+            <div class="ttl">リーグアン</div>
+            <div class="desc">パリ・サンジェルマンを中心に世界的スター選手が集結。シーズンは8月〜5月。</div>
+            <div class="meta">1クラブ取扱 · パリ</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="v-sec">
+        <h2>主要クラブから選ぶ <span class="cnt">人気8クラブ</span></h2>
+        <p class="intro">Travelerからの予約数上位クラブ。各カードから観戦チケット予約ページへ直接遷移する。</p>
+        <div class="team-grid">
+          <a class="team-card" style="text-decoration:none; color:inherit;">
+            <div class="badge" style="background:#a50044; color:#fff;">FCB</div>
+            <div class="nm">FCバルセロナ</div>
+            <div class="loc">ラ・リーガ · バルセロナ</div>
+          </a>
+          <a class="team-card" style="text-decoration:none; color:inherit;">
+            <div class="badge" style="background:#ffffff; color:#00529f; border:1px solid var(--border);">RM</div>
+            <div class="nm">レアル・マドリード</div>
+            <div class="loc">ラ・リーガ · マドリード</div>
+          </a>
+          <a class="team-card" style="text-decoration:none; color:inherit;">
+            <div class="badge" style="background:#ef0107; color:#fff;">ARS</div>
+            <div class="nm">アーセナル</div>
+            <div class="loc">プレミア · ロンドン</div>
+          </a>
+          <a class="team-card" style="text-decoration:none; color:inherit;">
+            <div class="badge" style="background:#034694; color:#fff;">CHE</div>
+            <div class="nm">チェルシー</div>
+            <div class="loc">プレミア · ロンドン</div>
+          </a>
+          <a class="team-card" style="text-decoration:none; color:inherit;">
+            <div class="badge" style="background:#004170; color:#fff;">PSG</div>
+            <div class="nm">パリ・サンジェルマン</div>
+            <div class="loc">リーグアン · パリ</div>
+          </a>
+          <a class="team-card" style="text-decoration:none; color:inherit;">
+            <div class="badge" style="background:var(--bg-sub); color:var(--text-muted);">+3</div>
+            <div class="nm">他3クラブ</div>
+            <div class="loc">準備中</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="v-sec">
+        <h2>直近の試合スケジュール <span class="cnt">主要8試合</span></h2>
+        <p class="intro">取扱中クラブのホームゲーム。Travelerは試合日から旅程を逆算できる。</p>
+        <div class="sched">
+          <div class="sched-row">
+            <div class="date">5/18<small>日</small></div>
+            <div class="match">FCバルセロナ vs ビジャレアル<small>ラ・リーガ第36節</small></div>
+            <div class="city">バルセロナ</div>
+            <a class="btn">観戦ツアーを見る</a>
+          </div>
+          <div class="sched-row">
+            <div class="date">5/25<small>日</small></div>
+            <div class="match">レアル・マドリード vs ベティス<small>ラ・リーガ最終節</small></div>
+            <div class="city">マドリード</div>
+            <a class="btn">観戦ツアーを見る</a>
+          </div>
+          <div class="sched-row">
+            <div class="date">8/16<small>土</small></div>
+            <div class="match">アーセナル vs マンチェスター・ユナイテッド<small>プレミア開幕節</small></div>
+            <div class="city">ロンドン</div>
+            <a class="btn">観戦ツアーを見る</a>
+          </div>
+          <div class="sched-row">
+            <div class="date">8/23<small>土</small></div>
+            <div class="match">チェルシー vs クリスタル・パレス<small>プレミア第2節</small></div>
+            <div class="city">ロンドン</div>
+            <a class="btn">観戦ツアーを見る</a>
+          </div>
+          <div class="sched-row">
+            <div class="date">8/30<small>土</small></div>
+            <div class="match">パリSG vs オリンピック・リヨン<small>リーグアン第3節</small></div>
+            <div class="city">パリ</div>
+            <a class="btn">観戦ツアーを見る</a>
+          </div>
+        </div>
+        <p style="font-size:11px; color:var(--text-muted); margin-top:10px;">※ 試合日程は変更される場合があります。最新情報は各観戦ツアーページでご確認ください。</p>
+      </div>
+
+      <div class="v-sec">
+        <h2>観戦ツアー一覧 <span class="cnt">5件表示中</span></h2>
+        <p class="intro">クラブ・都市・予算から、Travelerに合った観戦プランを選べる。</p>
+        <div class="ac-grid">
+          <a class="ac-card" href="https://www.veltra.com/jp/europe/spain/barcelona/a/17513" style="text-decoration:none; color:inherit;">
+            <div class="ac-thumb">FCバルセロナ<br>カンプ・ノウ</div>
+            <div class="ac-body">
+              <div class="ac-cat">ラ・リーガ · バルセロナ</div>
+              <div class="ac-ttl">FCバルセロナ サッカー観戦チケット ホームゲーム</div>
+              <div class="ac-meta"><span>★ 9.1</span><span>124件の体験談</span></div>
+              <div class="ac-price"><small>EUR</small> 411 <small>〜</small></div>
+            </div>
+          </a>
+          <a class="ac-card" href="https://www.veltra.com/jp/europe/uk/london/a/19628" style="text-decoration:none; color:inherit;">
+            <div class="ac-thumb" style="background:linear-gradient(135deg, #c92a2a, #8a1313);">アーセナル<br>エミレーツ</div>
+            <div class="ac-body">
+              <div class="ac-cat">プレミアリーグ · ロンドン</div>
+              <div class="ac-ttl">アーセナルFC 観戦チケット予約手配 エミレーツ・スタジアム</div>
+              <div class="ac-meta"><span>★ 9.6</span><span>34件の体験談</span></div>
+              <div class="ac-price"><small>GBP</small> 1,441 <small>〜</small></div>
+            </div>
+          </a>
+          <a class="ac-card" href="https://www.veltra.com/jp/europe/spain/madrid/a/19580" style="text-decoration:none; color:inherit;">
+            <div class="ac-thumb" style="background:linear-gradient(135deg, #fbfaee, #c9c08d); color:#5f5b35;">レアル・マドリード<br>ベルナベウ</div>
+            <div class="ac-body">
+              <div class="ac-cat">ラ・リーガ · マドリード</div>
+              <div class="ac-ttl">レアル・マドリード サッカー観戦チケット ホームゲーム</div>
+              <div class="ac-meta"><span>★ 8.8</span><span>58件の体験談</span></div>
+              <div class="ac-price"><small>EUR</small> 235 <small>〜</small></div>
+            </div>
+          </a>
+          <a class="ac-card" href="https://www.veltra.com/jp/europe/uk/london/a/19631" style="text-decoration:none; color:inherit;">
+            <div class="ac-thumb" style="background:linear-gradient(135deg, #1d56a8, #034694);">チェルシー<br>スタンフォードブリッジ</div>
+            <div class="ac-body">
+              <div class="ac-cat">プレミアリーグ · ロンドン</div>
+              <div class="ac-ttl">チェルシーFC 観戦チケット予約手配 スタンフォードブリッジ</div>
+              <div class="ac-meta"><span>★ 8.9</span><span>20件の体験談</span></div>
+              <div class="ac-price"><small>GBP</small> 588 <small>〜</small></div>
+            </div>
+          </a>
+          <a class="ac-card" href="https://www.veltra.com/jp/europe/france/paris/a/188909" style="text-decoration:none; color:inherit;">
+            <div class="ac-thumb" style="background:linear-gradient(135deg, #1a3a6b, #002654);">パリSG<br>パルク・デ・プランス</div>
+            <div class="ac-body">
+              <div class="ac-cat">リーグアン · パリ</div>
+              <div class="ac-ttl">パリ・サンジェルマンFC リーグアン サッカー観戦チケット</div>
+              <div class="ac-meta"><span>新着</span></div>
+              <div class="ac-price"><small>EUR</small> 458 <small>〜</small></div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="v-sec">
+        <h2>はじめての海外サッカー観戦ガイド</h2>
+        <p class="intro">チケット手配・スタジアム到着・服装・治安。Travelerが当日困らないための実用情報。</p>
+        <div class="ac-grid" style="grid-template-columns:repeat(2, 1fr);">
+          <div style="padding:14px 16px; background:var(--bg-sub); border-radius:6px;">
+            <div style="font-size:13px; font-weight:600; margin-bottom:4px;">チケット入手から観戦まで</div>
+            <div style="font-size:12px; color:var(--text-sub); line-height:1.6;">Veltra経由の予約からチケット受領、入場までの流れを解説。Eチケット対応・スマホ提示の方法も。</div>
+          </div>
+          <div style="padding:14px 16px; background:var(--bg-sub); border-radius:6px;">
+            <div style="font-size:13px; font-weight:600; margin-bottom:4px;">スタジアムへのアクセス</div>
+            <div style="font-size:12px; color:var(--text-sub); line-height:1.6;">主要スタジアムの最寄り駅・地下鉄ルート・タクシーの目安料金。試合終了後の混雑回避策。</div>
+          </div>
+          <div style="padding:14px 16px; background:var(--bg-sub); border-radius:6px;">
+            <div style="font-size:13px; font-weight:600; margin-bottom:4px;">服装と持ち物</div>
+            <div style="font-size:12px; color:var(--text-sub); line-height:1.6;">アウェイチームのユニフォーム着用は控える、相手チームカラーは避ける等、現地マナーの基礎。</div>
+          </div>
+          <div style="padding:14px 16px; background:var(--bg-sub); border-radius:6px;">
+            <div style="font-size:13px; font-weight:600; margin-bottom:4px;">スタジアム周辺の治安</div>
+            <div style="font-size:12px; color:var(--text-sub); line-height:1.6;">試合前後の混雑、スリ多発エリアの注意点、貴重品管理のコツ。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="v-sec" style="border-bottom:none;">
+        <h2>よくある質問</h2>
+        <div style="font-size:13px;">
+          <div style="padding:12px 0; border-bottom:1px solid var(--border);">
+            <div style="font-weight:600; margin-bottom:4px;">Q. チケットはいつ受け取れますか？</div>
+            <div style="color:var(--text-sub);">予約完了後、試合の約1〜2週間前にEチケットをメールでお届けします。</div>
+          </div>
+          <div style="padding:12px 0; border-bottom:1px solid var(--border);">
+            <div style="font-weight:600; margin-bottom:4px;">Q. 試合中止・延期の場合はどうなりますか？</div>
+            <div style="color:var(--text-sub);">代替試合への振替対応、または規定に基づく返金対応をいたします。詳細は各ツアーページのキャンセル規約をご確認ください。</div>
+          </div>
+          <div style="padding:12px 0;">
+            <div style="font-weight:600; margin-bottom:4px;">Q. 座席は選べますか？</div>
+            <div style="color:var(--text-sub);">ツアーによって異なります。指定席プランと自由席プランを各ページで確認できます。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mock-anno">
+        <div class="mockanno-row"><div class="n">1</div><div>ヒーロー：5大リーグ・8クラブ・12ツアーの数字で「網羅性」を伝える。Travelerが「ここに来れば全部見られる」と感じる導線。</div></div>
+        <div class="mockanno-row"><div class="n">2</div><div>リーグ別フィルタは静的なものでよい（5パターンの表示切替）。クライアントサイドのみで動かす。</div></div>
+        <div class="mockanno-row"><div class="n">3</div><div>試合スケジュール表は初期は手動更新（CSV → 静的HTML）。月1回の更新を運用フローに組み込む。</div></div>
+        <div class="mockanno-row"><div class="n">4</div><div>観戦ツアーカードは既存acへの直リンク。テーマページは「絞り込む場」に役割を純化、プラン詳細は持ち込まない（情報の引き算）。</div></div>
+      </div>
+    </div>
+
+    <div class="callout warn"><strong>サッカーモック注記:</strong> 上記モックは原稿ダミー・色味は仮。エンブレム・写真は使用不可のためテキスト+色面で構成。実装時はFigmaで詳細化し、デザイナーレビューを経る。</div>
+
+    <h3 style="margin-top:36px;">③ 野球（MLB）種目別ページ（/jp/theme/sports/baseball/）</h3>
+
+    <div class="mock-frame">
+      <div class="mock-bar">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="url">www.veltra.com/jp/theme/sports/baseball/</div>
+        <span class="ann">★ 新規URL</span>
+      </div>
+
+      <div class="v-header">
+        <div class="v-logo">Veltra<span>.</span></div>
+        <div class="v-nav"><span>エリアから探す</span><span>カテゴリから探す</span><span>テーマから探す</span></div>
+        <div class="v-search">🔍 キーワード検索</div>
+      </div>
+
+      <div class="v-crumb">
+        <a href="#">トップ</a><span class="arr">›</span><a href="#">テーマから探す</a><span class="arr">›</span><a href="#">世界のスポーツ観戦</a><span class="arr">›</span>野球（MLB）
+      </div>
+
+      <div class="v-hero" style="background: linear-gradient(135deg, #14213d 0%, #c1452f 100%);">
+        <div class="eyebrow">BASEBALL · MLB現地観戦</div>
+        <h1>MLB観戦ツアー・チケット予約</h1>
+        <p>ドジャース、ヤンキース、レッドソックス。日本人選手が活躍するMLBの現地観戦を、送迎・プリゲーム体験まで含めてVeltraがサポート。</p>
+        <div class="stat">
+          <div><strong>2</strong>リーグ</div>
+          <div><strong>6</strong>主要球団</div>
+          <div><strong>8</strong>観戦ツアー</div>
+        </div>
+      </div>
+
+      <div class="v-sec">
+        <h2>地区から選ぶ</h2>
+        <p class="intro">2リーグ × 6地区から、観戦したい球団の本拠地を選べる。</p>
+        <div class="league-row" style="margin-bottom:16px;">
+          <span class="league-pill active">すべて</span>
+          <span class="league-pill">アメリカン・リーグ</span>
+          <span class="league-pill">ナショナル・リーグ</span>
+        </div>
+        <div class="sp-grid" style="grid-template-columns:repeat(3, 1fr);">
+          <div class="sp-card" style="border-left:3px solid #003263;">
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">アメリカン東地区</div>
+            <div class="ttl">AL East</div>
+            <div class="desc">ヤンキース、レッドソックスなど伝統球団。NYでの観戦は2球場を回るプランも人気。</div>
+            <div class="meta">2球団取扱 · NY/ボストン</div>
+          </div>
+          <div class="sp-card" style="border-left:3px solid #005a9c;">
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">ナショナル西地区</div>
+            <div class="ttl">NL West</div>
+            <div class="desc">ドジャースを筆頭に、温暖な西海岸でのナイトゲームが人気。日本人選手の活躍も。</div>
+            <div class="meta">1球団取扱 · ロサンゼルス</div>
+          </div>
+          <div class="sp-card" style="border-left:3px solid #0e3386;">
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">ナショナル中地区</div>
+            <div class="ttl">NL Central</div>
+            <div class="desc">カブスの本拠地リグレー・フィールドは球場ファン憧れの場所。古き良きMLB体験。</div>
+            <div class="meta">1球団取扱 · シカゴ</div>
+          </div>
+          <div class="sp-card" style="border-left:3px solid #002d72; opacity:0.65;">
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">ナショナル東地区</div>
+            <div class="ttl">NL East</div>
+            <div class="desc">メッツ、フィリーズなど。シティ・フィールドでの観戦体験を予定。</div>
+            <div class="meta">準備中</div>
+          </div>
+          <div class="sp-card" style="border-left:3px solid #bd3039; opacity:0.65;">
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">アメリカン中地区</div>
+            <div class="ttl">AL Central</div>
+            <div class="desc">タイガース、ホワイトソックスなど中西部の球団群。</div>
+            <div class="meta">準備中</div>
+          </div>
+          <div class="sp-card" style="border-left:3px solid #003831; opacity:0.65;">
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">アメリカン西地区</div>
+            <div class="ttl">AL West</div>
+            <div class="desc">アストロズ、エンゼルスなど西海岸〜南部。</div>
+            <div class="meta">準備中</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="v-sec">
+        <h2>主要球団から選ぶ <span class="cnt">人気6球団</span></h2>
+        <p class="intro">Travelerからの予約数上位の球団。各カードから観戦チケット予約ページへ直接遷移する。</p>
+        <div class="team-grid">
+          <a class="team-card" style="text-decoration:none; color:inherit;">
+            <div class="badge" style="background:#005a9c; color:#fff;">LAD</div>
+            <div class="nm">ロサンゼルス・ドジャース</div>
+            <div class="loc">NL西 · ロサンゼルス</div>
+          </a>
+          <a class="team-card" style="text-decoration:none; color:inherit;">
+            <div class="badge" style="background:#0c2340; color:#fff;">NYY</div>
+            <div class="nm">ニューヨーク・ヤンキース</div>
+            <div class="loc">AL東 · ニューヨーク</div>
+          </a>
+          <a class="team-card" style="text-decoration:none; color:inherit;">
+            <div class="badge" style="background:#bd3039; color:#fff;">BOS</div>
+            <div class="nm">ボストン・レッドソックス</div>
+            <div class="loc">AL東 · ボストン</div>
+          </a>
+          <a class="team-card" style="text-decoration:none; color:inherit;">
+            <div class="badge" style="background:#0e3386; color:#fff;">CHC</div>
+            <div class="nm">シカゴ・カブス</div>
+            <div class="loc">NL中 · シカゴ</div>
+          </a>
+          <a class="team-card" style="text-decoration:none; color:inherit;">
+            <div class="badge" style="background:#002d72; color:#fff;">NYM</div>
+            <div class="nm">ニューヨーク・メッツ</div>
+            <div class="loc">NL東 · ニューヨーク</div>
+          </a>
+          <a class="team-card" style="text-decoration:none; color:inherit;">
+            <div class="badge" style="background:var(--bg-sub); color:var(--text-muted);">+1</div>
+            <div class="nm">他1球団</div>
+            <div class="loc">準備中</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="v-sec">
+        <h2>注目の試合スケジュール <span class="cnt">主要6試合</span></h2>
+        <p class="intro">取扱中球団のホームゲームから注目カードを抜粋。Travelerは試合日から旅程を逆算できる。</p>
+        <div class="sched">
+          <div class="sched-row">
+            <div class="date">5/24<small>土</small></div>
+            <div class="match">ドジャース vs パドレス<small>NL西地区上位対決</small></div>
+            <div class="city">ロサンゼルス</div>
+            <a class="btn">観戦ツアーを見る</a>
+          </div>
+          <div class="sched-row">
+            <div class="date">6/8<small>日</small></div>
+            <div class="match">ヤンキース vs レッドソックス<small>伝統の一戦</small></div>
+            <div class="city">ニューヨーク</div>
+            <a class="btn">観戦ツアーを見る</a>
+          </div>
+          <div class="sched-row">
+            <div class="date">6/15<small>日</small></div>
+            <div class="match">ドジャース vs カブス<small>インターリーグ</small></div>
+            <div class="city">ロサンゼルス</div>
+            <a class="btn">観戦ツアーを見る</a>
+          </div>
+          <div class="sched-row">
+            <div class="date">7/4<small>金</small></div>
+            <div class="match">レッドソックス vs ヤンキース<small>独立記念日カード</small></div>
+            <div class="city">ボストン</div>
+            <a class="btn">観戦ツアーを見る</a>
+          </div>
+          <div class="sched-row">
+            <div class="date">7/20<small>日</small></div>
+            <div class="match">カブス vs メッツ<small>リグレー・フィールド</small></div>
+            <div class="city">シカゴ</div>
+            <a class="btn">観戦ツアーを見る</a>
+          </div>
+          <div class="sched-row">
+            <div class="date">8/10<small>日</small></div>
+            <div class="match">メッツ vs ドジャース<small>シティ・フィールド</small></div>
+            <div class="city">ニューヨーク</div>
+            <a class="btn">観戦ツアーを見る</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="v-sec">
+        <h2>観戦ツアー一覧 <span class="cnt">5件表示中</span></h2>
+        <p class="intro">既存ベルトラ商品のカードリンク。テーマページはハブに徹し、詳細・予約は既存acで完結する。</p>
+        <div class="ac-grid">
+          <a class="ac-card" style="text-decoration:none; color:inherit;">
+            <div class="ac-badge" style="background:#005a9c;">LAD</div>
+            <div class="ac-meta">a/183789 · 観戦ツアー</div>
+            <div class="ac-ttl">【JTB限定】アーリーエントリー付き！ロサンゼルス ドジャース戦観戦ツアー</div>
+            <div class="ac-info"><span class="rate">★ 8.6</span><span>USD 400〜</span></div>
+          </a>
+          <a class="ac-card" style="text-decoration:none; color:inherit;">
+            <div class="ac-badge" style="background:#005a9c;">LAD</div>
+            <div class="ac-meta">a/193811 · プリゲーム体験</div>
+            <div class="ac-ttl">ドジャース 野球観戦プリゲームツアー 選手使用用具に触れて写真撮影できる特別体験付き</div>
+            <div class="ac-info"><span class="rate">★ 9.0</span><span>USD 185〜</span></div>
+          </a>
+          <a class="ac-card" style="text-decoration:none; color:inherit;">
+            <div class="ac-badge" style="background:#005a9c;">LAD</div>
+            <div class="ac-meta">a/182662 · チケット手配</div>
+            <div class="ac-ttl">ロサンゼルス プロ野球観戦 チケット手配＜2026年シーズン／3〜9月＞</div>
+            <div class="ac-info"><span class="rate">★ 9.0</span><span>USD 510〜</span></div>
+          </a>
+          <a class="ac-card" style="text-decoration:none; color:inherit;">
+            <div class="ac-badge" style="background:#005a9c;">LAD</div>
+            <div class="ac-meta">a/186386 · 送迎</div>
+            <div class="ac-ttl">【往復送迎】球場 ⇔ ご宿泊ホテル間 往復送迎サービス＜貸切／日本語ガイド＞</div>
+            <div class="ac-info"><span class="rate">★ 10.0</span><span>USD 880〜</span></div>
+          </a>
+          <a class="ac-card" style="text-decoration:none; color:inherit;">
+            <div class="ac-badge" style="background:#005a9c;">LAD</div>
+            <div class="ac-meta">a/183163 · 片道送迎</div>
+            <div class="ac-ttl">ロサンゼルス 野球観戦前後の片道送迎サービス（球場⇔ダウンタウン）</div>
+            <div class="ac-info"><span class="rate">★ 7.8</span><span>USD 100〜</span></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="mock-anno">
+        <div class="mockanno-row"><div class="n">1</div><div>ヒーロー：「2リーグ・6球団・8ツアー」で網羅性を伝える。日本人選手起因の検索流入を意識した訴求コピー。</div></div>
+        <div class="mockanno-row"><div class="n">2</div><div>地区別分類はサッカーと違って「リーグ＋地区」の2軸。MLBの構造に合わせる。テンプレ流用時の構造差分として記録。</div></div>
+        <div class="mockanno-row"><div class="n">3</div><div>ツアー一覧は「観戦」「プリゲーム」「送迎」「チケット手配」など機能別ac構成。サッカーよりacバリエーションが多い構造。</div></div>
+        <div class="mockanno-row"><div class="n">4</div><div>シーズン期間（3〜9月）が明確なため、オフシーズン時のページ表示ロジックも要検討。</div></div>
+      </div>
+    </div>
+
+    <div class="callout warn"><strong>野球モック注記:</strong> 上記モックは原稿ダミー・色味は仮。エンブレム・写真は使用不可。サッカーモックと比較することで、種目間の「型」の共通部分と差分が見えるよう設計。</div>
+  </section>
+
+  <!-- ============ COPY ============ -->
+  <section class="sec" id="p1-copy">
+    <h2><span class="num">03</span>原稿ダミー（執筆方針 + サンプル）</h2>
+    <p class="sec-lead">原稿は自作・他社コピペ禁止。サンプル原稿を提示してテンプレ化、執筆者の品質を揃える。</p>
+
+    <h3>執筆ガイドライン</h3>
+    <table class="tbl">
+      <tbody>
+        <tr><td class="b" style="width:24%;">サービス名表記</td><td>必ず <strong>Veltra</strong>。VELTRA / ベルトラ / VeL·ToA等の揺れ禁止。</td></tr>
+        <tr><td class="b">ユーザー主語</td><td>「Traveler」。本人・ユーザー・お客様は使わない。</td></tr>
+        <tr><td class="b">他社情報の扱い</td><td>Wikipedia含む他媒体のコピペ厳禁。事実関係は自社で再リサーチして自作。</td></tr>
+        <tr><td class="b">トーン</td><td>事実ベース + 体験価値を1〜2文添える。煽り表現NG（「絶対」「最高」乱用避ける）。</td></tr>
+        <tr><td class="b">最小フォント</td><td>13px以上。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>サンプル原稿：リーグ紹介（プレミアリーグ・約400字）</h3>
+    <div style="background:var(--bg-sub); padding:18px 22px; border-radius:8px; font-size:13px; line-height:1.85;">
+      <p style="margin:0 0 10px;"><strong>プレミアリーグ（イングランド）</strong></p>
+      <p style="margin:0;">イングランド・サッカーの最上位リーグ。世界中の有力選手と監督が集まり、世界最高峰の興行収入を誇るリーグとして知られています。シーズンは8月開幕・5月終了の年間38節制で、現地スタジアムは試合のたびに完売することも珍しくありません。Veltraでは、ロンドンを本拠地とするアーセナル、チェルシーをはじめとした主要クラブのホームゲーム観戦チケットを取り扱っています。Travelerが日本から訪れる場合、土日のホームゲームに合わせて旅程を組むのが基本パターンです。試合当日のスタジアム周辺は熱気に包まれ、テレビでは伝わらない歓声と一体感を体感できます。</p>
+    </div>
+
+    <h3>サンプル原稿：クラブ紹介（FCバルセロナ・約400字）</h3>
+    <div style="background:var(--bg-sub); padding:18px 22px; border-radius:8px; font-size:13px; line-height:1.85;">
+      <p style="margin:0 0 10px;"><strong>FCバルセロナ（スペイン・バルセロナ）</strong></p>
+      <p style="margin:0;">スペイン・カタルーニャ州バルセロナを本拠地とする、ラ・リーガ屈指の名門クラブ。クラブのモットーは「クラブ以上の存在」とされ、地域のアイデンティティを背負う特別な位置付けで知られています。ホームスタジアムはカンプ・ノウで、世界最大級の収容人数を誇ります。Veltraでは試合観戦チケットの事前予約を取り扱っており、Travelerは入場までの手続きを気にせず観戦に集中できます。試合日程はラ・リーガ公式発表に基づき、特に「エル・クラシコ」と呼ばれるレアル・マドリードとの対戦は世界的な注目を集める一戦です。観戦と合わせて、バルセロナ市内のサグラダ・ファミリア観光やタパス巡りを組み合わせる旅程が定番です。</p>
+    </div>
+
+    <h3>サンプル原稿：観戦ガイド（チケット入手から観戦まで・約300字）</h3>
+    <div style="background:var(--bg-sub); padding:18px 22px; border-radius:8px; font-size:13px; line-height:1.85;">
+      <p style="margin:0 0 10px;"><strong>チケット入手から観戦までの流れ</strong></p>
+      <p style="margin:0;">Veltraで観戦ツアーを予約すると、現地の手配会社を通じてチケットが確保されます。Travelerはまず予約完了メールを受信し、試合の約1〜2週間前にEチケットがメールで届きます。当日はスマートフォン画面の提示で入場可能なケースが多いですが、紙チケット指定の試合もあるため、各ツアーページの記載をご確認ください。スタジアム到着は試合開始の60〜90分前を推奨します。入場時には荷物検査があり、大型バッグや傘は持ち込めない場合があります。座席エリアによっては入場ゲートが異なるため、チケット記載のゲート番号を事前にご確認ください。</p>
+    </div>
+
+    <h3>サンプル原稿：球団紹介（ロサンゼルス・ドジャース・約400字）</h3>
+    <div style="background:var(--bg-sub); padding:18px 22px; border-radius:8px; font-size:13px; line-height:1.85;">
+      <p style="margin:0 0 10px;"><strong>ロサンゼルス・ドジャース（カリフォルニア州ロサンゼルス）</strong></p>
+      <p style="margin:0;">MLBナショナル・リーグ西地区に所属する球団。本拠地のドジャー・スタジアムは1962年に開場した歴史ある球場で、収容人数は約5万6千人。MLB球場の中でも最大級の規模を誇ります。日本人選手の所属歴があるチームとしても知られ、日本からの観戦Travelerも多く訪れます。レギュラーシーズンは3月末〜9月末で、主にナイトゲーム中心の興行となります。Veltraでは試合観戦チケットの手配に加え、試合前に球場裏側を見学できるプリゲームツアー、ホテルから球場までの送迎サービスなどを取り扱っています。試合当日は球場周辺の交通渋滞が激しくなるため、送迎サービスを利用することで観戦に集中できます。ロサンゼルス観光と組み合わせて2〜3泊で訪れるTravelerが定番です。</p>
+    </div>
+
+    <h3>サンプル原稿：FAQ抜粋（MLB観戦・約200字）</h3>
+    <div style="background:var(--bg-sub); padding:18px 22px; border-radius:8px; font-size:13px; line-height:1.85;">
+      <p style="margin:0 0 10px;"><strong>Q. 試合がオフシーズン（10〜2月）でもツアーは予約できますか?</strong></p>
+      <p style="margin:0 0 14px;">MLBのレギュラーシーズンは3月末〜9月末です。オフシーズン期間（10月中旬〜2月）は試合がないため、観戦ツアーの催行はございません。なお、地区シリーズやワールドシリーズなどポストシーズンの試合は10月中旬まで実施されますが、進出球団・日程が直前まで確定しないため、Veltraでの事前手配は限定的です。シーズン中に予定を組むことをお勧めします。</p>
+      <p style="margin:0 0 10px;"><strong>Q. 球場内で日本語の案内はありますか?</strong></p>
+      <p style="margin:0;">場内アナウンスや表示は基本的に英語のみです。Veltraの観戦ツアーには日本語ガイド付きプランも用意されているため、初めての方や英語に不安のあるTravelerにおすすめです。</p>
+    </div>
+
+    <h3>執筆ボリュームと工数見積もり</h3>
+    <table class="tbl">
+      <thead><tr><th>区分</th><th>本数</th><th>1本あたり</th><th>合計</th><th>工数（h）</th></tr></thead>
+      <tbody>
+        <tr><td>スポーツTOP原稿</td><td class="muted">1本</td><td class="muted">3,200字</td><td class="muted">3,200字</td><td class="muted">6h</td></tr>
+        <tr><td>サッカー：リーグ紹介</td><td class="muted">5本</td><td class="muted">400字</td><td class="muted">2,000字</td><td class="muted">6h</td></tr>
+        <tr><td>サッカー：クラブ紹介</td><td class="muted">8本</td><td class="muted">400字</td><td class="muted">3,200字</td><td class="muted">10h</td></tr>
+        <tr><td>サッカー：観戦ガイド・FAQ</td><td class="muted">9本</td><td class="muted">—</td><td class="muted">2,300字</td><td class="muted">8h</td></tr>
+        <tr><td>野球：地区紹介</td><td class="muted">6本</td><td class="muted">200字</td><td class="muted">1,200字</td><td class="muted">4h</td></tr>
+        <tr><td>野球：球団紹介</td><td class="muted">6本</td><td class="muted">400字</td><td class="muted">2,400字</td><td class="muted">8h</td></tr>
+        <tr><td>野球：観戦ガイド・FAQ</td><td class="muted">9本</td><td class="muted">—</td><td class="muted">2,300字</td><td class="muted">8h</td></tr>
+        <tr><td class="b">合計</td><td class="b muted">44本</td><td class="muted">—</td><td class="b muted">約16,600字</td><td class="b muted">50h</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">※ 推敲・チェック含む。1名で約2週間。外注なら2.5〜3週間で見積もり。</p>
+  </section>
+
+  <!-- ============ TASKS ============ -->
+  <section class="sec" id="p1-tasks">
+    <h2><span class="num">04</span>タスク一覧</h2>
+    <p class="sec-lead">Phase1リリースまでに必要なタスクを職能ごとに洗い出し。担当アサインの素材にする。</p>
+
+    <h3>タスク全体</h3>
+    <table class="tbl">
+      <thead><tr><th style="width:32%;">タスク</th><th style="width:14%;">担当</th><th style="width:10%;">優先</th><th>備考</th></tr></thead>
+      <tbody>
+        <tr><td class="b">ステークホルダー調整（公開場所・URL）</td><td class="muted">PM</td><td><span class="pill-pri p1">P0</span></td><td class="muted">エンジニア・SEO・マーケへの事前打診</td></tr>
+        <tr><td class="b">キーワード調査（Ahrefs）</td><td class="muted">PM/マーケ</td><td><span class="pill-pri p1">P0</span></td><td class="muted">対象クエリの月間検索ボリュームと現順位</td></tr>
+        <tr><td class="b">売上見込み試算（GA4）</td><td class="muted">PM</td><td><span class="pill-pri p1">P0</span></td><td class="muted">スポーツacの月間S・予約数 → 増分試算</td></tr>
+        <tr><td class="b">PRD作成・ClickUp起票</td><td class="muted">PM</td><td><span class="pill-pri p1">P0</span></td><td class="muted">PRD template準拠</td></tr>
+        <tr><td class="b">Figmaモック作成</td><td class="muted">デザイナー</td><td><span class="pill-pri p1">P0</span></td><td class="muted">本ドキュメントのHTMLモックを起点</td></tr>
+        <tr><td class="b">原稿執筆（約18,000字 / サッカー+野球）</td><td class="muted">マーケ/外注</td><td><span class="pill-pri p1">P0</span></td><td class="muted">執筆ガイド準拠・自作必須</td></tr>
+        <tr><td class="b">原稿レビュー・推敲</td><td class="muted">PM</td><td><span class="pill-pri p1">P0</span></td><td class="muted">表記揺れ・トーン・事実確認</td></tr>
+        <tr><td class="b">フロント実装（静的HTML）</td><td class="muted">エンジニア</td><td><span class="pill-pri p1">P0</span></td><td class="muted">既存サイトテンプレートに合わせる</td></tr>
+        <tr><td class="b">スケジュールCSV運用設計</td><td class="muted">PM/仕入</td><td><span class="pill-pri p2">P1</span></td><td class="muted">月1更新のフロー・担当決め</td></tr>
+        <tr><td class="b">GTMイベント実装</td><td class="muted">PM/エンジニア</td><td><span class="pill-pri p2">P1</span></td><td class="muted">テーマpage_view、ac遷移、リーグフィルタ</td></tr>
+        <tr><td class="b">SEO設計（meta・構造化データ）</td><td class="muted">エンジニア/SEO</td><td><span class="pill-pri p2">P1</span></td><td class="muted">canonical、JSON-LD（SportsEvent等）</td></tr>
+        <tr><td class="b">QA・各種デバイス確認</td><td class="muted">QA</td><td><span class="pill-pri p2">P1</span></td><td class="muted">PC・モバイル・主要ブラウザ</td></tr>
+        <tr><td class="b">リリース・社内告知</td><td class="muted">PM</td><td><span class="pill-pri p2">P1</span></td><td class="muted">マーケ周知、効果測定開始日確定</td></tr>
+        <tr><td class="b">効果測定（リリース後3ヶ月）</td><td class="muted">PM</td><td><span class="pill-pri p3">P2</span></td><td class="muted">CVR、SEO順位、流入セッション</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ SCHEDULE ============ -->
+  <section class="sec" id="p1-sched">
+    <h2><span class="num">05</span>スケジュール</h2>
+    <p class="sec-lead">合意日からカウントして12〜14週でリリース。原稿執筆と実装を並行進行させて短縮する。</p>
+
+    <div class="phase">
+      <h4><span class="ph-tag">Week 1〜2</span>合意形成・調査<span class="dur">2週間</span></h4>
+      <ul>
+        <li>本ドキュメントのチームレビュー・修正</li>
+        <li>ステークホルダー調整（エンジニア・SEO・マーケ・仕入）</li>
+        <li>Ahrefsでキーワード調査 → 売上見込み試算</li>
+        <li>PRD作成 → ClickUp起票</li>
       </ul>
     </div>
-  </section>
 
-  <!-- =========== 5. 運用ルール =========== -->
-  <section class="sec" id="s5">
-    <h2><span class="num">05</span>運用ルール</h2>
-    <p class="sec-lead">「類似のテーマ括りページを作りたくなることは多そう。運用ルールを考えて欲しい」という依頼への回答。</p>
-
-    <h3>新テーマページ作成のゲート（4条件すべて満たすこと）</h3>
-    <div class="cards-2">
-      <div class="card-sub">
-        <div class="ttl">① 既存カテゴリで括れない</div>
-        <p class="desc">エリア・カテゴリのどちらでも代替不可なときのみ新設。代替可能なら既存ページを強化する。</p>
-      </div>
-      <div class="card-sub">
-        <div class="ttl">② 月間検索ボリューム閾値</div>
-        <p class="desc">主要クエリの合計が月1万以上（仮置き、チームで閾値合意要）。</p>
-      </div>
-      <div class="card-sub">
-        <div class="ttl">③ 商品数の最低ライン</div>
-        <p class="desc">10ac以上、かつ3つ以上のエリアにまたがる（横断する意義が成立する）。</p>
-      </div>
-      <div class="card-sub">
-        <div class="ttl">④ メンテ担当者が明確</div>
-        <p class="desc">廃れたページが残るのを防ぐため、コンテンツ更新の担当を最初に決める。</p>
-      </div>
+    <div class="phase">
+      <h4><span class="ph-tag">Week 3〜5</span>仕様確定・モック・原稿着手<span class="dur">3週間</span></h4>
+      <ul>
+        <li>Figmaモック作成・デザイナーレビュー</li>
+        <li>原稿執筆開始（約18,000字 / サッカー+野球 → 約2.5〜3週間）</li>
+        <li>SEO設計（meta・構造化データ）の仕様確定</li>
+        <li>GTMイベント設計</li>
+      </ul>
     </div>
 
-    <h3>テンプレート構成（テーマTOP / 種目別の共通骨格）</h3>
-    <table class="tbl">
-      <thead><tr><th>セクション</th><th style="width:18%;">必須/任意</th><th>運用負荷</th></tr></thead>
-      <tbody>
-        <tr><td>ヒーロー＋紹介テキスト</td><td class="muted">必須</td><td class="muted">初回のみ</td></tr>
-        <tr><td>サブカテゴリカード（種目・チーム）</td><td class="muted">必須</td><td class="muted">追加時のみ</td></tr>
-        <tr><td>人気Acカード一覧</td><td class="muted">必須</td><td class="muted b">自動反映推奨</td></tr>
-        <tr><td>試合・公演スケジュール</td><td class="muted">任意</td><td class="muted b">自動反映推奨</td></tr>
-        <tr><td>観戦ガイド・基礎知識</td><td class="muted">必須</td><td class="muted">初回のみ</td></tr>
-        <tr><td>FAQ</td><td class="muted">任意</td><td class="muted">年1回更新</td></tr>
-      </tbody>
-    </table>
-
-    <h3>自動反映の仕組み（提案）</h3>
-    <div class="callout info">
-      <p style="margin:0 0 6px;"><strong>方針:</strong> 「人気Acカード」と「スケジュール」は ac の構造化データ（JSON）から自動生成する。テーマページごとに <code>tags: [sport, soccer]</code> のような分類タグを ac に付与し、タグマッチで動的に表示する。</p>
-      <p style="margin:0;"><strong>初期フェーズ:</strong> 手動運用（CSV または管理画面で ac リスト・スケジュール更新）でリリースし、効果検証後に自動化投資を判断するのが現実的（Phase分割の理由: リスク管理）。</p>
+    <div class="phase">
+      <h4><span class="ph-tag">Week 6〜11</span>実装・原稿仕上げ<span class="dur">6週間</span></h4>
+      <ul>
+        <li>フロント実装（静的HTML、サッカー＋野球の2ページ）</li>
+        <li>原稿レビュー・推敲・差し戻し</li>
+        <li>スケジュールCSV運用フロー確定</li>
+        <li>QA・各種デバイス確認</li>
+      </ul>
     </div>
 
-    <h3>原稿作成ガイドライン（必須ルール）</h3>
-    <table class="tbl">
-      <tbody>
-        <tr><td class="b" style="width:24%;">サービス名表記</td><td>必ず <span class="b">Veltra</span>（VELTRA / VeL·ToA / ベルトラ等の表記揺れ禁止）</td></tr>
-        <tr><td class="b">主語</td><td>「Traveler」（本人・ユーザー・お客様は使わない）</td></tr>
-        <tr><td class="b">他社コピペ禁止</td><td>チーム名・大会紹介はすべて自作原稿。他社サイトの文章を流用しない</td></tr>
-        <tr><td class="b">写真・エンブレム</td><td>使用不可。タイポグラフィ・アイコン・カラー設計でブランド感を出す</td></tr>
-        <tr><td class="b">最小フォント</td><td>13px 以上</td></tr>
-      </tbody>
-    </table>
+    <div class="phase">
+      <h4><span class="ph-tag">Week 12〜14</span>リリース・効果測定開始<span class="dur">2〜3週間</span></h4>
+      <ul>
+        <li>本番反映・社内告知</li>
+        <li>効果測定開始（GA4・Ahrefs）</li>
+        <li>初週・1ヶ月の振り返り → 第2弾種目の優先度決定</li>
+      </ul>
+    </div>
+
+    <div class="callout info"><strong>リリース後3ヶ月の判定ゲート:</strong> ① テーマlanding CVRがエリアlandingを上回る ② 対象キーワードで10位以内に1個以上入る ③ 月間流入セッションが目標値を超える — 2つ以上達成で「他種目展開」を意思決定。未達なら設計見直し。</div>
   </section>
 
-  <!-- =========== 6. 論点・リスク =========== -->
-  <section class="sec" id="s6">
-    <h2><span class="num">06</span>論点・リスク</h2>
-    <p class="sec-lead">ステークホルダー調整で確定すべきこと、リスクと対策。</p>
+  <!-- ============ ISSUES ============ -->
+  <section class="sec" id="p1-issues">
+    <h2><span class="num">06</span>論点（Phase1に閉じるもの）</h2>
+    <p class="sec-lead">Phase1範囲内で決めるべきこと。雛形化に関わる論点はPhase2ドキュメントで扱う。</p>
 
-    <h3>確定すべき論点</h3>
     <table class="tbl">
-      <thead><tr><th>論点</th><th style="width:24%;">確認先</th><th style="width:14%;">期限</th></tr></thead>
+      <thead><tr><th>論点</th><th style="width:22%;">確認先</th><th style="width:14%;">期限</th><th style="width:24%;">仮の案</th></tr></thead>
       <tbody>
-        <tr><td>グロカテに組み込むか独立軸（/theme/）か</td><td class="muted">エンジニア／PdM</td><td class="muted">キックオフ前</td></tr>
-        <tr><td>公開場所のURL設計（/theme/sports/ で合意可能か）</td><td class="muted">エンジニア／SEO</td><td class="muted">キックオフ前</td></tr>
-        <tr><td>第1弾のスコープ（TOPのみ／TOP+サッカー）</td><td class="muted">企画</td><td class="muted">本MTG</td></tr>
-        <tr><td>スケジュール自動反映のデータソース</td><td class="muted">仕入／エンジニア</td><td class="muted">仕様確定前</td></tr>
-        <tr><td>原稿作成の担当（マーケ／外注）</td><td class="muted">マーケ</td><td class="muted">キックオフ前</td></tr>
-        <tr><td>効果測定の指標と判定タイミング</td><td class="muted">CVRチーム内</td><td class="muted">キックオフ前</td></tr>
-        <tr><td>運用更新ルールのドキュメント化担当</td><td class="muted">CVRチーム</td><td class="muted">リリース前</td></tr>
+        <tr>
+          <td class="b">第1弾の種目はサッカー＋野球の2種目で合意できるか</td>
+          <td class="muted">企画</td>
+          <td class="muted">本MTG</td>
+          <td class="muted">サッカー＋野球の2種目を強く推す</td>
+        </tr>
+        <tr>
+          <td class="b">原稿執筆を誰が担当するか（マーケ社内／外注）</td>
+          <td class="muted">マーケ</td>
+          <td class="muted">Week2</td>
+          <td class="muted">外注見積もり取得 → 比較</td>
+        </tr>
+        <tr>
+          <td class="b">URL設計 /jp/theme/sports/ で合意できるか</td>
+          <td class="muted">エンジニア / SEO</td>
+          <td class="muted">Week2</td>
+          <td class="muted">/theme/ プレフィックスを推奨</td>
+        </tr>
+        <tr>
+          <td class="b">試合スケジュールの初期データソース（誰がCSV作るか）</td>
+          <td class="muted">仕入</td>
+          <td class="muted">Week3</td>
+          <td class="muted">公式リーグ発表を仕入が月1で更新</td>
+        </tr>
+        <tr>
+          <td class="b">第1弾の効果判定指標と判定タイミング</td>
+          <td class="muted">CVRチーム内</td>
+          <td class="muted">Week3</td>
+          <td class="muted">3ヶ月後 / 上記3指標2つ以上達成</td>
+        </tr>
+        <tr>
+          <td class="b">エンブレム不使用の場合のクラブカードのビジュアル設計</td>
+          <td class="muted">デザイナー</td>
+          <td class="muted">Week4</td>
+          <td class="muted">タイポ+クラブカラーで識別</td>
+        </tr>
       </tbody>
     </table>
 
-    <h3>リスクと対策</h3>
+    <h3>Phase1のリスク</h3>
     <table class="tbl">
       <thead><tr><th>リスク</th><th>影響</th><th>対策</th></tr></thead>
       <tbody>
-        <tr><td>既存ac/エリアページとSEOカニバリゼーション</td><td class="muted">SEO順位の入れ替わり</td><td>canonical設計、テーマページは横断ハブに徹し詳細を持たない</td></tr>
-        <tr><td>公開後に陳腐化（試合終了情報の放置）</td><td class="muted">Traveler信頼低下</td><td>スケジュール部分は自動更新を必須、無理なら期日表示なしで運用</td></tr>
-        <tr><td>写真・エンブレム使用不可によるビジュアル劣化</td><td class="muted">直帰率上昇</td><td>タイポグラフィ・アイコン・カラー設計でブランド感を出す（モック検証）</td></tr>
-        <tr><td>第2弾以降が立ち消えてテンプレ無駄に</td><td class="muted">投資ROI低下</td><td>第1弾の効果検証ゲート（CVR +0.1pt以上 など）通過後に第2弾着手</td></tr>
-        <tr><td>原稿執筆ボリュームが想定超え</td><td class="muted">リリース遅延</td><td>第1弾は1種目に絞る、テンプレ化で2種目目以降の工数を圧縮</td></tr>
+        <tr><td>原稿執筆が遅延する</td><td class="muted">リリース後ろ倒し</td><td>第1弾を2種目に絞ることでリスク最小化（3種目目以降は破綻リスク）。外注早期検討。</td></tr>
+        <tr><td>エンブレム・写真不使用でビジュアル弱い</td><td class="muted">直帰率上昇</td><td>タイポグラフィ・クラブカラー・グラデーション設計でブランド感を確保。Figmaで先に検証。</td></tr>
+        <tr><td>試合スケジュール表が古いまま放置される</td><td class="muted">Traveler信頼低下</td><td>更新担当を仕入に明示固定、更新サイクル（月1）を運用ルールに組み込む。</td></tr>
+        <tr><td>既存acとSEOカニバリ</td><td class="muted">順位下落</td><td>canonical設計でacページを主とする。テーマページは検索意図が異なるクエリ（種目横断）狙い。</td></tr>
       </tbody>
     </table>
   </section>
 
-  <!-- =========== 7. タスク・スケジュール =========== -->
-  <section class="sec" id="s7">
-    <h2><span class="num">07</span>タスク・スケジュール</h2>
-    <p class="sec-lead">Phase分割の理由: ① 合意形成は意思決定の塊なので独立、② 仕様確定とモックは Phase 1 のアウトプット依存、③ 実装は仕様凍結後に着手で手戻り回避。</p>
-
-    <div class="phase">
-      <h4><span class="ph-tag">Phase 1</span>合意形成<span class="dur">〜2週間</span></h4>
-      <ul>
-        <li>本ドキュメントをチームレビュー → 修正</li>
-        <li>ステークホルダー調整（エンジニア、SEO、マーケ、仕入）</li>
-        <li>Ahrefs MCPでキーワード調査と検索ボリューム取得</li>
-        <li>GA4 (property 347074845) で既存スポーツacの月間セッション・予約数を抽出 → 売上見込み試算</li>
-        <li>競合OTAの最新状況1〜2hブラウジング</li>
-      </ul>
-    </div>
-
-    <div class="phase">
-      <h4><span class="ph-tag">Phase 2</span>仕様確定とモック<span class="dur">〜3週間</span></h4>
-      <ul>
-        <li>静的モック作成（スポーツTOP + サッカーページ）</li>
-        <li>テンプレートデザイン（Figma） — デザイナー連携</li>
-        <li>原稿作成ガイドライン作成（表記ルール、文字量基準）</li>
-        <li>PRD作成（PRD template準拠）／ClickUp起票</li>
-        <li>GTMイベント設計（テーマ → ac遷移、テーマ landing CVR）</li>
-      </ul>
-    </div>
-
-    <div class="phase">
-      <h4><span class="ph-tag">Phase 3</span>実装とリリース<span class="dur">〜2ヶ月</span></h4>
-      <ul>
-        <li>原稿執筆（チーム名・大会紹介、自作で他社コピペ厳禁）</li>
-        <li>フロント実装、GA4イベント実装、QA</li>
-        <li>サッカーから段階リリース</li>
-        <li>リリース後3ヶ月の効果測定 → 他種目展開 or 中止判断</li>
-      </ul>
-    </div>
-
-    <div class="callout accent">
-      <strong>判定ゲート（Phase 3 完了後 3ヶ月）:</strong> ① テーマ landing CVR が エリア landing CVR を上回る ② 対象キーワードでの順位が10位以内に1個以上入る ③ 月間テーマ流入セッションが目標値（試算後決定）を超える — のうち2つ以上達成で「他種目展開」を意思決定。未達なら設計見直し。
-    </div>
-  </section>
-
-  <!-- =========== 次の意思決定 =========== -->
-  <div class="foot">
-    <strong>次の意思決定ポイント（本MTGで合意したいこと）</strong>
-    <ol style="margin:8px 0 0; padding-left:20px;">
-      <li>第1弾スコープ（スポーツTOPのみ／TOP+サッカー1種目）</li>
-      <li>グロカテ統合 vs 独立軸（/theme/）の方向性 — エンジニア確認の事前合意</li>
-      <li>スケジュール自動反映の実装範囲（初期は手動運用フェーズを置くか）</li>
-      <li>原稿担当（チーム内／外注）</li>
-    </ol>
+  <div style="margin-top:28px; padding:18px 22px; background:var(--bg); border:1px solid var(--border); border-radius:8px; font-size:13px; color:var(--text-sub); line-height:1.75;">
+    <strong style="color:var(--text);">関連ドキュメント:</strong>
+    <p style="margin:8px 0 0;">本ドキュメントはPhase 1（個別案件としてのスポーツナビ第1弾）に閉じる内容。スポーツナビを「.com販促の雛形」として横展開する観点（運用基盤・CMS化・特集ページとの整理）は、別途 <strong>Phase 2 雛形化検討ドキュメント</strong> として後日整理する。</p>
   </div>
 
 </div>
