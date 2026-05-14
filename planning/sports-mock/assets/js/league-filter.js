@@ -1,130 +1,120 @@
 /* ============================================================
-   League / district pill filter
+   League / division filter + GA4 event wiring
    ------------------------------------------------------------
-   Markup contract:
+   Markup contract (matches Claude Design HTML):
 
-   <div class="pill-row" data-filter-group="leagues">
-     <button class="pill-btn is-active" data-filter="*">すべて</button>
-     <button class="pill-btn" data-filter="premier">プレミアリーグ</button>
-     ...
-   </div>
+     <div class="filter-row" role="tablist">
+       <button class="filter-chip is-active" data-filter="all">…</button>
+       <button class="filter-chip" data-filter="al">…</button>
+       …
+     </div>
 
-   <div class="sp-grid" data-filter-target="leagues">
-     <div class="sp-card" data-filter-key="premier">...</div>
-     ...
-   </div>
+     Cards within the same .sec that carry data-league="<key>" are
+     shown/hidden based on the active chip. data-filter="all" shows all.
 
-   The target's cards are shown/hidden by toggling .is-hidden.
+   Events fired (gtag + dataLayer):
+     - theme_page_view       on load (body[data-theme], data-page-type)
+     - theme_to_ac_click     on [data-ga-ac] click
+     - genre_card_click      on [data-ga-genre] click
+     - league_filter_click   on filter-chip click
    ============================================================ */
 (function () {
-  function setupGroup(pillRow) {
-    var group = pillRow.getAttribute("data-filter-group");
-    if (!group) return;
-    var target = document.querySelector('[data-filter-target="' + group + '"]');
-    if (!target) return;
-    var cards = target.querySelectorAll("[data-filter-key]");
-    var pills = pillRow.querySelectorAll(".pill-btn");
+  function fireEvent(name, params) {
+    if (window.gtag) window.gtag("event", name, params);
+    if (window.dataLayer) window.dataLayer.push(Object.assign({ event: name }, params));
+  }
 
-    function apply(value) {
-      cards.forEach(function (card) {
-        var keys = (card.getAttribute("data-filter-key") || "").split(/\s+/);
-        var show = value === "*" || keys.indexOf(value) !== -1;
-        card.classList.toggle("is-hidden", !show);
-      });
-      pills.forEach(function (p) {
-        p.classList.toggle("is-active", p.getAttribute("data-filter") === value);
-      });
-      if (window.gtag) {
-        window.gtag("event", "league_filter_click", { filter_value: value });
-      }
-      if (window.dataLayer) {
-        window.dataLayer.push({ event: "league_filter_click", filter_value: value });
-      }
-    }
+  function setupFilters() {
+    document.querySelectorAll('.filter-row[role="tablist"]').forEach(function (row) {
+      var chips = row.querySelectorAll(".filter-chip[data-filter]");
+      var scope = row.closest(".sec") || document;
+      var cards = scope.querySelectorAll("[data-league]");
+      if (!chips.length || !cards.length) return;
 
-    pills.forEach(function (p) {
-      p.addEventListener("click", function () {
-        apply(p.getAttribute("data-filter") || "*");
+      chips.forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          var key = chip.getAttribute("data-filter") || "all";
+          chips.forEach(function (c) { c.classList.remove("is-active"); });
+          chip.classList.add("is-active");
+          cards.forEach(function (card) {
+            var match = key === "all" || card.getAttribute("data-league") === key;
+            card.style.display = match ? "" : "none";
+          });
+          fireEvent("league_filter_click", { filter_value: key });
+        });
       });
     });
   }
 
-  function init() {
-    document.querySelectorAll(".pill-row[data-filter-group]").forEach(setupGroup);
-
-    // "準備中" cards: prevent navigation + GA log
-    document.querySelectorAll(".is-disabled").forEach(function (el) {
-      el.addEventListener("click", function (e) {
-        e.preventDefault();
-      });
-      if (!el.getAttribute("title")) {
-        el.setAttribute("title", "順次公開予定");
-      }
+  function setupDisabled() {
+    document.querySelectorAll(".is-soon, [aria-disabled='true']").forEach(function (el) {
+      if (el.tagName !== "A") return;
+      el.addEventListener("click", function (e) { e.preventDefault(); });
+      if (!el.getAttribute("title")) el.setAttribute("title", "順次公開予定");
     });
+  }
 
-    // Generic ac click GA pass-through
+  function setupGAClicks() {
+    var theme = document.body.getAttribute("data-theme") || "";
+
     document.querySelectorAll("[data-ga-ac]").forEach(function (el) {
       el.addEventListener("click", function () {
-        var ac = el.getAttribute("data-ga-ac") || "";
-        var pos = el.getAttribute("data-ga-pos") || "";
-        var theme = document.body.getAttribute("data-theme") || "";
-        if (window.gtag) {
-          window.gtag("event", "theme_to_ac_click", {
-            theme_name: theme,
-            ac_id: ac,
-            card_position: pos
-          });
-        }
-        if (window.dataLayer) {
-          window.dataLayer.push({
-            event: "theme_to_ac_click",
-            theme_name: theme,
-            ac_id: ac,
-            card_position: pos
-          });
-        }
+        fireEvent("theme_to_ac_click", {
+          theme_name: theme,
+          ac_id: el.getAttribute("data-ga-ac") || "",
+          card_position: el.getAttribute("data-ga-pos") || ""
+        });
       });
     });
 
-    // Genre card clicks on Sports TOP
     document.querySelectorAll("[data-ga-genre]").forEach(function (el) {
       el.addEventListener("click", function () {
-        var name = el.getAttribute("data-ga-genre") || "";
-        var pos = el.getAttribute("data-ga-pos") || "";
-        if (window.gtag) {
-          window.gtag("event", "genre_card_click", {
-            genre_name: name,
-            card_position: pos
-          });
-        }
-        if (window.dataLayer) {
-          window.dataLayer.push({
-            event: "genre_card_click",
-            genre_name: name,
-            card_position: pos
+        fireEvent("genre_card_click", {
+          genre_name: el.getAttribute("data-ga-genre") || "",
+          card_position: el.getAttribute("data-ga-pos") || ""
+        });
+      });
+    });
+  }
+
+  function firePageView() {
+    var theme = document.body.getAttribute("data-theme");
+    if (!theme) return;
+    fireEvent("theme_page_view", {
+      theme_name: theme,
+      page_type: document.body.getAttribute("data-page-type") || ""
+    });
+  }
+
+  function setupAnchorNav() {
+    var anchorBar = document.getElementById("page-anchor");
+    if (!anchorBar) return;
+    var links = anchorBar.querySelectorAll("a");
+    var sections = [];
+    links.forEach(function (a) {
+      var s = document.querySelector(a.getAttribute("href"));
+      if (s) sections.push(s);
+    });
+    if (!sections.length) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          var id = "#" + e.target.id;
+          links.forEach(function (l) {
+            l.classList.toggle("is-current", l.getAttribute("href") === id);
           });
         }
       });
-    });
+    }, { rootMargin: "-50% 0px -40% 0px" });
+    sections.forEach(function (s) { io.observe(s); });
+  }
 
-    // theme_page_view on load
-    var theme = document.body.getAttribute("data-theme");
-    var pageType = document.body.getAttribute("data-page-type");
-    if (theme) {
-      if (window.gtag) {
-        window.gtag("event", "theme_page_view", {
-          theme_name: theme,
-          page_type: pageType || ""
-        });
-      }
-      if (window.dataLayer) {
-        window.dataLayer.push({
-          event: "theme_page_view",
-          theme_name: theme,
-          page_type: pageType || ""
-        });
-      }
-    }
+  function init() {
+    setupFilters();
+    setupDisabled();
+    setupGAClicks();
+    setupAnchorNav();
+    firePageView();
   }
 
   if (document.readyState === "loading") {

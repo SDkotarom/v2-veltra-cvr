@@ -16,7 +16,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800;900&family=DM+Sans:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/sports-theme.css">
 
 <script src="/auth.js"></script>
@@ -44,372 +44,738 @@
   "isPartOf": { "@type": "WebSite", "name": "Veltra", "url": "https://www.veltra.com/jp/" }
 }
 </script>
+
+<style>
+  :root { --page-accent: #1B2C5B; }
+  .top-hero { background: var(--paper); border-bottom: 1px solid var(--line); position: relative; }
+  .top-hero .accent-rule { height: 4px; background: var(--page-accent); width: 56px; margin: 0 0 18px; border-radius: 1px; }
+  .hero-stats .v { color: var(--page-accent); }
+  .score-cta { color: var(--page-accent); border-color: var(--page-accent); }
+  .score-cta:hover { background: var(--page-accent); color: #fff; }
+  .filter-chip.is-active { background: var(--page-accent); border-color: var(--page-accent); }
+  .league-card .league-meta .live { color: var(--page-accent); }
+
+  /* baseball-specific: function-lane group label */
+  .lane { margin-top: 28px; }
+  .lane:first-of-type { margin-top: 0; }
+  .lane-head {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: var(--paper-warm);
+    border: 1px solid var(--line);
+    border-radius: var(--r-8);
+    margin-bottom: 12px;
+  }
+  .lane-head .lane-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--page-accent);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 4px 8px;
+    background: var(--baseball-soft);
+    border-radius: var(--r-2);
+  }
+  .lane-head .lane-title {
+    font-size: var(--fs-15);
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    margin: 0;
+  }
+  .lane-head .lane-title small {
+    font-size: 12px;
+    color: var(--ink-3);
+    font-weight: 500;
+    margin-left: 8px;
+  }
+  .lane-head .lane-count {
+    font-size: 12px;
+    color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+  }
+  .lane-head .lane-count strong { color: var(--ink); font-weight: 700; }
+</style>
 </head>
 <body data-theme="baseball" data-page-type="genre">
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <symbol id="icon-search" viewBox="0 0 16 16">
-      <circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <line x1="11" y1="11" x2="14.5" y2="14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-    </symbol>
-  </defs>
-</svg>
-
-<header class="vt-topbar">
-  <div class="vt-topbar-inner">
-    <a class="vt-logo" href="https://www.veltra.com/jp/" title="Veltraトップへ">Veltra<span class="dot">.</span></a>
-    <nav class="vt-nav" aria-label="海外スポーツ観戦特集">
+<header class="v-topbar">
+  <div class="v-topbar-inner">
+    <a class="v-logo" href="https://www.veltra.com/jp/" title="Veltraトップへ">Veltra<span class="dot">.</span></a>
+    <nav class="v-topbar-nav" aria-label="海外スポーツ観戦特集">
       <a href="../">スポーツ観戦TOP</a>
       <a href="../soccer/">サッカー</a>
       <a href="./" aria-current="page">野球（MLB）</a>
     </nav>
-    <a class="vt-back" href="https://www.veltra.com/jp/">Veltraトップへ ›</a>
+    <a class="v-back" href="https://www.veltra.com/jp/">Veltraトップへ <span class="chev">›</span></a>
   </div>
 </header>
 
-<nav class="vt-crumb" aria-label="パンくずリスト">
-  <div class="vt-crumb-inner">
-    <a href="https://www.veltra.com/jp/">Veltra</a>
-    <span class="arr">›</span>
-    <a href="../">海外スポーツ観戦特集</a>
-    <span class="arr">›</span>
-    MLB観戦
+<nav class="v-crumb" aria-label="パンくずリスト">
+  <a href="https://www.veltra.com/jp/">Veltra</a><span class="sep">›</span>
+  <a href="../">海外スポーツ観戦特集</a><span class="sep">›</span>
+  <span class="curr">MLB観戦</span>
+</nav>
+
+<!-- ========== Hero ========== -->
+<section class="top-hero hero">
+  <div class="hero-inner">
+    <div>
+      <div class="accent-rule"></div>
+      <p class="eyebrow"><span class="accent-dot"></span>BASEBALL · MLB現地観戦</p>
+      <h1>MLB観戦ツアー・チケット予約</h1>
+      <p class="intro">
+        ドジャース、ヤンキース、レッドソックス。日本人選手が活躍するMLBの現地観戦を、チケット手配・球場往復送迎・プリゲーム体験までVeltraがまとめてサポート。ボールパークの空気だけ存分に味わってください。
+      </p>
+    </div>
+
+    <div class="hero-stats">
+      <div>
+        <div class="v">2</div>
+        <div class="l">リーグ</div>
+      </div>
+      <div>
+        <div class="v">6</div>
+        <div class="l">主要球団</div>
+      </div>
+      <div>
+        <div class="v">8</div>
+        <div class="l">観戦ツアー</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav class="v-anchor" aria-label="ページ内ナビ" id="page-anchor">
+  <div class="v-anchor-inner">
+    <a href="#divisions"><span class="n">01</span>地区</a>
+    <a href="#teams"><span class="n">02</span>球団</a>
+    <a href="#schedule"><span class="n">03</span>スケジュール</a>
+    <a href="#tours"><span class="n">04</span>観戦ツアー</a>
+    <a href="#guide"><span class="n">05</span>観戦ガイド</a>
+    <a href="#faq"><span class="n">06</span>FAQ</a>
   </div>
 </nav>
 
-<section class="vt-hero is-baseball">
-  <div class="vt-hero-inner">
-    <div class="eyebrow">VELTRA SPORTS · MLB観戦</div>
-    <h1>MLB観戦ツアー・チケット予約</h1>
-    <p class="lede">ドジャース、ヤンキース、レッドソックス──日本人選手が活躍する球場で、本場のメジャーリーグ観戦を。観戦チケットの手配から球場送迎、選手使用用具に触れられるプリゲーム体験まで、Veltraでまとめて予約できます。</p>
-    <div class="stats">
-      <div><strong>2</strong>リーグ</div>
-      <div><strong>6</strong>主要球団</div>
-      <div><strong>8</strong>観戦ツアー</div>
-    </div>
-  </div>
-</section>
-
-<!-- ========== 地区から選ぶ ========== -->
-<section class="vt-sec">
-  <div class="vt-sec-inner">
-    <h2>地区から選ぶ <span class="cnt">2リーグ × 6地区</span></h2>
-    <p class="intro">アメリカン・リーグとナショナル・リーグ、計6地区から観戦したい球団の本拠地を選べます。気になる地区から旅先を決めてください。</p>
-
-    <div class="pill-row" data-filter-group="districts" role="group" aria-label="リーグで絞り込み">
-      <button class="pill-btn is-active" data-filter="*">すべて</button>
-      <button class="pill-btn" data-filter="al">アメリカン・リーグ</button>
-      <button class="pill-btn" data-filter="nl">ナショナル・リーグ</button>
+<!-- ========== Divisions ========== -->
+<section class="sec" id="divisions">
+  <div class="shell">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">01 — Pick a division</p>
+        <h2>地区から選ぶ</h2>
+        <p class="lede">2リーグ × 6地区から、観戦したい球団の本拠地を選べます。サッカーの「リーグ単位」と違い、MLBは「リーグ＋地区」の2軸構造です。</p>
+      </div>
+      <div class="count"><strong>6</strong>地区 / <strong>3</strong>公開中</div>
     </div>
 
-    <div class="sp-grid cols-3" data-filter-target="districts">
-      <div class="sp-card has-accent" style="border-left-color:#003263;" data-filter-key="al">
-        <div class="acc-label">アメリカン東地区</div>
-        <div class="ttl">AL East</div>
+    <div class="filter-row" role="tablist" aria-label="地区フィルタ">
+      <button class="filter-chip is-active" data-filter="all">すべて <span class="cnt">6</span></button>
+      <button class="filter-chip" data-filter="al"><span class="swatch" style="--swatch:#bd3039;"></span>アメリカン・リーグ</button>
+      <button class="filter-chip" data-filter="nl"><span class="swatch" style="--swatch:#005a9c;"></span>ナショナル・リーグ</button>
+    </div>
+
+    <div class="league-grid">
+
+      <div class="league-card" style="--league:#0c2340;" data-league="al">
+        <div class="country">AL · アメリカン東地区</div>
+        <h3>AL East <small>American League East</small></h3>
         <p class="desc">ヤンキース、レッドソックスなど伝統の名門球団が集まる地区。ニューヨークで2球場を回るプランも人気です。</p>
-        <div class="meta">2 TEAMS · NYC / BOSTON</div>
+        <div class="league-meta">
+          <span class="live">取扱中</span>
+          <span><strong>2</strong>球団 / NY・ボストン</span>
+        </div>
       </div>
-      <div class="sp-card has-accent" style="border-left-color:#005a9c;" data-filter-key="nl">
-        <div class="acc-label">ナショナル西地区</div>
-        <div class="ttl">NL West</div>
+
+      <div class="league-card" style="--league:#005a9c;" data-league="nl">
+        <div class="country">NL · ナショナル西地区</div>
+        <h3>NL West <small>National League West</small></h3>
         <p class="desc">ドジャースを筆頭に、温暖な西海岸でのナイトゲームが人気。日本人選手が活躍する地区としても注目です。</p>
-        <div class="meta">1 TEAM · LOS ANGELES</div>
+        <div class="league-meta">
+          <span class="live">取扱中</span>
+          <span><strong>1</strong>球団 / ロサンゼルス</span>
+        </div>
       </div>
-      <div class="sp-card has-accent" style="border-left-color:#0e3386;" data-filter-key="nl">
-        <div class="acc-label">ナショナル中地区</div>
-        <div class="ttl">NL Central</div>
+
+      <div class="league-card" style="--league:#0e3386;" data-league="nl">
+        <div class="country">NL · ナショナル中地区</div>
+        <h3>NL Central <small>National League Central</small></h3>
         <p class="desc">カブスの本拠地リグレー・フィールドは野球ファンの聖地。古き良き時代のメジャーリーグ観戦が楽しめます。</p>
-        <div class="meta">1 TEAM · CHICAGO</div>
+        <div class="league-meta">
+          <span class="live">取扱中</span>
+          <span><strong>1</strong>球団 / シカゴ</span>
+        </div>
       </div>
-      <div class="sp-card has-accent is-disabled" style="border-left-color:#002d72;" data-filter-key="nl">
-        <span class="soon-badge">準備中</span>
-        <div class="acc-label">ナショナル東地区</div>
-        <div class="ttl">NL East</div>
+
+      <div class="league-card is-soon" data-league="nl">
+        <div class="country">NL · ナショナル東地区</div>
+        <h3>NL East <small>National League East</small></h3>
         <p class="desc">メッツ、フィリーズなど。シティ・フィールドでの観戦体験は順次公開予定です。</p>
-        <div class="meta">COMING SOON</div>
+        <div class="league-meta">
+          <span>準備中</span><span>順次公開</span>
+        </div>
       </div>
-      <div class="sp-card has-accent is-disabled" style="border-left-color:#bd3039;" data-filter-key="al">
-        <span class="soon-badge">準備中</span>
-        <div class="acc-label">アメリカン中地区</div>
-        <div class="ttl">AL Central</div>
+
+      <div class="league-card is-soon" data-league="al">
+        <div class="country">AL · アメリカン中地区</div>
+        <h3>AL Central <small>American League Central</small></h3>
         <p class="desc">タイガース、ホワイトソックスなど中西部の球団。順次公開予定です。</p>
-        <div class="meta">COMING SOON</div>
+        <div class="league-meta">
+          <span>準備中</span><span>順次公開</span>
+        </div>
       </div>
-      <div class="sp-card has-accent is-disabled" style="border-left-color:#003831;" data-filter-key="al">
-        <span class="soon-badge">準備中</span>
-        <div class="acc-label">アメリカン西地区</div>
-        <div class="ttl">AL West</div>
+
+      <div class="league-card is-soon" data-league="al">
+        <div class="country">AL · アメリカン西地区</div>
+        <h3>AL West <small>American League West</small></h3>
         <p class="desc">アストロズ、エンゼルスなど西海岸〜南部の球団。順次公開予定です。</p>
-        <div class="meta">COMING SOON</div>
+        <div class="league-meta">
+          <span>準備中</span><span>順次公開</span>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- ========== 主要球団から選ぶ ========== -->
-<section class="vt-sec alt">
-  <div class="vt-sec-inner">
-    <h2>球団から選ぶ <span class="cnt">人気6球団</span></h2>
-    <p class="intro">Veltraで予約数の多い球団です。気になる球団のカードから、観戦チケット予約ページへお進みください。</p>
+<!-- ========== Teams ========== -->
+<section class="sec sec--soft" id="teams">
+  <div class="shell">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">02 — Pick a team</p>
+        <h2>主要球団から選ぶ</h2>
+        <p class="lede">ご予約数の多い人気球団。気になる球団のカードから、観戦チケット予約ページへお進みください。</p>
+      </div>
+      <div class="count"><strong>6</strong>球団 / <strong>5</strong>公開中</div>
+    </div>
 
-    <div class="team-grid">
-      <a class="team-card" href="https://www.veltra.com/jp/north_america/los_angeles/a/183789" data-ga-ac="183789" data-ga-pos="1">
-        <div class="badge" style="background:#005a9c;">LAD</div>
-        <div class="nm">ロサンゼルス・ドジャース</div>
-        <div class="loc">NL西 · ロサンゼルス</div>
+    <div class="club-grid">
+
+      <a class="club-card" href="https://www.veltra.com/jp/north_america/los_angeles/a/183789" style="--club:#005a9c;" data-ga-ac="183789" data-ga-pos="team-1">
+        <div class="club-mono">LAD</div>
+        <div class="club-info">
+          <h3 class="nm">ロサンゼルス・ドジャース</h3>
+          <div class="meta"><span>NL西</span><span class="sep">·</span><span>ロサンゼルス</span></div>
+        </div>
       </a>
-      <a class="team-card is-disabled" aria-disabled="true">
-        <div class="badge" style="background:#0c2340;">NYY</div>
-        <div class="nm">ニューヨーク・ヤンキース</div>
-        <div class="loc">AL東 · ニューヨーク</div>
+
+      <a class="club-card" style="--club:#0c2340;">
+        <div class="club-mono">NYY</div>
+        <div class="club-info">
+          <h3 class="nm">ニューヨーク・ヤンキース</h3>
+          <div class="meta"><span>AL東</span><span class="sep">·</span><span>ニューヨーク</span></div>
+        </div>
       </a>
-      <a class="team-card is-disabled" aria-disabled="true">
-        <div class="badge" style="background:#bd3039;">BOS</div>
-        <div class="nm">ボストン・レッドソックス</div>
-        <div class="loc">AL東 · ボストン</div>
+
+      <a class="club-card" style="--club:#bd3039;">
+        <div class="club-mono">BOS</div>
+        <div class="club-info">
+          <h3 class="nm">ボストン・レッドソックス</h3>
+          <div class="meta"><span>AL東</span><span class="sep">·</span><span>ボストン</span></div>
+        </div>
       </a>
-      <a class="team-card is-disabled" aria-disabled="true">
-        <div class="badge" style="background:#0e3386;">CHC</div>
-        <div class="nm">シカゴ・カブス</div>
-        <div class="loc">NL中 · シカゴ</div>
+
+      <a class="club-card" style="--club:#0e3386;">
+        <div class="club-mono">CHC</div>
+        <div class="club-info">
+          <h3 class="nm">シカゴ・カブス</h3>
+          <div class="meta"><span>NL中</span><span class="sep">·</span><span>シカゴ</span></div>
+        </div>
       </a>
-      <a class="team-card is-disabled" aria-disabled="true">
-        <div class="badge" style="background:#002d72;">NYM</div>
-        <div class="nm">ニューヨーク・メッツ</div>
-        <div class="loc">NL東 · ニューヨーク</div>
+
+      <a class="club-card" style="--club:#002d72;">
+        <div class="club-mono">NYM</div>
+        <div class="club-info">
+          <h3 class="nm">ニューヨーク・メッツ</h3>
+          <div class="meta"><span>NL東</span><span class="sep">·</span><span>ニューヨーク</span></div>
+        </div>
       </a>
-      <a class="team-card is-disabled" aria-disabled="true">
-        <div class="badge" style="background:var(--vt-bg-sub); color:var(--vt-text-muted);">+1</div>
-        <div class="nm">他1球団</div>
-        <div class="loc">準備中</div>
-      </a>
+
+      <div class="club-card is-soon">
+        <div class="club-mono">+1</div>
+        <div class="club-info">
+          <h3 class="nm">他1球団準備中</h3>
+          <div class="meta"><span>2026シーズン中拡張予定</span></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ========== 試合スケジュール ========== -->
-<section class="vt-sec">
-  <div class="vt-sec-inner">
-    <h2>注目のホームゲーム <span class="cnt">主要6試合</span></h2>
-    <p class="intro">取り扱い中の球団から、見逃せない注目のホームゲームを抜粋しました。試合日に合わせて旅程を組み立てれば、観戦が旅のハイライトになります。</p>
+<!-- ========== Schedule ========== -->
+<section class="sec" id="schedule">
+  <div class="shell">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">03 — Marquee games</p>
+        <h2>注目の試合スケジュール</h2>
+        <p class="lede">取り扱い中球団のホームゲームから注目カードを抜粋。日本人選手の登板予定はリリース直前まで未確定の場合があります。</p>
+      </div>
+      <div class="count">最終更新 <strong>2026/05/13</strong></div>
+    </div>
 
-    <div class="sched">
-      <div class="sched-row">
-        <div class="date">5/24<small>SAT</small></div>
-        <div class="match">ドジャース vs パドレス<small>NL西地区上位対決</small></div>
-        <div class="city">ロサンゼルス</div>
-        <a class="btn" href="https://www.veltra.com/jp/north_america/los_angeles/a/183789" data-ga-ac="183789" data-ga-pos="schedule-1">観戦ツアーを見る</a>
+    <div class="score-table">
+      <div class="score-row">
+        <div class="score-date"><div class="d">24</div><div class="m">MAY</div><div class="dow">SAT</div></div>
+        <div class="score-match">
+          <div><span class="home">ドジャース</span><span class="vs">vs</span><span class="away">パドレス</span></div>
+          <small>HOME · NL WEST</small>
+        </div>
+        <div class="score-comp">
+          <div class="league" style="--league:#005a9c;"><span class="swatch"></span>ナショナル・リーグ</div>
+          <div class="round">NL西地区上位対決</div>
+        </div>
+        <div class="score-venue">
+          <div class="city">ロサンゼルス</div>
+          <div class="stadium">ドジャー・スタジアム</div>
+        </div>
+        <a class="score-cta" href="https://www.veltra.com/jp/north_america/los_angeles/a/183789" data-ga-ac="183789" data-ga-pos="schedule-1">観戦ツアー →</a>
       </div>
-      <div class="sched-row">
-        <div class="date">6/8<small>SUN</small></div>
-        <div class="match">ヤンキース vs レッドソックス<small>伝統の一戦</small></div>
-        <div class="city">ニューヨーク</div>
-        <a class="btn" href="https://www.veltra.com/jp/north_america/" data-ga-ac="ny-future" data-ga-pos="schedule-2">観戦ツアーを見る</a>
+
+      <div class="score-row">
+        <div class="score-date"><div class="d">08</div><div class="m">JUN</div><div class="dow">SUN</div></div>
+        <div class="score-match">
+          <div><span class="home">ヤンキース</span><span class="vs">vs</span><span class="away">レッドソックス</span></div>
+          <small>HOME · AL EAST</small>
+        </div>
+        <div class="score-comp">
+          <div class="league" style="--league:#0c2340;"><span class="swatch"></span>アメリカン・リーグ</div>
+          <div class="round">伝統の一戦</div>
+        </div>
+        <div class="score-venue">
+          <div class="city">ニューヨーク</div>
+          <div class="stadium">ヤンキー・スタジアム</div>
+        </div>
+        <a class="score-cta">観戦ツアー →</a>
       </div>
-      <div class="sched-row">
-        <div class="date">6/15<small>SUN</small></div>
-        <div class="match">ドジャース vs カブス<small>インターリーグ</small></div>
-        <div class="city">ロサンゼルス</div>
-        <a class="btn" href="https://www.veltra.com/jp/north_america/los_angeles/a/182662" data-ga-ac="182662" data-ga-pos="schedule-3">観戦ツアーを見る</a>
+
+      <div class="score-row">
+        <div class="score-date"><div class="d">15</div><div class="m">JUN</div><div class="dow">SUN</div></div>
+        <div class="score-match">
+          <div><span class="home">ドジャース</span><span class="vs">vs</span><span class="away">カブス</span></div>
+          <small>HOME · インターリーグ</small>
+        </div>
+        <div class="score-comp">
+          <div class="league" style="--league:#005a9c;"><span class="swatch"></span>ナショナル・リーグ</div>
+          <div class="round">インターリーグ</div>
+        </div>
+        <div class="score-venue">
+          <div class="city">ロサンゼルス</div>
+          <div class="stadium">ドジャー・スタジアム</div>
+        </div>
+        <a class="score-cta" href="https://www.veltra.com/jp/north_america/los_angeles/a/182662" data-ga-ac="182662" data-ga-pos="schedule-3">観戦ツアー →</a>
       </div>
-      <div class="sched-row">
-        <div class="date">7/4<small>FRI</small></div>
-        <div class="match">レッドソックス vs ヤンキース<small>独立記念日カード</small></div>
-        <div class="city">ボストン</div>
-        <a class="btn" href="https://www.veltra.com/jp/north_america/" data-ga-ac="bos-future" data-ga-pos="schedule-4">観戦ツアーを見る</a>
+
+      <div class="score-row">
+        <div class="score-date"><div class="d">04</div><div class="m">JUL</div><div class="dow">FRI</div></div>
+        <div class="score-match">
+          <div><span class="home">レッドソックス</span><span class="vs">vs</span><span class="away">ヤンキース</span></div>
+          <small>HOME · 独立記念日</small>
+        </div>
+        <div class="score-comp">
+          <div class="league" style="--league:#bd3039;"><span class="swatch"></span>アメリカン・リーグ</div>
+          <div class="round">独立記念日カード</div>
+        </div>
+        <div class="score-venue">
+          <div class="city">ボストン</div>
+          <div class="stadium">フェンウェイ・パーク</div>
+        </div>
+        <a class="score-cta">観戦ツアー →</a>
       </div>
-      <div class="sched-row">
-        <div class="date">7/20<small>SUN</small></div>
-        <div class="match">カブス vs メッツ<small>リグレー・フィールド</small></div>
-        <div class="city">シカゴ</div>
-        <a class="btn" href="https://www.veltra.com/jp/north_america/" data-ga-ac="chc-future" data-ga-pos="schedule-5">観戦ツアーを見る</a>
+
+      <div class="score-row">
+        <div class="score-date"><div class="d">20</div><div class="m">JUL</div><div class="dow">SUN</div></div>
+        <div class="score-match">
+          <div><span class="home">カブス</span><span class="vs">vs</span><span class="away">メッツ</span></div>
+          <small>HOME · リグレー</small>
+        </div>
+        <div class="score-comp">
+          <div class="league" style="--league:#0e3386;"><span class="swatch"></span>ナショナル・リーグ</div>
+          <div class="round">リグレー・フィールド</div>
+        </div>
+        <div class="score-venue">
+          <div class="city">シカゴ</div>
+          <div class="stadium">リグレー・フィールド</div>
+        </div>
+        <a class="score-cta">観戦ツアー →</a>
       </div>
-      <div class="sched-row">
-        <div class="date">8/10<small>SUN</small></div>
-        <div class="match">メッツ vs ドジャース<small>シティ・フィールド</small></div>
-        <div class="city">ニューヨーク</div>
-        <a class="btn" href="https://www.veltra.com/jp/north_america/" data-ga-ac="nym-future" data-ga-pos="schedule-6">観戦ツアーを見る</a>
+
+      <div class="score-row">
+        <div class="score-date"><div class="d">10</div><div class="m">AUG</div><div class="dow">SUN</div></div>
+        <div class="score-match">
+          <div><span class="home">メッツ</span><span class="vs">vs</span><span class="away">ドジャース</span></div>
+          <small>HOME · インターディビジョン</small>
+        </div>
+        <div class="score-comp">
+          <div class="league" style="--league:#002d72;"><span class="swatch"></span>ナショナル・リーグ</div>
+          <div class="round">シティ・フィールド</div>
+        </div>
+        <div class="score-venue">
+          <div class="city">ニューヨーク</div>
+          <div class="stadium">シティ・フィールド</div>
+        </div>
+        <a class="score-cta">観戦ツアー →</a>
       </div>
     </div>
-    <p class="sched-note">※ MLBレギュラーシーズンは3月末〜9月末。オフシーズン期間（10月中旬〜2月）はツアー催行がございません。</p>
+    <p class="score-note">試合日程は予告なく変更される場合があります。MLBは延長戦の有無で試合終了時刻が大きく変動するため、観戦後のご予定には余裕をお持ちください。</p>
   </div>
 </section>
 
-<!-- ========== 観戦ツアー一覧 ========== -->
-<section class="vt-sec alt">
-  <div class="vt-sec-inner">
-    <h2>観戦ツアー一覧 <span class="cnt">5件</span></h2>
-    <p class="intro">観戦チケット、プリゲーム体験、球場送迎、チケット手配のみのプランから、旅のスタイルに合わせて組み合わせていただけます。</p>
+<!-- ========== Tours ========== -->
+<section class="sec sec--soft" id="tours">
+  <div class="shell">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">04 — Book your ballpark trip</p>
+        <h2>観戦ツアー一覧</h2>
+        <p class="lede">野球は「観戦」「プリゲーム」「チケット手配」「送迎」など機能別にツアーを組んでいます。組み合わせて1日の旅程を作れます。</p>
+      </div>
+    </div>
 
-    <div class="ac-grid">
-      <a class="ac-card" href="https://www.veltra.com/jp/north_america/los_angeles/a/183789" data-ga-ac="183789" data-ga-pos="ac-1">
-        <div class="ac-thumb" style="background: linear-gradient(135deg, #005a9c, #003263);">
-          <span>
-            <span class="ac-thumb-team">ドジャース</span>
-            <span class="ac-thumb-venue">ドジャー・スタジアム</span>
-          </span>
+    <div class="list-toolbar" role="region" aria-label="絞り込みと並び替え">
+      <div class="results">
+        <strong>8</strong>件中 <strong>5</strong>件を表示
+      </div>
+      <div class="toolbar-right">
+        <div class="sort-control">
+          <label for="sort-baseball">並び替え</label>
+          <select id="sort-baseball">
+            <option>機能別（推奨）</option>
+            <option>料金が安い順</option>
+            <option>料金が高い順</option>
+            <option>評価が高い順</option>
+            <option>新着順</option>
+          </select>
         </div>
-        <div class="ac-body">
-          <div class="ac-cat">a/183789 · 観戦ツアー</div>
-          <div class="ac-ttl">【JTB限定】アーリーエントリー付き！ロサンゼルス ドジャース戦観戦ツアー</div>
-          <div class="ac-meta"><span class="ac-tag">観戦</span><span class="rate">★ 8.6</span></div>
-          <div class="ac-price"><small>USD</small>400<small>〜</small></div>
+        <div class="view-toggle" role="group" aria-label="表示切替">
+          <button class="is-active" aria-label="リスト表示" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <button aria-label="グリッド表示" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          </button>
         </div>
-      </a>
+      </div>
+    </div>
 
-      <a class="ac-card" href="https://www.veltra.com/jp/north_america/los_angeles/a/193811" data-ga-ac="193811" data-ga-pos="ac-2">
-        <div class="ac-thumb" style="background: linear-gradient(135deg, #1a6cb3, #005a9c);">
-          <span>
-            <span class="ac-thumb-team">ドジャース</span>
-            <span class="ac-thumb-venue">プリゲーム体験</span>
-          </span>
-        </div>
-        <div class="ac-body">
-          <div class="ac-cat">a/193811 · プリゲーム体験</div>
-          <div class="ac-ttl">ドジャース 野球観戦プリゲームツアー 選手使用用具に触れて写真撮影できる特別体験付き</div>
-          <div class="ac-meta"><span class="ac-tag">プリゲーム</span><span class="rate">★ 9.0</span></div>
-          <div class="ac-price"><small>USD</small>185<small>〜</small></div>
-        </div>
-      </a>
+    <div class="filter-row">
+      <button class="filter-chip is-active">すべての機能 <span class="cnt">5</span></button>
+      <button class="filter-chip">観戦ツアー <span class="cnt">1</span></button>
+      <button class="filter-chip">プリゲーム <span class="cnt">1</span></button>
+      <button class="filter-chip">チケット手配 <span class="cnt">1</span></button>
+      <button class="filter-chip">送迎 <span class="cnt">2</span></button>
+    </div>
 
-      <a class="ac-card" href="https://www.veltra.com/jp/north_america/los_angeles/a/182662" data-ga-ac="182662" data-ga-pos="ac-3">
-        <div class="ac-thumb" style="background: linear-gradient(135deg, #2a78bd, #005a9c);">
-          <span>
-            <span class="ac-thumb-team">ロサンゼルス</span>
-            <span class="ac-thumb-venue">チケット手配</span>
-          </span>
-        </div>
-        <div class="ac-body">
-          <div class="ac-cat">a/182662 · チケット手配</div>
-          <div class="ac-ttl">ロサンゼルス プロ野球観戦 チケット手配＜2026年シーズン／3〜9月＞</div>
-          <div class="ac-meta"><span class="ac-tag">チケット手配</span><span class="rate">★ 9.0</span></div>
-          <div class="ac-price"><small>USD</small>510<small>〜</small></div>
-        </div>
-      </a>
+    <!-- Lane 01 -->
+    <div class="lane">
+      <div class="lane-head">
+        <div class="lane-num">LANE 01</div>
+        <h3 class="lane-title">観戦ツアー <small>球場入場・観戦・ガイド同行</small></h3>
+        <div class="lane-count"><strong>1</strong>件</div>
+      </div>
+      <div class="ac-list">
+        <a class="ac-card" href="https://www.veltra.com/jp/north_america/los_angeles/a/183789" data-ga-ac="183789" data-ga-pos="ac-1">
+          <div class="ac-thumb" style="--thumb:#005a9c;">
+            <div class="ac-code">LAD</div>
+            <div>
+              <div class="ac-venue">DODGER STADIUM<br>LOS ANGELES</div>
+              <div class="ac-id">a/183789</div>
+            </div>
+          </div>
+          <div class="ac-body">
+            <div class="ac-cat"><span class="swatch" style="--cat-color:#005a9c;"></span>観戦ツアー · ロサンゼルス</div>
+            <h3 class="ac-title">【JTB限定】アーリーエントリー付き！ロサンゼルス ドジャース戦観戦ツアー</h3>
+            <div class="ac-tags">
+              <span class="ac-tag is-feature">JTB限定</span>
+              <span class="ac-tag is-jp">日本語ガイド</span>
+            </div>
+            <div class="ac-meta">
+              <span class="rating-star">★ <span class="val">8.6</span></span>
+              <span class="reviews">42件の体験談</span>
+            </div>
+            <div class="ac-bottom">
+              <div>
+                <div class="ac-price-label">大人1名 / おとな料金</div>
+                <div class="ac-price"><span class="ccy">USD</span>400<span class="tilde">〜</span></div>
+              </div>
+              <span class="ac-cta">詳細をみる<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
 
-      <a class="ac-card" href="https://www.veltra.com/jp/north_america/los_angeles/a/186386" data-ga-ac="186386" data-ga-pos="ac-4">
-        <div class="ac-thumb" style="background: linear-gradient(135deg, #455a64, #263238);">
-          <span>
-            <span class="ac-thumb-team">球場 ⇔ ホテル</span>
-            <span class="ac-thumb-venue">往復送迎</span>
-          </span>
-        </div>
-        <div class="ac-body">
-          <div class="ac-cat">a/186386 · 往復送迎</div>
-          <div class="ac-ttl">【往復送迎】球場 ⇔ ご宿泊ホテル間 往復送迎サービス＜貸切／日本語ガイド＞</div>
-          <div class="ac-meta"><span class="ac-tag">送迎</span><span class="rate">★ 10.0</span></div>
-          <div class="ac-price"><small>USD</small>880<small>〜</small></div>
-        </div>
-      </a>
+    <!-- Lane 02 -->
+    <div class="lane">
+      <div class="lane-head">
+        <div class="lane-num">LANE 02</div>
+        <h3 class="lane-title">プリゲーム体験 <small>試合前の特別体験・スタジアム見学</small></h3>
+        <div class="lane-count"><strong>1</strong>件</div>
+      </div>
+      <div class="ac-list">
+        <a class="ac-card" href="https://www.veltra.com/jp/north_america/los_angeles/a/193811" data-ga-ac="193811" data-ga-pos="ac-2">
+          <div class="ac-thumb" style="--thumb:#005a9c;">
+            <div class="ac-code">LAD</div>
+            <div>
+              <div class="ac-venue">PRE-GAME EXPERIENCE<br>LOS ANGELES</div>
+              <div class="ac-id">a/193811</div>
+            </div>
+          </div>
+          <div class="ac-body">
+            <div class="ac-cat"><span class="swatch" style="--cat-color:#005a9c;"></span>プリゲーム体験 · ロサンゼルス</div>
+            <h3 class="ac-title">ドジャース 野球観戦プリゲームツアー 選手使用用具に触れて写真撮影できる特別体験付き</h3>
+            <div class="ac-tags">
+              <span class="ac-tag is-feature">人気</span>
+              <span class="ac-tag">写真撮影OK</span>
+            </div>
+            <div class="ac-meta">
+              <span class="rating-star">★ <span class="val">9.0</span></span>
+              <span class="reviews">18件の体験談</span>
+            </div>
+            <div class="ac-bottom">
+              <div>
+                <div class="ac-price-label">大人1名 / おとな料金</div>
+                <div class="ac-price"><span class="ccy">USD</span>185<span class="tilde">〜</span></div>
+              </div>
+              <span class="ac-cta">詳細をみる<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
 
-      <a class="ac-card" href="https://www.veltra.com/jp/north_america/los_angeles/a/183163" data-ga-ac="183163" data-ga-pos="ac-5">
-        <div class="ac-thumb" style="background: linear-gradient(135deg, #607d8b, #455a64);">
-          <span>
-            <span class="ac-thumb-team">球場 ⇔ ダウンタウン</span>
-            <span class="ac-thumb-venue">片道送迎</span>
-          </span>
-        </div>
-        <div class="ac-body">
-          <div class="ac-cat">a/183163 · 片道送迎</div>
-          <div class="ac-ttl">ロサンゼルス 野球観戦前後の片道送迎サービス（球場⇔ダウンタウン）</div>
-          <div class="ac-meta"><span class="ac-tag">送迎</span><span class="rate">★ 7.8</span></div>
-          <div class="ac-price"><small>USD</small>100<small>〜</small></div>
-        </div>
-      </a>
+    <!-- Lane 03 -->
+    <div class="lane">
+      <div class="lane-head">
+        <div class="lane-num">LANE 03</div>
+        <h3 class="lane-title">チケット手配のみ <small>座席チケットのみ任せたい方向け</small></h3>
+        <div class="lane-count"><strong>1</strong>件</div>
+      </div>
+      <div class="ac-list">
+        <a class="ac-card" href="https://www.veltra.com/jp/north_america/los_angeles/a/182662" data-ga-ac="182662" data-ga-pos="ac-3">
+          <div class="ac-thumb" style="--thumb:#005a9c;">
+            <div class="ac-code">LAD</div>
+            <div>
+              <div class="ac-venue">TICKET ARRANGE<br>2026 SEASON</div>
+              <div class="ac-id">a/182662</div>
+            </div>
+          </div>
+          <div class="ac-body">
+            <div class="ac-cat"><span class="swatch" style="--cat-color:#005a9c;"></span>チケット手配 · ロサンゼルス</div>
+            <h3 class="ac-title">ロサンゼルス プロ野球観戦 チケット手配＜2026年シーズン／3〜9月＞</h3>
+            <div class="ac-tags">
+              <span class="ac-tag">座席選択可</span>
+            </div>
+            <div class="ac-meta">
+              <span class="rating-star">★ <span class="val">9.0</span></span>
+              <span class="reviews">27件の体験談</span>
+            </div>
+            <div class="ac-bottom">
+              <div>
+                <div class="ac-price-label">大人1名 / おとな料金</div>
+                <div class="ac-price"><span class="ccy">USD</span>510<span class="tilde">〜</span></div>
+              </div>
+              <span class="ac-cta">詳細をみる<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Lane 04 -->
+    <div class="lane">
+      <div class="lane-head">
+        <div class="lane-num">LANE 04</div>
+        <h3 class="lane-title">送迎サービス <small>球場 ⇔ ホテル送迎・ナイトゲーム後も安心</small></h3>
+        <div class="lane-count"><strong>2</strong>件</div>
+      </div>
+      <div class="ac-list cols-2">
+        <a class="ac-card" href="https://www.veltra.com/jp/north_america/los_angeles/a/186386" data-ga-ac="186386" data-ga-pos="ac-4">
+          <div class="ac-thumb" style="--thumb:#005a9c;">
+            <div class="ac-code">LAD</div>
+            <div>
+              <div class="ac-venue">ROUND-TRIP TRANSFER<br>PRIVATE / JP</div>
+              <div class="ac-id">a/186386</div>
+            </div>
+          </div>
+          <div class="ac-body">
+            <div class="ac-cat"><span class="swatch" style="--cat-color:#005a9c;"></span>往復送迎 · 貸切</div>
+            <h3 class="ac-title">【往復送迎】球場 ⇔ ご宿泊ホテル間 往復送迎サービス＜貸切／日本語ガイド＞</h3>
+            <div class="ac-tags">
+              <span class="ac-tag is-feature">最高評価</span>
+              <span class="ac-tag is-jp">日本語ガイド</span>
+            </div>
+            <div class="ac-meta">
+              <span class="rating-star">★ <span class="val">10.0</span></span>
+              <span class="reviews">8件の体験談</span>
+            </div>
+            <div class="ac-bottom">
+              <div>
+                <div class="ac-price-label">1台 / 最大6名様まで</div>
+                <div class="ac-price"><span class="ccy">USD</span>880<span class="tilde">〜</span></div>
+              </div>
+              <span class="ac-cta">詳細をみる<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </div>
+          </div>
+        </a>
+
+        <a class="ac-card" href="https://www.veltra.com/jp/north_america/los_angeles/a/183163" data-ga-ac="183163" data-ga-pos="ac-5">
+          <div class="ac-thumb" style="--thumb:#005a9c;">
+            <div class="ac-code">LAD</div>
+            <div>
+              <div class="ac-venue">ONE-WAY TRANSFER<br>DOWNTOWN</div>
+              <div class="ac-id">a/183163</div>
+            </div>
+          </div>
+          <div class="ac-body">
+            <div class="ac-cat"><span class="swatch" style="--cat-color:#005a9c;"></span>片道送迎 · ダウンタウン</div>
+            <h3 class="ac-title">ロサンゼルス 野球観戦前後の片道送迎サービス（球場⇔ダウンタウン）</h3>
+            <div class="ac-tags">
+              <span class="ac-tag">片道</span>
+            </div>
+            <div class="ac-meta">
+              <span class="rating-star">★ <span class="val">7.8</span></span>
+              <span class="reviews">12件の体験談</span>
+            </div>
+            <div class="ac-bottom">
+              <div>
+                <div class="ac-price-label">大人1名 / おとな料金</div>
+                <div class="ac-price"><span class="ccy">USD</span>100<span class="tilde">〜</span></div>
+              </div>
+              <span class="ac-cta">詳細をみる<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 24px;">
+      <a class="link-more" href="#">MLB観戦ツアーをもっと見る</a>
     </div>
   </div>
 </section>
 
-<!-- ========== 観戦ガイド ========== -->
-<section class="vt-sec">
-  <div class="vt-sec-inner">
-    <h2>はじめてのMLB観戦ガイド</h2>
-    <p class="intro">初めてのMLB観戦でも安心して楽しんでいただけるよう、現地観戦の実用情報をまとめました。</p>
-
+<!-- ========== Guide ========== -->
+<section class="sec" id="guide">
+  <div class="shell">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">05 — Before you go</p>
+        <h2>はじめてのMLB観戦ガイド</h2>
+        <p class="lede">球場到着・送迎・観戦マナー・球場グルメ。当日のボールパーク体験を膨らませる実用情報をまとめました。</p>
+      </div>
+    </div>
     <div class="guide-grid">
       <div class="guide-card">
-        <h3><span class="num">01</span>球場へのアクセス</h3>
-        <p>ドジャー・スタジアムなど都心から距離のある球場では、試合当日に交通渋滞が発生しやすくなります。Veltraの送迎サービスをご利用いただければ、駐車場探しの手間なく観戦に集中できます。</p>
+        <div class="num">GUIDE 01</div>
+        <h4>球場到着とゲート入場</h4>
+        <p>ボディチェック・荷物制限の基本。プレイボール30分前の到着が理想です。ゲートごとの混雑差にも注意。</p>
       </div>
       <div class="guide-card">
-        <h3><span class="num">02</span>球場到着の目安時間</h3>
-        <p>試合開始の60〜90分前のご到着をおすすめします。プリゲーム体験付きツアーの場合はさらに早い集合時間が指定されますので、各ツアーの案内をご確認ください。</p>
+        <div class="num">GUIDE 02</div>
+        <h4>送迎と帰りの足</h4>
+        <p>ナイトゲーム後は配車アプリの料金が跳ね上がります。Veltraの貸切送迎を選ぶ方が多いのはこのため。</p>
       </div>
       <div class="guide-card">
-        <h3><span class="num">03</span>観戦マナーと楽しみ方</h3>
-        <p>場内アナウンスは英語のみです。試合開始前のアメリカ国歌斉唱では起立する、ホームチームの攻撃中は応援に乗るなど、現地ならではの作法を押さえると観戦体験がぐっと深まります。</p>
+        <div class="num">GUIDE 03</div>
+        <h4>観戦マナーと服装</h4>
+        <p>応援道具・カメラ持ち込み・国歌斉唱時のマナー。ホームチームカラーの着用は喜ばれます。</p>
       </div>
       <div class="guide-card">
-        <h3><span class="num">04</span>球場グルメも楽しもう</h3>
-        <p>各球場名物のホットドッグ・ナチョス・地ビールが観戦の楽しみのひとつ。座席まで届けてくれる売り子文化もMLBならではの体験です。現地ではキャッシュレス決済が便利です。</p>
+        <div class="num">GUIDE 04</div>
+        <h4>球場グルメと売り子</h4>
+        <p>ホットドッグ・ガーリックフライ・地域ごとの名物が楽しめます。キャッシュレス対応の有無もチェックを。</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ========== FAQ ========== -->
-<section class="vt-sec alt">
-  <div class="vt-sec-inner">
-    <h2>よくある質問</h2>
-
+<section class="sec sec--soft" id="faq">
+  <div class="shell">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">06 — FAQ</p>
+        <h2>よくある質問</h2>
+      </div>
+    </div>
     <div class="faq-list">
       <div class="faq-item">
-        <div class="q">試合がオフシーズン（10〜2月）でもツアーは予約できますか？</div>
-        <div class="a">MLBのレギュラーシーズンは3月末〜9月末です。オフシーズン期間（10月中旬〜2月）は試合がないため、観戦ツアーの催行はございません。ポストシーズンの試合は進出球団・日程が直前まで確定しないため、事前手配は限定的となります。</div>
+        <span class="q-mark">Q</span>
+        <div>
+          <h4>日本人選手の登板予定はわかりますか？</h4>
+          <p>登板予定は数日前まで確定しないため、Veltra側で確実な保証はいたしかねます。ローテーション情報を参考に試合日を選ぶ方が多いです。</p>
+        </div>
       </div>
       <div class="faq-item">
-        <div class="q">球場内で日本語の案内はありますか？</div>
-        <div class="a">場内アナウンスや表示は基本的に英語のみです。Veltraの観戦ツアーには日本語ガイド付きプランもご用意していますので、初めての方や英語に不安のある方にもおすすめです。</div>
+        <span class="q-mark">Q</span>
+        <div>
+          <h4>雨天中止になった場合は？</h4>
+          <p>多くの試合はノーゲームから翌日順延されます。観戦ツアーの振替対応・返金規定は各ツアーページをご確認ください。</p>
+        </div>
       </div>
       <div class="faq-item">
-        <div class="q">チケットだけ手配することはできますか？</div>
-        <div class="a">「チケット手配のみ」のプランをご用意しています。送迎・ガイドは別途プランを追加いただくか、お客様ご自身で球場までお越しいただく形となります。</div>
+        <span class="q-mark">Q</span>
+        <div>
+          <h4>オフシーズンに予約できますか？</h4>
+          <p>MLBレギュラーシーズンは3〜9月です。10〜2月はチケットの新シーズン発売を待つ期間となるため、予約開始時期はメール通知でご案内します。</p>
+        </div>
       </div>
       <div class="faq-item">
-        <div class="q">日本人選手が出場する試合は予約できますか？</div>
-        <div class="a">球団単位のチケットをお取り扱いしており、出場選手の指定はお受けできません。試合日程は各球団の公式発表に基づきますのでご了承ください。</div>
+        <span class="q-mark">Q</span>
+        <div>
+          <h4>送迎は何人から利用できますか？</h4>
+          <p>貸切送迎は1名様からご利用可能です。料金は車両単位のため、人数が増えるほどおひとりあたりは割安になります。</p>
+        </div>
       </div>
       <div class="faq-item">
-        <div class="q">試合中止・延期の場合はどうなりますか？</div>
-        <div class="a">代替試合への振替対応、または規定に基づく返金対応をいたします。詳細は各ツアーページのキャンセル規約をご確認ください。</div>
+        <span class="q-mark">Q</span>
+        <div>
+          <h4>座席のおすすめエリアは？</h4>
+          <p>内野指定席が最も視認性が高くおすすめです。価格は外野・上段ほど抑えられ、雰囲気重視の方には外野席も人気があります。</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<footer class="vt-footer">
-  <div class="vt-footer-inner">
-    <div class="vt-foot-grid">
-      <div>
-        <div class="vt-foot-logo">Veltra<span>.</span></div>
-        <p>世界の現地体験を予約できる、Veltraの旅行体験予約サービス。</p>
-      </div>
-      <div>
-        <h4>テーマから探す</h4>
-        <ul>
-          <li><a href="../">世界のスポーツ観戦</a></li>
-          <li><a href="../soccer/">サッカー</a></li>
-          <li><a href="./">野球（MLB）</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>サポート</h4>
-        <ul>
-          <li><a href="https://www.veltra.com/jp/">よくある質問</a></li>
-          <li><a href="https://www.veltra.com/jp/">お問い合わせ</a></li>
-          <li><a href="https://www.veltra.com/jp/">利用規約</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>会社情報</h4>
-        <ul>
-          <li><a href="https://www.veltra.com/jp/">会社概要</a></li>
-          <li><a href="https://www.veltra.com/jp/">プライバシーポリシー</a></li>
-        </ul>
-      </div>
+<!-- ========== Footer ========== -->
+<footer class="v-foot">
+  <div class="v-foot-inner">
+    <div class="v-foot-col">
+      <div class="brand-logo">Veltra<span class="dot">.</span></div>
+      <p class="desc">世界の現地体験を予約できる、Veltraの旅行体験予約サービス。</p>
     </div>
-    <div class="vt-foot-bottom">© Veltra Corporation</div>
+    <div class="v-foot-col">
+      <h5>テーマから探す</h5>
+      <ul>
+        <li><a href="../">世界のスポーツ観戦</a></li>
+        <li><a href="../soccer/">サッカー</a></li>
+        <li><a href="./">野球（MLB）</a></li>
+      </ul>
+    </div>
+    <div class="v-foot-col">
+      <h5>サポート</h5>
+      <ul>
+        <li><a href="https://www.veltra.com/jp/">よくある質問</a></li>
+        <li><a href="https://www.veltra.com/jp/">お問い合わせ</a></li>
+        <li><a href="https://www.veltra.com/jp/">利用規約</a></li>
+      </ul>
+    </div>
+    <div class="v-foot-col">
+      <h5>会社情報</h5>
+      <ul>
+        <li><a href="https://www.veltra.com/jp/">会社概要</a></li>
+        <li><a href="https://www.veltra.com/jp/">プライバシーポリシー</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="v-foot-bottom">
+    <span>© Veltra Corporation</span>
   </div>
 </footer>
 

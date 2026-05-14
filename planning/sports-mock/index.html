@@ -16,12 +16,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800;900&family=DM+Sans:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/sports-theme.css">
 
 <script src="/auth.js"></script>
 
-<!-- Structured data -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -43,269 +42,423 @@
   "isPartOf": { "@type": "WebSite", "name": "Veltra", "url": "https://www.veltra.com/jp/" }
 }
 </script>
+
+<style>
+  :root { --page-accent: #1f1f1d; }
+  .top-hero { background: var(--paper); border-bottom: 1px solid var(--line); }
+  .top-hero .hero-inner { padding: 44px var(--gutter) 36px; }
+  .top-hero h1 { font-size: clamp(28px, 3.6vw, 42px); }
+  .top-hero .stats-inline {
+    margin-top: 16px;
+    display: flex; flex-wrap: wrap; gap: 24px; align-items: baseline;
+    color: var(--ink-2);
+  }
+  .top-hero .stats-inline .item { display: inline-flex; gap: 6px; align-items: baseline; }
+  .top-hero .stats-inline .v { font-size: var(--fs-22); font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+  .top-hero .stats-inline .l { font-size: var(--fs-13); color: var(--ink-3); }
+  .top-hero .stats-inline .dot { color: var(--line-strong); }
+
+  .closer { background: var(--paper-warm); padding: 48px 0; border-bottom: 1px solid var(--line); }
+  .closer-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: start; }
+  .closer h2 { font-size: var(--fs-28); font-weight: 800; letter-spacing: -0.02em; line-height: 1.3; margin: 0 0 16px; text-wrap: balance; }
+  .closer p { font-size: var(--fs-14); color: var(--ink-2); line-height: 1.85; margin: 0 0 12px; text-wrap: pretty; }
+  .closer .points { display: grid; gap: 18px; background: var(--paper); padding: 24px; border: 1px solid var(--line); border-radius: var(--r-8); }
+  .closer .pt { display: grid; grid-template-columns: 28px 1fr; gap: 12px; }
+  .closer .pt .n { font-family: var(--mono); font-size: 11px; color: var(--veltra); font-weight: 700; padding-top: 4px; letter-spacing: 0.06em; }
+  .closer .pt h3 { font-size: var(--fs-14); font-weight: 700; margin: 0 0 4px; }
+  .closer .pt p { font-size: var(--fs-13); color: var(--ink-2); margin: 0; line-height: 1.7; }
+
+  @media (max-width: 1024px) { .closer-inner { grid-template-columns: 1fr; gap: 24px; } }
+</style>
 </head>
 <body data-theme="sports" data-page-type="top">
 
-<!-- SVG sprite (sport icons) -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <symbol id="icon-soccer" viewBox="0 0 32 32">
-      <circle cx="16" cy="16" r="12" fill="none" stroke="currentColor" stroke-width="1.6"/>
-      <polygon points="16,10 20.5,13.2 18.8,18.5 13.2,18.5 11.5,13.2" fill="currentColor"/>
-    </symbol>
-    <symbol id="icon-baseball" viewBox="0 0 32 32">
-      <circle cx="16" cy="16" r="12" fill="none" stroke="currentColor" stroke-width="1.6"/>
-      <path d="M9 9 Q12 14 12 16 Q12 18 9 23" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-      <path d="M23 9 Q20 14 20 16 Q20 18 23 23" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-    </symbol>
-    <symbol id="icon-basket" viewBox="0 0 32 32">
-      <circle cx="16" cy="16" r="12" fill="none" stroke="currentColor" stroke-width="1.6"/>
-      <line x1="4" y1="16" x2="28" y2="16" stroke="currentColor" stroke-width="1.4"/>
-      <line x1="16" y1="4" x2="16" y2="28" stroke="currentColor" stroke-width="1.4"/>
-      <path d="M7 7 Q16 16 25 25" fill="none" stroke="currentColor" stroke-width="1.4"/>
-      <path d="M25 7 Q16 16 7 25" fill="none" stroke="currentColor" stroke-width="1.4"/>
-    </symbol>
-    <symbol id="icon-hockey" viewBox="0 0 32 32">
-      <ellipse cx="16" cy="20" rx="11" ry="4" fill="none" stroke="currentColor" stroke-width="1.6"/>
-      <path d="M5 20 L5 16 Q5 12 16 12 Q27 12 27 16 L27 20" fill="none" stroke="currentColor" stroke-width="1.6"/>
-      <line x1="5" y1="16" x2="27" y2="16" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 2"/>
-    </symbol>
-    <symbol id="icon-tennis" viewBox="0 0 32 32">
-      <circle cx="16" cy="16" r="12" fill="none" stroke="currentColor" stroke-width="1.6"/>
-      <path d="M4 12 Q16 18 28 12" fill="none" stroke="currentColor" stroke-width="1.4"/>
-      <path d="M4 20 Q16 14 28 20" fill="none" stroke="currentColor" stroke-width="1.4"/>
-    </symbol>
-    <symbol id="icon-rugby" viewBox="0 0 32 32">
-      <ellipse cx="16" cy="16" rx="13" ry="8" fill="none" stroke="currentColor" stroke-width="1.6" transform="rotate(-25 16 16)"/>
-      <line x1="10" y1="22" x2="22" y2="10" stroke="currentColor" stroke-width="1.4"/>
-      <line x1="13" y1="20" x2="15" y2="18" stroke="currentColor" stroke-width="1.4"/>
-      <line x1="17" y1="14" x2="19" y2="12" stroke="currentColor" stroke-width="1.4"/>
-    </symbol>
-    <symbol id="icon-motor" viewBox="0 0 32 32">
-      <line x1="6" y1="4" x2="6" y2="28" stroke="currentColor" stroke-width="1.8"/>
-      <g fill="currentColor">
-        <rect x="8" y="6" width="4" height="4"/>
-        <rect x="16" y="6" width="4" height="4"/>
-        <rect x="24" y="6" width="4" height="4"/>
-        <rect x="12" y="10" width="4" height="4"/>
-        <rect x="20" y="10" width="4" height="4"/>
-        <rect x="8" y="14" width="4" height="4"/>
-        <rect x="16" y="14" width="4" height="4"/>
-        <rect x="24" y="14" width="4" height="4"/>
-        <rect x="12" y="18" width="4" height="4"/>
-        <rect x="20" y="18" width="4" height="4"/>
-      </g>
-    </symbol>
-    <symbol id="icon-search" viewBox="0 0 16 16">
-      <circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <line x1="11" y1="11" x2="14.5" y2="14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-    </symbol>
-  </defs>
-</svg>
-
-<!-- ========== Header (standalone promotion site) ========== -->
-<header class="vt-topbar">
-  <div class="vt-topbar-inner">
-    <a class="vt-logo" href="https://www.veltra.com/jp/" title="Veltraトップへ">Veltra<span class="dot">.</span></a>
-    <nav class="vt-nav" aria-label="海外スポーツ観戦特集">
+<!-- ========== Topbar (standalone subsite: logo + this-site nav + Veltra backlink) ========== -->
+<header class="v-topbar">
+  <div class="v-topbar-inner">
+    <a class="v-logo" href="https://www.veltra.com/jp/" title="Veltraトップへ">Veltra<span class="dot">.</span></a>
+    <nav class="v-topbar-nav" aria-label="海外スポーツ観戦特集">
       <a href="./" aria-current="page">スポーツ観戦TOP</a>
       <a href="./soccer/">サッカー</a>
       <a href="./baseball/">野球（MLB）</a>
     </nav>
-    <a class="vt-back" href="https://www.veltra.com/jp/">Veltraトップへ ›</a>
+    <a class="v-back" href="https://www.veltra.com/jp/">Veltraトップへ <span class="chev">›</span></a>
   </div>
 </header>
 
 <!-- ========== Breadcrumb ========== -->
-<nav class="vt-crumb" aria-label="パンくずリスト">
-  <div class="vt-crumb-inner">
-    <a href="https://www.veltra.com/jp/">Veltra</a>
-    <span class="arr">›</span>
-    海外スポーツ観戦特集
-  </div>
+<nav class="v-crumb" aria-label="パンくずリスト">
+  <a href="https://www.veltra.com/jp/">Veltra</a><span class="sep">›</span>
+  <span class="curr">海外スポーツ観戦特集</span>
 </nav>
 
 <!-- ========== Hero ========== -->
-<section class="vt-hero is-sports">
-  <div class="vt-hero-inner">
-    <div class="eyebrow">VELTRA SPORTS · 海外スポーツ観戦特集</div>
-    <h1>海外スポーツ観戦ツアー・チケット予約</h1>
-    <p class="lede">プレミアリーグもMLBもF1も。テレビでは伝わらない、現地スタジアムだからこその熱気を体感する旅へ。観戦チケットの手配から球場送迎まで、Veltraがまとめてお手伝いします。</p>
-    <div class="stats">
-      <div><strong>7</strong>種目取扱中</div>
-      <div><strong>50+</strong>観戦ツアー</div>
-      <div><strong>20+</strong>都市</div>
+<section class="top-hero">
+  <div class="hero-inner">
+    <div>
+      <p class="eyebrow"><span class="accent-dot"></span>SPORTS · 海外スポーツ観戦特集</p>
+      <h1>海外スポーツ観戦ツアー・チケット予約</h1>
+      <p class="intro">
+        プレミアリーグもMLBもF1も。テレビでは伝わらない、現地スタジアムだからこその熱気を体感する旅へ。観戦チケットの手配から球場送迎、観戦前後のプリゲーム体験まで、Veltraがまとめてお手伝いします。
+      </p>
+      <div class="stats-inline">
+        <div class="item"><span class="v">7</span><span class="l">種目取扱</span></div>
+        <span class="dot">·</span>
+        <div class="item"><span class="v">50</span><span class="l">+ 観戦ツアー</span></div>
+        <span class="dot">·</span>
+        <div class="item"><span class="v">20</span><span class="l">+ 都市</span></div>
+        <span class="dot">·</span>
+        <div class="item"><span class="v">2026</span><span class="l">シーズン対応</span></div>
+      </div>
+    </div>
+
+    <div class="hero-stats" aria-hidden="true">
+      <div>
+        <div class="v">2</div>
+        <div class="l">公開中の種目</div>
+      </div>
+      <div>
+        <div class="v">5</div>
+        <div class="l">準備中の種目</div>
+      </div>
+      <div>
+        <div class="v">20<span class="unit">+</span></div>
+        <div class="l">直近の観戦試合</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ========== 種目から選ぶ ========== -->
-<section class="vt-sec">
-  <div class="vt-sec-inner">
-    <h2>種目から選ぶ <span class="cnt">全7種目</span></h2>
-    <p class="intro">観戦したい競技を選んで、旅のハイライトに。試合日に合わせて旅程を組み立てられます。</p>
+<!-- ========== In-page anchor nav ========== -->
+<nav class="v-anchor" aria-label="ページ内ナビ" id="page-anchor">
+  <div class="v-anchor-inner">
+    <a href="#genres"><span class="n">01</span>種目から探す</a>
+    <a href="#cities"><span class="n">02</span>観戦都市</a>
+    <a href="#calendar"><span class="n">03</span>シーズンカレンダー</a>
+    <a href="#why"><span class="n">04</span>スポーツ観戦の旅</a>
+  </div>
+</nav>
 
-    <div class="sp-grid">
-      <a class="sp-card" href="./soccer/" data-ga-genre="soccer" data-ga-pos="1">
-        <span class="sport-ico is-soccer"><svg aria-hidden="true"><use href="#icon-soccer"/></svg></span>
-        <div class="ttl">サッカー</div>
-        <p class="desc">欧州5大リーグの主要クラブ・ホームゲーム観戦。週末の試合に合わせて旅を計画できます。</p>
-        <div class="meta">12 TOURS · 8 CITIES</div>
+<!-- ========== Genres ========== -->
+<section class="sec" id="genres">
+  <div class="shell">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">01 — Pick a sport</p>
+        <h2>種目から探す</h2>
+        <p class="lede">観戦したい競技を選んで、旅のハイライトに。第1弾はサッカー・野球の2種目を公開中、他5種目は順次オープン予定です。</p>
+      </div>
+      <div class="count"><strong>7</strong>種目 / <strong>2</strong>公開中</div>
+    </div>
+
+    <div class="genre-grid">
+
+      <a class="genre-card" href="./soccer/" data-ga-genre="soccer" data-ga-pos="1">
+        <div class="genre-top">
+          <div class="sp-tile sp-soccer lg">FB</div>
+          <span class="genre-status">公開中</span>
+        </div>
+        <h3 class="genre-title"><span class="en">SOCCER</span>サッカー</h3>
+        <p class="genre-desc">プレミアリーグ、ラ・リーガ、ブンデスリーガ、セリエA、リーグアン。欧州5大リーグの現地観戦。</p>
+        <div class="genre-meta"><strong>12</strong>ツアー<span>·</span><strong>8</strong>都市</div>
       </a>
 
-      <a class="sp-card" href="./baseball/" data-ga-genre="baseball" data-ga-pos="2">
-        <span class="sport-ico is-baseball"><svg aria-hidden="true"><use href="#icon-baseball"/></svg></span>
-        <div class="ttl">野球（MLB）</div>
-        <p class="desc">メジャーリーグ主要球団の現地観戦。チケット手配・球場送迎・プリゲーム体験まで。</p>
-        <div class="meta">8 TOURS · 5 CITIES</div>
+      <a class="genre-card" href="./baseball/" data-ga-genre="baseball" data-ga-pos="2">
+        <div class="genre-top">
+          <div class="sp-tile sp-baseball lg">BB</div>
+          <span class="genre-status">公開中</span>
+        </div>
+        <h3 class="genre-title"><span class="en">BASEBALL · MLB</span>野球（MLB）</h3>
+        <p class="genre-desc">ドジャース、ヤンキースほかメジャー6球団の現地観戦。観戦・送迎・プリゲーム別の機能ツアー。</p>
+        <div class="genre-meta"><strong>8</strong>ツアー<span>·</span><strong>5</strong>都市</div>
       </a>
 
-      <a class="sp-card is-disabled" aria-disabled="true">
-        <span class="soon-badge">準備中</span>
-        <span class="sport-ico is-basket"><svg aria-hidden="true"><use href="#icon-basket"/></svg></span>
-        <div class="ttl">バスケットボール（NBA）</div>
-        <p class="desc">レイカーズ、セルティックスなど人気球団のシーズン観戦。順次公開予定です。</p>
-        <div class="meta">COMING SOON</div>
-      </a>
+      <div class="genre-card is-soon" aria-disabled="true">
+        <div class="genre-top">
+          <div class="sp-tile sp-basket lg">BK</div>
+          <span class="genre-status is-soon">準備中</span>
+        </div>
+        <h3 class="genre-title"><span class="en">BASKETBALL · NBA</span>バスケットボール（NBA）</h3>
+        <p class="genre-desc">レイカーズ、セルティックスほか北米プロバスケットボールのシーズン観戦。</p>
+        <div class="genre-meta">順次公開</div>
+      </div>
 
-      <a class="sp-card is-disabled" aria-disabled="true">
-        <span class="soon-badge">準備中</span>
-        <span class="sport-ico is-hockey"><svg aria-hidden="true"><use href="#icon-hockey"/></svg></span>
-        <div class="ttl">アイスホッケー（NHL）</div>
-        <p class="desc">北米アイスホッケーの本場観戦。順次公開予定です。</p>
-        <div class="meta">COMING SOON</div>
-      </a>
+      <div class="genre-card is-soon" aria-disabled="true">
+        <div class="genre-top">
+          <div class="sp-tile sp-tennis lg">TN</div>
+          <span class="genre-status is-soon">準備中</span>
+        </div>
+        <h3 class="genre-title"><span class="en">TENNIS · GRAND SLAM</span>テニス（四大大会）</h3>
+        <p class="genre-desc">ウィンブルドン、全米、全仏、全豪。グランドスラム現地観戦。</p>
+        <div class="genre-meta">順次公開</div>
+      </div>
 
-      <a class="sp-card is-disabled" aria-disabled="true">
-        <span class="soon-badge">準備中</span>
-        <span class="sport-ico is-tennis"><svg aria-hidden="true"><use href="#icon-tennis"/></svg></span>
-        <div class="ttl">テニス（四大大会）</div>
-        <p class="desc">ウィンブルドン・全米・全仏・全豪。グランドスラム観戦は順次公開予定です。</p>
-        <div class="meta">COMING SOON</div>
-      </a>
+      <div class="genre-card is-soon" aria-disabled="true">
+        <div class="genre-top">
+          <div class="sp-tile sp-hockey lg">HK</div>
+          <span class="genre-status is-soon">準備中</span>
+        </div>
+        <h3 class="genre-title"><span class="en">ICE HOCKEY · NHL</span>アイスホッケー（NHL）</h3>
+        <p class="genre-desc">トロント、モントリオールほか北米アイスホッケーの観戦。</p>
+        <div class="genre-meta">順次公開</div>
+      </div>
 
-      <a class="sp-card is-disabled" aria-disabled="true">
-        <span class="soon-badge">準備中</span>
-        <span class="sport-ico is-rugby"><svg aria-hidden="true"><use href="#icon-rugby"/></svg></span>
-        <div class="ttl">ラグビー</div>
-        <p class="desc">ラグビー強豪国の聖地スタジアム観戦。順次公開予定です。</p>
-        <div class="meta">COMING SOON</div>
-      </a>
+      <div class="genre-card is-soon" aria-disabled="true">
+        <div class="genre-top">
+          <div class="sp-tile sp-rugby lg">RG</div>
+          <span class="genre-status is-soon">準備中</span>
+        </div>
+        <h3 class="genre-title"><span class="en">RUGBY</span>ラグビー</h3>
+        <p class="genre-desc">オールブラックスほか、聖地スタジアムでのラグビー観戦。</p>
+        <div class="genre-meta">順次公開</div>
+      </div>
 
-      <a class="sp-card is-disabled" aria-disabled="true">
-        <span class="soon-badge">準備中</span>
-        <span class="sport-ico is-motor"><svg aria-hidden="true"><use href="#icon-motor"/></svg></span>
-        <div class="ttl">モータースポーツ（F1ほか）</div>
-        <p class="desc">モナコ、シルバーストンなどグランプリ観戦。順次公開予定です。</p>
-        <div class="meta">COMING SOON</div>
-      </a>
+      <div class="genre-card is-soon" aria-disabled="true">
+        <div class="genre-top">
+          <div class="sp-tile sp-motor lg">MS</div>
+          <span class="genre-status is-soon">準備中</span>
+        </div>
+        <h3 class="genre-title"><span class="en">MOTORSPORT · F1</span>モータースポーツ（F1ほか）</h3>
+        <p class="genre-desc">モナコ、シルバーストンほか、グランプリ現地観戦。</p>
+        <div class="genre-meta">順次公開</div>
+      </div>
 
-      <a class="sp-card is-disabled" aria-disabled="true">
-        <span class="soon-badge">準備中</span>
-        <span class="sport-ico is-other">+</span>
-        <div class="ttl">その他のスポーツ</div>
-        <p class="desc">ボクシング、ゴルフほか。順次取り扱い種目を拡大していきます。</p>
-        <div class="meta">COMING SOON</div>
-      </a>
+      <div class="genre-card is-soon" aria-disabled="true">
+        <div class="genre-top">
+          <div class="sp-tile sp-other lg">＋</div>
+          <span class="genre-status is-soon">準備中</span>
+        </div>
+        <h3 class="genre-title"><span class="en">OTHER</span>その他のスポーツ</h3>
+        <p class="genre-desc">ボクシング、ゴルフ、ウィンタースポーツなど、取り扱い種目を順次拡大予定です。</p>
+        <div class="genre-meta">順次公開</div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ========== 人気観戦都市 ========== -->
-<section class="vt-sec alt">
-  <div class="vt-sec-inner">
-    <h2>観戦したい都市から探す <span class="cnt">人気4都市</span></h2>
-    <p class="intro">複数の競技が集まる人気都市なら、試合のない日も観光をたっぷり楽しめます。観戦したい都市から旅をはじめるのもおすすめです。</p>
+<!-- ========== Cities ========== -->
+<section class="sec sec--soft" id="cities">
+  <div class="shell">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">02 — Pick a city</p>
+        <h2>今シーズン注目の観戦都市</h2>
+        <p class="lede">複数の競技が集まる人気都市なら、試合のない日も観光をたっぷり楽しめます。観戦したい都市から旅を組み立てるのもおすすめです。</p>
+      </div>
+      <div class="count"><strong>4</strong>都市表示中</div>
+    </div>
 
     <div class="city-grid">
+
       <div class="city-card">
-        <div class="city-code">BCN</div>
-        <h3 class="city-name">バルセロナ</h3>
-        <p class="city-sports">サッカー · F1</p>
+        <div class="iata">BCN</div>
+        <div class="nm">バルセロナ</div>
+        <div class="nm-en">Barcelona, Spain</div>
+        <div class="sports-list"><span>サッカー</span><span>F1</span></div>
+        <div class="cnt"><strong>6</strong> 件の観戦ツアー</div>
       </div>
+
       <div class="city-card">
-        <div class="city-code">LDN</div>
-        <h3 class="city-name">ロンドン</h3>
-        <p class="city-sports">サッカー · テニス · ラグビー</p>
+        <div class="iata">LDN</div>
+        <div class="nm">ロンドン</div>
+        <div class="nm-en">London, UK</div>
+        <div class="sports-list"><span>サッカー</span><span>テニス</span><span>ラグビー</span></div>
+        <div class="cnt"><strong>9</strong> 件の観戦ツアー</div>
       </div>
+
       <div class="city-card">
-        <div class="city-code">LAX</div>
-        <h3 class="city-name">ロサンゼルス</h3>
-        <p class="city-sports">野球 · バスケットボール</p>
+        <div class="iata">LAX</div>
+        <div class="nm">ロサンゼルス</div>
+        <div class="nm-en">Los Angeles, USA</div>
+        <div class="sports-list"><span>野球</span><span>バスケットボール</span></div>
+        <div class="cnt"><strong>7</strong> 件の観戦ツアー</div>
       </div>
+
       <div class="city-card">
-        <div class="city-code">NYC</div>
-        <h3 class="city-name">ニューヨーク</h3>
-        <p class="city-sports">野球 · テニス · バスケットボール</p>
+        <div class="iata">NYC</div>
+        <div class="nm">ニューヨーク</div>
+        <div class="nm-en">New York, USA</div>
+        <div class="sports-list"><span>野球</span><span>テニス</span><span>バスケットボール</span></div>
+        <div class="cnt"><strong>5</strong> 件の観戦ツアー</div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- ========== シーズンカレンダー ========== -->
-<section class="vt-sec">
-  <div class="vt-sec-inner">
-    <h2>シーズンカレンダー <span class="cnt">主要大会の開催時期</span></h2>
-    <p class="intro">観戦したい大会が決まったら、その時期に合わせて旅程を計画しましょう。シーズン開幕直後や決勝前後は、街全体が盛り上がる絶好のタイミングです。</p>
+<!-- ========== Calendar ========== -->
+<section class="sec" id="calendar">
+  <div class="shell">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">03 — Season calendar</p>
+        <h2>シーズンカレンダー（2026）</h2>
+        <p class="lede">いつ何が開催されているかから、「行ける時期」と「観たい競技」を逆算できる年間カレンダーです。</p>
+      </div>
+      <div class="count"><strong>12</strong>ヶ月 / <strong>5</strong>競技</div>
+    </div>
 
-    <table class="cal-table">
-      <thead>
-        <tr><th>時期</th><th>主要大会・シーズン</th><th>種目</th></tr>
-      </thead>
-      <tbody>
-        <tr><td class="month">5月</td><td>欧州サッカー終盤戦・モナコGP</td><td>サッカー · モータースポーツ</td></tr>
-        <tr><td class="month">6〜7月</td><td>ウィンブルドン・MLBレギュラーシーズン</td><td>テニス · 野球</td></tr>
-        <tr><td class="month">8〜9月</td><td>プレミアリーグ開幕・全米オープン</td><td>サッカー · テニス</td></tr>
-        <tr><td class="month">10〜12月</td><td>NBA開幕・NFL本格化・ラグビー欧州シーズン</td><td>バスケットボール · ラグビー</td></tr>
-        <tr><td class="month">1〜3月</td><td>全豪オープン・スーパーボウル・MLBスプリング</td><td>テニス · NFL · 野球</td></tr>
-      </tbody>
-    </table>
+    <div class="cal-wrap">
+      <div class="cal-header">
+        <div></div>
+        <div>1月</div><div>2月</div><div>3月</div><div>4月</div>
+        <div class="is-now">5月</div><div>6月</div><div>7月</div><div>8月</div>
+        <div>9月</div><div>10月</div><div>11月</div><div>12月</div>
+      </div>
+
+      <div class="cal-row">
+        <div class="cal-sport"><span class="sp-tile sm sp-soccer">FB</span><span class="nm">サッカー</span></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#0E4D3F; left:0; right:0;">中盤戦</div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#0E4D3F; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar" style="--bar:#0E4D3F; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar" style="--bar:#0E4D3F; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar is-peak" style="left:0; right:0;">終盤戦</div></div>
+        <div class="cal-month"></div>
+        <div class="cal-month"></div>
+        <div class="cal-month"><div class="cal-bar is-peak" style="left:50%; right:0;">開幕</div></div>
+        <div class="cal-month"><div class="cal-bar" style="--bar:#0E4D3F; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar" style="--bar:#0E4D3F; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar" style="--bar:#0E4D3F; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar" style="--bar:#0E4D3F; left:0; right:0;"></div></div>
+      </div>
+
+      <div class="cal-row">
+        <div class="cal-sport"><span class="sp-tile sm sp-baseball">BB</span><span class="nm">野球</span></div>
+        <div class="cal-month"></div>
+        <div class="cal-month"></div>
+        <div class="cal-month"><div class="cal-bar" style="--bar:#1B2C5B; left:60%; right:0;">開幕</div></div>
+        <div class="cal-month"><div class="cal-bar" style="--bar:#1B2C5B; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar" style="--bar:#1B2C5B; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar" style="--bar:#1B2C5B; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar is-peak" style="left:0; right:0;">本格化</div></div>
+        <div class="cal-month"><div class="cal-bar is-peak" style="left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar is-peak" style="left:0; right:0;">PS</div></div>
+        <div class="cal-month"><div class="cal-bar" style="--bar:#1B2C5B; left:0; right:50%;"></div></div>
+        <div class="cal-month"></div>
+        <div class="cal-month"></div>
+      </div>
+
+      <div class="cal-row">
+        <div class="cal-sport"><span class="sp-tile sm sp-basket">BK</span><span class="nm">バスケットボール</span></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#B85B12; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#B85B12; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#B85B12; left:0; right:0;">PS</div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#B85B12; left:0; right:50%;"></div></div>
+        <div class="cal-month"></div><div class="cal-month"></div><div class="cal-month"></div><div class="cal-month"></div>
+        <div class="cal-month"></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#B85B12; left:50%; right:0;">開幕</div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#B85B12; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#B85B12; left:0; right:0;"></div></div>
+      </div>
+
+      <div class="cal-row">
+        <div class="cal-sport"><span class="sp-tile sm sp-tennis">TN</span><span class="nm">テニス</span></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#4D6B14; left:30%; width:30%;">AUS</div></div>
+        <div class="cal-month"></div>
+        <div class="cal-month"></div>
+        <div class="cal-month"></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#4D6B14; left:60%; right:0;">FRA</div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#4D6B14; left:0; width:40%;"></div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#4D6B14; left:0; width:60%;">WIM</div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#4D6B14; left:50%; right:0;">US</div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#4D6B14; left:0; width:40%;"></div></div>
+        <div class="cal-month"></div><div class="cal-month"></div><div class="cal-month"></div>
+      </div>
+
+      <div class="cal-row">
+        <div class="cal-sport"><span class="sp-tile sm sp-motor">MS</span><span class="nm">F1</span></div>
+        <div class="cal-month"></div>
+        <div class="cal-month"></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#8A1F1F; left:40%; right:0;">開幕</div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#8A1F1F; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar is-peak" style="left:0; right:0;">モナコ</div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#8A1F1F; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#8A1F1F; left:0; right:0;">英国</div></div>
+        <div class="cal-month"></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#8A1F1F; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#8A1F1F; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#8A1F1F; left:0; right:0;"></div></div>
+        <div class="cal-month"><div class="cal-bar is-soft" style="--bar:#8A1F1F; left:0; width:60%;">最終戦</div></div>
+      </div>
+    </div>
+
+    <div class="cal-legend">
+      <span class="key"><span class="swatch" style="background:var(--veltra);"></span>シーズンのハイライト</span>
+      <span class="key"><span class="swatch" style="background:var(--ink);"></span>レギュラーシーズン</span>
+      <span class="key"><span class="swatch" style="background:var(--ink); opacity:0.35;"></span>準備中 / 観戦取扱なし</span>
+    </div>
   </div>
 </section>
 
-<!-- ========== About ========== -->
-<section class="vt-sec alt">
-  <div class="vt-sec-inner">
-    <div class="about-block">
-      <h2>スポーツ観戦の旅、その魅力</h2>
-      <p>応援歌の大合唱、ゴールの瞬間の歓声、隣席で見知らぬ人とのハイタッチ──テレビでは決して伝わらない、現地スタジアムだからこその一体感があります。「あの試合を観るためだけに飛行機に乗る」、そんな思い出に残る旅を作れるのが、海外スポーツ観戦の魅力です。Veltraは現地手配のスペシャリストとして、観戦チケットの確保からスタジアムへの送迎まで、安心して観戦に集中いただける環境をご用意しています。</p>
+<!-- ========== Why / closer ========== -->
+<section class="closer" id="why">
+  <div class="closer-inner">
+    <div>
+      <p class="eyebrow" style="font-family:var(--mono); font-size:11px; color:var(--ink-3); letter-spacing:0.12em; text-transform:uppercase; margin:0 0 8px;">04 — Why travel for sports</p>
+      <h2>テレビでは伝わらない、その一度きりの空気がある。</h2>
+      <p>スタジアム前の路地に響くチャント、サポーターと並んで席に座る瞬間、ホームランボールを追う観客の視線。「あの試合のためだけに飛行機に乗る」という選び方ができるのは、画面の向こうに残せない体験があるからです。</p>
+      <p>Veltraは現地手配のスペシャリストとして、チケット・送迎・観戦前後のプリゲーム体験まで、当日「観ること」だけに集中できるように旅程をまるごと受け持ちます。</p>
+    </div>
+    <div class="points">
+      <div class="pt">
+        <span class="n">01</span>
+        <div>
+          <h3>現地手配のスペシャリスト</h3>
+          <p>各地のローカルオペレーターと直接ライン。日本語サポート前提で、チケット・送迎を一括手配します。</p>
+        </div>
+      </div>
+      <div class="pt">
+        <span class="n">02</span>
+        <div>
+          <h3>試合日から旅程を逆算</h3>
+          <p>シーズン中の主要カードを一覧で把握。日程を起点に、都市・フライト・宿の計画につなげられます。</p>
+        </div>
+      </div>
+      <div class="pt">
+        <span class="n">03</span>
+        <div>
+          <h3>観戦前後のプリゲーム体験</h3>
+          <p>球場グルメ、選手紹介ツアー、地元バルでの試合前。観戦そのものを膨らませる選択肢をご用意します。</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ========== Footer ========== -->
-<footer class="vt-footer">
-  <div class="vt-footer-inner">
-    <div class="vt-foot-grid">
-      <div>
-        <div class="vt-foot-logo">Veltra<span>.</span></div>
-        <p>世界の現地体験を予約できる、Veltraの旅行体験予約サービス。</p>
-      </div>
-      <div>
-        <h4>テーマから探す</h4>
-        <ul>
-          <li><a href="./">世界のスポーツ観戦</a></li>
-          <li><a href="./soccer/">サッカー</a></li>
-          <li><a href="./baseball/">野球（MLB）</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>サポート</h4>
-        <ul>
-          <li><a href="https://www.veltra.com/jp/">よくある質問</a></li>
-          <li><a href="https://www.veltra.com/jp/">お問い合わせ</a></li>
-          <li><a href="https://www.veltra.com/jp/">利用規約</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>会社情報</h4>
-        <ul>
-          <li><a href="https://www.veltra.com/jp/">会社概要</a></li>
-          <li><a href="https://www.veltra.com/jp/">プライバシーポリシー</a></li>
-        </ul>
-      </div>
+<footer class="v-foot">
+  <div class="v-foot-inner">
+    <div class="v-foot-col">
+      <div class="brand-logo">Veltra<span class="dot">.</span></div>
+      <p class="desc">世界の現地体験を予約できる、Veltraの旅行体験予約サービス。</p>
     </div>
-    <div class="vt-foot-bottom">© Veltra Corporation</div>
+    <div class="v-foot-col">
+      <h5>テーマから探す</h5>
+      <ul>
+        <li><a href="./">世界のスポーツ観戦</a></li>
+        <li><a href="./soccer/">サッカー</a></li>
+        <li><a href="./baseball/">野球（MLB）</a></li>
+      </ul>
+    </div>
+    <div class="v-foot-col">
+      <h5>サポート</h5>
+      <ul>
+        <li><a href="https://www.veltra.com/jp/">よくある質問</a></li>
+        <li><a href="https://www.veltra.com/jp/">お問い合わせ</a></li>
+        <li><a href="https://www.veltra.com/jp/">利用規約</a></li>
+      </ul>
+    </div>
+    <div class="v-foot-col">
+      <h5>会社情報</h5>
+      <ul>
+        <li><a href="https://www.veltra.com/jp/">会社概要</a></li>
+        <li><a href="https://www.veltra.com/jp/">プライバシーポリシー</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="v-foot-bottom">
+    <span>© Veltra Corporation</span>
   </div>
 </footer>
 
