@@ -73,6 +73,24 @@
   .callout strong { font-weight: 600; }
   .callout code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 3px; font-family: var(--font-mono); font-size: 12px; }
 
+  /* Horizontal sitemap tree */
+  .tree-h { display: flex; gap: 0; align-items: stretch; background: var(--bg-sub); border: 1px solid var(--border); border-radius: 8px; padding: 20px 16px; margin: 12px 0 24px; overflow-x: auto; }
+  .tree-col { display: flex; flex-direction: column; justify-content: center; position: relative; padding: 0 28px 0 0; min-width: 200px; }
+  .tree-col:not(:last-child)::after { content: ""; position: absolute; top: 50%; right: 0; width: 28px; height: 1px; background: var(--border); }
+  .tree-col.last { padding-right: 0; }
+  .tree-group { display: flex; flex-direction: column; gap: 10px; }
+  .tree-node { background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 6px; padding: 10px 14px; font-size: 13px; font-weight: 500; }
+  .tree-node small { display: block; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+  .tree-node.root { background: var(--bg-accent); border-color: var(--accent); }
+  .tree-node.muted { border-left-color: var(--border); color: var(--text-muted); background: transparent; border-style: dashed; }
+  .tree-subgroup { display: flex; flex-direction: column; gap: 4px; padding: 6px 0; border-top: 1px dashed var(--border); }
+  .tree-subgroup:first-child { border-top: none; padding-top: 0; }
+  .tree-subhead { font-size: 11px; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 4px; }
+  .tree-subhead.muted { color: var(--text-muted); }
+  .tree-leaf { font-size: 12px; padding: 4px 10px; border-left: 2px solid var(--accent-soft); background: #fff; border-radius: 0 4px 4px 0; line-height: 1.6; }
+  .tree-leaf small { color: var(--text-muted); font-size: 11px; }
+  .tree-leaf.muted { color: var(--text-muted); border-left-color: var(--border); background: transparent; }
+
   /* ============== Mockup styles ============== */
   .mock-frame { background: #fff; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 20px 0 8px; }
   .mock-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--bg-sub); border-bottom: 1px solid var(--border); font-size: 12px; color: var(--text-muted); }
@@ -250,44 +268,78 @@
   <!-- ============ TODAY'S MTG AGENDA ============ -->
   <section class="sec" id="p1-mtg" style="border-left:4px solid var(--accent);">
     <h2><span class="num">★</span>今日のMTGで確認したいこと</h2>
-    <p class="sec-lead">本ドキュメント全体の議論を前提に、今日のMTGでは以下3点に絞って合意したい。具体モックは別途共有済み（本書では割愛）。</p>
+    <p class="sec-lead">今日のMTGでは以下5点に絞って合意したい。具体モックは別途共有済み（本書では割愛）。</p>
 
     <table class="tbl">
       <thead>
-        <tr><th style="width:6%;">#</th><th style="width:26%;">論点</th><th>確認したいこと</th><th style="width:18%;">これが決まると進むこと</th></tr>
+        <tr><th style="width:6%;">#</th><th style="width:26%;">論点</th><th>確認したいこと</th></tr>
       </thead>
       <tbody>
         <tr>
           <td class="b">1</td>
           <td class="b">スコープの範囲と必要タスク</td>
-          <td>第1弾を「スポーツTOP＋サッカー＋野球」の3ページに絞る方針で合意できるか。他種目（バスケットボール・テニス・ラグビー・アイスホッケー・モータースポーツ）は「準備中」表示で入口だけ確保する案でよいか。リリースまでに必要なタスク（§03タスク一覧）の漏れ・優先度に異論がないか。</td>
-          <td class="muted">PRD起票・担当アサイン・スケジュール確定（§04）に進める。</td>
+          <td>
+            <ul style="margin:0; padding-left:18px;">
+              <li>第1弾は「スポーツTOP＋サッカー＋野球」の3ページで合意できるか</li>
+              <li>他種目（バスケットボール・テニス・ラグビー・アイスホッケー・モータースポーツ）は「準備中」表示で入口だけ確保でよいか</li>
+              <li>必要タスク（§03）の漏れ・優先度</li>
+            </ul>
+          </td>
         </tr>
         <tr>
           <td class="b">2</td>
-          <td class="b">具体的なACリストの作定</td>
+          <td class="b">具体的なACリスト</td>
           <td>
-            ACリストの収集元は下記Veltraサイト内検索結果ベースでよいか（ここから掲載対象のAC番号を抽出 → 各リーグ・各クラブ・各球団に紐付けてマッピング）：
-            <ul style="margin:6px 0 10px 18px; padding:0; font-size:12px;">
-              <li>サッカー：<a href="https://www.veltra.com/jp/search?kw=%E3%82%B5%E3%83%83%E3%82%AB%E3%83%BC" target="_blank" rel="noopener">veltra.com/jp/search?kw=サッカー</a></li>
-              <li>野球（MLB）：<a href="https://www.veltra.com/jp/search?kw=MLB" target="_blank" rel="noopener">veltra.com/jp/search?kw=MLB</a> ／ <a href="https://www.veltra.com/jp/search?kw=%E9%87%8E%E7%90%83" target="_blank" rel="noopener">veltra.com/jp/search?kw=野球</a></li>
+            <ul style="margin:0; padding-left:18px;">
+              <li>収集元はVeltraサイト内検索ベースでよいか<br>
+                <span style="font-size:12px;">
+                  <a href="https://www.veltra.com/jp/search?kw=%E3%82%B5%E3%83%83%E3%82%AB%E3%83%BC" target="_blank" rel="noopener">kw=サッカー</a> ／
+                  <a href="https://www.veltra.com/jp/search?kw=MLB" target="_blank" rel="noopener">kw=MLB</a> ／
+                  <a href="https://www.veltra.com/jp/search?kw=%E9%87%8E%E7%90%83" target="_blank" rel="noopener">kw=野球</a>
+                </span>
+              </li>
+              <li>サッカー：実掲載は「プレミア＋ラ・リーガ＋リーグアン」3リーグ、ブンデス・セリエAは準備中でよいか</li>
+              <li>掲載8クラブ（FCバルセロナ／レアル／アーセナル／チェルシー／PSG＋他3）の確定</li>
+              <li>MLB掲載6球団（ドジャース／ヤンキース／レッドソックス／カブス／メッツ＋他1）の確定</li>
             </ul>
-            さらに、第1弾掲載対象として：サッカーは5大リーグのうち「プレミア＋ラ・リーガ＋リーグアン」3リーグ実掲載＋ブンデス・セリエAは準備中表示でよいか、掲載8クラブ（FCバルセロナ／レアル／アーセナル／チェルシー／PSG＋他3）と、MLB掲載6球団（ドジャース／ヤンキース／レッドソックス／カブス／メッツ＋他1）の確定。
           </td>
-          <td class="muted">原稿執筆の対象（§02原稿ダミー）と、テーマページから各ACへの直リンク導線が確定する。</td>
         </tr>
         <tr>
           <td class="b">3</td>
-          <td class="b">更新方法（運用体制）</td>
-          <td>試合スケジュール・新規AC追加・原稿差し替えを「Claude Codeで自分たちで運用」する方針で進めるか。静的HTML＋CSV方式（月1更新）を初期運用とし、エンジニア依頼を待たずにPMが直接更新する体制で問題ないか。CMS化やBraze等への接続はPhase 2扱いで切り出す。</td>
-          <td class="muted">運用フロー（誰が・どのツールで・どの頻度で）が確定し、リリース後の月次更新の責任分担が明確になる。</td>
+          <td class="b">予算の出所と資産化申請</td>
+          <td>
+            <ul style="margin:0; padding-left:18px;">
+              <li>制作費（原稿・デザイン・実装）と運用費の予算枠</li>
+              <li>資産化申請の可否・スコープ・必要書類</li>
+              <li>申請主体は事業部かコーポレートか</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td class="b">4</td>
+          <td class="b">運用体制</td>
+          <td>
+            <ul style="margin:0; padding-left:18px;">
+              <li>理想は<strong>事業部側で完結する体制</strong>を構築（エンジニア依頼を介さない）</li>
+              <li>AI活用で原稿生成・HTML編集・差し替えを内製化</li>
+              <li>事業部内のオーナー／レビュー担当の役割分担</li>
+              <li>初期の手順書整備を誰がいつまでに作るか</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td class="b">5</td>
+          <td class="b">大まかなスケジュール</td>
+          <td>
+            <ul style="margin:0; padding-left:18px;">
+              <li>リリース目標時期（§04の12〜14週案でよいか）</li>
+              <li>マイルストーン（仕様確定／原稿完成／実装完了／QA）の置き方</li>
+              <li>マネジメント承認・社内告知のタイミング</li>
+            </ul>
+          </td>
         </tr>
       </tbody>
     </table>
-
-    <div class="callout info" style="margin-top:16px;">
-      <strong>次のステップ：</strong>上記3点の合意が取れた段階で、（a）AC番号の洗い出しシート作成、（b）原稿執筆の発注先確定、（c）Claude Code運用の初期セットアップ（リポジトリ構成・更新手順書）に並行着手する。
-    </div>
   </section>
 
   <!-- ============ SCOPE ============ -->
@@ -305,28 +357,47 @@
       </tbody>
     </table>
 
-    <h3>各ページのカバー範囲</h3>
-    <table class="tbl">
-      <thead><tr><th style="width:16%;">セクション</th><th>サッカーページ</th><th>野球ページ</th><th style="width:14%;">原稿量</th></tr></thead>
-      <tbody>
-        <tr><td class="b">ヒーロー</td><td>「世界のサッカー観戦」訴求コピー</td><td>「MLB現地観戦」訴求コピー</td><td class="muted">各200字</td></tr>
-        <tr><td class="b">観戦の魅力</td><td>欧州サッカー文化、現地観戦の価値</td><td>MLBの現地体験、日本人選手の活躍</td><td class="muted">各500字</td></tr>
-        <tr><td class="b">リーグ／地区</td><td>5リーグ（プレミア / リーガ / ブンデス / セリエA / リーグアン）</td><td>2リーグ（アメリカン / ナショナル） + 主要地区</td><td class="muted">2,000字 / 1,200字</td></tr>
-        <tr><td class="b">主要クラブ／球団</td><td>8チーム（バルサ・レアル・アーセナル・チェルシー・PSG等）</td><td>6球団（ドジャース・ヤンキース・レッドソックス・カブス・メッツ等）</td><td class="muted">3,200字 / 2,400字</td></tr>
-        <tr><td class="b">試合スケジュール</td><td>直近2ヶ月の主要試合（手動更新）</td><td>シーズン中の注目カード（手動更新）</td><td class="muted">表のみ</td></tr>
-        <tr><td class="b">ツアー一覧</td><td>既存ac 8〜12件のカードリンク</td><td>既存ac 6〜10件のカードリンク</td><td class="muted">既存ac利用</td></tr>
-        <tr><td class="b">観戦ガイド</td><td>チケット入手・スタジアム到着・服装・治安</td><td>球場到着・送迎・観戦マナー・球場グルメ</td><td class="muted">各1,500字</td></tr>
-        <tr><td class="b">FAQ</td><td>5問</td><td>5問</td><td class="muted">各800字</td></tr>
-      </tbody>
-    </table>
-    <p style="font-size:12px; color:var(--text-muted); margin:8px 0 0;">合計：サッカー約8,200字 + 野球約6,600字 + スポーツTOP用 約3,200字 = <strong>約18,000字</strong></p>
+    <h3>サイトマップ</h3>
+    <div class="tree-h">
+      <div class="tree-col">
+        <div class="tree-node root">スポーツTOP<small>/jp/theme/sports/</small></div>
+      </div>
+      <div class="tree-col">
+        <div class="tree-group">
+          <div class="tree-node">サッカー<small>/sports/soccer/</small></div>
+          <div class="tree-node">野球（MLB）<small>/sports/baseball/</small></div>
+          <div class="tree-node muted">他5種目<small>（準備中表示のみ）</small></div>
+        </div>
+      </div>
+      <div class="tree-col last">
+        <div class="tree-group">
+          <div class="tree-subgroup">
+            <div class="tree-subhead">サッカー配下</div>
+            <div class="tree-leaf">プレミアリーグ<small>/soccer/premier/</small></div>
+            <div class="tree-leaf">ラ・リーガ<small>/soccer/laliga/</small></div>
+            <div class="tree-leaf">リーグアン<small>/soccer/ligue1/</small></div>
+            <div class="tree-leaf muted">ブンデスリーガ <small>（準備中）</small></div>
+            <div class="tree-leaf muted">セリエA <small>（準備中）</small></div>
+          </div>
+          <div class="tree-subgroup">
+            <div class="tree-subhead">野球配下</div>
+            <div class="tree-leaf">ドジャース／ヤンキース／レッドソックス／カブス／メッツ <small>＋他1球団（準備中）</small></div>
+          </div>
+          <div class="tree-subgroup">
+            <div class="tree-subhead muted">他5種目</div>
+            <div class="tree-leaf muted">バスケットボール／テニス／ラグビー／アイスホッケー／モータースポーツ</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <h3>スコープ外（先送り）</h3>
     <ul style="font-size:13px; padding-left:20px;">
       <li>他種目（バスケットボール・テニス・ラグビー・アイスホッケー・モータースポーツ）の種目別ページ → スポーツTOPからは「準備中」表示で入口だけ用意</li>
       <li>試合スケジュールの自動更新 → 手動CSVで運用</li>
-      <li>個別チームのサブページ（クラブごとの専用ページ） → カードからは既存acへ直リンク</li>
-      <li>多言語対応（英語版） → JPのみで第1弾を出す</li>
+      <li>
+        <strong>多言語対応 — 要確認</strong>：本テーマハブ（静的ページ群）のみであれば Google翻訳 / DeepL の拡張範囲で対応可能。ただし AC詳細・予約ページはカレントサイト側のため、本Phaseでは多言語化スコープから外して JP のみで第1弾を出す方向。
+      </li>
     </ul>
   </section>
 
