@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/summary.css">
+<title>W20（5/10〜5/16）サマリー | post-GW 通常週復帰 + bot 多国分散</title>
+<style>
+/* ───── W20 post-GW recovery infographic ───── */
+.recovery-hero{padding:32px 44px 28px;background:linear-gradient(135deg,#f0fdf4 0%,#fff 70%);border-bottom:3px solid #1a8c4e}
+.recovery-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:.14em;color:#fff;background:#1a8c4e;padding:6px 14px;border-radius:4px;margin-bottom:18px;text-transform:uppercase}
+.recovery-tag::before{content:'📈';font-size:14px}
+.recovery-headline{font-size:28px;font-weight:900;line-height:1.45;margin-bottom:16px;letter-spacing:-.01em;color:#1a1a1a}
+.recovery-headline em{font-style:normal;color:#1a8c4e;background:linear-gradient(transparent 60%,#bbf7d0 60%);padding:0 2px}
+.recovery-headline em.warn{color:#c0392b;background:linear-gradient(transparent 60%,#ffe1df 60%)}
+.recovery-sub{font-size:14px;color:var(--text2);line-height:1.85;margin-bottom:20px}
+.recovery-sub strong{color:#1a1a1a}
+
+/* KPI strip */
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0 8px}
+.kpi-card{background:#fff;border:2px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left}
+.kpi-card.sess{border-color:#1b82c5}
+.kpi-card.purch{border-color:#1a8c4e}
+.kpi-card.cvr-raw{border-color:#666}
+.kpi-card.cvr-real{border-color:#1a8c4e;background:#f0fdf4}
+.kpi-label{font-size:10px;font-weight:900;letter-spacing:.1em;color:var(--text3);margin-bottom:6px;text-transform:uppercase}
+.kpi-val{font-family:'DM Sans';font-size:28px;font-weight:900;line-height:1;letter-spacing:-.02em}
+.kpi-card.sess .kpi-val{color:#1b82c5}
+.kpi-card.purch .kpi-val{color:#1a8c4e}
+.kpi-card.cvr-raw .kpi-val{color:#666}
+.kpi-card.cvr-real .kpi-val{color:#1a8c4e}
+.kpi-delta{font-size:11px;font-weight:700;color:var(--text3);margin-top:6px;line-height:1.55}
+.kpi-delta.up{color:#1a8c4e}
+.kpi-delta.down{color:#c0392b}
+
+/* Evidence cards */
+.evidence-block{padding:8px 44px 28px}
+.evidence-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.evidence-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:#fff;border-left:4px solid #1b82c5}
+.evidence-card.bot{border-left-color:#d97706;background:#fffbeb}
+.evidence-card.yoy{border-left-color:#7c3aed}
+.evidence-card.struct{border-left-color:#c0392b;background:#fff5f5}
+.ev-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ev-icon{font-size:20px;line-height:1}
+.ev-title{font-size:13px;font-weight:900;letter-spacing:.02em;line-height:1.4}
+.ev-body{font-size:12px;color:var(--text2);line-height:1.7}
+.ev-body strong{color:var(--text)}
+.ev-bar{display:flex;align-items:center;gap:8px;font-family:'DM Sans';font-size:13px;font-weight:900;margin:8px 0;color:#1a1a1a}
+.ev-bar-bg{flex:1;height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden}
+.ev-bar-fill{height:100%;background:#1b82c5;border-radius:4px}
+.evidence-card.bot .ev-bar-fill{background:#d97706}
+.evidence-card.yoy .ev-bar-fill{background:#7c3aed}
+.evidence-card.struct .ev-bar-fill{background:#c0392b}
+.ev-bar-fill.green{background:#1a8c4e}
+
+/* Bot geography breakdown */
+.bot-geo{display:flex;height:36px;border-radius:6px;overflow:hidden;border:1px solid var(--border);margin:10px 0 6px}
+.bot-geo-seg{display:flex;flex-direction:column;justify-content:center;align-items:center;color:#fff;font-size:10px;font-weight:900;padding:0 6px;text-align:center;line-height:1.2}
+.bot-geo-seg.sg{background:#d97706}
+.bot-geo-seg.vn{background:#1b82c5}
+.bot-geo-seg.cn{background:#7c3aed}
+.bot-geo-seg.in{background:#c0392b}
+
+/* Action cards */
+.action-block{padding:8px 44px 28px}
+.action-list{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+.action-item{display:flex;gap:18px;padding:18px 22px;background:#fff;border:1px solid var(--border);border-radius:12px;border-left:6px solid var(--red)}
+.action-item.short{border-left-color:#1a8c4e}
+.action-item.mid{border-left-color:#1b82c5}
+.action-item.watch{border-left-color:#d97706}
+.action-icon{font-size:30px;line-height:1;flex-shrink:0}
+.action-body{flex:1;min-width:0}
+.action-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.action-prio{font-family:'DM Sans';font-size:11px;font-weight:900;padding:3px 8px;color:#fff;border-radius:4px;letter-spacing:.05em}
+.action-item.short .action-prio{background:#1a8c4e}
+.action-item.mid .action-prio{background:#1b82c5}
+.action-item.watch .action-prio{background:#d97706}
+.action-when{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.04em}
+.action-title{font-size:16px;font-weight:800;line-height:1.45;margin-bottom:8px}
+.action-bullets{margin:0;padding:0;list-style:none}
+.action-bullets li{font-size:12.5px;color:var(--text2);line-height:1.7;padding-left:14px;position:relative;margin-bottom:4px}
+.action-bullets li::before{content:'▸';position:absolute;left:0;font-weight:900;color:var(--red)}
+.action-item.short .action-bullets li::before{color:#1a8c4e}
+.action-item.mid .action-bullets li::before{color:#1b82c5}
+.action-item.watch .action-bullets li::before{color:#d97706}
+.action-bullets li strong{color:var(--text)}
+.action-bullets li a{color:#1b82c5;font-weight:700;text-decoration:underline}
+
+/* Top3 BN list inside action mid */
+.asl-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 4px}
+.asl-card{background:#f5f4f0;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.55;color:var(--text2);text-decoration:none;display:block;transition:background .15s}
+.asl-card:hover{background:#fff}
+.asl-rank{font-family:'DM Sans';font-weight:900;font-size:11px;color:#c0392b;letter-spacing:.05em;margin-bottom:4px}
+.asl-title{font-weight:800;color:var(--text);font-size:12px;line-height:1.5;margin-bottom:4px}
+.asl-meta{font-size:10px;color:var(--text3);font-family:'DM Sans';font-weight:700}
+
+@media(max-width:768px){
+  .recovery-hero{padding:24px 22px 22px}
+  .recovery-headline{font-size:22px}
+  .kpi-strip,.evidence-grid,.asl-list{grid-template-columns:1fr}
+  .evidence-block,.action-block{padding-left:22px;padding-right:22px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- ── Header ─────────────────────────────── -->
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">週次サマリー<br><strong>W20（5/10〜5/16）post-GW 通常週</strong></div>
+    </div>
+    <div style="padding:18px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:12px;line-height:1.7;color:var(--text2)">
+      <div><span style="color:var(--text3);font-weight:700">分析対象</span><br>W20 単週（GW 明けの最初の通常週）</div>
+      <div><span style="color:var(--text3);font-weight:700">比較基準</span><br>W19（GW 後半週）+ 2025-W20（前年同期）+ KPI 目標</div>
+      <div><span style="color:var(--text3);font-weight:700">発行</span><br>2026-05-18 / bot 4ヶ国指紋分析を新規採用</div>
+      <div><span style="color:var(--text3);font-weight:700">GA4</span><br>347074845</div>
+    </div>
+  </div>
+
+  <!-- ─────────── 01 結論 ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">01</span><span class="sec-main">結論 — GW から通常週へ戻り、実質 CVR は前年水準に近づいた。ただし bot は IP プールを多国分散</span></div>
+
+    <div class="recovery-hero">
+      <div class="recovery-tag">post-GW recovery</div>
+      <div class="recovery-headline">
+        GW 後半（W19）で 1.16% まで落ちていた<em>実質 CVR が W20 で 1.37% へ +0.22pp 回復</em>。<br>
+        ユーザーは「直前の駆け込み予約」から「次の旅行を比較検討する」普通のモードへ戻った。<br>
+        <em class="warn">ただし bot は Singapore 単独から Vietnam / China / India へ多国分散</em>し、4 ヶ国合計でほぼ同量を維持。
+      </div>
+      <div class="recovery-sub">
+        W19 は GW 後半 4 連休（5/3-5/6）と平日 3 日のミックスで「広く来訪したが買わない」週だった。W20 はカレンダーが通常通り月〜金 + 週末に戻り、<strong>「次の旅行を比較検討する」</strong>本来のユーザー行動に戻っている。
+        セッションは raw -25%・実質 -28% と季節的に減ったが、購入数は -15% に留まっており、<strong>1 セッションあたりの予約意欲は明確に上がった</strong>。
+        <br>
+        一方、bot は WAF（4/17 適用）で Singapore からの流入が -36% 減ったが、攻撃者が <strong>同じ Chromium Headless 指紋のまま Vietnam・China・India の IP プールへ移籍</strong>し、4 ヶ国合計で W19 とほぼ同量（112K/週）を維持している。Country-list ブロック型 WAF の限界が出始めた。
+      </div>
+
+      <!-- KPI strip 4-cell: sessions / purchases / CVR raw / CVR real -->
+      <div class="kpi-strip">
+        <div class="kpi-card sess">
+          <div class="kpi-label">セッション（W20 7d）</div>
+          <div class="kpi-val">744,953</div>
+          <div class="kpi-delta down">W19 比 -25.0% / -247,608</div>
+        </div>
+        <div class="kpi-card purch">
+          <div class="kpi-label">予約完了（W20 7d）</div>
+          <div class="kpi-val">8,675</div>
+          <div class="kpi-delta down">W19 比 -14.7% / -1,500</div>
+        </div>
+        <div class="kpi-card cvr-raw">
+          <div class="kpi-label">raw CVR（W20 7d）</div>
+          <div class="kpi-val">1.165%</div>
+          <div class="kpi-delta up">W19 比 +0.14pp / 1.025% → 1.165%</div>
+        </div>
+        <div class="kpi-card cvr-real">
+          <div class="kpi-label">実質 CVR（bot 除外）</div>
+          <div class="kpi-val">1.371%</div>
+          <div class="kpi-delta up">W19 比 +0.22pp / 1.156% → 1.371%</div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px;padding:12px 16px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:12px;line-height:1.7">
+        <strong style="color:#1a1a1a">KPI 目標との対比（kpi.html）</strong>
+        実質 CVR 1.357%（28d）vs <strong>主目標 1.429%</strong> = <strong style="color:#c0392b">-0.07pp</strong> ／
+        vs <strong>ストレッチ 1.557%</strong>（前年 YOY 水準）= <strong style="color:#c0392b">-0.20pp</strong> ／
+        2025-W20 1.477% との単週比較 = <strong style="color:#c0392b">-0.11pp</strong>。<br>
+        <span style="color:var(--text3)">前年比は W17 -0.34pp / W18 -0.19pp / W19 -0.33pp から W20 -0.11pp へ改善。GW 期の<strong>過剰な前年比悪化が解消</strong>しつつあるが、依然として未達。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── 02 論拠 ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">論拠 — なぜ「post-GW 回復」と判断できるか</span></div>
+    <div class="sec-sub" style="padding-top:6px">3 つの観察で裏付ける：①ユーザー行動の質、②bot の地理シフト、③構造課題は不変。</div>
+
+    <div class="evidence-block">
+      <div class="evidence-grid">
+
+        <!-- Evidence 1: User behavior quality -->
+        <div class="evidence-card">
+          <div class="ev-head">
+            <span class="ev-icon">👤</span>
+            <span class="ev-title">ユーザー行動 — 「比較検討」へ戻った</span>
+          </div>
+          <div class="ev-body">
+            セッションあたり購入意欲が回復。W19 は「直前の駆け込み + 連休だけ覗いて帰る」混合だったが、W20 は「次の旅行を比較検討する」通常パターンに復帰。
+          </div>
+          <div class="ev-bar">
+            <span>②→③ 検討率</span>
+            <span class="ev-bar-bg"><span class="ev-bar-fill green" style="width:62%"></span></span>
+            <span style="color:#1a8c4e">11.3%</span>
+          </div>
+          <div class="ev-body" style="font-size:11px;color:var(--text3)">
+            W19 9.32% → W20 <strong style="color:#1a8c4e">11.28%</strong>（+1.96pp）。AC ページに来てから「カレンダーを開く」確率が大幅上昇。
+            <br>④→⑤ 完了率も W19 57.95% → W20 <strong style="color:#1a8c4e">60.08%</strong>（+2.13pp）で、フォームまで進んだ層の完走率も改善。
+          </div>
+        </div>
+
+        <!-- Evidence 2: Bot geography diversification -->
+        <div class="evidence-card bot">
+          <div class="ev-head">
+            <span class="ev-icon">🤖</span>
+            <span class="ev-title">bot — Singapore 単独から多国分散へ</span>
+          </div>
+          <div class="ev-body">
+            WAF（4/17 Singapore ブロック）後、同じ Chromium Headless 指紋（activeUsers/sessions ≈ 0.99+）で<strong>別国の IP プール</strong>から再来。W20 7d の 4ヶ国合算 bot は 112K セッションで W19 とほぼ同量。
+          </div>
+          <div class="bot-geo">
+            <div class="bot-geo-seg sg" style="flex:72">SG 72K</div>
+            <div class="bot-geo-seg vn" style="flex:12">VN 12K</div>
+            <div class="bot-geo-seg cn" style="flex:20">CN 20K</div>
+            <div class="bot-geo-seg in" style="flex:9">IN 9K</div>
+          </div>
+          <div class="ev-body" style="font-size:11px;color:var(--text3)">
+            W20 7d: SG 72,233 / VN 11,991 / CN 19,686 / IN 9,103 = <strong>合計 112,017（15.0%）</strong>。
+            ピークは 5/14（木）27,019 セッション。purchase 寄与 28d で 3 件 = 実質 0%。
+            <br>SG 単独ブロックは継続稼働するも、country-list 型 WAF の限界。<strong>behavioral / fingerprint 検出</strong>に高度化が必要。
+          </div>
+        </div>
+
+        <!-- Evidence 3: Structural BN unchanged -->
+        <div class="evidence-card struct">
+          <div class="ev-head">
+            <span class="ev-icon">🏗</span>
+            <span class="ev-title">構造課題 — BN Top3 は 5 週連続固着</span>
+          </div>
+          <div class="ev-body">
+            CVR が回復した一方で、<strong>セグメント間ギャップ構造は W16 から不変</strong>。新規 ④→⑤ -23.5pp / モバイル ①→② -22.5pp / リピーター ①→② -26.7pp。post-GW 回復は<strong>季節リズム由来</strong>であり、構造課題自体は解消していない。
+          </div>
+          <div class="ev-bar">
+            <span>新規 ④→⑤</span>
+            <span class="ev-bar-bg"><span class="ev-bar-fill" style="width:68%"></span></span>
+            <span style="color:#c0392b">49.2%</span>
+          </div>
+          <div class="ev-body" style="font-size:11px;color:var(--text3)">
+            ベースライン 72.6% から <strong>-23.5pp</strong>（W19: 49.1% から -24.3pp）。
+            month-over-month で 1pp ずつ変動するだけで、構造的な gap はそのまま。
+            <br>W19 で提案したクロスチーム議論（UIUX + マーケ + 価格 + 商品 + 競合）は<strong>引き続き必要</strong>。
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── 03 やるべきこと ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">やるべきこと — post-GW 平常運転 + bot 高度化 + 構造課題着手</span></div>
+
+    <div class="action-block">
+      <div class="action-list">
+
+        <!-- Action 1: short-term (WAF upgrade) -->
+        <div class="action-item short">
+          <div class="action-icon">🛡</div>
+          <div class="action-body">
+            <div class="action-head">
+              <span class="action-prio">短期 / W21-W22</span>
+              <span class="action-when">5/19週〜</span>
+            </div>
+            <div class="action-title">WAF を behavioral 検出へ高度化（SRE 主導）</div>
+            <ul class="action-bullets">
+              <li>country-list ブロックでは IP プール移転（SG → VN/CN/IN）に追いつかない。<strong>同じ指紋（Chromium Headless + activeUsers/sessions ≈ 0.99+）</strong>を検出する behavioral / fingerprint 型ルールへ upgrade</li>
+              <li>SRE と「クリック分布 / 滞在時間 / 再訪パターン」の signal 設計を W21 中に詰める</li>
+              <li>GA4 内部フィルタで該当 4ヶ国セッション除外する選択肢も並行検討（精度 vs 運用コストのトレードオフ）</li>
+              <li>W17 で宣言した「raw / 実質 / 前年同期」3 軸併記運用は kpi.html に正式実装する</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Action 2: medium-term (existing BN Top3) -->
+        <div class="action-item mid">
+          <div class="action-icon">🚀</div>
+          <div class="action-body">
+            <div class="action-head">
+              <span class="action-prio">中期 / W23 A/B 投入</span>
+              <span class="action-when">5/26 Sprint 着手 → W23 検証</span>
+            </div>
+            <div class="action-title">UIUX BN Top3 を Sprint に正式投入（5 週連続固着の構造課題に決着）</div>
+            <ul class="action-bullets">
+              <li>W19 緊急レポートで議論したクロスチーム施策と<strong>並走</strong>させる。UIUX 単独では +0.07pp しか吸収できないが、Sprint に乗せないと構造課題は永続する</li>
+              <li>各 BN 詳細はカードからリンク。仮説 3 種・打ち手 9 種・HTML プロトタイプ付き</li>
+            </ul>
+            <div class="asl-list">
+              <a class="asl-card" href="/bottleneck.html?week=2026-w20&num=1">
+                <div class="asl-rank">BN1 / -23.5pp / 534K</div>
+                <div class="asl-title">新規ユーザーが『長いフォーム＋最終価格の不意打ち』で決済直前に諦めている</div>
+                <div class="asl-meta">new × ④→⑤</div>
+              </a>
+              <a class="asl-card" href="/bottleneck.html?week=2026-w20&num=2">
+                <div class="asl-rank">BN2 / -22.5pp / 464K</div>
+                <div class="asl-title">モバイルで『自分に合うAC』を見つけられず、比較疲れで離脱している</div>
+                <div class="asl-meta">mobile × ①→②</div>
+              </a>
+              <a class="asl-card" href="/bottleneck.html?week=2026-w20&num=3">
+                <div class="asl-rank">BN3 / -26.7pp / 321K</div>
+                <div class="asl-title">リピーターが『前回見たAC』を思い出せず、探し疲れで離脱している</div>
+                <div class="asl-meta">returning × ①→②</div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action 3: continuous monitoring -->
+        <div class="action-item watch">
+          <div class="action-icon">📡</div>
+          <div class="action-body">
+            <div class="action-head">
+              <span class="action-prio">継続監視 / W21〜</span>
+              <span class="action-when">毎週月曜レポート</span>
+            </div>
+            <div class="action-title">post-GW 回復が本物か、季節リズムだけかを W21〜W22 で見極める</div>
+            <ul class="action-bullets">
+              <li><strong>W21（5/17-5/23）</strong>で CVR が 1.35〜1.45% 帯で安定するか確認。下振れたら GW 例外ではなく構造劣化が再加速している</li>
+              <li>bot は <strong>毎週 4ヶ国指紋でモニタリング</strong>。WAF behavioral 検出が稼働するまで多国合算量は注視</li>
+              <li>2025-W20 1.477% と比較した <strong>-0.11pp の YoY gap</strong> が W21 以降縮まるか、開くかが「post-GW 回復が本物か」の最終判定材料</li>
+              <li>W19 で提示したクロスチーム アジェンダ（マーケ / 価格 / 商品 / 競合）の進捗を毎週フォロー</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── 詳細セクション ─────────── -->
+  <div id="summary-detail" style="scroll-margin-top:24px"></div>
+
+  <!-- ─────────── 28日参照 ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">参照</span><span class="sec-main">28日 raw ベースライン（4/19〜5/16・bot 含む）</span></div>
+    <div style="padding:14px 44px;font-size:12px;line-height:1.8;color:var(--text2)">
+      セッション <strong>3,629,284</strong> / 予約完了 <strong>40,533</strong> / raw CVR <strong>1.12%</strong>。
+      ファネル: ①→② <strong>52.8%</strong> ／ ②→③ <strong>10.2%</strong> ／ ③→④ <strong>42.3%</strong> ／ ④→⑤ <strong>72.6%</strong>。
+      bot 4ヶ国合算 <strong>642,599 セッション（17.7%）</strong>、purchase 寄与 3 件。
+      実質 CVR <strong>1.357%</strong>。
+      <span style="color:var(--text3)">※ 議論主軸は bot 除外後の「実質 CVR」。raw は参照値。</span>
+    </div>
+  </div>
+
+  <!-- ── Footer ─────────────────────────────── -->
+  <div class="card">
+    <div class="footer">
+      <span>VELTRA CVR改善チーム — UIUX Design Squad（with Cross-team thread carried from W19）</span>
+      <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+      <span>2026-05-18</span>
+    </div>
+  </div>
+</div>
+
+<script src="/nav.js"></script>
+<script src="/summary-detail.js"></script>
+</body>
+</html>

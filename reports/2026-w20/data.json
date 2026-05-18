@@ -1,0 +1,610 @@
+{
+  "meta": {
+    "week_id": "2026-w20",
+    "week_label": "W20（5/10〜5/16）",
+    "date_start": "2026-05-10",
+    "date_end": "2026-05-16",
+    "rolling_start": "2026-04-19",
+    "rolling_end": "2026-05-16",
+    "ga4_property": "347074845",
+    "generated_at": "2026-05-18T04:00:00+09:00",
+    "note": "Sun-Sat format. Rolling 28d: 2026-04-19 to 2026-05-16. W20 7d raw -25% sessions / -15% purchases / CVR +0.14pp は post-GW 季節要因。bot は Singapore × Chrome × Win から China/Vietnam/India へ多国分散（4ヶ国合計 W20 28d 642,599 = 17.7%、W20 7d 112,017 = 15.0%、ピーク 5/14（木）27K）。raw → 実質補正後 W20 7d CVR 1.371%、W19 7d 1.156% から +0.22pp 改善。"
+  },
+  "baseline": {
+    "sessions": 3629284,
+    "purchases": 40533,
+    "cvr": 0.011168,
+    "funnel": {
+      "session_start_users": 2442738,
+      "ac_page_reach_users": 1288884,
+      "calendar_view": 131935,
+      "form_start": 55808,
+      "purchase": 40533
+    },
+    "conversion_rates": {
+      "1_to_2": 0.527648,
+      "2_to_3": 0.102364,
+      "3_to_4": 0.422989,
+      "4_to_5": 0.726258,
+      "wow_pp": {
+        "1_to_2": -0.020349,
+        "2_to_3": 0.011895,
+        "3_to_4": -0.000732,
+        "4_to_5": -0.008015
+      }
+    }
+  },
+  "data_quality": {
+    "status": "contaminated_bot_diversified_post_gw_recovery",
+    "incident": "bot は Singapore × Chrome × Windows から多国（Vietnam / China / India × Chrome × Windows）へ拡散。Singapore 単独ブロック型 WAF の限界が露呈",
+    "source": "GA4 country × browser × OS の活用ユーザー/セッション比 0.99+ パターンを bot 指紋として識別。purchase 寄与は 28d で 3件（実質 0%）",
+    "waf_status": "Singapore ブロック（4/17 適用）は継続稼働するも、攻撃者が IP プールを多国分散させたため bot 総量はほぼ横ばい。多国対応 WAF 高度化が必要",
+    "bot_volume_28d": {
+      "singapore": 460629,
+      "vietnam": 83487,
+      "china": 77472,
+      "india": 21011,
+      "total": 642599,
+      "share_28d": 0.1771,
+      "purchases_from_bot": 3
+    },
+    "bot_volume_7d": {
+      "total": 112017,
+      "daily": {
+        "2026-05-10": 10143,
+        "2026-05-11": 14035,
+        "2026-05-12": 14547,
+        "2026-05-13": 21625,
+        "2026-05-14": 27019,
+        "2026-05-15": 14164,
+        "2026-05-16": 10484
+      },
+      "share_7d": 0.1504,
+      "peak_day": "2026-05-14（木）27,019 セッション"
+    },
+    "w20_28d_corrected": {
+      "raw_sessions": 3629284,
+      "raw_purchases": 40533,
+      "raw_cvr": 0.011168,
+      "bot_sessions_28d": 642599,
+      "bot_share_28d": 0.1771,
+      "real_sessions": 2986685,
+      "real_purchases": 40530,
+      "real_cvr": 0.013570,
+      "yoy_2025_05_monthly_cvr": 0.014041,
+      "yoy_delta_pp": -0.000471,
+      "interpretation": "実質 CVR 1.357% は前年同月 1.404% から -0.05pp でほぼ並ぶ水準。raw との差 +0.24pp は bot 分母希釈の副産物。"
+    },
+    "w20_7d_corrected": {
+      "raw_sessions": 744953,
+      "raw_purchases": 8675,
+      "raw_cvr": 0.011645,
+      "bot_sessions_7d": 112017,
+      "bot_share_7d": 0.1504,
+      "real_sessions": 632936,
+      "real_purchases": 8675,
+      "real_cvr": 0.013707,
+      "wow_real_cvr_pp": 0.002144,
+      "interpretation": "実質 CVR W19 7d 1.156% → W20 7d 1.371% で +0.21pp 大幅改善。GW期 (W19 5/3〜5/9) で低 CVR だった反動と、post-GW 通常週復帰の二重効果。"
+    },
+    "w19_28d_retrospective": {
+      "raw_sessions": 3938505,
+      "raw_purchases": 41985,
+      "raw_cvr": 0.010660,
+      "note": "W19 当初 bot は Singapore 単独 789,876（share 20.06%）と計上。今週の多国指紋分析を当てると同期 28d で bot 推定 ≈ 815K、実質はほぼ同水準のため遡及修正不要。",
+      "real_cvr_revised_estimate": 0.013423
+    },
+    "notes": [
+      "Singapore × Chrome × Win は 4/17 WAF 適用以降ピーク -71% を維持していたが、攻撃者は同じ Chromium Headless で Vietnam / China / India の IP プールへ再来。指紋（OS=Windows / Browser=Chrome / activeUsers/sessions ≈ 0.99）は同一",
+      "5/13（水）21K → 5/14（木）27K で bot 数日ピーク。Singapore ピーク（W16 56K/日）と比較すれば -52% だが、4ヶ国合算で日次 27K まで戻りつつある",
+      "週次 raw -25% / 購入 -15% の差分 10pt は bot 分母希釈効果 + post-GW 実質トラフィック減（連休最終週から平日週への移行）。構造的悪化ではない",
+      "WAF を country-list ブロック型に頼るのは限界。Behavioral / fingerprint（Chromium Headless + 同一 activeUsers/sessions ≈ 1.0 検出）への高度化を SRE と検討すべき",
+      "経営報告は『raw / 実質 / 前年同期』の 3 軸併記運用を継続（W17 で宣言、W18・W19・W20 で実運用）"
+    ]
+  },
+  "funnel_7d": {
+    "current_week": {
+      "date_start": "2026-05-10",
+      "date_end": "2026-05-16",
+      "funnel": {
+        "session_start_users": 543660,
+        "ac_page_reach_users": 279820,
+        "calendar_view": 31572,
+        "form_start": 14440,
+        "purchase": 8675
+      },
+      "conversion_rates": {
+        "1_to_2": 0.514698,
+        "2_to_3": 0.112826,
+        "3_to_4": 0.457370,
+        "4_to_5": 0.600762
+      }
+    },
+    "prev_week": {
+      "date_start": "2026-05-03",
+      "date_end": "2026-05-09",
+      "funnel": {
+        "session_start_users": 737634,
+        "ac_page_reach_users": 383057,
+        "calendar_view": 35704,
+        "form_start": 17558,
+        "purchase": 10175
+      },
+      "conversion_rates": {
+        "1_to_2": 0.519305,
+        "2_to_3": 0.093208,
+        "3_to_4": 0.491710,
+        "4_to_5": 0.579508
+      }
+    },
+    "wow_pp": {
+      "1_to_2": -0.004607,
+      "2_to_3": 0.019618,
+      "3_to_4": -0.034340,
+      "4_to_5": 0.021254
+    }
+  },
+  "segments": {
+    "channel": {
+      "Direct": {
+        "sessions": 1100511,
+        "share": 0.303234,
+        "purchases": 7381,
+        "cvr": 0.006707,
+        "funnel": {
+          "ac_page_reach_users": 529996,
+          "calendar_view": 19583,
+          "form_start": 11814,
+          "purchase": 7381
+        },
+        "rates": {
+          "1_to_2": 0.481596,
+          "2_to_3": 0.036949,
+          "3_to_4": 0.603330,
+          "4_to_5": 0.624767,
+          "cvr": 0.006707
+        }
+      },
+      "Organic Search": {
+        "sessions": 1226986,
+        "share": 0.338078,
+        "purchases": 9744,
+        "cvr": 0.007941,
+        "funnel": {
+          "ac_page_reach_users": 396250,
+          "calendar_view": 53081,
+          "form_start": 17562,
+          "purchase": 9744
+        },
+        "rates": {
+          "1_to_2": 0.322895,
+          "2_to_3": 0.133959,
+          "3_to_4": 0.330834,
+          "4_to_5": 0.554720,
+          "cvr": 0.007941
+        }
+      },
+      "Paid Search": {
+        "sessions": 628615,
+        "share": 0.173206,
+        "purchases": 8654,
+        "cvr": 0.013768,
+        "funnel": {
+          "ac_page_reach_users": 261042,
+          "calendar_view": 41359,
+          "form_start": 14943,
+          "purchase": 8654
+        },
+        "rates": {
+          "1_to_2": 0.415263,
+          "2_to_3": 0.158437,
+          "3_to_4": 0.361305,
+          "4_to_5": 0.579134,
+          "cvr": 0.013768
+        }
+      },
+      "Unassigned": {
+        "sessions": 229997,
+        "share": 0.063373,
+        "purchases": 8014,
+        "cvr": 0.034844,
+        "funnel": {
+          "ac_page_reach_users": 67348,
+          "calendar_view": 13460,
+          "form_start": 12346,
+          "purchase": 8014
+        },
+        "rates": {
+          "1_to_2": 0.292821,
+          "2_to_3": 0.199858,
+          "3_to_4": 0.917236,
+          "4_to_5": 0.649116,
+          "cvr": 0.034844
+        }
+      },
+      "Email": {
+        "sessions": 153428,
+        "share": 0.042275,
+        "purchases": 2829,
+        "cvr": 0.018438,
+        "funnel": {
+          "ac_page_reach_users": 31186,
+          "calendar_view": 5527,
+          "form_start": 13954,
+          "purchase": 2829
+        },
+        "rates": {
+          "1_to_2": 0.203264,
+          "2_to_3": 0.177259,
+          "3_to_4": 2.524697,
+          "4_to_5": 0.202738,
+          "cvr": 0.018438
+        }
+      },
+      "Referral": {
+        "sessions": 97434,
+        "share": 0.026847,
+        "purchases": 2471,
+        "cvr": 0.025361,
+        "funnel": {
+          "ac_page_reach_users": 43353,
+          "calendar_view": 8524,
+          "form_start": 5594,
+          "purchase": 2471
+        },
+        "rates": {
+          "1_to_2": 0.444930,
+          "2_to_3": 0.196621,
+          "3_to_4": 0.656263,
+          "4_to_5": 0.441723,
+          "cvr": 0.025361
+        }
+      },
+      "Paid Other": {
+        "sessions": 96462,
+        "share": 0.026579,
+        "purchases": 937,
+        "cvr": 0.009714,
+        "funnel": {
+          "ac_page_reach_users": 46016,
+          "calendar_view": 4750,
+          "form_start": 1694,
+          "purchase": 937
+        },
+        "rates": {
+          "1_to_2": 0.477034,
+          "2_to_3": 0.103225,
+          "3_to_4": 0.356632,
+          "4_to_5": 0.553128,
+          "cvr": 0.009714
+        }
+      },
+      "Organic Social": {
+        "sessions": 30879,
+        "share": 0.008509,
+        "purchases": 106,
+        "cvr": 0.003433,
+        "funnel": {
+          "ac_page_reach_users": 6810,
+          "calendar_view": 1127,
+          "form_start": 295,
+          "purchase": 106
+        },
+        "rates": {
+          "1_to_2": 0.220538,
+          "2_to_3": 0.165492,
+          "3_to_4": 0.261757,
+          "4_to_5": 0.359322,
+          "cvr": 0.003433
+        }
+      },
+      "Paid Social": {
+        "sessions": 22871,
+        "share": 0.006302,
+        "purchases": 9,
+        "cvr": 0.000394,
+        "funnel": {
+          "ac_page_reach_users": 1718,
+          "calendar_view": 128,
+          "form_start": 39,
+          "purchase": 9
+        },
+        "rates": {
+          "1_to_2": 0.075117,
+          "2_to_3": 0.074505,
+          "3_to_4": 0.304688,
+          "4_to_5": 0.230769,
+          "cvr": 0.000394
+        }
+      },
+      "Cross-network": {
+        "sessions": 3659,
+        "share": 0.001008,
+        "purchases": 366,
+        "cvr": 0.100027,
+        "funnel": {
+          "ac_page_reach_users": 2674,
+          "calendar_view": 805,
+          "form_start": 454,
+          "purchase": 366
+        },
+        "rates": {
+          "1_to_2": 0.730801,
+          "2_to_3": 0.301047,
+          "3_to_4": 0.563975,
+          "4_to_5": 0.806167,
+          "cvr": 0.100027
+        }
+      },
+      "Affiliates": {
+        "sessions": 809,
+        "share": 0.000223,
+        "purchases": 18,
+        "cvr": 0.022250,
+        "funnel": {
+          "ac_page_reach_users": 312,
+          "calendar_view": 66,
+          "form_start": 32,
+          "purchase": 18
+        },
+        "rates": {
+          "1_to_2": 0.385661,
+          "2_to_3": 0.211538,
+          "3_to_4": 0.484848,
+          "4_to_5": 0.562500,
+          "cvr": 0.022250
+        }
+      },
+      "Organic Video": {
+        "sessions": 779,
+        "share": 0.000215,
+        "purchases": 4,
+        "cvr": 0.005135,
+        "funnel": {
+          "ac_page_reach_users": 448,
+          "calendar_view": 53,
+          "form_start": 11,
+          "purchase": 4
+        },
+        "rates": {
+          "1_to_2": 0.575097,
+          "2_to_3": 0.118304,
+          "3_to_4": 0.207547,
+          "4_to_5": 0.363636,
+          "cvr": 0.005135
+        }
+      },
+      "Organic Shopping": {
+        "sessions": 26,
+        "share": 7e-06,
+        "purchases": 0,
+        "cvr": 0.0,
+        "funnel": {
+          "ac_page_reach_users": 24,
+          "calendar_view": 2,
+          "form_start": 0,
+          "purchase": 0
+        },
+        "rates": {
+          "1_to_2": 0.923077,
+          "2_to_3": 0.083333,
+          "3_to_4": 0.0,
+          "4_to_5": 0,
+          "cvr": 0.0
+        }
+      }
+    },
+    "device": {
+      "mobile": {
+        "sessions": 2062740,
+        "share": 0.568357,
+        "purchases": 27944,
+        "cvr": 0.013547,
+        "funnel": {
+          "ac_page_reach_users": 624235,
+          "calendar_view": 100562,
+          "form_start": 44969,
+          "purchase": 27944
+        },
+        "rates": {
+          "1_to_2": 0.302621,
+          "2_to_3": 0.161094,
+          "3_to_4": 0.447175,
+          "4_to_5": 0.621339,
+          "cvr": 0.013547
+        }
+      },
+      "desktop": {
+        "sessions": 1467815,
+        "share": 0.404436,
+        "purchases": 12103,
+        "cvr": 0.008246,
+        "funnel": {
+          "ac_page_reach_users": 646083,
+          "calendar_view": 30957,
+          "form_start": 15122,
+          "purchase": 12103
+        },
+        "rates": {
+          "1_to_2": 0.440161,
+          "2_to_3": 0.047915,
+          "3_to_4": 0.488516,
+          "4_to_5": 0.800357,
+          "cvr": 0.008246
+        }
+      },
+      "tablet": {
+        "sessions": 46362,
+        "share": 0.012775,
+        "purchases": 486,
+        "cvr": 0.010483,
+        "funnel": {
+          "ac_page_reach_users": 16206,
+          "calendar_view": 2164,
+          "form_start": 801,
+          "purchase": 486
+        },
+        "rates": {
+          "1_to_2": 0.349553,
+          "2_to_3": 0.133531,
+          "3_to_4": 0.370148,
+          "4_to_5": 0.606742,
+          "cvr": 0.010483
+        }
+      }
+    },
+    "new_returning": {
+      "new": {
+        "sessions": 2278113,
+        "share": 0.627705,
+        "purchases": 9346,
+        "cvr": 0.004103,
+        "funnel": {
+          "ac_page_reach_users": 1094433,
+          "calendar_view": 63018,
+          "form_start": 19009,
+          "purchase": 9346
+        },
+        "rates": {
+          "1_to_2": 0.480418,
+          "2_to_3": 0.057580,
+          "3_to_4": 0.301644,
+          "4_to_5": 0.491662,
+          "cvr": 0.004103
+        }
+      },
+      "returning": {
+        "sessions": 1203395,
+        "share": 0.331581,
+        "purchases": 31187,
+        "cvr": 0.025916,
+        "funnel": {
+          "ac_page_reach_users": 313669,
+          "calendar_view": 78220,
+          "form_start": 44333,
+          "purchase": 31187
+        },
+        "rates": {
+          "1_to_2": 0.260657,
+          "2_to_3": 0.249371,
+          "3_to_4": 0.566709,
+          "4_to_5": 0.703431,
+          "cvr": 0.025916
+        }
+      }
+    },
+    "area": {}
+  },
+  "bottlenecks": [
+    {
+      "rank": 1,
+      "title": "新規ユーザーが『長いフォーム＋最終価格の不意打ち』で決済直前に諦めている",
+      "stage": "4→5",
+      "segment": "new",
+      "gap": -0.234596,
+      "impact_sessions": 534431,
+      "summary": "newが4→5で 49.2%（全体 72.6%）"
+    },
+    {
+      "rank": 2,
+      "title": "モバイルで『自分に合うAC』を見つけられず、比較疲れで離脱している",
+      "stage": "1→2",
+      "segment": "mobile",
+      "gap": -0.225027,
+      "impact_sessions": 464151,
+      "summary": "mobileが1→2で 30.3%（全体 52.8%）"
+    },
+    {
+      "rank": 3,
+      "title": "リピーターが『前回見たAC』を思い出せず、探し疲れで離脱している",
+      "stage": "1→2",
+      "segment": "returning",
+      "gap": -0.266991,
+      "impact_sessions": 321278,
+      "summary": "returningが1→2で 26.1%（全体 52.8%）"
+    },
+    {
+      "rank": 4,
+      "title": "新規ユーザーが詳細ページで『本当に大丈夫か』と確信を持てず他サイトへ流れている",
+      "stage": "3→4",
+      "segment": "new",
+      "gap": -0.121345,
+      "impact_sessions": 276432,
+      "summary": "newが3→4で 30.2%（全体 42.3%）"
+    },
+    {
+      "rank": 5,
+      "title": "検索流入が『エリア一覧』の前で探すのを諦め、他サイトへ逃げている",
+      "stage": "1→2",
+      "segment": "Organic Search",
+      "gap": -0.204753,
+      "impact_sessions": 251231,
+      "summary": "Organic Searchが1→2で 32.3%（全体 52.8%）"
+    },
+    {
+      "rank": 6,
+      "title": "モバイルの決済入力ストレスで『後でPCで予約しよう』と先送り離脱されている",
+      "stage": "4→5",
+      "segment": "mobile",
+      "gap": -0.104919,
+      "impact_sessions": 216422,
+      "summary": "mobileが4→5で 62.1%（全体 72.6%）"
+    },
+    {
+      "rank": 7,
+      "title": "検索流入が決済直前に『Klook・KKdayも見てから』と他社比較で流出している",
+      "stage": "4→5",
+      "segment": "Organic Search",
+      "gap": -0.171538,
+      "impact_sessions": 210476,
+      "summary": "Organic Searchが4→5で 55.5%（全体 72.6%）"
+    },
+    {
+      "rank": 8,
+      "title": "デスクトップの広い画面を活かせず、他社タブでの比較から戻ってこない",
+      "stage": "1→2",
+      "segment": "desktop",
+      "gap": -0.087487,
+      "impact_sessions": 128418,
+      "summary": "desktopが1→2で 44.0%（全体 52.8%）"
+    },
+    {
+      "rank": 9,
+      "title": "直接流入の高意向層までフォーム入力の負担で最後の一歩が踏めていない",
+      "stage": "4→5",
+      "segment": "Direct",
+      "gap": -0.101491,
+      "impact_sessions": 111691,
+      "summary": "Directが4→5で 62.5%（全体 72.6%）"
+    },
+    {
+      "rank": 10,
+      "title": "新規ユーザーが『どのプランが自分向き』か判断できず、AC到達前に離脱している",
+      "stage": "1→2",
+      "segment": "new",
+      "gap": -0.047230,
+      "impact_sessions": 107564,
+      "summary": "newが1→2で 48.0%（全体 52.8%）"
+    }
+  ],
+  "progress": {
+    "overall": {
+      "completed": 0,
+      "total": 10,
+      "percentage": 0
+    },
+    "bottlenecks": [
+      {"rank": 1, "status": "pending", "proto_done": 0, "proto_total": 9},
+      {"rank": 2, "status": "pending", "proto_done": 0, "proto_total": 9},
+      {"rank": 3, "status": "pending", "proto_done": 0, "proto_total": 9},
+      {"rank": 4, "status": "pending", "proto_done": 0, "proto_total": 9},
+      {"rank": 5, "status": "pending", "proto_done": 0, "proto_total": 9},
+      {"rank": 6, "status": "pending", "proto_done": 0, "proto_total": 9},
+      {"rank": 7, "status": "pending", "proto_done": 0, "proto_total": 9},
+      {"rank": 8, "status": "pending", "proto_done": 0, "proto_total": 9},
+      {"rank": 9, "status": "pending", "proto_done": 0, "proto_total": 9},
+      {"rank": 10, "status": "pending", "proto_done": 0, "proto_total": 9}
+    ],
+    "updated_at": "2026-05-18T04:00:00+09:00"
+  }
+}

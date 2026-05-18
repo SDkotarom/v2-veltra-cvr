@@ -1,0 +1,391 @@
+{
+  "number": 10,
+  "title": "新規ユーザーが『どのプランが自分向き』か判断できず、AC到達前に離脱している",
+  "tags": [
+    {
+      "label": "①→② 流入→AC到達",
+      "type": "red"
+    },
+    {
+      "label": "新規ユーザー",
+      "type": "default"
+    }
+  ],
+  "deviation": "-4.7%",
+  "impact_sessions": "108K / 月",
+  "description_html": "新規ユーザー（2,278,113セッション）の①→² 流入→AC到達率は <strong style=\"color:var(--red)\">48.04%</strong>で、ベースライン <strong>52.76%</strong>から <strong style=\"color:var(--red)\">-4.7pp</strong>低い。リピーター（26.07%）よりは高いが、新規はサイト構造を理解するコストが高く ACページに到達する前にエリアトップやカテゴリ一覧から離脱しているケースが多い。最大で <strong>約108Kセッション分のリフト</strong>が見込める。 <span style=\"color:var(--text3);font-size:12px;display:block;margin-top:6px\">※ 28日 raw 値。bot は W20 で多国分散（SG+VN+CN+IN × Chrome × Win、28d 643K=17.7%、purchase 寄与 3件）したが、セグメント間ギャップ構造は不変。本ボトルネックは構造課題として有効。</span>",
+  "funnel_overview": {
+    "title": "ファネル全体比較（新規ユーザー vs ベースライン）",
+    "cells": [
+      {
+        "label": "①→② 流入→AC到達",
+        "value": "50.33%",
+        "sub": "ベースライン 54.80% | -4.5pp",
+        "alert": true
+      },
+      {
+        "label": "②→³ AC到達→検討",
+        "value": "5.07%",
+        "sub": "ベースライン 9.05%"
+      },
+      {
+        "label": "③→⁴ 検討→意向",
+        "value": "29.83%",
+        "sub": "ベースライン 42.37%"
+      },
+      {
+        "label": "④→⑤ 意向→完了",
+        "value": "49.12%",
+        "sub": "ベースライン 73.43%"
+      }
+    ]
+  },
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "流入→AC到達",
+      "value": "54.8%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "新規ユーザー",
+      "stage": "流入→AC到達",
+      "value": "50.3%",
+      "sub": "-4.5pp vs 全体",
+      "alert": true
+    },
+    {
+      "label": "リピーター",
+      "stage": "流入→AC到達",
+      "value": "26.2%",
+      "sub": "-28.6pp vs 全体"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "新規ユーザーがエリアトップ着地後に AC ページへ到達できない",
+      "html_content": "新規ユーザーは『沖縄旅行』『ハワイ アクティビティ』などの広い検索意図でエリアトップに着地するが、ベルトラのサイト構造（エリア→カテゴリ→AC）を初見で理解できず、AC ページに到達する前に離脱している。最初に見るべき AC が何かが提示されていない。"
+    },
+    {
+      "title": "新規シェア 66.0% で月 260万セッション規模、影響量は最大",
+      "html_content": "新規ユーザーのセッションシェアは 66.0% で、月間影響セッションは 116K と算出。リピーターよりは ①→² 通過率が高いものの、絶対ボリュームが大きく改善 ROI が高い。"
+    }
+  ],
+  "callout": {
+    "title": "初回訪問者向けに『今シーズンの定番』『初心者向け』など主観タグで上位3件を即提示し、選択コストを引き算する",
+    "html_content": "情報追加ではなく『見せる順番の引き算』が効く。Quick Wins の effort=S 施策として優先実装。"
+  },
+  "behavior_context": {
+    "estimated_action": "新規ユーザーは情報過多なエリアトップに着地し、どのプランが自分向きか判断できないまま AC ページに到達せず離脱していると推定される。",
+    "evidence": [
+      "新規ユーザー ①→² 流入→AC到達: 50.3%（ベースライン 54.8%、-4.5pp）",
+      "リピーター ①→²: 約26%、新規はそれより高いが絶対値で AC 到達率が低く改善余地大",
+      "新規ユーザー 月間影響 116,226 セッション規模、初回探索の摩擦が大きい"
+    ],
+    "page_role_check": "エリアトップは戦略ガイド上『大づかみで候補を絞る』役割。新規ユーザーには現状『全件等価表示』で意思決定の手がかりが乏しい。",
+    "subtraction_check": "ファーストビューに『定番』『穴場』『安心初心者向け』など主観タグで上位3件をピックして残りは折りたたみ。情報追加ではなく初期露出の引き算。",
+    "pattern_references": []
+  },
+  "hypo_section_title": "新規ユーザーが ① で離脱する 3 つの推定要因",
+  "hypo_section_desc": "情報過多・選択肢過多・サイト構造理解コストの3要因が複合。",
+  "hypotheses": [
+    {
+      "title": "仮説1: エリアトップが全件等価表示で『どれを見るべきか』を提示できていない",
+      "body": "新規ユーザーは『何が定番か』『何が初心者向きか』のシグナルなしに、何百もの AC を並列で見せられて選択疲れを起こす。",
+      "evidence": [
+        "新規 ①→² 50.3% / リピーター 26.2% / 全体 54.8% — リピーターは過去文脈で選べるが新規は情報過多で詰まる"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "エリアトップに『今シーズン定番 Top3』を最上部に固定表示",
+          "description": "新規ユーザーの初見負荷を下げるため、エリアごとに『過去30日購入数 Top3』を最上部に固定表示。バッジで『定番』を視覚的に伝える。",
+          "spec_html": "エリアトップページの上部に、過去30日の購入数上位 AC を3件表示するセクションを追加。バッジ『定番』『穴場』『初心者向け』を表示。",
+          "impact": "新規 ①→² 50.3% → 53% 目標（+2.7pp）、月間 +70K セッションの AC 到達増。",
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "現状エリアトップに『定番』ピックアップ機能なし"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "既存購入データから抽出可能、フロント実装のみ",
+            "prerequisites": [
+              "過去30日の AC 別購入数集計クエリ"
+            ],
+            "quick_wins": true
+          },
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"padding:8px 12px;background:#fff;border-bottom:1px solid #E0E0E0\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span> <span style=\"color:#666;font-size:12px\">沖縄</span></div><div style=\"padding:12px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px\">沖縄のアクティビティ 1,247件</div><div style=\"display:grid;grid-template-columns:1fr 1fr;gap:8px\"><div style=\"background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:8px;font-size:11px\">AC1<br>¥5,000</div><div style=\"background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:8px;font-size:11px\">AC2<br>¥3,500</div><div style=\"background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:8px;font-size:11px\">AC3<br>¥8,000</div><div style=\"background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:8px;font-size:11px\">AC4<br>¥4,200</div></div></div><div style=\"padding:6px 12px;font-size:11px;color:#999;text-align:center\">全件等価表示、選択コスト高い</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"padding:8px 12px;background:#fff;border-bottom:1px solid #E0E0E0\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span> <span style=\"color:#666;font-size:12px\">沖縄</span></div><div style=\"padding:12px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:8px;color:#E8386E\">⭐ 今シーズン定番 Top3</div><div style=\"display:flex;flex-direction:column;gap:6px;margin-bottom:10px\"><div style=\"background:#fff;border:1px solid #2DAE6C;border-radius:6px;padding:8px;font-size:11px\"><span style=\"background:#2DAE6C;color:#fff;padding:2px 6px;border-radius:3px;font-size:10px\">定番</span> 美ら海水族館 ¥3,000</div><div style=\"background:#fff;border:1px solid #1B82C5;border-radius:6px;padding:8px;font-size:11px\"><span style=\"background:#1B82C5;color:#fff;padding:2px 6px;border-radius:3px;font-size:10px\">初心者</span> 青の洞窟シュノーケル ¥5,500</div><div style=\"background:#fff;border:1px solid #d97706;border-radius:6px;padding:8px;font-size:11px\"><span style=\"background:#d97706;color:#fff;padding:2px 6px;border-radius:3px;font-size:10px\">穴場</span> 古宇利島サイクリング ¥4,200</div></div></div><div style=\"padding:6px 12px;font-size:11px;color:var(--green);text-align:center\">上位3件で初見の選択コストを引き算</div></div>"
+          }
+        },
+        {
+          "letter": "B",
+          "title": "エリアトップに『目的別フィルタ』（家族・カップル・ひとり旅）を上部に配置",
+          "description": "新規ユーザーが意図に合致する AC を瞬時に絞り込めるよう、目的別タブを最上部に配置。",
+          "spec_html": "エリアトップのカテゴリフィルタを『家族 / カップル / ひとり旅 / 友人グループ』の人別タブに刷新。ファーストビューで3件まで絞り込み済みを表示。",
+          "impact": "新規 ①→² 50.3% → 52.5% 目標（+2.2pp）、月間 +57K セッションの AC 到達増。",
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "カテゴリフィルタ",
+            "note": "既存カテゴリフィルタを目的別に再分類する程度"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "既存タグ体系を再利用、新規データ取得不要",
+            "prerequisites": [
+              "AC ごとの目的タグ整備"
+            ],
+            "quick_wins": true
+          },
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"padding:8px 12px;background:#fff;border-bottom:1px solid #E0E0E0\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span> 沖縄</div><div style=\"padding:8px 12px;background:#fff\"><div style=\"display:flex;gap:6px;font-size:11px;color:#666;flex-wrap:wrap\"><span>マリン</span><span>陸上</span><span>食事</span><span>ナイト</span><span>送迎</span></div></div><div style=\"padding:6px 12px;font-size:11px;color:#999;text-align:center\">カテゴリ羅列だけ</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"padding:8px 12px;background:#fff;border-bottom:1px solid #E0E0E0\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span> 沖縄</div><div style=\"padding:10px 12px;background:#fff\"><div style=\"font-size:12px;font-weight:700;margin-bottom:6px\">誰と行く？</div><div style=\"display:flex;gap:6px\"><span style=\"background:#1B82C5;color:#fff;padding:6px 10px;border-radius:18px;font-size:11px\">👨‍👩‍👧 家族</span><span style=\"background:#fff;border:1px solid #1B82C5;color:#1B82C5;padding:6px 10px;border-radius:18px;font-size:11px\">💑 カップル</span><span style=\"background:#fff;border:1px solid #1B82C5;color:#1B82C5;padding:6px 10px;border-radius:18px;font-size:11px\">🧍 ひとり旅</span></div></div><div style=\"padding:6px 12px;font-size:11px;color:var(--green);text-align:center\">目的別タブで瞬時に絞り込み</div></div>"
+          }
+        },
+        {
+          "letter": "C",
+          "title": "AC カードに『新規ユーザー人気度』星バッジを追加",
+          "description": "新規ユーザーの購入数が多い AC に星バッジを付与し、初見でも『失敗しない選択』ができる視覚シグナルを提供。",
+          "spec_html": "AC カードに『新規購入率 高』『新規も安心』バッジを追加。過去90日の新規購入数で算出。",
+          "impact": "新規 ①→² 50.3% → 52% 目標（+1.7pp）、月間 +44K セッションの AC 到達増。",
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "新規購入数バッジは未実装"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "既存購入データから算出、フロント表示追加のみ",
+            "prerequisites": [
+              "新規/リピーター別購入数集計"
+            ],
+            "quick_wins": true
+          },
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"padding:8px 12px;background:#fff;border-bottom:1px solid #E0E0E0\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:12px;background:#fff\"><div style=\"display:flex;gap:8px;align-items:center\"><div style=\"width:60px;height:60px;background:#E0E0E0\"></div><div style=\"flex:1\"><div style=\"font-size:12px;font-weight:700\">青の洞窟シュノーケル</div><div style=\"font-size:11px;color:#666\">★4.7 (1,234件)</div><div style=\"font-size:13px;font-weight:700;color:#E8386E\">¥5,500</div></div></div></div><div style=\"padding:6px 12px;font-size:11px;color:#999;text-align:center\">汎用評価のみ、新規視点ない</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"padding:8px 12px;background:#fff;border-bottom:1px solid #E0E0E0\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:12px;background:#fff\"><div style=\"display:flex;gap:8px;align-items:center\"><div style=\"width:60px;height:60px;background:#E0E0E0\"></div><div style=\"flex:1\"><div style=\"font-size:12px;font-weight:700\">青の洞窟シュノーケル <span style=\"background:#1B82C5;color:#fff;padding:1px 5px;border-radius:3px;font-size:9px;margin-left:4px\">初心者◎</span></div><div style=\"font-size:11px;color:#666\">★4.7 (1,234件) ・ 新規購入率 82%</div><div style=\"font-size:13px;font-weight:700;color:#E8386E\">¥5,500</div></div></div></div><div style=\"padding:6px 12px;font-size:11px;color:var(--green);text-align:center\">新規視点のシグナルで安心感を引き上げ</div></div>"
+          }
+        }
+      ]
+    },
+    {
+      "title": "仮説2: モバイルでファーストビューに収まる AC が少なく、スクロール離脱が起きる",
+      "body": "モバイルではエリアトップのファーストビューに2件しか入らず、新規ユーザーは『他にもっとあるはず』とスクロールするうちに別タブを開いて戻ってこない。",
+      "evidence": [
+        "モバイル × 新規 ①→² はさらに低い水準（推定 35% 前後）、デバイス × セグメントの複合摩擦"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "モバイルカードの縦サイズを 20% 圧縮、ファーストビューに3件入る設計に",
+          "description": "縦余白とフォントサイズを微調整し、ファーストビュー内のカード数を 2 → 3 に増やす。",
+          "spec_html": "AC カードコンポーネントの縦サイズを 20% 圧縮（パディング・行間調整）。タイトル2行→1行表示。",
+          "impact": "新規モバイル ①→² 推定 35% → 38% 目標（+3pp）、月間 +30K セッションの AC 到達増。",
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "カード密度調整は未実装"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "CSS のみ、A/B テスト容易",
+            "prerequisites": [],
+            "quick_wins": true
+          },
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"padding:8px 12px;background:#fff;border-bottom:1px solid #E0E0E0\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:12px;background:#fff\"><div style=\"border:1px solid #E0E0E0;border-radius:6px;padding:16px;margin-bottom:12px\"><div style=\"display:flex;gap:8px\"><div style=\"width:80px;height:80px;background:#E0E0E0\"></div><div style=\"flex:1\"><div style=\"font-size:13px;font-weight:700;line-height:1.5\">青の洞窟<br>シュノーケル</div><div style=\"font-size:11px;color:#666;margin-top:6px\">★4.7</div></div></div></div><div style=\"border:1px solid #E0E0E0;border-radius:6px;padding:16px\"><div style=\"display:flex;gap:8px\"><div style=\"width:80px;height:80px;background:#E0E0E0\"></div><div style=\"flex:1\"><div style=\"font-size:13px;font-weight:700;line-height:1.5\">古宇利島<br>サイクリング</div><div style=\"font-size:11px;color:#666;margin-top:6px\">★4.5</div></div></div></div></div><div style=\"padding:6px 12px;font-size:11px;color:#999;text-align:center\">ファーストビュー 2 件のみ</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"padding:8px 12px;background:#fff;border-bottom:1px solid #E0E0E0\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:12px;background:#fff\"><div style=\"border:1px solid #E0E0E0;border-radius:6px;padding:8px;margin-bottom:6px;display:flex;gap:8px;align-items:center\"><div style=\"width:50px;height:50px;background:#E0E0E0\"></div><div style=\"flex:1\"><div style=\"font-size:12px;font-weight:700\">青の洞窟シュノーケル</div><div style=\"font-size:11px;color:#666\">★4.7 ¥5,500</div></div></div><div style=\"border:1px solid #E0E0E0;border-radius:6px;padding:8px;margin-bottom:6px;display:flex;gap:8px;align-items:center\"><div style=\"width:50px;height:50px;background:#E0E0E0\"></div><div style=\"flex:1\"><div style=\"font-size:12px;font-weight:700\">古宇利島サイクリング</div><div style=\"font-size:11px;color:#666\">★4.5 ¥4,200</div></div></div><div style=\"border:1px solid #E0E0E0;border-radius:6px;padding:8px;display:flex;gap:8px;align-items:center\"><div style=\"width:50px;height:50px;background:#E0E0E0\"></div><div style=\"flex:1\"><div style=\"font-size:12px;font-weight:700\">美ら海水族館</div><div style=\"font-size:11px;color:#666\">★4.8 ¥3,000</div></div></div></div><div style=\"padding:6px 12px;font-size:11px;color:var(--green);text-align:center\">ファーストビュー 3 件、比較が可能</div></div>"
+          }
+        },
+        {
+          "letter": "E",
+          "title": "モバイルにスクロール途中で『今見ているもの＋次のおすすめ』を表示するパネル",
+          "description": "新規ユーザーがスクロール疲労を起こす前に、関連 AC をパネル提示。",
+          "spec_html": "5枚スクロール後に『これも気になる？』パネルを差し込み、上位3件を提示。",
+          "impact": "新規モバイル ①→² 推定 35% → 37% 目標（+2pp）、月間 +20K セッションの AC 到達増。",
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "スクロール連動レコメンド未実装"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [],
+            "constraint_notes": "JS でスクロール検知・既存レコメンドAPI再利用",
+            "prerequisites": [
+              "関連 AC 推薦ロジック"
+            ],
+            "quick_wins": false
+          },
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8;padding:30px 12px;text-align:center;color:#999;font-size:13px\">5件スクロール後...<br><br>離脱率上昇</div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"padding:12px;background:#fff\"><div style=\"background:#EBF4FA;border-radius:6px;padding:10px\"><div style=\"font-size:12px;font-weight:700;margin-bottom:6px\">💡 これも気になる？</div><div style=\"display:flex;gap:6px;overflow-x:auto\"><div style=\"min-width:80px;background:#fff;padding:6px;border-radius:4px;font-size:10px\">青の洞窟<br>¥5,500</div><div style=\"min-width:80px;background:#fff;padding:6px;border-radius:4px;font-size:10px\">古宇利島<br>¥4,200</div><div style=\"min-width:80px;background:#fff;padding:6px;border-radius:4px;font-size:10px\">美ら海<br>¥3,000</div></div></div></div><div style=\"padding:6px 12px;font-size:11px;color:var(--green);text-align:center\">疲労前にレコメンドで関心を維持</div></div>"
+          }
+        },
+        {
+          "letter": "F",
+          "title": "モバイルでカード横スワイプ比較を導入",
+          "description": "縦スクロール疲労を回避し、横スワイプで気になる AC を比較できる UI。",
+          "spec_html": "上部に『おすすめ Top10』を横スワイプカルーセルで表示、縦リストとの併存。",
+          "impact": "新規モバイル ①→² 推定 35% → 36.5% 目標（+1.5pp）、月間 +15K セッションの AC 到達増。",
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "横カルーセル未実装"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "既存スライダーコンポーネント流用可",
+            "prerequisites": [],
+            "quick_wins": true
+          },
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8;padding:20px 12px;text-align:center;font-size:13px;color:#999\">縦スクロール一本のみ</div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"padding:12px;background:#fff\"><div style=\"font-size:12px;font-weight:700;margin-bottom:6px\">⭐ おすすめ Top10</div><div style=\"display:flex;gap:6px;overflow-x:auto;padding-bottom:6px\"><div style=\"min-width:110px;background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:6px;font-size:10px\"><div style=\"height:60px;background:#E0E0E0;border-radius:4px\"></div>青の洞窟<br>¥5,500</div><div style=\"min-width:110px;background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:6px;font-size:10px\"><div style=\"height:60px;background:#E0E0E0;border-radius:4px\"></div>古宇利島<br>¥4,200</div><div style=\"min-width:110px;background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:6px;font-size:10px\"><div style=\"height:60px;background:#E0E0E0;border-radius:4px\"></div>美ら海<br>¥3,000</div></div></div><div style=\"padding:6px 12px;font-size:11px;color:var(--green);text-align:center\">横スワイプで比較疲れを軽減</div></div>"
+          }
+        }
+      ]
+    },
+    {
+      "title": "仮説3: 新規ユーザーは『どのエリアが自分向き』かわからず、エリアトップ前で迷子になっている",
+      "body": "『海外旅行 アクティビティ』のような広い検索意図で着地した新規ユーザーは、いきなり個別エリアトップを見せられても判断できず、ヘッダーのエリア選択メニューで右往左往している。",
+      "evidence": [
+        "新規ユーザーは『ベルトラ→エリア→AC』のサイト構造を初見で理解する必要があり、リピーターより1ステップ多い"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "トップページに『シーズン別おすすめエリア』カードを設置",
+          "description": "新規ユーザーが『今行くならどこが定番か』を提示することで、エリア選択コストを削減。",
+          "spec_html": "トップページに『今シーズン人気エリア Top3』カードを追加。月別の購入数で動的に切替。",
+          "impact": "新規 ①→² 50.3% → 52% 目標（+1.7pp）、月間 +44K セッションの AC 到達増。",
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "シーズン別エリアおすすめは未実装"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "既存購入データから集計、トップに表示追加",
+            "prerequisites": [
+              "月別エリア購入数集計"
+            ],
+            "quick_wins": true
+          },
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8;padding:20px 12px;text-align:center;font-size:13px;color:#999\">トップ：エリア羅列のみ</div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"padding:12px;background:#fff\"><div style=\"font-size:12px;font-weight:700;margin-bottom:8px\">🌸 今シーズン人気エリア</div><div style=\"display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px\"><div style=\"background:#fff;border:1px solid #1B82C5;border-radius:6px;padding:8px;font-size:10px;text-align:center\"><div style=\"height:40px;background:#E0E0E0;border-radius:4px;margin-bottom:4px\"></div>沖縄<br>★定番</div><div style=\"background:#fff;border:1px solid #1B82C5;border-radius:6px;padding:8px;font-size:10px;text-align:center\"><div style=\"height:40px;background:#E0E0E0;border-radius:4px;margin-bottom:4px\"></div>ハワイ<br>★定番</div><div style=\"background:#fff;border:1px solid #1B82C5;border-radius:6px;padding:8px;font-size:10px;text-align:center\"><div style=\"height:40px;background:#E0E0E0;border-radius:4px;margin-bottom:4px\"></div>バリ<br>★穴場</div></div></div><div style=\"padding:6px 12px;font-size:11px;color:var(--green);text-align:center\">エリア選択コストを引き算</div></div>"
+          }
+        },
+        {
+          "letter": "H",
+          "title": "エリアトップ着地時に『初訪問の方向け』ガイドをポップアップ",
+          "description": "新規ユーザーに 3 ステップ（誰と→何系→予算）の簡易ガイドを提示。",
+          "spec_html": "初回訪問 Cookie 検出時のみ、エリアトップ着地後 5 秒後にライトなガイドモーダルを表示。",
+          "impact": "新規 ①→² 50.3% → 51.5% 目標（+1.2pp）、月間 +31K セッションの AC 到達増。",
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": "",
+            "note": "初訪問者向けオンボーディング未実装"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [],
+            "constraint_notes": "Cookie 検出ロジック + モーダルUI",
+            "prerequisites": [
+              "初回訪問判定ロジック"
+            ],
+            "quick_wins": false
+          },
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8;padding:20px 12px;text-align:center;font-size:13px;color:#999\">初回訪問者でも何もガイドなし</div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"padding:12px;background:#fff\"><div style=\"background:#fff;border:2px solid #1B82C5;border-radius:8px;padding:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1)\"><div style=\"font-size:13px;font-weight:700;color:#1B82C5;margin-bottom:8px\">👋 はじめての方へ</div><div style=\"font-size:11px;color:#333;margin-bottom:8px\">3 ステップで合うアクティビティを見つけよう</div><div style=\"display:flex;gap:4px\"><div style=\"flex:1;background:#EBF4FA;padding:6px;border-radius:4px;font-size:10px;text-align:center\">① 誰と</div><div style=\"flex:1;background:#EBF4FA;padding:6px;border-radius:4px;font-size:10px;text-align:center\">② 何系</div><div style=\"flex:1;background:#EBF4FA;padding:6px;border-radius:4px;font-size:10px;text-align:center\">③ 予算</div></div></div></div><div style=\"padding:6px 12px;font-size:11px;color:var(--green);text-align:center\">初回訪問のみ表示、リピーターには出ない</div></div>"
+          }
+        },
+        {
+          "letter": "I",
+          "title": "ヘッダーのエリア選択 UI をシンプル化（メニュー深さを1段削減）",
+          "description": "現状のエリアメニューは『海外 → アジア → タイ → バンコク』と4階層。これを『海外/国内 + 主要エリア一覧』の2階層に圧縮。",
+          "spec_html": "グローバルヘッダーのエリアメニューを再設計。主要 20 エリアをトップに平置きし、それ以外のサブ地域は『すべて見る』で折りたたみ。",
+          "impact": "新規 ①→² 50.3% → 51% 目標（+0.7pp）、月間 +18K セッションの AC 到達増。",
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "エリア選択メニュー",
+            "note": "既存メニューの階層を浅くする再設計"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [],
+            "constraint_notes": "ヘッダー全体再設計、デザイナー＋エンジニア連携必要",
+            "prerequisites": [
+              "新エリアメニュー UI ワイヤー"
+            ],
+            "quick_wins": false
+          },
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"padding:8px 12px;background:#fff;border-bottom:1px solid #E0E0E0\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:12px;background:#fff;font-size:11px;color:#666\">エリア › 海外 › アジア › タイ › バンコク<br>↑ 4 階層で深い</div><div style=\"padding:6px 12px;font-size:11px;color:#999;text-align:center\">深い階層で迷子</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"padding:8px 12px;background:#fff;border-bottom:1px solid #E0E0E0\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:12px;background:#fff\"><div style=\"font-size:11px;font-weight:700;margin-bottom:6px\">🌐 主要エリア</div><div style=\"display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;font-size:10px\"><div style=\"background:#EBF4FA;padding:6px;border-radius:4px;text-align:center\">沖縄</div><div style=\"background:#EBF4FA;padding:6px;border-radius:4px;text-align:center\">ハワイ</div><div style=\"background:#EBF4FA;padding:6px;border-radius:4px;text-align:center\">バリ</div><div style=\"background:#EBF4FA;padding:6px;border-radius:4px;text-align:center\">グアム</div><div style=\"background:#EBF4FA;padding:6px;border-radius:4px;text-align:center\">台湾</div><div style=\"background:#EBF4FA;padding:6px;border-radius:4px;text-align:center\">タイ</div><div style=\"background:#EBF4FA;padding:6px;border-radius:4px;text-align:center\">香港</div><div style=\"background:#EBF4FA;padding:6px;border-radius:4px;text-align:center\">…</div></div></div><div style=\"padding:6px 12px;font-size:11px;color:var(--green);text-align:center\">2 階層で即選択</div></div>"
+          }
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_32,h_32/v1643959325/blog/klook-favicon.png",
+      "url": "https://www.klook.com/",
+      "feature": "カレンダー日付選択直後にスティッキーCTAバー表示",
+      "detail": "モバイルで日付タップ後、画面下部に『次へ』CTAが固定表示され、カレンダー閲覧→次フローへの摩擦が小さい"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicon/favicon-32x32.png",
+      "url": "https://www.getyourguide.com/",
+      "feature": "予約フローのプログレスバー＋所要時間表示",
+      "detail": "『あと2分で予約完了』のような所要時間目安があり、心理的コミットがしやすい"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://www.viator.com/favicon.ico",
+      "url": "https://www.viator.com/",
+      "feature": "AC詳細ページで『Save for later』ボタンを目立つ位置に配置",
+      "detail": "決断保留ユーザーをサイト内に留める導線が明確、後日メールリマインドで戻り訪問を作る"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.ico",
+      "url": "https://www.kkday.com/",
+      "feature": "カレンダー上に『同エリア人気TOP5』レコメンドカルーセル",
+      "detail": "比較行動を別タブに逃さず、サイト内で代替検討ができる"
+    },
+    {
+      "name": "アクティビティジャパン",
+      "favicon_url": "https://activityjapan.com/favicon.ico",
+      "url": "https://activityjapan.com/",
+      "feature": "予約フォーム手前に『この日程で予約できます』の確認画面を1段挟む",
+      "detail": "コミット段階を一段階増やすことで決断保留型を絞り込み、フォーム到達者の質を上げる"
+    },
+    {
+      "name": "じゃらん",
+      "favicon_url": "https://www.jalan.net/favicon.ico",
+      "url": "https://www.jalan.net/",
+      "feature": "プラン選択後に『あと2ステップで予約完了』バッジ表示",
+      "detail": "ゴールが見えるUIで心理的負担を軽減、フォーム遷移の離脱率を下げる仕掛け"
+    }
+  ],
+  "competitive_insight": "Klook / KKday は『今月のおすすめ』『地元民厳選』など主観タグでファーストビューを絞り込み済み。情報過多の引き算が新規ユーザー向けエリアトップの定石。",
+  "verification": {
+    "title": "①→² 流入→AC到達 通過率 +2pp を 28d ローリングで検証",
+    "html_content": "新規ユーザー × エリアトップの ①→² を 28d ローリングで監視。施策投入後 4 週で +2pp の改善が見られれば成功。同時にエリアトップ → AC 詳細の遷移時間中央値、ファーストビューカード数、目的別タブクリック率も補助指標として測る。"
+  },
+  "verification_method": "新規 × エリアトップ ①→² 28d ローリング + 補助指標（ファーストビューカード密度・目的タブ クリック率・カード横スワイプ率）"
+}
