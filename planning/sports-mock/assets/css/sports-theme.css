@@ -487,6 +487,25 @@ button { font: inherit; cursor: pointer; border: 0; background: none; padding: 0
 .genre-card .genre-status.is-soon {
   background: var(--surface); color: var(--ink-3);
 }
+.genre-card .genre-status.is-scheduled {
+  background: var(--paper-warm); color: var(--ink-2);
+  border: 1px solid var(--line-strong);
+  font-weight: 600;
+}
+
+/* Featured genre (currently-live primary): MLB main spotlight */
+.genre-card.is-feature {
+  border-color: var(--ink-2);
+  border-width: 1.5px;
+  box-shadow: 0 2px 0 var(--paper-warm), 0 8px 18px -10px rgb(0 0 0 / 0.12);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--paper-warm) 100%);
+}
+.genre-card.is-feature .genre-title {
+  font-size: var(--fs-18);
+}
+.genre-card.is-feature .genre-status {
+  background: var(--veltra); color: #fff;
+}
 .genre-title {
   font-size: var(--fs-16);
   font-weight: 800;
@@ -561,9 +580,14 @@ button { font: inherit; cursor: pointer; border: 0; background: none; padding: 0
   z-index: 2;
 }
 
-/* Thumb area: branded color block with the club code + venue text */
+/* Thumb area: branded color block with the club code + venue text.
+   Subtle two-tone gradient using team color (--thumb), with optional
+   second stop --thumb-2. Falls back to single color when --thumb-2 unset. */
 .ac-thumb {
-  background: var(--thumb, var(--ink));
+  background:
+    linear-gradient(155deg,
+      var(--thumb, var(--ink)) 0%,
+      var(--thumb-2, var(--thumb, var(--ink))) 100%);
   color: #fff;
   padding: 18px 16px;
   display: flex; flex-direction: column; justify-content: space-between;
@@ -572,19 +596,24 @@ button { font: inherit; cursor: pointer; border: 0; background: none; padding: 0
   overflow: hidden;
 }
 .ac-thumb::before {
-  /* very subtle diagonal stripe for texture */
+  /* darker overlay on bottom for venue legibility */
   content: ""; position: absolute; inset: 0;
-  background-image: repeating-linear-gradient(135deg,
-    transparent 0 14px,
-    rgb(255 255 255 / 0.05) 14px 15px);
+  background:
+    repeating-linear-gradient(135deg,
+      transparent 0 14px,
+      rgb(255 255 255 / 0.05) 14px 15px),
+    linear-gradient(180deg,
+      transparent 50%,
+      rgb(0 0 0 / 0.18) 100%);
   pointer-events: none;
 }
 .ac-thumb .ac-code {
   font-weight: 800;
-  font-size: 26px;
-  letter-spacing: 0.04em;
+  font-size: 30px;
+  letter-spacing: 0.05em;
   line-height: 1;
   position: relative;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
 }
 .ac-thumb .ac-venue {
   font-size: 11px;
@@ -807,8 +836,10 @@ button { font: inherit; cursor: pointer; border: 0; background: none; padding: 0
   display: grid; place-items: center;
   background: var(--club, var(--ink));
   color: #fff;
-  font-weight: 800; font-size: 13px;
+  font-weight: 800; font-size: 14px;
   letter-spacing: 0.04em;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.15),
+              0 1px 2px rgb(0 0 0 / 0.08);
 }
 .club-info .nm {
   font-size: var(--fs-14);
@@ -1648,3 +1679,61 @@ a.league-card:hover .link-arrow::after { transform: translateX(3px); }
   color: #fff;
 }
 .club-block-desc .club-detail-link:hover::after { transform: translateX(3px); }
+
+/* ===========================================================
+   17. Status banner (soccer hub: 7月以降フル公開予定 etc.)
+   =========================================================== */
+.status-banner {
+  background: var(--paper-warm);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.status-banner-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 14px var(--gutter);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+.status-banner-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  background: var(--ink);
+  color: #fff;
+  padding: 5px 9px;
+  border-radius: var(--r-2);
+  white-space: nowrap;
+}
+.status-banner-msg {
+  font-size: var(--fs-13);
+  color: var(--ink-2);
+  margin: 0;
+  line-height: 1.6;
+}
+.status-banner-msg strong { color: var(--ink); font-weight: 700; }
+.status-banner-link {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--veltra);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 6px 12px;
+  border: 1px solid var(--veltra);
+  border-radius: var(--r-4);
+  transition: background .12s, color .12s;
+}
+.status-banner-link:hover {
+  background: var(--veltra);
+  color: #fff;
+}
+@media (max-width: 720px) {
+  .status-banner-inner {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .status-banner-link { justify-self: flex-start; }
+}
