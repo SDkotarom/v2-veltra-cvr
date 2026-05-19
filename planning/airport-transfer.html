@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wip_空港送迎サービス — 現状・論点・戦略ロードマップ v0.3.1</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-sub: #f5f4ef;
+    --bg-accent: #eaf3de;
+    --bg-warn: #faeeda;
+    --bg-info: #e6f1fb;
+    --bg-danger: #fcebeb;
+    --bg-violet: #efeaf7;
+    --text: #1a1a1a;
+    --text-sub: #555550;
+    --text-muted: #8a8a85;
+    --border: #e3e1d8;
+    --accent: #2c5530;
+    --accent-soft: #3b6d11;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+    --font-mono: "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg-sub); color: var(--text); font-family: var(--font-sans); font-size: 14px; line-height: 1.7; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 24px 96px; }
+
+  header.head { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 24px; position: relative; overflow: hidden; }
+  header.head::before { content: ''; position: absolute; top: 0; right: 0; width: 280px; height: 280px; background: radial-gradient(circle at top right, rgba(28, 93, 143, 0.08), transparent 70%); pointer-events: none; }
+  header.head .meta { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; flex-wrap: wrap; position: relative; }
+  header.head .meta .pill { font-size: 12px; padding: 4px 12px; border-radius: 999px; background: var(--bg-accent); color: var(--accent-soft); font-weight: 500; }
+  header.head .meta .pill.deep { background: var(--bg-info); color: #0c447c; }
+  header.head .meta .pill.wip { background: var(--bg-warn); color: #6d3f08; }
+  header.head .meta .ver { font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); }
+  header.head h1 { font-size: 26px; font-weight: 600; margin: 0 0 10px; letter-spacing: -0.015em; line-height: 1.35; position: relative; }
+  header.head h1 .sub { display: block; font-size: 15px; color: var(--text-sub); font-weight: 400; margin-top: 6px; }
+  header.head p.lead { font-size: 14px; color: var(--text-sub); margin: 0; max-width: 820px; position: relative; }
+
+  nav.toc { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 20px; margin-bottom: 24px; display: flex; flex-wrap: wrap; gap: 4px; font-size: 13px; }
+  nav.toc a { color: var(--text-sub); text-decoration: none; padding: 4px 10px; border-radius: 4px; }
+  nav.toc a:hover { background: var(--bg-sub); color: var(--text); }
+  nav.toc .sep { color: var(--text-muted); margin: 0 4px; }
+
+  .exec { background: var(--bg); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 26px 30px; margin-bottom: 24px; }
+  .exec h2 { font-size: 13px; font-weight: 500; color: var(--accent); margin: 0 0 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .exec .verdict { font-size: 17px; line-height: 1.7; font-weight: 500; margin: 0 0 20px; }
+  .exec .verdict strong { background: linear-gradient(transparent 60%, #c9e0a8 60%); padding: 0 2px; }
+  .exec-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .exec-card { background: var(--bg-sub); border-radius: 8px; padding: 14px 16px; }
+  .exec-card .label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .exec-card .value { font-size: 18px; font-weight: 600; line-height: 1.3; }
+  .exec-card .sub { font-size: 12px; color: var(--text-sub); margin-top: 4px; font-weight: 400; }
+  .exec-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .exec-cols h3 { font-size: 13px; font-weight: 500; color: var(--text-muted); margin: 0 0 10px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .exec-cols ul { margin: 0; padding-left: 18px; }
+  .exec-cols li { margin-bottom: 8px; font-size: 14px; line-height: 1.65; }
+  .exec-cols li strong { font-weight: 600; }
+
+  section.sec { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 30px 32px; margin-bottom: 20px; }
+  section.sec > h2 { font-size: 20px; font-weight: 600; margin: 0 0 6px; display: flex; align-items: center; gap: 12px; }
+  section.sec > h2 .num { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); background: var(--bg-sub); padding: 4px 9px; border-radius: 4px; font-weight: 400; }
+  section.sec .sec-lead { font-size: 13px; color: var(--text-sub); margin: 0 0 22px; max-width: 900px; }
+  section.sec h3 { font-size: 15px; font-weight: 600; margin: 26px 0 12px; }
+  section.sec h3:first-of-type { margin-top: 0; }
+
+  .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .cards-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cards-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .card-sub { background: var(--bg-sub); border-radius: 8px; padding: 16px 18px; }
+  .card-sub .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--bg); color: var(--text-sub); margin-bottom: 8px; }
+  .card-sub .ttl { font-size: 14px; font-weight: 600; margin: 0 0 6px; line-height: 1.4; }
+  .card-sub .desc { font-size: 13px; color: var(--text-sub); margin: 0; line-height: 1.7; }
+
+  table.tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.tbl thead th { text-align: left; padding: 11px 12px; background: var(--bg-sub); font-weight: 500; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--text-sub); }
+  table.tbl tbody td { padding: 12px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.65; }
+  table.tbl tbody tr:last-child td { border-bottom: none; }
+  table.tbl .b { font-weight: 500; }
+
+  .pill-pri { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; white-space: nowrap; }
+  .pill-pri.p1 { background: var(--bg-danger); color: #791f1f; }
+  .pill-pri.p2 { background: var(--bg-warn); color: #854f0b; }
+  .pill-pri.p3 { background: var(--bg-sub); color: var(--text-sub); }
+  .pill-pri.go { background: var(--bg-accent); color: #27500a; }
+
+  .callout { border-radius: 8px; padding: 14px 18px; font-size: 13px; line-height: 1.7; margin: 16px 0 0; }
+  .callout.info { background: var(--bg-info); color: #0c447c; }
+  .callout.warn { background: var(--bg-warn); color: #6d3f08; }
+  .callout.accent { background: var(--bg-accent); color: #27500a; }
+  .callout.danger { background: var(--bg-danger); color: #791f1f; }
+  .callout strong { font-weight: 600; }
+
+  .viz { background: var(--bg-sub); border-radius: 8px; padding: 24px; margin: 14px 0; }
+  .viz.dark { background: linear-gradient(135deg, #1a2a35 0%, #14202b 100%); padding: 28px; }
+  .viz svg { width: 100%; height: auto; display: block; }
+  .viz .vz-caption { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.6; }
+  .viz.dark .vz-caption { color: #8fa3b3; }
+  .viz.dark .vz-caption strong { color: #fff; }
+
+  .axis { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .axis-item { background: var(--bg-sub); border-radius: 8px; padding: 14px 16px; font-size: 13px; line-height: 1.6; }
+  .axis-item .lbl { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+  .axis-item .val { font-weight: 600; margin-bottom: 6px; font-size: 14px; }
+  .axis-item.hit { background: var(--bg-accent); }
+  .axis-item.hit .val { color: var(--accent-soft); }
+  .axis-item.miss { opacity: 0.55; }
+
+  /* Option card */
+  .opt { border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; margin-bottom: 12px; }
+  .opt.a { border-left: 4px solid #185fa5; background: var(--bg-info); }
+  .opt.b { border-left: 4px solid var(--accent); background: var(--bg-accent); }
+  .opt.c { border-left: 4px solid #6e3da5; background: var(--bg-violet); }
+  .opt.d { border-left: 4px solid #8a8a85; background: var(--bg-sub); }
+  .opt h4 { font-size: 16px; font-weight: 600; margin: 0 0 4px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .opt h4 .opt-tag { font-family: var(--font-mono); font-size: 11px; background: rgba(255,255,255,0.65); color: var(--text-sub); padding: 2px 8px; border-radius: 4px; font-weight: 400; }
+  .opt h4 .rec-badge { font-size: 11px; padding: 2px 8px; background: var(--accent); color: #fff; border-radius: 4px; font-weight: 500; margin-left: auto; }
+  .opt .opt-tag-line { font-size: 12px; color: var(--text-sub); margin: 0 0 12px; font-style: italic; }
+  .opt-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
+  .opt-grid .cell { background: rgba(255,255,255,0.55); border-radius: 6px; padding: 8px 10px; font-size: 12px; }
+  .opt-grid .cell .lbl { font-size: 10px; color: var(--text-muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .opt-grid .cell .val { font-weight: 600; line-height: 1.3; }
+  .opt .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; font-size: 13px; }
+  .opt .pros-cons ul { margin: 0; padding-left: 18px; }
+  .opt .pros-cons li { margin-bottom: 4px; line-height: 1.55; }
+  .opt .pros-cons .label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+
+  .status-badge { display: inline-flex; gap: 5px; font-size: 12px; padding: 3px 10px; border-radius: 4px; font-weight: 500; }
+  .status-badge.open { background: var(--bg-warn); color: #854f0b; }
+  .status-badge.blocked { background: var(--bg-danger); color: #791f1f; }
+  .status-badge.ready { background: var(--bg-accent); color: #27500a; }
+  .status-badge.parallel { background: var(--bg-sub); color: var(--text-sub); }
+
+  .decision { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 12px; }
+  .decision .dec-q { background: var(--bg-sub); padding: 12px 16px; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 10px; }
+  .decision .dec-q .num { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); background: var(--bg); padding: 2px 7px; border-radius: 4px; font-weight: 400; }
+  .decision .dec-body { padding: 14px 18px; font-size: 13px; line-height: 1.7; }
+  .decision .dec-rec { background: var(--bg); padding: 10px 14px; border-radius: 6px; font-size: 12.5px; border: 1px dashed var(--border); margin-top: 8px; }
+  .decision .dec-rec strong { color: var(--accent-soft); }
+
+  .risk-card { display: grid; grid-template-columns: 80px 1fr 200px; gap: 14px; padding: 14px 16px; background: var(--bg-sub); border-radius: 8px; margin-bottom: 8px; align-items: center; font-size: 13px; }
+  .risk-card .level { text-align: center; font-weight: 600; padding: 6px 0; border-radius: 4px; font-size: 12px; }
+  .risk-card .level.h { background: var(--bg-danger); color: #791f1f; }
+  .risk-card .level.m { background: var(--bg-warn); color: #854f0b; }
+  .risk-card .level.l { background: var(--bg-info); color: #0c447c; }
+  .risk-card .desc strong { font-weight: 600; }
+  .risk-card .desc .sub { font-size: 12px; color: var(--text-sub); margin-top: 3px; line-height: 1.55; }
+  .risk-card .mit { font-size: 12px; color: var(--text-sub); line-height: 1.55; }
+
+  .cost-row { display: grid; grid-template-columns: 1fr 90px 220px; gap: 14px; padding: 12px 14px; background: var(--bg-sub); border-radius: 6px; margin-bottom: 6px; font-size: 13px; align-items: center; }
+  .cost-row .cost-item { font-weight: 500; }
+  .cost-row .cost-item .sub { font-size: 12px; font-weight: 400; color: var(--text-sub); margin-top: 2px; line-height: 1.5; }
+  .cost-row .cost-hours { font-family: var(--font-mono); font-size: 13px; font-weight: 600; text-align: right; }
+  .cost-row .cost-note { font-size: 12px; color: var(--text-sub); }
+  .cost-total { display: grid; grid-template-columns: 1fr 90px 220px; gap: 14px; padding: 14px; background: var(--bg-accent); border-radius: 6px; margin-top: 8px; font-size: 14px; align-items: center; }
+  .cost-total .cost-item { font-weight: 700; color: var(--accent-soft); }
+  .cost-total .cost-hours { font-family: var(--font-mono); font-weight: 700; text-align: right; color: var(--accent-soft); }
+  .cost-total .cost-note { font-size: 12px; color: var(--accent-soft); }
+
+  .foot { margin-top: 28px; padding: 18px 22px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; color: var(--text-sub); line-height: 1.75; }
+  .foot strong { color: var(--text); }
+
+  @media (max-width: 820px) {
+    .wrap { padding: 20px 14px 64px; }
+    header.head, section.sec, .exec { padding: 22px 18px; }
+    header.head h1 { font-size: 22px; }
+    .exec-grid { grid-template-columns: repeat(2, 1fr); }
+    .exec-cols { grid-template-columns: 1fr; gap: 14px; }
+    .cards-3, .cards-2, .cards-4, .axis { grid-template-columns: 1fr; }
+    .opt-grid { grid-template-columns: 1fr 1fr; }
+    .opt .pros-cons { grid-template-columns: 1fr; }
+    .decision { }
+    .risk-card { grid-template-columns: 1fr; gap: 8px; }
+    .cost-row, .cost-total { grid-template-columns: 1fr; gap: 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="head">
+  <div class="meta">
+    <span class="pill">戦略分析</span>
+    <span class="pill deep">深掘り版</span>
+    <span class="pill wip">WIP</span>
+    <span class="ver">v0.3.1 · 2026-05-18 · 出典明示</span>
+  </div>
+  <h1>
+    wip_空港送迎サービス — 現状・論点・戦略ロードマップ
+    <span class="sub">26年12月の新基盤載せ替えという制約下で、何に投資すべきか</span>
+  </h1>
+  <p class="lead">v0.3で2つの大前提を明示化：①カレントサイトは <strong>26年12月までに新基盤に載せ替え</strong> 予定（残り7ヶ月）。②「カレントに静的ページを作る」が本当に無コストかを再検証。「新基盤への要件埋め込み」「外部サービス試作」を含めた4つの選択肢で短期/中長期視座を整理する。</p>
+</header>
+
+<nav class="toc">
+  <a href="#exec">サマリー</a><span class="sep">·</span>
+  <a href="#premise">前提：12月載せ替え</a><span class="sep">·</span>
+  <a href="#why">なぜ重要か</a><span class="sep">·</span>
+  <a href="#vision">事業部リードの構想イメージ</a><span class="sep">·</span>
+  <a href="#competitive">競合ポジション</a><span class="sep">·</span>
+  <a href="#tech">空港送迎の技術構造</a><span class="sep">·</span>
+  <a href="#cost">「無コスト」の再検証</a><span class="sep">·</span>
+  <a href="#options">4つの選択肢</a><span class="sep">·</span>
+  <a href="#horizon">短期 vs 中長期</a><span class="sep">·</span>
+  <a href="#roadmap">推奨ロードマップ</a><span class="sep">·</span>
+  <a href="#decisions">判断事項</a><span class="sep">·</span>
+  <a href="#risks">リスク</a><span class="sep">·</span>
+  <a href="#actions">アクション</a>
+</nav>
+
+<!-- ============ EXECUTIVE SUMMARY ============ -->
+<div class="exec" id="exec">
+  <h2>Executive Summary（v0.3 改訂）</h2>
+  <p class="verdict">
+    カレントが <strong>26年12月で新基盤に載せ替わる</strong> 以上、カレントへの大きな投資は7ヶ月で寿命を迎える。前回の「無コスト」表現は誤りで、実態は <strong>100時間規模の隠れコスト＋移行コスト</strong>。推奨は<strong>カレントへの新規開発を最小限（バグ修正のみ）に絞り、本命の投資先を「新基盤への要件埋め込み」と「外部サービスでの早期試作」に振り分ける</strong>こと。学習価値が高くカレント制約を受けない外部試作と、最終ゴールに直結する新基盤への要件埋め込みを並走させる。
+  </p>
+
+  <div class="exec-grid">
+    <div class="exec-card">
+      <div class="label">カレント寿命</div>
+      <div class="value">残り 約 7ヶ月</div>
+      <div class="sub">26年12月載せ替え予定</div>
+    </div>
+    <div class="exec-card">
+      <div class="label">空港送迎 CVR</div>
+      <div class="value">旧 約 15%</div>
+      <div class="sub">Veltra内最高水準</div>
+    </div>
+    <div class="exec-card">
+      <div class="label">「無コスト」の実態</div>
+      <div class="value">100h+</div>
+      <div class="sub">隠れコスト＋移行コスト含む</div>
+    </div>
+    <div class="exec-card">
+      <div class="label">推奨方針</div>
+      <div class="value">B+C 並走</div>
+      <div class="sub">新基盤要件＋外部試作</div>
+    </div>
+  </div>
+
+  <div class="exec-cols">
+    <div>
+      <h3>v0.2 から変わったこと</h3>
+      <ul>
+        <li>カレントが <strong>26年12月で載せ替え</strong> という前提を明示化。残り寿命7ヶ月（※プロジェクト知識上は「新基盤」までは記載あり、12月期日は本ドキュメントで初出）</li>
+        <li>「カレントに静的ページ」は<strong>無コストではなく100時間規模</strong>。さらに載せ替え時の移行コストも発生</li>
+        <li>新たな選択肢として <strong>外部サービスでの試作（別ドメイン）</strong> が浮上。動線は弱いが、カレント制約を受けず学習速度が速い</li>
+        <li>選択肢は4つ：<strong>A カレント静的 / B 新基盤要件 / C 外部試作 / D 待つ</strong></li>
+        <li>タイムラインセクション（v0.2 §01）は文脈外のため削除</li>
+      </ul>
+    </div>
+    <div>
+      <h3>v0.3 の推奨</h3>
+      <ul>
+        <li>🔴 <strong>カレントの表示バグ修正だけは即時</strong>に。新規開発ではなく欠陥是正</li>
+        <li>🟢 <strong>B（新基盤要件埋め込み）を主軸</strong>。新基盤PMと技術要件を今すぐ詰める。「後から入れられない」</li>
+        <li>🟣 <strong>C（外部試作）でハブAPIの実装学習</strong>を並走。本番投入前にUX・在庫・運用の検証を完了させる</li>
+        <li>⊘ <strong>A（カレント静的ナビ）は原則やらない</strong>。投資効率が悪く、載せ替えで消える</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PREMISE: MIGRATION ============ -->
+<section class="sec" id="premise">
+  <h2>前提：26年12月にカレント→新基盤に載せ替え <span class="num">01</span></h2>
+  <p class="sec-lead">本ドキュメント全体の判断軸となる重要前提。カレントサイトに対する投資判断はすべてこの制約下で評価する。</p>
+
+  <div class="callout warn" style="margin-top:0;margin-bottom:18px;">
+    <strong>出典の補足：</strong>「新基盤」の存在自体はプロジェクト知識（CVR施策リスト・戦略運用ガイド）に複数記載があるが、<strong>「26年12月載せ替え」という具体期日は本ドキュメントで初めて明示化</strong>された前提。判断軸として運用する以上、関係者間で期日の認識合わせをしておくこと。
+  </div>
+
+  <div class="viz">
+    <svg viewBox="0 0 1000 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="載せ替えタイムライン">
+      <defs>
+        <marker id="arrowB" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0,0 L9,4.5 L0,9 z" fill="#555550"/>
+        </marker>
+      </defs>
+      <!-- Today line -->
+      <line x1="150" y1="40" x2="150" y2="200" stroke="#a13030" stroke-width="2" stroke-dasharray="4,3" opacity="0.6"/>
+      <rect x="115" y="15" width="70" height="22" rx="11" fill="#a13030"/>
+      <text x="150" y="30" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#fff" text-anchor="middle">5/18 NOW</text>
+      <!-- Migration line -->
+      <line x1="870" y1="40" x2="870" y2="200" stroke="#2c5530" stroke-width="2" stroke-dasharray="4,3" opacity="0.6"/>
+      <rect x="820" y="15" width="100" height="22" rx="11" fill="#2c5530"/>
+      <text x="870" y="30" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#fff" text-anchor="middle">12月 載せ替え</text>
+
+      <!-- Current site lifespan -->
+      <rect x="60" y="55" width="810" height="50" rx="6" fill="#faeeda" stroke="#854f0b" stroke-width="1"/>
+      <text x="465" y="78" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#6d3f08" text-anchor="middle">カレントサイト 稼働中（残り 7ヶ月）</text>
+      <text x="465" y="95" font-family="-apple-system, sans-serif" font-size="11" fill="#6d3f08" text-anchor="middle">この期間に作ったものは載せ替えで一旦消える／移行が必要</text>
+
+      <!-- New platform development -->
+      <rect x="60" y="120" width="810" height="50" rx="6" fill="#e6f1fb" stroke="#185fa5" stroke-width="1"/>
+      <text x="465" y="143" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#0c447c" text-anchor="middle">新基盤 開発中（別チーム）</text>
+      <text x="465" y="160" font-family="-apple-system, sans-serif" font-size="11" fill="#0c447c" text-anchor="middle">UX/IAは未確定 — 今ならまだ要件を入れられる</text>
+
+      <!-- After migration -->
+      <rect x="870" y="55" width="110" height="115" rx="6" fill="#eaf3de" stroke="#3b6d11" stroke-width="1"/>
+      <text x="925" y="100" font-family="-apple-system, sans-serif" font-size="12" font-weight="600" fill="#27500a" text-anchor="middle">新基盤</text>
+      <text x="925" y="118" font-family="-apple-system, sans-serif" font-size="12" font-weight="600" fill="#27500a" text-anchor="middle">運用開始</text>
+      <text x="925" y="138" font-family="-apple-system, sans-serif" font-size="11" fill="#27500a" text-anchor="middle">本命</text>
+
+      <text x="500" y="220" font-family="-apple-system, sans-serif" font-size="12" fill="#555550" text-anchor="middle" font-weight="500">
+        カレントへの投資は「7ヶ月で寿命」かつ「載せ替え時に移行コスト発生」
+      </text>
+    </svg>
+    <p class="vz-caption">カレントサイトに投資した物は <strong>7ヶ月で寿命を迎える</strong>。さらに載せ替え時にコンテンツ・URL・SEOの移行作業が発生する。一方、新基盤はまだUX/IAが固まっていない＝ <strong>今なら要件を入れ込める時期</strong>。本ドキュメントのあらゆる判断はこの時間軸を前提とする。</p>
+  </div>
+
+  <div class="callout warn">
+    <strong>結論：</strong>「カレントで何かやる」議論は、すべて「7ヶ月で寿命＋移行コスト」を前提に評価する必要がある。「無コストだからとりあえずやる」は成立しない。
+  </div>
+</section>
+
+<!-- ============ WHY: STRATEGIC IMPORTANCE ============ -->
+<section class="sec" id="why">
+  <h2>なぜ重要か <span class="num">02</span></h2>
+  <p class="sec-lead">空港送迎を戦略上の最優先候補にする理由。戦略3軸に照らして整理。</p>
+
+  <div class="axis">
+    <div class="axis-item hit">
+      <div class="lbl">戦略軸 ①</div>
+      <div class="val">✅ メインスポット取りこぼし防止</div>
+      <div>空港送迎は<strong>旅程の最初の予約</strong>。ここで他社に流れると以降のアクティビティ予約まで全て他社にロックインされる。「最初の予約を取る」は新規顧客獲得そのもの。</div>
+    </div>
+    <div class="axis-item hit">
+      <div class="lbl">戦略軸 ②</div>
+      <div class="val">✅ 迷わず買ってもらう</div>
+      <div>現状はAC予約UIで無理やりやっている。出発地・目的地・料金計算という<strong>本来必要なUIが存在しない</strong>。これを正しく作れば購買障壁が劇的に下がる。</div>
+    </div>
+    <div class="axis-item">
+      <div class="lbl">戦略軸 ③</div>
+      <div class="val">△ 滞在中プラスアルファ</div>
+      <div>直接該当ではないが、<strong>空港送迎で獲得 → 滞在中に体験プラスアルファ</strong>の起点としての位置づけ。事業部リードが会議で挙げた「モビリティ／チケット／レストランの3ハブ」イメージとも整合（後述）。</div>
+    </div>
+  </div>
+
+  <h3>CVRと露出のマトリックス</h3>
+  <div class="viz">
+    <svg viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CVRと露出のマトリックス">
+      <defs>
+        <marker id="arrowred" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#a13030"/>
+        </marker>
+      </defs>
+      <line x1="100" y1="60" x2="100" y2="320" stroke="#555550" stroke-width="1.5"/>
+      <line x1="100" y1="320" x2="940" y2="320" stroke="#555550" stroke-width="1.5"/>
+      <text x="50" y="190" font-family="-apple-system, sans-serif" font-size="12" fill="#555550" text-anchor="middle" transform="rotate(-90 50 190)">CVR（高い ↑）</text>
+      <text x="520" y="358" font-family="-apple-system, sans-serif" font-size="12" fill="#555550" text-anchor="middle">UI最適化度（高い →）</text>
+      <text x="200" y="80" font-family="-apple-system, sans-serif" font-size="12" fill="#a13030" font-weight="600">🚨 機会損失</text>
+      <text x="200" y="96" font-family="-apple-system, sans-serif" font-size="10" fill="#a13030">商品力はあるのに UI が追いついていない</text>
+      <text x="720" y="80" font-family="-apple-system, sans-serif" font-size="12" fill="#27500a" font-weight="600">💎 既に最適化済</text>
+      <text x="720" y="96" font-family="-apple-system, sans-serif" font-size="10" fill="#27500a">主力商品。維持と拡大</text>
+      <text x="200" y="305" font-family="-apple-system, sans-serif" font-size="12" fill="#8a8a85" font-weight="600">⊘ 低CVR・UI未整備</text>
+      <text x="720" y="305" font-family="-apple-system, sans-serif" font-size="12" fill="#854f0b" font-weight="600">⚠ UI過剰投資</text>
+      <line x1="520" y1="60" x2="520" y2="320" stroke="#e3e1d8" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="100" y1="190" x2="940" y2="190" stroke="#e3e1d8" stroke-width="1" stroke-dasharray="3,3"/>
+      <circle cx="220" cy="140" r="48" fill="#1c5d8f" opacity="0.85"/>
+      <text x="220" y="138" font-family="-apple-system, sans-serif" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">空港送迎</text>
+      <text x="220" y="153" font-family="-apple-system, sans-serif" font-size="10" fill="#fff" text-anchor="middle">AC UI で無理やり</text>
+      <circle cx="770" cy="140" r="56" fill="#2c5530" opacity="0.85"/>
+      <text x="770" y="138" font-family="-apple-system, sans-serif" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">ツアー・アクティビティ</text>
+      <text x="770" y="153" font-family="-apple-system, sans-serif" font-size="10" fill="#fff" text-anchor="middle">専用UI・上部配置</text>
+      <path d="M 268 140 Q 420 110 540 140" stroke="#a13030" stroke-width="2" fill="none" stroke-dasharray="4,3" marker-end="url(#arrowred)"/>
+      <text x="400" y="102" font-family="-apple-system, sans-serif" font-size="12" fill="#a13030" font-weight="600" text-anchor="middle">UIを正しく作るだけで右へ移動できる</text>
+    </svg>
+    <p class="vz-caption">空港送迎は「高CVR × UI未整備」の象限。商品力（CVR）はあるのに、<strong>本来必要な「出発地→目的地→料金」というUIが存在せず、AC予約UIで無理やり代用している</strong>のが現状。これを正しく作れば需要を取り切れる。</p>
+  </div>
+</section>
+
+<!-- ============ 3 HUBS VISION ============ -->
+<section class="sec" id="vision">
+  <h2>事業部リードの構想イメージ（会議メモより） <span class="num">03</span></h2>
+  <p class="sec-lead">2026-05-14 議事録で事業部リードが口頭で挙げた「モビリティ／チケット／レストランの3ハブ」イメージ。正式な社内構想や合意済の戦略ではなく、<strong>会議の中で表明されたアイデアレベルの言及</strong>。空港送迎を考える際の文脈として参照する。</p>
+
+  <div class="callout warn" style="margin-bottom:18px;margin-top:0;">
+    <strong>出典の明示：</strong>本セクションのソースは 2026-05-14 議事録「空港送迎API・スポーツチケットページご相談」内の事業部リード発言のみ。文書化された構想資料は確認されていない。下記のトーンも「会議で挙がったアイデア」として読むこと。
+  </div>
+
+  <div class="viz dark">
+    <svg viewBox="0 0 1000 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="事業部リードが会議で挙げた3ハブイメージ">
+      <defs>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <marker id="arrowwhite" markerWidth="10" markerHeight="10" refX="7" refY="5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#cfd8df"/>
+        </marker>
+      </defs>
+      <text x="500" y="35" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#fff" text-anchor="middle">顧客獲得層（低マージン・入口）</text>
+      <rect x="60" y="60" width="240" height="150" rx="10" fill="#1c5d8f" opacity="0.9"/>
+      <text x="180" y="92" font-family="-apple-system, sans-serif" font-size="16" font-weight="700" fill="#fff" text-anchor="middle">モビリティハブ</text>
+      <line x1="80" y1="105" x2="280" y2="105" stroke="#fff" opacity="0.3"/>
+      <text x="180" y="128" font-family="-apple-system, sans-serif" font-size="12" fill="#fff" text-anchor="middle" opacity="0.95">✈ 空港送迎（5社）</text>
+      <text x="180" y="148" font-family="-apple-system, sans-serif" font-size="12" fill="#fff" text-anchor="middle" opacity="0.95">🚂 鉄道予約</text>
+      <text x="180" y="168" font-family="-apple-system, sans-serif" font-size="12" fill="#fff" text-anchor="middle" opacity="0.95">🚗 レンタカー</text>
+      <text x="180" y="188" font-family="-apple-system, sans-serif" font-size="12" fill="#fff" text-anchor="middle" opacity="0.95">⛴ フェリー（2社契約済）</text>
+      <text x="180" y="204" font-family="-apple-system, sans-serif" font-size="10" fill="#fff" text-anchor="middle" opacity="0.65" font-style="italic">★ 空港送迎が起点</text>
+      <rect x="380" y="60" width="240" height="150" rx="10" fill="#a14b1c" opacity="0.85"/>
+      <text x="500" y="92" font-family="-apple-system, sans-serif" font-size="16" font-weight="700" fill="#fff" text-anchor="middle">チケットハブ</text>
+      <line x1="400" y1="105" x2="600" y2="105" stroke="#fff" opacity="0.3"/>
+      <text x="500" y="128" font-family="-apple-system, sans-serif" font-size="12" fill="#fff" text-anchor="middle" opacity="0.95">⚾ スポーツ（MLB / サッカー）</text>
+      <text x="500" y="148" font-family="-apple-system, sans-serif" font-size="12" fill="#fff" text-anchor="middle" opacity="0.95">🎭 ミュージカル・演劇</text>
+      <text x="500" y="168" font-family="-apple-system, sans-serif" font-size="12" fill="#fff" text-anchor="middle" opacity="0.95">🎢 テーマパーク</text>
+      <text x="500" y="188" font-family="-apple-system, sans-serif" font-size="12" fill="#fff" text-anchor="middle" opacity="0.95">🏛 観光地入場券</text>
+      <rect x="700" y="60" width="240" height="150" rx="10" fill="#7a6520" opacity="0.85"/>
+      <text x="820" y="92" font-family="-apple-system, sans-serif" font-size="16" font-weight="700" fill="#fff" text-anchor="middle">レストランハブ</text>
+      <line x1="720" y1="105" x2="920" y2="105" stroke="#fff" opacity="0.3"/>
+      <text x="820" y="128" font-family="-apple-system, sans-serif" font-size="12" fill="#fff" text-anchor="middle" opacity="0.95">🍽 OpenTable（契約済）</text>
+      <text x="820" y="148" font-family="-apple-system, sans-serif" font-size="12" fill="#fff" text-anchor="middle" opacity="0.95">🍜 Hungry Hub（SEA）</text>
+      <text x="820" y="168" font-family="-apple-system, sans-serif" font-size="12" fill="#fff" text-anchor="middle" opacity="0.95">🥢 Table Check</text>
+      <path d="M 180 220 L 380 290" stroke="#cfd8df" stroke-width="2" fill="none" marker-end="url(#arrowwhite)" opacity="0.7"/>
+      <path d="M 500 220 L 500 290" stroke="#cfd8df" stroke-width="2" fill="none" marker-end="url(#arrowwhite)" opacity="0.7"/>
+      <path d="M 820 220 L 620 290" stroke="#cfd8df" stroke-width="2" fill="none" marker-end="url(#arrowwhite)" opacity="0.7"/>
+      <text x="500" y="290" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#cfd8df" text-anchor="middle" opacity="0.8">↓ クロスセル ↓</text>
+      <rect x="200" y="310" width="600" height="100" rx="10" fill="#2c5530" opacity="0.95" filter="url(#glow)"/>
+      <text x="500" y="345" font-family="-apple-system, sans-serif" font-size="18" font-weight="700" fill="#fff" text-anchor="middle">ツアー・アクティビティ</text>
+      <text x="500" y="368" font-family="-apple-system, sans-serif" font-size="13" fill="#fff" text-anchor="middle" opacity="0.9">高マージン・収益のメイン</text>
+      <text x="500" y="392" font-family="-apple-system, sans-serif" font-size="11" fill="#fff" text-anchor="middle" opacity="0.7" font-style="italic">Veltraが本来稼ぐ場所</text>
+    </svg>
+    <p class="vz-caption">事業部リードが会議で挙げたイメージ：3つのハブで<strong>低マージンでも顧客接点を獲得</strong>し、<strong>高マージンのツアー・アクティビティへクロスセル</strong>するというフロー設計。空港送迎はモビリティハブの中核と位置づけられている。<strong>※正式な社内構想ではなく口頭の発言ベース</strong>。</p>
+  </div>
+
+  <h3>議事録該当箇所（2026-05-14）</h3>
+  <div class="callout info">
+    <strong>モビリティハブ：</strong>「トランスファーハブっていうか、モビリティハブみたいなやつをうちのサイトでできないか」<br>
+    <strong>チケットハブ：</strong>「チケットのハブ、チケット類のハブ。僕の中でえっとチケットピアーがイメージに近いんですよね」<br>
+    <strong>レストランハブ：</strong>「レストランのハブを作れないかと思っていて」<br>
+    <strong>3つまとめての言及：</strong>「結局そのモビリティとそのチケットとレストランっていうのがすごい顧客の窓口を広げるって意味ではすごく大きい。きちんとここで顧客を獲得して、うちが得意としてる収益性が高いアクティビティとツアーできちんと稼ぐっていう流れを作りたいための3つのハブがどうにかちょっと実現させたいなと思っています」
+  </div>
+
+  <div class="callout warn">
+    <strong>取り扱い注意：</strong>上記は会議内の発言記録のみ。社内承認・戦略文書化・予算化はされていない。本ドキュメントで「ハブ化」を語る際は、<strong>「事業部リードの方向性に整合する」</strong>程度の重み付けで読むこと。空港送迎単体としての投資判断には、ハブ構想の成否とは独立した根拠（CVR最高水準・最初の予約・既存1,200AC）が必要。
+  </div>
+</section>
+
+<!-- ============ COMPETITIVE ============ -->
+<section class="sec" id="competitive">
+  <h2>競合ポジション <span class="num">04</span></h2>
+  <p class="sec-lead">Klook（先行）、Trip.com、Travelokaが既にモビリティハブUIに収束済。Veltraは唯一の例外。</p>
+
+  <div class="viz">
+    <svg viewBox="0 0 1000 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="競合ポジションマトリックス">
+      <defs>
+        <marker id="arrowred2" markerWidth="10" markerHeight="10" refX="7" refY="5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#a13030"/>
+        </marker>
+      </defs>
+      <line x1="100" y1="60" x2="100" y2="290" stroke="#555550" stroke-width="1.5"/>
+      <line x1="100" y1="290" x2="940" y2="290" stroke="#555550" stroke-width="1.5"/>
+      <text x="50" y="175" font-family="-apple-system, sans-serif" font-size="12" fill="#555550" text-anchor="middle" transform="rotate(-90 50 175)">商品多様性（多い ↑）</text>
+      <text x="520" y="325" font-family="-apple-system, sans-serif" font-size="12" fill="#555550" text-anchor="middle">UIのハブ化度（高い →）</text>
+      <circle cx="780" cy="110" r="45" fill="#ff5722" opacity="0.85"/>
+      <text x="780" y="108" font-family="-apple-system, sans-serif" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">Klook</text>
+      <text x="780" y="124" font-family="-apple-system, sans-serif" font-size="10" fill="#fff" text-anchor="middle">先行・収束UI</text>
+      <circle cx="700" cy="155" r="40" fill="#2680eb" opacity="0.8"/>
+      <text x="700" y="153" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">Trip.com</text>
+      <text x="700" y="168" font-family="-apple-system, sans-serif" font-size="10" fill="#fff" text-anchor="middle">追随済</text>
+      <circle cx="640" cy="200" r="36" fill="#0064d2" opacity="0.8"/>
+      <text x="640" y="198" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">Traveloka</text>
+      <text x="640" y="213" font-family="-apple-system, sans-serif" font-size="10" fill="#fff" text-anchor="middle">追随済</text>
+      <circle cx="220" cy="190" r="48" fill="#2c5530" opacity="0.9"/>
+      <text x="220" y="188" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">Veltra</text>
+      <text x="220" y="206" font-family="-apple-system, sans-serif" font-size="10" fill="#fff" text-anchor="middle">ツアー特化</text>
+      <path d="M 268 188 Q 460 100 660 115" stroke="#a13030" stroke-width="2.5" fill="none" stroke-dasharray="6,4" marker-end="url(#arrowred2)"/>
+      <text x="460" y="80" font-family="-apple-system, sans-serif" font-size="13" fill="#a13030" font-weight="600" text-anchor="middle">目指す軌跡：新基盤でハブ化</text>
+    </svg>
+    <p class="vz-caption">Klookは半年前のUIから既にシンプル化を進めており、業界標準に。<strong>これは検証済みの勝ちパターン</strong>。Veltraは新基盤で追随する選択肢しか実質ない。</p>
+  </div>
+</section>
+
+<!-- ============ TECH STRUCTURE ============ -->
+<section class="sec" id="tech">
+  <h2>空港送迎の技術的構造 <span class="num">05</span></h2>
+  <p class="sec-lead">「いまの実装が間に合わせ」であることを技術的に整理。本来必要な仕組みと、現状AC予約UIで代用していることの差分を可視化する。</p>
+
+  <div class="viz">
+    <svg viewBox="0 0 1000 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="空港送迎の本来必要な仕組み">
+      <defs>
+        <marker id="arrowG" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0,0 L9,4.5 L0,9 z" fill="#3b6d11"/>
+        </marker>
+      </defs>
+
+      <text x="500" y="30" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a" text-anchor="middle">本来必要なフロー：「出発地 → 目的地 → 料金計算」</text>
+
+      <!-- Input -->
+      <rect x="40" y="70" width="200" height="200" rx="8" fill="#e6f1fb" stroke="#185fa5" stroke-width="1.5"/>
+      <text x="140" y="98" font-family="-apple-system, sans-serif" font-size="13" font-weight="700" fill="#0c447c" text-anchor="middle">Traveler 入力</text>
+      <line x1="60" y1="112" x2="220" y2="112" stroke="#185fa5" opacity="0.3"/>
+      <text x="60" y="135" font-family="-apple-system, sans-serif" font-size="12" fill="#0c447c">📍 出発地</text>
+      <text x="70" y="151" font-family="-apple-system, sans-serif" font-size="11" fill="#0c447c" opacity="0.85">（空港・住所・ホテル）</text>
+      <text x="60" y="172" font-family="-apple-system, sans-serif" font-size="12" fill="#0c447c">🎯 目的地</text>
+      <text x="70" y="188" font-family="-apple-system, sans-serif" font-size="11" fill="#0c447c" opacity="0.85">（市内・ホテル）</text>
+      <text x="60" y="209" font-family="-apple-system, sans-serif" font-size="12" fill="#0c447c">👥 人数・荷物</text>
+      <text x="60" y="230" font-family="-apple-system, sans-serif" font-size="12" fill="#0c447c">📅 日時</text>
+      <text x="60" y="251" font-family="-apple-system, sans-serif" font-size="12" fill="#0c447c">✈ フライト便名</text>
+
+      <!-- Arrow 1 -->
+      <path d="M 245 170 L 295 170" stroke="#3b6d11" stroke-width="2" fill="none" marker-end="url(#arrowG)"/>
+
+      <!-- Hub API -->
+      <rect x="300" y="70" width="320" height="200" rx="8" fill="#eaf3de" stroke="#3b6d11" stroke-width="1.5"/>
+      <text x="460" y="98" font-family="-apple-system, sans-serif" font-size="13" font-weight="700" fill="#27500a" text-anchor="middle">ハブAPI（送迎仲介サービス）</text>
+      <line x1="320" y1="112" x2="600" y2="112" stroke="#3b6d11" opacity="0.3"/>
+      <text x="460" y="135" font-family="-apple-system, sans-serif" font-size="12" fill="#27500a" text-anchor="middle">5社のサプライヤー料金を一括取得</text>
+      <rect x="325" y="148" width="290" height="32" rx="4" fill="#fff" opacity="0.6"/>
+      <text x="470" y="168" font-family="-apple-system, sans-serif" font-size="11" fill="#27500a" text-anchor="middle">区間 + 車種 × ダイナミックプライシング</text>
+      <rect x="325" y="186" width="290" height="32" rx="4" fill="#fff" opacity="0.6"/>
+      <text x="470" y="206" font-family="-apple-system, sans-serif" font-size="11" fill="#27500a" text-anchor="middle">最安・最適のソート</text>
+      <text x="460" y="240" font-family="-apple-system, sans-serif" font-size="11" fill="#27500a" text-anchor="middle" font-style="italic">★ API仕様書 取り寄せ済</text>
+
+      <!-- Arrow 2 -->
+      <path d="M 625 170 L 675 170" stroke="#3b6d11" stroke-width="2" fill="none" marker-end="url(#arrowG)"/>
+
+      <!-- Output -->
+      <rect x="680" y="70" width="280" height="200" rx="8" fill="#efeaf7" stroke="#6e3da5" stroke-width="1.5"/>
+      <text x="820" y="98" font-family="-apple-system, sans-serif" font-size="13" font-weight="700" fill="#4a2b75" text-anchor="middle">結果表示</text>
+      <line x1="700" y1="112" x2="940" y2="112" stroke="#6e3da5" opacity="0.3"/>
+      <rect x="700" y="125" width="240" height="28" rx="4" fill="#fff" opacity="0.7"/>
+      <text x="710" y="143" font-family="-apple-system, sans-serif" font-size="11" fill="#4a2b75">🚗 セダン · ¥8,200 · A社</text>
+      <rect x="700" y="158" width="240" height="28" rx="4" fill="#fff" opacity="0.7"/>
+      <text x="710" y="176" font-family="-apple-system, sans-serif" font-size="11" fill="#4a2b75">🚙 SUV · ¥11,500 · B社</text>
+      <rect x="700" y="191" width="240" height="28" rx="4" fill="#fff" opacity="0.7"/>
+      <text x="710" y="209" font-family="-apple-system, sans-serif" font-size="11" fill="#4a2b75">🚐 バン · ¥14,800 · C社</text>
+      <text x="820" y="245" font-family="-apple-system, sans-serif" font-size="11" fill="#4a2b75" text-anchor="middle" font-style="italic">→ 予約処理へ</text>
+
+      <!-- Current state annotation -->
+      <text x="500" y="310" font-family="-apple-system, sans-serif" font-size="12" fill="#a13030" font-weight="600" text-anchor="middle">⚠ 現状：AC予約UIで代用 → 区間決め打ち＋中央値価格、車種選択不可、料金は事後確認</text>
+      <text x="500" y="332" font-family="-apple-system, sans-serif" font-size="11" fill="#a13030" text-anchor="middle">→ Travelerは「ぴったりの送迎」を選べない／毎回手動運用が発生</text>
+    </svg>
+    <p class="vz-caption">本来は <strong>入力 → ハブAPI → 結果表示</strong> という3段構造が必要。サプライヤー側ではこれを提供するハブサービスが既に存在し、<strong>API仕様書は取得済</strong>。問題はVeltra側に「この3段構造を実装できる土台」がないこと。AC予約UIで代用しているのが現状。</p>
+  </div>
+
+  <h3>カレントサイトでこの構造が実装困難な理由</h3>
+  <div class="cards-3">
+    <div class="card-sub">
+      <div class="tag">構造①</div>
+      <div class="ttl">フライト情報の動的取得</div>
+      <div class="desc">便名から発着時刻を引いてくる仕組みがカレントにはない。サプライヤー側APIには連動するが、Veltra側で受ける器がない。</div>
+    </div>
+    <div class="card-sub">
+      <div class="tag">構造②</div>
+      <div class="ttl">出発地/目的地のサーチUI</div>
+      <div class="desc">2地点間検索（A→B）の概念がカレントにはない。AC=固定商品の構造のため、無理やり区間決め打ちで埋め込んでいる。</div>
+    </div>
+    <div class="card-sub">
+      <div class="tag">構造③</div>
+      <div class="ttl">動的価格の表示</div>
+      <div class="desc">毎回変動する料金をリアルタイムで表示する仕組みがない。「中央値で売って差額は手動調整」というワークアラウンドで運用。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COST RE-EXAMINATION ============ -->
+<section class="sec" id="cost">
+  <h2>「無コスト」の再検証 <span class="num">06</span></h2>
+  <p class="sec-lead">v0.2では「カレントに静的ページ＝無コスト」と書いたが、これは誤り。実態を分解する。</p>
+
+  <h3>カレント静的ナビゲーションページの実コスト分解</h3>
+
+  <div class="cost-row">
+    <div class="cost-item">CVR PM の時間<div class="sub">ワイヤー作成・スコープ調整・各チーム調整・公開後フォロー</div></div>
+    <div class="cost-hours">20-40h</div>
+    <div class="cost-note">他施策のリソースを奪う</div>
+  </div>
+  <div class="cost-row">
+    <div class="cost-item">事業部リードの時間<div class="sub">レビュー・写真選定・コンテンツ提供・公開後の運用確認</div></div>
+    <div class="cost-hours">10-20h</div>
+    <div class="cost-note">事業部リードの帯域も限られる</div>
+  </div>
+  <div class="cost-row">
+    <div class="cost-item">開発チームの時間<div class="sub">表示バグ修正・配置調整・ページ公開作業</div></div>
+    <div class="cost-hours">5-15h</div>
+    <div class="cost-note">新基盤開発に集中したい時期</div>
+  </div>
+  <div class="cost-row">
+    <div class="cost-item">SEO・マーケチームの調整時間<div class="sub">URL設計・キーワード・流入経路の事前すり合わせ</div></div>
+    <div class="cost-hours">3-8h</div>
+    <div class="cost-note">他チームの巻き込み</div>
+  </div>
+  <div class="cost-row">
+    <div class="cost-item">公開後の継続運用<div class="sub">月次のAC追加・差し替え・問い合わせ対応（7ヶ月分）</div></div>
+    <div class="cost-hours">14-35h</div>
+    <div class="cost-note">月2-5h × 7ヶ月</div>
+  </div>
+  <div class="cost-row">
+    <div class="cost-item">載せ替え時の移行コスト<div class="sub">SEO引き継ぎ・URL リダイレクト設計・コンテンツ移植判断</div></div>
+    <div class="cost-hours">20-50h</div>
+    <div class="cost-note">想定外の隠れコスト</div>
+  </div>
+
+  <div class="cost-total">
+    <div class="cost-item">合計（隠れコスト＋移行コスト含む）</div>
+    <div class="cost-hours">72-168h</div>
+    <div class="cost-note">≒ 1〜3人月相当</div>
+  </div>
+
+  <div class="callout danger" style="margin-top:18px;">
+    <strong>結論：「無コスト」ではない。</strong>カレント静的ナビゲーションページは実質 <strong>100時間規模</strong>。さらに <strong>7ヶ月後に載せ替えで一旦消える</strong>。この投資を正当化するには、7ヶ月以内に投資以上のリターン（CVR・売上・学習）が出る必要がある。
+  </div>
+
+  <h3>新基盤への要件埋め込みのコストとの比較</h3>
+  <table class="tbl">
+    <thead>
+      <tr><th style="width:35%;">投資先</th><th style="width:20%;">投資コスト</th><th style="width:25%;">寿命</th><th style="width:20%;">時間あたり価値</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="b">A：カレント静的ナビ</td>
+        <td>72-168h</td>
+        <td>7ヶ月（載せ替えで消える）</td>
+        <td><span class="pill-pri p2">低</span></td>
+      </tr>
+      <tr>
+        <td class="b">B：新基盤への要件埋め込み</td>
+        <td>20-40h（要件定義・調整）</td>
+        <td>新基盤の寿命全体（数年）</td>
+        <td><span class="pill-pri go">高</span></td>
+      </tr>
+      <tr>
+        <td class="b">C：外部サービスとして試作</td>
+        <td>80-150h（仕組み構築含む）</td>
+        <td>新基盤統合まで（学習の場）</td>
+        <td><span class="pill-pri p2">中〜高</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ 4 OPTIONS ============ -->
+<section class="sec" id="options">
+  <h2>4つの選択肢の比較 <span class="num">07</span></h2>
+  <p class="sec-lead">「カレントで急いでやる」は本当に正解か。代替案を含めて4つを並べる。</p>
+
+  <div class="opt a">
+    <h4>A：カレント内に静的ナビゲーションページ <span class="opt-tag">カレント</span></h4>
+    <p class="opt-tag-line">v0.2で推奨していた「0.5ステップ」。スポーツページと同じClaude Code方式。</p>
+    <div class="opt-grid">
+      <div class="cell"><div class="lbl">投資コスト</div><div class="val">72-168h</div></div>
+      <div class="cell"><div class="lbl">短期効果</div><div class="val">中（露出改善）</div></div>
+      <div class="cell"><div class="lbl">中長期再利用</div><div class="val">低（移行で消える）</div></div>
+      <div class="cell"><div class="lbl">立ち上げ速度</div><div class="val">速い（2-6週）</div></div>
+    </div>
+    <div class="pros-cons">
+      <div>
+        <div class="label">+ メリット</div>
+        <ul>
+          <li>既存1,200ACの導線が整理される</li>
+          <li>VeltraドメインのSEOがそのまま使える</li>
+          <li>Travelerにすぐ届く</li>
+        </ul>
+      </div>
+      <div>
+        <div class="label">− デメリット</div>
+        <ul>
+          <li>載せ替えで一旦消える</li>
+          <li>動的UI（A→B検索・料金）は実装不可</li>
+          <li>移行コストが追加で発生</li>
+          <li>本質課題（AC予約UIでの代用）は解決しない</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="opt b">
+    <h4>B：新基盤への要件埋め込み <span class="opt-tag">新基盤</span> <span class="rec-badge">★主軸推奨</span></h4>
+    <p class="opt-tag-line">新基盤UX/IAがまだ未確定の今、要件を入れ込む。後から入れるのは不可能。</p>
+    <div class="opt-grid">
+      <div class="cell"><div class="lbl">投資コスト</div><div class="val">20-40h</div></div>
+      <div class="cell"><div class="lbl">短期効果</div><div class="val">ゼロ（実装は新基盤後）</div></div>
+      <div class="cell"><div class="lbl">中長期再利用</div><div class="val">最大（新基盤の核に）</div></div>
+      <div class="cell"><div class="lbl">立ち上げ速度</div><div class="val">遅い（27年前半以降）</div></div>
+    </div>
+    <div class="pros-cons">
+      <div>
+        <div class="label">+ メリット</div>
+        <ul>
+          <li>本命のゴール（空港送迎の本来UIの実装、将来的なハブ化含む）に直結</li>
+          <li>「後から入れられない」リスクを今排除できる</li>
+          <li>投資が消えない</li>
+          <li>新基盤PM・新基盤チームを巻き込める</li>
+        </ul>
+      </div>
+      <div>
+        <div class="label">− デメリット</div>
+        <ul>
+          <li>短期の売上効果はゼロ</li>
+          <li>新基盤の優先度交渉が必要</li>
+          <li>新基盤リリース遅延の影響を受ける</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="opt c">
+    <h4>C：外部サービスとして試作 <span class="opt-tag">別ドメイン</span> <span class="rec-badge">★並走推奨</span></h4>
+    <p class="opt-tag-line">カレントの制約を回避し、ハブAPI直接接続で本物の仕組みを試作。学習を新基盤へ持ち込む。</p>
+    <div class="opt-grid">
+      <div class="cell"><div class="lbl">投資コスト</div><div class="val">80-150h</div></div>
+      <div class="cell"><div class="lbl">短期効果</div><div class="val">小（動線弱い）</div></div>
+      <div class="cell"><div class="lbl">中長期再利用</div><div class="val">高（学習を新基盤に流用）</div></div>
+      <div class="cell"><div class="lbl">立ち上げ速度</div><div class="val">中（1-2ヶ月）</div></div>
+    </div>
+    <div class="pros-cons">
+      <div>
+        <div class="label">+ メリット</div>
+        <ul>
+          <li>カレントの構造的制約を一切受けない</li>
+          <li>ハブAPI直接接続で「本物」を試せる</li>
+          <li>UI・需要・運用フローの実証データが取れる</li>
+          <li>新基盤のUX/IA要件にデータで根拠を持てる</li>
+          <li>新基盤リリース遅延の影響を受けない</li>
+        </ul>
+      </div>
+      <div>
+        <div class="label">− デメリット</div>
+        <ul>
+          <li>別ドメインのため動線が弱い（流入勝負）</li>
+          <li>Veltraブランドの統合が後工程で必要</li>
+          <li>運用・サポート体制を別途用意する必要</li>
+          <li>事業部承認のハードルが高い可能性</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="opt d">
+    <h4>D：何もしない（新基盤完成まで待つ） <span class="opt-tag">待機</span></h4>
+    <p class="opt-tag-line">投資ゼロ。ただし機会損失と新基盤要件への影響力も失う。</p>
+    <div class="opt-grid">
+      <div class="cell"><div class="lbl">投資コスト</div><div class="val">0h</div></div>
+      <div class="cell"><div class="lbl">短期効果</div><div class="val">ゼロ</div></div>
+      <div class="cell"><div class="lbl">中長期再利用</div><div class="val">ゼロ（学習なし）</div></div>
+      <div class="cell"><div class="lbl">立ち上げ速度</div><div class="val">−</div></div>
+    </div>
+    <div class="pros-cons">
+      <div>
+        <div class="label">+ メリット</div>
+        <ul>
+          <li>リソース節約</li>
+          <li>他施策に集中できる</li>
+        </ul>
+      </div>
+      <div>
+        <div class="label">− デメリット</div>
+        <ul>
+          <li>競合との差が広がり続ける</li>
+          <li>新基盤要件への影響力を失う（「後から入れられない」）</li>
+          <li>学習データが蓄積されない</li>
+          <li>事業部リードの期待値とズレる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HORIZON ============ -->
+<section class="sec" id="horizon">
+  <h2>短期視座と中長期視座 <span class="num">08</span></h2>
+  <p class="sec-lead">同じ施策でも、どの時間軸で評価するかで結論が変わる。両視座で並べる。</p>
+
+  <div class="viz">
+    <svg viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="短期vs中長期マトリックス">
+      <!-- Axes -->
+      <line x1="100" y1="60" x2="100" y2="340" stroke="#555550" stroke-width="1.5"/>
+      <line x1="100" y1="340" x2="940" y2="340" stroke="#555550" stroke-width="1.5"/>
+      <text x="50" y="200" font-family="-apple-system, sans-serif" font-size="12" fill="#555550" text-anchor="middle" transform="rotate(-90 50 200)">中長期価値（高い ↑）</text>
+      <text x="520" y="378" font-family="-apple-system, sans-serif" font-size="12" fill="#555550" text-anchor="middle">短期価値（高い →）</text>
+
+      <!-- Quadrants -->
+      <line x1="520" y1="60" x2="520" y2="340" stroke="#e3e1d8" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="100" y1="200" x2="940" y2="200" stroke="#e3e1d8" stroke-width="1" stroke-dasharray="3,3"/>
+
+      <text x="200" y="80" font-family="-apple-system, sans-serif" font-size="12" fill="#27500a" font-weight="600">💎 戦略的投資</text>
+      <text x="200" y="96" font-family="-apple-system, sans-serif" font-size="10" fill="#27500a">短期効果薄いが将来効く</text>
+
+      <text x="720" y="80" font-family="-apple-system, sans-serif" font-size="12" fill="#0c447c" font-weight="600">🏆 理想</text>
+      <text x="720" y="96" font-family="-apple-system, sans-serif" font-size="10" fill="#0c447c">短期も中長期も価値</text>
+
+      <text x="200" y="325" font-family="-apple-system, sans-serif" font-size="12" fill="#8a8a85" font-weight="600">⊘ 価値なし</text>
+      <text x="200" y="339" font-family="-apple-system, sans-serif" font-size="10" fill="#8a8a85">投資すべきでない</text>
+
+      <text x="720" y="325" font-family="-apple-system, sans-serif" font-size="12" fill="#854f0b" font-weight="600">⚠ 使い捨て</text>
+      <text x="720" y="339" font-family="-apple-system, sans-serif" font-size="10" fill="#854f0b">短期は良いが残らない</text>
+
+      <!-- B: 新基盤要件 - 戦略的投資 -->
+      <circle cx="270" cy="120" r="48" fill="#2c5530" opacity="0.85"/>
+      <text x="270" y="118" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">B</text>
+      <text x="270" y="135" font-family="-apple-system, sans-serif" font-size="10" fill="#fff" text-anchor="middle">新基盤要件</text>
+
+      <!-- C: 外部試作 - 戦略的投資〜理想 -->
+      <circle cx="500" cy="160" r="44" fill="#6e3da5" opacity="0.85"/>
+      <text x="500" y="158" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">C</text>
+      <text x="500" y="175" font-family="-apple-system, sans-serif" font-size="10" fill="#fff" text-anchor="middle">外部試作</text>
+
+      <!-- A: カレント静的 - 使い捨て -->
+      <circle cx="700" cy="270" r="40" fill="#185fa5" opacity="0.75"/>
+      <text x="700" y="268" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">A</text>
+      <text x="700" y="285" font-family="-apple-system, sans-serif" font-size="10" fill="#fff" text-anchor="middle">カレント静的</text>
+
+      <!-- D: 待つ - 価値なし -->
+      <circle cx="160" cy="295" r="32" fill="#8a8a85" opacity="0.7"/>
+      <text x="160" y="293" font-family="-apple-system, sans-serif" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">D</text>
+      <text x="160" y="308" font-family="-apple-system, sans-serif" font-size="10" fill="#fff" text-anchor="middle">待つ</text>
+
+      <!-- Bug fix (always do) -->
+      <rect x="780" y="120" width="120" height="40" rx="20" fill="#fcebeb" stroke="#a13030" stroke-width="2"/>
+      <text x="840" y="138" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#791f1f" text-anchor="middle">バグ修正</text>
+      <text x="840" y="152" font-family="-apple-system, sans-serif" font-size="9" fill="#791f1f" text-anchor="middle">A の中でこれだけは即実施</text>
+    </svg>
+    <p class="vz-caption">4つの選択肢を「短期価値 × 中長期価値」で配置。<strong>B（新基盤要件）は戦略的投資、C（外部試作）はその中間、A（カレント静的）は使い捨て</strong>。カレント表示バグ修正だけは Aから切り出して単独で実施する価値がある。</p>
+  </div>
+
+  <h3>視座別の結論</h3>
+  <div class="cards-2">
+    <div class="card-sub">
+      <div class="tag" style="background:#e6f1fb;color:#0c447c;">短期視座</div>
+      <div class="ttl">「今すぐ売上を上げたい」なら？</div>
+      <div class="desc">短期だけで見れば <strong>A（カレント静的）が最速</strong>。ただし投資100h、効果は7ヶ月限定、移行で消える。費用対効果は低い。<strong>例外：表示バグ修正だけは即時かつ低コストで信用回復できるため必ずやる</strong>。</div>
+    </div>
+    <div class="card-sub">
+      <div class="tag" style="background:#eaf3de;color:#27500a;">中長期視座</div>
+      <div class="ttl">「数年スパンで効くものを作りたい」なら？</div>
+      <div class="desc"><strong>B（新基盤要件埋め込み）が最強</strong>。今しか入れられない要件枠を確保できる。並走で <strong>C（外部試作）</strong> を進めれば、新基盤への要件にデータ根拠を持てる。本ドキュメントの推奨はこの組み合わせ。</div>
+    </div>
+  </div>
+
+  <div class="callout accent">
+    <strong>推奨：B + C 並走（＋カレントはバグ修正のみ）</strong>。短期の派手な動きより、新基盤完成時点で<strong>「空港送迎の本来UIが立ち上がっている状態」</strong>を作る。学習は外部試作で先取りする。将来のハブ化（事業部リードの構想イメージ）にもこの並走構造は接続可能。
+  </div>
+</section>
+
+<!-- ============ ROADMAP ============ -->
+<section class="sec" id="roadmap">
+  <h2>推奨ロードマップ（v0.3 改訂版） <span class="num">09</span></h2>
+  <p class="sec-lead">B + C 並走を主軸にした全体ロードマップ。カレント投資は最小化。</p>
+
+  <div class="opt a" style="background:var(--bg-danger);border-left:4px solid #a13030;">
+    <h4>カレント側：表示バグ修正のみ <span class="opt-tag">即時 · 数日〜2週間</span></h4>
+    <p class="opt-tag-line">「カレントで新規開発」はしないが、欠陥は直す。コスト最小で信用回復。</p>
+    <ul style="margin:0;padding-left:20px;font-size:13px;line-height:1.75;">
+      <li><strong>無関係AC混入バグの暫定対応</strong>（管理画面で除外）</li>
+      <li><strong>原因究明エスカレーション</strong>を開発チームへ</li>
+      <li><strong>空港送迎ACの上位表示</strong>（カテゴリー設定だけで可能なら実施）</li>
+      <li>静的ナビゲーションページは<strong>原則作らない</strong>（投資効率と移行コストを考慮）</li>
+    </ul>
+  </div>
+
+  <div class="opt b">
+    <h4>主軸：新基盤への要件埋め込み <span class="opt-tag">今すぐ着手 · 27年前半まで継続</span></h4>
+    <p class="opt-tag-line">本ドキュメントの主推奨。新基盤PMと技術要件を確定させていく。</p>
+    <ul style="margin:0;padding-left:20px;font-size:13px;line-height:1.75;">
+      <li>新基盤PMと空港送迎の本来UI要件（A→B検索・料金・ハブAPI統合）のレビュー会議をセット（今月中）</li>
+      <li>ハブAPI仕様書をベースに技術要件を文書化（開発担当と並走）</li>
+      <li>UX/IAレビューに <strong>「出発地 → 目的地 → 料金」の3段構造</strong> を要件として組み込む</li>
+      <li>送迎5社の API スキーマ正規化方針を新基盤側で確定（グロービック経由の判断含む）</li>
+      <li>新基盤リリーススケジュール内での実装フェーズ確保</li>
+    </ul>
+  </div>
+
+  <div class="opt c">
+    <h4>並走：外部サービスとして試作 <span class="opt-tag">2〜3ヶ月着手判断 · 27年Q1まで運用</span></h4>
+    <p class="opt-tag-line">学習用の試作。本番投入は新基盤上だが、外部で先に検証を済ませる。</p>
+    <ul style="margin:0;padding-left:20px;font-size:13px;line-height:1.75;">
+      <li>事業部リードと外部サービス試作の承認を取得</li>
+      <li>別ドメイン or Veltra配下のサブドメインで構築判断</li>
+      <li>Eライフ ハブAPI直接接続で <strong>A→B サーチ・料金・予約</strong> の最小実装</li>
+      <li>限定エリア（例：日本人需要が多い主要空港数カ所）からスタート</li>
+      <li>UI・需要・運用フローの学習データを新基盤要件にフィードバック</li>
+      <li>新基盤リリース時に統合 or リダイレクト</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ DECISIONS ============ -->
+<section class="sec" id="decisions">
+  <h2>判断が必要な事項 <span class="num">10</span></h2>
+  <p class="sec-lead">v0.3で新しく必要になった判断を中心に。</p>
+
+  <div class="decision">
+    <div class="dec-q"><span class="num">Q1</span>そもそも A（カレント静的ナビ）をやるか</div>
+    <div class="dec-body">
+      <p>v0.2では推奨していたが、12月載せ替えと「無コスト」誤認が判明した今、再判断が必要。</p>
+      <div class="dec-rec"><strong>推奨：やらない。</strong>ただしバグ修正と上位表示など「設定変更レベル」のものは即時実施。新規ページ作成はしない。</div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="dec-q"><span class="num">Q2</span>C（外部サービス試作）を本当にやるか</div>
+    <div class="dec-body">
+      <p>事業部承認・予算・運用体制の準備が必要。「Veltra本体じゃないもの」を作ることへの心理的抵抗もある。</p>
+      <div class="dec-rec"><strong>推奨：やる。</strong>ただし最小スコープから。限定エリア・限定機能でPoC位置づけ。学習価値は明確で、新基盤要件への材料になる。</div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="dec-q"><span class="num">Q3</span>外部サービスのドメイン戦略</div>
+    <div class="dec-body">
+      <p>独立ドメインか、Veltra配下のサブドメインか。SEO・ブランド・統合性に影響。</p>
+      <div class="dec-rec"><strong>推奨：Veltra配下のサブドメイン</strong>（例：mobility.veltra.com 等）。ブランド統合性が保てる。SEOも分散しない。</div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="dec-q"><span class="num">Q4</span>新基盤要件レビューへのアプローチ</div>
+    <div class="dec-body">
+      <p>新基盤PMとどう要件をすり合わせるか。「会議で話す」か「文書で先出し」か。</p>
+      <div class="dec-rec"><strong>推奨：文書で先出し → レビュー会議</strong>。技術要件・UI構造・データ構造を整理した文書を先に渡してから議論。「後から入れられない」リスクを最小化。</div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="dec-q"><span class="num">Q5</span>カレント表示バグの暫定対応 vs 根本対応</div>
+    <div class="dec-body">
+      <p>Australia担当・担当エンジニアに確認するも原因未特定の状態。</p>
+      <div class="dec-rec"><strong>推奨：暫定（管理画面除外）を先に実施 → 原因究明は並行。</strong>「ページの信用低下を1日でも早く止める」を最優先。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RISKS ============ -->
+<section class="sec" id="risks">
+  <h2>リスクレジスター（v0.3 更新） <span class="num">11</span></h2>
+  <p class="sec-lead">載せ替えと B+C 並走を前提にリスクを再整理。</p>
+
+  <div class="risk-card">
+    <div class="level h">高</div>
+    <div class="desc"><strong>新基盤リリース遅延 → 12月載せ替え延期</strong><div class="sub">カレント寿命が延びると、A（カレント投資）の評価が一部変わる可能性。ただし基本方針は変わらない。</div></div>
+    <div class="mit">遅延が確定した時点でロードマップを再評価。Cでの学習はその間も継続。</div>
+  </div>
+
+  <div class="risk-card">
+    <div class="level h">高</div>
+    <div class="desc"><strong>新基盤要件への影響力を失う</strong><div class="sub">B（要件埋め込み）に着手が遅れると、新基盤の設計が固まってしまい後から入れられなくなる。</div></div>
+    <div class="mit">今月中に新基盤PMと初回レビュー会議をセット。要件文書を先に渡す。</div>
+  </div>
+
+  <div class="risk-card">
+    <div class="level h">高</div>
+    <div class="desc"><strong>外部サービス試作の承認が下りない</strong><div class="sub">「Veltra本体じゃないもの」を作ることへの心理的・政治的抵抗。事業部承認・予算交渉が難航する可能性。</div></div>
+    <div class="mit">PoC・学習目的としてスコープを限定して提案。本番投入は新基盤上であることを明示。</div>
+  </div>
+
+  <div class="risk-card">
+    <div class="level m">中</div>
+    <div class="desc"><strong>外部試作の動線が弱く需要検証ができない</strong><div class="sub">別ドメインだとVeltra本体からのトラフィックが流れにくく、需要シグナルが正しく拾えない可能性。</div></div>
+    <div class="mit">Veltra本体からの誘導リンクを限定的に設置。広告流入での検証も検討。</div>
+  </div>
+
+  <div class="risk-card">
+    <div class="level m">中</div>
+    <div class="desc"><strong>表示バグの原因が深い</strong><div class="sub">グローバルカテゴリー混入バグの原因がデータ構造に起因する場合、修正に予想以上の工数が必要。</div></div>
+    <div class="mit">暫定対応を先行。根本対応は載せ替えで解消する可能性もあるため、優先度を見極める。</div>
+  </div>
+
+  <div class="risk-card">
+    <div class="level l">低</div>
+    <div class="desc"><strong>事業部リードとの期待値ズレ</strong><div class="sub">v0.2では「カレントで何かやる」前提だったため、方針転換が伝わらないと不信感が出る可能性。</div></div>
+    <div class="mit">本ドキュメントv0.3を事業部リードに共有し、判断軸の変化を明示的にすり合わせる。</div>
+  </div>
+</section>
+
+<!-- ============ ACTIONS ============ -->
+<section class="sec" id="actions">
+  <h2>ネクストアクション（v0.3 更新） <span class="num">12</span></h2>
+  <p class="sec-lead">B+C 並走を前提にアクションを並び替え。</p>
+
+  <table class="tbl">
+    <thead>
+      <tr><th style="width:5%;">#</th><th style="width:42%;">アクション</th><th style="width:18%;">担当</th><th style="width:13%;">優先度</th><th style="width:13%;">期限目安</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="b">1</td><td class="b">本ドキュメントv0.3を事業部リードと共有・方針合意</td><td>CVR PM + 事業部リード</td><td><span class="pill-pri p1">🔴 即時</span></td><td>今週中</td></tr>
+      <tr><td class="b">2</td><td class="b">無関係AC表示バグの暫定対応（管理画面で除外）＋原因究明エスカレーション</td><td>CVR PM → 開発チーム</td><td><span class="pill-pri p1">🔴 即時</span></td><td>今週中</td></tr>
+      <tr><td class="b">3</td><td class="b">新基盤PMと空港送迎の本来UI要件（A→B検索・料金・ハブAPI）の初回レビュー会議セット</td><td>CVR PM</td><td><span class="pill-pri p1">🔴 即時</span></td><td>今月中</td></tr>
+      <tr><td class="b">4</td><td class="b">空港送迎の技術要件文書を作成（出発地→目的地→料金の3段構造／ハブAPI仕様連携）</td><td>CVR PM + 開発担当</td><td><span class="pill-pri p2">🟠 近日</span></td><td>2-3週間以内</td></tr>
+      <tr><td class="b">5</td><td class="b">外部サービス試作の承認・スコープ・予算を事業部リードと協議</td><td>CVR PM + 事業部リード</td><td><span class="pill-pri p2">🟠 近日</span></td><td>3週間以内</td></tr>
+      <tr><td class="b">6</td><td class="b">外部サービス試作のスコープ確定（対象エリア・機能・ドメイン戦略）</td><td>CVR PM + 開発担当</td><td><span class="pill-pri p2">🟠 近日</span></td><td>1ヶ月以内</td></tr>
+      <tr><td class="b">7</td><td>空港送迎ACの上位表示（カテゴリー設定で可能な範囲）</td><td>CVR PM → 開発チーム</td><td><span class="pill-pri p2">🟠 近日</span></td><td>2週間以内</td></tr>
+      <tr><td class="b">8</td><td>Eライフ ハブAPI仕様書の内容確認・要件への反映</td><td>開発担当</td><td><span class="pill-pri p3">🟡 並行</span></td><td>1ヶ月以内</td></tr>
+      <tr><td class="b">9</td><td>送迎5社の契約準備状況・API仕様の整理</td><td>事業部リード</td><td><span class="pill-pri p3">🟡 並行</span></td><td>1ヶ月以内</td></tr>
+      <tr><td class="b">10</td><td>外部サービス試作の効果測定設計（CVR・需要・運用フローの検証指標）</td><td>CVR PM</td><td><span class="pill-pri p3">🟡 並行</span></td><td>試作公開と同時</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout info" style="margin-top:20px;">
+    <strong>今週の3つ：</strong>①事業部リードとv0.3で方針合意 ②カレント表示バグ修正エスカレーション ③新基盤PMとの初回レビュー会議セット。この3つで「新方針が動き始めた」が形になる。
+  </div>
+</section>
+
+<!-- Footer -->
+<div class="foot">
+  <strong>出典：</strong>2026-05-14 議事録「空港送迎API・スポーツチケットページご相談」（CVR PM / PM / 事業部リード）<br>
+  <strong>作成：</strong>CVR PM　<strong>初版：</strong>2026-05-14（v0.1）　<strong>更新：</strong>2026-05-18（v0.3.1 出典明示）<br>
+  v0.3で「26年12月の新基盤載せ替え」を前提として明示化し、カレント投資の費用対効果を再検証。タイムラインセクション削除、「無コスト」の分解、4選択肢の比較、空港送迎の技術構造、短期/中長期視座、外部サービス試作の選択肢を新規追加。v0.3.1で「3ハブ」の出典を議事録発言として明示し、強い「構想」表現を緩めた。
+</div>
+
+</div>
+</body>
+</html>
