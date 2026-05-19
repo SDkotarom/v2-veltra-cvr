@@ -117,6 +117,44 @@
   .road-phase li { font-size: 13px; color: var(--text-sub); margin-bottom: 5px; line-height: 1.55; }
   .road-phase .gate { font-size: 12px; color: var(--text-muted); margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border-strong); }
 
+  /* Evidence card visual refinements */
+  .ev-card .ev-sub { font-size: 13px; color: var(--text-sub); margin: -2px 0 12px; }
+  .ev-mini { display: flex; flex-direction: column; gap: 6px; margin: 10px 0 10px; }
+  .ev-mini-row { display: grid; grid-template-columns: 88px 1fr 52px; gap: 8px; align-items: center; font-size: 12px; }
+  .ev-mini-label { color: var(--text-sub); white-space: nowrap; }
+  .ev-mini-bar { height: 8px; background: #ebe9df; border-radius: 4px; overflow: hidden; }
+  .ev-mini-fill { height: 100%; background: var(--accent); border-radius: 4px; }
+  .ev-mini-fill.mute { background: var(--border-strong); }
+  .ev-mini-fill.weak { background: #c47545; }
+  .ev-mini-val { font-family: var(--font-mono); color: var(--text); font-weight: 500; text-align: right; }
+  .ev-detail { margin: 6px 0 10px; }
+  .ev-detail summary { cursor: pointer; font-size: 12px; color: var(--accent-soft); font-weight: 500; list-style: none; padding: 2px 0; }
+  .ev-detail summary::before { content: "▸ "; }
+  .ev-detail[open] summary::before { content: "▾ "; }
+  .ev-detail summary:hover { text-decoration: underline; }
+  .ev-detail p { font-size: 12px; color: var(--text-sub); margin: 6px 0 0; line-height: 1.55; }
+
+  /* Breakdown panels (47% の中身) */
+  .bd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .bd-panel { background: var(--bg-sub); border-radius: 10px; padding: 18px 20px; }
+  .bd-panel h4 { font-size: 13px; font-weight: 600; margin: 0 0 12px; color: var(--text); letter-spacing: 0.02em; }
+  .bd-panel h4 .ctx { color: var(--text-muted); font-weight: 400; font-size: 12px; margin-left: 6px; }
+  .bd-row { display: grid; grid-template-columns: 110px 1fr 60px; gap: 10px; align-items: center; font-size: 12px; margin-bottom: 5px; }
+  .bd-row.target { font-weight: 600; }
+  .bd-row.target .bd-label { color: var(--text); }
+  .bd-label { color: var(--text-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bd-bar { height: 10px; background: #ebe9df; border-radius: 4px; overflow: hidden; }
+  .bd-fill { height: 100%; background: var(--accent); }
+  .bd-fill.weak { background: #c47545; }
+  .bd-fill.mute { background: var(--border-strong); }
+  .bd-val { font-family: var(--font-mono); text-align: right; color: var(--text); }
+  .bd-foot { font-size: 11px; color: var(--text-muted); margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--border-strong); line-height: 1.5; }
+  .bd-detail { margin-top: 8px; }
+  .bd-detail summary { cursor: pointer; font-size: 11px; color: var(--accent-soft); list-style: none; }
+  .bd-detail summary::before { content: "▸ "; }
+  .bd-detail[open] summary::before { content: "▾ "; }
+  .bd-detail p { font-size: 12px; color: var(--text-sub); margin: 6px 0 0; line-height: 1.5; }
+
   /* Routes table */
   .routes { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px; }
   .routes th, .routes td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
@@ -139,12 +177,25 @@
   /* Footer */
   footer.foot { text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
 
+  /* PI/KPI table */
+  .pk-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .pk-table th, .pk-table td { padding: 12px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
+  .pk-table th { background: var(--bg-sub); font-size: 12px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.04em; }
+  .pk-table tr.kpi td { background: var(--bg-accent); }
+  .pk-table tr.kpi td:first-child { border-left: 3px solid var(--accent); font-weight: 600; }
+  .pk-table .role-tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--bg-mute); color: var(--text-muted); margin-bottom: 4px; font-weight: 500; letter-spacing: 0.04em; }
+  .pk-table tr.kpi .role-tag { background: var(--accent); color: #fff; }
+  .pk-table .metric-name { font-size: 15px; font-weight: 600; }
+  .pk-table .target-pill { display: inline-block; font-family: var(--font-mono); font-size: 13px; padding: 4px 10px; background: #fff; border: 1px solid var(--border); border-radius: 4px; }
+  .pk-table tr.kpi .target-pill { border-color: var(--accent-line); color: var(--accent-soft); font-weight: 600; }
+
   @media (max-width: 820px) {
-    .ev-grid, .road, .not-doing, .pi-kpi { grid-template-columns: 1fr; }
+    .ev-grid, .road, .not-doing, .pi-kpi, .bd-grid { grid-template-columns: 1fr; }
     .tobe { grid-template-columns: 1fr; }
     .tobe-arrow { transform: rotate(90deg); padding: 8px 0; }
     header.head h1 { font-size: 24px; }
     .verdict .what { font-size: 18px; }
+    .pk-table th, .pk-table td { padding: 10px 8px; font-size: 12px; }
   }
 </style>
 </head>
@@ -166,6 +217,9 @@
       Veltra に来た Traveler の 47%（170万セッション/月）が AC ページに到達できないまま離脱している。<br>
       この層は「今買う気がない人」ではなく「今買いたいのに目的の AC を見つけられなかった人」。ここに 2026 下半期のリソースを集中する。
     </p>
+    <p style="font-size:12px; color:var(--text-muted); margin:12px 0 0;">
+      数値出典：GA4 Property 347074845 ／ 2026-04-19〜2026-05-16（28日）／ session_start_users 2,442,738 → ac_page_reach_users 1,288,884（通過率 52.8% ⇒ 未到達 47.2% ＝ 約 115 万 users／セッション換算で約 170 万）
+    </p>
   </header>
 
   <!-- Verdict -->
@@ -183,72 +237,239 @@
     <div class="ev-grid">
 
       <div class="ev-card">
-        <div class="ev-tag">EVIDENCE 01</div>
+        <div class="ev-tag">EVIDENCE 01 ／ 検索流入の取りこぼし</div>
         <div class="ev-num">32.3<span class="unit">%</span></div>
-        <div class="ev-headline">検索流入の AC 到達率（全体 52.8% より -20pp）</div>
-        <div class="ev-desc">
-          Organic Search は月 122 万セッションで最大の流入源。キーワードを打ち込んできた = 目的を持った Traveler。
-          なのに AC に届くのは 3 人に 1 人だけ。残り 67% は「自分の目的に合う AC を見つけられず去る」。
+        <div class="ev-sub">Organic Search の AC 到達率</div>
+        <div class="ev-mini">
+          <div class="ev-mini-row">
+            <span class="ev-mini-label">Organic</span>
+            <div class="ev-mini-bar"><div class="ev-mini-fill weak" style="width:32%;"></div></div>
+            <span class="ev-mini-val">32.3%</span>
+          </div>
+          <div class="ev-mini-row">
+            <span class="ev-mini-label">全体平均</span>
+            <div class="ev-mini-bar"><div class="ev-mini-fill mute" style="width:53%;"></div></div>
+            <span class="ev-mini-val">52.8%</span>
+          </div>
         </div>
-        <div class="ev-src">GA4 Property 347074845 / 2026-04-19〜2026-05-16（28日）</div>
+        <details class="ev-detail"><summary>背景</summary>
+          <p>月 122 万 sessions = 最大流入源。キーワード意向が明確なのに 67% を取りこぼし。</p>
+        </details>
+        <div class="ev-src">GA4 P347074845 / 28日</div>
       </div>
 
       <div class="ev-card">
-        <div class="ev-tag">EVIDENCE 02</div>
-        <div class="ev-num">21<span class="unit">% / 40%</span></div>
-        <div class="ev-headline">TOP・CTG ページから AC への到達率</div>
-        <div class="ev-desc">
-          TOP 着地 Traveler 15.4万人のうち AC まで進むのは 21%。CTG（カテゴリ）着地 58万人でも 40%。
-          着地ページから AC への動線設計が、それぞれ 5 人に 4 人・6 人に 4 人を取りこぼしている。
+        <div class="ev-tag">EVIDENCE 02 ／ 着地ページからの未到達</div>
+        <div class="ev-num">21 / 40<span class="unit">%</span></div>
+        <div class="ev-sub">TOP / CTG → AC 到達率</div>
+        <div class="ev-mini">
+          <div class="ev-mini-row">
+            <span class="ev-mini-label">TOP</span>
+            <div class="ev-mini-bar"><div class="ev-mini-fill weak" style="width:21%;"></div></div>
+            <span class="ev-mini-val">21.0%</span>
+          </div>
+          <div class="ev-mini-row">
+            <span class="ev-mini-label">CTG</span>
+            <div class="ev-mini-bar"><div class="ev-mini-fill" style="width:40%;"></div></div>
+            <span class="ev-mini-val">40.4%</span>
+          </div>
+          <div class="ev-mini-row">
+            <span class="ev-mini-label">エリア</span>
+            <div class="ev-mini-bar"><div class="ev-mini-fill" style="width:57%;"></div></div>
+            <span class="ev-mini-val">56.6%</span>
+          </div>
         </div>
-        <div class="ev-src">entry-journey.json / 2026-03-22〜2026-04-18</div>
+        <details class="ev-detail"><summary>背景</summary>
+          <p>TOP 着地 15.4万 users／CTG 58万 users／エリア 26.8万 users。どの入口でも「AC まで案内する」設計が弱い。</p>
+        </details>
+        <div class="ev-src">entry-journey.json / 28日</div>
       </div>
 
       <div class="ev-card">
-        <div class="ev-tag">EVIDENCE 03</div>
+        <div class="ev-tag">EVIDENCE 03 ／ CTG フィルタの不使用</div>
         <div class="ev-num">2.2<span class="unit">/1000</span></div>
-        <div class="ev-headline">CTG ページのフィルタ／検索クリック数</div>
-        <div class="ev-desc">
-          カテゴリページ 1000 セッションあたり、絞り込みフィルタが使われるのは 2.2 回（実質ゼロ）。
-          TOP の 29 回／1000 と比べても桁違い。CTG が「絞り込んで自分の目的を見つける場」として機能していない。
+        <div class="ev-sub">CTG ページの絞り込みクリック数</div>
+        <div class="ev-mini">
+          <div class="ev-mini-row">
+            <span class="ev-mini-label">CTG</span>
+            <div class="ev-mini-bar"><div class="ev-mini-fill weak" style="width:1%;"></div></div>
+            <span class="ev-mini-val">2.2</span>
+          </div>
+          <div class="ev-mini-row">
+            <span class="ev-mini-label">TOP</span>
+            <div class="ev-mini-bar"><div class="ev-mini-fill" style="width:13%;"></div></div>
+            <span class="ev-mini-val">29</span>
+          </div>
         </div>
+        <details class="ev-detail"><summary>背景</summary>
+          <p>CTG は AC 一覧ページなのにフィルタが実質ゼロ使用。「絞り込んで自分の目的を見つける場」として機能していない。</p>
+        </details>
         <div class="ev-src">entry-journey.json / events_per_1000_sessions</div>
       </div>
 
     </div>
   </section>
 
-  <!-- Section 02: KPI vs PI -->
+  <!-- Section 02: 47% の中身を分解する -->
   <section class="sec">
-    <h2><span class="num">02</span> KPI と PI を分ける</h2>
-    <p class="sec-lead">CVR は結果（PI）。直接コントロールできない。動かせるのは Traveler の「探す行動」のほう。</p>
+    <h2><span class="num">02</span> 「47%」の中身を分解する</h2>
+    <p class="sec-lead">なぜ 170 万 sessions が AC に届かないのか。同じ「未到達」でも、入口・行動・属性で性質が違う。</p>
 
-    <div class="pi-kpi">
-      <div class="pi-card">
-        <div class="role">PI（結果指標 / 複数要因の合成で直接動かしづらい）</div>
-        <div class="name">CVR・購入数・売上</div>
-        <p class="why">
-          意向・天候・為替・他社施策・季節性など複数要因の合成結果なので、これ自体を直接コントロールするのは難しい場合が多い。
-          日々観察しつつ、施策の主軸は次の KPI に置く。
-        </p>
-        <div class="target">月次で観察、繁忙期前後で前年同期比較</div>
+    <div class="bd-grid">
+
+      <!-- Panel A: チャネル別 -->
+      <div class="bd-panel">
+        <h4>① 流入チャネル別 1→2 通過率 <span class="ctx">（全体 52.8%）</span></h4>
+        <div class="bd-row target">
+          <span class="bd-label">Organic Search</span>
+          <div class="bd-bar"><div class="bd-fill weak" style="width:32%;"></div></div>
+          <span class="bd-val">32.3%</span>
+        </div>
+        <div class="bd-row">
+          <span class="bd-label">Direct</span>
+          <div class="bd-bar"><div class="bd-fill" style="width:48%;"></div></div>
+          <span class="bd-val">48.2%</span>
+        </div>
+        <div class="bd-row">
+          <span class="bd-label">Paid Search</span>
+          <div class="bd-bar"><div class="bd-fill" style="width:42%;"></div></div>
+          <span class="bd-val">41.5%</span>
+        </div>
+        <div class="bd-row">
+          <span class="bd-label">Referral</span>
+          <div class="bd-bar"><div class="bd-fill" style="width:44%;"></div></div>
+          <span class="bd-val">44.5%</span>
+        </div>
+        <div class="bd-row">
+          <span class="bd-label">Email</span>
+          <div class="bd-bar"><div class="bd-fill weak" style="width:20%;"></div></div>
+          <span class="bd-val">20.3%</span>
+        </div>
+        <div class="bd-row">
+          <span class="bd-label">Organic Social</span>
+          <div class="bd-bar"><div class="bd-fill weak" style="width:22%;"></div></div>
+          <span class="bd-val">22.1%</span>
+        </div>
+        <div class="bd-foot">最大流入の Organic Search（月 122万 sess）が -20pp 取りこぼし ＝ 約 83万 sess の損失。</div>
       </div>
 
-      <div class="pi-card kpi">
-        <div class="role">KPI（先行指標 / コントローラブル）</div>
-        <div class="name">「AC に到達した Traveler 数」</div>
-        <p class="why">
-          AC 以外に着地したセッションのうち AC ページに到達した割合。アパレルでいう「試着数」に相当。
-          サイト内 UX の設計で増減する。買う気のある Traveler が「目的の AC を見つけた」瞬間をカウントする。
-        </p>
-        <div class="target">現状 推定 30% 帯 → <b>45%</b> を目標（+15pp）</div>
+      <!-- Panel B: 着地ページ別 -->
+      <div class="bd-panel">
+        <h4>② 着地ページ別 AC 到達率 <span class="ctx">（AC 直着地は除く）</span></h4>
+        <div class="bd-row">
+          <span class="bd-label">エリア</span>
+          <div class="bd-bar"><div class="bd-fill" style="width:57%;"></div></div>
+          <span class="bd-val">56.6%</span>
+        </div>
+        <div class="bd-row target">
+          <span class="bd-label">CTG</span>
+          <div class="bd-bar"><div class="bd-fill" style="width:40%;"></div></div>
+          <span class="bd-val">40.4%</span>
+        </div>
+        <div class="bd-row">
+          <span class="bd-label">TOP</span>
+          <div class="bd-bar"><div class="bd-fill weak" style="width:21%;"></div></div>
+          <span class="bd-val">21.0%</span>
+        </div>
+        <div class="bd-row">
+          <span class="bd-label">マイページ</span>
+          <div class="bd-bar"><div class="bd-fill weak" style="width:21%;"></div></div>
+          <span class="bd-val">20.6%</span>
+        </div>
+        <div class="bd-foot">TOP / マイページから AC に届くのは 5 人に 1 人。CTG ですら 6 割が AC まで進めない。</div>
       </div>
+
+      <!-- Panel C: 行動シグナル -->
+      <div class="bd-panel">
+        <h4>③ CTG ページの行動 <span class="ctx">（per 1000 sessions）</span></h4>
+        <div class="bd-row">
+          <span class="bd-label">view_item</span>
+          <div class="bd-bar"><div class="bd-fill" style="width:100%;"></div></div>
+          <span class="bd-val">1037</span>
+        </div>
+        <div class="bd-row">
+          <span class="bd-label">scroll</span>
+          <div class="bd-bar"><div class="bd-fill mute" style="width:25%;"></div></div>
+          <span class="bd-val">260</span>
+        </div>
+        <div class="bd-row">
+          <span class="bd-label">form_start</span>
+          <div class="bd-bar"><div class="bd-fill mute" style="width:6%;"></div></div>
+          <span class="bd-val">60</span>
+        </div>
+        <div class="bd-row target">
+          <span class="bd-label">フィルタ click</span>
+          <div class="bd-bar"><div class="bd-fill weak" style="width:1%;"></div></div>
+          <span class="bd-val">2.2</span>
+        </div>
+        <div class="bd-foot">view_item は 1 回／sess 発火、絞り込みはほぼ 0。「見るけど絞れない」状態。</div>
+      </div>
+
+      <!-- Panel D: デバイス / 属性 -->
+      <div class="bd-panel">
+        <h4>④ デバイス・属性別 1→2 <span class="ctx">（全体 52.8%）</span></h4>
+        <div class="bd-row">
+          <span class="bd-label">desktop</span>
+          <div class="bd-bar"><div class="bd-fill" style="width:44%;"></div></div>
+          <span class="bd-val">44.0%</span>
+        </div>
+        <div class="bd-row target">
+          <span class="bd-label">mobile</span>
+          <div class="bd-bar"><div class="bd-fill weak" style="width:30%;"></div></div>
+          <span class="bd-val">30.3%</span>
+        </div>
+        <div class="bd-row">
+          <span class="bd-label">new</span>
+          <div class="bd-bar"><div class="bd-fill" style="width:48%;"></div></div>
+          <span class="bd-val">48.0%</span>
+        </div>
+        <div class="bd-row">
+          <span class="bd-label">returning</span>
+          <div class="bd-bar"><div class="bd-fill weak" style="width:26%;"></div></div>
+          <span class="bd-val">26.1%</span>
+        </div>
+        <details class="bd-detail"><summary>補足</summary>
+          <p>mobile は全 sess の 57%。探索 UX が辛い構造。returning が低いのはマイページ・予約確認等で AC を経由しない再訪を含むため。</p>
+        </details>
+      </div>
+
     </div>
+  </section>
+
+  <!-- Section 03: KPI vs PI -->
+  <section class="sec">
+    <h2><span class="num">03</span> KPI と PI を分ける</h2>
+    <p class="sec-lead">施策の主軸は KPI に置く。PI は観察。</p>
+
+    <table class="pk-table">
+      <thead>
+        <tr>
+          <th style="width:14%;">区分</th>
+          <th style="width:24%;">指標</th>
+          <th>性質</th>
+          <th style="width:24%;">目標 / 観察方法</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="role-tag">PI ／ 結果</span></td>
+          <td><div class="metric-name">CVR・購入数・売上</div></td>
+          <td>意向・天候・為替・他社施策・季節性などの合成 → 直接動かしづらい</td>
+          <td>月次で観察 / 繁忙期は前年同期比較</td>
+        </tr>
+        <tr class="kpi">
+          <td><span class="role-tag">KPI ／ 先行</span></td>
+          <td><div class="metric-name">AC 到達率<br><span style="font-size:12px; font-weight:400; color:var(--text-sub);">（AC 直着地を除いたうちの AC ページ到達率）</span></div></td>
+          <td>サイト内 UX の設計で増減 ＝ コントローラブル。「目的の AC を見つけた」瞬間をカウント</td>
+          <td><span class="target-pill">現状 ≒ 30% → 45%</span><br><span style="font-size:11px; color:var(--text-muted);">+15pp / 28日換算</span></td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 
   <!-- Section 03: ToBe -->
   <section class="sec">
-    <h2><span class="num">03</span> AC への動線を再設計する</h2>
+    <h2><span class="num">04</span> AC への動線を再設計する</h2>
     <p class="sec-lead">AC への入口は 5 つ。それぞれ性質が違うので、規模 × 改善幅 × 着手容易性で順番をつけ、Phase 1 を 1 つに絞る。</p>
 
     <h3 style="font-size:14px; font-weight:600; margin:0 0 10px; color:var(--text-sub);">AC への 5 つの入口（28日, GA4 P347074845）</h3>
@@ -338,7 +559,7 @@
 
   <!-- Section 04: Roadmap -->
   <section class="sec">
-    <h2><span class="num">04</span> ロードマップ（学習目的の段階展開）</h2>
+    <h2><span class="num">05</span> ロードマップ（学習目的の段階展開）</h2>
     <p class="sec-lead">CTG ページで先に効果検証してから他ページに展開する。同時着手は学習が濁るので避ける。</p>
 
     <div class="road">
@@ -386,7 +607,7 @@
 
   <!-- Section 05: Not doing -->
   <section class="sec">
-    <h2><span class="num">05</span> 今期やらないこと（明示）</h2>
+    <h2><span class="num">06</span> 今期やらないこと（明示）</h2>
     <p class="sec-lead">リソースを 1 本に集中するため、以下は今期着手しない。理由をセットで残す。</p>
 
     <div class="not-doing">
