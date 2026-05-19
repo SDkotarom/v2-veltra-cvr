@@ -175,6 +175,16 @@
   }
   .foot strong { color: var(--text); }
 
+  .hero-img {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+  .hero-img img { display: block; width: 100%; height: auto; border-radius: 6px; }
+  .hero-img .cap { font-size: 13px; color: var(--text-muted); margin-top: 10px; text-align: center; }
+
   nav.toc {
     background: var(--bg);
     border: 1px solid var(--border);
@@ -214,6 +224,12 @@
     <h1>入館QRシステム｜プロジェクト計画</h1>
     <p class="lead">2026-05-18の打ち合わせ（Kinoshita / Makino / Nishioka / Kiriya）を踏まえ、現行QRシステムの限界を超えるための取り組みを「初動」段階で整理する。本ドキュメントの方針合意をもって、外部ベンダー選定とパイロット導入の準備に進む。</p>
   </header>
+
+  <!-- =========== HERO IMAGE (1枚絵サマリー) =========== -->
+  <figure class="hero-img">
+    <img src="qr-entry-system-overview.png" alt="QRコード入場管理システム機能改善｜背景・現状課題・ToBe・ロードマップの1枚絵サマリー">
+    <figcaption class="cap">1枚絵サマリー：背景 / 現状の課題 / 現状→ToBe / ロードマップ（Phase 0〜3）</figcaption>
+  </figure>
 
   <nav class="toc">
     <a href="#exec">サマリー</a><span class="sep">/</span>
@@ -263,8 +279,9 @@
       <div>
         <h3>何をすべきか</h3>
         <ul>
-          <li>外部の既存QRソリューション3〜5社を比較し、ベンダー接続でMVPを最速導入</li>
-          <li>Travelerはマイページ/メールからQR表示、Partnerは予約者リスト＋スキャンの2画面から開始</li>
+          <li>外部の既存QRソリューション3〜5社を比較し、ベンダー接続でMVPを最速導入（最速は見込み、Phase 0で再確認）</li>
+          <li>Phase 1は<strong>自社OTA経由予約に絞ってQR表示</strong>、Partnerは予約者リスト＋スキャンの2画面から開始（影響範囲を最小化）</li>
+          <li>B2B（ANA等）経由予約のQR組込はPhase 2の検討範囲とする</li>
           <li>パイロット施設（サビチ鍾乳洞ほか）で運用検証 → 学習サイクルを最速で回す</li>
           <li>リンクティビティとの棲み分けは執行役員Lvの議論待ちのため、依存せず別走</li>
           <li>開発リソースはスクワット別建てで確保（Kotaro が外中さん含めて調整）</li>
@@ -273,7 +290,7 @@
     </div>
 
     <div class="exec-foot">
-      <strong>判断ゲート:</strong> Phase 1（パイロット）終了時に「Partner運用負荷の改善」「Travelerチェックイン体験の所要時間」「B2B経由でのQR表示成立」の3点を評価。3点中2点以上クリアでPhase 2（横展開）へ進む。
+      <strong>判断ゲート:</strong> Phase 1（パイロット）終了時に「Partner運用負荷が現行を上回らない」「Travelerチェックイン体験が現行より改善」の2点をパイロット施設で評価。両方クリアでPhase 2（横展開）へ進む。B2B（ANA等）経由予約の組込はPhase 2の検討範囲とし、Phase 1ゲートには含めない。
     </div>
   </section>
 
@@ -298,8 +315,8 @@
         <div>3〜3.5%の重量課金、Veltraコミッションを侵食。両社の事業思惑が一致しないため案件が進まない過去あり</div>
 
         <div class="label">C. 外部ベンダー接続 <span class="pill-pri p0" style="margin-left:6px;">採用</span></div>
-        <div>あり物が市場に多数。手数料の構造はBと同等以下にできる可能性。逆忖度がなく開発が止まらない。今夏に間に合う</div>
-        <div>仕様の制約あり。将来的にスイッチ・自社化が必要になる可能性</div>
+        <div>あり物が市場に多数。手数料の構造はBと同等以下にできる可能性。逆忖度がなく開発が止まらない。今夏リリースが現実的に狙える（最速見込み）</div>
+        <div>仕様の制約あり。将来的にスイッチ・自社化が必要になる可能性。<strong>「最速」は見込みであり、実装スピードはベンダー依存・Phase 0の選定で再確認する前提</strong></div>
       </div>
     </div>
 
@@ -378,9 +395,9 @@
         <div class="lab">Traveler</div>
         <div class="body">
           <p><span class="tag">困りごと</span>当日紙バウチャー or アナログ提示で時間がかかる。B2B経由予約ではQRが出ず会場でクレームになる。</p>
-          <p><span class="tag">解決</span>予約完了直後にマイページ・メール・PDFバウチャーすべてでQRが見える。会場でスマホをかざすだけで入場完了。</p>
-          <p><span class="tag">MVP必須</span>マイページ・予約完了メールにQR表示／B2B経由でも生成。</p>
-          <p><span class="tag">Phase 2+</span>アプリ・Apple Wallet/Google Wallet保存、多言語UI。</p>
+          <p><span class="tag">解決</span>まず自社OTA経由の予約に対して、マイページ・メール・PDFバウチャーでQRを表示。会場でスマホをかざすだけで入場完了。B2B経由はPhase 2で組込検討。</p>
+          <p><span class="tag">MVP必須</span>自社OTA経由予約のマイページ・予約完了メールにQR表示。</p>
+          <p><span class="tag">Phase 2+</span>B2B（ANA等）経由予約でのQR生成、Apple Wallet/Google Wallet保存、多言語UI。</p>
         </div>
       </div>
 
@@ -412,7 +429,7 @@
       <tbody>
         <tr><td>予約完了画面でのQR表示</td><td class="muted">Traveler</td><td><span class="pill-pri p1">Phase 1</span></td><td class="muted">MVP最重要。マイページ統合と並行</td></tr>
         <tr><td>予約完了メールへのQR埋め込み</td><td class="muted">Traveler</td><td><span class="pill-pri p1">Phase 1</span></td><td class="muted">プリントアウト派対応も兼ねる</td></tr>
-        <tr><td>B2B（ANA等）経由予約でのQR生成</td><td class="muted">Traveler</td><td><span class="pill-pri p1">Phase 1</span></td><td class="muted">既存クレームの解消。営業要望強い</td></tr>
+        <tr><td>B2B（ANA等）経由予約でのQR生成</td><td class="muted">Traveler</td><td><span class="pill-pri p2">Phase 2</span></td><td class="muted">既存クレームの解消。営業要望強いがPhase 1では自社OTA経由を優先し影響範囲を最小化</td></tr>
         <tr><td>Partner用スマホブラウザのQRスキャナ</td><td class="muted">Partner</td><td><span class="pill-pri p1">Phase 1</span></td><td class="muted">アプリ強制不可。Web/PWAで実装</td></tr>
         <tr><td>当日予約者リスト表示</td><td class="muted">Partner</td><td><span class="pill-pri p1">Phase 1</span></td><td class="muted">CSV運用を廃止する</td></tr>
         <tr><td>利用済みステータスの双方向同期</td><td class="muted">Veltra</td><td><span class="pill-pri p1">Phase 1</span></td><td class="muted">Veltra管理画面でも利用済みが見える</td></tr>
@@ -446,20 +463,20 @@
       <h4><span class="ph-tag">Phase 1</span>MVP導入・パイロット<span class="dur">6月〜7月（〜夏繁忙期前）</span></h4>
       <ul>
         <li>外部ベンダー1社決定・契約／開発接続着手</li>
-        <li>Traveler側: マイページ・予約完了メールにQR表示を実装</li>
+        <li>Traveler側: <strong>自社OTA経由予約を優先</strong>し、マイページ・予約完了メールにQR表示を実装（影響範囲を最小化）</li>
         <li>Partner側: スマホブラウザのスキャン画面＋予約一覧の最小限UI</li>
         <li>パイロット施設1〜2社（サビチ鍾乳洞ほか）で運用開始</li>
         <li>運用ログ・クレーム・改善要望を週次で収集 → 学習サイクル開始</li>
       </ul>
-      <div class="reason">分割理由: 学習サイクルを最速で回す。夏繁忙期の実トラフィックで検証することで、机上想定では見えない課題を抽出。</div>
+      <div class="reason">分割理由: 学習サイクルを最速で回す。夏繁忙期の実トラフィックで検証することで、机上想定では見えない課題を抽出。B2B等の組込はPhase 2に回し、Phase 1は影響範囲を最小に絞ることで繁忙期前リリースの確度を上げる。</div>
     </div>
 
     <div class="phase">
       <h4><span class="ph-tag">Phase 2</span>横展開・武器化<span class="dur">8月〜10月</span></h4>
       <ul>
-        <li>Phase 1 の判定ゲートを通過したら着手（未達なら設計見直し）</li>
+        <li>Phase 1 の判定ゲート（2点）を通過したら着手（未達なら設計見直し）</li>
         <li>パートナー10〜20社まで段階拡大</li>
-        <li>B2B（ANA等）予約フローへのQR組み込み</li>
+        <li>B2B（ANA等）予約フローへのQR組み込み検討・実装</li>
         <li>Partnerダッシュボード強化（リアルタイム集計・キャンセル対応）</li>
         <li>Wallet連携・利用ログのBigQueryエクスポート</li>
       </ul>
@@ -479,7 +496,7 @@
     </div>
 
     <div class="callout accent">
-      <strong>Phase 1 → Phase 2 の判定ゲート:</strong> ① Partner現場の運用所要時間が現行（紙バウチャー・CSV）を上回らない／② Travelerチェックイン体験が現行より改善（パイロット施設で1人あたり時間計測）／③ B2B経由予約でもQR表示が成立 — 3点中2点以上達成で「横展開」を意思決定。
+      <strong>Phase 1 → Phase 2 の判定ゲート:</strong> ① Partner現場の運用所要時間が現行（紙バウチャー・CSV）を上回らない／② Travelerチェックイン体験が現行より改善（パイロット施設で1人あたり時間計測） — <strong>2点クリアで「横展開」を意思決定</strong>。<br>※ B2B（ANA等）経由予約のQR組込はPhase 2の検討範囲（Phase 1では自社OTA経由を優先）。
     </div>
   </section>
 
