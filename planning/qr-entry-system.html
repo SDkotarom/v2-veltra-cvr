@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>入館QRシステム｜プロジェクト計画 v0.1</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-sub: #f5f4ef;
+    --bg-card: #ffffff;
+    --bg-accent: #eaf3de;
+    --bg-warn: #faeeda;
+    --bg-info: #e6f1fb;
+    --bg-danger: #fcebeb;
+    --text: #1a1a1a;
+    --text-sub: #555550;
+    --text-muted: #8a8a85;
+    --border: #e3e1d8;
+    --border-strong: #c9c7be;
+    --accent: #2c5530;
+    --accent-soft: #3b6d11;
+    --link: #185fa5;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+    --font-mono: "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg-sub); color: var(--text); font-family: var(--font-sans); font-size: 15px; line-height: 1.75; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 24px 96px; }
+
+  header.head {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  header.head .meta { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+  header.head .meta .pill { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--bg-accent); color: var(--accent-soft); font-weight: 500; }
+  header.head .meta .ver { font-size: 13px; color: var(--text-muted); font-family: var(--font-mono); }
+  header.head h1 { font-size: 24px; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.01em; }
+  header.head p.lead { font-size: 14px; color: var(--text-sub); margin: 0; max-width: 760px; }
+
+  .exec {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 24px;
+  }
+  .exec h2 { font-size: 13px; font-weight: 500; color: var(--accent); margin: 0 0 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .exec .verdict { font-size: 18px; line-height: 1.6; font-weight: 500; margin: 0 0 18px; }
+  .exec .verdict strong { background: linear-gradient(transparent 60%, #c9e0a8 60%); }
+  .exec-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 18px; }
+  .exec-card { background: var(--bg-sub); border-radius: 8px; padding: 14px 16px; }
+  .exec-card .label { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
+  .exec-card .value { font-size: 16px; font-weight: 500; line-height: 1.4; }
+  .exec-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .exec-cols h3 { font-size: 13px; font-weight: 500; color: var(--text-muted); margin: 0 0 8px; letter-spacing: 0.05em; }
+  .exec-cols ul { margin: 0; padding-left: 20px; }
+  .exec-cols li { margin-bottom: 6px; font-size: 14px; }
+  .exec-foot { font-size: 13px; color: var(--text-muted); margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+
+  section.sec {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+  }
+  section.sec h2 { font-size: 18px; font-weight: 600; margin: 0 0 6px; display: flex; align-items: center; gap: 10px; }
+  section.sec h2 .num { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); background: var(--bg-sub); padding: 3px 8px; border-radius: 4px; font-weight: 400; }
+  section.sec .sec-lead { font-size: 13px; color: var(--text-sub); margin: 0 0 20px; }
+  section.sec h3 { font-size: 15px; font-weight: 500; margin: 24px 0 10px; }
+  section.sec h3:first-of-type { margin-top: 0; }
+
+  .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .cards-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .card-sub {
+    background: var(--bg-sub);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .card-sub .tag { display: inline-block; font-size: 13px; padding: 2px 8px; border-radius: 4px; background: var(--bg); color: var(--text-sub); margin-bottom: 8px; }
+  .card-sub .ttl { font-size: 14px; font-weight: 500; margin: 0 0 4px; }
+  .card-sub .desc { font-size: 13px; color: var(--text-sub); margin: 0; line-height: 1.65; }
+
+  table.tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.tbl thead th { text-align: left; padding: 10px 12px; background: var(--bg-sub); font-weight: 500; border-bottom: 1px solid var(--border); }
+  table.tbl tbody td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+  table.tbl tbody tr:last-child td { border-bottom: none; }
+  table.tbl td.muted { color: var(--text-sub); }
+  table.tbl .b { font-weight: 500; }
+
+  .pill-pri { display: inline-block; font-size: 13px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
+  .pill-pri.p1 { background: var(--bg-danger); color: #791f1f; }
+  .pill-pri.p2 { background: var(--bg-warn); color: #854f0b; }
+  .pill-pri.p3 { background: var(--bg-sub); color: var(--text-sub); }
+  .pill-pri.p0 { background: var(--bg-info); color: #0c447c; }
+
+  .callout {
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 16px 0 0;
+  }
+  .callout.info { background: var(--bg-info); color: #0c447c; }
+  .callout.warn { background: var(--bg-warn); color: #6d3f08; }
+  .callout.accent { background: var(--bg-accent); color: #27500a; }
+  .callout strong { font-weight: 600; }
+  .callout code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 3px; font-family: var(--font-mono); font-size: 13px; }
+
+  .axis { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .axis-item { background: var(--bg-sub); border-radius: 8px; padding: 12px 14px; font-size: 13px; }
+  .axis-item .lbl { font-size: 13px; color: var(--text-muted); margin-bottom: 3px; }
+  .axis-item .val { font-weight: 500; margin-bottom: 4px; }
+  .axis-item.hit { background: var(--bg-accent); }
+  .axis-item.hit .val { color: var(--accent-soft); }
+  .axis-item.miss { opacity: 0.55; }
+
+  .eff { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .eff-card { background: var(--bg-sub); border-radius: 8px; padding: 18px 20px; display: grid; grid-template-columns: 110px 1fr; gap: 18px; align-items: start; }
+  .eff-card .lab { font-size: 13px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+  .eff-card .body { font-size: 13px; }
+  .eff-card .body p { margin: 0 0 6px; line-height: 1.7; }
+  .eff-card .body p:last-child { margin-bottom: 0; }
+  .eff-card .body strong { font-weight: 500; }
+  .eff-card .body p span.tag { font-size: 13px; background: var(--bg); color: var(--text-sub); padding: 1px 6px; border-radius: 3px; margin-right: 6px; }
+
+  .phase { background: var(--bg-sub); border-radius: 8px; padding: 16px 18px; margin-bottom: 10px; }
+  .phase h4 { font-size: 14px; font-weight: 500; margin: 0 0 8px; display: flex; align-items: center; gap: 10px; }
+  .phase h4 .ph-tag { font-family: var(--font-mono); font-size: 13px; background: var(--bg); color: var(--text-sub); padding: 2px 7px; border-radius: 4px; font-weight: 400; }
+  .phase h4 .dur { font-size: 13px; color: var(--text-muted); font-weight: 400; margin-left: auto; }
+  .phase ul { margin: 0; padding-left: 20px; font-size: 13px; }
+  .phase li { margin-bottom: 4px; line-height: 1.65; }
+  .phase .reason { font-size: 13px; color: var(--text-muted); margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border); }
+
+  .flow {
+    background: var(--bg-sub);
+    border-radius: 8px;
+    padding: 22px 24px;
+    display: grid;
+    grid-template-columns: 1fr 24px 1fr 24px 1fr 24px 1fr;
+    gap: 0;
+    align-items: stretch;
+    font-size: 13px;
+  }
+  .flow .step { background: var(--bg); border-radius: 6px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .flow .step .who { font-size: 13px; color: var(--text-muted); }
+  .flow .step .act { font-weight: 500; }
+  .flow .arr { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 16px; }
+
+  .compare {
+    background: var(--bg-sub);
+    border-radius: 8px;
+    padding: 18px 22px;
+  }
+  .compare-grid { display: grid; grid-template-columns: 140px 1fr 1fr; gap: 0; }
+  .compare-grid > div { padding: 8px 10px; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .compare-grid > div.h { font-weight: 500; color: var(--text-sub); background: rgba(255,255,255,0.6); }
+  .compare-grid > div.label { font-weight: 500; }
+
+  .foot {
+    margin-top: 28px;
+    padding: 18px 22px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--text-sub);
+    line-height: 1.75;
+  }
+  .foot strong { color: var(--text); }
+
+  nav.toc {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 4px;
+    font-size: 13px;
+  }
+  nav.toc a { color: var(--text-sub); text-decoration: none; padding: 4px 10px; border-radius: 4px; }
+  nav.toc a:hover { background: var(--bg-sub); color: var(--text); }
+  nav.toc .sep { color: var(--text-muted); margin: 0 2px; }
+
+  @media (max-width: 820px) {
+    .wrap { padding: 20px 14px 64px; }
+    header.head, section.sec, .exec { padding: 20px 18px; }
+    .exec-grid { grid-template-columns: repeat(2, 1fr); }
+    .exec-cols { grid-template-columns: 1fr; gap: 14px; }
+    .cards-3, .cards-2, .axis { grid-template-columns: 1fr; }
+    .eff-card { grid-template-columns: 1fr; gap: 6px; }
+    .flow { grid-template-columns: 1fr; }
+    .flow .arr { transform: rotate(90deg); padding: 4px 0; }
+    .compare-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="head">
+    <div class="meta">
+      <span class="pill">プロジェクト計画</span>
+      <span class="ver">v0.1 · 2026-05-18</span>
+    </div>
+    <h1>入館QRシステム｜プロジェクト計画</h1>
+    <p class="lead">2026-05-18の打ち合わせ（Kinoshita / Makino / Nishioka / Kiriya）を踏まえ、現行QRシステムの限界を超えるための取り組みを「初動」段階で整理する。本ドキュメントの方針合意をもって、外部ベンダー選定とパイロット導入の準備に進む。</p>
+  </header>
+
+  <nav class="toc">
+    <a href="#exec">サマリー</a><span class="sep">/</span>
+    <a href="#s1">ソリューション方針</a><span class="sep">/</span>
+    <a href="#s2">ユースケース・要件</a><span class="sep">/</span>
+    <a href="#s3">ロードマップ</a><span class="sep">/</span>
+    <a href="#s4">論点・リスク</a><span class="sep">/</span>
+    <a href="#s5">戦略上の位置づけ</a><span class="sep">/</span>
+    <a href="#s6">背景・現状課題</a>
+  </nav>
+
+  <!-- =========== EXECUTIVE SUMMARY =========== -->
+  <section class="exec" id="exec">
+    <h2>Executive Summary（結論先出し）</h2>
+    <p class="verdict">既存QRはコロナ禍急造の限界品で、競合（Klook/KKday）に対し「土俵に乗っていない」。<strong>リンクティビティに固執せず、外部の既存QRソリューションを接続して夏の繁忙期前にパイロット導入</strong>し、段階的にTraveler体験とPartner業務を改善する。</p>
+
+    <div class="exec-grid">
+      <div class="exec-card">
+        <div class="label">戦略軸との関係</div>
+        <div class="value">CVR3軸の外<br>（予約後体験軸）</div>
+      </div>
+      <div class="exec-card">
+        <div class="label">第1弾スコープ</div>
+        <div class="value">既存ベンダー接続<br>+ パイロット1〜2施設</div>
+      </div>
+      <div class="exec-card">
+        <div class="label">想定パイロット</div>
+        <div class="value">石垣島<br>サビチ鍾乳洞ほか</div>
+      </div>
+      <div class="exec-card">
+        <div class="label">想定リリース</div>
+        <div class="value">夏繁忙期<br>（〜7月）</div>
+      </div>
+    </div>
+
+    <div class="exec-cols">
+      <div>
+        <h3>何がわかったか</h3>
+        <ul>
+          <li>現行QRはイベント1人1.5分でパニック、Partner使用は23社で頭打ち</li>
+          <li>Partnerに日次予約一覧ダッシュボードがなく、CSV運用で現場が困難</li>
+          <li>B2B（ANA等）でQR表示できずクレーム → 営業がQRを外す逆行が発生</li>
+          <li>競合は自社QRを無料提供。Veltraは「土俵不在」で機会を失っている</li>
+          <li>半年前から議論があったが主導者不在で停滞 → スクワットが拾うべき領域</li>
+        </ul>
+      </div>
+      <div>
+        <h3>何をすべきか</h3>
+        <ul>
+          <li>外部の既存QRソリューション3〜5社を比較し、ベンダー接続でMVPを最速導入</li>
+          <li>Travelerはマイページ/メールからQR表示、Partnerは予約者リスト＋スキャンの2画面から開始</li>
+          <li>パイロット施設（サビチ鍾乳洞ほか）で運用検証 → 学習サイクルを最速で回す</li>
+          <li>リンクティビティとの棲み分けは執行役員Lvの議論待ちのため、依存せず別走</li>
+          <li>開発リソースはスクワット別建てで確保（Kotaro が外中さん含めて調整）</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exec-foot">
+      <strong>判断ゲート:</strong> Phase 1（パイロット）終了時に「Partner運用負荷の改善」「Travelerチェックイン体験の所要時間」「B2B経由でのQR表示成立」の3点を評価。3点中2点以上クリアでPhase 2（横展開）へ進む。
+    </div>
+  </section>
+
+  <!-- =========== 1. ソリューション方針 =========== -->
+  <section class="sec" id="s1">
+    <h2><span class="num">01</span>ソリューション方針</h2>
+    <p class="sec-lead">「自社でゼロから作る」「リンクティビティに乗る」「外部既存ソリューションを接続する」の3択を比較し、初動として外部接続を選択する根拠を示す。</p>
+
+    <h3>3つの選択肢の比較</h3>
+    <div class="compare">
+      <div class="compare-grid">
+        <div class="h"></div>
+        <div class="h">メリット</div>
+        <div class="h">デメリット</div>
+
+        <div class="label">A. 自社開発</div>
+        <div>仕様の自由度・データ保有・将来の事業資産化が最大</div>
+        <div>開発工数が読めず、半年前から動いていない過去の経緯あり。夏には絶対間に合わない</div>
+
+        <div class="label">B. リンクティビティ接続</div>
+        <div>社内グループで意思疎通しやすく、既に仕組み保有</div>
+        <div>3〜3.5%の重量課金、Veltraコミッションを侵食。両社の事業思惑が一致しないため案件が進まない過去あり</div>
+
+        <div class="label">C. 外部ベンダー接続 <span class="pill-pri p0" style="margin-left:6px;">採用</span></div>
+        <div>あり物が市場に多数。手数料の構造はBと同等以下にできる可能性。逆忖度がなく開発が止まらない。今夏に間に合う</div>
+        <div>仕様の制約あり。将来的にスイッチ・自社化が必要になる可能性</div>
+      </div>
+    </div>
+
+    <div class="callout accent" style="margin-top:18px;">
+      <strong>Cを選ぶ理由:</strong> 「綺麗な自社クローズドシステムを最初から持つ必要はない。まず外部接続で動かし、ノウハウが溜まったら自分たちのソリューションに切り替えればよい」（打合せでの合意）。Phase分割の理由 = <strong>学習サイクルを最速で回す</strong>。
+    </div>
+
+    <h3>採用判定の3条件（外部ベンダー選定基準）</h3>
+    <div class="cards-3">
+      <div class="card-sub">
+        <div class="tag">必須</div>
+        <div class="ttl">① API連携の柔軟性</div>
+        <p class="desc">Veltra予約データを取り込み、QR発行・利用済みステータス更新が双方向APIで可能。CSV運用に逆戻りしない構造。</p>
+      </div>
+      <div class="card-sub">
+        <div class="tag">必須</div>
+        <div class="ttl">② 手数料が薄い</div>
+        <p class="desc">トランザクション課金または定額。リンクティビティの3%相当と同等以下を目安。Veltraコミッションを侵食しない設計。</p>
+      </div>
+      <div class="card-sub">
+        <div class="tag">必須</div>
+        <div class="ttl">③ Partner向けスキャン画面</div>
+        <p class="desc">スマホブラウザでQR読取＋利用済みボタンが動く。アプリ強制ではないこと。施設のIT非習熟Partnerでも使える。</p>
+      </div>
+      <div class="card-sub">
+        <div class="tag">推奨</div>
+        <div class="ttl">④ B2B予約フローへの対応</div>
+        <p class="desc">ANAなどB2B経由予約でもQR生成が成立。Travelerのチケットメール・PDFバウチャー両方にQR埋め込み可能。</p>
+      </div>
+      <div class="card-sub">
+        <div class="tag">推奨</div>
+        <div class="ttl">⑤ データエクスポート</div>
+        <p class="desc">チェックインログをBigQuery等にエクスポートできること。将来のCRM・データビジネスへの素地。</p>
+      </div>
+      <div class="card-sub">
+        <div class="tag">推奨</div>
+        <div class="ttl">⑥ 多言語UI</div>
+        <p class="desc">Traveler/Partner両方の画面がEN/JP対応。インバウンド・将来の海外展開を阻害しない。</p>
+      </div>
+    </div>
+
+    <h3>システム接続イメージ</h3>
+    <div class="flow">
+      <div class="step">
+        <span class="who">Traveler</span>
+        <span class="act">予約完了</span>
+      </div>
+      <div class="arr">→</div>
+      <div class="step">
+        <span class="who">Veltra</span>
+        <span class="act">外部ベンダーへ予約データ送信／QR発行依頼</span>
+      </div>
+      <div class="arr">→</div>
+      <div class="step">
+        <span class="who">Traveler</span>
+        <span class="act">マイページ・メールでQR受領</span>
+      </div>
+      <div class="arr">→</div>
+      <div class="step">
+        <span class="who">Partner</span>
+        <span class="act">スマホでQRスキャン → 利用済み更新</span>
+      </div>
+    </div>
+    <p style="font-size:13px; color:var(--text-muted); margin:8px 0 0;">※ ベンダー側がQR発行・スキャン・ステータス管理を担う。Veltra側は予約データ連携と表示UIに集中。</p>
+  </section>
+
+  <!-- =========== 2. ユースケース・要件 =========== -->
+  <section class="sec" id="s2">
+    <h2><span class="num">02</span>ユースケース・要件</h2>
+    <p class="sec-lead">「誰のどの困りごとを解くのか」をTraveler / Partner / Veltra の3視点で整理し、MVP に含めるべき要件と Phase 2 以降に回す要件を切り分ける。</p>
+
+    <h3>3視点のユースケース</h3>
+    <div class="eff">
+
+      <div class="eff-card">
+        <div class="lab">Traveler</div>
+        <div class="body">
+          <p><span class="tag">困りごと</span>当日紙バウチャー or アナログ提示で時間がかかる。B2B経由予約ではQRが出ず会場でクレームになる。</p>
+          <p><span class="tag">解決</span>予約完了直後にマイページ・メール・PDFバウチャーすべてでQRが見える。会場でスマホをかざすだけで入場完了。</p>
+          <p><span class="tag">MVP必須</span>マイページ・予約完了メールにQR表示／B2B経由でも生成。</p>
+          <p><span class="tag">Phase 2+</span>アプリ・Apple Wallet/Google Wallet保存、多言語UI。</p>
+        </div>
+      </div>
+
+      <div class="eff-card">
+        <div class="lab">Partner</div>
+        <div class="body">
+          <p><span class="tag">困りごと</span>当日の予約者リストがCSV手元落としでしか見られない。スマホで「もぎる/利用済み」の操作機能がなく、現場運用に耐えない。</p>
+          <p><span class="tag">解決</span>スマホブラウザで日付別の予約者リスト＋QRスキャナが動く。スキャンすればその場で利用済み更新、二重入場を防ぐ。</p>
+          <p><span class="tag">MVP必須</span>当日の予約一覧（日付・時間・人数・氏名）／QRスキャナ／利用済みステータス更新。</p>
+          <p><span class="tag">Phase 2+</span>来場リアルタイム集計、当日のキャンセル/変更対応、入場時写真撮影・本人確認連携。</p>
+        </div>
+      </div>
+
+      <div class="eff-card">
+        <div class="lab">Veltra（事業基盤）</div>
+        <div class="body">
+          <p><span class="tag">困りごと</span>パートナー営業時に「QR提供できる/できない」で勝てない。B2BパートナーはQR欠如を理由に外す。チェックインデータが手元に残らない。</p>
+          <p><span class="tag">解決</span>営業の武器としてQR標準提供。チェックイン実績を蓄積し、リテンション施策や直販施設データ活用の素地を作る。</p>
+          <p><span class="tag">MVP必須</span>Partner営業時の提供メニューにQR追加／チェックインログのDB保存。</p>
+          <p><span class="tag">Phase 2+</span>BigQueryエクスポート、CRM連携、リテンション分析、データビジネス検討。</p>
+        </div>
+      </div>
+
+    </div>
+
+    <h3>機能要件マトリクス</h3>
+    <table class="tbl">
+      <thead><tr><th style="width:34%;">機能</th><th style="width:14%;">利用者</th><th style="width:14%;">Phase</th><th>備考</th></tr></thead>
+      <tbody>
+        <tr><td>予約完了画面でのQR表示</td><td class="muted">Traveler</td><td><span class="pill-pri p1">Phase 1</span></td><td class="muted">MVP最重要。マイページ統合と並行</td></tr>
+        <tr><td>予約完了メールへのQR埋め込み</td><td class="muted">Traveler</td><td><span class="pill-pri p1">Phase 1</span></td><td class="muted">プリントアウト派対応も兼ねる</td></tr>
+        <tr><td>B2B（ANA等）経由予約でのQR生成</td><td class="muted">Traveler</td><td><span class="pill-pri p1">Phase 1</span></td><td class="muted">既存クレームの解消。営業要望強い</td></tr>
+        <tr><td>Partner用スマホブラウザのQRスキャナ</td><td class="muted">Partner</td><td><span class="pill-pri p1">Phase 1</span></td><td class="muted">アプリ強制不可。Web/PWAで実装</td></tr>
+        <tr><td>当日予約者リスト表示</td><td class="muted">Partner</td><td><span class="pill-pri p1">Phase 1</span></td><td class="muted">CSV運用を廃止する</td></tr>
+        <tr><td>利用済みステータスの双方向同期</td><td class="muted">Veltra</td><td><span class="pill-pri p1">Phase 1</span></td><td class="muted">Veltra管理画面でも利用済みが見える</td></tr>
+        <tr><td>Apple Wallet / Google Wallet 連携</td><td class="muted">Traveler</td><td><span class="pill-pri p2">Phase 2</span></td><td class="muted">Phase 1 の効果検証後に投資判断</td></tr>
+        <tr><td>リアルタイム来場集計ダッシュボード</td><td class="muted">Partner</td><td><span class="pill-pri p2">Phase 2</span></td><td class="muted">パイロットでニーズ確認後</td></tr>
+        <tr><td>チェックインログのBigQueryエクスポート</td><td class="muted">Veltra</td><td><span class="pill-pri p2">Phase 2</span></td><td class="muted">DWH側仕様の合意が必要</td></tr>
+        <tr><td>多言語UI（EN）</td><td class="muted">両方</td><td><span class="pill-pri p3">Phase 3</span></td><td class="muted">ENサイト統合のタイミングに合わせる</td></tr>
+        <tr><td>CRM連携・リテンション分析</td><td class="muted">Veltra</td><td><span class="pill-pri p3">Phase 3</span></td><td class="muted">事業資産化フェーズ</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- =========== 3. ロードマップ =========== -->
+  <section class="sec" id="s3">
+    <h2><span class="num">03</span>ロードマップ・スケジュール</h2>
+    <p class="sec-lead">Phase分割の理由: ① Phase 0は意思決定の塊で独立、② Phase 1は学習サイクルを最速で回すため最小単位、③ Phase 2 以降は Phase 1 の判定ゲートを通過してから着手し過剰投資を避ける。</p>
+
+    <div class="phase">
+      <h4><span class="ph-tag">Phase 0</span>整理・準備<span class="dur">〜5月末（2週）</span></h4>
+      <ul>
+        <li>本ドキュメントを Kinoshita・Nishioka にレビュー依頼 → 修正</li>
+        <li>外部QRベンダー3〜5社のショートリスト作成（API連携・手数料・スキャン画面・B2B対応で評価）</li>
+        <li>パイロット候補施設のヒアリング（サビチ鍾乳洞ほか）→ 現状の業務フロー把握</li>
+        <li>開発リソース確保の再相談（Makino × 外中さん）／ スクワット内別建てを正式決定</li>
+        <li>リンクティビティとの「別走」方針を関係者に説明（執行役員Lvの議論は別線）</li>
+      </ul>
+      <div class="reason">分割理由: 意思決定とリサーチに集中し、後工程の手戻りを避けるため。</div>
+    </div>
+
+    <div class="phase">
+      <h4><span class="ph-tag">Phase 1</span>MVP導入・パイロット<span class="dur">6月〜7月（〜夏繁忙期前）</span></h4>
+      <ul>
+        <li>外部ベンダー1社決定・契約／開発接続着手</li>
+        <li>Traveler側: マイページ・予約完了メールにQR表示を実装</li>
+        <li>Partner側: スマホブラウザのスキャン画面＋予約一覧の最小限UI</li>
+        <li>パイロット施設1〜2社（サビチ鍾乳洞ほか）で運用開始</li>
+        <li>運用ログ・クレーム・改善要望を週次で収集 → 学習サイクル開始</li>
+      </ul>
+      <div class="reason">分割理由: 学習サイクルを最速で回す。夏繁忙期の実トラフィックで検証することで、机上想定では見えない課題を抽出。</div>
+    </div>
+
+    <div class="phase">
+      <h4><span class="ph-tag">Phase 2</span>横展開・武器化<span class="dur">8月〜10月</span></h4>
+      <ul>
+        <li>Phase 1 の判定ゲートを通過したら着手（未達なら設計見直し）</li>
+        <li>パートナー10〜20社まで段階拡大</li>
+        <li>B2B（ANA等）予約フローへのQR組み込み</li>
+        <li>Partnerダッシュボード強化（リアルタイム集計・キャンセル対応）</li>
+        <li>Wallet連携・利用ログのBigQueryエクスポート</li>
+      </ul>
+      <div class="reason">分割理由: Phase 1 でベンダー仕様・運用負荷が見えてから、横展開の投資判断をする。</div>
+    </div>
+
+    <div class="phase">
+      <h4><span class="ph-tag">Phase 3</span>事業資産化・新基盤統合<span class="dur">11月以降</span></h4>
+      <ul>
+        <li>新基盤（Jasonさんチーム）への統合視野</li>
+        <li>CRM連携・リテンション分析の運用化</li>
+        <li>多言語対応（ENサイト統合）</li>
+        <li>自社化（外部ベンダースイッチ）の意思決定</li>
+        <li>データビジネスとしての位置づけを明確化</li>
+      </ul>
+      <div class="reason">分割理由: 新基盤の開発進捗との依存解消。Phase 2 までで蓄積したノウハウを自社資産に転換する判断を独立で行う。</div>
+    </div>
+
+    <div class="callout accent">
+      <strong>Phase 1 → Phase 2 の判定ゲート:</strong> ① Partner現場の運用所要時間が現行（紙バウチャー・CSV）を上回らない／② Travelerチェックイン体験が現行より改善（パイロット施設で1人あたり時間計測）／③ B2B経由予約でもQR表示が成立 — 3点中2点以上達成で「横展開」を意思決定。
+    </div>
+  </section>
+
+  <!-- =========== 4. 論点・リスク =========== -->
+  <section class="sec" id="s4">
+    <h2><span class="num">04</span>論点・リスク</h2>
+    <p class="sec-lead">ステークホルダー調整で確定すべき論点と、想定リスクへの対策。</p>
+
+    <h3>確定すべき論点</h3>
+    <table class="tbl">
+      <thead><tr><th>論点</th><th style="width:24%;">確認先</th><th style="width:14%;">期限</th></tr></thead>
+      <tbody>
+        <tr><td>パイロット施設の優先順位（サビチ鍾乳洞以外の候補は）</td><td class="muted">Kinoshita（営業）</td><td class="muted">Phase 0 中</td></tr>
+        <tr><td>外部ベンダーのショートリスト基準と候補</td><td class="muted">CVRチーム内＋開発</td><td class="muted">Phase 0 中</td></tr>
+        <tr><td>リンクティビティとの棲み分け（執行役員Lv）</td><td class="muted">執行役員</td><td class="muted">別線・Phase 0と並走</td></tr>
+        <tr><td>開発リソース別建ての確保（スクワット内 or 外）</td><td class="muted">外中さん／Makino</td><td class="muted">今週中</td></tr>
+        <tr><td>B2B（ANA等）予約フローへの組込タイミング</td><td class="muted">B2B営業／開発</td><td class="muted">Phase 1 末</td></tr>
+        <tr><td>新基盤との接続方針</td><td class="muted">Jason／新基盤チーム</td><td class="muted">Phase 2 着手前</td></tr>
+        <tr><td>チェックインデータの取扱（個人情報・保管期間）</td><td class="muted">法務・セキュリティ</td><td class="muted">Phase 1 着手前</td></tr>
+      </tbody>
+    </table>
+
+    <h3>リスクと対策</h3>
+    <table class="tbl">
+      <thead><tr><th>リスク</th><th>影響</th><th>対策</th></tr></thead>
+      <tbody>
+        <tr><td>外部ベンダー依存でロックインされる</td><td class="muted">将来の切替コスト増</td><td>選定時にデータエクスポート可否を必須条件化、契約も短期更新型</td></tr>
+        <tr><td>リンクティビティ側との関係悪化</td><td class="muted">社内政治・グループ全体最適低下</td><td>「別走」方針を執行役員Lvで認知させる、現場対立を起こさない</td></tr>
+        <tr><td>パイロット施設での運用トラブル</td><td class="muted">Partner信頼低下</td><td>現地導入時はCS/営業同行・並行運用期間設置、紙バウチャーをすぐ復活できる体制</td></tr>
+        <tr><td>夏繁忙期に間に合わない</td><td class="muted">武器化機会の1年逸失</td><td>スコープを最小に絞り、Phase 1 を7月頭で切る。間に合わない機能は Phase 2 へ</td></tr>
+        <tr><td>個人情報・チェックインデータの管理</td><td class="muted">法務リスク</td><td>Phase 0 で法務・セキュリティと事前合意、ベンダーのISMS/Pマーク確認</td></tr>
+        <tr><td>開発リソースがまた枯渇する（過去の繰返し）</td><td class="muted">プロジェクト停滞</td><td>外中さん含めた別建てリソース確保を Phase 0 で正式合意、合意ない場合は着手しない</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- =========== 5. 戦略上の位置づけ =========== -->
+  <section class="sec" id="s5">
+    <h2><span class="num">05</span>戦略上の位置づけ</h2>
+    <p class="sec-lead">本施策はCVR3軸（取りこぼし防止／迷わず買う／滞在中プラスアルファ）の外にある「予約後体験・パートナーソリューション・リアルサービス事業」軸。CVR施策とは別建てで管理することを明示する。</p>
+
+    <h3>戦略3軸との関係（CVR）</h3>
+    <div class="axis">
+      <div class="axis-item miss">
+        <div class="lbl">軸①</div>
+        <div class="val">メインスポット取りこぼし防止</div>
+        <div style="color:var(--text-muted);font-size:13px;">直接の関係なし</div>
+      </div>
+      <div class="axis-item miss">
+        <div class="lbl">軸②</div>
+        <div class="val">迷わず買ってもらう</div>
+        <div style="color:var(--text-muted);font-size:13px;">直接の関係なし</div>
+      </div>
+      <div class="axis-item">
+        <div class="lbl">軸③</div>
+        <div class="val">滞在中プラスアルファ</div>
+        <div style="color:var(--text-muted);font-size:13px;">間接的関係（当日体験UP → 満足度 → 再購入・周辺購入）</div>
+      </div>
+    </div>
+
+    <div class="callout warn" style="margin-top:14px;">
+      <strong>注意:</strong> 本施策の主目的はCVR寄与ではない。CVRレポーティングや週次KPIに混ぜると優先度判断が崩れるため、<strong>CVRプロジェクトとは別建てで進捗管理</strong>する。CVRチーム内でリソースを使う場合は、CVR施策と区別したラベルで管理する。
+    </div>
+
+    <h3>本来の位置づけ：3つの戦略意義（Nishioka視点）</h3>
+    <div class="cards-3">
+      <div class="card-sub">
+        <div class="tag">事業</div>
+        <div class="ttl">リアルサービス事業の第一歩</div>
+        <p class="desc">OTAではなく「事業者の業務効率化」を提供する立場へ。グローバルOTAに対する日本企業としての差別化。</p>
+      </div>
+      <div class="card-sub">
+        <div class="tag">資産</div>
+        <div class="ttl">顧客データ蓄積の素地</div>
+        <p class="desc">施設の予約管理を担うことで来訪者データが手元に残る。CRM・将来のデータビジネスへの第一歩。</p>
+      </div>
+      <div class="card-sub">
+        <div class="tag">営業</div>
+        <div class="ttl">「ありとキリギリスのあり」戦略</div>
+        <p class="desc">大手（USJ等）は取れないが、困っている小さな施設をたくさん助けることで切っても切れない関係値を全国で作る。</p>
+      </div>
+    </div>
+
+    <h3>競合との位置関係</h3>
+    <table class="tbl">
+      <thead><tr><th>事業者</th><th>QR標準提供</th><th>差別化ポイント</th></tr></thead>
+      <tbody>
+        <tr><td class="b">Klook</td><td class="muted">あり（無料）</td><td class="muted">アジア圏で圧倒的シェア、Partnerアプリも完備</td></tr>
+        <tr><td class="b">KKday</td><td class="muted">あり（無料）</td><td class="muted">優良事業者バッジ等で差別化</td></tr>
+        <tr><td class="b">Veltra（現状）</td><td class="muted">23 Partner限定の限定品</td><td class="muted">土俵に乗っていない状態</td></tr>
+        <tr><td class="b">Veltra（目指す姿）</td><td class="muted">標準提供</td><td class="muted">日本語サポート＋IT非習熟Partnerでも使えるシンプルさ</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- =========== 6. 背景・現状課題 =========== -->
+  <section class="sec" id="s6">
+    <h2><span class="num">06</span>背景・現状課題（なぜやるか）</h2>
+    <p class="sec-lead">2026-05-18の打ち合わせで共有された現状認識と課題。</p>
+
+    <h3>現行QRシステムの課題（Kinoshita報告）</h3>
+    <ul style="font-size:13px; padding-left:20px;">
+      <li><strong>急造の限界:</strong> コロナ禍にイベント対応で無理くり作られた仕組み。大型イベントで1人当たりチェックインに1分半かかり、現場がパニックになる事例あり</li>
+      <li><strong>Partner普及の停滞:</strong> 現使用は23 Partnerに留まる。ダッシュボード機能の欠如とCSV運用の限界が普及を阻んでいる</li>
+      <li><strong>スマホ操作機能の欠落:</strong> 「もぎる」「利用済みボタン」のオペレーションがなく、Partner現場で実用に耐えない</li>
+      <li><strong>B2B（ANA等）でのコンプレイン:</strong> QR表示できないことが理由でQRオプションを外す逆行が発生</li>
+    </ul>
+
+    <h3>競合との差（Nishioka報告）</h3>
+    <ul style="font-size:13px; padding-left:20px;">
+      <li>Klook / KKday は自社販売分のQRを無料で標準提供している</li>
+      <li>「グローバルOTAは当たり前の土俵に乗っているが、Veltraはその土俵にも載っていない」状態</li>
+      <li>ただし、IT非習熟のPartnerに対しては日本語サポートのあるVeltraに優位性があり得る</li>
+    </ul>
+
+    <h3>リンクティビティとの関係（背景）</h3>
+    <table class="tbl">
+      <tbody>
+        <tr><td class="b" style="width:30%;">既存の仕組み</td><td>リンクティビティはQRシステムを保有しているが、活用案件が今までなし</td></tr>
+        <tr><td class="b">手数料構造</td><td>リンク経由で導入すると3〜3.5%の手数料が発生し、Veltraコミッションを侵食する（例: 15%契約だと実質12%に）</td></tr>
+        <tr><td class="b">事業の思惑差</td><td>リンクは自社直販サイトをPartnerに使ってもらいたい。Veltraも直販したい。利害が一致しない</td></tr>
+        <tr><td class="b">領域の棲み分け</td><td>リンク = 交通・入場DX。Veltra = アクティビティ。被る領域もあり、現場では明確な答えが出ていない</td></tr>
+        <tr><td class="b">過去の議論</td><td>半年前に同様の議論があったが、主導者不在で停滞</td></tr>
+      </tbody>
+    </table>
+
+    <h3>パイロット候補：石垣島サビチ鍾乳洞の事例</h3>
+    <div class="callout info">
+      <strong>現状:</strong> 観光客がみんな行く施設ではないが、Veltra営業が契約を取れた。<strong>現状は現金払い ＋ Veltra紙バウチャー提示というアナログ運用</strong>。券売機を撤去し、Veltraの QR を置くだけで業務改善に直結する成功モデルになり得る（Kinoshita）。
+    </div>
+  </section>
+
+  <!-- =========== 次の意思決定 =========== -->
+  <div class="foot">
+    <strong>次の意思決定ポイント（次回MTGで合意したいこと）</strong>
+    <ol style="margin:8px 0 0; padding-left:20px;">
+      <li>Phase 0 着手の正式合意（スクワット別建てリソース、外中さん含めた相談を経て）</li>
+      <li>外部ベンダーのショートリスト基準（API・手数料・B2B対応・データエクスポート）</li>
+      <li>パイロット施設の優先順位（サビチ鍾乳洞 + α）</li>
+      <li>リンクティビティとの「別走」方針を執行役員Lvで認知させる動き出しの主管</li>
+      <li>CVRプロジェクトと本施策の管理ラベル分離の運用合意</li>
+    </ol>
+  </div>
+
+</div>
+</body>
+</html>
