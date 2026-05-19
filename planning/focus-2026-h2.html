@@ -276,8 +276,8 @@
   <!-- Verdict -->
   <div class="verdict">
     <div class="label">26 年 4-6 月 フォーカステーマ</div>
-    <p class="what">カテゴリ（CTG）ページの<em>絞り込み UX を改善</em>する</p>
-    <p class="sub">5 月後半着手 → <b style="color:#fff;">6 月末リリース</b> → 7-8 月 繁忙期で売上ヒット → 秋以降に展開</p>
+    <p class="what">AC の<em>探し方・動線 UX を改善</em>する</p>
+    <p class="sub">対象ページは限定しない（CTG／検索結果／エリア／TOP／マイページ等、AC へ向かう動線すべてを候補に）</p>
   </div>
 
   <!-- Section 01: なぜこれか（データ根拠） -->
@@ -656,7 +656,7 @@
     </table>
     <p style="font-size:11px; color:var(--text-muted); margin:-16px 0 24px;">※マイページは next_hop = ac_detail のシェア（24,168 / 117,513）。サイト内検索・他ページ経由は含まず。</p>
 
-    <h3 style="font-size:14px; font-weight:600; margin:0 0 10px;">なぜ Phase 1 を CTG に絞るか</h3>
+    <h3 style="font-size:14px; font-weight:600; margin:0 0 10px;">CTG が起点候補として強い理由（他案もブレストで検討）</h3>
     <div class="why-grid">
       <div class="why-card">
         <h5>規模</h5>
@@ -674,11 +674,50 @@
         <div class="why-note">同一テンプレで一括反映可能。学習を Phase 2 のエリア・TOP・マイページに移植しやすい</div>
       </div>
       <div class="why-card exclude">
-        <h5>マイページを外す理由</h5>
-        <div class="why-metric">CVR 2.07%</div>
-        <div class="why-note">既に高水準でリピーターの再訪導線という別問題系。Phase 1 の学習がそのまま使えない</div>
+        <h5>留意点</h5>
+        <div class="why-metric">他ページ</div>
+        <div class="why-note">サイト内検索結果ページが「CTG で見つけられない」フォールバックとして使われている可能性。マイページの「再訪時の AC 探索」も別問題系として並走候補</div>
       </div>
     </div>
+
+    <h3 style="font-size:14px; font-weight:600; margin:24px 0 10px;">他ページの流入・使われ方（参考：CTG 以外の探索行動）</h3>
+    <p style="font-size:12px; color:var(--text-sub); margin:0 0 12px;">CTG 改修だけでは捕まらない「探そうとしている」行動が他ページに分散している。サイト内検索が 11 万 sess 使われている事実は、CTG・エリア・TOP で見つけられなかったユーザーのフォールバックと読める。</p>
+
+    <table class="routes">
+      <thead>
+        <tr>
+          <th>ページ</th>
+          <th style="text-align:right;">sessions</th>
+          <th style="text-align:right;">activeUsers</th>
+          <th style="text-align:right;">pageviews</th>
+          <th>使われ方（仮説）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>/search（サイト内検索結果）</td>
+          <td class="num">109,717</td>
+          <td class="num">70,063</td>
+          <td class="num">254,750</td>
+          <td>CTG・エリア・TOP で探せなかった人の最後の手段。avg 2.3 pv/sess = 検索を複数回試行</td>
+        </tr>
+        <tr>
+          <td>/wishlist</td>
+          <td class="num">150,906</td>
+          <td class="num">51,295</td>
+          <td class="num">200,884</td>
+          <td>「あとで見る」保管庫。TOP 着地の最大次ページ（84K pv）でもあり、購入意向の温存にならず</td>
+        </tr>
+        <tr>
+          <td>/mypage</td>
+          <td class="num">232,483</td>
+          <td class="num">76,595</td>
+          <td class="num">418,559</td>
+          <td>着地 117K + サイト内回遊 115K。予約確認・クーポン目的の再訪が大半</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px; color:var(--text-muted); margin:-16px 0 24px;">GA4 P347074845 / pagePath CONTAINS 一致 / 2026-04-19〜2026-05-16（28日, サンプリング 27.5%）</p>
 
     <h3 style="font-size:14px; font-weight:600; margin:0 0 10px;">Phase 1（CTG）の AsIs → ToBe</h3>
 
@@ -714,28 +753,28 @@
 
       <div class="road-phase p1">
         <div class="ph">PHASE 1 ／ 仕込み</div>
-        <div class="name">CTG ファーストビューに絞り込みチップを出す（パッチ）</div>
+        <div class="name">AC を探せる動線 UX を軽量パッチで改善（具体案はブレストで決定）</div>
         <div class="when">2026.05 後半 〜 2026.06 末（6 週間）</div>
         <ul>
-          <li>主要 CTG（人気 Top10〜20）に対象を絞ってリリース</li>
-          <li>ファーストビュー上部に「人気の絞り込みチップ」3〜5 個を常設</li>
-          <li>該当件数のリアルタイム表示</li>
-          <li>A/B 計測タグ実装（CTG 着地 → AC 到達率 ベースライン取得）</li>
+          <li>1 日ブレストで具体案を 10+ 個列挙 → 4-6 月末にリリース可能なものに絞り込み</li>
+          <li>対象ページは限定しない（CTG／検索結果／エリア／TOP／マイページ等から選定）</li>
+          <li>軽量パッチ／既存機能活用／A/B 計測タグ先行で「リリース速度 ＞ 完璧さ」を優先</li>
+          <li>KPI: AC 到達率（AC 直着地を除いた sess の AC ページ到達率）を測定可能に</li>
         </ul>
         <div class="gate">完璧を狙わない。パッチでも 7-8 月繁忙期にヒットさせるのが最優先</div>
       </div>
 
       <div class="road-phase p2">
         <div class="ph">PHASE 2 ／ 繁忙期で稼ぐ＆検証</div>
-        <div class="name">主要 CTG 全展開＋効果検証</div>
+        <div class="name">Phase 1 の打ち手を主要動線で全展開＋効果検証</div>
         <div class="when">2026.07 - 2026.08（7-8 月繁忙期）</div>
         <ul>
-          <li>Phase 1 のパッチ効果検証（CTG 着地 → AC 到達率の動きを観察）</li>
-          <li>主要 CTG 全展開（Top20 → 全 CTG）</li>
-          <li>流入キーワードから絞り込みデフォルト適用（実装重め分）</li>
-          <li>ゼロ件時の代替提案（隣接エリア／緩めた条件）</li>
+          <li>Phase 1 パッチの効果検証（AC 到達率の動きを観察）</li>
+          <li>効いた施策を関連動線（他ページ・他カテゴリ）へ全展開</li>
+          <li>Phase 1 で先送りした重実装分（流入文脈引き継ぎ等）を追加</li>
+          <li>ゼロ件時の代替提案・サイト内検索精度などフォローアップ</li>
         </ul>
-        <div class="gate">KPI ゲート：CTG 着地 → AC 到達率 40% → 50%</div>
+        <div class="gate">KPI ゲート：AC 到達率 30% → 45%（目標 +15pp）</div>
       </div>
 
       <div class="road-phase p3">
@@ -756,8 +795,8 @@
 
   <!-- Section 06: Defer -->
   <section class="sec">
-    <h2><span class="num">06</span> 6 月までのプロジェクトでは一旦やらないこと</h2>
-    <p class="sec-lead">Phase 1（CTG 絞り込み）に集中するため一時的に外す。Phase 2 以降で再検討。</p>
+    <h2><span class="num">06</span> 6 月までのプロジェクトでは一旦やらないこと（案）</h2>
+    <p class="sec-lead">ブレスト結果次第で最終確定。AC を探せる動線 UX 改善に集中するため、現時点で外す候補を整理。</p>
 
     <table class="defer">
       <thead>
