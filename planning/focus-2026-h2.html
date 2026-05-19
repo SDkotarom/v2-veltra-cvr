@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <script src="/auth.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026下半期 注力施策｜AC到達経路の改修</title>
+<title>2026年 4-6月 注力施策｜AC到達経路の改修</title>
 <style>
   :root {
     --bg: #ffffff;
@@ -134,6 +134,46 @@
   .ev-detail summary:hover { text-decoration: underline; }
   .ev-detail p { font-size: 12px; color: var(--text-sub); margin: 6px 0 0; line-height: 1.55; }
 
+  /* Why-4-cards (Phase 1 を CTG に絞る理由) */
+  .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 6px 0 24px; }
+  .why-card { background: var(--bg-sub); border-radius: 10px; padding: 16px 18px; border-top: 3px solid var(--accent); }
+  .why-card.exclude { background: #fafaf6; border-top: 3px dashed var(--border-strong); }
+  .why-card h5 { font-size: 11px; letter-spacing: 0.1em; color: var(--text-muted); margin: 0 0 8px; font-weight: 600; text-transform: uppercase; }
+  .why-card.exclude h5 { color: var(--text-muted); }
+  .why-card .why-metric { font-family: var(--font-mono); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1.1; margin-bottom: 8px; }
+  .why-card .why-metric .why-unit { font-size: 12px; color: var(--text-muted); margin-left: 4px; font-weight: 500; }
+  .why-card.exclude .why-metric { color: var(--text-sub); font-size: 18px; }
+  .why-card .why-note { font-size: 12px; color: var(--text-sub); line-height: 1.55; }
+
+  /* Data toggle inside breakdown panel */
+  .bd-data-detail { margin-top: 10px; }
+  .bd-data-detail summary { cursor: pointer; font-size: 11px; color: var(--accent-soft); list-style: none; font-weight: 500; padding: 4px 0; }
+  .bd-data-detail summary::before { content: "▸ "; }
+  .bd-data-detail[open] summary::before { content: "▾ "; }
+  .bd-data-detail summary:hover { text-decoration: underline; }
+  .bd-data-tbl { width: 100%; margin-top: 6px; border-collapse: collapse; }
+  .bd-data-tbl td { padding: 3px 6px; font-size: 11px; vertical-align: top; line-height: 1.4; }
+  .bd-data-tbl td:first-child { color: var(--text-sub); white-space: nowrap; padding-right: 12px; }
+  .bd-data-tbl td:last-child { font-family: var(--font-mono); text-align: right; color: var(--text); }
+  .bd-data-src { font-size: 10px; color: var(--text-muted); margin-top: 6px; padding-top: 4px; border-top: 1px dotted var(--border); line-height: 1.4; }
+
+  /* Premise box (47% の出所) */
+  .bd-premise { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; }
+  .bd-premise .pre-label { font-size: 11px; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
+  .bd-premise .pre-flow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 12px; }
+  .bd-premise .pre-node { background: var(--bg-sub); border-radius: 6px; padding: 8px 12px; line-height: 1.3; }
+  .bd-premise .pre-node b { font-family: var(--font-mono); font-size: 14px; color: var(--text); }
+  .bd-premise .pre-node .pre-meta { font-size: 11px; color: var(--text-muted); display: block; margin-top: 2px; }
+  .bd-premise .pre-node.target { background: var(--bg-accent); border-left: 3px solid var(--accent); }
+  .bd-premise .pre-arrow { color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; }
+  .bd-premise .pre-src { font-size: 11px; color: var(--text-muted); margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border); }
+
+  /* Fact + Hypothesis lines */
+  .bd-fact { font-size: 12px; color: var(--text); margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--border-strong); line-height: 1.55; }
+  .bd-fact::before { content: "観察"; display: inline-block; font-size: 10px; font-weight: 600; color: #fff; background: var(--accent); padding: 1px 6px; border-radius: 3px; margin-right: 6px; vertical-align: 1px; letter-spacing: 0.05em; }
+  .bd-hyp { font-size: 12px; color: var(--text-sub); margin-top: 6px; line-height: 1.55; }
+  .bd-hyp::before { content: "仮説"; display: inline-block; font-size: 10px; font-weight: 600; color: #fff; background: var(--link); padding: 1px 6px; border-radius: 3px; margin-right: 6px; vertical-align: 1px; letter-spacing: 0.05em; }
+
   /* Breakdown panels (47% の中身) */
   .bd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .bd-panel { background: var(--bg-sub); border-radius: 10px; padding: 18px 20px; }
@@ -177,6 +217,15 @@
   /* Footer */
   footer.foot { text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
 
+  /* Defer table (一旦やらないこと) */
+  .defer { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .defer th, .defer td { padding: 12px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
+  .defer th { background: var(--bg-sub); font-size: 12px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.04em; }
+  .defer .item { font-weight: 600; color: var(--text); }
+  .defer .scope { font-size: 11px; color: var(--text-muted); display: block; margin-top: 2px; font-weight: 400; }
+  .defer .reason { color: var(--text-sub); }
+  .defer .when { font-family: var(--font-mono); font-size: 12px; color: var(--accent-soft); white-space: nowrap; }
+
   /* PI/KPI table */
   .pk-table { width: 100%; border-collapse: collapse; font-size: 13px; }
   .pk-table th, .pk-table td { padding: 12px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
@@ -190,7 +239,7 @@
   .pk-table tr.kpi .target-pill { border-color: var(--accent-line); color: var(--accent-soft); font-weight: 600; }
 
   @media (max-width: 820px) {
-    .ev-grid, .road, .not-doing, .pi-kpi, .bd-grid { grid-template-columns: 1fr; }
+    .ev-grid, .road, .not-doing, .pi-kpi, .bd-grid, .why-grid { grid-template-columns: 1fr; }
     .tobe { grid-template-columns: 1fr; }
     .tobe-arrow { transform: rotate(90deg); padding: 8px 0; }
     header.head h1 { font-size: 24px; }
@@ -205,7 +254,7 @@
   <!-- Header -->
   <header class="head">
     <div class="meta">
-      <span class="pill">2026 下半期 注力施策</span>
+      <span class="pill">2026 年 4-6 月 注力施策</span>
       <span class="pill" style="background:#e6f1fb;color:#185fa5;">戦略軸：迷わず買う</span>
       <span class="ver">ver 1.0  |  2026.05.20</span>
     </div>
@@ -215,7 +264,7 @@
     </p>
     <p class="lead">
       Veltra に来た Traveler の 47%（170万セッション/月）が AC ページに到達できないまま離脱している。<br>
-      この層は「今買う気がない人」ではなく「今買いたいのに目的の AC を見つけられなかった人」。ここに 2026 下半期のリソースを集中する。
+      この層は「今買う気がない人」ではなく「今買いたいのに目的の AC を見つけられなかった人」。ここに 2026 年 4-6 月のリソースを集中する。
     </p>
     <p style="font-size:12px; color:var(--text-muted); margin:12px 0 0;">
       数値出典：GA4 Property 347074845 ／ 2026-04-19〜2026-05-16（28日）／ session_start_users 2,442,738 → ac_page_reach_users 1,288,884（通過率 52.8% ⇒ 未到達 47.2% ＝ 約 115 万 users／セッション換算で約 170 万）
@@ -224,9 +273,9 @@
 
   <!-- Verdict -->
   <div class="verdict">
-    <div class="label">FOCUS</div>
-    <p class="what">カテゴリ（CTG）ページの<em>絞り込み UX を主役化</em>する</p>
-    <p class="sub">2026 6月着手 → 7-8月 繁忙期に効果検証 → 秋以降に他ページ展開</p>
+    <div class="label">26 年 4-6 月 フォーカステーマ</div>
+    <p class="what">カテゴリ（CTG）ページの<em>絞り込み UX を改善</em>する</p>
+    <p class="sub">5 月後半着手 → <b style="color:#fff;">6 月末リリース</b> → 7-8 月 繁忙期で売上ヒット → 秋以降に展開</p>
   </div>
 
   <!-- Section 01: なぜこれか（データ根拠） -->
@@ -313,7 +362,19 @@
   <!-- Section 02: 47% の中身を分解する -->
   <section class="sec">
     <h2><span class="num">02</span> 「47%」の中身を分解する</h2>
-    <p class="sec-lead">なぜ 170 万 sessions が AC に届かないのか。同じ「未到達」でも、入口・行動・属性で性質が違う。</p>
+    <p class="sec-lead">同じ「未到達」でも、入口・行動・属性で性質が違う。各観点でデータと仮説を端的に並べる。</p>
+
+    <div class="bd-premise">
+      <div class="pre-label">47% の出所</div>
+      <div class="pre-flow">
+        <div class="pre-node"><b>2,442,738</b><span class="pre-meta">session_start_users</span></div>
+        <span class="pre-arrow">→ 1→2 通過 52.8% →</span>
+        <div class="pre-node"><b>1,288,884</b><span class="pre-meta">ac_page_reach_users</span></div>
+        <span class="pre-arrow">→ 未到達 47.2% →</span>
+        <div class="pre-node target"><b>1,153,854</b><span class="pre-meta">未到達 users ≒ 170万 sess</span></div>
+      </div>
+      <div class="pre-src">GA4 Property 347074845 / 2026-04-19〜2026-05-16（28日, 全チャネル合計）／ 出典: reports/2026-w20/data.json baseline.funnel</div>
+    </div>
 
     <div class="bd-grid">
 
@@ -350,7 +411,21 @@
           <div class="bd-bar"><div class="bd-fill weak" style="width:22%;"></div></div>
           <span class="bd-val">22.1%</span>
         </div>
-        <div class="bd-foot">最大流入の Organic Search（月 122万 sess）が -20pp 取りこぼし ＝ 約 83万 sess の損失。</div>
+        <div class="bd-fact">最大流入 Organic Search 122万 sess が -20pp 取りこぼし ＝ 約 83万 sess 損失</div>
+        <div class="bd-hyp">着地は CTG / エリアが多い。検索 KW で来た意向が橋渡しされず、半数は bounce で検索結果に戻り他社へ／残りは別 CTG・別エリアへ横移動し AC まで降りない</div>
+        <details class="bd-data-detail"><summary>GA4 数値</summary>
+          <table class="bd-data-tbl">
+            <tr><td>Organic Search sessions</td><td>1,226,986</td></tr>
+            <tr><td>Organic Search 1→2</td><td>32.3%</td></tr>
+            <tr><td>全体 1→2</td><td>52.8%</td></tr>
+            <tr><td>差分 (-pp)</td><td>-20.5pp</td></tr>
+            <tr><td>取りこぼし sess</td><td>≒ 830,000</td></tr>
+            <tr><td>CTG bounce</td><td>29.0%</td></tr>
+            <tr><td>エリア bounce</td><td>44.7%</td></tr>
+            <tr><td>TOP bounce</td><td>51.4%</td></tr>
+          </table>
+          <div class="bd-data-src">data.json segments.channel / entry-journey.json bounce_rate / 28日</div>
+        </details>
       </div>
 
       <!-- Panel B: 着地ページ別 -->
@@ -376,7 +451,22 @@
           <div class="bd-bar"><div class="bd-fill weak" style="width:21%;"></div></div>
           <span class="bd-val">20.6%</span>
         </div>
-        <div class="bd-foot">TOP / マイページから AC に届くのは 5 人に 1 人。CTG ですら 6 割が AC まで進めない。</div>
+        <div class="bd-fact">TOP / マイページから AC に届くのは 5 人に 1 人、CTG ですら 6 割未到達</div>
+        <div class="bd-hyp">TOP は bounce 51% ／ 次ページ Top1 = wishlist 83K pv（「あとで見る」止まりで購入意向の温存にならない）／ CTG は bounce 低だが「別 CTG への横移動ループ」が支配的（札幌 62K → 京都 21K → 八重山 21K…）</div>
+        <details class="bd-data-detail"><summary>GA4 数値</summary>
+          <table class="bd-data-tbl">
+            <tr><td>TOP bounce / pv per sess</td><td>51.4% / 4.07</td></tr>
+            <tr><td>TOP 次ページ wishlist</td><td>83,953 pv</td></tr>
+            <tr><td>TOP 次ページ search</td><td>34,086 pv</td></tr>
+            <tr><td>CTG bounce / pv per sess</td><td>29.0% / 3.10</td></tr>
+            <tr><td>CTG → sapporo CTG</td><td>61,852 pv</td></tr>
+            <tr><td>CTG → kyoto bus tours</td><td>20,957 pv</td></tr>
+            <tr><td>CTG → yaeyama trip</td><td>20,877 pv</td></tr>
+            <tr><td>CTG → sakura tokyo</td><td>20,162 pv</td></tr>
+            <tr><td>CTG → /booking</td><td>29,672 pv</td></tr>
+          </table>
+          <div class="bd-data-src">entry-journey.json next_pages_top / bounce_rate / 2026-03-22〜04-18（28日）</div>
+        </details>
       </div>
 
       <!-- Panel C: 行動シグナル -->
@@ -402,7 +492,22 @@
           <div class="bd-bar"><div class="bd-fill weak" style="width:1%;"></div></div>
           <span class="bd-val">2.2</span>
         </div>
-        <div class="bd-foot">view_item は 1 回／sess 発火、絞り込みはほぼ 0。「見るけど絞れない」状態。</div>
+        <div class="bd-fact">view_item 1037 / sess 発火、フィルタ 2.2 / sess（約 470 倍差）</div>
+        <div class="bd-hyp">AC タイル一覧を眺めるが該当 AC が見えず、別 CTG への横移動でループ。/booking まで進むのは既に意向が固まった層のみ（CTG 1000 sess あたり form_start 60）</div>
+        <details class="bd-data-detail"><summary>GA4 数値</summary>
+          <table class="bd-data-tbl">
+            <tr><td>view_item / 1000 sess</td><td>1,037</td></tr>
+            <tr><td>scroll / 1000 sess</td><td>260</td></tr>
+            <tr><td>form_start / 1000 sess</td><td>60</td></tr>
+            <tr><td>form_submit / 1000 sess</td><td>69</td></tr>
+            <tr><td>purchase / 1000 sess</td><td>10.7</td></tr>
+            <tr><td>search_filter_click / 1000 sess</td><td>2.2</td></tr>
+            <tr><td>add_wishlist / 1000 sess</td><td>7.7</td></tr>
+            <tr><td>suggest_clicked / 1000 sess</td><td>0.9</td></tr>
+            <tr><td>参考: TOP filter click</td><td>29 / 1000</td></tr>
+          </table>
+          <div class="bd-data-src">entry-journey.json entries.ctg.events_per_1000_sessions / 28日</div>
+        </details>
       </div>
 
       <!-- Panel D: デバイス / 属性 -->
@@ -428,8 +533,22 @@
           <div class="bd-bar"><div class="bd-fill weak" style="width:26%;"></div></div>
           <span class="bd-val">26.1%</span>
         </div>
-        <details class="bd-detail"><summary>補足</summary>
-          <p>mobile は全 sess の 57%。探索 UX が辛い構造。returning が低いのはマイページ・予約確認等で AC を経由しない再訪を含むため。</p>
+        <div class="bd-fact">mobile 30.3%（desktop -14pp）、returning 26.1%（new -22pp）</div>
+        <div class="bd-hyp">mobile は小画面で AC 一覧を絞れず wishlist 保存 → 後で PC 再訪。returning はマイページ→予約確認・クーポン目的の再訪が多く、新しい AC 探索動機が薄い</div>
+        <details class="bd-data-detail"><summary>GA4 数値</summary>
+          <table class="bd-data-tbl">
+            <tr><td>mobile sessions / 1→2</td><td>2,062,740 / 30.3%</td></tr>
+            <tr><td>desktop sessions / 1→2</td><td>1,467,815 / 44.0%</td></tr>
+            <tr><td>tablet sessions / 1→2</td><td>46,362 / 35.0%</td></tr>
+            <tr><td>new sessions / 1→2</td><td>2,278,113 / 48.0%</td></tr>
+            <tr><td>returning sessions / 1→2</td><td>1,203,395 / 26.1%</td></tr>
+            <tr><td>mypage sessions / CVR</td><td>117,513 / 2.07%</td></tr>
+            <tr><td>mypage → ac_detail</td><td>24,168 sess</td></tr>
+            <tr><td>mypage → booking_list</td><td>14,484 sess</td></tr>
+            <tr><td>mypage → my_coupon</td><td>11,228 sess</td></tr>
+            <tr><td>mypage → support_inquiry</td><td>8,042 sess</td></tr>
+          </table>
+          <div class="bd-data-src">data.json segments.device / segments.new_returning / entry-journey.json entries.mypage / 28日</div>
         </details>
       </div>
 
@@ -524,13 +643,29 @@
     </table>
     <p style="font-size:11px; color:var(--text-muted); margin:-16px 0 24px;">※マイページは next_hop = ac_detail のシェア（24,168 / 117,513）。サイト内検索・他ページ経由は含まず。</p>
 
-    <h3 style="font-size:14px; font-weight:600; margin:0 0 6px;">なぜ Phase 1 を CTG に絞るか</h3>
-    <ul style="margin:0 0 20px; padding-left:20px; font-size:13px; color:var(--text-sub); line-height:1.75;">
-      <li><b>規模</b>：5 入口中 2 番目（AC 直着地を除けば最大）の 71.9 万 sessions。動かす意味がある</li>
-      <li><b>伸びしろ</b>：フィルタ click 2.2/1000 は実質ゼロ。絞り込み UX が「無いのと同じ」状態 = ToBe の余白が最も大きい</li>
-      <li><b>着手容易性</b>：CTG は同一テンプレで 1 万ページ近くに反映できる。学習を Phase 2 のエリア・TOP・マイページに移植しやすい</li>
-      <li><b>マイページを Phase 1 にしない理由</b>：CVR 2.068% で既に高く、リピーター中心の「再訪導線」という別問題系。動線設計のロジックも CTG と異なるため、Phase 1 の学習がそのまま使えない</li>
-    </ul>
+    <h3 style="font-size:14px; font-weight:600; margin:0 0 10px;">なぜ Phase 1 を CTG に絞るか</h3>
+    <div class="why-grid">
+      <div class="why-card">
+        <h5>規模</h5>
+        <div class="why-metric">71.9 万<span class="why-unit">sess</span></div>
+        <div class="why-note">5 入口中 2 番目（AC 直着地を除けば最大）。動かす意味がある</div>
+      </div>
+      <div class="why-card">
+        <h5>伸びしろ</h5>
+        <div class="why-metric">2.2<span class="why-unit">/1000</span></div>
+        <div class="why-note">フィルタ click が実質ゼロ ＝ 絞り込み UX が「無いのと同じ」状態。ToBe の余白が最大</div>
+      </div>
+      <div class="why-card">
+        <h5>着手容易性</h5>
+        <div class="why-metric">≈ 1 万<span class="why-unit">pages</span></div>
+        <div class="why-note">同一テンプレで一括反映可能。学習を Phase 2 のエリア・TOP・マイページに移植しやすい</div>
+      </div>
+      <div class="why-card exclude">
+        <h5>マイページを外す理由</h5>
+        <div class="why-metric">CVR 2.07%</div>
+        <div class="why-note">既に高水準でリピーターの再訪導線という別問題系。Phase 1 の学習がそのまま使えない</div>
+      </div>
+    </div>
 
     <h3 style="font-size:14px; font-weight:600; margin:0 0 10px;">Phase 1（CTG）の AsIs → ToBe</h3>
 
@@ -565,39 +700,40 @@
     <div class="road">
 
       <div class="road-phase p1">
-        <div class="ph">PHASE 1</div>
-        <div class="name">CTG ページの絞り込み主役化</div>
-        <div class="when">2026.06 - 2026.08（繁忙期前着手 → 繁忙期で検証）</div>
+        <div class="ph">PHASE 1 ／ 仕込み</div>
+        <div class="name">CTG ファーストビューに絞り込みチップを出す（パッチ）</div>
+        <div class="when">2026.05 後半 〜 2026.06 末（6 週間）</div>
         <ul>
-          <li>第一スクリーン上部に絞り込み UI を常設</li>
-          <li>流入キーワードから条件をデフォルト適用</li>
+          <li>主要 CTG（人気 Top10〜20）に対象を絞ってリリース</li>
+          <li>ファーストビュー上部に「人気の絞り込みチップ」3〜5 個を常設</li>
           <li>該当件数のリアルタイム表示</li>
-          <li>A/B テストで対象 CTG（例：人気カテゴリ Top20）から開始</li>
+          <li>A/B 計測タグ実装（CTG 着地 → AC 到達率 ベースライン取得）</li>
+        </ul>
+        <div class="gate">完璧を狙わない。パッチでも 7-8 月繁忙期にヒットさせるのが最優先</div>
+      </div>
+
+      <div class="road-phase p2">
+        <div class="ph">PHASE 2 ／ 繁忙期で稼ぐ＆検証</div>
+        <div class="name">主要 CTG 全展開＋効果検証</div>
+        <div class="when">2026.07 - 2026.08（7-8 月繁忙期）</div>
+        <ul>
+          <li>Phase 1 のパッチ効果検証（CTG 着地 → AC 到達率の動きを観察）</li>
+          <li>主要 CTG 全展開（Top20 → 全 CTG）</li>
+          <li>流入キーワードから絞り込みデフォルト適用（実装重め分）</li>
+          <li>ゼロ件時の代替提案（隣接エリア／緩めた条件）</li>
         </ul>
         <div class="gate">KPI ゲート：CTG 着地 → AC 到達率 40% → 50%</div>
       </div>
 
-      <div class="road-phase p2">
-        <div class="ph">PHASE 2</div>
-        <div class="name">エリア・TOP・マイページへの展開</div>
-        <div class="when">2026.09 - 2026.11</div>
-        <ul>
-          <li>エリアページ：Phase 1 で効いた絞り込み軸を移植</li>
-          <li>TOP：「探す動線」を AC リスト型から条件入力型へ</li>
-          <li>マイページ：「前回見た AC への戻り」「クーポン → 該当 AC」の動線を再設計</li>
-          <li>サイト内検索の精度改善（典型クエリのチューニング）</li>
-        </ul>
-        <div class="gate">KPI ゲート：TOP 着地 → AC 到達率 21% → 35%</div>
-      </div>
-
       <div class="road-phase p3">
-        <div class="ph">PHASE 3</div>
-        <div class="name">AC ページ側の対応（必要分のみ）</div>
-        <div class="when">2026.12 - 2027.02</div>
+        <div class="ph">PHASE 3 ／ 秋以降に展開</div>
+        <div class="name">エリア・TOP・マイページ・AC ページへ</div>
+        <div class="when">2026.09 以降</div>
         <ul>
-          <li>絞り込み条件を引き継いだ AC ページ表示（条件継承）</li>
-          <li>Phase 1-2 で蓄積した行動ログをもとに AC ページ本改修の優先度判断</li>
-          <li>new ユーザーの AC landing CVR 0.388% 問題の本格対応はここから</li>
+          <li>エリア：絞り込み軸の移植</li>
+          <li>TOP：「探す動線」を条件入力型へ</li>
+          <li>マイページ：「前回見た AC への戻り」「クーポン → 該当 AC」</li>
+          <li>AC ページ側：絞り込み条件引き継ぎ＋ new CVR 0.388% 問題への着手</li>
         </ul>
         <div class="gate">前提：Phase 1-2 の行動データが揃っていること</div>
       </div>
@@ -605,46 +741,54 @@
     </div>
   </section>
 
-  <!-- Section 05: Not doing -->
+  <!-- Section 06: Defer -->
   <section class="sec">
-    <h2><span class="num">06</span> 今期やらないこと（明示）</h2>
-    <p class="sec-lead">リソースを 1 本に集中するため、以下は今期着手しない。理由をセットで残す。</p>
+    <h2><span class="num">06</span> 6 月までのプロジェクトでは一旦やらないこと</h2>
+    <p class="sec-lead">Phase 1（CTG 絞り込み）に集中するため一時的に外す。Phase 2 以降で再検討。</p>
 
-    <div class="not-doing">
-
-      <div class="not-card">
-        <div class="nname">AC ページ自体の改修（パーソナライズ・関連 AC レコメンド・見栄え刷新）</div>
-        <p class="nwhy">
-          AC ページに来た Traveler の中には「今買う気がない」層が混じる。AC ページを磨いても効果上限が見えている。
-          先に到達経路を改修して「来る人の質」を安定させてから取り組む方が、効果測定が濁らない。
-        </p>
-      </div>
-
-      <div class="not-card">
-        <div class="nname">予約フォームの改修</div>
-        <p class="nwhy">
-          フォーム→購入 72.6% の離脱に含まれるのは、「今買う気がそもそも無く最終画面まで確認しに来ただけ」の層が大半。
-          海外旅行は日用品ではないため、フォーム磨きの上限は低い。優先度を最も下げる。
-        </p>
-      </div>
-
-      <div class="not-card">
-        <div class="nname">カレンダー UI の改修</div>
-        <p class="nwhy">
-          既存機能の磨き直し範囲に収まる。AsIs→ToBe の飛距離が小さく、5 月以降の限られた工数を割く対象ではない。
-          Phase 3 で AC ページに着手する際に同時検討する。
-        </p>
-      </div>
-
-      <div class="not-card">
-        <div class="nname">新規流入チャネルの開拓（SEO・広告以外）</div>
-        <p class="nwhy">
-          流入獲得は専門チームが各チャネルで稼働中。サイト内 UX 改修の枠組みからは外す。
-          ただし Phase 2 でサイト内検索を触る際に、Organic Search 経由の文脈引き継ぎは設計に含める。
-        </p>
-      </div>
-
-    </div>
+    <table class="defer">
+      <thead>
+        <tr>
+          <th style="width:32%;">項目</th>
+          <th>一旦やらない理由</th>
+          <th style="width:14%;">再検討</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="item">AC ページ自体の改修</span>
+            <span class="scope">パーソナライズ／関連 AC レコメンド／見栄え刷新</span>
+          </td>
+          <td class="reason">来る人の質が変わってから着手しないと効果測定が濁る</td>
+          <td class="when">Phase 3</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="item">予約フォームの改修</span>
+            <span class="scope">フォーム→購入 72.6%</span>
+          </td>
+          <td class="reason">海外旅行は日用品でなく、磨いても上限が低い</td>
+          <td class="when">優先度最下位</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="item">カレンダー UI の改修</span>
+            <span class="scope">日付選択・ヒートマップ等</span>
+          </td>
+          <td class="reason">既存機能の磨き直し範囲。AsIs→ToBe の飛距離が小</td>
+          <td class="when">Phase 3 と同時</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="item">新規流入チャネル開拓</span>
+            <span class="scope">SEO・広告以外</span>
+          </td>
+          <td class="reason">専門チームが稼働中。サイト内 UX 改修の枠組み外</td>
+          <td class="when">対象外</td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 
   <footer class="foot">
