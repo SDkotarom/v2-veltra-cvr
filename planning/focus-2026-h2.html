@@ -156,6 +156,8 @@
   .bd-data-tbl td:first-child { color: var(--text-sub); white-space: nowrap; padding-right: 12px; }
   .bd-data-tbl td:last-child { font-family: var(--font-mono); text-align: right; color: var(--text); }
   .bd-data-src { font-size: 10px; color: var(--text-muted); margin-top: 6px; padding-top: 4px; border-top: 1px dotted var(--border); line-height: 1.4; }
+  .bd-data-highlight { font-size: 12px; color: var(--text); background: #fff; border-left: 3px solid var(--accent); padding: 8px 10px; border-radius: 4px; margin: 6px 0 4px; line-height: 1.55; }
+  .bd-data-highlight::before { content: "ハイライト"; display: inline-block; font-size: 10px; font-weight: 600; color: #fff; background: var(--accent); padding: 1px 6px; border-radius: 3px; margin-right: 6px; vertical-align: 1px; letter-spacing: 0.05em; }
 
   /* Premise box (47% の出所) */
   .bd-premise { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; }
@@ -263,11 +265,11 @@
       <span class="focus" style="background:linear-gradient(transparent 60%, #c9e0a8 60%); padding:0 4px;">ニーズに合った AC にたどり着けるようにする</span> 点に絞る
     </p>
     <p class="lead">
-      Veltra に来た Traveler の 47%（170万セッション/月）が AC ページに到達できないまま離脱している。<br>
-      この層は「今買う気がない人」ではなく「今買いたいのに目的の AC を見つけられなかった人」。ここに 2026 年 4-6 月のリソースを集中する。
+      Veltra に来た Traveler の <b>47%（115 万 users／セッション換算で 175 万 sess）</b>が AC ページに到達できないまま離脱している。<br>
+      この層は「今買う気がない人」ではなく「今買いたいのに目的の AC を見つけられなかった人」。ここに 2026 年 4-6 月のリソースを集中し直す。
     </p>
     <p style="font-size:12px; color:var(--text-muted); margin:12px 0 0;">
-      数値出典：GA4 Property 347074845 ／ 2026-04-19〜2026-05-16（28日）／ session_start_users 2,442,738 → ac_page_reach_users 1,288,884（通過率 52.8% ⇒ 未到達 47.2% ＝ 約 115 万 users／セッション換算で約 170 万）
+      数値出典：GA4 Property 347074845 ／ 2026-04-19〜2026-05-16（28日）／ activeUsers 2,442,738 → AC 到達 1,288,884（47.24% 未到達 ＝ 115 万 users）／ sessions 3,629,284 → AC 到達 1,878,582（48.24% 未到達 ＝ 175 万 sess）
     </p>
   </header>
 
@@ -365,15 +367,22 @@
     <p class="sec-lead">同じ「未到達」でも、入口・行動・属性で性質が違う。各観点でデータと仮説を端的に並べる。</p>
 
     <div class="bd-premise">
-      <div class="pre-label">47% の出所</div>
+      <div class="pre-label">47% の出所（GA4 実測）</div>
       <div class="pre-flow">
-        <div class="pre-node"><b>2,442,738</b><span class="pre-meta">session_start_users</span></div>
-        <span class="pre-arrow">→ 1→2 通過 52.8% →</span>
-        <div class="pre-node"><b>1,288,884</b><span class="pre-meta">ac_page_reach_users</span></div>
-        <span class="pre-arrow">→ 未到達 47.2% →</span>
-        <div class="pre-node target"><b>1,153,854</b><span class="pre-meta">未到達 users ≒ 170万 sess</span></div>
+        <div class="pre-node"><b>2,442,738</b><span class="pre-meta">activeUsers</span></div>
+        <span class="pre-arrow">→ AC 到達 52.76% →</span>
+        <div class="pre-node"><b>1,288,884</b><span class="pre-meta">AC reach users</span></div>
+        <span class="pre-arrow">→ 未到達 47.24% →</span>
+        <div class="pre-node target"><b>1,153,854</b><span class="pre-meta">未到達 users（115 万）</span></div>
       </div>
-      <div class="pre-src">GA4 Property 347074845 / 2026-04-19〜2026-05-16（28日, 全チャネル合計）／ 出典: reports/2026-w20/data.json baseline.funnel</div>
+      <div class="pre-flow" style="margin-top:8px;">
+        <div class="pre-node"><b>3,629,284</b><span class="pre-meta">sessions</span></div>
+        <span class="pre-arrow">→ AC 到達 51.76% →</span>
+        <div class="pre-node"><b>1,878,582</b><span class="pre-meta">AC reach sessions</span></div>
+        <span class="pre-arrow">→ 未到達 48.24% →</span>
+        <div class="pre-node target"><b>1,750,702</b><span class="pre-meta">未到達 sess（175 万）</span></div>
+      </div>
+      <div class="pre-src">GA4 Property 347074845 / 2026-04-19〜2026-05-16（28日, 全チャネル合計）／ pagePath CONTAINS "/a/" で AC 到達を判定</div>
     </div>
 
     <div class="bd-grid">
@@ -414,6 +423,7 @@
         <div class="bd-fact">最大流入 Organic Search 122万 sess が -20pp 取りこぼし ＝ 約 83万 sess 損失</div>
         <div class="bd-hyp">着地は CTG / エリアが多い。検索 KW で来た意向が橋渡しされず、半数は bounce で検索結果に戻り他社へ／残りは別 CTG・別エリアへ横移動し AC まで降りない</div>
         <details class="bd-data-detail"><summary>GA4 数値</summary>
+          <div class="bd-data-highlight">Organic Search の通過率は全体より -20.5pp。取りこぼし約 83 万 sess は他 5 チャネルの合計 sess を超える単独最大の損失</div>
           <table class="bd-data-tbl">
             <tr><td>Organic Search sessions</td><td>1,226,986</td></tr>
             <tr><td>Organic Search 1→2</td><td>32.3%</td></tr>
@@ -454,6 +464,7 @@
         <div class="bd-fact">TOP / マイページから AC に届くのは 5 人に 1 人、CTG ですら 6 割未到達</div>
         <div class="bd-hyp">TOP は bounce 51% ／ 次ページ Top1 = wishlist 83K pv（「あとで見る」止まりで購入意向の温存にならない）／ CTG は bounce 低だが「別 CTG への横移動ループ」が支配的（札幌 62K → 京都 21K → 八重山 21K…）</div>
         <details class="bd-data-detail"><summary>GA4 数値</summary>
+          <div class="bd-data-highlight">TOP の最大次ページは wishlist（84K pv）＝「あとで見る」止まり、AC への正規動線になっていない。CTG は別 CTG 上位 4 件で 124K pv の横移動ループで、AC（/booking）行きの 30K の 4 倍規模</div>
           <table class="bd-data-tbl">
             <tr><td>TOP bounce / pv per sess</td><td>51.4% / 4.07</td></tr>
             <tr><td>TOP 次ページ wishlist</td><td>83,953 pv</td></tr>
@@ -495,6 +506,7 @@
         <div class="bd-fact">view_item 1037 / sess 発火、フィルタ 2.2 / sess（約 470 倍差）</div>
         <div class="bd-hyp">AC タイル一覧を眺めるが該当 AC が見えず、別 CTG への横移動でループ。/booking まで進むのは既に意向が固まった層のみ（CTG 1000 sess あたり form_start 60）</div>
         <details class="bd-data-detail"><summary>GA4 数値</summary>
+          <div class="bd-data-highlight">view_item 1037 vs filter_click 2.2 ＝ 約 470 倍差。「眺める」は活発だが「絞り込む」操作がほぼ発火していない。同 TOP の filter_click 29 と比べても CTG が桁違いに弱い</div>
           <table class="bd-data-tbl">
             <tr><td>view_item / 1000 sess</td><td>1,037</td></tr>
             <tr><td>scroll / 1000 sess</td><td>260</td></tr>
@@ -536,6 +548,7 @@
         <div class="bd-fact">mobile 30.3%（desktop -14pp）、returning 26.1%（new -22pp）</div>
         <div class="bd-hyp">mobile は小画面で AC 一覧を絞れず wishlist 保存 → 後で PC 再訪。returning はマイページ→予約確認・クーポン目的の再訪が多く、新しい AC 探索動機が薄い</div>
         <details class="bd-data-detail"><summary>GA4 数値</summary>
+          <div class="bd-data-highlight">mobile sess 206 万（全 sess の 57%）が通過率 30% で最大の取りこぼし母数。マイページの遷移先は booking_list + coupon + support = 33K が AC（24K）を上回り、再訪の主目的が AC 探索ではない</div>
           <table class="bd-data-tbl">
             <tr><td>mobile sessions / 1→2</td><td>2,062,740 / 30.3%</td></tr>
             <tr><td>desktop sessions / 1→2</td><td>1,467,815 / 44.0%</td></tr>
