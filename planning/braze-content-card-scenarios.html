@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Braze Content Card 実装方法 ＆ 各シナリオ具体｜CVR施策</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=DM+Mono:wght@400;500&family=Bricolage+Grotesque:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f8fa;
+  --white: #ffffff;
+  --surface: #f0f2f6;
+  --border: #e2e6ed;
+  --border2: #cbd2dd;
+  --text: #0f1623;
+  --text2: #3a4456;
+  --muted: #7a8698;
+  --accent: #1c5fdf;
+  --accent-bg: #eef3fd;
+  --accent-border: #c4d5f8;
+  --red: #d93535;
+  --red-bg: #fef2f2;
+  --red-border: #fccfcf;
+  --green: #0f9a6b;
+  --green-bg: #f0faf6;
+  --green-border: #a8e4ce;
+  --orange: #c9610e;
+  --orange-bg: #fff7ed;
+  --orange-border: #fdd9a8;
+  --purple: #6b33c5;
+  --purple-bg: #f3eefe;
+  --purple-border: #d1b8f5;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+/* HEADER */
+.doc-header { background: var(--white); border-bottom: 1px solid var(--border); padding: 40px 40px 32px; }
+.doc-header-inner { max-width: 1000px; margin: 0 auto; }
+.doc-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--accent-bg); border: 1px solid var(--accent-border);
+  color: var(--accent); font-size: 13px; font-weight: 700;
+  padding: 4px 14px; border-radius: 100px; margin-bottom: 16px; letter-spacing: 0.04em;
+}
+.doc-header h1 {
+  font-family: 'Bricolage Grotesque', 'Noto Sans JP', sans-serif;
+  font-size: 30px; font-weight: 800; color: var(--text);
+  line-height: 1.35; margin-bottom: 12px;
+}
+.doc-header-sub { color: var(--text2); font-size: 15px; max-width: 760px; line-height: 1.7; }
+.doc-meta { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.doc-meta-chip {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 14px; font-size: 14px;
+}
+.doc-meta-chip span { color: var(--muted); margin-right: 6px; }
+.doc-meta-chip strong { color: var(--text); }
+
+/* TOC */
+.toc-bar { background: var(--white); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+.toc-inner { max-width: 1000px; margin: 0 auto; display: flex; overflow-x: auto; }
+.toc-item {
+  padding: 14px 18px; font-size: 14px; font-weight: 600; color: var(--muted);
+  white-space: nowrap; cursor: pointer;
+  border-bottom: 2px solid transparent; transition: all 0.15s;
+}
+.toc-item:hover { color: var(--accent); }
+.toc-item.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* LAYOUT */
+.container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+section { padding: 44px 0; }
+.section-header { margin-bottom: 28px; }
+.section-num { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.07em; margin-bottom: 6px; }
+.section-title {
+  font-family: 'Bricolage Grotesque', 'Noto Sans JP', sans-serif;
+  font-size: 24px; font-weight: 800; color: var(--text); margin-bottom: 6px;
+}
+.section-desc { color: var(--text2); font-size: 15px; max-width: 760px; line-height: 1.7; }
+.divider { height: 1px; background: var(--border); }
+
+/* SUB SECTION */
+.subsec { margin-bottom: 32px; }
+.subsec-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--muted); letter-spacing: 0.12em; margin-bottom: 4px; text-transform: uppercase;
+}
+.subsec-title {
+  font-size: 18px; font-weight: 800; color: var(--text);
+  margin-bottom: 14px; padding-bottom: 10px;
+  border-bottom: 2px solid var(--text);
+}
+
+/* BULLET LIST */
+.bullet-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.bullet-list li {
+  font-size: 15px; line-height: 1.75; color: var(--text);
+  padding-left: 22px; position: relative;
+}
+.bullet-list li::before {
+  content: '●'; position: absolute; left: 0; top: 0;
+  color: var(--accent); font-size: 10px; line-height: 2.55;
+}
+.bullet-list li strong { color: var(--text); font-weight: 700; }
+
+/* CALLOUT */
+.callout {
+  border-radius: 10px; padding: 18px 22px; margin-bottom: 20px;
+  display: flex; gap: 14px; align-items: flex-start; border: 1px solid;
+}
+.callout.blue { background: var(--accent-bg); border-color: var(--accent-border); }
+.callout.red { background: var(--red-bg); border-color: var(--red-border); }
+.callout.green { background: var(--green-bg); border-color: var(--green-border); }
+.callout.orange { background: var(--orange-bg); border-color: var(--orange-border); }
+.callout.purple { background: var(--purple-bg); border-color: var(--purple-border); }
+.callout-tag {
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.1em; padding: 4px 10px; border-radius: 4px;
+  border: 1px solid; background: #fff; flex-shrink: 0; line-height: 1.4;
+}
+.callout.blue .callout-tag { color: var(--accent); border-color: var(--accent-border); }
+.callout.red .callout-tag { color: var(--red); border-color: var(--red-border); }
+.callout.green .callout-tag { color: var(--green); border-color: var(--green-border); }
+.callout.orange .callout-tag { color: var(--orange); border-color: var(--orange-border); }
+.callout.purple .callout-tag { color: var(--purple); border-color: var(--purple-border); }
+.callout-body { font-size: 15px; line-height: 1.75; color: var(--text); }
+.callout-body strong { color: var(--text); }
+.callout-body code { font-family: 'DM Mono', monospace; font-size: 13px; background: rgba(255,255,255,0.7); padding: 1px 6px; border-radius: 3px; border: 1px solid var(--border); }
+
+/* CODE INLINE & BLOCK */
+code.inline {
+  font-family: 'DM Mono', monospace; font-size: 13px;
+  background: var(--surface); padding: 2px 7px; border-radius: 4px;
+  color: var(--text); border: 1px solid var(--border);
+}
+.code-block {
+  background: #0f1623; color: #e3e8f0; padding: 16px 20px; border-radius: 8px;
+  font-family: 'DM Mono', monospace; font-size: 13px; line-height: 1.7;
+  overflow-x: auto; margin: 12px 0; border: 1px solid #1a2538;
+}
+.code-block .k { color: #ff7ab2; }
+.code-block .s { color: #f8d57e; }
+.code-block .c { color: #6b7a93; }
+.code-block .f { color: #7fd1b1; }
+.code-block .n { color: #9eb1d4; }
+
+/* LOGIC CARD */
+.logic-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; margin-bottom: 16px;
+}
+.logic-card-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 20px; border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.logic-card-badge {
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.05em; padding: 4px 10px; border-radius: 4px; color: #fff;
+}
+.logic-card-badge.bA { background: var(--accent); }
+.logic-card-badge.bB { background: var(--green); }
+.logic-card-badge.bC { background: var(--orange); }
+.logic-card-badge.bD { background: var(--purple); }
+.logic-card-title { font-size: 16px; font-weight: 800; flex: 1; line-height: 1.4; }
+.logic-card-priority {
+  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted);
+  padding: 3px 9px; border: 1px solid var(--border); border-radius: 4px; background: #fff;
+}
+.logic-card-priority strong { color: var(--text); }
+.logic-card-body { padding: 18px 20px; }
+.logic-row {
+  display: grid; grid-template-columns: 150px 1fr; gap: 16px;
+  padding: 11px 0; border-bottom: 1px solid #f4f6f9; font-size: 14px;
+  align-items: start;
+}
+.logic-row:last-child { border-bottom: none; }
+.logic-row-label {
+  color: var(--muted); font-weight: 700; font-size: 12px; padding-top: 2px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.logic-row-value { color: var(--text); line-height: 1.75; }
+.logic-row-value code {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  background: var(--surface); padding: 1px 6px; border-radius: 3px;
+}
+
+/* TABLE */
+.kpi-table {
+  width: 100%; border-collapse: collapse; font-size: 14px;
+  background: var(--white); border-radius: 10px; border: 1px solid var(--border);
+  overflow: hidden; margin-top: 16px;
+}
+.kpi-table th {
+  background: var(--surface); padding: 11px 14px; text-align: left;
+  color: var(--muted); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.06em; border-bottom: 1px solid var(--border);
+}
+.kpi-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.kpi-table tr:last-child td { border-bottom: none; }
+.tag {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 12px; font-weight: 700; line-height: 1.5; border: 1px solid;
+}
+.tag.green { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+.tag.orange { background: var(--orange-bg); color: var(--orange); border-color: var(--orange-border); }
+.tag.red { background: var(--red-bg); color: var(--red); border-color: var(--red-border); }
+.tag.blue { background: var(--accent-bg); color: var(--accent); border-color: var(--accent-border); }
+.tag.purple { background: var(--purple-bg); color: var(--purple); border-color: var(--purple-border); }
+.tag.solid { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* MATRIX (responsibilities) */
+.matrix {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 18px;
+}
+.matrix-cell {
+  background: var(--white); border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px 14px; position: relative; overflow: hidden;
+}
+.matrix-cell::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.matrix-cell.blue::after { background: var(--accent); }
+.matrix-cell.purple::after { background: var(--purple); }
+.matrix-cell.green::after { background: var(--green); }
+.matrix-cell.orange::after { background: var(--orange); }
+.matrix-cell.red::after { background: var(--red); }
+.matrix-actor {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  letter-spacing: 0.08em; color: var(--muted);
+  text-transform: uppercase; font-weight: 700; margin-bottom: 8px;
+}
+.matrix-cell.blue .matrix-actor { color: var(--accent); }
+.matrix-cell.purple .matrix-actor { color: var(--purple); }
+.matrix-cell.green .matrix-actor { color: var(--green); }
+.matrix-cell.orange .matrix-actor { color: var(--orange); }
+.matrix-cell.red .matrix-actor { color: var(--red); }
+.matrix-list { list-style: none; padding: 0; margin: 0; }
+.matrix-list li {
+  font-size: 12.5px; line-height: 1.55; color: var(--text);
+  padding: 4px 0; border-bottom: 1px dashed #f0f3f8;
+}
+.matrix-list li:last-child { border-bottom: none; }
+
+/* FLOW DIAGRAM */
+.flow-diagram {
+  background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+  padding: 24px; margin-top: 16px;
+}
+.flow-row {
+  display: grid; grid-template-columns: 140px 24px 1fr; gap: 16px;
+  align-items: center; padding: 12px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.flow-row:last-child { border-bottom: none; }
+.flow-actor {
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.08em; color: var(--text); padding: 5px 10px;
+  background: var(--surface); border-radius: 4px;
+  text-transform: uppercase; text-align: center;
+}
+.flow-arrow { color: var(--accent); font-size: 18px; text-align: center; font-weight: 700; }
+.flow-content { font-size: 14px; line-height: 1.65; color: var(--text); }
+.flow-content code { font-family: 'DM Mono', monospace; font-size: 12px; background: var(--surface); padding: 1px 6px; border-radius: 3px; }
+.flow-content strong { font-weight: 700; }
+
+/* DECISION GRID */
+.decision-grid { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+.decision-row {
+  display: grid; grid-template-columns: 80px 1fr 110px; gap: 18px;
+  background: var(--white); border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px 22px; align-items: center;
+}
+.decision-row.recommend {
+  border-color: var(--accent); background: var(--accent-bg);
+}
+.decision-letter {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 18px; font-weight: 800; color: var(--muted); text-align: center;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.decision-row.recommend .decision-letter { color: var(--accent); }
+.decision-body .decision-h { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+.decision-body .decision-d { font-size: 13px; color: var(--text2); line-height: 1.7; }
+.decision-pick { text-align: right; }
+
+/* PRIORITY TABLE */
+.prio-table {
+  width: 100%; border-collapse: collapse; font-size: 14px;
+  background: var(--white); border-radius: 10px; border: 1px solid var(--border);
+  overflow: hidden; margin-top: 16px;
+}
+.prio-table th {
+  background: var(--text); color: #fff; padding: 11px 14px; text-align: left;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+}
+.prio-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.prio-table tr:last-child td { border-bottom: none; }
+.prio-num {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800; font-size: 18px; color: var(--accent);
+  width: 40px; text-align: center;
+}
+
+/* CTA */
+.cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
+.cta-btn {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 22px 26px; background: var(--accent); color: #fff;
+  text-decoration: none; border-radius: 12px;
+  transition: transform .15s, box-shadow .15s, background .15s;
+  box-shadow: 0 4px 16px rgba(28, 95, 223, 0.18);
+  min-height: 84px;
+}
+.cta-btn:hover { transform: translateY(-2px); background: #154eb8; }
+.cta-btn.alt {
+  background: var(--white); color: var(--accent);
+  border: 1.5px solid var(--accent-border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.cta-btn.alt:hover { background: var(--accent-bg); border-color: var(--accent); }
+.cta-btn .cta-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; opacity: 0.85; margin-bottom: 5px; text-transform: uppercase; }
+.cta-btn .cta-label { font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 800; line-height: 1.35; }
+.cta-btn .cta-sub { font-size: 12px; opacity: 0.78; margin-top: 4px; font-weight: 400; line-height: 1.5; }
+.cta-btn .cta-arrow { font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 28px; flex-shrink: 0; }
+
+/* FOOTER */
+.doc-footer { text-align: center; padding: 32px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); background: var(--white); }
+.doc-footer strong { color: var(--text); }
+
+@media (max-width: 740px) {
+  .doc-header { padding: 28px 22px; }
+  .container { padding: 0 18px; }
+  .matrix { grid-template-columns: 1fr 1fr; }
+  .logic-row { grid-template-columns: 1fr; gap: 4px; }
+  .flow-row { grid-template-columns: 1fr; gap: 6px; }
+  .flow-arrow { display: none; }
+  .cta-grid { grid-template-columns: 1fr; }
+  .decision-row { grid-template-columns: 60px 1fr; }
+  .decision-pick { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="doc-header">
+  <div class="doc-header-inner">
+    <div class="doc-badge">BRAZE IMPLEMENTATION — Content Card 4 Scenarios</div>
+    <h1>Braze Content Card 実装方法<br>＆ 各シナリオ (A / B / C / D) の具体</h1>
+    <div class="doc-header-sub">
+      Personalized Header Menu 企画で定義した 4 つのカード (閲覧履歴 / エリア人気 / カレンダー離脱 / 購入履歴) を、Braze 上でどう作るかをカードごとに具体化。データソース・属性スキーマ・セグメント条件・Liquid テンプレート・配信トリガー・運用フローを、マーケと開発が同じ前提に立てる粒度で記述。
+    </div>
+    <div class="doc-meta">
+      <div class="doc-meta-chip"><span>関連企画</span><strong>Personalized Header Menu</strong></div>
+      <div class="doc-meta-chip"><span>前提</span><strong>dev環境 GTM導入済 / Braze SDK動作可</strong></div>
+      <div class="doc-meta-chip"><span>担当</span><strong>マーケ × 開発</strong></div>
+      <div class="doc-meta-chip"><span>運用</span><strong>Braze Dashboard 主体</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc-bar">
+  <div class="toc-inner">
+    <div class="toc-item active" onclick="scrollToSection('sec1')">① 全体マップ</div>
+    <div class="toc-item" onclick="scrollToSection('sec2')">② UI実装レベル</div>
+    <div class="toc-item" onclick="scrollToSection('sec3')">③ Card A 閲覧履歴</div>
+    <div class="toc-item" onclick="scrollToSection('sec4')">④ Card B エリア人気</div>
+    <div class="toc-item" onclick="scrollToSection('sec5')">⑤ Card C 離脱リターゲット</div>
+    <div class="toc-item" onclick="scrollToSection('sec6')">⑥ Card D 購入履歴</div>
+    <div class="toc-item" onclick="scrollToSection('sec7')">⑦ 共通の運用手順</div>
+  </div>
+</div>
+
+<!-- ① 全体マップ -->
+<div class="container">
+<section id="sec1">
+  <div class="section-header">
+    <div class="section-num">SECTION 01</div>
+    <div class="section-title">実装方法の全体マップ</div>
+    <div class="section-desc">「誰が」「どこで」「何を」やるかを最初に決めておく。Braze Content Card は <strong>開発側に頼らずマーケが回せる範囲が広い</strong> のが特徴で、4シナリオも基本は Braze Dashboard 上で完結する。開発が必要なのは「初回のイベント送信実装」と「描画コンテナの設置」だけ。</div>
+  </div>
+
+  <!-- 責務マトリクス -->
+  <div class="subsec">
+    <div class="subsec-eyebrow">A. RESPONSIBILITIES</div>
+    <div class="subsec-title">誰が何をやるか</div>
+    <div class="matrix">
+      <div class="matrix-cell blue">
+        <div class="matrix-actor">開発 / Engineering</div>
+        <ul class="matrix-list">
+          <li>Braze SDK 初期化 (GTM経由)</li>
+          <li>カスタムイベント送信実装 (viewed_ac / view_calendar / ecommerce_purchase)</li>
+          <li>描画コンテナ配置 (#braze-content-cards)</li>
+          <li>traveler_id を Braze に連携</li>
+        </ul>
+      </div>
+      <div class="matrix-cell purple">
+        <div class="matrix-actor">マーケ / Marketing</div>
+        <ul class="matrix-list">
+          <li>Brazeダッシュボードでカード作成</li>
+          <li>KVP / Liquid テンプレート設計</li>
+          <li>セグメント定義</li>
+          <li>Catalogs CSV 月次更新</li>
+          <li>配信トリガー・優先度設定</li>
+        </ul>
+      </div>
+      <div class="matrix-cell green">
+        <div class="matrix-actor">PJM / Strategy</div>
+        <ul class="matrix-list">
+          <li>シナリオ優先度の決定</li>
+          <li>KPI 設計・モニタリング</li>
+          <li>A/B 結果の意思決定</li>
+        </ul>
+      </div>
+      <div class="matrix-cell orange">
+        <div class="matrix-actor">Braze SDK</div>
+        <ul class="matrix-list">
+          <li>イベント記録</li>
+          <li>属性更新</li>
+          <li>カード同期 (sessionスタート / 1分以上経過 / 明示refresh)</li>
+          <li>Impression/Click/Dismiss 自動ログ</li>
+        </ul>
+      </div>
+      <div class="matrix-cell red">
+        <div class="matrix-actor">GTM</div>
+        <ul class="matrix-list">
+          <li>Braze SDK init スクリプト管理</li>
+          <li>カスタムHTMLタグ発火</li>
+          <li>環境分離 (prod/dev)</li>
+          <li>マーケが直接書き換え可</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- データの流れ -->
+  <div class="subsec" style="margin-bottom: 0;">
+    <div class="subsec-eyebrow">B. DATA FLOW</div>
+    <div class="subsec-title">データの流れ (一般形)</div>
+    <div class="flow-diagram">
+      <div class="flow-row">
+        <div class="flow-actor">App / Site</div>
+        <div class="flow-arrow">&gt;</div>
+        <div class="flow-content">ユーザー行動が発生 (AC閲覧 / カレンダー開示 / 購入完了 / エリア閲覧)</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-actor">Braze SDK</div>
+        <div class="flow-arrow">&gt;</div>
+        <div class="flow-content"><code>logCustomEvent()</code> でイベント送信 (例: <code>viewed_ac</code> with ac_id, ac_name, ac_thumb, ac_price...)</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-actor">Braze Server</div>
+        <div class="flow-arrow">&gt;</div>
+        <div class="flow-content">Workflow が起動 → <strong>カスタム属性を更新</strong> (例: <code>last_viewed_ac_1_*</code> をスライド)。または <strong>Catalogs を参照</strong>してフィルタリング</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-actor">Braze Server</div>
+        <div class="flow-arrow">&gt;</div>
+        <div class="flow-content">セグメント条件マッチ判定 → 対象ユーザーに <strong>Content Card を配信キュー</strong></div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-actor">Braze SDK</div>
+        <div class="flow-arrow">&gt;</div>
+        <div class="flow-content">セッション開始 or <code>requestContentCardsRefresh()</code> でカードを取得 → <strong>Liquid テンプレートが属性値を埋め込んで展開</strong></div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-actor">App / Site</div>
+        <div class="flow-arrow">&gt;</div>
+        <div class="flow-content"><code>braze.toggleContentCards(parentNode)</code> で描画コンテナにカード表示。Impression/Click/Dismiss は SDK が自動ログ</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<div class="divider"></div>
+
+<!-- ② UI実装レベル -->
+<div class="container">
+<section id="sec2">
+  <div class="section-header">
+    <div class="section-num">SECTION 02</div>
+    <div class="section-title">UI 実装レベルの選択</div>
+    <div class="section-desc">Braze Content Card は描画 UI を 4 段階でカスタマイズできる。実装工数と Analytics 自動化のトレードオフ。今回の 4 シナリオは <strong>全て Style or UI レベル</strong>で実装可能 (Default UI のままだと VELTRA ヘッダーメニュー内の見た目に馴染まないため)。</div>
+  </div>
+
+  <div class="decision-grid">
+    <div class="decision-row">
+      <div class="decision-letter">Default</div>
+      <div class="decision-body">
+        <div class="decision-h">そのまま使う (右サイドバーフィード)</div>
+        <div class="decision-d">工数最小 / Analytics自動。今回はサイドバー表示ではなくヘッダーメニュー内に埋め込むため非採用。</div>
+      </div>
+      <div class="decision-pick"><span class="tag">非採用</span></div>
+    </div>
+    <div class="decision-row recommend">
+      <div class="decision-letter">Style</div>
+      <div class="decision-body">
+        <div class="decision-h">CSS だけ上書き</div>
+        <div class="decision-d">描画コンテナを <code>parentNode</code> 指定で配置し、CSS でメニュー内に馴染ませる。テキスト/画像の差し替えは KVP で対応。Analytics 自動。<strong>初期ローンチはこれで十分</strong>。</div>
+      </div>
+      <div class="decision-pick"><span class="tag solid">第一候補</span></div>
+    </div>
+    <div class="decision-row">
+      <div class="decision-letter">UI</div>
+      <div class="decision-body">
+        <div class="decision-h">カードの HTML 構造ごと差し替え</div>
+        <div class="decision-d">独自テンプレで描画 (カード A の 3 件並び等)。Analytics 自動維持。Style では足りない場合のフォールバック。</div>
+      </div>
+      <div class="decision-pick"><span class="tag orange">必要時</span></div>
+    </div>
+    <div class="decision-row">
+      <div class="decision-letter">UX</div>
+      <div class="decision-body">
+        <div class="decision-h">SDK UI を使わず payload だけ受けて自社描画</div>
+        <div class="decision-d">完全自由だが <code>logContentCardImpression / Clicked / Dismissed / Displayed</code> を手動実装必須。記録漏れ事故リスクあり。<strong>初期は採用しない</strong>。</div>
+      </div>
+      <div class="decision-pick"><span class="tag red">非推奨</span></div>
+    </div>
+  </div>
+</section>
+</div>
+<div class="divider"></div>
+
+<!-- ③ Card A -->
+<div class="container">
+<section id="sec3">
+  <div class="section-header">
+    <div class="section-num">SECTION 03</div>
+    <div class="section-title">Card A — 閲覧履歴 TOP3 の実装</div>
+    <div class="section-desc">Traveler が直近に閲覧した AC を新しい順に 3 件表示。最もシンプル＆コア。データ蓄積待ち不要、1 件閲覧で即発火。</div>
+  </div>
+
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge bA">CARD A</span>
+      <div class="logic-card-title">閲覧履歴 TOP3</div>
+      <div class="logic-card-priority">priority <strong>= 6</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">データソース<br>Data Source</div>
+        <div class="logic-row-value">カスタムイベント <code>viewed_ac</code> (AC ページ閲覧時に発火)。<br>パラメータ: <code>ac_id</code> / <code>ac_name</code> / <code>ac_thumbnail_url</code> / <code>ac_price</code> / <code>ac_url</code> / <code>ac_rating</code> / <code>area</code></div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">属性スキーマ<br>Attribute Schema</div>
+        <div class="logic-row-value">Braze カスタム属性を以下の命名で保持 (1〜3 をスライド更新):
+<div class="code-block"><span class="n">last_viewed_ac_1_id</span>           <span class="c">// 最新</span>
+<span class="n">last_viewed_ac_1_name</span>
+<span class="n">last_viewed_ac_1_thumb</span>
+<span class="n">last_viewed_ac_1_price</span>
+<span class="n">last_viewed_ac_1_url</span>
+<span class="n">last_viewed_ac_2_*</span>              <span class="c">// 1つ前</span>
+<span class="n">last_viewed_ac_3_*</span>              <span class="c">// 2つ前</span></div></div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">属性更新ロジック<br>Update Workflow</div>
+        <div class="logic-row-value">
+          Braze Canvas (Workflow) で <code>viewed_ac</code> 受信時に下記を実行:
+          <ol style="padding-left:18px;margin-top:6px;font-size:14px;line-height:1.8;">
+            <li><code>last_viewed_ac_2_*</code> → <code>last_viewed_ac_3_*</code> へコピー</li>
+            <li><code>last_viewed_ac_1_*</code> → <code>last_viewed_ac_2_*</code> へコピー</li>
+            <li>新着AC情報を <code>last_viewed_ac_1_*</code> に書き込み</li>
+          </ol>
+          (Braze の "Update User Attribute via Event" アクションでステップ実装)
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">セグメント条件<br>Segment</div>
+        <div class="logic-row-value"><code>last_viewed_ac_1_id</code> が <strong>存在する</strong> AND ログイン済み</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">Liquid テンプレート<br>Liquid Template</div>
+        <div class="logic-row-value">
+<div class="code-block"><span class="c">{% if {{custom_attribute.${last_viewed_ac_1_id}}} %}</span>
+&lt;div class=<span class="s">"viewed-ac-list"</span>&gt;
+  &lt;a href=<span class="s">"{{custom_attribute.${last_viewed_ac_1_url}}}"</span>&gt;
+    &lt;img src=<span class="s">"{{custom_attribute.${last_viewed_ac_1_thumb}}}"</span>&gt;
+    &lt;span&gt;{{custom_attribute.${last_viewed_ac_1_name}}}&lt;/span&gt;
+    &lt;span class=<span class="s">"price"</span>&gt;¥{{custom_attribute.${last_viewed_ac_1_price}}}&lt;/span&gt;
+  &lt;/a&gt;
+  <span class="c">{% if {{custom_attribute.${last_viewed_ac_2_id}}} %}</span>
+  <span class="c">... (同上 _2_*)</span>
+  <span class="c">{% endif %}</span>
+  <span class="c">{% if {{custom_attribute.${last_viewed_ac_3_id}}} %}</span>
+  <span class="c">... (同上 _3_*)</span>
+  <span class="c">{% endif %}</span>
+&lt;/div&gt;
+<span class="c">{% endif %}</span></div>
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">トリガー<br>Trigger</div>
+        <div class="logic-row-value">Start Session In Any App。"no re-eligibility" にチェック</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">配信頻度<br>Cadence</div>
+        <div class="logic-row-value">セグメント所属中は常時表示。<code>last_viewed_ac_*</code> の更新がリアルタイムに反映 (次回メニュー開示時)</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">マーケが触る範囲<br>Marketing Scope</div>
+        <div class="logic-row-value">テンプレートのデザイン・文言のみ。<strong>AC選定は完全自動</strong> (新着3件)</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">必要な開発<br>Dev Effort</div>
+        <div class="logic-row-value">AC ページに <code>braze.logCustomEvent("viewed_ac", {...})</code> を追加 (1日)</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<div class="divider"></div>
+
+<!-- ④ Card B -->
+<div class="container">
+<section id="sec4">
+  <div class="section-header">
+    <div class="section-num">SECTION 04</div>
+    <div class="section-title">Card B — エリア人気 AC の実装</div>
+    <div class="section-desc">特定エリアを閲覧中の Traveler に、そのエリアの「品質上位 5 件」を表示。個人視聴ではなく <strong>Braze Catalogs で全 Traveler 共通のリスト</strong>を持つルールベース選定。</div>
+  </div>
+
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge bB">CARD B</span>
+      <div class="logic-card-title">エリア人気 AC (Catalogs ベース)</div>
+      <div class="logic-card-priority">priority <strong>= 4</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">データソース<br>Data Source</div>
+        <div class="logic-row-value">既存 GA4/dataLayer の <code>page_view</code> イベント (URLパス含む)<br>＋ Braze <strong>Catalogs</strong> (AC マスタ CSV)</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">Catalog スキーマ<br>Catalog Schema</div>
+        <div class="logic-row-value">
+          Braze Dashboard に CSV をアップロード:
+<div class="code-block"><span class="n">id</span>,<span class="n">name</span>,<span class="n">thumb</span>,<span class="n">price</span>,<span class="n">rating</span>,<span class="n">review_count</span>,<span class="n">area</span>,<span class="n">status</span>,<span class="n">url</span>
+<span class="s">"AC123"</span>,<span class="s">"イルカと泳ぐ"</span>,<span class="s">"https://..."</span>,<span class="n">17820</span>,<span class="n">4.82</span>,<span class="n">156</span>,<span class="s">"hawaii"</span>,<span class="s">"active"</span>,<span class="s">"https://..."</span>
+<span class="s">"AC456"</span>,<span class="s">"ダイヤモンドヘッド"</span>,<span class="s">"https://..."</span>,<span class="n">10154</span>,<span class="n">4.54</span>,<span class="n">203</span>,<span class="s">"hawaii"</span>,<span class="s">"active"</span>,<span class="s">"https://..."</span></div>
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">エリアセグメント<br>Area Segment</div>
+        <div class="logic-row-value">過去 7 日に対象エリア URL を <strong>2 回以上閲覧</strong>した Traveler<br>例: "Hawaii Interest" = <code>page_view event count where URL contains '/hawaii/' &gt;= 2 in last 7 days</code><br>初期対象 4 エリア: ハワイ・韓国・グアム・タイ</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">Liquid 絞り込み<br>Catalog Query</div>
+        <div class="logic-row-value">
+<div class="code-block"><span class="c">{% catalog_items 'ac_master'</span>
+<span class="c">  where: 'area=hawaii AND rating&gt;=4.0 AND review_count&gt;=10 AND status=active'</span>
+<span class="c">  sort: 'rating_score desc'</span>
+<span class="c">  limit: 5 %}</span>
+
+&lt;div class=<span class="s">"area-popular-list"</span>&gt;
+  <span class="c">{% for item in catalog_items %}</span>
+    &lt;a href=<span class="s">"{{ item.url }}"</span>&gt;
+      &lt;img src=<span class="s">"{{ item.thumb }}"</span>&gt;
+      &lt;span&gt;{{ item.name }}&lt;/span&gt;
+      &lt;span class=<span class="s">"meta"</span>&gt;⭐ {{ item.rating }}&lt;/span&gt;
+      &lt;span class=<span class="s">"price"</span>&gt;¥{{ item.price }}〜&lt;/span&gt;
+    &lt;/a&gt;
+  <span class="c">{% endfor %}</span>
+&lt;/div&gt;</div>
+          <p style="font-size:13px;color:var(--muted);margin-top:8px;line-height:1.6;"><code>rating_score</code> = rating × review_count の計算列を Catalog 側に持たせる (または CSV に事前計算)</p>
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">トリガー<br>Trigger</div>
+        <div class="logic-row-value">Start Session。エリアごとに 4 つのキャンペーンを並走</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">運用フロー<br>Operation</div>
+        <div class="logic-row-value"><strong>月次に CSV を Braze にアップロード</strong> (マーケが Dashboard で実行、開発不要)。Catalog 更新後は次回配信から新リストで Liquid が展開</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">マーケが触る範囲<br>Marketing Scope</div>
+        <div class="logic-row-value">Catalog 更新 (月次) ／ Liquid テンプレートのデザイン ／ エリアの追加 ／ 絞り込み条件の調整 (rating 閾値等)</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">必要な開発<br>Dev Effort</div>
+        <div class="logic-row-value">既存 page_view を Braze SDK にも送る (1日)</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">+α 開発で広がる<br>Optional Dev</div>
+        <div class="logic-row-value">GA4 BigQuery export → Cloud Functions で「直近30日 page_view 上位」を Catalog 列に流し込む。選定条件に <strong>人気度軸</strong>が加わる (5〜7 日)。初期は不要</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<div class="divider"></div>
+
+<!-- ⑤ Card C -->
+<div class="container">
+<section id="sec5">
+  <div class="section-header">
+    <div class="section-num">SECTION 05</div>
+    <div class="section-title">Card C — カレンダー離脱リターゲットの実装</div>
+    <div class="section-desc">「カレンダーを開いて 48 時間以内に未購入」という最強の購入意欲シグナルを掴んだ Traveler に、その AC をそのまま再提示。priority = 10 で最上位表示。</div>
+  </div>
+
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge bC">CARD C</span>
+      <div class="logic-card-title">カレンダー離脱リターゲット (最優先)</div>
+      <div class="logic-card-priority">priority <strong>= 10</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">データソース<br>Data Source</div>
+        <div class="logic-row-value">既存 GTM の <code>view_calendar</code> イベントを Braze にも送信開始 <br>＋ 既存 <code>ecommerce_purchase</code></div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">イベント実装<br>Event Payload</div>
+        <div class="logic-row-value">
+<div class="code-block">braze.<span class="f">logCustomEvent</span>(<span class="s">"view_calendar"</span>, {
+  ac_id, ac_name, ac_thumb,
+  ac_price, ac_url, opened_at
+});</div>
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">属性スキーマ<br>Attribute Schema</div>
+        <div class="logic-row-value">
+<div class="code-block"><span class="n">calendar_abandon_ac_id</span>
+<span class="n">calendar_abandon_ac_name</span>
+<span class="n">calendar_abandon_ac_thumb</span>
+<span class="n">calendar_abandon_ac_price</span>
+<span class="n">calendar_abandon_ac_url</span>
+<span class="n">calendar_abandon_at</span>     <span class="c">// timestamp</span></div>
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">属性更新ロジック<br>Update Workflow</div>
+        <div class="logic-row-value">
+          <ul class="bullet-list">
+            <li><code>view_calendar</code> 受信 → 上記属性を上書き保存 (最新のカレンダー開示AC)</li>
+            <li><code>ecommerce_purchase</code> 受信 → 該当ACなら属性をクリア</li>
+            <li>48時間経過後はセグメント条件で自動的に対象外 (属性自体は残るが配信されない)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">セグメント条件<br>Segment</div>
+        <div class="logic-row-value"><code>calendar_abandon_at</code> が <strong>過去 48h 以内</strong> AND <code>calendar_abandon_ac_id</code> が存在する AND <code>ecommerce_purchase event count for that ac_id = 0</code></div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">Liquid テンプレート<br>Liquid Template</div>
+        <div class="logic-row-value">
+<div class="code-block">&lt;div class=<span class="s">"calendar-abandon"</span>&gt;
+  &lt;div class=<span class="s">"alert-label"</span>&gt;あのアクティビティ、まだ空いています&lt;/div&gt;
+  &lt;a href=<span class="s">"{{custom_attribute.${calendar_abandon_ac_url}}}"</span>&gt;
+    &lt;img src=<span class="s">"{{custom_attribute.${calendar_abandon_ac_thumb}}}"</span>&gt;
+    &lt;span&gt;{{custom_attribute.${calendar_abandon_ac_name}}}&lt;/span&gt;
+    &lt;span class=<span class="s">"urgency"</span>&gt;残り少ない&lt;/span&gt;
+    &lt;span class=<span class="s">"price"</span>&gt;¥{{custom_attribute.${calendar_abandon_ac_price}}}〜&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/div&gt;</div>
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">トリガー<br>Trigger</div>
+        <div class="logic-row-value">Start Session ／ <code>view_calendar</code> 直後にも別キャンペーンで即時配信可</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">マーケが触る範囲<br>Marketing Scope</div>
+        <div class="logic-row-value">見出し文言・コピー (「まだ空いています」vs 「あと◯日で満席の可能性」等)、デザイン、トリガー時間 (48h vs 72h)</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">必要な開発<br>Dev Effort</div>
+        <div class="logic-row-value">既存 GTM <code>view_calendar</code> を Braze にも送る GTM タグ追加 (0.5日)</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<div class="divider"></div>
+
+<!-- ⑥ Card D -->
+<div class="container">
+<section id="sec6">
+  <div class="section-header">
+    <div class="section-num">SECTION 06</div>
+    <div class="section-title">Card D — 購入履歴ベースの実装</div>
+    <div class="section-desc">過去購入エリアの「品質上位 5 件」をリピート訴求。Card B の Catalogs ロジックを購入エリアに適用するだけで実装できる。</div>
+  </div>
+
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge bD">CARD D</span>
+      <div class="logic-card-title">購入履歴ベース (前回購入エリアの上位)</div>
+      <div class="logic-card-priority">priority <strong>= 8</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">データソース<br>Data Source</div>
+        <div class="logic-row-value">既存 <code>ecommerce_purchase</code> イベント<br>＋ Card B と同じ <strong>Catalogs</strong></div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">属性スキーマ<br>Attribute Schema</div>
+        <div class="logic-row-value">
+<div class="code-block"><span class="n">last_purchase_area</span>           <span class="c">// 例: "hawaii"</span>
+<span class="n">last_purchase_at</span>             <span class="c">// timestamp</span></div>
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">属性更新ロジック<br>Update Workflow</div>
+        <div class="logic-row-value">
+          <ul class="bullet-list">
+            <li><code>ecommerce_purchase</code> 受信 → <code>area</code> パラメータを <code>last_purchase_area</code> に保存</li>
+            <li><code>last_purchase_at</code> から 90 日経過 → セグメント条件で自動的に対象外</li>
+          </ul>
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">セグメント条件<br>Segment</div>
+        <div class="logic-row-value"><code>last_purchase_area</code> が <strong>存在する</strong> AND <code>last_purchase_at</code> が <strong>過去 90 日以内</strong>。エリアごとに分岐セグメント</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">Liquid テンプレート<br>Liquid Template</div>
+        <div class="logic-row-value">
+<div class="code-block"><span class="c">{% assign area = {{custom_attribute.${last_purchase_area}}} %}</span>
+
+<span class="c">{% catalog_items 'ac_master'</span>
+<span class="c">  where: 'area={{area}} AND rating&gt;=4.0 AND review_count&gt;=10 AND status=active'</span>
+<span class="c">  sort: 'rating_score desc'</span>
+<span class="c">  limit: 5 %}</span>
+
+&lt;div class=<span class="s">"repeat-purchase"</span>&gt;
+  &lt;div class=<span class="s">"heading"</span>&gt;前回{{area}}で購入したあなたへ&lt;/div&gt;
+  <span class="c">{% for item in catalog_items %}</span>
+    &lt;a href=<span class="s">"{{ item.url }}"</span>&gt;
+      &lt;img src=<span class="s">"{{ item.thumb }}"</span>&gt;
+      &lt;span&gt;{{ item.name }}&lt;/span&gt;
+      &lt;span class=<span class="s">"price"</span>&gt;¥{{ item.price }}〜&lt;/span&gt;
+    &lt;/a&gt;
+  <span class="c">{% endfor %}</span>
+&lt;/div&gt;</div>
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">トリガー<br>Trigger</div>
+        <div class="logic-row-value">Start Session。エリアセグメントごとにキャンペーン分岐</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">マーケが触る範囲<br>Marketing Scope</div>
+        <div class="logic-row-value">見出し文言 (「前回ハワイで購入したあなたへ」「次のハワイ旅行はもう決めましたか？」等)、配信スケジュール。<strong>AC選定リストは Card B と同じ自動選定</strong></div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">必要な開発<br>Dev Effort</div>
+        <div class="logic-row-value">既存 <code>ecommerce_purchase</code> に <code>area</code> パラメータが入っているか確認のみ (実装は基本不要)</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<div class="divider"></div>
+
+<!-- ⑦ 共通運用 -->
+<div class="container">
+<section id="sec7">
+  <div class="section-header">
+    <div class="section-num">SECTION 07</div>
+    <div class="section-title">共通の運用手順</div>
+    <div class="section-desc">4 シナリオ全てに共通する設定・確認・運用ルール。Braze ダッシュボード上で完結する。</div>
+  </div>
+
+  <!-- 7.1 優先度 -->
+  <div class="subsec">
+    <div class="subsec-eyebrow">7.1 PRIORITY</div>
+    <div class="subsec-title">カード並び順 (priority マトリクス)</div>
+    <table class="prio-table">
+      <thead>
+        <tr><th style="width:60px;">順</th><th style="width:120px;">カード</th><th style="width:100px;">priority値</th><th>なぜこの順か</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="prio-num">1</td><td><span class="tag orange">C 離脱</span></td><td><code>10</code></td><td>カレンダーを開いて 48h 未購入＝もうすぐ買いそうシグナルが最強。最上部</td></tr>
+        <tr><td class="prio-num">2</td><td><span class="tag purple">D 購入履歴</span></td><td><code>8</code></td><td>過去に購入経験あり＝支払い意欲・サイト信頼が確認済み</td></tr>
+        <tr><td class="prio-num">3</td><td><span class="tag blue">A 閲覧履歴</span></td><td><code>6</code></td><td>本人が直接見ていた AC。再到達ニーズ高い</td></tr>
+        <tr><td class="prio-num">4</td><td><span class="tag green">B エリア人気</span></td><td><code>4</code></td><td>エリアに来ているだけで本人の意欲は不明。探索補助</td></tr>
+        <tr><td class="prio-num">5</td><td>フォールバック</td><td><code>2</code></td><td>上記いずれも発火しない時の汎用「全体人気 AC」</td></tr>
+      </tbody>
+    </table>
+    <div class="callout blue" style="margin-top: 16px;">
+      <div class="callout-tag">NOTE</div>
+      <div class="callout-body">
+        <strong>設定箇所。</strong>各 Content Card キャンペーンの設定画面で「priority」整数を割り当て。Braze SDK が同一ユーザーに該当する全カードを priority 降順で並べて返す。Dashboard で値を変えればリアルタイムで切替可能 (デプロイ不要)。A/B で順番違いも検証できる。
+      </div>
+    </div>
+  </div>
+
+  <!-- 7.2 期限管理 -->
+  <div class="subsec">
+    <div class="subsec-eyebrow">7.2 EXPIRATION</div>
+    <div class="subsec-title">有効期限管理</div>
+    <table class="kpi-table">
+      <thead>
+        <tr><th style="width:18%;">カード</th><th>キャンペーン Duration</th><th>Card Expiration (Time in Feed)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="tag blue">A 閲覧履歴</span></td><td>無期限 (常時稼働)</td><td>7 日 (1週間で古い履歴は不要)</td></tr>
+        <tr><td><span class="tag green">B エリア人気</span></td><td>無期限 (常時稼働)</td><td>30 日 (Catalog 月次更新と整合)</td></tr>
+        <tr><td><span class="tag orange">C 離脱</span></td><td>無期限 (常時稼働)</td><td>3 日 (セグメントが 48h で自動失効するためバッファ込み)</td></tr>
+        <tr><td><span class="tag purple">D 購入履歴</span></td><td>無期限 (常時稼働)</td><td>30 日</td></tr>
+      </tbody>
+    </table>
+    <div class="callout red" style="margin-top: 16px;">
+      <div class="callout-tag">CAUTION</div>
+      <div class="callout-body">
+        <strong>キャンペーン終了日 ≠ カード有効期限。</strong>キャンペーンが終了してもすでに配信済みカードは Feed 内に "Time in Feed" の日数だけ残る。終わったはずなのに見える、を防ぐため両方を意識的に設定する。1 カード 2KB 制限・Feed 内 100 件上限も忘れずに。
+      </div>
+    </div>
+  </div>
+
+  <!-- 7.3 Currents 確認 -->
+  <div class="subsec">
+    <div class="subsec-eyebrow">7.3 CURRENTS</div>
+    <div class="subsec-title">Currents 4 イベント記録の確認</div>
+    <p style="font-size:14px;line-height:1.75;margin-bottom:10px;">UI レベルが Default / Style / UI のいずれかであれば、下記 4 イベントは <strong>SDK が自動でログ</strong>する。UX レベルだと手動実装が必須。</p>
+    <ul class="bullet-list">
+      <li><code class="inline">users.messages.contentcard.Send</code> — Braze サーバが配信キューに入れた時点</li>
+      <li><code class="inline">users.messages.contentcard.Impression</code> — ユーザーがカードを閲覧した時点</li>
+      <li><code class="inline">users.messages.contentcard.Click</code> — ユーザーがカードをクリックした時点</li>
+      <li><code class="inline">users.messages.contentcard.Dismiss</code> — ユーザーがカードを閉じた時点</li>
+    </ul>
+    <p style="font-size:13px;color:var(--muted);margin-top:10px;line-height:1.65;">Currents export を BigQuery / Snowflake 等につないでおくと、カード別 CTR / Impression-to-CVR を Braze 外でも分析可能。</p>
+  </div>
+
+  <!-- 7.4 A/B 並走 -->
+  <div class="subsec" style="margin-bottom: 0;">
+    <div class="subsec-eyebrow">7.4 A/B PARALLEL</div>
+    <div class="subsec-title">A/B テストの並走構造</div>
+    <p style="font-size:14px;line-height:1.75;margin-bottom:12px;">Phase 分割せず、4 カード × 4 エリア (× variant) を一斉稼働させる。カード・セグメント・テンプレートが独立してるので干渉しない。</p>
+    <table class="kpi-table">
+      <thead>
+        <tr><th style="width:25%;">テスト軸</th><th>例</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="tag blue">A コピー</span></td><td>「閲覧履歴 TOP3」 vs 「最近見た AC」</td></tr>
+        <tr><td><span class="tag green">B 表示順</span></td><td>C → D → A → B の固定順 vs 動的優先度</td></tr>
+        <tr><td><span class="tag orange">C トリガー時間</span></td><td>48h vs 72h vs 24h でカレンダー離脱の最適時間を探る</td></tr>
+        <tr><td><span class="tag purple">D 訴求文言</span></td><td>「前回ハワイで購入したあなたへ」vs 「ハワイのリピーター限定」</td></tr>
+        <tr><td><span class="tag">エリア粒度</span></td><td>初期 4 エリア vs スポット粒度 (30+) で CTR 比較</td></tr>
+      </tbody>
+    </table>
+    <div class="callout green" style="margin-top: 16px;">
+      <div class="callout-tag">WIN PATTERN</div>
+      <div class="callout-body">
+        <strong>運用方針。</strong>Braze の variant 機能で各カードに A / B variant を立て、Currents の CTR を週次レビュー → 勝ち variant をダッシュボード上で採用切替。開発を待たずに継続最適化が回る。
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- CTA bottom -->
+<div class="container">
+<section style="padding-top: 0;">
+  <div class="cta-grid">
+    <a class="cta-btn" href="/planning/personalized-header-menu.html">
+      <div>
+        <div class="cta-eyebrow">企画背景</div>
+        <div class="cta-label">Personalized Header Menu</div>
+        <div class="cta-sub">本ドキュメントで実装する 4 カード企画の元仕様</div>
+      </div>
+      <div class="cta-arrow">&gt;</div>
+    </a>
+    <a class="cta-btn alt" href="/planning/braze-content-card-setup.html">
+      <div>
+        <div class="cta-eyebrow">前提セットアップ</div>
+        <div class="cta-label">Braze Content Card 実装手順 (dev)</div>
+        <div class="cta-sub">GTM / SDK / 動作検証の段階別ガイド</div>
+      </div>
+      <div class="cta-arrow">&gt;</div>
+    </a>
+  </div>
+</section>
+</div>
+
+<div class="doc-footer">
+  <strong>VELTRA CVR向上チーム｜Braze Content Card 実装方法＆4シナリオ具体 v1.0｜2026-05-21</strong><br>
+  関連: Personalized Header Menu / Braze Content Card 実装手順 (dev)<br>
+  次のアクション: マーケでカード A をプロトタイプ作成 → dev 環境で動作確認 → 順次 B/C/D を立ち上げ
+</div>
+
+<script>
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+const tocs = document.querySelectorAll('.toc-item');
+const secs = ['sec1','sec2','sec3','sec4','sec5','sec6','sec7'];
+window.addEventListener('scroll', () => {
+  let cur = 0;
+  secs.forEach((s, i) => {
+    const el = document.getElementById(s);
+    if (el && el.getBoundingClientRect().top < 140) cur = i;
+  });
+  tocs.forEach((t, i) => t.classList.toggle('active', i === cur));
+});
+</script>
+<script src="/planning/back-nav.js"></script>
+</body>
+</html>
