@@ -156,25 +156,25 @@
     },
     {
       "month": "2026-05",
-      "sessions": 2156449,
-      "purchases": 24005,
-      "cvr": 0.011131,
-      "bot_sessions": 374113,
+      "sessions": 3241475,
+      "purchases": 30978,
+      "cvr": 0.009557,
+      "bot_sessions": 930245,
       "anomaly": true,
-      "period_note": "5/1〜5/17 速報。bot 内訳: W18 残 50,857（5/1-5/2）+ W19 195,236（5/3-5/9）+ W20 112,017（5/10-5/16）+ 5/17 推定 16,003。実質 CVR = 24,005 ÷ (2,156,449 − 374,113) = 1.347%"
+      "period_note": "5/1〜5/23 速報。bot 内訳: W18 残 50,857（5/1-5/2）+ W19 195,236（5/3-5/9）+ W20 112,017（5/10-5/16）+ W21 572,135（5/17-5/23、WAF 突破による大規模再来）。実質 CVR = 30,978 ÷ (3,241,475 − 930,245) = 1.340%"
     }
   ],
   "anomaly_definition": {
-    "label": "Singapore × Chrome × Windows bot（W16〜継続）",
+    "label": "Chromium Headless bot（W16〜継続・W20 多国分散・W21 WAF 突破で再拡大）",
     "first_detected": "2026-W16",
     "criteria": [
-      "GA4 上で Singapore × Chrome × Windows のフィンガープリント一致セッション",
-      "Singapore 活用ユーザー/セッション比 ≈ 1.0（人間ベンチマークは 0.80〜0.90）",
-      "購入数はほぼゼロ（28日累計で 15 件 / セッション 774K — 実質 0%）"
+      "GA4 上で country × Chrome × Windows のフィンガープリント一致セッション（W16-W19 は Singapore 単独 / W20 は 4ヶ国分散 / W21 は WAF 突破で Singapore 再来＋10ヶ国分散）",
+      "対象国 活用ユーザー/セッション比 ≈ 0.95+（人間ベンチマークは 0.80〜0.90）",
+      "購入数はほぼゼロ（W21 7d 572K セッションで 14 件 / 実質 0.002%）"
     ],
     "adjustment": "実質CVR = 購入数 ÷ (セッション数 − bot_sessions)。bot の購入は実質ゼロのため購入数は調整しない。",
-    "source": "W19 reports/2026-w19/data.json の data_quality ブロック（bot_sessions_28d = 774,241 / bot_share_28d = 19.66%）を週次に按分。月次は週次合算（W18/W19 跨月分は日割り）。",
-    "affected_periods": ["2026-W16", "2026-W17", "2026-W18", "2026-W19", "2026-04", "2026-05"]
+    "source": "W21 reports/2026-w21/data.json の data_quality ブロック（W21 7d 572,135 / 47.4% で W20 7d 112K / 15% の 5倍規模に拡大）。Singapore 単独ブロック WAF が破られた可能性が高い。",
+    "affected_periods": ["2026-W16", "2026-W17", "2026-W18", "2026-W19", "2026-W20", "2026-W21", "2026-04", "2026-05"]
   },
   "targets": {
     "monthly_cvr": 0.014293,
