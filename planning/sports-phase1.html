@@ -230,6 +230,14 @@
   .prog .pct { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); min-width: 34px; text-align: right; }
   .owner-tag { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--accent-soft); white-space: nowrap; }
 
+  /* next-action checklist */
+  .actions { list-style: none; padding: 0; margin: 8px 0 0; border: 1px solid var(--border); border-radius: 8px; background: #fff; overflow: hidden; }
+  .actions li { display: grid; grid-template-columns: auto 140px 1fr; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); font-size: 13px; line-height: 1.6; align-items: start; }
+  .actions li:first-child { border-top: none; }
+  .actions li input[type="checkbox"] { width: 16px; height: 16px; margin-top: 3px; cursor: pointer; accent-color: var(--accent); }
+  .actions .ac-owner { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--accent-soft); margin-top: 2px; }
+  .actions .ac-text { font-size: 13px; color: var(--text); }
+
   nav.toc { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 20px; margin-bottom: 24px; display: flex; flex-wrap: wrap; gap: 6px 4px; font-size: 13px; }
   nav.toc a { color: var(--text-sub); text-decoration: none; padding: 4px 10px; border-radius: 4px; }
   nav.toc a:hover { background: var(--bg-sub); color: var(--text); }
@@ -424,17 +432,141 @@
       </ul>
     </div>
 
-    <h3>いま止まっているブロッカー（他チーム判断待ち）</h3>
-    <table class="tbl">
-      <thead><tr><th style="width:18%;">確認先</th><th>内容</th><th style="width:14%;">状態</th></tr></thead>
-      <tbody>
-        <tr><td><span class="owner-tag">→ 林さん</span></td><td>まとめページのURL構造（/theme/sports/ 等）・実装先リポジトリ・ディレクトリ。ここが決まらないと動線設計・SEO共有が動けない</td><td><span class="st wait">回答待ち</span></td></tr>
-        <tr><td><span class="owner-tag">→ Izumi</span></td><td>各まとめページに載せる掲載ACの選定（競技ごとに主要ACを確定）</td><td><span class="st wait">調整中</span></td></tr>
-        <tr><td><span class="owner-tag">→ Izumi</span></td><td>ゴルフの「観戦」／「プレイ」分離方針</td><td><span class="st wait">調整中</span></td></tr>
-        <tr><td><span class="owner-tag">→ Sachie・林さん</span></td><td>モックのデザインを本番にどう引き渡すか（モックCSSをそのまま使うか／本番デザインシステムに寄せるか）</td><td><span class="st todo">未着手</span></td></tr>
-        <tr><td><span class="owner-tag">→ kotarom 発信</span></td><td>URL確定後、対象URL・公開時期をSEO／広告チームへ共有</td><td><span class="st todo">URL確定後</span></td></tr>
-      </tbody>
-    </table>
+    <h3>ネクストアクション</h3>
+    <ul class="actions">
+      <li>
+        <input type="checkbox" aria-label="完了">
+        <span class="ac-owner">担当：kotaro</span>
+        <span class="ac-text">ディレクトリ名を決める</span>
+      </li>
+      <li>
+        <input type="checkbox" aria-label="完了">
+        <span class="ac-owner">担当：林さん</span>
+        <span class="ac-text">まとめページのURL構造（/theme/sports/ 等）・実装先リポジトリ・ディレクトリ</span>
+      </li>
+      <li>
+        <input type="checkbox" aria-label="完了">
+        <span class="ac-owner">担当：Izumi</span>
+        <span class="ac-text">各まとめページに載せる掲載ACの選定（競技ごとに主要ACを確定）</span>
+      </li>
+      <li>
+        <input type="checkbox" aria-label="完了">
+        <span class="ac-owner">担当：Izumi</span>
+        <span class="ac-text">ゴルフの「観戦」／「プレイ」分離方針</span>
+      </li>
+      <li>
+        <input type="checkbox" aria-label="完了">
+        <span class="ac-owner">担当：Sachieさん・Meikoさん</span>
+        <span class="ac-text">モックのデザインを本番にどう引き渡すか（モックCSSをそのまま使うか／本番デザインシステムに寄せるか）</span>
+      </li>
+      <li>
+        <input type="checkbox" aria-label="完了">
+        <span class="ac-owner">担当：kotarom</span>
+        <span class="ac-text">URL確定後、対象URL・公開時期をSEO／広告チームへ共有</span>
+      </li>
+    </ul>
+
+    <h3 id="p1-sched">スケジュール</h3>
+    <p style="font-size:13px; color:var(--text-sub); margin:0 0 12px;">合意日からカウントして12〜14週でリリース。原稿執筆と実装を並行進行させて短縮する。</p>
+
+    <div class="gantt">
+      <div class="gantt-head">
+        <div class="name-cell">タスク \ 週</div>
+        <div class="weeks">
+          <span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span><span>W7</span>
+          <span>W8</span><span>W9</span><span>W10</span><span>W11</span><span>W12</span><span>W13</span><span>W14</span>
+        </div>
+      </div>
+
+      <div class="gantt-row phase-head">
+        <div class="name-cell">Phase 1：合意形成・調査<small>2週間</small></div>
+        <div class="bars"><div class="bar p1" style="grid-column:1 / span 2;">W1–W2</div></div>
+      </div>
+      <div class="gantt-row">
+        <div class="name-cell">ドキュメントレビュー・ステークホルダー調整</div>
+        <div class="bars"><div class="bar p1" style="grid-column:1 / span 2;"></div></div>
+      </div>
+      <div class="gantt-row">
+        <div class="name-cell">キーワード調査（Ahrefs）・売上見込み試算</div>
+        <div class="bars"><div class="bar p1" style="grid-column:1 / span 2;"></div></div>
+      </div>
+      <div class="gantt-row">
+        <div class="name-cell">PRD作成・ClickUp起票</div>
+        <div class="bars"><div class="bar p1" style="grid-column:2 / span 1;"></div></div>
+      </div>
+
+      <div class="gantt-row phase-head">
+        <div class="name-cell">Phase 2:仕様確定・モック・原稿着手<small>3週間</small></div>
+        <div class="bars"><div class="bar p2" style="grid-column:3 / span 3;">W3–W5</div></div>
+      </div>
+      <div class="gantt-row">
+        <div class="name-cell">Figmaモック作成・デザイナーレビュー</div>
+        <div class="bars"><div class="bar p2" style="grid-column:3 / span 3;"></div></div>
+      </div>
+      <div class="gantt-row">
+        <div class="name-cell">SEO設計（meta・構造化データ）・GTM設計</div>
+        <div class="bars"><div class="bar p2" style="grid-column:3 / span 2;"></div></div>
+      </div>
+      <div class="gantt-row">
+        <div class="name-cell">原稿執筆(サッカー+野球)</div>
+        <div class="bars"><div class="bar p2" style="grid-column:3 / span 6;">執筆 2.5〜3週間（実装と並行）</div></div>
+      </div>
+
+      <div class="gantt-row phase-head">
+        <div class="name-cell">Phase 3:実装・原稿仕上げ<small>6週間</small></div>
+        <div class="bars"><div class="bar p3" style="grid-column:6 / span 6;">W6–W11</div></div>
+      </div>
+      <div class="gantt-row">
+        <div class="name-cell">フロント実装（静的HTML、TOP/サッカー/野球）</div>
+        <div class="bars"><div class="bar p3" style="grid-column:6 / span 5;"></div></div>
+      </div>
+      <div class="gantt-row">
+        <div class="name-cell">原稿レビュー・推敲・差し戻し</div>
+        <div class="bars"><div class="bar p3" style="grid-column:7 / span 4;"></div></div>
+      </div>
+      <div class="gantt-row">
+        <div class="name-cell">スケジュールCSV運用フロー確定</div>
+        <div class="bars"><div class="bar p3" style="grid-column:8 / span 3;"></div></div>
+      </div>
+      <div class="gantt-row">
+        <div class="name-cell">QA・各種デバイス確認</div>
+        <div class="bars"><div class="bar p3" style="grid-column:10 / span 2;"></div></div>
+      </div>
+
+      <div class="gantt-row phase-head">
+        <div class="name-cell">Phase 4:リリース・効果測定開始<small>2〜3週間</small></div>
+        <div class="bars"><div class="bar p4" style="grid-column:12 / span 3;">W12–W14</div></div>
+      </div>
+      <div class="gantt-row">
+        <div class="name-cell">本番反映・社内告知</div>
+        <div class="bars"><div class="bar p4" style="grid-column:12 / span 1;"></div></div>
+      </div>
+      <div class="gantt-row">
+        <div class="name-cell">効果測定開始（GA4・Ahrefs）</div>
+        <div class="bars"><div class="bar p4" style="grid-column:12 / span 3;"></div></div>
+      </div>
+      <div class="gantt-row">
+        <div class="name-cell">初週・1ヶ月の振り返り → 第2弾優先度決定</div>
+        <div class="bars"><div class="bar p4" style="grid-column:14 / span 1;"></div></div>
+      </div>
+    </div>
+
+    <div class="gantt-legend">
+      <span class="lg"><span class="sw" style="background:#4a8a3e;"></span>Phase 1（合意形成・調査）</span>
+      <span class="lg"><span class="sw" style="background:#1e5fa5;"></span>Phase 2（仕様・モック・原稿着手）</span>
+      <span class="lg"><span class="sw" style="background:#c47a1f;"></span>Phase 3（実装・原稿仕上げ）</span>
+      <span class="lg"><span class="sw" style="background:#a0322b;"></span>Phase 4（リリース・効果測定）</span>
+    </div>
+
+    <div class="callout info" style="margin-top:18px;">
+      <strong>リリース後3ヶ月の判定ゲート:</strong>
+      <ul style="margin:8px 0 0; padding-left:20px;">
+        <li>① テーマlanding CVRがエリアlandingを上回る</li>
+        <li>② 対象キーワードで10位以内に1個以上入る</li>
+        <li>③ 月間流入セッションが目標値を超える</li>
+      </ul>
+      <div style="margin-top:8px;">2つ以上達成で「他種目展開」を意思決定。未達なら設計見直し。</div>
+    </div>
   </section>
 
   <!-- ============ KICKOFF MTG AGENDA ============ -->
@@ -694,111 +826,6 @@
         <tr><td class="b">リリース・社内告知 → 効果測定</td><td class="muted">PM</td><td><span class="pill-pri p3">P2</span></td><td><span class="st todo">未着手</span></td><td class="muted">CVR・SEO順位・流入セッション</td></tr>
       </tbody>
     </table>
-  </section>
-
-  <!-- ============ SCHEDULE ============ -->
-  <section class="sec" id="p1-sched">
-    <h2><span class="num">04</span>スケジュール</h2>
-    <p class="sec-lead">合意日からカウントして12〜14週でリリース。原稿執筆と実装を並行進行させて短縮する。</p>
-
-    <div class="gantt">
-      <div class="gantt-head">
-        <div class="name-cell">タスク \ 週</div>
-        <div class="weeks">
-          <span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span><span>W7</span>
-          <span>W8</span><span>W9</span><span>W10</span><span>W11</span><span>W12</span><span>W13</span><span>W14</span>
-        </div>
-      </div>
-
-      <div class="gantt-row phase-head">
-        <div class="name-cell">Phase 1：合意形成・調査<small>2週間</small></div>
-        <div class="bars"><div class="bar p1" style="grid-column:1 / span 2;">W1–W2</div></div>
-      </div>
-      <div class="gantt-row">
-        <div class="name-cell">ドキュメントレビュー・ステークホルダー調整</div>
-        <div class="bars"><div class="bar p1" style="grid-column:1 / span 2;"></div></div>
-      </div>
-      <div class="gantt-row">
-        <div class="name-cell">キーワード調査（Ahrefs）・売上見込み試算</div>
-        <div class="bars"><div class="bar p1" style="grid-column:1 / span 2;"></div></div>
-      </div>
-      <div class="gantt-row">
-        <div class="name-cell">PRD作成・ClickUp起票</div>
-        <div class="bars"><div class="bar p1" style="grid-column:2 / span 1;"></div></div>
-      </div>
-
-      <div class="gantt-row phase-head">
-        <div class="name-cell">Phase 2:仕様確定・モック・原稿着手<small>3週間</small></div>
-        <div class="bars"><div class="bar p2" style="grid-column:3 / span 3;">W3–W5</div></div>
-      </div>
-      <div class="gantt-row">
-        <div class="name-cell">Figmaモック作成・デザイナーレビュー</div>
-        <div class="bars"><div class="bar p2" style="grid-column:3 / span 3;"></div></div>
-      </div>
-      <div class="gantt-row">
-        <div class="name-cell">SEO設計（meta・構造化データ）・GTM設計</div>
-        <div class="bars"><div class="bar p2" style="grid-column:3 / span 2;"></div></div>
-      </div>
-      <div class="gantt-row">
-        <div class="name-cell">原稿執筆（サッカー+野球）</div>
-        <div class="bars"><div class="bar p2" style="grid-column:3 / span 6;">執筆 2.5〜3週間（実装と並行）</div></div>
-      </div>
-
-      <div class="gantt-row phase-head">
-        <div class="name-cell">Phase 3:実装・原稿仕上げ<small>6週間</small></div>
-        <div class="bars"><div class="bar p3" style="grid-column:6 / span 6;">W6–W11</div></div>
-      </div>
-      <div class="gantt-row">
-        <div class="name-cell">フロント実装（静的HTML、TOP/サッカー/野球）</div>
-        <div class="bars"><div class="bar p3" style="grid-column:6 / span 5;"></div></div>
-      </div>
-      <div class="gantt-row">
-        <div class="name-cell">原稿レビュー・推敲・差し戻し</div>
-        <div class="bars"><div class="bar p3" style="grid-column:7 / span 4;"></div></div>
-      </div>
-      <div class="gantt-row">
-        <div class="name-cell">スケジュールCSV運用フロー確定</div>
-        <div class="bars"><div class="bar p3" style="grid-column:8 / span 3;"></div></div>
-      </div>
-      <div class="gantt-row">
-        <div class="name-cell">QA・各種デバイス確認</div>
-        <div class="bars"><div class="bar p3" style="grid-column:10 / span 2;"></div></div>
-      </div>
-
-      <div class="gantt-row phase-head">
-        <div class="name-cell">Phase 4:リリース・効果測定開始<small>2〜3週間</small></div>
-        <div class="bars"><div class="bar p4" style="grid-column:12 / span 3;">W12–W14</div></div>
-      </div>
-      <div class="gantt-row">
-        <div class="name-cell">本番反映・社内告知</div>
-        <div class="bars"><div class="bar p4" style="grid-column:12 / span 1;"></div></div>
-      </div>
-      <div class="gantt-row">
-        <div class="name-cell">効果測定開始（GA4・Ahrefs）</div>
-        <div class="bars"><div class="bar p4" style="grid-column:12 / span 3;"></div></div>
-      </div>
-      <div class="gantt-row">
-        <div class="name-cell">初週・1ヶ月の振り返り → 第2弾優先度決定</div>
-        <div class="bars"><div class="bar p4" style="grid-column:14 / span 1;"></div></div>
-      </div>
-    </div>
-
-    <div class="gantt-legend">
-      <span class="lg"><span class="sw" style="background:#4a8a3e;"></span>Phase 1（合意形成・調査）</span>
-      <span class="lg"><span class="sw" style="background:#1e5fa5;"></span>Phase 2（仕様・モック・原稿着手）</span>
-      <span class="lg"><span class="sw" style="background:#c47a1f;"></span>Phase 3（実装・原稿仕上げ）</span>
-      <span class="lg"><span class="sw" style="background:#a0322b;"></span>Phase 4（リリース・効果測定）</span>
-    </div>
-
-    <div class="callout info" style="margin-top:18px;">
-      <strong>リリース後3ヶ月の判定ゲート:</strong>
-      <ul style="margin:8px 0 0; padding-left:20px;">
-        <li>① テーマlanding CVRがエリアlandingを上回る</li>
-        <li>② 対象キーワードで10位以内に1個以上入る</li>
-        <li>③ 月間流入セッションが目標値を超える</li>
-      </ul>
-      <div style="margin-top:8px;">2つ以上達成で「他種目展開」を意思決定。未達なら設計見直し。</div>
-    </div>
   </section>
 
   <!-- ============ ISSUES ============ -->
