@@ -218,6 +218,18 @@
   .pill-pri.p2 { background: var(--bg-warn); color: #854f0b; }
   .pill-pri.p3 { background: var(--bg-sub); color: var(--text-sub); }
 
+  /* status pills (progress tracking) */
+  .st { display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
+  .st.done { background: var(--bg-accent); color: #27500a; }
+  .st.doing { background: var(--bg-info); color: #0c447c; }
+  .st.todo { background: var(--bg-sub); color: var(--text-sub); }
+  .st.wait { background: var(--bg-warn); color: #6d3f08; }
+  .prog { display: flex; align-items: center; gap: 8px; }
+  .prog .track { flex: 1; height: 6px; background: var(--bg-sub); border-radius: 999px; overflow: hidden; min-width: 56px; }
+  .prog .fill { height: 100%; background: var(--accent-soft); border-radius: 999px; }
+  .prog .pct { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); min-width: 34px; text-align: right; }
+  .owner-tag { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--accent-soft); white-space: nowrap; }
+
   nav.toc { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 20px; margin-bottom: 24px; display: flex; flex-wrap: wrap; gap: 6px 4px; font-size: 13px; }
   nav.toc a { color: var(--text-sub); text-decoration: none; padding: 4px 10px; border-radius: 4px; }
   nav.toc a:hover { background: var(--bg-sub); color: var(--text); }
@@ -245,62 +257,190 @@
 
   <header class="head">
     <div class="meta">
-      <span class="pill">Phase 1 — 個別案件詳細</span>
-      <span class="ver">v0.1 · 2026-05-13</span>
+      <span class="pill">スポーツまとめページ — 進捗・タスク管理</span>
+      <span class="ver">最終更新 2026-05-28</span>
     </div>
-    <h1>スポーツナビ第1弾｜具体化ドキュメント</h1>
-    <p class="lead">「スポーツTOP + サッカー + 野球」の3ページをリリースするための具体ドキュメント。原稿ダミー・タスク・スケジュール・論点を一通り詰めて、企画側に「動いている」状態で持って行くことを目的とする。雛形化（横展開ルール・運用基盤）の議論は別途Phase 2で扱う。</p>
+    <h1>スポーツまとめページ｜進捗・タスク管理ドキュメント</h1>
+    <p class="lead">観戦AC（商品ページ）はオペレーションが順次作成し既存のスポーツCTGに掲載される。本ドキュメントが扱うのは、それらACへ送客する<strong>静的なスポーツまとめページ</strong>の制作。種目別の全体進捗・タスク・スケジュール・論点をここで一元管理する。第1弾は優先順位に沿って野球（MLB）＋サッカーから公開し、ACデータが揃った競技から順に拡張する。</p>
   </header>
 
   <nav class="toc">
     <a href="#p1-exec">サマリー</a><span class="sep">/</span>
-    <a href="#p1-mtg">今日のMTG論点</a><span class="sep">/</span>
+    <a href="#p1-roadmap">種目別ロードマップ・進捗</a><span class="sep">/</span>
     <a href="#p1-scope">第1弾スコープ</a><span class="sep">/</span>
     <a href="#p1-copy">原稿ダミー</a><span class="sep">/</span>
     <a href="#p1-tasks">タスク</a><span class="sep">/</span>
     <a href="#p1-sched">スケジュール</a><span class="sep">/</span>
+    <a href="#p1-mtg">キックオフ論点</a><span class="sep">/</span>
     <a href="#p1-issues">論点</a>
   </nav>
 
   <!-- ============ EXEC ============ -->
   <section class="exec" id="p1-exec">
     <h2>Executive Summary（結論先出し）</h2>
-    <p class="verdict">第1弾は <strong>スポーツTOP + サッカー + 野球</strong> の3ページ。すべて <strong>静的HTMLで先にリリース</strong>し、ac連携は段階導入。サッカーは <strong>5大リーグ × 主要8クラブ</strong>、野球は <strong>MLB主要6球団</strong> をカバー、原稿は自作・写真エンブレム不使用。</p>
+    <p class="verdict">観戦ACはオペレーションが順次作成し既存のスポーツCTGに掲載される。我々が作るのは、それらACへ送客する <strong>静的なスポーツまとめページ</strong>。第1弾は優先順位に沿って <strong>野球（MLB）＋サッカー</strong> から公開し、<strong>F1・テニス・アメフトはACデータが揃い次第、野球で固めた型に流し込んで</strong>順次拡張する。</p>
 
     <div class="exec-grid">
-      <div class="exec-card"><div class="label">第1弾ページ数</div><div class="value">3ページ<br>（TOP + 2種目）</div></div>
-      <div class="exec-card"><div class="label">カバー範囲</div><div class="value">サッカー5リーグ8クラブ<br>+ MLB 6球団</div></div>
-      <div class="exec-card"><div class="label">想定原稿量</div><div class="value">約18,000字<br>（自作・他社コピペ禁止）</div></div>
-      <div class="exec-card"><div class="label">想定リリース</div><div class="value">合意後<br>12〜14週</div></div>
+      <div class="exec-card"><div class="label">制作物の性質</div><div class="value">静的まとめページ<br>（ACはCTG / ops作成）</div></div>
+      <div class="exec-card"><div class="label">第1弾</div><div class="value">野球（MLB）＋サッカー<br>＋スポーツTOP</div></div>
+      <div class="exec-card"><div class="label">全体ロードマップ</div><div class="value">8種目<br>（優先順位 確定済）</div></div>
+      <div class="exec-card"><div class="label">着手原則</div><div class="value">型を確定 →<br>データ完成順に流し込み</div></div>
     </div>
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
       <div>
         <h3 style="font-size:13px; color:var(--text-muted); margin:0 0 8px; letter-spacing:0.05em;">何をやるか</h3>
         <ul style="margin:0; padding-left:20px;">
-          <li style="margin-bottom:6px;">スポーツTOP：7種目を入口として並べる（うち2種目が実コンテンツ）</li>
-          <li style="margin-bottom:6px;">サッカーページ：5大リーグ＋主要クラブ＋試合スケジュール＋ac一覧</li>
-          <li style="margin-bottom:6px;">野球ページ：MLB主要球団＋スケジュール＋ac一覧（日本人選手在籍球団優先）</li>
-          <li style="margin-bottom:6px;">原稿はチーム名・大会・歴史・観戦ガイドを自作</li>
-          <li style="margin-bottom:6px;">スケジュールは初期は手動更新（CSV）でリリース</li>
+          <li style="margin-bottom:6px;">スポーツTOP：8種目を入口に並べ、公開済の競技から実リンク化</li>
+          <li style="margin-bottom:6px;">野球まとめページ：MLB＋台湾リーグ。横展開の型として確定させる</li>
+          <li style="margin-bottom:6px;">サッカーまとめページ：FIFA WC への動線＋欧州2026-27は予定表示</li>
+          <li style="margin-bottom:6px;">各まとめページから該当AC／CTGへ静的リンクで送客（ACが増えたら追記）</li>
+          <li style="margin-bottom:6px;">チーム・リーグ・観戦ガイドの原稿は自作</li>
         </ul>
       </div>
       <div>
-        <h3 style="font-size:13px; color:var(--text-muted); margin:0 0 8px; letter-spacing:0.05em;">先送りすること</h3>
+        <h3 style="font-size:13px; color:var(--text-muted); margin:0 0 8px; letter-spacing:0.05em;">あと回し / 条件待ち</h3>
         <ul style="margin:0; padding-left:20px;">
-          <li style="margin-bottom:6px;">他種目（バスケットボール・テニス・アイスホッケー・ラグビー・モータースポーツ）の展開</li>
+          <li style="margin-bottom:6px;">NBA（6〜7月）・NHL（7〜8月）・欧州サッカー（8月下旬〜）の実リンク化 → データ到来後</li>
+          <li style="margin-bottom:6px;">ゴルフ → 観戦／プレイの分離方針が決まってから</li>
           <li style="margin-bottom:6px;">スケジュール自動反映システム</li>
-          <li style="margin-bottom:6px;">グロカテへの統合</li>
-          <li style="margin-bottom:6px;">CMS化・運用基盤の本格整備（Phase 2 で議論）</li>
+          <li style="margin-bottom:6px;">CMS化・運用基盤の本格整備</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- ============ TODAY'S MTG AGENDA ============ -->
-  <section class="sec" id="p1-mtg" style="border-left:4px solid var(--accent);">
-    <h2><span class="num">★</span>今日のMTGで確認したいこと</h2>
-    <p class="sec-lead">今日のMTGでは以下5点に絞って合意したい。具体モックは別途共有済み（本書では割愛）。</p>
+  <!-- ============ ROADMAP & PROGRESS ============ -->
+  <section class="sec" id="p1-roadmap" style="border-left:4px solid var(--accent);">
+    <h2><span class="num">◎</span>種目別ロードマップ・全体進捗</h2>
+    <p class="sec-lead">優先順位（需要順）とACデータの完成時期がズレている。需要は高いがデータ未到来の競技（NBA・NHL）と、需要は中位でもデータ最速の競技（F1）がある点を踏まえて着手順を組む。本セクションを週次で更新して進捗を管理する。</p>
+
+    <div class="callout accent">
+      <strong>制作物の切り分け：</strong> AC商品ページ（観戦チケット・送迎・プリゲーム体験など）は<strong>オペレーションが1件ずつ作成し、既存のスポーツCTG（<a href="https://www.veltra.com/jp/ctg/203893:sports/" target="_blank" rel="noopener">/jp/ctg/203893:sports/</a>）に自動掲載</strong>。我々が作るのは競技ごとの<strong>静的まとめページ</strong>で、チーム・リーグ・スケジュール・観戦Tipsを編集し、該当ACページ／CTGへのリンクを貼る。<br>
+      → まとめページは「ACが何件あるか」に依存せず先に公開でき、ACが増えたらリンクを追記更新する。<strong>ACデータの完成を待たずに型と公開を先行できる。</strong>
+    </div>
+
+    <h3>種目別ステータス（優先順位は確定版 / AC状況・進捗は 2026-05-28 時点）</h3>
+    <table class="tbl">
+      <thead>
+        <tr><th style="width:6%;">優先</th><th style="width:13%;">種目</th><th>AC状況</th><th style="width:13%;">データ完成</th><th style="width:16%;">まとめページ進捗</th><th style="width:9%;">状態</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="pill-pri p1">1</span></td>
+          <td class="b">野球（MLB）</td>
+          <td>MLB全30球団（1球団のみPEND）＋台湾リーグ</td>
+          <td class="muted">完成済</td>
+          <td><div class="prog"><div class="track"><div class="fill" style="width:85%;"></div></div><span class="pct">85%</span></div><span class="muted" style="font-size:11px;">横展開の型。コンテンツ確定中</span></td>
+          <td><span class="st doing">進行中</span></td>
+        </tr>
+        <tr>
+          <td><span class="pill-pri p1">2</span></td>
+          <td class="b">サッカー</td>
+          <td>FIFAワールドカップ稼働中／欧州2026-27は来月作成開始（スペイン・イギリスは8月下旬〜）</td>
+          <td class="muted">一部・欧州は8月〜</td>
+          <td><div class="prog"><div class="track"><div class="fill" style="width:60%;"></div></div><span class="pct">60%</span></div><span class="muted" style="font-size:11px;">FIFA WC 動線確定／欧州は予定表示</span></td>
+          <td><span class="st doing">進行中</span></td>
+        </tr>
+        <tr>
+          <td><span class="pill-pri p2">3</span></td>
+          <td class="b">バスケ（NBA）</td>
+          <td>全30チーム（今シーズンデータ未投入）</td>
+          <td class="muted">6〜7月見込み</td>
+          <td><div class="prog"><div class="track"><div class="fill" style="width:0%;"></div></div><span class="pct">0%</span></div><span class="muted" style="font-size:11px;">データ待ち → 型に流し込み</span></td>
+          <td><span class="st wait">データ待ち</span></td>
+        </tr>
+        <tr>
+          <td><span class="pill-pri p2">4</span></td>
+          <td class="b">F1</td>
+          <td>モナコGP以降の9戦</td>
+          <td class="muted">今週〜来週に全戦完成</td>
+          <td><div class="prog"><div class="track"><div class="fill" style="width:0%;"></div></div><span class="pct">0%</span></div><span class="muted" style="font-size:11px;">データ最速。型確定後すぐ着手＝前倒し候補</span></td>
+          <td><span class="st todo">未着手</span></td>
+        </tr>
+        <tr>
+          <td><span class="pill-pri p3">5</span></td>
+          <td class="b">テニス</td>
+          <td>全英オープン・全米オープン</td>
+          <td class="muted">稼働済</td>
+          <td><div class="prog"><div class="track"><div class="fill" style="width:0%;"></div></div><span class="pct">0%</span></div><span class="muted" style="font-size:11px;">データ済 → 流し込み容易</span></td>
+          <td><span class="st todo">未着手</span></td>
+        </tr>
+        <tr>
+          <td><span class="pill-pri p3">6</span></td>
+          <td class="b">アメフト（NFL）</td>
+          <td>全32チーム（1チームのみPEND）</td>
+          <td class="muted">稼働済</td>
+          <td><div class="prog"><div class="track"><div class="fill" style="width:0%;"></div></div><span class="pct">0%</span></div><span class="muted" style="font-size:11px;">データ済 → 流し込み容易</span></td>
+          <td><span class="st todo">未着手</span></td>
+        </tr>
+        <tr>
+          <td><span class="pill-pri p3">7</span></td>
+          <td class="b">アイスホッケー（NHL）</td>
+          <td>全32チーム（Coming Soon）</td>
+          <td class="muted">7〜8月見込み</td>
+          <td><div class="prog"><div class="track"><div class="fill" style="width:0%;"></div></div><span class="pct">0%</span></div><span class="muted" style="font-size:11px;">データ待ち → 型に流し込み</span></td>
+          <td><span class="st wait">データ待ち</span></td>
+        </tr>
+        <tr>
+          <td><span class="pill-pri p3">8</span></td>
+          <td class="b">ゴルフ</td>
+          <td>USオープンゴルフ予定。「観戦」と「自分でプレイ」が現状混在、分離方針が未定。行き場のないスタジアムツアー・送迎ACあり</td>
+          <td class="muted">分離方針待ち</td>
+          <td><div class="prog"><div class="track"><div class="fill" style="width:0%;"></div></div><span class="pct">0%</span></div><span class="muted" style="font-size:11px;">分け方が決まるまで保留</span></td>
+          <td><span class="st wait">方針待ち</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>着手順：優先度 × データ完成時期で並べる</h3>
+    <p style="font-size:13px; color:var(--text-sub); margin:0 0 12px;">「優先度順に上から」ではなく「型を先に固め、データが来た競技から流し込む」。データ待ちの競技で全体を止めない。</p>
+    <div class="phase">
+      <h4>① いま（型を固める）<span class="dur">データ依存なし</span></h4>
+      <ul>
+        <li><strong>野球</strong>：まとめページのコンテンツを確定し、全競技共通の雛形にする</li>
+        <li><strong>サッカー</strong>：FIFA WC への動線を確定。欧州2026-27は「予定」表示のまま先行公開</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <h4>② データ最速枠（型へ流し込み）<span class="dur">ACデータ完成済</span></h4>
+      <ul>
+        <li><strong>F1</strong>（今週〜来週に全戦完成）：優先度4位だがデータ最速。型が固まり次第すぐ公開できる前倒し候補</li>
+        <li><strong>テニス・アメフト</strong>：すでに稼働済。型へ流し込むだけで公開可能</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <h4>③ データ到来待ち<span class="dur">6〜8月</span></h4>
+      <ul>
+        <li><strong>NBA</strong>（6〜7月）：優先度3位。今季データ投入後に着手</li>
+        <li><strong>NHL</strong>（7〜8月）</li>
+        <li><strong>欧州サッカー</strong>（スペイン・イギリスは8月下旬〜）：サッカーまとめページの予定枠を実リンクへ差し替え</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <h4>④ 方針待ち<span class="dur">未定</span></h4>
+      <ul>
+        <li><strong>ゴルフ</strong>：「観戦チケット」と「自分でプレイするゴルフ」の分離方針が決まってから着手。行き場のないスタジアムツアー・送迎ACの扱いも合わせて整理</li>
+      </ul>
+    </div>
+
+    <h3>いま止まっているブロッカー（他チーム判断待ち）</h3>
+    <table class="tbl">
+      <thead><tr><th style="width:18%;">確認先</th><th>内容</th><th style="width:14%;">状態</th></tr></thead>
+      <tbody>
+        <tr><td><span class="owner-tag">→ 林さん</span></td><td>まとめページのURL構造（/theme/sports/ 等）・実装先リポジトリ・ディレクトリ。ここが決まらないと動線設計・SEO共有が動けない</td><td><span class="st wait">回答待ち</span></td></tr>
+        <tr><td><span class="owner-tag">→ Izumi</span></td><td>各まとめページに載せる掲載ACの選定（競技ごとに主要ACを確定）</td><td><span class="st wait">調整中</span></td></tr>
+        <tr><td><span class="owner-tag">→ Izumi</span></td><td>ゴルフの「観戦」／「プレイ」分離方針</td><td><span class="st wait">調整中</span></td></tr>
+        <tr><td><span class="owner-tag">→ Sachie・林さん</span></td><td>モックのデザインを本番にどう引き渡すか（モックCSSをそのまま使うか／本番デザインシステムに寄せるか）</td><td><span class="st todo">未着手</span></td></tr>
+        <tr><td><span class="owner-tag">→ kotarom 発信</span></td><td>URL確定後、対象URL・公開時期をSEO／広告チームへ共有</td><td><span class="st todo">URL確定後</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ KICKOFF MTG AGENDA ============ -->
+  <section class="sec" id="p1-mtg">
+    <h2><span class="num">★</span>キックオフ論点（5/13 MTG）</h2>
+    <p class="sec-lead">立ち上げMTGで確認した5点。現在は優先順位・AC現状が判明し、上の「種目別ロードマップ・全体進捗」に反映済み。本セクションは経緯の記録として残す。</p>
 
     <table class="tbl">
       <thead>
@@ -532,23 +672,26 @@
     <p class="sec-lead">Phase1リリースまでに必要なタスクを職能ごとに洗い出し。担当アサインの素材にする。</p>
 
     <h3>タスク全体</h3>
+    <p style="font-size:12px; color:var(--text-muted); margin:0 0 12px;">状態：<span class="st done">完了</span> <span class="st doing">進行中</span> <span class="st todo">未着手</span> <span class="st wait">待ち（他チーム判断・データ）</span></p>
     <table class="tbl">
-      <thead><tr><th style="width:32%;">タスク</th><th style="width:14%;">担当</th><th style="width:10%;">優先</th><th>備考</th></tr></thead>
+      <thead><tr><th style="width:28%;">タスク</th><th style="width:13%;">担当</th><th style="width:8%;">優先</th><th style="width:11%;">状態</th><th>備考</th></tr></thead>
       <tbody>
-        <tr><td class="b">ステークホルダー調整（公開場所・URL）</td><td class="muted">PM</td><td><span class="pill-pri p1">P0</span></td><td class="muted">エンジニア・SEO・マーケへの事前打診</td></tr>
-        <tr><td class="b">キーワード調査（Ahrefs）</td><td class="muted">PM/マーケ</td><td><span class="pill-pri p1">P0</span></td><td class="muted">対象クエリの月間検索ボリュームと現順位</td></tr>
-        <tr><td class="b">売上見込み試算（GA4）</td><td class="muted">PM</td><td><span class="pill-pri p1">P0</span></td><td class="muted">スポーツacの月間S・予約数 → 増分試算</td></tr>
-        <tr><td class="b">PRD作成・ClickUp起票</td><td class="muted">PM</td><td><span class="pill-pri p1">P0</span></td><td class="muted">PRD template準拠</td></tr>
-        <tr><td class="b">Figmaモック作成</td><td class="muted">デザイナー</td><td><span class="pill-pri p1">P0</span></td><td class="muted">別途共有済みのモックを起点に詳細化</td></tr>
-        <tr><td class="b">原稿執筆（約18,000字 / サッカー+野球）</td><td class="muted">マーケ/外注</td><td><span class="pill-pri p1">P0</span></td><td class="muted">執筆ガイド準拠・自作必須</td></tr>
-        <tr><td class="b">原稿レビュー・推敲</td><td class="muted">PM</td><td><span class="pill-pri p1">P0</span></td><td class="muted">表記揺れ・トーン・事実確認</td></tr>
-        <tr><td class="b">フロント実装（静的HTML）</td><td class="muted">エンジニア</td><td><span class="pill-pri p1">P0</span></td><td class="muted">既存サイトテンプレートに合わせる</td></tr>
-        <tr><td class="b">スケジュールCSV運用設計</td><td class="muted">PM/仕入</td><td><span class="pill-pri p2">P1</span></td><td class="muted">月1更新のフロー・担当決め</td></tr>
-        <tr><td class="b">GTMイベント実装</td><td class="muted">PM/エンジニア</td><td><span class="pill-pri p2">P1</span></td><td class="muted">テーマpage_view、ac遷移、リーグフィルタ</td></tr>
-        <tr><td class="b">SEO設計（meta・構造化データ）</td><td class="muted">エンジニア/SEO</td><td><span class="pill-pri p2">P1</span></td><td class="muted">canonical、JSON-LD（SportsEvent等）</td></tr>
-        <tr><td class="b">QA・各種デバイス確認</td><td class="muted">QA</td><td><span class="pill-pri p2">P1</span></td><td class="muted">PC・モバイル・主要ブラウザ</td></tr>
-        <tr><td class="b">リリース・社内告知</td><td class="muted">PM</td><td><span class="pill-pri p2">P1</span></td><td class="muted">マーケ周知、効果測定開始日確定</td></tr>
-        <tr><td class="b">効果測定（リリース後3ヶ月）</td><td class="muted">PM</td><td><span class="pill-pri p3">P2</span></td><td class="muted">CVR、SEO順位、流入セッション</td></tr>
+        <tr><td class="b">URL構造・実装先リポジトリ・ディレクトリ確定</td><td class="muted">林さん</td><td><span class="pill-pri p1">P0</span></td><td><span class="st wait">回答待ち</span></td><td class="muted">/theme/sports/ 等。全体のボトルネック</td></tr>
+        <tr><td class="b">掲載ACの選定（種目別）</td><td class="muted">Izumi</td><td><span class="pill-pri p1">P0</span></td><td><span class="st wait">調整中</span></td><td class="muted">まとめページ側で枠を用意、ops側で中身確定</td></tr>
+        <tr><td class="b">野球まとめページの型確定</td><td class="muted">企画 / claude code</td><td><span class="pill-pri p1">P0</span></td><td><span class="st doing">進行中</span></td><td class="muted">横展開の雛形。データ依存なしで進行可</td></tr>
+        <tr><td class="b">サッカーまとめページ（FIFA WC 動線・欧州予定表示）</td><td class="muted">企画 / claude code</td><td><span class="pill-pri p1">P0</span></td><td><span class="st doing">進行中</span></td><td class="muted">欧州は8月下旬〜、予定枠で先行</td></tr>
+        <tr><td class="b">モック作成（HTML / Figma）</td><td class="muted">デザイナー / claude code</td><td><span class="pill-pri p1">P0</span></td><td><span class="st doing">進行中</span></td><td class="muted">planning/sports-mock 配下に実装中</td></tr>
+        <tr><td class="b">原稿執筆（チーム・リーグ・観戦ガイド）</td><td class="muted">マーケ / 外注</td><td><span class="pill-pri p1">P0</span></td><td><span class="st doing">進行中</span></td><td class="muted">執筆ガイド準拠・自作必須</td></tr>
+        <tr><td class="b">原稿レビュー・推敲</td><td class="muted">PM</td><td><span class="pill-pri p1">P0</span></td><td><span class="st todo">未着手</span></td><td class="muted">表記揺れ・トーン・事実確認</td></tr>
+        <tr><td class="b">デザイン引き渡し方針（モック→本番）</td><td class="muted">Sachie・林さん</td><td><span class="pill-pri p2">P1</span></td><td><span class="st todo">未着手</span></td><td class="muted">モックCSS流用か本番DSに寄せるか</td></tr>
+        <tr><td class="b">F1・テニス・アメフト まとめページ（型へ流し込み）</td><td class="muted">企画 / claude code</td><td><span class="pill-pri p2">P1</span></td><td><span class="st todo">未着手</span></td><td class="muted">ACデータ済。型確定後すぐ着手可</td></tr>
+        <tr><td class="b">ゴルフ 観戦／プレイ分離方針</td><td class="muted">Izumi</td><td><span class="pill-pri p2">P1</span></td><td><span class="st wait">調整中</span></td><td class="muted">分離が決まるまでまとめページ保留</td></tr>
+        <tr><td class="b">NBA・NHL・欧州サッカー まとめページ</td><td class="muted">企画 / claude code</td><td><span class="pill-pri p3">P2</span></td><td><span class="st wait">データ待ち</span></td><td class="muted">NBA 6〜7月 / NHL 7〜8月 / 欧州 8月下旬〜</td></tr>
+        <tr><td class="b">キーワード調査（Ahrefs）・売上見込み試算（GA4）</td><td class="muted">PM / マーケ</td><td><span class="pill-pri p2">P1</span></td><td><span class="st todo">未着手</span></td><td class="muted">対象クエリの検索ボリューム・増分試算</td></tr>
+        <tr><td class="b">SEO設計（meta・構造化データ）・GTMイベント</td><td class="muted">エンジニア / SEO</td><td><span class="pill-pri p2">P1</span></td><td><span class="st todo">未着手</span></td><td class="muted">canonical、JSON-LD、page_view・AC遷移計測</td></tr>
+        <tr><td class="b">SEO・広告チームへの共有</td><td class="muted">kotarom</td><td><span class="pill-pri p2">P1</span></td><td><span class="st todo">URL確定後</span></td><td class="muted">対象URL・公開時期を共有</td></tr>
+        <tr><td class="b">QA・各種デバイス確認</td><td class="muted">QA</td><td><span class="pill-pri p2">P1</span></td><td><span class="st todo">未着手</span></td><td class="muted">PC・モバイル・主要ブラウザ</td></tr>
+        <tr><td class="b">リリース・社内告知 → 効果測定</td><td class="muted">PM</td><td><span class="pill-pri p3">P2</span></td><td><span class="st todo">未着手</span></td><td class="muted">CVR・SEO順位・流入セッション</td></tr>
       </tbody>
     </table>
   </section>
@@ -667,10 +810,10 @@
       <thead><tr><th>論点</th><th style="width:22%;">確認先</th><th style="width:14%;">期限</th><th style="width:24%;">仮の案</th></tr></thead>
       <tbody>
         <tr>
-          <td class="b">第1弾の種目はサッカー＋野球の2種目で合意できるか</td>
-          <td class="muted">企画</td>
-          <td class="muted">本MTG</td>
-          <td class="muted">サッカー＋野球の2種目を強く推す</td>
+          <td class="b">第1弾の着手種目と全体の優先順位</td>
+          <td class="muted">Izumi / 企画</td>
+          <td class="muted">確定済</td>
+          <td class="muted">野球→サッカー→バスケ→F1→テニス→アメフト→アイスホッケー→ゴルフ（確定）</td>
         </tr>
         <tr>
           <td class="b">原稿執筆を誰が担当するか（マーケ社内／外注）</td>
@@ -679,10 +822,10 @@
           <td class="muted">外注見積もり取得 → 比較</td>
         </tr>
         <tr>
-          <td class="b">URL設計 /jp/theme/sports/ で合意できるか</td>
-          <td class="muted">エンジニア / SEO</td>
-          <td class="muted">Week2</td>
-          <td class="muted">/theme/ プレフィックスを推奨</td>
+          <td class="b">まとめページのURL構造・実装先リポジトリ・ディレクトリ</td>
+          <td class="muted">林さん</td>
+          <td class="muted">最優先</td>
+          <td class="muted">/theme/sports/ 等。動線・SEO共有の前提</td>
         </tr>
         <tr>
           <td class="b">試合スケジュールの初期データソース（誰がCSV作るか）</td>
@@ -697,10 +840,22 @@
           <td class="muted">3ヶ月後 / 上記3指標2つ以上達成</td>
         </tr>
         <tr>
-          <td class="b">エンブレム不使用の場合のクラブカードのビジュアル設計</td>
-          <td class="muted">デザイナー</td>
+          <td class="b">掲載ACの選定（種目別）</td>
+          <td class="muted">Izumi</td>
+          <td class="muted">着手前</td>
+          <td class="muted">まとめページ側で枠、ops側で中身確定</td>
+        </tr>
+        <tr>
+          <td class="b">ゴルフの観戦／プレイ分離方針</td>
+          <td class="muted">Izumi</td>
+          <td class="muted">着手前</td>
+          <td class="muted">分離が決まるまでまとめページ保留</td>
+        </tr>
+        <tr>
+          <td class="b">エンブレム不使用の場合のクラブカードのビジュアル設計 / モック→本番のデザイン引き渡し</td>
+          <td class="muted">Sachie・林さん</td>
           <td class="muted">Week4</td>
-          <td class="muted">タイポ+クラブカラーで識別</td>
+          <td class="muted">タイポ+クラブカラーで識別。モックCSS流用可否</td>
         </tr>
       </tbody>
     </table>
