@@ -48,6 +48,8 @@
     '.site-nav .nav-spot-item a.nav-active{background:#fff;color:#E8423F;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.07)}' +
     '.site-nav .nav-spot-item .spot-dot{font-size:10px;color:#ccc;flex-shrink:0}' +
     '.site-nav .nav-spot-item a.nav-active .spot-dot{color:#E8423F}' +
+    '.site-nav .spot-num{font-family:DM Sans,sans-serif;font-weight:900;font-size:11px;color:#aaa;flex-shrink:0;min-width:20px}' +
+    '.site-nav .nav-spot-item a.nav-active .spot-num,.site-nav .nav-spot-parent.nav-active .spot-num{color:#E8423F}' +
     /* Nested spot children (sub-pages under a parent spot analysis) */
     '.site-nav .nav-spot-parent{display:flex;align-items:center;gap:8px;padding:7px 10px 7px 16px;font-size:13px;color:#777;border-radius:8px;text-decoration:none;line-height:1.4;cursor:pointer;transition:background .12s}' +
     '.site-nav .nav-spot-parent:hover{background:rgba(255,255,255,.7);color:#1a1a1a}' +
@@ -228,11 +230,13 @@
 
   // ── Spot analysis registry ───────────────────────
   // Hierarchical: items may have a `children` array for sub-pages.
+  // 新しい順（新しいものが上 = 大きい番号）。番号は描画時に position から自動採番。
   var SPOT_ITEMS = [
+    { id: 'new-user-kpi', href: '/spot/2026-new-user-kpi.html', label: '新規ユーザー転換 施策', match: function(){ return isNewUserKpi; } },
     {
       id: 'gw-decline',
       href: '/spot/2026-gw-cvr-decline.html',
-      label: '🚨 2026 GW CVR 構造低下',
+      label: '2026 GW CVR 構造低下',
       match: function(){ return isGwDecline; },
       hasActiveChild: function(){ return isGwSub; },
       children: [
@@ -244,7 +248,6 @@
         { id: 'gw-06', href: '/spot/2026-gw/06-uiux.html',              label: '06 UIUX 構造課題', match: function(){ return isGwUiux; } }
       ]
     },
-    { id: 'new-user-kpi', href: '/spot/2026-new-user-kpi.html', label: '🎯 新規ユーザー転換 施策', match: function(){ return isNewUserKpi; } },
     { id: 'entry-journey', href: '/entry-journey.html', label: 'エントリー別CVRジャーニー', match: function(){ return isEntryJourney; } }
   ];
 
@@ -644,7 +647,8 @@
     spotList.className = 'nav-spot-list';
     spotList.style.display = spotExpanded ? 'block' : 'none';
 
-    SPOT_ITEMS.forEach(function (s) {
+    SPOT_ITEMS.forEach(function (s, idx) {
+      var spotNum = SPOT_ITEMS.length - idx; // 新しいものほど大きい番号（最上段が最大）
       if (s.children && s.children.length) {
         // Parent with children: parent row + toggle + children list
         var parentRow = document.createElement('div');
@@ -652,10 +656,10 @@
         var hasChildActive = s.hasActiveChild ? s.hasActiveChild() : false;
         parentRow.className = 'nav-spot-parent' + (parentActive ? ' nav-active' : (hasChildActive ? ' has-active' : ''));
 
-        var pDot = document.createElement('span');
-        pDot.className = 'spot-dot';
-        pDot.textContent = '●';
-        parentRow.appendChild(pDot);
+        var pNum = document.createElement('span');
+        pNum.className = 'spot-num';
+        pNum.textContent = '#' + spotNum;
+        parentRow.appendChild(pNum);
 
         var pLink = document.createElement('a');
         pLink.href = s.href;
@@ -705,10 +709,10 @@
         var a = document.createElement('a');
         a.href = s.href;
         if (s.match()) a.className = 'nav-active';
-        var dot = document.createElement('span');
-        dot.className = 'spot-dot';
-        dot.textContent = '●';
-        a.appendChild(dot);
+        var num = document.createElement('span');
+        num.className = 'spot-num';
+        num.textContent = '#' + spotNum;
+        a.appendChild(num);
         a.appendChild(document.createTextNode(s.label));
         item.appendChild(a);
         spotList.appendChild(item);
