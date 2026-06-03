@@ -130,6 +130,8 @@
 .pw-insert{padding:13px 14px;background:#f0fdf4;border-top:2px dashed #2DAE6C;border-bottom:2px dashed #2DAE6C}
 .pw-insert .il{font-size:12.5px;font-weight:900;color:#1a8c4e;margin-bottom:9px}
 .pw-insert .ic{display:flex;gap:8px;overflow-x:auto}
+.pw-insert-note{font-size:10.5px;color:#5c7a66;line-height:1.7;margin-top:9px;border-top:1px dashed #cde6d6;padding-top:7px}
+.pw-insert-note b{color:#1a8c4e}
 .pw-ic{flex:0 0 23%;min-width:120px;border:1px solid #cde6d6;border-radius:7px;background:#fff;padding:7px}
 .pw-ic .im{height:44px;background:#dde6ee;border-radius:4px;margin-bottom:5px}
 .pw-ic .it{font-size:9.5px;color:#333;line-height:1.35;height:26px;overflow:hidden}
@@ -283,13 +285,14 @@
             </div>
           </div>
           <div class="pw-insert">
-            <div class="il">★【新設】同じオアフ島のディナークルーズ／比較候補 ＝ ここに追加</div>
+            <div class="il">★【新設】迷ったら比較 — 同じオアフ島のディナークルーズ（決め切るための3〜4択）</div>
             <div class="ic">
+              <div class="pw-ic"><div class="im"></div><div class="it">ディナー＋夜景クルーズ</div><div class="ipr">¥9,800</div><span class="ib">★4.7 最高評価</span></div>
+              <div class="pw-ic"><div class="im"></div><div class="it">スターオブホノルル 別プラン</div><div class="ipr">¥14,621〜</div><span class="ib" style="color:#1B82C5;background:#eaf3fb">内容が近い</span></div>
               <div class="pw-ic"><div class="im"></div><div class="it">サンセットディナークルーズ（別社）</div><div class="ipr">¥12,800</div><span class="ib">即予約可</span></div>
-              <div class="pw-ic"><div class="im"></div><div class="it">スターオブホノルル 別プラン</div><div class="ipr">¥14,621〜</div><span class="ib">★4.2</span></div>
-              <div class="pw-ic"><div class="im"></div><div class="it">ディナー＋夜景クルーズ</div><div class="ipr">¥9,800</div><span class="ib">即予約可</span></div>
-              <div class="pw-ic"><div class="im"></div><div class="it">ロマンティック・ディナー船</div><div class="ipr">¥18,500</div><span class="ib">★4.5</span></div>
+              <div class="pw-ic"><div class="im"></div><div class="it">豪華5スター コースディナー</div><div class="ipr">¥38,770</div><span class="ib" style="color:#8a6d00;background:#fdf3d0">最高グレード</span></div>
             </div>
+            <div class="pw-insert-note"><b>離脱を増やさない設計：</b>① 下の「今すぐ予約する」を遮らない位置／② 各カードに<b>差別化（評価・内容・グレード・価格幅）</b>を付け“もっと探す”でなく<b>比較→確定</b>へ／③ 最安で釣らない並び（評価・内容を先頭）／④ <b>プラン未選択でスクロールした「比較中」の人にのみ表示</b>（予約直前の人には出さない）</div>
           </div>
           <div class="pw-rest">↓ 概要・スケジュール・体験談・FAQ・お支払い … <strong style="color:#c0392b">関連ACは最下部「おすすめのオプショナルツアー」のみ</strong> ↓</div>
           <div class="pw-sticky">
@@ -336,6 +339,22 @@ QUALIFY ROW_NUMBER() OVER(
               <li><b>POC</b>：クエリ1回→静的JSON＋AI codingのフロント＋A/B注入。測定＝②→③</li>
               <li><b>本番</b>：日次バッチで reco 表を生成 → <b>配信時に在庫・価格をAPI再確認</b>（満席／価格跳ねを除外。owner＝エンジニア）</li>
             </ol>
+          </div>
+        </details>
+        <details class="nk-toggle">
+          <summary>離脱を増やさない A/B ガードレール</summary>
+          <div class="tg-body">
+            <h5>主指標（成功判定）</h5>
+            <ol><li><b>セッションCVR ＋ セッションあたり売上</b>（枠のクリック数は虚栄指標）</li></ol>
+            <h5>バックファイア検知</h5>
+            <ol>
+              <li>当該ACの<b>予約完了率↓</b>＝目の前の予約の共食い</li>
+              <li>セッション/コホート<b>CVRが上がらない</b>＝回遊だけ増えて買わない</li>
+              <li><b>AOV・売上↓</b>＝安い乗り換え</li>
+              <li>直帰/離脱率↑</li>
+            </ol>
+            <h5>判定</h5>
+            <ol><li>②→③や枠CTRが上がっても <b>セッションCVR/売上が横ばい・低下なら失敗 → 停止／再設計</b></li></ol>
           </div>
         </details>
         <div class="nk-meta"><span class="nk-chip imp">②→③感度 最大</span><span class="nk-chip">工数：中</span><span class="nk-chip">今夏◎</span><span class="nk-chip">迷わず買う／取りこぼし防止</span></div>
