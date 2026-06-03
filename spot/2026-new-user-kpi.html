@@ -70,6 +70,33 @@
 .mock-badge{display:inline-block;font-size:8.5px;font-weight:900;color:#1a8c4e;background:#e6f7ee;border-radius:3px;padding:1px 5px;margin:1px 3px 1px 0}
 .mock-chip{display:inline-block;font-size:9px;font-weight:800;color:#1B82C5;background:#eaf3fb;border:1px solid #cfe3f5;border-radius:14px;padding:3px 9px;margin:2px 4px 2px 0}
 .mock-improve{font-size:10px;color:#1a8c4e;font-weight:700;margin-top:8px;text-align:center}
+/* 精緻ワイヤー（S2-1） */
+.wf{border-radius:8px;overflow:hidden;background:#fff;font-size:11px;color:#333}
+.wf.before{border:1px solid #E0E0E0}
+.wf.after{border:2px solid #2DAE6C}
+.wf-top{background:#fff;border-bottom:1px solid #eee;padding:6px 9px;display:flex;align-items:center;gap:7px}
+.wf-logo{font-weight:900;font-size:11px;color:#1B82C5}
+.wf-bc{font-size:8.5px;color:#aaa}
+.wf-bd{padding:9px}
+.wf-title{font-size:10px;font-weight:800;color:#222;line-height:1.35;margin-bottom:4px}
+.wf-rate{font-size:9.5px;color:#f59e0b;font-weight:900;margin-bottom:6px}
+.wf-rate span{color:#999;font-weight:600}
+.wf-hero{height:52px;background:#dde6ee;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#9bb0c4;font-size:16px}
+.wf-thumbs{display:flex;gap:3px;margin:4px 0}
+.wf-thumbs i{flex:1;height:13px;background:#e3e9ef;border-radius:2px}
+.wf-lbl{font-size:9px;font-weight:900;color:#333;margin:8px 0 4px}
+.wf-plan{border:1px solid #e6ebf0;border-radius:5px;padding:7px;background:#fafcfe}
+.wf-price{font-size:12px;font-weight:900;color:#222}
+.wf-price small{font-size:8px;color:#999;font-weight:600}
+.wf-cta{background:#1B82C5;color:#fff;text-align:center;font-weight:800;padding:8px;border-radius:5px;margin-top:6px;font-size:11px}
+.wf-faint{font-size:8.5px;color:#bbb;line-height:1.6;margin-top:8px;text-align:center;border-top:1px dashed #e5e7eb;padding-top:7px}
+.wf-reco{border:1.5px dashed #2DAE6C;border-radius:6px;padding:7px;margin-top:8px;background:#f6fbf7}
+.wf-reco-cards{display:flex;gap:5px;margin-top:5px}
+.wf-rc{flex:1;border:1px solid #e0e6ec;border-radius:4px;background:#fff;padding:5px}
+.wf-rc .rc-img{height:26px;background:#dde6ee;border-radius:3px;margin-bottom:3px}
+.wf-rc .rc-t{font-size:8px;color:#444;line-height:1.25;height:20px;overflow:hidden}
+.wf-rc .rc-p{font-size:9px;font-weight:900;color:#1B82C5;margin-top:1px}
+.wf-rc .rc-b{display:inline-block;font-size:7.5px;font-weight:900;color:#1a8c4e;background:#e6f7ee;border-radius:2px;padding:0 4px;margin-top:2px}
 /* feasibility */
 .nk-ins{background:#eef6fc;border:1px solid #cfe3f5;border-radius:10px;padding:16px 20px;font-size:14.5px;line-height:1.8;color:var(--text2);margin:8px 0 16px}
 .nk-ins b{color:#1b6ea5}
@@ -174,29 +201,46 @@
       <div class="nk-card hero">
         <div class="nk-card-head"><span class="nk-no">S2-1</span><span class="nk-title">類似・同観光地AC比較ブロック</span><span class="nk-badge">本命</span></div>
         <ul class="nk-ul">
-          <li><b>施策</b>CTA手前に「同観光地の人気AC」3〜4枚カルーセル</li>
-          <li><b>各カード</b>価格・所要時間・★評価・<b>即予約可</b>バッジ</li>
-          <li><b>仕組み</b>「同エリア × 予約数上位」のルールベース（月次バッチ）。第2段で閲覧共起へ</li>
+          <li><b>現状</b>関連ACは<b>ページ最下部の「おすすめのオプショナルツアー」だけ</b>（体験談・FAQの後）＝比較中の人は到達前に離脱</li>
+          <li><b>施策</b>「同じ観光地の人気AC／比較候補」3〜4枚を <b>プラン選択・「空き状況を確認」の近く（決定点）</b>に引き上げる</li>
+          <li><b>各カード</b>サムネ・タイトル・価格・★評価・即予約可バッジ</li>
+          <li><b>仕組み</b>「同エリア（オアフ島など）× 予約数上位」のルールベース（月次バッチ）。第2段で「この体験を見た人が見た」閲覧共起へ</li>
         </ul>
         <div class="nk-mock">
-          <div class="nk-mock-col before"><div class="mock-cap">BEFORE</div>
-            <div class="mock before"><div class="mock-hd">VELTRA</div><div class="mock-bd">
-              <div class="mock-img">🖼</div><div class="mock-line"></div><div class="mock-line s"></div>
-              <div class="mock-cta">空き状況を見る</div>
-              <div style="text-align:center;color:#aab4be;font-size:10px;margin-top:10px">― 次の一手なし ―</div>
-            </div></div></div>
-          <div class="nk-mock-col after"><div class="mock-cap">AFTER</div>
-            <div class="mock after"><div class="mock-hd">VELTRA</div><div class="mock-bd">
-              <div class="mock-line"></div><div class="mock-line s"></div>
-              <div class="mock-cta">空き状況を見る</div>
-              <div style="font-size:10px;font-weight:900;color:#333;margin:10px 0 5px">同じ観光地の人気アクティビティ</div>
-              <div class="mock-cards">
-                <div class="mock-mini"><div class="mm-img"></div><div class="mm-t">市内半日ツアー</div><div class="mm-p">¥4,800</div><span class="mock-badge">即予約可</span></div>
-                <div class="mock-mini"><div class="mm-img"></div><div class="mm-t">人気No.1</div><div class="mm-p">¥6,200</div><span class="mock-badge">★4.8</span></div>
-                <div class="mock-mini"><div class="mm-img"></div><div class="mm-t">夜景クルーズ</div><div class="mm-p">¥3,500</div><span class="mock-badge">即予約可</span></div>
+          <div class="nk-mock-col before"><div class="mock-cap">BEFORE（現状の /jp/hawaii/oahu/a/82）</div>
+            <div class="wf before">
+              <div class="wf-top"><span class="wf-logo">VELTRA</span><span class="wf-bc">ハワイ ＞ オアフ島</span></div>
+              <div class="wf-bd">
+                <div class="wf-title">サンセット・ディナークルーズ スターオブホノルル号 ライブショーと選べるビュッフェ…</div>
+                <div class="wf-rate">★4.22 <span>(3,020件の体験談)</span></div>
+                <div class="wf-hero">🖼</div>
+                <div class="wf-thumbs"><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="wf-lbl">プランを選ぶ</div>
+                <div class="wf-plan"><div class="wf-price">¥14,621〜 <small>/ 大人1名</small></div><div class="wf-cta">空き状況を確認</div></div>
+                <div class="wf-faint">おすすめポイント・概要・スケジュール・体験談・FAQ・お支払い…<br>↓ 関連ACは<strong style="color:#c0392b">ページ最下部のみ</strong> ↓<br>比較中の人はここまで来ず離脱</div>
               </div>
-              <div class="mock-improve">比較をサイト内で完結 → カレンダーへ</div>
-            </div></div></div>
+            </div>
+          </div>
+          <div class="nk-mock-col after"><div class="mock-cap">AFTER（比較候補を決定点へ）</div>
+            <div class="wf after">
+              <div class="wf-top"><span class="wf-logo">VELTRA</span><span class="wf-bc">ハワイ ＞ オアフ島</span></div>
+              <div class="wf-bd">
+                <div class="wf-title">サンセット・ディナークルーズ スターオブホノルル号 ライブショーと選べるビュッフェ…</div>
+                <div class="wf-rate">★4.22 <span>(3,020件の体験談)</span></div>
+                <div class="wf-lbl">プランを選ぶ</div>
+                <div class="wf-plan"><div class="wf-price">¥14,621〜 <small>/ 大人1名</small></div><div class="wf-cta">空き状況を確認</div></div>
+                <div class="wf-reco">
+                  <div class="wf-lbl" style="margin:0 0 2px">同じオアフ島の人気アクティビティ／比較候補</div>
+                  <div class="wf-reco-cards">
+                    <div class="wf-rc"><div class="rc-img"></div><div class="rc-t">ノースショア観光＋サンセットクルーズ</div><div class="rc-p">¥19,409〜</div><span class="rc-b">★4.5</span></div>
+                    <div class="wf-rc"><div class="rc-img"></div><div class="rc-t">天国の海 サンドバー 半日</div><div class="rc-p">¥9,800</div><span class="rc-b">即予約可</span></div>
+                    <div class="wf-rc"><div class="rc-img"></div><div class="rc-t">ダイヤモンドヘッド早朝ハイキング</div><div class="rc-p">¥3,500</div><span class="rc-b">★4.6</span></div>
+                  </div>
+                </div>
+                <div class="mock-improve">比較を決定点の近くで完結 → 「空き状況を確認」へ</div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="nk-meta"><span class="nk-chip imp">②→③感度 最大</span><span class="nk-chip">工数：中</span><span class="nk-chip">今夏◎</span><span class="nk-chip">迷わず買う／取りこぼし防止</span></div>
       </div>
