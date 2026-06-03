@@ -253,6 +253,44 @@
             </div>
           </div>
         </div>
+        <details class="nk-toggle">
+          <summary>実装要件（どう作るか）</summary>
+          <div class="tg-body">
+            <h5>方式</h5>
+            <ol>
+              <li><b>Brazeではない</b>＝ACページのオンサイトreco枠（表示中AC・在庫に反応）。Brazeは再訪施策(S4)用</li>
+              <li>POCは <b>A/Bツール（GTM／VWO）でDOM注入</b>＝本番デプロイ不要</li>
+            </ol>
+            <h5>「3つ」の選定ルール</h5>
+            <ol>
+              <li>必須：<b>同じ観光地（エリア一致）× 予約可能（満席除外）</b>・自分は除外</li>
+              <li>並び＝<b>同カテゴリ加点 ＋ 人気(直近90日予約) ＋ ★評価 ＋ 即予約可</b></li>
+              <li>上位から<b>価格に幅（安い／同等／高め）</b>を持たせ3〜4枚</li>
+              <li>第1段はルールベース → 効果確認後に閲覧共起／MLへ</li>
+            </ol>
+            <pre>-- 日次バッチ：各AC(current)の関連リスト
+SELECT c.ac_id, x.ac_id,
+  2*IF(x.category=c.category,1,0)+LN(1+p.bookings_90d)
+  +0.5*x.rating+0.5*IF(x.instant_book,1,0) AS score
+FROM ac_master c JOIN ac_master x
+  ON x.area_id=c.area_id AND x.ac_id<>c.ac_id
+LEFT JOIN pop90 p ON p.ac_id=x.ac_id
+WHERE x.bookable=TRUE
+QUALIFY ROW_NUMBER() OVER(
+  PARTITION BY c.ac_id ORDER BY score DESC)<=8;</pre>
+            <h5>周遊ツアー（複数観光地）</h5>
+            <ol>
+              <li>エリアが複数 → <b>共通の親エリア（島／地域）へ昇格</b>して抽出</li>
+              <li>カテゴリは<b>ツアー種別（1日／周遊）を一致</b>＝比較になる他ツアーを優先</li>
+              <li><b>そのツアーに内包される単体ACは除外</b>（自己包含回避）</li>
+            </ol>
+            <h5>POC → 本番</h5>
+            <ol>
+              <li><b>POC</b>：クエリ1回→静的JSON＋AI codingのフロント＋A/B注入。測定＝②→③</li>
+              <li><b>本番</b>：日次バッチで reco 表を生成 → <b>配信時に在庫・価格をAPI再確認</b>（満席／価格跳ねを除外。owner＝エンジニア）</li>
+            </ol>
+          </div>
+        </details>
         <div class="nk-meta"><span class="nk-chip imp">②→③感度 最大</span><span class="nk-chip">工数：中</span><span class="nk-chip">今夏◎</span><span class="nk-chip">迷わず買う／取りこぼし防止</span></div>
       </div>
 
