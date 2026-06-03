@@ -9,36 +9,50 @@
 <title>新規ユーザー転換 施策 | 新KPIスポット分析</title>
 <style>
 :root{--accent:#1b82c5;--accent-bg:#e8f2fb}
-/* hero を大きめに（このページ限定） */
 #app .sub-headline{font-size:23px;line-height:1.55}
 #app .sub-lede{font-size:14.5px;line-height:1.8}
 #app .sub-sec-title{font-size:19px}
 #app .sub-score-val{font-size:36px}
 #app .sub-score-label{font-size:12.5px}
 #app .sub-score-note{font-size:12.5px;line-height:1.55}
+.nk-stage{padding:0 44px 12px}
+/* 意向ステージ（前提） */
+.st-row{display:grid;grid-template-columns:150px 1fr;gap:0;border:1px solid var(--border);border-left:5px solid #cbd5e1;border-radius:10px;margin-bottom:10px;background:#fff}
+.st-row.s2{border-left-color:#1a8c4e;background:#f6fbf7}
+.st-row.s1{border-left-color:#94a3b8}.st-row.s3{border-left-color:#1b82c5}.st-row.s4{border-left-color:#d97706}
+.st-l{padding:12px 16px;border-right:1px solid var(--border)}
+.st-name{font-size:16px;font-weight:900;color:var(--text)}
+.st-name .b{font-size:11px;font-weight:900;color:#fff;background:#1a8c4e;border-radius:4px;padding:2px 7px;margin-left:6px;vertical-align:middle}
+.st-r{padding:12px 16px;font-size:13.5px;color:var(--text2);line-height:1.65}
+.st-r b{color:var(--text)}
+/* callout / table */
+.nk-ins{background:#eef6fc;border:1px solid #cfe3f5;border-radius:10px;padding:16px 20px;font-size:14.5px;line-height:1.8;color:var(--text2);margin:8px 0 16px}
+.nk-ins b{color:#1b6ea5}
+.nk-feas{width:100%;border-collapse:collapse;font-size:13.5px;margin:4px 0 14px}
+.nk-feas th{text-align:left;font-size:12px;font-weight:900;color:var(--text3);text-transform:uppercase;padding:9px 10px;border-bottom:2px solid var(--border)}
+.nk-feas td{padding:10px;border-bottom:1px solid var(--border);line-height:1.55;color:var(--text2);vertical-align:top}
+.nk-feas td b{color:var(--text)}
+.nk-cav{font-size:13px;color:var(--text3);line-height:1.8}
+.nk-cav b{color:var(--text2)}
 /* 施策カード */
-.nk-stage{padding:0 44px 10px}
-.nk-stage-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:10px 0 6px}
-.nk-stage-name{font-size:23px;font-weight:900;color:var(--text)}
-.nk-stage-kpi{font-size:14px;font-weight:800;color:#1b82c5;background:#e8f2fb;border-radius:20px;padding:4px 14px}
-.nk-stage-prio{font-size:12.5px;font-weight:900;color:#fff;background:#c0392b;border-radius:5px;padding:4px 11px;letter-spacing:.04em}
-.nk-stage-lede{font-size:14.5px;color:var(--text2);line-height:1.8;margin:4px 0 18px}
-.nk-card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:20px 24px;margin-bottom:16px;border-left:6px solid #cbd5e1}
-.nk-card.hero{border-left-color:#1b82c5;background:#fbfdff}
+.nk-card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:20px 24px;margin-bottom:16px;border-left:6px solid #1b82c5}
+.nk-card.s4{border-left-color:#d97706;background:#fffdf7}
 .nk-card-head{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin-bottom:10px}
 .nk-no{font-family:'DM Sans';font-weight:900;font-size:15px;color:#1b82c5}
+.nk-card.s4 .nk-no{color:#d97706}
 .nk-title{font-size:19px;font-weight:800;color:var(--text);line-height:1.4}
-.nk-badge{font-size:12px;font-weight:900;color:#fff;background:#1b82c5;border-radius:5px;padding:3px 9px}
+.nk-badge{font-size:12px;font-weight:900;color:#fff;background:#1a8c4e;border-radius:5px;padding:3px 9px}
 .nk-ul{margin:8px 0 4px;padding:0;list-style:none}
 .nk-ul li{font-size:14.5px;line-height:1.7;color:var(--text2);padding-left:18px;position:relative;margin-bottom:6px}
 .nk-ul li::before{content:'•';position:absolute;left:2px;color:#1b82c5;font-weight:900}
+.nk-card.s4 .nk-ul li::before{color:#d97706}
 .nk-ul li b{color:var(--text);margin-right:4px}
 .nk-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .nk-chip{font-size:13px;font-weight:700;color:var(--text2);background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:4px 12px}
 .nk-chip.imp{color:#1a8c4e;border-color:#bfe3cd;background:#f0fdf4}
-/* toggle (Braze設定) */
-.nk-toggle{border:1px solid #cfe3f5;border-radius:10px;margin:12px 0 2px;background:#f6fafe;overflow:hidden}
-.nk-toggle>summary{cursor:pointer;padding:13px 16px;font-size:14.5px;font-weight:800;color:#1b6ea5;list-style:none}
+/* toggle */
+.nk-toggle{border:1px solid #f0e0b8;border-radius:10px;margin:12px 0 2px;background:#fffdf5;overflow:hidden}
+.nk-toggle>summary{cursor:pointer;padding:13px 16px;font-size:14.5px;font-weight:800;color:#8a6d00;list-style:none}
 .nk-toggle>summary::-webkit-details-marker{display:none}
 .nk-toggle>summary::before{content:'▸ ';font-weight:900}
 .nk-toggle[open]>summary::before{content:'▾ '}
@@ -54,13 +68,11 @@
 .nk-mock-col.before .mock-cap{color:var(--text3)}
 .nk-mock-col.after .mock-cap{color:#1a8c4e}
 .mock{border-radius:8px;overflow:hidden;background:#F2F5F8;font-size:11px;color:#1a1a1a}
-.mock.before{border:1px solid #E0E0E0}
-.mock.after{border:2px solid #2DAE6C}
+.mock.before{border:1px solid #E0E0E0}.mock.after{border:2px solid #2DAE6C}
 .mock-hd{background:#fff;padding:7px 10px;border-bottom:1px solid #eee;font-weight:900;font-size:11px;color:#1B82C5}
 .mock-bd{padding:10px}
-.mock-img{height:62px;background:#dde6ee;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#9bb0c4;font-size:18px;margin-bottom:8px}
-.mock-line{height:8px;background:#e3e9ef;border-radius:3px;margin:5px 0}
-.mock-line.s{width:55%}
+.mock-img{height:60px;background:#dde6ee;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#9bb0c4;font-size:18px;margin-bottom:8px}
+.mock-line{height:8px;background:#e3e9ef;border-radius:3px;margin:5px 0}.mock-line.s{width:55%}
 .mock-cta{background:#1B82C5;color:#fff;text-align:center;font-weight:800;padding:9px;border-radius:6px;margin-top:9px;font-size:12px}
 .mock-cards{display:flex;gap:6px;margin-top:9px}
 .mock-mini{flex:1;border:1px solid #e0e6ec;border-radius:5px;background:#fff;padding:6px}
@@ -68,110 +80,10 @@
 .mock-mini .mm-t{font-size:8.5px;color:#444;line-height:1.3}
 .mock-mini .mm-p{font-size:9px;font-weight:900;color:#1B82C5;margin-top:2px}
 .mock-badge{display:inline-block;font-size:8.5px;font-weight:900;color:#1a8c4e;background:#e6f7ee;border-radius:3px;padding:1px 5px;margin:1px 3px 1px 0}
-.mock-chip{display:inline-block;font-size:9px;font-weight:800;color:#1B82C5;background:#eaf3fb;border:1px solid #cfe3f5;border-radius:14px;padding:3px 9px;margin:2px 4px 2px 0}
 .mock-improve{font-size:10px;color:#1a8c4e;font-weight:700;margin-top:8px;text-align:center}
-/* 精緻ワイヤー（S2-1） */
-.wf{border-radius:8px;overflow:hidden;background:#fff;font-size:11px;color:#333}
-.wf.before{border:1px solid #E0E0E0}
-.wf.after{border:2px solid #2DAE6C}
-.wf-top{background:#fff;border-bottom:1px solid #eee;padding:6px 9px;display:flex;align-items:center;gap:7px}
-.wf-logo{font-weight:900;font-size:11px;color:#1B82C5}
-.wf-bc{font-size:8.5px;color:#aaa}
-.wf-bd{padding:9px}
-.wf-title{font-size:10px;font-weight:800;color:#222;line-height:1.35;margin-bottom:4px}
-.wf-rate{font-size:9.5px;color:#f59e0b;font-weight:900;margin-bottom:6px}
-.wf-rate span{color:#999;font-weight:600}
-.wf-hero{height:52px;background:#dde6ee;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#9bb0c4;font-size:16px}
-.wf-thumbs{display:flex;gap:3px;margin:4px 0}
-.wf-thumbs i{flex:1;height:13px;background:#e3e9ef;border-radius:2px}
-.wf-lbl{font-size:9px;font-weight:900;color:#333;margin:8px 0 4px}
-.wf-plan{border:1px solid #e6ebf0;border-radius:5px;padding:7px;background:#fafcfe}
-.wf-price{font-size:12px;font-weight:900;color:#222}
-.wf-price small{font-size:8px;color:#999;font-weight:600}
-.wf-cta{background:#1B82C5;color:#fff;text-align:center;font-weight:800;padding:8px;border-radius:5px;margin-top:6px;font-size:11px}
-.wf-faint{font-size:8.5px;color:#bbb;line-height:1.6;margin-top:8px;text-align:center;border-top:1px dashed #e5e7eb;padding-top:7px}
-.wf-reco{border:1.5px dashed #2DAE6C;border-radius:6px;padding:7px;margin-top:8px;background:#f6fbf7}
-.wf-reco-cards{display:flex;gap:5px;margin-top:5px}
-.wf-rc{flex:1;border:1px solid #e0e6ec;border-radius:4px;background:#fff;padding:5px}
-.wf-rc .rc-img{height:26px;background:#dde6ee;border-radius:3px;margin-bottom:3px}
-.wf-rc .rc-t{font-size:8px;color:#444;line-height:1.25;height:20px;overflow:hidden}
-.wf-rc .rc-p{font-size:9px;font-weight:900;color:#1B82C5;margin-top:1px}
-.wf-rc .rc-b{display:inline-block;font-size:7.5px;font-weight:900;color:#1a8c4e;background:#e6f7ee;border-radius:2px;padding:0 4px;margin-top:2px}
-.wf-pn{font-size:9px;font-weight:800;color:#333;line-height:1.3;margin-bottom:3px}
-.wf-tier{font-size:8px;color:#888;margin-top:3px}
-.wf-links{font-size:8.5px;color:#1B82C5;margin-top:4px;font-weight:700}
-/* 全幅 忠実ワイヤー（S2-1：実プラン画面） */
-.pw{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff;color:#333;margin:12px 0 4px}
-.pw-anno{font-size:12px;color:#8a4b00;font-weight:700;padding:8px 14px;background:#fffbeb;border-bottom:1px solid #f0e0b8;line-height:1.6}
-.pw-anno b{color:#1a8c4e}
-.pw-anno s{color:#c0392b}
-.pw-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 14px;border-bottom:1px solid #eee}
-.pw-pill{font-size:11px;font-weight:700;border-radius:16px;padding:4px 12px}
-.pw-pill.cat{background:#fff;border:1px solid #cfd8e0;color:#555}
-.pw-pill.on{background:#1B82C5;color:#fff}
-.pw-cur{margin-left:auto;font-size:11px;color:#1B82C5}
-.pw-avail{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:9px 14px;border-bottom:1px solid #eee}
-.pw-avail .lab{font-weight:800;color:#333;font-size:12px}
-.pw-chip{border:1px solid #cfd8e0;border-radius:8px;padding:6px 14px;font-size:11px;color:#444;background:#fff}
-.pw-plans{display:flex;gap:8px;padding:11px 14px;overflow-x:auto;background:#fafbfc}
-.pw-plan{flex:0 0 31%;min-width:150px;border:1px solid #e0e6ec;border-radius:8px;padding:9px;background:#fff}
-.pw-plan.sel{border:2px solid #1B82C5}
-.pw-plan .pn{font-size:10px;color:#333;line-height:1.45;height:56px;overflow:hidden}
-.pw-plan .pp{font-size:13px;font-weight:900;color:#c0392b;margin-top:6px}
-.pw-plan .po{font-size:9px;color:#999;text-decoration:line-through;font-weight:600}
-.pw-detail{display:grid;grid-template-columns:130px 1fr 190px;gap:13px;padding:14px;background:#eef4fb;position:relative}
-.pw-detail .ttl{grid-column:1/-1;font-size:13px;font-weight:900;color:#1a1a1a;padding-right:70px}
-.pw-photo{height:88px;background:#cdd8e2;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#8aa0b4;font-size:22px}
-.pw-desc{font-size:10.5px;color:#555;line-height:1.65}
-.pw-ptbl{font-size:11px}
-.pw-ptbl .r{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px dashed #d6e0ea}
-.pw-ptbl .r b{color:#c0392b;font-weight:900;font-size:12px}
-.pw-close{position:absolute;top:12px;right:14px;border:1px solid #cfd8e0;border-radius:6px;padding:4px 13px;font-size:11px;color:#555;background:#fff}
-.pw-insert{padding:13px 14px;background:#f0fdf4;border-top:2px dashed #2DAE6C;border-bottom:2px dashed #2DAE6C}
-.pw-insert .il{font-size:12.5px;font-weight:900;color:#1a8c4e;margin-bottom:9px}
-.pw-insert .ic{display:flex;gap:8px;overflow-x:auto}
-.pw-insert-note{font-size:10.5px;color:#5c7a66;line-height:1.7;margin-top:9px;border-top:1px dashed #cde6d6;padding-top:7px}
-.pw-insert-note b{color:#1a8c4e}
-.pw-ic{flex:0 0 23%;min-width:120px;border:1px solid #cde6d6;border-radius:7px;background:#fff;padding:7px}
-.pw-ic .im{height:44px;background:#dde6ee;border-radius:4px;margin-bottom:5px}
-.pw-ic .it{font-size:9.5px;color:#333;line-height:1.35;height:26px;overflow:hidden}
-.pw-ic .ipr{font-size:11px;font-weight:900;color:#1B82C5;margin-top:3px}
-.pw-ic .ib{display:inline-block;font-size:8px;font-weight:900;color:#1a8c4e;background:#e6f7ee;border-radius:3px;padding:1px 6px;margin-top:3px}
-.pw-rest{padding:10px 14px;font-size:10.5px;color:#aab4be;text-align:center;line-height:1.6;border-top:1px solid #eee}
-.pw-sticky{display:flex;align-items:center;gap:12px;padding:11px 14px;border-top:1px solid #e0e6ec;background:#fff;flex-wrap:wrap}
-.pw-sticky .sn{font-size:10.5px;color:#333;flex:1;min-width:130px;line-height:1.4}
-.pw-sticky .spr{font-size:14px;font-weight:900;color:#c0392b}
-.pw-sticky .scta{background:#1B82C5;color:#fff;font-weight:800;padding:11px 26px;border-radius:6px;font-size:13px}
-.pw-sticky .ssave{font-size:10.5px;color:#1B82C5}
-@media(max-width:768px){.pw-detail{grid-template-columns:1fr}.pw-plan{flex:0 0 72%}.pw-ic{flex:0 0 60%}}
-/* feasibility */
-.nk-ins{background:#eef6fc;border:1px solid #cfe3f5;border-radius:10px;padding:16px 20px;font-size:14.5px;line-height:1.8;color:var(--text2);margin:8px 0 16px}
-.nk-ins b{color:#1b6ea5}
-.nk-feas{width:100%;border-collapse:collapse;font-size:13.5px;margin:4px 0 14px}
-.nk-feas th{text-align:left;font-size:12px;font-weight:900;color:var(--text3);text-transform:uppercase;padding:9px 10px;border-bottom:2px solid var(--border);white-space:nowrap}
-.nk-feas td{padding:10px;border-bottom:1px solid var(--border);line-height:1.55;color:var(--text2);vertical-align:top}
-.nk-feas td b{color:var(--text)}
-.nk-tier{display:inline-block;font-size:12px;font-weight:900;color:#fff;border-radius:5px;padding:2px 9px}
-.nk-tier.a{background:#1a8c4e}.nk-tier.b{background:#1b82c5}.nk-tier.c{background:#d97706}
-.nk-cav{font-size:13px;color:var(--text3);line-height:1.8}
-.nk-cav b{color:var(--text2)}
-.nk-withdrawn{background:#fff5f5;border:1px solid #f3c9c4;border-radius:8px;padding:9px 13px;font-size:13px;color:#c0392b;font-weight:700;margin:6px 0 2px;line-height:1.65}
-.nk-withdrawn b{color:#8a1a12}
-.nk-fact{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin:2px 0 18px}
-.nk-fact-ttl{font-size:12px;font-weight:900;letter-spacing:.06em;color:var(--text3);text-transform:uppercase;margin-bottom:12px}
-.nk-fact-flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.ff-step,.ff-drop{text-align:center;min-width:92px}
-.ff-num{font-family:'DM Sans',sans-serif;font-weight:900;font-size:27px;line-height:1;color:var(--text)}
-.ff-drop .ff-num{color:#c0392b}
-.ff-lbl{font-size:12px;color:var(--text3);margin-top:6px;line-height:1.45}
-.ff-arrow{font-size:22px;color:var(--text3)}
-.ff-drop{margin-left:auto;background:#fff5f5;border:1px solid #f3c9c4;border-radius:10px;padding:9px 15px}
-.nk-fact-note{font-size:13px;color:var(--text2);line-height:1.75;margin-top:13px;border-top:1px dashed var(--border);padding-top:11px}
-.nk-fact-note b{color:var(--text)}
-.nk-fact-note .src{color:var(--text3);font-size:11.5px}
 .nk-foot{padding:16px 44px 10px;font-size:13.5px;color:var(--text3);line-height:1.8}
-@media(max-width:768px){.ff-drop{margin-left:0}}
-@media(max-width:768px){.nk-stage,.nk-foot{padding-left:22px;padding-right:22px}.nk-mock{grid-template-columns:1fr}.nk-feas{font-size:12.5px}.nk-feas th,.nk-feas td{padding:7px 6px}}
+.kpi-link{display:inline-block;margin-top:4px;font-size:13px;font-weight:700;color:#1b82c5}
+@media(max-width:768px){.nk-stage,.nk-foot{padding-left:22px;padding-right:22px}.nk-mock{grid-template-columns:1fr}.st-row{grid-template-columns:1fr}.st-l{border-right:none;border-bottom:1px solid var(--border)}.nk-feas{font-size:12.5px}.nk-feas th,.nk-feas td{padding:7px 6px}}
 </style>
 </head>
 <body>
@@ -180,428 +92,121 @@
   <div class="card">
     <div class="header-band">
       <div class="logo">V2</div>
-      <div class="right">スポット分析（イレギュラー）<br><strong>🎯 新規ユーザー転換 施策</strong></div>
+      <div class="right">スポット分析<br><strong>新規ユーザー転換 施策</strong></div>
     </div>
   </div>
 
   <div class="card">
     <div class="sub-hero" style="background:linear-gradient(135deg,#eef6fc 0%,#fff 80%)">
       <div class="sub-breadcrumb"><a href="/kpi.html">← KPIダッシュボード</a> / <strong>新規ユーザー転換 施策</strong></div>
-      <div class="sub-tag">New-KPI initiatives — S2/S3/S4</div>
+      <div class="sub-tag">New-user conversion</div>
       <h1 class="sub-headline">
-        新KPI＝<em>新規の「AC到達→検討」率（②→③）</em>。<br>現状 <em>9.0%</em>／リピーター 22.8%。伸びしろは新規に集中。
+        新規ユーザーの「AC到達 → 検討」率は <em>9.0%</em>。同じサイトのリピーターは 22.8%。<br>
+        伸びしろは新規に集中している。
       </h1>
       <div class="sub-lede">
-        North Star は CVR（相対+1%・据え置き）。新規を1段ずつ前へ進める施策を、意向ステージ <strong>S2→S3→S4</strong> で各3つに絞り具体化。最優先は <strong>S2</strong>（サイト内・今夏に間に合う）。
+        North Star は CVR（相対 +1%）。改善の主戦場は<strong>新規ユーザー</strong>で、来訪後の意向の進み方で <strong>S1〜S4</strong> に分けて考える（下記）。本ページは、実画面とアクセスデータを確認した上で、<strong>新規を前へ進める打ち手</strong>を整理したもの。
+        <a class="kpi-link" href="/kpi.html">▸ 前提（KPI設計・なぜ新規か・意向ステージの詳細）は KPIダッシュボードへ</a>
       </div>
       <div class="sub-score">
-        <div class="sub-score-card">
-          <div class="sub-score-label">主KPI：新規 ②→③</div>
-          <div class="sub-score-val">9.0<span style="font-size:24px">%</span></div>
-          <div class="sub-score-note">天井＝リピーター 22.8%（同サイトで実証済み）</div>
-        </div>
-        <div class="sub-score-card">
-          <div class="sub-score-label">新規の構成比</div>
-          <div class="sub-score-val">65.6<span style="font-size:24px">%</span></div>
-          <div class="sub-score-note">セッションの2/3。繁忙期はさらに上振れ</div>
-        </div>
-        <div class="sub-score-card">
-          <div class="sub-score-label">今夏まで</div>
-          <div class="sub-score-val">約4<span style="font-size:24px">週</span></div>
-          <div class="sub-score-note">A/B検証が回せる最後の窓</div>
-        </div>
+        <div class="sub-score-card"><div class="sub-score-label">新規 AC到達→検討</div><div class="sub-score-val">9.0<span style="font-size:24px">%</span></div><div class="sub-score-note">リピーター 22.8% が到達可能な天井（同サイトで実証）</div></div>
+        <div class="sub-score-card"><div class="sub-score-label">新規の構成比</div><div class="sub-score-val">65.6<span style="font-size:24px">%</span></div><div class="sub-score-note">セッションの2/3。繁忙期(7-8月)はさらに上振れ</div></div>
+        <div class="sub-score-card"><div class="sub-score-label">今夏まで</div><div class="sub-score-val">約4<span style="font-size:24px">週</span></div><div class="sub-score-note">A/B検証が回せる最後の窓</div></div>
       </div>
     </div>
   </div>
 
-  <!-- ───────── 実測と作り直し（AsIs） ───────── -->
+  <!-- 01 前提：意向ステージ -->
   <div class="card">
     <div class="sub-sec">
-      <span class="sub-sec-num accent">実測</span>
-      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">AsIs measurement</span>
-      <h2 class="sub-sec-title">既存実装の実測 → 「新設」は取り下げ、論点は“質”と“再訪”へ</h2>
+      <span class="sub-sec-num accent">01</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Premise</span>
+      <h2 class="sub-sec-title">前提 — 新規ユーザーの意向ステージ</h2>
+    </div>
+    <div class="nk-stage">
+      <div class="st-row s1"><div class="st-l"><div class="st-name">S1 確信層</div></div><div class="st-r">このACに決めている／今すぐ買う。オンサイトCVRは健全で、伸びしろは小さい。</div></div>
+      <div class="st-row s2"><div class="st-l"><div class="st-name">S2 比較検討層<span class="b">最優先</span></div></div><div class="st-r">買う気はあるが「これ」を決めかね、複数ACを見比べている。新規の「AC到達→検討」9.0%（リピーター22.8%）の主因。</div></div>
+      <div class="st-row s3"><div class="st-l"><div class="st-name">S3 絞り込み層</div></div><div class="st-r">方向（エリア／やりたいこと）は決まったが、具体ACが未定。流入→AC到達（新規 46.8%）で漏れる。</div></div>
+      <div class="st-row s4"><div class="st-l"><div class="st-name">S4 探索層</div></div><div class="st-r">漠然とした興味で来訪、今は買わない。離脱後に戻す仕組みが必要。</div></div>
+      <div class="nk-cav" style="margin-top:4px">※ 各ステージの根拠・KPI設計の全体像は <a href="/kpi.html" style="color:#1b82c5;font-weight:700">KPIダッシュボード「何を改善するのか」</a> を参照。数値は GA4 Property 347074845（日本・28日・bot除外）。</div>
+    </div>
+  </div>
+
+  <!-- 02 現状（AsIs） -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">02</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Current state</span>
+      <h2 class="sub-sec-title">現状 — 探す・比べる導線は既に揃っている。足りないのは「質」と「再訪」</h2>
     </div>
     <div class="nk-stage">
       <div class="nk-ins">
-        AC・カテゴリ・エリアの<b>実画面を確認した結果、discovery／比較モジュールは既に出尽くしていた</b>（ランキング・人気カテゴリ・目的別チップ・あなたにおすすめ・合わせてチェック・その他おすすめ…）。クリックイベントは無いが、<b>AC ページの直前ページ（リファラー）</b>で流入量を実測：
+        AC・カテゴリ・エリアの実画面には、<b>ランキング／人気カテゴリ／目的別の絞り込み／あなたにおすすめ／合わせてチェック／その他おすすめ</b>が既に実装されている。AC ページの直前ページ（リファラー）で流入量を実測すると：
       </div>
       <table class="nk-feas">
-        <thead><tr><th>AC到達(②)の流入元</th><th>シェア（28日）</th><th>該当モジュール</th><th>判定</th></tr></thead>
+        <thead><tr><th>AC到達（②）の流入元</th><th>シェア（28日）</th><th>担っているもの</th></tr></thead>
         <tbody>
-          <tr><td><b>/a/ → /a/</b>（AC同士の遷移）</td><td>約15%（20.6万人）</td><td>合わせてチェック／その他おすすめ ＝ <b>比較(S2)</b></td><td>稼働中</td></tr>
-          <tr><td><b>/ctg/ → /a/</b>（カテゴリ→AC）</td><td>約20%（24.9万人）</td><td>カテゴリページ ＝ <b>discovery(S3)</b></td><td>稼働中</td></tr>
-          <tr><td>/wishlist → /a/（再訪）</td><td><b style="color:#c0392b">約0.9%（6,828人）</b></td><td>お気に入り（再訪）</td><td><b style="color:#c0392b">大穴</b></td></tr>
+          <tr><td><b>別のACページから</b></td><td>約15%（20.6万人）</td><td>「合わせてチェック／その他おすすめ」＝比較導線</td></tr>
+          <tr><td><b>カテゴリページから</b></td><td>約20%（24.9万人）</td><td>ランキング／おすすめ＝発見導線</td></tr>
+          <tr><td>お気に入り（保存）から</td><td><b style="color:#c0392b">約0.9%（6,828人）</b></td><td>再訪導線</td></tr>
+          <tr><td>（参考）検索エンジンから直接</td><td>外部流入の大半</td><td>新規検索でACに直着地</td></tr>
         </tbody>
       </table>
       <div class="nk-cav">
-        <b>結論：</b>比較・カテゴリ discovery は合計<b>35%超</b>のAC到達を実際に駆動＝<b>既に重い実装が稼働中</b>。「足す」施策（旧 S2-1 比較新設・旧 S3-1 チップ新設）は<b>重複につき取り下げ</b>。再訪(wishlist)は0.9%で<b>唯一の大穴</b>。
-        <br><br>
-        <b>作り直した施策セット：</b><br>
-        ① <b>流入元別のコンバージョン計測（BigQuery）</b>＝どの経路のAC到達が購入に弱いかを特定（量は出ているので“質”を見る）。同時に離脱所在を 入口×新規/リピーター で再分解。<br>
-        ② ①で弱い経路の <b>関連度・並び順を最適化</b>（“足す”でなく中身の質）。<br>
-        ③ <b>S4 再訪/CRM を優先</b>（wishlist→AC 0.9% の大穴＝唯一の非重複領域。保存→再訪→予約を太くする）。
+        <b>読み取り：</b>比較・発見の導線は合計 <b>35%超</b>のAC到達を実際に生んでいる＝<b>機能は出尽くしている</b>。だから「比較枠／絞り込みを"新しく足す"」は効かない。一方で <b>お気に入りからの再訪は0.9%</b>。保存した人すら戻ってきておらず、<b>ここが最大の空き</b>。<br>
+        ＝ 打ち手は「機能を足す」ではなく、<b>① 出している中身の"関連度"を上げる、② 再訪を太くする</b>の2方向。
       </div>
     </div>
   </div>
 
-  <!-- ───────── S2 ───────── -->
+  <!-- 03 施策 -->
   <div class="card">
     <div class="sub-sec">
-      <span class="sub-sec-num accent">S2</span>
-      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">最優先 / 比較検討層</span>
-      <h2 class="sub-sec-title">比較で止まった新規を、空き状況確認まで運ぶ</h2>
+      <span class="sub-sec-num accent">03</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Actions</span>
+      <h2 class="sub-sec-title">施策 — 測って関連度を上げる（S2/S3）＋ 再訪を太くする（S4）</h2>
     </div>
     <div class="nk-stage">
-      <div class="nk-stage-head">
-        <span class="nk-stage-name">S2 比較検討層</span>
-        <span class="nk-stage-prio">最優先・今夏</span>
-        <span class="nk-stage-kpi">新規 ②→③ 9.0% → 天井22.8%</span>
-      </div>
-      <ul class="nk-ul">
-        <li>平均3.7件のACを見比べて「これ」を決めきれない</li>
-        <li>各ACページが行き止まりで、比較したまま離脱（流出先はGA4で不可視＝他社比較・後回しが想定）</li>
-      </ul>
 
-      <div class="nk-fact">
-        <div class="nk-fact-ttl">背景の事実 — 実際どれだけ離脱しているか（新規）</div>
-        <div class="nk-fact-flow">
-          <div class="ff-step"><div class="ff-num">583,024</div><div class="ff-lbl">新規が AC到達</div></div>
-          <div class="ff-arrow">→</div>
-          <div class="ff-step"><div class="ff-num">52,199</div><div class="ff-lbl">空き状況を見る<br>（9.0%）</div></div>
-          <div class="ff-drop"><div class="ff-num">−530,825</div><div class="ff-lbl"><b style="color:#c0392b">91%</b> が見ずに離脱<br>（S2はこの一部）</div></div>
-        </div>
-        <div class="nk-fact-note">
-          <b>注意：</b>この 530,825人は ②→③ で離脱した<b>全員</b>で、<b>S2（比較検討）だけでなく S3（具体AC未定）・S4（今は買わない）が混在</b>。S2 はこの中の「複数ACを見比べたが決めきれない」<b>サブセット</b>。<br>
-          ただし AC到達者は平均 <b>3.7件</b>閲覧・<b>4分20秒</b>滞在・<b>エンゲージ74%</b> ＝即離脱でなく見比べ型が多く、S2 が相応に含まれると示唆。<b>S2 の正確な規模は行動proxy（閲覧AC数・回遊・滞在）での分解が必要</b>（要 GA4 BigQuery / Explore）。
-          <br><span class="src">出典：GA4 Property 347074845／日本・rolling 28日（5/3–5/30）・bot除外。意向ステージはGA4で直接ラベルされず、離脱の段（②→③）から推定。流出先も計測不可。</span>
-        </div>
-      </div>
-
-      <div class="nk-card hero">
-        <div class="nk-card-head"><span class="nk-no">S2-1</span><span class="nk-title">類似・同観光地AC比較ブロック</span><span class="nk-badge" style="background:#c0392b">取り下げ</span></div>
-        <div class="nk-withdrawn"><b>取り下げ（既存重複）：</b>既に「合わせてチェック／その他おすすめ」が同機能で、AC→AC流入は<b>約15%（20.6万人）</b>稼働中。新設不要。以下は参考ワイヤーとして残置（論点は配置/関連度の最適化へ）。</div>
+      <!-- 施策A -->
+      <div class="nk-card">
+        <div class="nk-card-head"><span class="nk-no">A</span><span class="nk-title">比較・発見導線の「関連度」を測って上げる（S2・S3）</span><span class="nk-badge">最優先</span></div>
         <ul class="nk-ul">
-          <li><b>課題</b>比較中の新規が「これ」を決めきれずACページで離脱（新規の②→③ 9.0%）</li>
-          <li><b>原因仮説</b>比較に使える関連ACがページ最下部の「おすすめのオプショナルツアー」だけ＝比較したい人が到達前に離脱</li>
-          <li><b>打ち手</b>比較候補を決定点（プラン詳細の直下）へ引き上げ、サイト内で比較を完結させる</li>
-          <li><b>詳細</b>「同じオアフ島のディナークルーズ／比較候補」3〜4枚を プラン詳細パネルの直下（下記★の位置）に新設。各カード＝サムネ・タイトル・価格・★評価・即予約可。選定ルールは「同エリア × 同カテゴリ × 人気 × 在庫あり」（実装要件トグル参照）</li>
+          <li><b>課題</b>比較・カテゴリ導線はAC到達を35%超運ぶが、新規の「検討（②→③）」は9.0%と低い＝<b>量は出ているが質に伸びしろ</b></li>
+          <li><b>原因仮説</b>出している候補（ランキング/おすすめ/関連AC）の<b>関連度・並び順</b>が新規の意向に合っていない。かつ各モジュールのクリック計測が無く、<b>効果を測れず最適化できない</b></li>
+          <li><b>打ち手</b>① 流入元別のコンバージョン計測（BigQuery）で「量はあるが買われない経路」を特定 → ② その経路の<b>関連度・並び順をA/B</b>で改善（同行程で比べやすい候補・在庫ありを優先）</li>
+          <li><b>詳細</b>「カテゴリ→AC」「AC→AC（比較枠）」経由のAC到達が、検索直着地より検討・購入に進むかを比較。弱い経路の中身を、同エリア×同カテゴリ×人気×在庫ありで再構成</li>
         </ul>
-        <div class="mock-cap" style="font-size:12px;font-weight:900;color:var(--text3);margin:8px 0 4px">実プラン画面のワイヤー（★＝新設位置）</div>
-        <div class="pw">
-          <div class="pw-anno"><s>現状：この★枠が無い</s> → <b>提案：プラン詳細の直下に「比較候補」を新設</b>（緑の破線枠）</div>
-          <div class="pw-bar">
-            <span class="pw-pill cat">☰ カテゴリ一覧</span>
-            <span class="pw-pill on">オアフ島(ホノルル)</span>
-            <span class="pw-pill on">ディナークルーズ</span>
-            <span class="pw-cur">🌐 現地通貨で表示する</span>
-          </div>
-          <div class="pw-avail">
-            <span class="lab">空き状況を確認</span>
-            <span class="pw-chip">📅 参加日</span>
-            <span class="pw-chip">👤 利用数</span>
-          </div>
-          <div class="pw-plans">
-            <div class="pw-plan"><div class="pn">◯ 窓際席またはプライベート席確約！3スター（コースディナー／ロブスター＆ステーキ）</div><div class="pp">¥37,784〜</div></div>
-            <div class="pw-plan"><div class="pn">◯ 【金・土曜限定】豪華5スター（コースディナー／プライムテンダーロイン付き）</div><div class="pp">¥38,770〜</div></div>
-            <div class="pw-plan"><div class="pn">◯ 【スパークリングワイン＆記念写真付き】3スターカップルプラン（コースディナー／ロブスター＆ステーキ）</div><div class="pp">¥39,041〜 <span class="po">¥39,427</span></div></div>
-            <div class="pw-plan sel"><div class="pn">◉ サンセットカクテル（食事なし）／パシフィックスター（食べ放題ビュッフェ）他</div><div class="pp">¥14,621〜</div></div>
-          </div>
-          <div class="pw-detail">
-            <div class="ttl">✓【6月末まで割引中！】パシフィックスター（食べ放題ビュッフェ）<span class="pw-close">閉じる</span></div>
-            <div class="pw-photo">🍽</div>
-            <div class="pw-desc">6月末まで15%OFFキャンペーン中！■ローストビーフ等のビュッフェ ■ウェルカムマイタイカクテル1杯付き ■エンターテイメントショー ■カジュアルな雰囲気… <span style="color:#1B82C5">詳細を見る</span></div>
-            <div class="pw-ptbl">
-              <div class="r"><span>大人(12歳以上)</span><b>¥19,409〜</b></div>
-              <div class="r"><span>子供(3〜11歳)</span><b>¥13,635〜</b></div>
-              <div class="r"><span>幼児(0〜2歳)</span><b>無料</b></div>
-              <div class="r" style="border:none"><span style="color:#c0392b">期間限定割</span><span style="color:#999;font-size:10px">最大15%OFF</span></div>
-            </div>
-          </div>
-          <div class="pw-insert">
-            <div class="il">★【新設】迷ったら比較 — 同じオアフ島のディナークルーズ（決め切るための3〜4択）</div>
-            <div class="ic">
-              <div class="pw-ic"><div class="im"></div><div class="it">ディナー＋夜景クルーズ</div><div class="ipr">¥9,800</div><span class="ib">★4.7 最高評価</span></div>
-              <div class="pw-ic"><div class="im"></div><div class="it">スターオブホノルル 別プラン</div><div class="ipr">¥14,621〜</div><span class="ib" style="color:#1B82C5;background:#eaf3fb">内容が近い</span></div>
-              <div class="pw-ic"><div class="im"></div><div class="it">サンセットディナークルーズ（別社）</div><div class="ipr">¥12,800</div><span class="ib">即予約可</span></div>
-              <div class="pw-ic"><div class="im"></div><div class="it">豪華5スター コースディナー</div><div class="ipr">¥38,770</div><span class="ib" style="color:#8a6d00;background:#fdf3d0">最高グレード</span></div>
-            </div>
-            <div class="pw-insert-note"><b>離脱を増やさない設計：</b>① 下の「今すぐ予約する」を遮らない位置／② 各カードに<b>差別化（評価・内容・グレード・価格幅）</b>を付け“もっと探す”でなく<b>比較→確定</b>へ／③ 最安で釣らない並び（評価・内容を先頭）／④ <b>プラン未選択でスクロールした「比較中」の人にのみ表示</b>（予約直前の人には出さない）</div>
-          </div>
-          <div class="pw-rest">↓ 概要・スケジュール・体験談・FAQ・お支払い … <strong style="color:#c0392b">関連ACは最下部「おすすめのオプショナルツアー」のみ</strong> ↓</div>
-          <div class="pw-sticky">
-            <span class="sn">【6月末まで割引中！】パシフィックスター（食べ放題ビュッフェ）</span>
-            <span class="spr">¥19,409〜 <span style="font-size:9px;color:#999;text-decoration:line-through;font-weight:600">¥22,835</span></span>
-            <span class="scta">今すぐ予約する</span>
-            <span class="ssave">♡ この条件を保存</span>
-          </div>
-        </div>
-        <div class="mock-improve" style="margin-top:8px">比較候補を「プラン詳細」直下に置く → 概要・FAQまで行かず、サイト内で比較を完結させカレンダー／予約へ</div>
-        <details class="nk-toggle">
-          <summary>実装要件（どう作るか）</summary>
+        <details class="nk-toggle" style="border-color:#cfe3f5;background:#f6fafe">
+          <summary style="color:#1b6ea5">計測クエリの考え方（BigQuery）</summary>
           <div class="tg-body">
-            <h5>方式</h5>
+            <h5>① 流入元別のAC到達→検討→購入</h5>
             <ol>
-              <li><b>Brazeではない</b>＝ACページのオンサイトreco枠（表示中AC・在庫に反応）。Brazeは再訪施策(S4)用</li>
-              <li>POCは <b>A/Bツール（GTM／VWO）でDOM注入</b>＝本番デプロイ不要</li>
+              <li>GA4 BigQuery export を使い、AC ページの <b>page_referrer</b> を「カテゴリ／別AC／検索／お気に入り」に分類</li>
+              <li>その経路ごとに <b>②→③（カレンダー閲覧到達）率・購入率</b>を算出 → 量はあるが弱い経路を特定</li>
             </ol>
-            <h5>「3つ」の選定ルール</h5>
-            <ol>
-              <li>必須：<b>同じ観光地（エリア一致）× 予約可能（満席除外）</b>・自分は除外</li>
-              <li>並び＝<b>同カテゴリ加点 ＋ 人気(直近90日予約) ＋ ★評価 ＋ 即予約可</b></li>
-              <li>上位から<b>価格に幅（安い／同等／高め）</b>を持たせ3〜4枚</li>
-              <li>第1段はルールベース → 効果確認後に閲覧共起／MLへ</li>
-            </ol>
-            <pre>-- 日次バッチ：各AC(current)の関連リスト
-SELECT c.ac_id, x.ac_id,
-  2*IF(x.category=c.category,1,0)+LN(1+p.bookings_90d)
-  +0.5*x.rating+0.5*IF(x.instant_book,1,0) AS score
-FROM ac_master c JOIN ac_master x
-  ON x.area_id=c.area_id AND x.ac_id<>c.ac_id
-LEFT JOIN pop90 p ON p.ac_id=x.ac_id
-WHERE x.bookable=TRUE
-QUALIFY ROW_NUMBER() OVER(
-  PARTITION BY c.ac_id ORDER BY score DESC)<=8;</pre>
-            <h5>周遊ツアー（複数観光地）</h5>
-            <ol>
-              <li>エリアが複数 → <b>共通の親エリア（島／地域）へ昇格</b>して抽出</li>
-              <li>カテゴリは<b>ツアー種別（1日／周遊）を一致</b>＝比較になる他ツアーを優先</li>
-              <li><b>そのツアーに内包される単体ACは除外</b>（自己包含回避）</li>
-            </ol>
-            <h5>POC → 本番</h5>
-            <ol>
-              <li><b>POC</b>：クエリ1回→静的JSON＋AI codingのフロント＋A/B注入。測定＝②→③</li>
-              <li><b>本番</b>：日次バッチで reco 表を生成 → <b>配信時に在庫・価格をAPI再確認</b>（満席／価格跳ねを除外。owner＝エンジニア）</li>
-            </ol>
+            <h5>② 関連度の指標</h5>
+            <ol><li>同エリア・同カテゴリ一致率／在庫あり率／クリック後の②→③率 を経路別に見て、関連度が低い面を改善対象にする</li></ol>
+            <div class="nk-cav" style="margin-top:8px">※ モジュール別のクリックイベントは未計装。まずは page_referrer ベースで経路の質を測り、必要ならクリック計測を追加。</div>
           </div>
         </details>
-        <details class="nk-toggle">
-          <summary>効果の合否判定（何を見て成功と決め、いつ止めるか）</summary>
-          <div class="tg-body">
-            <p style="font-size:13px;color:var(--text2);line-height:1.75;margin:0 0 8px">A/Bテストは「比較枠を<b>出すグループ</b>／<b>出さないグループ</b>」に分けて実施（出し分けの作り方は上の「実装要件」）。ここは“やってみるだけ”にしないための<b>成功・失敗の判断基準</b>。</p>
-            <h5>成功と決める指標</h5>
-            <ol><li><b>サイト全体の予約率（CVR）＋ 来訪1人あたりの売上</b>で見る。比較枠の<b>クリック数だけで成功と判断しない</b></li></ol>
-            <h5>逆効果になっていないかの確認</h5>
-            <ol>
-              <li>表示中ACの<b>予約完了率が下がる</b> ＝ 目の前の予約を食ってしまう</li>
-              <li><b>サイト全体の予約率が上がらない</b> ＝ 見て回るだけ増えて買われない</li>
-              <li><b>平均単価・売上が下がる</b> ＝ 安いACへ乗り換え</li>
-              <li>すぐ離脱する人が増える</li>
-            </ol>
-            <h5>やめ時</h5>
-            <ol><li>比較枠のクリックや「カレンダー閲覧（②→③）」が増えても、<b>サイト全体の予約率・売上が横ばい/低下なら失敗 → 止めて作り直す</b></li></ol>
-          </div>
-        </details>
-        <div class="nk-meta"><span class="nk-chip imp">②→③感度 最大</span><span class="nk-chip">工数：中</span><span class="nk-chip">今夏◎</span><span class="nk-chip">迷わず買う／取りこぼし防止</span></div>
+        <div class="nk-meta"><span class="nk-chip imp">②→③ の質</span><span class="nk-chip">まず計測 → A/B</span><span class="nk-chip">迷わず買う</span></div>
       </div>
 
-      <div class="nk-card">
-        <div class="nk-card-head"><span class="nk-no">S2-2</span><span class="nk-title">「決め手」をCTA手前に集約</span></div>
+      <!-- 施策B：S4 -->
+      <div class="nk-card s4">
+        <div class="nk-card-head"><span class="nk-no">B</span><span class="nk-title">「今は買わない」新規を、最適なタイミングで連れ戻す（S4）</span><span class="nk-badge" style="background:#d97706">最大の空き</span></div>
         <ul class="nk-ul">
-          <li><b>課題</b>ACページを見ても「日程を見る価値がある」と思える決め手が弱く、検討に進まない</li>
-          <li><b>原因仮説</b>★評価・残枠・即予約可・キャンセル条件などの決め手がページ各所に分散し効いていない</li>
-          <li><b>打ち手</b>決め手を予約導線の手前に1ブロックで集約（情報を足さず散在を効かせる）</li>
-          <li><b>詳細</b>「★評価+件数／本日も予約あり／即予約可／無料キャンセル可否」をプラン選択の近くに集約表示</li>
-        </ul>
-        <div class="nk-mock">
-          <div class="nk-mock-col before"><div class="mock-cap">BEFORE</div>
-            <div class="mock before"><div class="mock-hd">VELTRA</div><div class="mock-bd">
-              <div class="mock-line"></div><div class="mock-line s"></div>
-              <div class="mock-cta">空き状況を見る</div>
-              <div style="font-size:9px;color:#aab4be;margin-top:9px">★4.8 …（ページ各所に分散）</div>
-            </div></div></div>
-          <div class="nk-mock-col after"><div class="mock-cap">AFTER</div>
-            <div class="mock after"><div class="mock-hd">VELTRA</div><div class="mock-bd">
-              <div class="mock-line"></div><div class="mock-line s"></div>
-              <div style="margin:9px 0 7px"><span class="mock-badge">★4.8（2,340件）</span><span class="mock-badge">即予約可</span><span class="mock-badge">無料キャンセル</span><span class="mock-badge">本日も予約あり</span></div>
-              <div class="mock-cta">空き状況を見る</div>
-              <div class="mock-improve">決め手を直前に集約 → クリックを後押し</div>
-            </div></div></div>
-        </div>
-        <div class="nk-meta"><span class="nk-chip imp">CTAクリック誘発</span><span class="nk-chip">工数：小〜中</span><span class="nk-chip">S2-1と同梱A/B可</span></div>
-      </div>
-
-      <div class="nk-card">
-        <div class="nk-card-head"><span class="nk-no">S2-3</span><span class="nk-title">「空き状況を見る」CTAの早期・sticky表示</span></div>
-        <ul class="nk-ul">
-          <li><b>課題</b>長いACページで「プラン選択・空き状況の確認」への導線を見失う場面がある</li>
-          <li><b>原因仮説</b>プラン/空き確認は上部、予約は下部固定で、回遊中に次の一手が分かりにくい</li>
-          <li><b>打ち手</b>プラン選択・空き状況確認への誘導を要所で明示（※「今すぐ予約する」は既に下部固定済み）</li>
-          <li><b>詳細</b>上部にも空き状況確認への導線を常設するなど。UIの積み重ね・低コスト・効果は限定的</li>
-        </ul>
-        <div class="nk-mock">
-          <div class="nk-mock-col before"><div class="mock-cap">BEFORE</div>
-            <div class="mock before"><div class="mock-hd">VELTRA</div><div class="mock-bd">
-              <div class="mock-img">🖼</div><div class="mock-line"></div><div class="mock-line"></div><div class="mock-line s"></div>
-              <div style="font-size:9px;color:#aab4be;text-align:center;margin-top:8px">↓ CTAはずっと下 ―</div>
-            </div></div></div>
-          <div class="nk-mock-col after"><div class="mock-cap">AFTER</div>
-            <div class="mock after"><div class="mock-hd">VELTRA</div><div class="mock-bd" style="padding-bottom:0">
-              <div class="mock-img">🖼</div><div class="mock-line"></div><div class="mock-line s"></div>
-              <div style="margin:8px -10px 0;background:#1B82C5;color:#fff;text-align:center;font-weight:800;padding:10px;font-size:12px">空き状況を見る（固定）</div>
-            </div></div>
-            <div class="mock-improve">下部固定で予約導線を常時表示</div></div>
-        </div>
-        <div class="nk-meta"><span class="nk-chip">工数：小・即</span><span class="nk-chip">UI積み重ね</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ───────── S3 ───────── -->
-  <div class="card">
-    <div class="sub-sec">
-      <span class="sub-sec-num accent">S3</span>
-      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">次点 / 絞り込み層</span>
-      <h2 class="sub-sec-title">具体ACが未定の新規を、候補に当てる</h2>
-    </div>
-    <div class="nk-stage">
-      <div class="nk-stage-head">
-        <span class="nk-stage-name">S3 絞り込み層</span>
-        <span class="nk-stage-kpi">新規 ①→② 46.8% → 天井68%</span>
-      </div>
-      <ul class="nk-ul">
-        <li>方向（エリア/やりたいこと）は決定、具体ACは未定</li>
-        <li>探させず「先回りで当てる」</li>
-      </ul>
-
-      <div class="nk-fact">
-        <div class="nk-fact-ttl">背景の事実 — 具体ACに辿り着けず離脱（新規・①→②）</div>
-        <div class="nk-fact-flow">
-          <div class="ff-step"><div class="ff-num">1,245,762</div><div class="ff-lbl">新規が流入（①）</div></div>
-          <div class="ff-arrow">→</div>
-          <div class="ff-step"><div class="ff-num">583,024</div><div class="ff-lbl">AC到達（②）<br>（46.8%）</div></div>
-          <div class="ff-drop"><div class="ff-num">−662,738</div><div class="ff-lbl"><b style="color:#c0392b">53.2%</b> が具体ACに未到達<br>（S3はこの一部）</div></div>
-        </div>
-        <div class="nk-fact-note">
-          検索・絞り込みは <b>AC閲覧者の1〜2%未満</b>しか使われず（検索 5,104人／絞り込み 9,582人）、回遊で目的のACに当てられず離脱。<br>
-          ※この 662,738人も <b>S3（具体AC未定）と S4（探索）が混在</b>＝S3はそのサブセット。<span class="src">GA4 347074845／日本・28日・bot除外</span>
-        </div>
-      </div>
-
-      <div class="nk-card hero">
-        <div class="nk-card-head"><span class="nk-no">S3-1</span><span class="nk-title">目的別チップ ＋ 人気AC Top</span><span class="nk-badge" style="background:#c0392b">取り下げ</span></div>
-        <div class="nk-withdrawn"><b>取り下げ（既存重複）：</b>エリア/カテゴリページに既に「ランキング(売れ筋/満足度)」「おすすめカテゴリ＝子連れ/幼児/小学生/所要時間別…」「あなたにおすすめ」が実装済み。カテゴリ→AC流入も<b>約20%（24.9万人）</b>稼働中。新設不要。以下は参考。</div>
-        <ul class="nk-ul">
-          <li><b>課題</b>方向は決まったが具体ACを選べず、目的ACに到達しないまま離脱（新規①→② 46.8%）</li>
-          <li><b>原因仮説</b>エリア/カテゴリページが網羅的リストで初訪問者が選び切れず、検索も使われない（1〜2%未満）</li>
-          <li><b>打ち手</b>探させず「先回りで当てる」＝目的別チップ＋人気ACを上部に提示</li>
-          <li><b>詳細</b>ページ上部に目的別チップ（子連れ/初めて/雨でもOK/半日）＋「人気AC Top5」。チップ＝属性タグのファセット／人気＝エリア×予約数上位。具体ACへ最短到達しS2へ送客</li>
-        </ul>
-        <div class="nk-mock">
-          <div class="nk-mock-col before"><div class="mock-cap">BEFORE</div>
-            <div class="mock before"><div class="mock-hd">VELTRA ハワイの体験</div><div class="mock-bd">
-              <div class="mock-img">🖼</div><div class="mock-line"></div><div class="mock-line"></div><div class="mock-line s"></div>
-              <div style="text-align:center;color:#aab4be;font-size:10px;margin-top:8px">― 一覧が延々と続く ―</div>
-            </div></div></div>
-          <div class="nk-mock-col after"><div class="mock-cap">AFTER</div>
-            <div class="mock after"><div class="mock-hd">VELTRA ハワイの体験</div><div class="mock-bd">
-              <div style="font-size:9.5px;font-weight:900;color:#333;margin-bottom:5px">目的で絞る</div>
-              <div><span class="mock-chip">子連れOK</span><span class="mock-chip">初めて</span><span class="mock-chip">半日</span><span class="mock-chip">雨でも</span></div>
-              <div style="font-size:9.5px;font-weight:900;color:#333;margin:9px 0 5px">人気トップ</div>
-              <div class="mock-cards">
-                <div class="mock-mini"><div class="mm-img"></div><div class="mm-t">定番市内ツアー</div><div class="mm-p">¥4,800</div></div>
-                <div class="mock-mini"><div class="mm-img"></div><div class="mm-t">話題の体験</div><div class="mm-p">¥6,200</div></div>
-              </div>
-              <div class="mock-improve">具体ACへ最短到達 → S2へ送客</div>
-            </div></div></div>
-        </div>
-        <div class="nk-meta"><span class="nk-chip imp">①→②底上げ→S2へ</span><span class="nk-chip">工数：中</span><span class="nk-chip">今夏△（W25〜）</span><span class="nk-chip">取りこぼし防止</span></div>
-      </div>
-
-      <div class="nk-card">
-        <div class="nk-card-head"><span class="nk-no">S3-2</span><span class="nk-title">検索流入の着地に「やりたいこと」ナビ</span></div>
-        <ul class="nk-ul">
-          <li><b>課題</b>検索流入が着地後すぐ離脱し、AC本体に進まない</li>
-          <li><b>原因仮説</b>着地ページと検索意図がずれ、自分向きの入口が見つからない</li>
-          <li><b>打ち手</b>検索意図に沿ったテーマ導線を着地直後に提示</li>
-          <li><b>詳細</b>着地直後に「やりたいこと」テーマ導線（ビーチ／グルメ／文化体験／絶景）→合致ACへ誘導</li>
-        </ul>
-        <div class="nk-mock">
-          <div class="nk-mock-col before"><div class="mock-cap">BEFORE</div>
-            <div class="mock before"><div class="mock-hd">VELTRA 検索結果</div><div class="mock-bd">
-              <div class="mock-line"></div><div class="mock-line"></div><div class="mock-line"></div><div class="mock-line s"></div>
-              <div style="font-size:9px;color:#aab4be;text-align:center;margin-top:8px">― 意図と合わない汎用リスト ―</div>
-            </div></div></div>
-          <div class="nk-mock-col after"><div class="mock-cap">AFTER</div>
-            <div class="mock after"><div class="mock-hd">VELTRA 検索結果</div><div class="mock-bd">
-              <div style="font-size:9.5px;font-weight:900;color:#333;margin-bottom:5px">やりたいことで選ぶ</div>
-              <div><span class="mock-chip">ビーチ</span><span class="mock-chip">グルメ</span><span class="mock-chip">文化体験</span><span class="mock-chip">絶景</span></div>
-              <div class="mock-cards"><div class="mock-mini"><div class="mm-img"></div><div class="mm-t">合致AC</div><div class="mm-p">¥5,200</div></div><div class="mock-mini"><div class="mm-img"></div><div class="mm-t">合致AC</div><div class="mm-p">¥3,900</div></div></div>
-              <div class="mock-improve">検索意図に合うテーマへ即誘導</div>
-            </div></div></div>
-        </div>
-        <div class="nk-meta"><span class="nk-chip">工数：中</span><span class="nk-chip">取りこぼし防止</span></div>
-      </div>
-
-      <div class="nk-card">
-        <div class="nk-card-head"><span class="nk-no">S3-3</span><span class="nk-title">検索・絞り込みの「使われない原因」診断</span></div>
-        <ul class="nk-ul">
-          <li><b>課題</b>検索・絞り込みが AC閲覧者の1〜2%未満しか使われていない</li>
-          <li><b>原因仮説</b>検索導線が埋もれている／結果の質が弱い可能性（未特定）</li>
-          <li><b>打ち手</b>まず原因を特定（診断先行）→ 検索バー・人気ワードを上部に露出</li>
-          <li><b>詳細</b>ログ／ヒートマップで未使用原因を特定後、検索バー＋人気検索ワードを上部露出</li>
+          <li><b>課題</b>お気に入り保存からの再訪は0.9%（6,828人）。保存した人(15,362人)すら戻らず、意向を取りこぼしている</li>
+          <li><b>原因仮説</b>保存のハードルが高く、保存後に戻る理由（価格・残枠の変化通知など）が無い</li>
+          <li><b>打ち手</b>① ワンタップ保存＋保存リストからの予約導線、② 保存ACの値下げ・残枠を通知、③ 閲覧内容に沿った後追い配信</li>
+          <li><b>詳細</b>下記。①はサイト内、②③は Braze（CRM）。「保存→予約」の相関計測を整備した上で進める</li>
         </ul>
         <div class="nk-mock">
           <div class="nk-mock-col before"><div class="mock-cap">BEFORE</div>
             <div class="mock before"><div class="mock-hd">VELTRA</div><div class="mock-bd">
               <div class="mock-img">🖼</div><div class="mock-line"></div><div class="mock-line s"></div>
-              <div style="font-size:9px;color:#aab4be;text-align:center;margin-top:8px">― 検索/絞り込みが目立たない ―</div>
-            </div></div></div>
-          <div class="nk-mock-col after"><div class="mock-cap">AFTER（診断後の方向）</div>
-            <div class="mock after"><div class="mock-hd">VELTRA</div><div class="mock-bd">
-              <div style="background:#fff;border:1px solid #cfe3f5;border-radius:6px;padding:7px;font-size:9.5px;color:#9bb0c4">🔍 アクティビティを検索</div>
-              <div style="font-size:9px;font-weight:900;color:#333;margin:8px 0 4px">人気の検索</div>
-              <div><span class="mock-chip">オプショナルツアー</span><span class="mock-chip">送迎</span><span class="mock-chip">日帰り</span></div>
-              <div class="mock-improve">検索バー＋人気ワードを上部に露出</div>
-            </div></div></div>
-        </div>
-        <div class="nk-meta"><span class="nk-chip">工数：中</span><span class="nk-chip">診断先行</span><span class="nk-chip">取りこぼし防止</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ───────── S4 ───────── -->
-  <div class="card">
-    <div class="sub-sec">
-      <span class="sub-sec-num accent">S4</span>
-      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">中長期 / 探索層</span>
-      <h2 class="sub-sec-title">今すぐ買わない新規を、最適なタイミングで連れ戻す</h2>
-    </div>
-    <div class="nk-stage">
-      <div class="nk-stage-head">
-        <span class="nk-stage-name">S4 探索層</span>
-        <span class="nk-stage-kpi">再訪率・再訪間隔の短縮</span>
-      </div>
-      <ul class="nk-ul">
-        <li>漠然とした興味で来訪、今は買わない</li>
-        <li><b>「保存→予約」の相関計測が前提</b> → まず計測整備から</li>
-      </ul>
-
-      <div class="nk-fact">
-        <div class="nk-fact-ttl">背景の事実 — お気に入りがほぼ機能していない</div>
-        <div class="nk-fact-flow">
-          <div class="ff-step"><div class="ff-num">0.57%</div><div class="ff-lbl">お気に入り採用率<br>（15,362人 / 全2.71M）</div></div>
-          <div class="ff-arrow">→</div>
-          <div class="ff-drop"><div class="ff-num">699</div><div class="ff-lbl">保存リストを開き直した人<br>＝ほぼ死蔵</div></div>
-        </div>
-        <div class="nk-fact-note">
-          保存する人が極小、保存しても戻って使われない ＝ <b>「今は買わない」意向の取りこぼし</b>。再訪を促す仕組み（保存の価値・通知）が不在。<br>
-          参考：リピーター CVR <b>2.46%</b> vs 新規 0.33% ＝ 再来は高価値。<span class="src">GA4 347074845／28日・bot除外。再訪間隔の精緻な算出は BigQuery/Explore が必要</span>
-        </div>
-      </div>
-
-      <div class="nk-card hero">
-        <div class="nk-card-head"><span class="nk-no">S4-1</span><span class="nk-title">ワンタップお気に入り ＋ 保存リスト予約導線</span><span class="nk-badge">本命</span></div>
-        <ul class="nk-ul">
-          <li><b>課題</b>「今は買わない」新規の意向を取りこぼし、再訪につながらない</li>
-          <li><b>原因仮説</b>お気に入りの保存ハードルが高く、保存しても戻って使われない（採用0.57%・再訪利用699人）</li>
-          <li><b>打ち手</b>ワンタップ保存＋保存リストからの予約導線で再訪の入口をつくる（※「保存→予約」相関の計測整備が前提）</li>
-          <li><b>詳細</b>ACカード/ページにワンタップ保存。保存リストから価格・残枠つきで即予約導線</li>
-        </ul>
-        <div class="nk-mock">
-          <div class="nk-mock-col before"><div class="mock-cap">BEFORE</div>
-            <div class="mock before"><div class="mock-hd">VELTRA</div><div class="mock-bd">
-              <div class="mock-img">🖼</div><div class="mock-line"></div><div class="mock-line s"></div>
-              <div style="text-align:center;color:#aab4be;font-size:10px;margin-top:10px">― 戻る理由がない ―</div>
+              <div style="text-align:center;color:#aab4be;font-size:10px;margin-top:10px">― 保存しても戻る理由がない ―</div>
             </div></div></div>
           <div class="nk-mock-col after"><div class="mock-cap">AFTER</div>
             <div class="mock after"><div class="mock-hd">VELTRA ＞ 保存リスト</div><div class="mock-bd">
@@ -613,19 +218,8 @@ QUALIFY ROW_NUMBER() OVER(
               <div class="mock-improve">残枠・値下げが再訪の動機に</div>
             </div></div></div>
         </div>
-        <div class="nk-meta"><span class="nk-chip imp">再訪の入口</span><span class="nk-chip">工数：中</span><span class="nk-chip">計測整備が先</span></div>
-      </div>
-
-      <div class="nk-card">
-        <div class="nk-card-head"><span class="nk-no">S4-2</span><span class="nk-title">保存ACの価格／残枠リマインド（Braze）</span></div>
-        <ul class="nk-ul">
-          <li><b>課題</b>離脱後の再訪のきっかけがなく、最適なタイミングを逃す</li>
-          <li><b>原因仮説</b>保存ACの価格下落・残枠変化を本人に知らせる手段が不在</li>
-          <li><b>打ち手</b>保存ACの「値下げ」「残枠わずか」を通知し再訪を促す</li>
-          <li><b>詳細</b>Braze Content Card／Push で通知（設定は下の Braze トグル参照）</li>
-        </ul>
         <details class="nk-toggle">
-          <summary>Braze 設定方法（ロジック・必要データ・手順）</summary>
+          <summary>B-② 価格／残枠リマインドの Braze 設定（ロジック・必要データ・手順）</summary>
           <div class="tg-body">
             <h5>① データソース</h5>
             <ol>
@@ -646,23 +240,16 @@ GROUP BY uid, ac_id;
 -- ↑ を AC マスターと JOIN し
 --   「前日比 価格↓」or「残枠 ≤ 5」の行だけ残す</pre>
             <h5>③ 実行環境・スケジュール</h5>
-            <ol>
-              <li>Cloud Scheduler（毎朝1回）→ Cloud Functions でクエリ実行＋整形</li>
-            </ol>
+            <ol><li>Cloud Scheduler（毎朝1回）→ Cloud Functions でクエリ実行＋整形</li></ol>
             <h5>④ Braze への投入経路</h5>
-            <ol>
-              <li>Braze REST <b>/users/track</b> でカスタム属性を上書き（or CSV import）</li>
-            </ol>
+            <ol><li>Braze REST <b>/users/track</b> でカスタム属性を上書き（or CSV import）</li></ol>
             <h5>⑤ カスタム属性スキーマ（上位3件まで）</h5>
             <ol>
               <li><b>wishlist_1_name</b> (string) / <b>wishlist_1_price</b> (number) / <b>wishlist_1_stock</b> (number)</li>
-              <li><b>wishlist_1_pricedrop</b> (boolean) / <b>wishlist_1_url</b> (string)</li>
-              <li>_2 / _3 も同形で</li>
+              <li><b>wishlist_1_pricedrop</b> (boolean) / <b>wishlist_1_url</b> (string)。_2 / _3 も同形</li>
             </ol>
             <h5>⑥ 属性更新の仕組み</h5>
-            <ol>
-              <li>日次バッチが /users/track で属性更新 → Braze Canvas を <b>「pricedrop=true」属性変化でトリガー</b>発火</li>
-            </ol>
+            <ol><li>日次バッチが /users/track で属性更新 → Braze Canvas を <b>「pricedrop=true」属性変化でトリガー</b>発火</li></ol>
             <h5>⑦ Liquid テンプレート（Content Card 1枚）</h5>
             <pre>{% if ${wishlist_1_pricedrop} == true %}
 保存中の「{{${wishlist_1_name}}}」が値下げ！
@@ -676,19 +263,8 @@ GROUP BY uid, ac_id;
             </ol>
           </div>
         </details>
-        <div class="nk-meta"><span class="nk-chip">Braze・自前運用可</span><span class="nk-chip">エンジニア＝初期データ連携のみ</span><span class="nk-chip">中長期</span></div>
-      </div>
-
-      <div class="nk-card">
-        <div class="nk-card-head"><span class="nk-no">S4-3</span><span class="nk-title">閲覧ベースの後追いナーチャリング（Braze）</span></div>
-        <ul class="nk-ul">
-          <li><b>課題</b>探索層は離脱後の接点がゼロで、戻ってこない</li>
-          <li><b>原因仮説</b>閲覧興味はあるが、後追いで思い出させる接点がない</li>
-          <li><b>打ち手</b>閲覧したエリア/カテゴリに沿ったおすすめを離脱後に配信</li>
-          <li><b>詳細</b>Braze Connected Content でメール/Push 後追い（設定は下の Braze トグル参照）</li>
-        </ul>
         <details class="nk-toggle">
-          <summary>Braze 設定方法（Connected Content）</summary>
+          <summary>B-③ 閲覧ベースの後追いナーチャリングの Braze 設定（Connected Content）</summary>
           <div class="tg-body">
             <h5>① 必要データ → 属性</h5>
             <ol>
@@ -708,64 +284,20 @@ GROUP BY uid, ac_id;
 ・{{ ac.name }} ¥{{ ac.price }}
 {% endfor %}</pre>
             <h5>④ 配信トリガー</h5>
-            <ol>
-              <li>Braze Canvas：離脱後 X 日で Push/メール。属性 last_viewed_area が有る人に限定</li>
-            </ol>
+            <ol><li>Braze Canvas：離脱後 X 日で Push/メール。属性 last_viewed_area が有る人に限定</li></ol>
             <h5>⑤ 稼働責任</h5>
-            <ol>
-              <li>初期＝reco API＋属性設計（エンジニア＋AI coding）。以降はマネージド</li>
-            </ol>
+            <ol><li>初期＝reco API＋属性設計（エンジニア＋AI coding）。以降はマネージド</li></ol>
           </div>
         </details>
-        <div class="nk-meta"><span class="nk-chip">Braze・自前運用可</span><span class="nk-chip">エンジニア＝初期連携のみ</span><span class="nk-chip">中長期</span></div>
+        <div class="nk-meta"><span class="nk-chip imp">再訪 0.9% → 引き上げ</span><span class="nk-chip">サイト内＋Braze</span><span class="nk-chip">保存→予約の計測が前提</span><span class="nk-chip">中長期</span></div>
       </div>
-    </div>
-  </div>
 
-  <!-- ───────── 実装の現実性 ───────── -->
-  <div class="card">
-    <div class="sub-sec">
-      <span class="sub-sec-num accent">実装</span>
-      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Feasibility</span>
-      <h2 class="sub-sec-title">どこまで自前でやれるか（エンジニア工数の最小化）</h2>
-    </div>
-    <div class="nk-stage">
-      <div class="nk-ins">
-        <b>鍵：本番コードを触らず検証する。</b><br>
-        ・フロント施策 → <b>A/Bツール（GTM＋自前JS／VWO等）＋AI coding</b> で注入し、デプロイ待ちなしでPOC〜A/B<br>
-        ・CRM施策 → <b>Braze（ノーコード＋Liquid）</b>で自前<br>
-        ・エンジニア必須は「お気に入りの永続化」と「勝った施策の恒久実装」だけ
-      </div>
-      <table class="nk-feas">
-        <thead><tr><th>施策</th><th>Tier</th><th>自前でどこまで</th><th>エンジニア必須</th></tr></thead>
-        <tbody>
-          <tr><td><b>S2-1</b> 比較ブロック</td><td><span class="nk-tier b">B</span></td><td>UI・データJSON・A/B検証まで</td><td>恒久組み込み・配信運用</td></tr>
-          <tr><td><b>S2-2</b> 決め手集約</td><td><span class="nk-tier a">A</span></td><td>再配置・A/B（データ既存）</td><td>軽微なフロント</td></tr>
-          <tr><td><b>S2-3</b> CTA sticky</td><td><span class="nk-tier a">A</span></td><td>ほぼ完結</td><td>軽微なフロント</td></tr>
-          <tr><td><b>S3-1</b> チップ＋人気Top</td><td><span class="nk-tier b">B</span></td><td>UI・人気JSON・A/B</td><td>タグ整備・一覧連携</td></tr>
-          <tr><td><b>S3-2</b> 着地ナビ</td><td><span class="nk-tier b">B</span></td><td>UI・A/B</td><td>意図→コンテンツ連携</td></tr>
-          <tr><td><b>S3-3</b> 検索診断</td><td><span class="nk-tier a">A</span></td><td>原因特定まで（ツール）</td><td>改善実装のみ</td></tr>
-          <tr><td><b>S4-1</b> お気に入り</td><td><span class="nk-tier c">C</span></td><td>POCは localStorage 擬似</td><td>永続化・ログイン・計測（中〜大）</td></tr>
-          <tr><td><b>S4-2</b> 価格/残枠リマインド</td><td><span class="nk-tier a">A</span></td><td>Braze設定・Liquid・通知設計</td><td>初期データ経路のみ</td></tr>
-          <tr><td><b>S4-3</b> ナーチャリング</td><td><span class="nk-tier a">A</span></td><td>Braze・Connected Content</td><td>初期連携のみ</td></tr>
-        </tbody>
-      </table>
-      <div style="font-size:13px;color:var(--text2);line-height:1.8;margin:0 0 12px">
-        <b style="color:#1a8c4e">A</b>＝ほぼ自前／<b style="color:#1b82c5">B</b>＝POC・A/Bは自前、恒久実装でエンジニア／<b style="color:#d97706">C</b>＝永続化必須。<b>今夏の本命 S2-1 は B</b>＝注入で検証まで自前、勝てば恒久実装だけ依頼。
-      </div>
-      <div class="nk-cav">
-        <b>注意（二段構え）：</b><br>
-        ・注入は「見た目・挙動のPOC／A/B」まで。恒久実装は<b>エンジニアのレビュー必須</b><br>
-        ・在庫・価格などリアルタイムなデータは注入で扱わない（不整合リスク）<br>
-        ・Braze本番Howの全項目（上記トグル）は確定後の実装ドキュメントで正式化
-      </div>
     </div>
   </div>
 
   <div class="card">
     <div class="nk-foot">
-      ※ イレギュラーのスポット分析。新KPI（新規 ②→③）の観点で各ステージ3施策に絞り具体化。<strong>今夏は S2 を最優先</strong>（S2-1＋2＋3を1パッケージでA/B）、S3はW25〜、S4は計測整備から。
-      <br><span style="color:var(--text3)">数値出典：GA4 Property 347074845（日本・28日・bot除外）／外部：JTB「海外観光旅行の現状2019」。</span>
+      ※ スポット分析。新規ユーザーの転換（KPI＝新規の「AC到達→検討」率）を主題に、実画面とアクセスデータ（GA4 Property 347074845／日本・28日・bot除外）を確認した上で打ち手を整理。前提の全体像は <a href="/kpi.html" style="color:#1b82c5;font-weight:700">KPIダッシュボード</a>。
     </div>
   </div>
 
