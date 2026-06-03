@@ -155,6 +155,8 @@
 .nk-tier.a{background:#1a8c4e}.nk-tier.b{background:#1b82c5}.nk-tier.c{background:#d97706}
 .nk-cav{font-size:13px;color:var(--text3);line-height:1.8}
 .nk-cav b{color:var(--text2)}
+.nk-withdrawn{background:#fff5f5;border:1px solid #f3c9c4;border-radius:8px;padding:9px 13px;font-size:13px;color:#c0392b;font-weight:700;margin:6px 0 2px;line-height:1.65}
+.nk-withdrawn b{color:#8a1a12}
 .nk-fact{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin:2px 0 18px}
 .nk-fact-ttl{font-size:12px;font-weight:900;letter-spacing:.06em;color:var(--text3);text-transform:uppercase;margin-bottom:12px}
 .nk-fact-flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -212,6 +214,36 @@
     </div>
   </div>
 
+  <!-- ───────── 実測と作り直し（AsIs） ───────── -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">実測</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">AsIs measurement</span>
+      <h2 class="sub-sec-title">既存実装の実測 → 「新設」は取り下げ、論点は“質”と“再訪”へ</h2>
+    </div>
+    <div class="nk-stage">
+      <div class="nk-ins">
+        AC・カテゴリ・エリアの<b>実画面を確認した結果、discovery／比較モジュールは既に出尽くしていた</b>（ランキング・人気カテゴリ・目的別チップ・あなたにおすすめ・合わせてチェック・その他おすすめ…）。クリックイベントは無いが、<b>AC ページの直前ページ（リファラー）</b>で流入量を実測：
+      </div>
+      <table class="nk-feas">
+        <thead><tr><th>AC到達(②)の流入元</th><th>シェア（28日）</th><th>該当モジュール</th><th>判定</th></tr></thead>
+        <tbody>
+          <tr><td><b>/a/ → /a/</b>（AC同士の遷移）</td><td>約15%（20.6万人）</td><td>合わせてチェック／その他おすすめ ＝ <b>比較(S2)</b></td><td>稼働中</td></tr>
+          <tr><td><b>/ctg/ → /a/</b>（カテゴリ→AC）</td><td>約20%（24.9万人）</td><td>カテゴリページ ＝ <b>discovery(S3)</b></td><td>稼働中</td></tr>
+          <tr><td>/wishlist → /a/（再訪）</td><td><b style="color:#c0392b">約0.9%（6,828人）</b></td><td>お気に入り（再訪）</td><td><b style="color:#c0392b">大穴</b></td></tr>
+        </tbody>
+      </table>
+      <div class="nk-cav">
+        <b>結論：</b>比較・カテゴリ discovery は合計<b>35%超</b>のAC到達を実際に駆動＝<b>既に重い実装が稼働中</b>。「足す」施策（旧 S2-1 比較新設・旧 S3-1 チップ新設）は<b>重複につき取り下げ</b>。再訪(wishlist)は0.9%で<b>唯一の大穴</b>。
+        <br><br>
+        <b>作り直した施策セット：</b><br>
+        ① <b>流入元別のコンバージョン計測（BigQuery）</b>＝どの経路のAC到達が購入に弱いかを特定（量は出ているので“質”を見る）。同時に離脱所在を 入口×新規/リピーター で再分解。<br>
+        ② ①で弱い経路の <b>関連度・並び順を最適化</b>（“足す”でなく中身の質）。<br>
+        ③ <b>S4 再訪/CRM を優先</b>（wishlist→AC 0.9% の大穴＝唯一の非重複領域。保存→再訪→予約を太くする）。
+      </div>
+    </div>
+  </div>
+
   <!-- ───────── S2 ───────── -->
   <div class="card">
     <div class="sub-sec">
@@ -246,7 +278,8 @@
       </div>
 
       <div class="nk-card hero">
-        <div class="nk-card-head"><span class="nk-no">S2-1</span><span class="nk-title">類似・同観光地AC比較ブロック</span><span class="nk-badge">本命</span></div>
+        <div class="nk-card-head"><span class="nk-no">S2-1</span><span class="nk-title">類似・同観光地AC比較ブロック</span><span class="nk-badge" style="background:#c0392b">取り下げ</span></div>
+        <div class="nk-withdrawn"><b>取り下げ（既存重複）：</b>既に「合わせてチェック／その他おすすめ」が同機能で、AC→AC流入は<b>約15%（20.6万人）</b>稼働中。新設不要。以下は参考ワイヤーとして残置（論点は配置/関連度の最適化へ）。</div>
         <ul class="nk-ul">
           <li><b>課題</b>比較中の新規が「これ」を決めきれずACページで離脱（新規の②→③ 9.0%）</li>
           <li><b>原因仮説</b>比較に使える関連ACがページ最下部の「おすすめのオプショナルツアー」だけ＝比較したい人が到達前に離脱</li>
@@ -445,7 +478,8 @@ QUALIFY ROW_NUMBER() OVER(
       </div>
 
       <div class="nk-card hero">
-        <div class="nk-card-head"><span class="nk-no">S3-1</span><span class="nk-title">目的別チップ ＋ 人気AC Top</span><span class="nk-badge">本命</span></div>
+        <div class="nk-card-head"><span class="nk-no">S3-1</span><span class="nk-title">目的別チップ ＋ 人気AC Top</span><span class="nk-badge" style="background:#c0392b">取り下げ</span></div>
+        <div class="nk-withdrawn"><b>取り下げ（既存重複）：</b>エリア/カテゴリページに既に「ランキング(売れ筋/満足度)」「おすすめカテゴリ＝子連れ/幼児/小学生/所要時間別…」「あなたにおすすめ」が実装済み。カテゴリ→AC流入も<b>約20%（24.9万人）</b>稼働中。新設不要。以下は参考。</div>
         <ul class="nk-ul">
           <li><b>課題</b>方向は決まったが具体ACを選べず、目的ACに到達しないまま離脱（新規①→② 46.8%）</li>
           <li><b>原因仮説</b>エリア/カテゴリページが網羅的リストで初訪問者が選び切れず、検索も使われない（1〜2%未満）</li>
