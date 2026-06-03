@@ -184,6 +184,103 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
   </div>
 </div>
 
+<!-- ▼ 何を改善するのか：新規ユーザーの意向ステージ ▼ -->
+<style>
+.kpf-wrap{padding:4px 44px 10px}
+.kpf-lead{display:grid;grid-template-columns:1fr 1.5fr;gap:14px;margin:18px 0 24px}
+.kpf-lead-cell{background:var(--bg);border-radius:12px;padding:16px 20px}
+.kpf-lead-cell.honmaru{background:#eef6f1;border:1.5px solid var(--green)}
+.kpf-k{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--text3);text-transform:uppercase;margin-bottom:7px}
+.kpf-v{font-family:'DM Sans';font-size:30px;font-weight:900;line-height:1.05;color:var(--text)}
+.kpf-v small{font-size:14px;font-weight:800;color:var(--text3)}
+.kpf-sub{font-size:12.5px;color:var(--text2);line-height:1.65;margin-top:8px}
+.kpf-sub b{color:var(--text)}
+.kpf-red{color:var(--red)}
+.kpf-laddertitle{font-size:14px;font-weight:900;color:var(--text);margin:6px 0 3px}
+.kpf-laddersub{font-size:12px;color:var(--text3);margin-bottom:14px;line-height:1.6}
+.kpf-step{display:grid;grid-template-columns:210px 1fr;background:#fff;border:1px solid var(--border);border-left:5px solid #cbd5e1;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.kpf-step.s1{border-left-color:#94a3b8}
+.kpf-step.s2{border-left-color:var(--green);background:#f6fbf7}
+.kpf-step.s3{border-left-color:#1b82c5}
+.kpf-step.s4{border-left-color:var(--amber)}
+.kpf-left{padding:14px 16px;border-right:1px solid var(--border)}
+.kpf-stage{font-size:18px;font-weight:900;color:var(--text);line-height:1.2}
+.kpf-badge{display:inline-block;font-size:10px;font-weight:900;color:#fff;background:var(--green);border-radius:4px;padding:2px 7px;margin-left:6px;letter-spacing:.05em;vertical-align:middle}
+.kpf-state{font-size:11.5px;color:var(--text3);margin-top:6px;line-height:1.5}
+.kpf-right{padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.kpf-kpi{font-size:13px;color:var(--text);line-height:1.55}
+.kpf-kpi b{font-family:'DM Sans';font-weight:900}
+.kpf-arrowno{color:var(--green);font-weight:900}
+.kpf-chips{display:flex;flex-wrap:wrap;gap:6px}
+.kpf-chip{font-size:11px;font-weight:700;color:var(--text2);background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:3px 11px}
+.kpf-note{font-size:11px;color:var(--text3);line-height:1.5}
+.kpf-supply{display:flex;gap:8px;font-size:12px;color:var(--text3);background:#faf8f5;border:1px dashed var(--border);border-radius:8px;padding:10px 14px;margin-top:2px;line-height:1.6}
+.kpf-supply b{color:var(--text2);white-space:nowrap}
+@media(max-width:768px){.kpf-lead{grid-template-columns:1fr}.kpf-step{grid-template-columns:1fr}.kpf-left{border-right:none;border-bottom:1px solid var(--border)}.kpf-wrap{padding:4px 22px 10px}}
+</style>
+<div class="card">
+  <div class="sec-label">何を改善するのか — 新規ユーザーの意向ステージ</div>
+  <hr class="divider-solid">
+  <div class="kpf-wrap">
+
+    <div class="kpf-lead">
+      <div class="kpf-lead-cell">
+        <div class="kpf-k">North Star（結果指標）</div>
+        <div class="kpf-v">CVR <small>相対 +1%</small></div>
+        <div class="kpf-sub">1.415% → <b>1.429%</b>（当初目標・据え置き）</div>
+      </div>
+      <div class="kpf-lead-cell honmaru">
+        <div class="kpf-k">伸びしろはどこか</div>
+        <div class="kpf-v">本丸 ＝ <span class="kpf-red">新規</span></div>
+        <div class="kpf-sub">同じサイト・同じUIでも「AC到達→検討」は <b>リピーター 22.8% ／ 新規 <span class="kpf-red">9.0%</span></b>。リピーターは健全＝<b>伸びしろは新規に集中</b>（GA4 日本・28日・bot除外）。</div>
+      </div>
+    </div>
+
+    <div class="kpf-laddertitle">新規を「意向ステージ」で分け、各層を1つ上へ進める</div>
+    <div class="kpf-laddersub">UIの積み重ねより、"母数の質"を変える手前のUXが効く。今夏（7-8月）の本命は <b style="color:var(--green)">S2</b>。</div>
+
+    <div class="kpf-step s1">
+      <div class="kpf-left"><div class="kpf-stage">S1 確信層</div><div class="kpf-state">このACに決定／今すぐ買う</div></div>
+      <div class="kpf-right">
+        <div class="kpf-kpi">KPI：摩擦なく予約完了（基本は健全）</div>
+        <div class="kpf-chips"><span class="kpf-chip">カレンダー/フォーム動線</span><span class="kpf-chip">UI衛生</span></div>
+        <div class="kpf-note">伸びしろ：小</div>
+      </div>
+    </div>
+
+    <div class="kpf-step s2">
+      <div class="kpf-left"><div class="kpf-stage">S2 比較検討層<span class="kpf-badge">本丸</span></div><div class="kpf-state">買う気あり／"これ"を決めかね、複数ACを比較中</div></div>
+      <div class="kpf-right">
+        <div class="kpf-kpi">KPI：比較を収束させ「空き状況を見る」へ ＝ 新規 AC→検討率 <b>9.0% <span class="kpf-arrowno">→ 22.8%</span></b></div>
+        <div class="kpf-chips"><span class="kpf-chip">類似AC</span><span class="kpf-chip">同じ観光地のAC一覧</span><span class="kpf-chip">カテゴリ比較</span><span class="kpf-chip">決め手の提示</span></div>
+        <div class="kpf-note">新規は平均3.7件のACを見て比較中。供給に触れず・サイト内・即効 ＝ 今夏の本命</div>
+      </div>
+    </div>
+
+    <div class="kpf-step s3">
+      <div class="kpf-left"><div class="kpf-stage">S3 絞り込み層</div><div class="kpf-state">方向（エリア/やりたいこと）は決定／具体ACは未定</div></div>
+      <div class="kpf-right">
+        <div class="kpf-kpi">KPI：候補ACに当てる ＝ 目的ACページ到達率</div>
+        <div class="kpf-chips"><span class="kpf-chip">発見・検索</span><span class="kpf-chip">絞り込み</span><span class="kpf-chip">レコメンド</span><span class="kpf-chip">エリア/カテゴリ動線</span></div>
+      </div>
+    </div>
+
+    <div class="kpf-step s4">
+      <div class="kpf-left"><div class="kpf-stage">S4 探索層</div><div class="kpf-state">漠然とした興味／今すぐは買わない</div></div>
+      <div class="kpf-right">
+        <div class="kpf-kpi">KPI：連れ戻す ＝ 再訪率・再訪間隔の短縮</div>
+        <div class="kpf-chips"><span class="kpf-chip">お気に入り</span><span class="kpf-chip">最適タイミング通知(Braze)</span><span class="kpf-chip">ナーチャリング</span></div>
+        <div class="kpf-note">計測整備が前提 ＝ 中長期トラック</div>
+      </div>
+    </div>
+
+    <div class="kpf-supply">
+      <b>監視（KPI外）：</b><span>満席・料金（供給／パートナー都合）は新規離脱の一因だが我々の制御外。在庫・パートナーPJで監視のみ。</span>
+    </div>
+
+  </div>
+</div>
+
 <!-- 月次パフォーマンス -->
 <div class="card">
   <div class="sec-label">2026年 月次サマリー <span style="font-size:13px;font-weight:400;color:var(--text3);letter-spacing:0;text-transform:none;margin-left:12px" id="ytd-period"></span></div>
