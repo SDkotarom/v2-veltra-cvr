@@ -81,7 +81,20 @@
 .nk-tier.a{background:#1a8c4e}.nk-tier.b{background:#1b82c5}.nk-tier.c{background:#d97706}
 .nk-cav{font-size:13px;color:var(--text3);line-height:1.8}
 .nk-cav b{color:var(--text2)}
+.nk-fact{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin:2px 0 18px}
+.nk-fact-ttl{font-size:12px;font-weight:900;letter-spacing:.06em;color:var(--text3);text-transform:uppercase;margin-bottom:12px}
+.nk-fact-flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ff-step,.ff-drop{text-align:center;min-width:92px}
+.ff-num{font-family:'DM Sans',sans-serif;font-weight:900;font-size:27px;line-height:1;color:var(--text)}
+.ff-drop .ff-num{color:#c0392b}
+.ff-lbl{font-size:12px;color:var(--text3);margin-top:6px;line-height:1.45}
+.ff-arrow{font-size:22px;color:var(--text3)}
+.ff-drop{margin-left:auto;background:#fff5f5;border:1px solid #f3c9c4;border-radius:10px;padding:9px 15px}
+.nk-fact-note{font-size:13px;color:var(--text2);line-height:1.75;margin-top:13px;border-top:1px dashed var(--border);padding-top:11px}
+.nk-fact-note b{color:var(--text)}
+.nk-fact-note .src{color:var(--text3);font-size:11.5px}
 .nk-foot{padding:16px 44px 10px;font-size:13.5px;color:var(--text3);line-height:1.8}
+@media(max-width:768px){.ff-drop{margin-left:0}}
 @media(max-width:768px){.nk-stage,.nk-foot{padding-left:22px;padding-right:22px}.nk-mock{grid-template-columns:1fr}.nk-feas{font-size:12.5px}.nk-feas th,.nk-feas td{padding:7px 6px}}
 </style>
 </head>
@@ -140,8 +153,22 @@
       </div>
       <ul class="nk-ul">
         <li>平均3.7件のACを見比べて「これ」を決めきれない</li>
-        <li>各ACページが行き止まりで、比較が他社へ漏れる</li>
+        <li>各ACページが行き止まりで、比較したまま離脱（流出先はGA4で不可視＝他社比較・後回しが想定）</li>
       </ul>
+
+      <div class="nk-fact">
+        <div class="nk-fact-ttl">背景の事実 — 実際どれだけ離脱しているか（新規）</div>
+        <div class="nk-fact-flow">
+          <div class="ff-step"><div class="ff-num">583,024</div><div class="ff-lbl">新規が AC到達</div></div>
+          <div class="ff-arrow">→</div>
+          <div class="ff-step"><div class="ff-num">52,199</div><div class="ff-lbl">空き状況を見る<br>（9.0%）</div></div>
+          <div class="ff-drop"><div class="ff-num">−530,825</div><div class="ff-lbl"><b style="color:#c0392b">91%</b> が見ずに離脱</div></div>
+        </div>
+        <div class="nk-fact-note">
+          ACページ到達者は平均 <b>3.7件</b> のACを <b>4分20秒</b>・<b>エンゲージ率74%</b> で見比べたうえで離脱 ＝「即離脱（場所違い）」ではなく <b>「見比べたが決めきれず」</b>型。だから比較を収束させる S2-1 が効く。
+          <br><span class="src">出典：GA4 Property 347074845／日本・rolling 28日（5/3–5/30）・bot除外。流出先（他社等）はGA4では計測不可のため推定。</span>
+        </div>
+      </div>
 
       <div class="nk-card hero">
         <div class="nk-card-head"><span class="nk-no">S2-1</span><span class="nk-title">類似・同観光地AC比較ブロック</span><span class="nk-badge">本命</span></div>
