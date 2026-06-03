@@ -51,7 +51,17 @@
 .mock-chip{display:inline-block;font-size:9px;font-weight:800;color:#1B82C5;background:#eaf3fb;border:1px solid #cfe3f5;border-radius:14px;padding:3px 9px;margin:2px 4px 2px 0}
 .mock-improve{font-size:10px;color:#1a8c4e;font-weight:700;margin-top:8px;text-align:center}
 .nk-foot{padding:14px 44px 8px;font-size:12px;color:var(--text3);line-height:1.7}
-@media(max-width:768px){.nk-stage,.nk-foot{padding-left:22px;padding-right:22px}.nk-mock{grid-template-columns:1fr}}
+.nk-ins{background:#eef6fc;border:1px solid #cfe3f5;border-radius:10px;padding:14px 18px;font-size:13px;line-height:1.7;color:var(--text2);margin:8px 0 16px}
+.nk-ins b{color:#1b6ea5}
+.nk-feas{width:100%;border-collapse:collapse;font-size:12px;margin:4px 0 14px}
+.nk-feas th{text-align:left;font-size:10px;font-weight:900;letter-spacing:.05em;color:var(--text3);text-transform:uppercase;padding:8px 10px;border-bottom:2px solid var(--border);white-space:nowrap}
+.nk-feas td{padding:9px 10px;border-bottom:1px solid var(--border);line-height:1.5;color:var(--text2);vertical-align:top}
+.nk-feas td b{color:var(--text)}
+.nk-tier{display:inline-block;font-size:10px;font-weight:900;color:#fff;border-radius:4px;padding:2px 8px}
+.nk-tier.a{background:#1a8c4e}.nk-tier.b{background:#1b82c5}.nk-tier.c{background:#d97706}
+.nk-cav{font-size:11.5px;color:var(--text3);line-height:1.75}
+.nk-cav b{color:var(--text2)}
+@media(max-width:768px){.nk-stage,.nk-foot{padding-left:22px;padding-right:22px}.nk-mock{grid-template-columns:1fr}.nk-feas{font-size:11px}.nk-feas th,.nk-feas td{padding:6px 6px}}
 </style>
 </head>
 <body>
@@ -303,6 +313,40 @@
         <div class="nk-row"><span class="lbl">課題</span>探索層は離脱後の接点がゼロ。</div>
         <div class="nk-row"><span class="lbl">施策</span>閲覧したエリア/カテゴリに基づく<b>後追いメール/Push</b>（Braze Connected Content）でテーマに沿ったACを提示。</div>
         <div class="nk-meta"><span class="nk-chip">工数：大</span><span class="nk-chip">中長期</span><span class="nk-chip">S4-1/2の計測整備が前提</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── 実装の現実性 ───────── -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">実装</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">Feasibility</span>
+      <h2 class="sub-sec-title">実装の現実性 — エンジニア工数を最小化し、自前でPOC〜A/B検証まで</h2>
+    </div>
+    <div class="nk-stage">
+      <div class="nk-ins">
+        <b>鍵：本番コードを触らずに検証する。</b> フロント施策は <b>クライアントサイドA/Bツール（GTM＋自前JS／VWO等）＋AI coding</b> で本番サイトに注入し、エンジニアのデプロイを待たずに POC〜A/B を回せる。CRM施策は <b>Braze（ノーコード＋Liquid）</b> で自前。エンジニア必須は「データの永続化が要るお気に入り」と「A/Bで勝った施策の恒久実装」だけに絞れる。
+      </div>
+      <table class="nk-feas">
+        <thead><tr><th>施策</th><th>Tier</th><th>実装手段</th><th>自前でどこまで</th><th>エンジニア必須部分</th></tr></thead>
+        <tbody>
+          <tr><td><b>S2-1</b> 比較ブロック</td><td><span class="nk-tier b">B</span></td><td>AI coding(UI)＋データJSON＋A/Bツール注入</td><td>UI・「同エリア×予約数」JSON生成・A/B検証まで</td><td>本番ACページへの恒久組み込み・フィード配信運用</td></tr>
+          <tr><td><b>S2-2</b> 決め手集約</td><td><span class="nk-tier a">A</span></td><td>フロント再配置（データ既存）＋A/Bツール</td><td>再配置・A/B検証まで（データは既存）</td><td>恒久実装＝軽微なフロント</td></tr>
+          <tr><td><b>S2-3</b> CTA sticky</td><td><span class="nk-tier a">A</span></td><td>CSS/JS＋A/Bツール</td><td>ほぼ自前完結</td><td>恒久実装＝軽微なフロント</td></tr>
+          <tr><td><b>S3-1</b> チップ＋人気Top</td><td><span class="nk-tier b">B</span></td><td>AI coding＋ファセット＋人気JSON</td><td>UI・人気JSON・A/B検証まで</td><td>属性タグ分類の整備・本番一覧との連携（中）</td></tr>
+          <tr><td><b>S3-2</b> 着地ナビ</td><td><span class="nk-tier b">B</span></td><td>AI coding＋意図マッピング</td><td>UI・A/B検証まで</td><td>意図→コンテンツ連携の恒久実装</td></tr>
+          <tr><td><b>S3-3</b> 検索診断</td><td><span class="nk-tier a">A</span></td><td>Hotjar/Clarity 等（コード不要）</td><td>原因特定の診断まで完結</td><td>改善実装はエンジニア（診断後）</td></tr>
+          <tr><td><b>S4-1</b> お気に入り＋保存予約</td><td><span class="nk-tier c">C</span></td><td>フロントはAI coding／保存は永続化必須</td><td>POCは localStorage 擬似で自前</td><td>保存の永続化・ログイン連携・計測整備（中〜大）</td></tr>
+          <tr><td><b>S4-2</b> 価格/残枠リマインド</td><td><span class="nk-tier a">A</span></td><td>Braze＋Liquid＋データ連携</td><td>Braze設定・Liquid・通知設計まで自前</td><td>初期データ経路（BQ→Braze）の構築のみ</td></tr>
+          <tr><td><b>S4-3</b> 後追いナーチャリング</td><td><span class="nk-tier a">A</span></td><td>Braze Connected Content</td><td>Braze側はほぼ自前</td><td>初期データ連携のみ</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:11.5px;color:var(--text2);line-height:1.7;margin:0 0 12px">
+        <b style="color:#1a8c4e">Tier A</b>＝ほぼ自前完結（エンジニア最小）／<b style="color:#1b82c5">Tier B</b>＝POC・A/Bは自前、恒久実装でエンジニア／<b style="color:#d97706">Tier C</b>＝本番に永続化（バックエンド）必須。<b>今夏の本命 S2-1 は Tier B</b>＝A/Bツール注入で検証まで自前、勝てば恒久実装だけ依頼。
+      </div>
+      <div class="nk-cav">
+        <b>注意（二段構え）：</b>① AI coding＋A/Bツールの注入は「見た目・挙動の POC／A/B 検証」まで。DOM依存で壊れやすく、パフォーマンス・セキュリティ・保守は<b>恒久実装でエンジニアレビュー必須</b>。② 在庫・価格などリアルタイム性が要るデータは注入で扱わない（表示遅延・不整合リスク）。③ Braze施策の本番Howスペック（データソース／クエリ／属性スキーマ／Liquid／Connected Content）は確定後の実装ドキュメントで全項目記載。
       </div>
     </div>
   </div>
