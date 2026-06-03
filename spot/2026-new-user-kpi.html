@@ -342,19 +342,20 @@ QUALIFY ROW_NUMBER() OVER(
           </div>
         </details>
         <details class="nk-toggle">
-          <summary>離脱を増やさないための A/B 検証ルール</summary>
+          <summary>効果の合否判定（何を見て成功と決め、いつ止めるか）</summary>
           <div class="tg-body">
-            <h5>主指標（成功判定）</h5>
-            <ol><li><b>セッションCVR ＋ セッションあたり売上</b>（枠のクリック数は虚栄指標）</li></ol>
+            <p style="font-size:13px;color:var(--text2);line-height:1.75;margin:0 0 8px">A/Bテストは「比較枠を<b>出すグループ</b>／<b>出さないグループ</b>」に分けて実施（出し分けの作り方は上の「実装要件」）。ここは“やってみるだけ”にしないための<b>成功・失敗の判断基準</b>。</p>
+            <h5>成功と決める指標</h5>
+            <ol><li><b>サイト全体の予約率（CVR）＋ 来訪1人あたりの売上</b>で見る。比較枠の<b>クリック数だけで成功と判断しない</b></li></ol>
             <h5>逆効果になっていないかの確認</h5>
             <ol>
-              <li>当該ACの<b>予約完了率↓</b>＝目の前の予約の共食い</li>
-              <li>セッション/コホート<b>CVRが上がらない</b>＝回遊だけ増えて買わない</li>
-              <li><b>AOV・売上↓</b>＝安い乗り換え</li>
-              <li>直帰/離脱率↑</li>
+              <li>表示中ACの<b>予約完了率が下がる</b> ＝ 目の前の予約を食ってしまう</li>
+              <li><b>サイト全体の予約率が上がらない</b> ＝ 見て回るだけ増えて買われない</li>
+              <li><b>平均単価・売上が下がる</b> ＝ 安いACへ乗り換え</li>
+              <li>すぐ離脱する人が増える</li>
             </ol>
-            <h5>判定</h5>
-            <ol><li>②→③や枠CTRが上がっても <b>セッションCVR/売上が横ばい・低下なら失敗 → 停止／再設計</b></li></ol>
+            <h5>やめ時</h5>
+            <ol><li>比較枠のクリックや「カレンダー閲覧（②→③）」が増えても、<b>サイト全体の予約率・売上が横ばい/低下なら失敗 → 止めて作り直す</b></li></ol>
           </div>
         </details>
         <div class="nk-meta"><span class="nk-chip imp">②→③感度 最大</span><span class="nk-chip">工数：中</span><span class="nk-chip">今夏◎</span><span class="nk-chip">迷わず買う／取りこぼし防止</span></div>
