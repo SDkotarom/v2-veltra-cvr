@@ -100,6 +100,48 @@
 .wf-pn{font-size:9px;font-weight:800;color:#333;line-height:1.3;margin-bottom:3px}
 .wf-tier{font-size:8px;color:#888;margin-top:3px}
 .wf-links{font-size:8.5px;color:#1B82C5;margin-top:4px;font-weight:700}
+/* 全幅 忠実ワイヤー（S2-1：実プラン画面） */
+.pw{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff;color:#333;margin:12px 0 4px}
+.pw-anno{font-size:12px;color:#8a4b00;font-weight:700;padding:8px 14px;background:#fffbeb;border-bottom:1px solid #f0e0b8;line-height:1.6}
+.pw-anno b{color:#1a8c4e}
+.pw-anno s{color:#c0392b}
+.pw-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 14px;border-bottom:1px solid #eee}
+.pw-pill{font-size:11px;font-weight:700;border-radius:16px;padding:4px 12px}
+.pw-pill.cat{background:#fff;border:1px solid #cfd8e0;color:#555}
+.pw-pill.on{background:#1B82C5;color:#fff}
+.pw-cur{margin-left:auto;font-size:11px;color:#1B82C5}
+.pw-avail{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:9px 14px;border-bottom:1px solid #eee}
+.pw-avail .lab{font-weight:800;color:#333;font-size:12px}
+.pw-chip{border:1px solid #cfd8e0;border-radius:8px;padding:6px 14px;font-size:11px;color:#444;background:#fff}
+.pw-plans{display:flex;gap:8px;padding:11px 14px;overflow-x:auto;background:#fafbfc}
+.pw-plan{flex:0 0 31%;min-width:150px;border:1px solid #e0e6ec;border-radius:8px;padding:9px;background:#fff}
+.pw-plan.sel{border:2px solid #1B82C5}
+.pw-plan .pn{font-size:10px;color:#333;line-height:1.45;height:56px;overflow:hidden}
+.pw-plan .pp{font-size:13px;font-weight:900;color:#c0392b;margin-top:6px}
+.pw-plan .po{font-size:9px;color:#999;text-decoration:line-through;font-weight:600}
+.pw-detail{display:grid;grid-template-columns:130px 1fr 190px;gap:13px;padding:14px;background:#eef4fb;position:relative}
+.pw-detail .ttl{grid-column:1/-1;font-size:13px;font-weight:900;color:#1a1a1a;padding-right:70px}
+.pw-photo{height:88px;background:#cdd8e2;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#8aa0b4;font-size:22px}
+.pw-desc{font-size:10.5px;color:#555;line-height:1.65}
+.pw-ptbl{font-size:11px}
+.pw-ptbl .r{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px dashed #d6e0ea}
+.pw-ptbl .r b{color:#c0392b;font-weight:900;font-size:12px}
+.pw-close{position:absolute;top:12px;right:14px;border:1px solid #cfd8e0;border-radius:6px;padding:4px 13px;font-size:11px;color:#555;background:#fff}
+.pw-insert{padding:13px 14px;background:#f0fdf4;border-top:2px dashed #2DAE6C;border-bottom:2px dashed #2DAE6C}
+.pw-insert .il{font-size:12.5px;font-weight:900;color:#1a8c4e;margin-bottom:9px}
+.pw-insert .ic{display:flex;gap:8px;overflow-x:auto}
+.pw-ic{flex:0 0 23%;min-width:120px;border:1px solid #cde6d6;border-radius:7px;background:#fff;padding:7px}
+.pw-ic .im{height:44px;background:#dde6ee;border-radius:4px;margin-bottom:5px}
+.pw-ic .it{font-size:9.5px;color:#333;line-height:1.35;height:26px;overflow:hidden}
+.pw-ic .ipr{font-size:11px;font-weight:900;color:#1B82C5;margin-top:3px}
+.pw-ic .ib{display:inline-block;font-size:8px;font-weight:900;color:#1a8c4e;background:#e6f7ee;border-radius:3px;padding:1px 6px;margin-top:3px}
+.pw-rest{padding:10px 14px;font-size:10.5px;color:#aab4be;text-align:center;line-height:1.6;border-top:1px solid #eee}
+.pw-sticky{display:flex;align-items:center;gap:12px;padding:11px 14px;border-top:1px solid #e0e6ec;background:#fff;flex-wrap:wrap}
+.pw-sticky .sn{font-size:10.5px;color:#333;flex:1;min-width:130px;line-height:1.4}
+.pw-sticky .spr{font-size:14px;font-weight:900;color:#c0392b}
+.pw-sticky .scta{background:#1B82C5;color:#fff;font-weight:800;padding:11px 26px;border-radius:6px;font-size:13px}
+.pw-sticky .ssave{font-size:10.5px;color:#1B82C5}
+@media(max-width:768px){.pw-detail{grid-template-columns:1fr}.pw-plan{flex:0 0 72%}.pw-ic{flex:0 0 60%}}
 /* feasibility */
 .nk-ins{background:#eef6fc;border:1px solid #cfe3f5;border-radius:10px;padding:16px 20px;font-size:14.5px;line-height:1.8;color:var(--text2);margin:8px 0 16px}
 .nk-ins b{color:#1b6ea5}
@@ -204,55 +246,60 @@
       <div class="nk-card hero">
         <div class="nk-card-head"><span class="nk-no">S2-1</span><span class="nk-title">類似・同観光地AC比較ブロック</span><span class="nk-badge">本命</span></div>
         <ul class="nk-ul">
-          <li><b>現状</b>関連ACは<b>ページ最下部の「おすすめのオプショナルツアー」だけ</b>（体験談・FAQの後）＝比較中の人は到達前に離脱</li>
-          <li><b>施策</b>「同じ観光地の人気AC／比較候補」3〜4枚を <b>「プラン」直下（決定点）</b>に新設</li>
-          <li><b>各カード</b>サムネ・タイトル・価格・★評価・即予約可バッジ</li>
-          <li><b>仕組み</b>「同エリア（オアフ島など）× 予約数上位」のルールベース（月次バッチ）。第2段で「この体験を見た人が見た」閲覧共起へ</li>
+          <li><b>現状</b>関連ACは<b>ページ最下部の「おすすめのオプショナルツアー」だけ</b>＝比較中の人は到達前に離脱</li>
+          <li><b>施策</b>「同じオアフ島のディナークルーズ／比較候補」3〜4枚を <b>プラン詳細パネルの直下（下記★の位置）</b>に新設</li>
+          <li><b>各カード</b>サムネ・タイトル・価格・★評価・即予約可</li>
+          <li><b>仕組み</b>「同エリア × 同カテゴリ × 人気 × 在庫あり」（実装要件トグル参照）</li>
         </ul>
-        <div class="nk-mock">
-          <div class="nk-mock-col before"><div class="mock-cap">BEFORE（実ページのプラン周り）</div>
-            <div class="wf before">
-              <div class="wf-top"><span class="wf-logo">VELTRA</span><span class="wf-bc">ハワイ ＞ オアフ島</span></div>
-              <div class="wf-bd">
-                <div class="wf-title">サンセット・ディナークルーズ スターオブホノルル号 …</div>
-                <div class="wf-rate">★4.22 <span>(3,020件の体験談)</span></div>
-                <div class="wf-lbl">プラン</div>
-                <div class="wf-plan">
-                  <div class="wf-pn">サンセットカクテル（食事なし）プラン</div>
-                  <div class="wf-price">¥14,621 <small>USD 89.00 ／ 大人1名</small></div>
-                  <div class="wf-tier">大人 ／ 子供 ／ 幼児</div>
-                  <div class="wf-links">別の予約可能日を見る　詳細を見る</div>
-                </div>
-                <div class="wf-faint">概要・スケジュール・体験談・FAQ・お支払い…<br>↓ 関連ACは<strong style="color:#c0392b">最下部「おすすめのオプショナルツアー」のみ</strong> ↓<br>比較中の人はここまで来ず離脱</div>
-              </div>
+        <div class="mock-cap" style="font-size:12px;font-weight:900;color:var(--text3);margin:8px 0 4px">実プラン画面のワイヤー（★＝新設位置）</div>
+        <div class="pw">
+          <div class="pw-anno"><s>現状：この★枠が無い</s> → <b>提案：プラン詳細の直下に「比較候補」を新設</b>（緑の破線枠）</div>
+          <div class="pw-bar">
+            <span class="pw-pill cat">☰ カテゴリ一覧</span>
+            <span class="pw-pill on">オアフ島(ホノルル)</span>
+            <span class="pw-pill on">ディナークルーズ</span>
+            <span class="pw-cur">🌐 現地通貨で表示する</span>
+          </div>
+          <div class="pw-avail">
+            <span class="lab">空き状況を確認</span>
+            <span class="pw-chip">📅 参加日</span>
+            <span class="pw-chip">👤 利用数</span>
+          </div>
+          <div class="pw-plans">
+            <div class="pw-plan"><div class="pn">◯ 窓際席またはプライベート席確約！3スター（コースディナー／ロブスター＆ステーキ）</div><div class="pp">¥37,784〜</div></div>
+            <div class="pw-plan"><div class="pn">◯ 【金・土曜限定】豪華5スター（コースディナー／プライムテンダーロイン付き）</div><div class="pp">¥38,770〜</div></div>
+            <div class="pw-plan"><div class="pn">◯ 【スパークリングワイン＆記念写真付き】3スターカップルプラン（コースディナー／ロブスター＆ステーキ）</div><div class="pp">¥39,041〜 <span class="po">¥39,427</span></div></div>
+            <div class="pw-plan sel"><div class="pn">◉ サンセットカクテル（食事なし）／パシフィックスター（食べ放題ビュッフェ）他</div><div class="pp">¥14,621〜</div></div>
+          </div>
+          <div class="pw-detail">
+            <div class="ttl">✓【6月末まで割引中！】パシフィックスター（食べ放題ビュッフェ）<span class="pw-close">閉じる</span></div>
+            <div class="pw-photo">🍽</div>
+            <div class="pw-desc">6月末まで15%OFFキャンペーン中！■ローストビーフ等のビュッフェ ■ウェルカムマイタイカクテル1杯付き ■エンターテイメントショー ■カジュアルな雰囲気… <span style="color:#1B82C5">詳細を見る</span></div>
+            <div class="pw-ptbl">
+              <div class="r"><span>大人(12歳以上)</span><b>¥19,409〜</b></div>
+              <div class="r"><span>子供(3〜11歳)</span><b>¥13,635〜</b></div>
+              <div class="r"><span>幼児(0〜2歳)</span><b>無料</b></div>
+              <div class="r" style="border:none"><span style="color:#c0392b">期間限定割</span><span style="color:#999;font-size:10px">最大15%OFF</span></div>
             </div>
           </div>
-          <div class="nk-mock-col after"><div class="mock-cap">AFTER（「プラン」直下に比較候補を新設）</div>
-            <div class="wf after">
-              <div class="wf-top"><span class="wf-logo">VELTRA</span><span class="wf-bc">ハワイ ＞ オアフ島</span></div>
-              <div class="wf-bd">
-                <div class="wf-title">サンセット・ディナークルーズ スターオブホノルル号 …</div>
-                <div class="wf-rate">★4.22 <span>(3,020件の体験談)</span></div>
-                <div class="wf-lbl">プラン</div>
-                <div class="wf-plan">
-                  <div class="wf-pn">サンセットカクテル（食事なし）プラン</div>
-                  <div class="wf-price">¥14,621 <small>USD 89.00 ／ 大人1名</small></div>
-                  <div class="wf-tier">大人 ／ 子供 ／ 幼児</div>
-                  <div class="wf-links">別の予約可能日を見る　詳細を見る</div>
-                </div>
-                <div class="wf-reco">
-                  <div class="wf-lbl" style="margin:0 0 3px;color:#1a8c4e">＋ 同じオアフ島の人気アクティビティ／比較候補（新設）</div>
-                  <div class="wf-reco-cards">
-                    <div class="wf-rc"><div class="rc-img"></div><div class="rc-t">ノースショア観光＋サンセットクルーズ</div><div class="rc-p">¥19,409〜</div><span class="rc-b">★4.5</span></div>
-                    <div class="wf-rc"><div class="rc-img"></div><div class="rc-t">天国の海 サンドバー 半日</div><div class="rc-p">¥9,800</div><span class="rc-b">即予約可</span></div>
-                    <div class="wf-rc"><div class="rc-img"></div><div class="rc-t">ダイヤモンドヘッド早朝ハイキング</div><div class="rc-p">¥3,500</div><span class="rc-b">★4.6</span></div>
-                  </div>
-                </div>
-                <div class="mock-improve">比較を「プラン」直下で完結 → 最下部まで行かず回収</div>
-              </div>
+          <div class="pw-insert">
+            <div class="il">★【新設】同じオアフ島のディナークルーズ／比較候補 ＝ ここに追加</div>
+            <div class="ic">
+              <div class="pw-ic"><div class="im"></div><div class="it">サンセットディナークルーズ（別社）</div><div class="ipr">¥12,800</div><span class="ib">即予約可</span></div>
+              <div class="pw-ic"><div class="im"></div><div class="it">スターオブホノルル 別プラン</div><div class="ipr">¥14,621〜</div><span class="ib">★4.2</span></div>
+              <div class="pw-ic"><div class="im"></div><div class="it">ディナー＋夜景クルーズ</div><div class="ipr">¥9,800</div><span class="ib">即予約可</span></div>
+              <div class="pw-ic"><div class="im"></div><div class="it">ロマンティック・ディナー船</div><div class="ipr">¥18,500</div><span class="ib">★4.5</span></div>
             </div>
+          </div>
+          <div class="pw-rest">↓ 概要・スケジュール・体験談・FAQ・お支払い … <strong style="color:#c0392b">関連ACは最下部「おすすめのオプショナルツアー」のみ</strong> ↓</div>
+          <div class="pw-sticky">
+            <span class="sn">【6月末まで割引中！】パシフィックスター（食べ放題ビュッフェ）</span>
+            <span class="spr">¥19,409〜 <span style="font-size:9px;color:#999;text-decoration:line-through;font-weight:600">¥22,835</span></span>
+            <span class="scta">今すぐ予約する</span>
+            <span class="ssave">♡ この条件を保存</span>
           </div>
         </div>
+        <div class="mock-improve" style="margin-top:8px">比較候補を「プラン詳細」直下に置く → 概要・FAQまで行かず、サイト内で比較を完結させカレンダー／予約へ</div>
         <details class="nk-toggle">
           <summary>実装要件（どう作るか）</summary>
           <div class="tg-body">
