@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/summary.css">
+<title>W22（5/24〜5/30）サマリー | ユーザー行動が7週間改善していない — 繁忙期前の最後の窓</title>
+<style>
+/* ───── W22 structural-stagnation infographic ───── */
+.rec-hero{padding:32px 44px 28px;background:linear-gradient(135deg,#fff5f5 0%,#fff 70%);border-bottom:3px solid #c0392b}
+.rec-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:.14em;color:#fff;background:#c0392b;padding:6px 14px;border-radius:4px;margin-bottom:18px;text-transform:uppercase}
+.rec-tag::before{content:'⏳';font-size:14px}
+.rec-headline{font-size:28px;font-weight:900;line-height:1.45;margin-bottom:16px;letter-spacing:-.01em;color:#1a1a1a}
+.rec-headline em{font-style:normal;color:#c0392b;background:linear-gradient(transparent 60%,#ffe1df 60%);padding:0 2px}
+.rec-headline em.ok{color:#1a8c4e;background:linear-gradient(transparent 60%,#bbf7d0 60%)}
+.rec-sub{font-size:14px;color:var(--text2);line-height:1.85;margin-bottom:20px}
+.rec-sub strong{color:#1a1a1a}
+
+/* KPI strip */
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0 8px}
+.kpi-card{background:#fff;border:2px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left}
+.kpi-card.flat{border-color:#c0392b;background:#fff5f5}
+.kpi-card.gap{border-color:#c0392b;background:#fff5f5}
+.kpi-card.struct{border-color:#d97706;background:#fffbeb}
+.kpi-card.clock{border-color:#1b82c5;background:#f0f7fc}
+.kpi-label{font-size:10px;font-weight:900;letter-spacing:.1em;color:var(--text3);margin-bottom:6px;text-transform:uppercase}
+.kpi-val{font-family:'DM Sans';font-size:28px;font-weight:900;line-height:1;letter-spacing:-.02em}
+.kpi-card.flat .kpi-val{color:#c0392b}
+.kpi-card.gap .kpi-val{color:#c0392b}
+.kpi-card.struct .kpi-val{color:#d97706}
+.kpi-card.clock .kpi-val{color:#1b82c5}
+.kpi-delta{font-size:11px;font-weight:700;color:var(--text3);margin-top:6px;line-height:1.55}
+.kpi-delta.up{color:#1a8c4e}
+.kpi-delta.down{color:#c0392b}
+.kpi-delta.warn{color:#d97706}
+
+/* Evidence cards */
+.evidence-block{padding:8px 44px 28px}
+.evidence-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.evidence-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:#fff;border-left:4px solid #1b82c5}
+.evidence-card.flat{border-left-color:#c0392b;background:#fff5f5}
+.evidence-card.struct{border-left-color:#d97706;background:#fffbeb}
+.evidence-card.peak{border-left-color:#1b82c5;background:#f0f7fc}
+.ev-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ev-icon{font-size:20px;line-height:1}
+.ev-title{font-size:13px;font-weight:900;letter-spacing:.02em;line-height:1.4}
+.ev-body{font-size:12px;color:var(--text2);line-height:1.7}
+.ev-body strong{color:var(--text)}
+.ev-bar{display:flex;align-items:center;gap:8px;font-family:'DM Sans';font-size:13px;font-weight:900;margin:8px 0;color:#1a1a1a}
+.ev-bar-bg{flex:1;height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden}
+.ev-bar-fill{height:100%;background:#1b82c5;border-radius:4px}
+.evidence-card.flat .ev-bar-fill{background:#c0392b}
+.evidence-card.struct .ev-bar-fill{background:#d97706}
+.evidence-card.peak .ev-bar-fill{background:#1b82c5}
+
+/* 7-week flat sparkline */
+.flat-spark{display:flex;align-items:flex-end;gap:5px;height:60px;margin:10px 0 4px;border-bottom:1px solid var(--border);padding-bottom:4px}
+.fs-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.fs-bar{width:100%;background:#c0392b;border-radius:2px 2px 0 0;min-height:2px;opacity:.85}
+.fs-label{font-size:8.5px;color:var(--text3);font-weight:700}
+
+/* Action cards */
+.action-block{padding:8px 44px 28px}
+.action-list{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+.action-item{display:flex;gap:18px;padding:18px 22px;background:#fff;border:1px solid var(--border);border-radius:12px;border-left:6px solid var(--red)}
+.action-item.p1{border-left-color:#c0392b}
+.action-item.p2{border-left-color:#1b82c5}
+.action-item.p3{border-left-color:#d97706}
+.action-icon{font-size:30px;line-height:1;flex-shrink:0}
+.action-body{flex:1;min-width:0}
+.action-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.action-prio{font-family:'DM Sans';font-size:11px;font-weight:900;padding:3px 8px;color:#fff;border-radius:4px;letter-spacing:.05em}
+.action-item.p1 .action-prio{background:#c0392b}
+.action-item.p2 .action-prio{background:#1b82c5}
+.action-item.p3 .action-prio{background:#d97706}
+.action-when{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.04em}
+.action-title{font-size:16px;font-weight:800;line-height:1.45;margin-bottom:8px}
+.action-bullets{margin:0;padding:0;list-style:none}
+.action-bullets li{font-size:12.5px;color:var(--text2);line-height:1.7;padding-left:14px;position:relative;margin-bottom:4px}
+.action-bullets li::before{content:'▸';position:absolute;left:0;font-weight:900;color:var(--red)}
+.action-item.p1 .action-bullets li::before{color:#c0392b}
+.action-item.p2 .action-bullets li::before{color:#1b82c5}
+.action-item.p3 .action-bullets li::before{color:#d97706}
+.action-bullets li strong{color:var(--text)}
+.action-bullets li a{color:#1b82c5;font-weight:700;text-decoration:underline}
+
+/* Top3 BN list inside action */
+.asl-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 4px}
+.asl-card{background:#f5f4f0;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.55;color:var(--text2);text-decoration:none;display:block;transition:background .15s}
+.asl-card:hover{background:#fff}
+.asl-rank{font-family:'DM Sans';font-weight:900;font-size:11px;color:#c0392b;letter-spacing:.05em;margin-bottom:4px}
+.asl-title{font-weight:800;color:var(--text);font-size:12px;line-height:1.5;margin-bottom:4px}
+.asl-meta{font-size:10px;color:var(--text3);font-family:'DM Sans';font-weight:700}
+
+/* timeline plan */
+.plan-row{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:8px 0;border-top:1px dashed var(--border);font-size:12.5px;line-height:1.6}
+.plan-wk{font-family:'DM Sans';font-weight:900;color:#1b82c5;font-size:12px}
+.plan-row strong{color:var(--text)}
+
+/* bot footnote */
+.bot-note{margin:6px 44px 0;padding:10px 14px;background:#faf8f5;border:1px dashed var(--border);border-radius:8px;font-size:11.5px;color:var(--text3);line-height:1.7}
+.bot-note strong{color:var(--text2)}
+
+@media(max-width:768px){
+  .rec-hero{padding:24px 22px 22px}
+  .rec-headline{font-size:22px}
+  .kpi-strip,.evidence-grid,.asl-list{grid-template-columns:1fr}
+  .evidence-block,.action-block{padding-left:22px;padding-right:22px}
+  .plan-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- ── Header ─────────────────────────────── -->
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">週次サマリー<br><strong>W22（5/24〜5/30）ユーザー行動の7週停滞 — 繁忙期前の最後の窓</strong></div>
+    </div>
+    <div style="padding:18px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:12px;line-height:1.7;color:var(--text2)">
+      <div><span style="color:var(--text3);font-weight:700">分析対象</span><br>W22 単週 + W16〜W22 の構造トレンド</div>
+      <div><span style="color:var(--text3);font-weight:700">比較基準</span><br>実質 CVR（bot 除外）/ 主目標 1.429% / 前年同月 1.404%</div>
+      <div><span style="color:var(--text3);font-weight:700">発行</span><br>2026-06-03 / 繁忙期（7-8月）まで残り約4週</div>
+      <div><span style="color:var(--text3);font-weight:700">GA4</span><br>347074845</div>
+    </div>
+  </div>
+
+  <!-- ─────────── 01 結論 ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">01</span><span class="sec-main">結論 — 数字の上下に関わらず、ユーザーの「買いやすさ」は7週間 1ミリも改善していない</span></div>
+
+    <div class="rec-hero">
+      <div class="rec-tag">structural stagnation</div>
+      <div class="rec-headline">
+        bot 除外後の実質 CVR は <em>W16 から 7 週連続で 1.3% 前後の横ばい</em>。<br>
+        新規ユーザーの予約完了率（④→⑤）は <em>-23.6pp の谷が7週間ふさがれないまま</em>——構造課題は手つかず。<br>
+        年間最大の商機 <em>夏休み繁忙期（7-8月）まで残り約4週</em>。<em class="ok">今が、改善を仕込んで検証できる最後の窓</em>。
+      </div>
+      <div class="rec-sub">
+        W22 で来訪量は通常レンジに戻り raw CVR は見かけ上 1.03% へ「回復」したが、<strong>これは分母の bot が引いただけ</strong>。bot を除いた実質 CVR は <strong>W21 1.37% → W22 1.28% でほぼ横ばい</strong>で、ユーザー行動は何も変わっていない。
+        <br>
+        本質的な問題はここ：<strong>セグメント間のファネルギャップ（新規 ④→⑤ / モバイル ①→② / リピーター ①→②）が W16 から 7 週間、1pp 以内の誤差でずっと同じ形のまま</strong>。施策を打っていないのだから当然だが、その「打てていない」状態が 7 週続いていることこそが最大のリスク。
+        <br>
+        7-8月は CVR が構造的に高くなる（過去2年 1.48〜1.54% 帯）年間最重要期。だが <strong>壊れたファネルのまま繁忙トラフィックを流せば、増えた来訪の大半を同じ地点で取りこぼす</strong>。逆に言えば、繁忙期前にボトルネックを1つでも潰せば、繁忙期の集中流入がそのまま増分 CV に変わる。<strong>残り4週で「何を1点突破するか」の意思決定が、夏の着地を分ける</strong>。
+      </div>
+
+      <!-- KPI strip 4-cell -->
+      <div class="kpi-strip">
+        <div class="kpi-card flat">
+          <div class="kpi-label">実質 CVR（W22 7d・bot除外）</div>
+          <div class="kpi-val">1.28%</div>
+          <div class="kpi-delta down">W16〜W22 で 1.3% 前後の横ばい（行動改善なし）</div>
+        </div>
+        <div class="kpi-card gap">
+          <div class="kpi-label">主目標との差</div>
+          <div class="kpi-val">-0.15pp</div>
+          <div class="kpi-delta down">実質 1.28% vs 主目標 1.429% ／ 前年同月 1.404% にも -0.13pp</div>
+        </div>
+        <div class="kpi-card struct">
+          <div class="kpi-label">新規 ④→⑤ ギャップ</div>
+          <div class="kpi-val">-23.6pp</div>
+          <div class="kpi-delta warn">49.3% vs 全体 72.8% ／ 7週連続固着 ／ 影響 約597K</div>
+        </div>
+        <div class="kpi-card clock">
+          <div class="kpi-label">繁忙期まで</div>
+          <div class="kpi-val">約4週</div>
+          <div class="kpi-delta">7-8月（過去2年 1.48〜1.54%）／ A/B検証を回せる最後の窓</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bot-note">
+      <strong>※ bot について（本レポートの主題ではない）：</strong>Singapore × Chrome bot は W19〜W22 と 3-4 週続く慢性ノイズで、W22 は週内 19.2%（W21 47.4% から減）。ただし<strong>根本解決はしておらず</strong>、機械指紋は残存。raw 値は raw／実質／前年同期の 3軸併記で吸収済みのため、議論の主軸は実質 CVR に置く。WAF 恒久化は SRE 側で並行（詳細は 03 補足）。
+    </div>
+  </div>
+
+  <!-- ─────────── 02 論拠 ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">論拠 — 「停滞」と「繁忙期の増幅リスク」を3つの証拠で示す</span></div>
+    <div class="sec-sub" style="padding-top:6px">①実質指標は7週横ばい、②構造ボトルネックは7週不変、③繁忙期は new×mobile 比率が上がり「今の弱点」が最も増幅される。</div>
+
+    <div class="evidence-block">
+      <div class="evidence-grid">
+
+        <!-- Evidence 1: real CVR flat 7 weeks -->
+        <div class="evidence-card flat">
+          <div class="ev-head">
+            <span class="ev-icon">📊</span>
+            <span class="ev-title">実質 CVR — 7週間ずっと横ばい</span>
+          </div>
+          <div class="ev-body">
+            bot を除いた実質 CVR は W16 以降 <strong>1.3% 前後で 7 週間フラット</strong>。raw の上下（0.7%〜1.0%）は bot 量の変動による人工物で、ユーザーの買いやすさは動いていない。
+          </div>
+          <div class="flat-spark">
+            <div class="fs-col"><div class="fs-bar" style="height:88%"></div><div class="fs-label">W16</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:90%"></div><div class="fs-label">W17</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:92%"></div><div class="fs-label">W18</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:89%"></div><div class="fs-label">W19</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:94%"></div><div class="fs-label">W20</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:93%"></div><div class="fs-label">W21</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:87%"></div><div class="fs-label">W22</div></div>
+          </div>
+          <div class="ev-body" style="font-size:11px;color:var(--text3)">
+            実質 CVR 帯：W20 1.37% / W21 1.37% / W22 1.28%。1pp 未満の微変動のみ。<strong>施策を打っていない＝動かないのは当然</strong>だが、その「打てていない 7 週間」がコスト。
+          </div>
+        </div>
+
+        <!-- Evidence 2: structural BN unchanged -->
+        <div class="evidence-card struct">
+          <div class="ev-head">
+            <span class="ev-icon">🏗</span>
+            <span class="ev-title">構造ボトルネック — Top3 が7週不変</span>
+          </div>
+          <div class="ev-body">
+            セグメント間ギャップは W16 から <strong>同じ3つが同じ深さ</strong>で居座る。新規 ④→⑤ -23.6pp / モバイル ①→② -20.5pp / リピーター ①→② -24.9pp。どれも「情報を足す」より「迷い・不安・入力負荷を引く」で効くタイプ。
+          </div>
+          <div class="ev-bar">
+            <span>新規 ④→⑤</span>
+            <span class="ev-bar-bg"><span class="ev-bar-fill" style="width:68%"></span></span>
+            <span style="color:#c0392b">49.3%</span>
+          </div>
+          <div class="ev-body" style="font-size:11px;color:var(--text3)">
+            全体 72.8% に対し新規は 49.3%（フォーム最終段階での価格・条件確認で離脱）。<strong>影響規模が最大（約597K セッション）</strong>かつ繁忙期に最も増える層。詳細は 03 の Top3 リンク。
+          </div>
+        </div>
+
+        <!-- Evidence 3: peak amplification -->
+        <div class="evidence-card peak">
+          <div class="ev-head">
+            <span class="ev-icon">📈</span>
+            <span class="ev-title">繁忙期の増幅 — 弱点がそのまま拡大する</span>
+          </div>
+          <div class="ev-body">
+            7-8月の夏休みは <strong>初回利用の新規</strong>と <strong>移動中のモバイル</strong>が比率として急増する時期。今いちばん詰まっている層が、繁忙期にいちばん来る。
+          </div>
+          <div class="ev-bar">
+            <span>new 構成比（28d）</span>
+            <span class="ev-bar-bg"><span class="ev-bar-fill" style="width:69%"></span></span>
+            <span style="color:#1b82c5">65.6%</span>
+          </div>
+          <div class="ev-body" style="font-size:11px;color:var(--text3)">
+            既に new がセッションの 65.6%、モバイルが 50.1%。繁忙期はさらに上振れ。<strong>new×mobile の弱点を1つ潰すだけで繁忙トラフィックの増分を回収できる</strong>＝今の改善が最も効く時期。
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── 03 やるべきこと ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">やるべきこと — 残り4週、全部はやれない。繁忙期に最も効く「1点突破」を選ぶ</span></div>
+    <div class="sec-sub" style="padding-top:6px">
+      判断軸 ＝ <strong>インパクト × 繁忙期での増幅 × 実装速度</strong>。A/B は有意差まで最低2週、残り約4週 → 現実的に検証まで回せるのは <strong>1〜2施策</strong>。new×mobile に張る。
+    </div>
+
+    <div class="action-block">
+      <div class="action-list">
+
+        <!-- Action 1: BN1 new 4->5 -->
+        <div class="action-item p1">
+          <div class="action-icon">🎯</div>
+          <div class="action-body">
+            <div class="action-head">
+              <span class="action-prio">最優先 / W23 着手</span>
+              <span class="action-when">6/2週 設計+実装 → 6/9週 A/B</span>
+            </div>
+            <div class="action-title">第1の矢：新規ユーザーの「予約フォーム最終段階での離脱」を潰す（BN1 / new ④→⑤）</div>
+            <ul class="action-bullets">
+              <li><strong>なぜ最優先か</strong>：影響規模 約597K で全BN最大。かつ繁忙期に最も増える new 層。フォーム改善は<strong>quick win で最速 ship できる</strong>＝残り4週で唯一「検証まで」間に合う本命</li>
+              <li><strong>引き算の打ち手</strong>：最終価格を入力前に明示（不意打ち排除）／フォーム段階を圧縮／決済直前の不安要素（手数料・キャンセル条件）を先出し。「情報を足す」のではなく「離脱理由を引く」</li>
+              <li><strong>狙い</strong>：49.3% → 全体水準 72.8% の半分でも戻せば繁忙期の new 流入が増分 CV に直結。仮説3種・打ち手9種・モックは詳細ページ参照</li>
+            </ul>
+            <div class="asl-list">
+              <a class="asl-card" href="/bottleneck.html?week=2026-w22&num=1">
+                <div class="asl-rank">BN1 / -23.6pp / 597K</div>
+                <div class="asl-title">新規ユーザーが予約フォーム最終段階で『この価格・条件で確定してよいか』を決めきれず離脱している</div>
+                <div class="asl-meta">new × ④→⑤</div>
+              </a>
+              <a class="asl-card" href="/bottleneck.html?week=2026-w22&num=3">
+                <div class="asl-rank">BN3 / -12.0pp / 305K</div>
+                <div class="asl-title">初訪問者がカレンダーまで見ても『今ここで予約する』決断に至らず比較で止まっている</div>
+                <div class="asl-meta">new × ③→④</div>
+              </a>
+              <a class="asl-card" href="/bottleneck.html?week=2026-w22&num=2">
+                <div class="asl-rank">BN2 / -20.5pp / 398K</div>
+                <div class="asl-title">スマホ来訪者が『自分の条件に合うアクティビティ』へたどり着けず入口で離脱している</div>
+                <div class="asl-meta">mobile × ①→②</div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action 2: BN2 mobile 1->2 (second arrow) -->
+        <div class="action-item p2">
+          <div class="action-icon">📱</div>
+          <div class="action-body">
+            <div class="action-head">
+              <span class="action-prio">第2の矢 / W24 設計</span>
+              <span class="action-when">BN1 と並走、繁忙期に間に合えば投入</span>
+            </div>
+            <div class="action-title">第2の矢：モバイルの「自分に合うACに辿り着けない」を潰す（BN2 / mobile ①→②）</div>
+            <ul class="action-bullets">
+              <li><strong>なぜ次点か</strong>：影響 398K で2番手、繁忙期はモバイル比率が上振れ＝増幅が効く。①→② が詰まると<strong>そもそもファネルが始まらない</strong>ため、BN1 の効果も底上げする</li>
+              <li><strong>相乗</strong>：new×mobile は重複層。BN1（決済完了）と BN2（AC発見）を両輪で入れると、モバイル新規ユーザーの体験が入口から完了まで一気通貫で改善</li>
+              <li><strong>打ち手</strong>：着地直後の絞り込み導線・比較疲れの軽減（おすすめの先出し）。検証が4週に収まらなければ繁忙期中の段階投入も可</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Action 3: time plan + deprioritize + bot footnote -->
+        <div class="action-item p3">
+          <div class="action-icon">🗓</div>
+          <div class="action-body">
+            <div class="action-head">
+              <span class="action-prio">実行計画 / やらない判断</span>
+              <span class="action-when">6月の4週で逆算</span>
+            </div>
+            <div class="action-title">残り4週の逆算スケジュールと「今はやらない」明確化</div>
+            <div style="margin:6px 0 10px">
+              <div class="plan-row"><span class="plan-wk">W23 (6/2週)</span><span>BN1 設計＋実装（価格事前明示・フォーム圧縮・不安先出し）。SRE は WAF behavioral 検出を並行恒久化</span></div>
+              <div class="plan-row"><span class="plan-wk">W24 (6/9週)</span><span>BN1 <strong>A/B 開始</strong>。並行して BN2（モバイル AC 発見）を設計</span></div>
+              <div class="plan-row"><span class="plan-wk">W25-26 (6/16-23週)</span><span>BN1 結果を読み<strong>勝ちパターンを本実装</strong>。BN2 A/B 開始</span></div>
+              <div class="plan-row"><span class="plan-wk">7月〜 繁忙期</span><span>勝ち施策をフル投入。増えた new×mobile 流入を増分 CV として回収</span></div>
+            </div>
+            <ul class="action-bullets">
+              <li><strong>今はやらない</strong>：リピーター ①→②（影響280K だが既存客は導線を学習済みで繁忙期の増幅が小さい）／Organic Search ①→②（SEO・LP 起点で4週では動かない）→ 繁忙期明けに回す</li>
+              <li><strong>最悪シナリオ</strong>：bot 対応に追われ本丸（構造改善）を1つも ship できず、年間最大の 7-8月トラフィックを7週壊れたままのファネルに流す。実質 CVR は 1.28% 帯に張り付き主目標・前年に再び未達</li>
+              <li><strong>bot（補足・小）</strong>：WAF 恒久化と日次再来アラート（機械指紋 10K/日超で通知）は SRE 側タスクとして並行。レポートは 3軸併記を継続するのみで、UIUX チームの工数は構造改善に集中させる</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── 詳細セクション ─────────── -->
+  <div id="summary-detail" style="scroll-margin-top:24px"></div>
+
+  <!-- ─────────── 28日参照 ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">参照</span><span class="sec-main">28日 raw ベースライン（5/3〜5/30・bot 含む）</span></div>
+    <div style="padding:14px 44px;font-size:12px;line-height:1.8;color:var(--text2)">
+      セッション <strong>3,862,153</strong> / 予約完了 <strong>36,040</strong> / raw CVR <strong>0.93%</strong>。
+      ファネル: ①→② <strong>52.2%</strong> ／ ②→③ <strong>8.3%</strong> ／ ③→④ <strong>42.2%</strong> ／ ④→⑤ <strong>72.8%</strong>。
+      実質 28d CVR 推定 <strong>約 1.30%</strong>（bot 除外）。
+      <span style="color:var(--text3)">※ 議論主軸は実質 CVR。raw は参照値。28d は 5/20-21 の W21 bot スパイクを一部含む。</span>
+    </div>
+  </div>
+
+  <!-- ── Footer ─────────────────────────────── -->
+  <div class="card">
+    <div class="footer">
+      <span>VELTRA CVR改善チーム — UIUX Design Squad</span>
+      <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+      <span>2026-06-03</span>
+    </div>
+  </div>
+</div>
+
+<script src="/nav.js"></script>
+<script src="/summary-detail.js"></script>
+</body>
+</html>
