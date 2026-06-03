@@ -116,7 +116,8 @@
   var isGwBehavior = (path === '/spot/2026-gw/05-customer-behavior.html');
   var isGwUiux = (path === '/spot/2026-gw/06-uiux.html');
   var isGwSub = isGwMacro || isGwCompetitive || isGwPricing || isGwProduct || isGwBehavior || isGwUiux;
-  var isAnySpot = isEntryJourney || isGwDecline || isGwSub;
+  var isNewUserKpi = (path === '/spot/2026-new-user-kpi.html');
+  var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isNewUserKpi;
   var isArchive = (path === '/reports/' || path === '/reports/index.html');
   var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
   var qp = new URLSearchParams(location.search);
@@ -190,6 +191,8 @@
       append(homeA, mkCurrent('行動仮説ガイド'));
     } else if (isEntryJourney) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('エントリー別CVRジャーニー'));
+    } else if (isNewUserKpi) {
+      append(homeA, mkCurrent('スポット分析'), mkCurrent('新規ユーザー転換 施策'));
     } else if (isPlanning) {
       append(homeA, mkCurrent('施策案'));
     } else if (isPlanningItem) {
@@ -241,6 +244,7 @@
         { id: 'gw-06', href: '/spot/2026-gw/06-uiux.html',              label: '06 UIUX 構造課題', match: function(){ return isGwUiux; } }
       ]
     },
+    { id: 'new-user-kpi', href: '/spot/2026-new-user-kpi.html', label: '🎯 新規ユーザー転換 施策', match: function(){ return isNewUserKpi; } },
     { id: 'entry-journey', href: '/entry-journey.html', label: 'エントリー別CVRジャーニー', match: function(){ return isEntryJourney; } }
   ];
 

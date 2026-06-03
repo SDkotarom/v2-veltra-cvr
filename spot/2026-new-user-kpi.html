@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/spot/spot.css">
+<title>新規ユーザー転換 施策 | 新KPIスポット分析</title>
+<style>
+:root{--accent:#1b82c5;--accent-bg:#e8f2fb}
+/* new-kpi 施策カード */
+.nk-stage{padding:0 44px 8px}
+.nk-stage-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:8px 0 4px}
+.nk-stage-name{font-size:20px;font-weight:900;color:var(--text)}
+.nk-stage-kpi{font-size:12px;font-weight:800;color:#1b82c5;background:#e8f2fb;border-radius:20px;padding:3px 12px}
+.nk-stage-prio{font-size:11px;font-weight:900;color:#fff;background:#c0392b;border-radius:4px;padding:3px 9px;letter-spacing:.04em}
+.nk-stage-lede{font-size:12.5px;color:var(--text2);line-height:1.7;margin:4px 0 16px}
+.nk-card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:18px 22px;margin-bottom:14px;border-left:5px solid #cbd5e1}
+.nk-card.hero{border-left-color:#1b82c5;background:#fbfdff}
+.nk-card-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.nk-no{font-family:'DM Sans';font-weight:900;font-size:13px;color:#1b82c5}
+.nk-title{font-size:16px;font-weight:800;color:var(--text);line-height:1.4}
+.nk-badge{font-size:10px;font-weight:900;color:#fff;background:#1b82c5;border-radius:4px;padding:2px 7px;letter-spacing:.03em}
+.nk-row{font-size:13px;line-height:1.7;color:var(--text2);margin:6px 0}
+.nk-row b{color:var(--text)}
+.nk-row .lbl{display:inline-block;min-width:64px;font-size:11px;font-weight:900;color:var(--text3);letter-spacing:.04em}
+.nk-meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.nk-chip{font-size:11px;font-weight:700;color:var(--text2);background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:3px 11px}
+.nk-chip.imp{color:#1a8c4e;border-color:#bfe3cd;background:#f0fdf4}
+/* mockup */
+.nk-mock{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0 4px}
+.nk-mock-col .mock-cap{font-size:11px;font-weight:900;letter-spacing:.06em;margin-bottom:6px}
+.nk-mock-col.before .mock-cap{color:var(--text3)}
+.nk-mock-col.after .mock-cap{color:#1a8c4e}
+.mock{border-radius:8px;overflow:hidden;background:#F2F5F8;font-size:11px;color:#1a1a1a}
+.mock.before{border:1px solid #E0E0E0}
+.mock.after{border:2px solid #2DAE6C}
+.mock-hd{background:#fff;padding:7px 10px;border-bottom:1px solid #eee;font-weight:900;font-size:11px;color:#1B82C5;letter-spacing:.02em}
+.mock-bd{padding:10px}
+.mock-img{height:64px;background:#dde6ee;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#9bb0c4;font-size:18px;margin-bottom:8px}
+.mock-line{height:8px;background:#e3e9ef;border-radius:3px;margin:5px 0}
+.mock-line.s{width:55%}
+.mock-cta{background:#1B82C5;color:#fff;text-align:center;font-weight:800;padding:9px;border-radius:6px;margin-top:9px;font-size:12px}
+.mock-cards{display:flex;gap:6px;margin-top:9px}
+.mock-mini{flex:1;border:1px solid #e0e6ec;border-radius:5px;background:#fff;padding:6px}
+.mock-mini .mm-img{height:30px;background:#dde6ee;border-radius:3px;margin-bottom:4px}
+.mock-mini .mm-t{font-size:8.5px;color:#444;line-height:1.3}
+.mock-mini .mm-p{font-size:9px;font-weight:900;color:#1B82C5;margin-top:2px}
+.mock-badge{display:inline-block;font-size:8.5px;font-weight:900;color:#1a8c4e;background:#e6f7ee;border-radius:3px;padding:1px 5px;margin:1px 3px 1px 0}
+.mock-chip{display:inline-block;font-size:9px;font-weight:800;color:#1B82C5;background:#eaf3fb;border:1px solid #cfe3f5;border-radius:14px;padding:3px 9px;margin:2px 4px 2px 0}
+.mock-improve{font-size:10px;color:#1a8c4e;font-weight:700;margin-top:8px;text-align:center}
+.nk-foot{padding:14px 44px 8px;font-size:12px;color:var(--text3);line-height:1.7}
+@media(max-width:768px){.nk-stage,.nk-foot{padding-left:22px;padding-right:22px}.nk-mock{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">スポット分析（イレギュラー）<br><strong>🎯 新規ユーザー転換 施策</strong></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sub-hero" style="background:linear-gradient(135deg,#eef6fc 0%,#fff 80%)">
+      <div class="sub-breadcrumb"><a href="/kpi.html">← KPIダッシュボード</a> / <strong>新規ユーザー転換 施策</strong></div>
+      <div class="sub-tag">New-KPI initiatives — S2/S3/S4</div>
+      <h1 class="sub-headline">
+        新KPI＝<em>新規ユーザーの「AC到達→検討」率（②→③）</em>。現状 <em>9.0%</em>、同サイトのリピーターは 22.8%。<br>
+        伸びしろは新規に集中。意向ステージ <em>S2→S3→S4</em> の順で、各3施策を具体化。
+      </h1>
+      <div class="sub-lede">
+        North Star は CVR（相対 +1%、据え置き）。本ページは新KPIの観点で、<strong>新規を1段ずつ前へ進める施策</strong>を整理したもの。最優先は <strong>S2 比較検討層</strong>（供給に触れず・サイト内・今夏に間に合う）。施策は薄めないため各ステージ3つに絞り、各ステージの本命に before/after モックを付す。KPI設計の根拠は <a href="/kpi.html" style="color:#1b82c5;font-weight:700">KPIダッシュボード</a> 参照。
+      </div>
+      <div class="sub-score">
+        <div class="sub-score-card">
+          <div class="sub-score-label">主KPI：新規 ②→③</div>
+          <div class="sub-score-val">9.0<span style="font-size:24px">%</span></div>
+          <div class="sub-score-note">天井＝リピーター 22.8%（同サイトで実証済み）。GA4 日本・28日・bot除外</div>
+        </div>
+        <div class="sub-score-card">
+          <div class="sub-score-label">新規の構成比</div>
+          <div class="sub-score-val">65.6<span style="font-size:24px">%</span></div>
+          <div class="sub-score-note">セッションの2/3が新規。繁忙期(7-8月)はさらに上振れ</div>
+        </div>
+        <div class="sub-score-card">
+          <div class="sub-score-label">今夏まで</div>
+          <div class="sub-score-val">約4<span style="font-size:24px">週</span></div>
+          <div class="sub-score-note">A/B検証が回せる最後の窓。S2を最優先で投入</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── S2 ───────── -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">S2</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">最優先 / 比較検討層</span>
+      <h2 class="sub-sec-title">「これと決めきれず比較中」の新規を、空き状況確認まで運ぶ</h2>
+    </div>
+    <div class="nk-stage">
+      <div class="nk-stage-head">
+        <span class="nk-stage-name">S2 比較検討層</span>
+        <span class="nk-stage-prio">最優先・今夏</span>
+        <span class="nk-stage-kpi">狙う：新規 ②→③ 9.0% → （天井22.8%）</span>
+      </div>
+      <div class="nk-stage-lede">買う気はあるが「これ」を決めかね、平均3.7件のACを4分かけて見比べている。各ACページが行き止まりで比較を助けず、他社タブや離脱へ流れる。比較をサイト内で収束させ「空き状況を見よう」に変える。</div>
+
+      <!-- S2-1 hero -->
+      <div class="nk-card hero">
+        <div class="nk-card-head"><span class="nk-no">S2-1</span><span class="nk-title">類似・同観光地AC比較ブロック</span><span class="nk-badge">本命</span></div>
+        <div class="nk-row"><span class="lbl">課題</span>ACページが単体で完結し、比較したいTravelerを次のACへ繋げない。比較のための回遊が他社サイトへ漏れる。</div>
+        <div class="nk-row"><span class="lbl">施策</span>「空き状況を見る」CTAの手前に <b>「同じ観光地の人気AC」「この体験を見た人の比較候補」</b>を3〜4枚カルーセル表示。各カードに価格・所要時間・★評価+件数・<b>即予約可</b>バッジを載せ、横比較を1画面で完結させる。</div>
+        <div class="nk-row"><span class="lbl">仕組み</span>初期はML不要。<b>「同エリアタグ × 直近予約数 上位」のルールベース</b>（GA4 予約データ ＋ AC マスターのエリア/カテゴリタグ）を月次バッチで生成。第2段で「閲覧共起（この体験を見た人が見た）」へ拡張。</div>
+        <div class="nk-mock">
+          <div class="nk-mock-col before">
+            <div class="mock-cap">BEFORE</div>
+            <div class="mock before">
+              <div class="mock-hd">VELTRA</div>
+              <div class="mock-bd">
+                <div class="mock-img">🖼</div>
+                <div class="mock-line"></div><div class="mock-line s"></div>
+                <div class="mock-cta">空き状況を見る</div>
+                <div style="text-align:center;color:#aab4be;font-size:10px;margin-top:10px">― ページ末尾。次の一手なし ―</div>
+              </div>
+            </div>
+          </div>
+          <div class="nk-mock-col after">
+            <div class="mock-cap">AFTER</div>
+            <div class="mock after">
+              <div class="mock-hd">VELTRA</div>
+              <div class="mock-bd">
+                <div class="mock-line"></div><div class="mock-line s"></div>
+                <div class="mock-cta">空き状況を見る</div>
+                <div style="font-size:10px;font-weight:900;color:#333;margin:10px 0 5px">同じ観光地の人気アクティビティ</div>
+                <div class="mock-cards">
+                  <div class="mock-mini"><div class="mm-img"></div><div class="mm-t">市内半日ツアー</div><div class="mm-p">¥4,800</div><span class="mock-badge">即予約可</span></div>
+                  <div class="mock-mini"><div class="mm-img"></div><div class="mm-t">人気No.1 体験</div><div class="mm-p">¥6,200</div><span class="mock-badge">★4.8</span></div>
+                  <div class="mock-mini"><div class="mm-img"></div><div class="mm-t">夜景クルーズ</div><div class="mm-p">¥3,500</div><span class="mock-badge">即予約可</span></div>
+                </div>
+                <div class="mock-improve">比較をサイト内で完結 → カレンダー閲覧へ</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nk-meta"><span class="nk-chip imp">②→③感度 最大</span><span class="nk-chip">工数：中（ルールベース）</span><span class="nk-chip">今夏◎</span><span class="nk-chip">戦略軸：迷わず買う／取りこぼし防止</span></div>
+      </div>
+
+      <!-- S2-2 -->
+      <div class="nk-card">
+        <div class="nk-card-head"><span class="nk-no">S2-2</span><span class="nk-title">「決め手」をCTA手前に集約</span></div>
+        <div class="nk-row"><span class="lbl">課題</span>内容は見たが「日程を見る価値がある」と思える決め手が分散し、効いていない。</div>
+        <div class="nk-row"><span class="lbl">施策</span>「空き状況を見る」直前に <b>★評価+件数 / 本日も予約あり / 即予約可 / 無料キャンセル可否</b> を1ブロックに集約。情報を足すのではなく、散在する情報を1箇所で効かせる。</div>
+        <div class="nk-meta"><span class="nk-chip imp">CTAクリック誘発</span><span class="nk-chip">工数：小〜中</span><span class="nk-chip">S2-1と同梱A/B可</span><span class="nk-chip">戦略軸：迷わず買う</span></div>
+      </div>
+
+      <!-- S2-3 -->
+      <div class="nk-card">
+        <div class="nk-card-head"><span class="nk-no">S2-3</span><span class="nk-title">「空き状況を見る」CTAの早期・sticky表示</span></div>
+        <div class="nk-row"><span class="lbl">課題</span>カレンダーへの導線が下部・弱く、検討の入口に気づきにくい。</div>
+        <div class="nk-row"><span class="lbl">施策</span>モバイルで「空き状況を見る」を<b>下部固定バー</b>化＋上部にも常設。</div>
+        <div class="nk-meta"><span class="nk-chip">工数：小・即</span><span class="nk-chip">UI積み重ね（効果は限定的）</span><span class="nk-chip">戦略軸：迷わず買う</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── S3 ───────── -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">S3</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">次点 / 絞り込み層</span>
+      <h2 class="sub-sec-title">「エリア・やりたいことは決まったが、具体ACが未定」の新規を候補に当てる</h2>
+    </div>
+    <div class="nk-stage">
+      <div class="nk-stage-head">
+        <span class="nk-stage-name">S3 絞り込み層</span>
+        <span class="nk-stage-kpi">狙う：新規 ①→② 46.8% → （天井68%）</span>
+      </div>
+      <div class="nk-stage-lede">方向は決まっているが具体ACを選べていない。検索はAC閲覧者の1%強しか使われず、エリア/カテゴリ回遊で目的のACに当たれず離脱。探させるより「先回りで当てる」。</div>
+
+      <!-- S3-1 hero -->
+      <div class="nk-card hero">
+        <div class="nk-card-head"><span class="nk-no">S3-1</span><span class="nk-title">目的別クイック絞り込みチップ ＋ 人気AC Top</span><span class="nk-badge">本命</span></div>
+        <div class="nk-row"><span class="lbl">課題</span>エリア/カテゴリページが網羅的リストで、初訪問のTravelerが「自分向き」を選び切れない。検索は使われない。</div>
+        <div class="nk-row"><span class="lbl">施策</span>ページ上部に <b>目的別チップ（子連れ／初めて／雨でもOK／半日）</b>＋<b>「人気AC Top5」</b>を先回り提示。タップで即絞り込み、具体ACへ最短到達。</div>
+        <div class="nk-row"><span class="lbl">仕組み</span>チップ＝AC属性タグのファセット絞り込み。人気Top＝エリア×直近予約数上位（GA4＋ACマスター）。</div>
+        <div class="nk-mock">
+          <div class="nk-mock-col before">
+            <div class="mock-cap">BEFORE</div>
+            <div class="mock before">
+              <div class="mock-hd">VELTRA ハワイの体験</div>
+              <div class="mock-bd">
+                <div class="mock-img">🖼</div>
+                <div class="mock-line"></div><div class="mock-line"></div><div class="mock-line s"></div>
+                <div style="text-align:center;color:#aab4be;font-size:10px;margin-top:8px">― 一覧が延々と続く ―</div>
+              </div>
+            </div>
+          </div>
+          <div class="nk-mock-col after">
+            <div class="mock-cap">AFTER</div>
+            <div class="mock after">
+              <div class="mock-hd">VELTRA ハワイの体験</div>
+              <div class="mock-bd">
+                <div style="font-size:9.5px;font-weight:900;color:#333;margin-bottom:5px">目的で絞る</div>
+                <div><span class="mock-chip">子連れOK</span><span class="mock-chip">初めて</span><span class="mock-chip">半日</span><span class="mock-chip">雨でも</span></div>
+                <div style="font-size:9.5px;font-weight:900;color:#333;margin:9px 0 5px">人気トップ</div>
+                <div class="mock-cards">
+                  <div class="mock-mini"><div class="mm-img"></div><div class="mm-t">定番市内ツアー</div><div class="mm-p">¥4,800</div></div>
+                  <div class="mock-mini"><div class="mm-img"></div><div class="mm-t">話題の体験</div><div class="mm-p">¥6,200</div></div>
+                </div>
+                <div class="mock-improve">具体ACへ最短到達 → S2へ送客</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nk-meta"><span class="nk-chip imp">①→②底上げ→S2へ</span><span class="nk-chip">工数：中</span><span class="nk-chip">今夏△（W25〜）</span><span class="nk-chip">戦略軸：取りこぼし防止</span></div>
+      </div>
+
+      <!-- S3-2 -->
+      <div class="nk-card">
+        <div class="nk-card-head"><span class="nk-no">S3-2</span><span class="nk-title">検索流入の着地に「やりたいこと」起点ナビ</span></div>
+        <div class="nk-row"><span class="lbl">課題</span>検索流入の着地ページと検索意図がずれ、AC本体に進む前に離脱。</div>
+        <div class="nk-row"><span class="lbl">施策</span>着地直後に、検索意図に沿った<b>やりたいこと別の導線</b>（テーマ別おすすめ）を提示し、合致するACへ誘導。</div>
+        <div class="nk-meta"><span class="nk-chip">工数：中</span><span class="nk-chip">戦略軸：取りこぼし防止</span></div>
+      </div>
+
+      <!-- S3-3 -->
+      <div class="nk-card">
+        <div class="nk-card-head"><span class="nk-no">S3-3</span><span class="nk-title">検索・絞り込みの「使われない原因」診断 → 改善</span></div>
+        <div class="nk-row"><span class="lbl">課題</span>検索・絞り込みの利用が極端に低い（AC閲覧者の1%強）。導線が見えない／結果が弱い可能性。</div>
+        <div class="nk-row"><span class="lbl">施策</span>まず<b>ログ・ヒートマップで未使用の原因を特定</b>してからサジェスト強化／露出改善（診断先行）。</div>
+        <div class="nk-meta"><span class="nk-chip">工数：中</span><span class="nk-chip">診断先行</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── S4 ───────── -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">S4</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">中長期 / 探索層</span>
+      <h2 class="sub-sec-title">「今すぐは買わない」新規を、最適なタイミングで連れ戻す</h2>
+    </div>
+    <div class="nk-stage">
+      <div class="nk-stage-head">
+        <span class="nk-stage-name">S4 探索層</span>
+        <span class="nk-stage-kpi">狙う：新規の再訪率・再訪間隔の短縮</span>
+      </div>
+      <div class="nk-stage-lede">漠然とした興味で来訪し、今は買わない層。離脱後の接点づくりで再訪を早める。お気に入りは現状ほぼ死蔵（採用0.57%・再訪利用699人）。<b>「保存→予約」の相関計測が前提</b>のため、まず計測整備から着手する中長期トラック。</div>
+
+      <!-- S4-1 hero -->
+      <div class="nk-card hero">
+        <div class="nk-card-head"><span class="nk-no">S4-1</span><span class="nk-title">ワンタップお気に入り ＋ 保存リストからの予約導線</span><span class="nk-badge">本命</span></div>
+        <div class="nk-row"><span class="lbl">課題</span>お気に入りの保存ハードルが高く、保存しても戻って使われない（再訪利用699人）。意向の取りこぼし。</div>
+        <div class="nk-row"><span class="lbl">施策</span>ACカード/ページに<b>ワンタップ保存</b>。保存後は「保存リスト」から<b>価格・残枠とともに即予約導線</b>。再訪時に保存からスムーズに予約へ。</div>
+        <div class="nk-row"><span class="lbl">仕組み</span>保存イベントの拡充＋<b>「保存→予約」相関の計測整備</b>（前提）。相関が確認できれば次のS4-2へ接続。</div>
+        <div class="nk-mock">
+          <div class="nk-mock-col before">
+            <div class="mock-cap">BEFORE</div>
+            <div class="mock before">
+              <div class="mock-hd">VELTRA</div>
+              <div class="mock-bd">
+                <div class="mock-img">🖼</div>
+                <div class="mock-line"></div><div class="mock-line s"></div>
+                <div style="text-align:center;color:#aab4be;font-size:10px;margin-top:10px">― 保存しても戻る理由がない ―</div>
+              </div>
+            </div>
+          </div>
+          <div class="nk-mock-col after">
+            <div class="mock-cap">AFTER</div>
+            <div class="mock after">
+              <div class="mock-hd">VELTRA ＞ 保存リスト</div>
+              <div class="mock-bd">
+                <div class="mock-cards">
+                  <div class="mock-mini"><div class="mm-img"></div><div class="mm-t">市内半日ツアー</div><div class="mm-p">¥4,800</div><span class="mock-badge">残3</span></div>
+                  <div class="mock-mini"><div class="mm-img"></div><div class="mm-t">夜景クルーズ</div><div class="mm-p">¥3,500</div><span class="mock-badge">↓値下げ</span></div>
+                </div>
+                <div class="mock-cta">保存から予約する</div>
+                <div class="mock-improve">残枠・価格変動が再訪の動機に</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nk-meta"><span class="nk-chip imp">再訪の入口</span><span class="nk-chip">工数：中</span><span class="nk-chip">計測整備が先</span><span class="nk-chip">戦略軸：滞在中プラスアルファ</span></div>
+      </div>
+
+      <!-- S4-2 -->
+      <div class="nk-card">
+        <div class="nk-card-head"><span class="nk-no">S4-2</span><span class="nk-title">保存AC・エリアの価格／残枠変動リマインド（Braze）</span></div>
+        <div class="nk-row"><span class="lbl">課題</span>離脱後の再訪トリガーがなく、最適なタイミングを逃す。</div>
+        <div class="nk-row"><span class="lbl">施策</span>保存したACの<b>価格下落・残枠わずか</b>を Braze Content Card／Push で通知し再訪を促す。</div>
+        <div class="nk-row"><span class="lbl">仕組み</span>GA4 BigQuery export の保存イベント＋ACマスター（価格・在庫）→ Cloud Scheduler で日次抽出 → Braze へ投入 → Liquid でカード描画。<b>※ データソース／クエリ／属性スキーマ／Liquid 等の詳細Howは実装ドキュメントで全項目記載</b>。</div>
+        <div class="nk-meta"><span class="nk-chip">工数：大</span><span class="nk-chip">中長期</span><span class="nk-chip">戦略軸：滞在中プラスアルファ</span></div>
+      </div>
+
+      <!-- S4-3 -->
+      <div class="nk-card">
+        <div class="nk-card-head"><span class="nk-no">S4-3</span><span class="nk-title">閲覧ベースの後追いナーチャリング</span></div>
+        <div class="nk-row"><span class="lbl">課題</span>探索層は離脱後の接点がゼロ。</div>
+        <div class="nk-row"><span class="lbl">施策</span>閲覧したエリア/カテゴリに基づく<b>後追いメール/Push</b>（Braze Connected Content）でテーマに沿ったACを提示。</div>
+        <div class="nk-meta"><span class="nk-chip">工数：大</span><span class="nk-chip">中長期</span><span class="nk-chip">S4-1/2の計測整備が前提</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nk-foot">
+      ※ 本ページはイレギュラーのスポット分析。施策は新KPI（新規 ②→③ 中心）の観点で各ステージ3つに絞り具体化。<strong>今夏は S2 を最優先</strong>（S2-1＋S2-2＋S2-3を1つの改善パッケージとしてA/B）、S3はW25〜、S4は計測整備から。各施策の完全な実装仕様（A/B設計・データソース・クエリ・Braze投入経路・Liquid・属性スキーマ）は、確定後に施策ドキュメントとして別途作成。
+      <br><span style="color:var(--text3)">数値出典：GA4 Property 347074845（日本・28日・bot除外）。外部：JTB「海外観光旅行の現状2019」。</span>
+    </div>
+  </div>
+
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>
