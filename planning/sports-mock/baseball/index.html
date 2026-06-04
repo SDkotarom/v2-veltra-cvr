@@ -60,6 +60,14 @@
   .v-logo-fallback .dot { color: var(--veltra); }
   .v-logo-img.is-missing + .v-logo-fallback { display: inline-flex; align-items: baseline; }
 
+  /* Footer brand logo (mirror of topbar) */
+  .brand-logo { display: inline-flex; align-items: center; line-height: 1; }
+  .brand-logo-img { height: 28px; width: auto; display: inline-block; }
+  .brand-logo-img.is-missing { display: none; }
+  .brand-logo-fallback { display: none; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; color: var(--ink); }
+  .brand-logo-fallback .dot { color: var(--veltra); }
+  .brand-logo-img.is-missing + .brand-logo-fallback { display: inline-flex; align-items: baseline; }
+
   /* Sub-block heading inside a section (MLB / その他海外野球) */
   .block-head { display: flex; align-items: center; gap: 10px; margin: 28px 0 14px; }
   .block-head:first-of-type { margin-top: 4px; }
@@ -85,6 +93,19 @@
   .club-card.is-featured::after { content: "注目"; position: absolute; top: 10px; right: 10px; font-size: 10px; font-weight: 800; color: #fff; background: #c79a3a; padding: 2px 8px; border-radius: 100px; letter-spacing: .04em; }
   .club-jp { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0 0; }
   .club-jp .jp-pill { font-size: 11px; font-weight: 600; color: #7d4d00; background: #fff4e6; border-radius: 4px; padding: 2px 7px; }
+
+  /* Collapsible "その他のMLB球団" */
+  .club-grid-wrap { position: relative; }
+  .club-grid-wrap.is-collapsed { max-height: 360px; overflow: hidden; }
+  @media (max-width: 720px) { .club-grid-wrap.is-collapsed { max-height: 320px; } }
+  .cg-fade { display: none; }
+  .club-grid-wrap.is-collapsed .cg-fade { display: block; position: absolute; left: 0; right: 0; bottom: 0; height: 180px; pointer-events: none;
+    background: linear-gradient(to bottom, rgba(252,251,249,0) 0%, rgba(252,251,249,.65) 45%, rgba(252,251,249,1) 100%); }
+  .cg-toggle-wrap { text-align: center; margin-top: 12px; }
+  .cg-toggle { display: inline-flex; align-items: center; gap: 6px; padding: 9px 22px; background: var(--paper); border: 1px solid var(--line-strong); color: var(--ink); font-size: 13px; font-weight: 700; border-radius: 100px; cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
+  .cg-toggle:hover { background: var(--page-accent); color: #fff; border-color: var(--page-accent); }
+  .cg-toggle svg { width: 14px; height: 14px; transition: transform .2s; }
+  .cg-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
 
   /* ============ Filterable Tours ============ */
   .tours-wrap { display: grid; grid-template-columns: 240px 1fr; gap: 28px; align-items: start; margin-top: 8px; }
@@ -339,8 +360,17 @@
     </div>
     <div class="club-grid" id="club-grid-mlb-featured"></div>
 
-    <div class="club-sub"><span class="cs-plain">その他のMLB球団</span></div>
-    <div class="club-grid" id="club-grid-mlb"></div>
+    <div class="club-sub"><span class="cs-plain">その他のMLB球団</span><span class="cs-note" id="rest-mlb-note"></span></div>
+    <div class="club-grid-wrap is-collapsed" id="club-grid-mlb-wrap">
+      <div class="club-grid" id="club-grid-mlb"></div>
+      <div class="cg-fade"></div>
+    </div>
+    <div class="cg-toggle-wrap">
+      <button type="button" class="cg-toggle" id="cg-toggle-mlb" aria-expanded="false">
+        <span class="cgt-label">残り <span id="cg-rest-count">0</span> 球団をすべて見る</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
 
     <!-- Other overseas teams -->
     <div class="block-head">
@@ -594,7 +624,10 @@
 <footer class="v-foot">
   <div class="v-foot-inner">
     <div class="v-foot-col">
-      <div class="brand-logo">Veltra<span class="dot">.</span></div>
+      <div class="brand-logo">
+        <img src="../assets/img/logo_a1_jp-1.png" alt="Veltra" class="brand-logo-img" onerror="this.classList.add('is-missing');">
+        <span class="brand-logo-fallback">Veltra<span class="dot">.</span></span>
+      </div>
       <p class="desc">世界の現地体験を予約できる、Veltraの旅行体験予約サービス。</p>
     </div>
     <div class="v-foot-col">
@@ -915,11 +948,27 @@ function renderTeamCards() {
   document.getElementById('club-grid-mlb-featured').innerHTML =
     FEATURED.filter(f => byKey[f.key]).map(f => teamCardHtml(byKey[f.key], { featured:true, players:f.players })).join('');
   // Remaining MLB teams
-  document.getElementById('club-grid-mlb').innerHTML =
-    TEAMS.filter(t => !t.other && !FEATURED_KEYS.has(t.key)).map(t => teamCardHtml(t)).join('');
+  const rest = TEAMS.filter(t => !t.other && !FEATURED_KEYS.has(t.key));
+  document.getElementById('club-grid-mlb').innerHTML = rest.map(t => teamCardHtml(t)).join('');
+  const restCnt = document.getElementById('cg-rest-count');
+  if (restCnt) restCnt.textContent = rest.length;
+  const note = document.getElementById('rest-mlb-note');
+  if (note) note.textContent = `（${rest.length}球団）`;
   // Other overseas
   document.getElementById('club-grid-other').innerHTML =
     TEAMS.filter(t => t.other).map(t => teamCardHtml(t)).join('');
+}
+
+function wireCollapse() {
+  const wrap = document.getElementById('club-grid-mlb-wrap');
+  const btn = document.getElementById('cg-toggle-mlb');
+  if (!wrap || !btn) return;
+  btn.addEventListener('click', () => {
+    const expanded = wrap.classList.toggle('is-collapsed') === false;
+    btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    btn.querySelector('.cgt-label').textContent = expanded
+      ? '閉じる' : `残り ${document.getElementById('cg-rest-count').textContent} 球団をすべて見る`;
+  });
 }
 
 /* ===== Filtering ===== */
@@ -1053,6 +1102,7 @@ function syncCheckboxes() {
 
 document.addEventListener('DOMContentLoaded', () => {
   renderTeamCards();
+  wireCollapse();
 
   document.querySelectorAll('[data-filter-type]').forEach(inp => {
     inp.addEventListener('change', () => {
