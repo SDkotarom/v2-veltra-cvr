@@ -202,11 +202,11 @@
         <div class="l">対象リーグ</div>
       </div>
       <div>
-        <div class="v" id="hero-team-count">28</div>
+        <div class="v" id="hero-team-count">31</div>
         <div class="l">取扱球団</div>
       </div>
       <div>
-        <div class="v" id="hero-ac-count">41</div>
+        <div class="v" id="hero-ac-count">46</div>
         <div class="l">観戦ツアー</div>
       </div>
     </div>
@@ -396,7 +396,7 @@
       <!-- ====== Tours List ====== -->
       <div>
         <div class="tours-toolbar">
-          <div class="results"><strong id="result-count">41</strong> 件 / <strong id="total-count">41</strong> 件中</div>
+          <div class="results"><strong id="result-count">46</strong> 件 / <strong id="total-count">46</strong> 件中</div>
           <div class="right">
             <div class="sort-control">
               <label for="sort-baseball" style="font-size:12px; color:var(--ink-3); margin-right:6px;">並び替え</label>
@@ -612,6 +612,7 @@ const TEAMS = [
   { key:'twins',    name:'ミネソタ・ツインズ',       code:'MIN', color:'#002b5c', div:'al-central', divLabel:'ア・リーグ中', city:'アメリカその他都市', desc:'ミネアポリスのターゲット・フィールドを本拠地とするア・リーグ中の球団。' },
   { key:'tigers',   name:'デトロイト・タイガース',   code:'DET', color:'#0c2340', div:'al-central', divLabel:'ア・リーグ中', city:'アメリカその他都市', desc:'コメリカ・パークが本拠地。歴史あるア・リーグ中地区の球団。' },
   { key:'royals',   name:'カンザスシティ・ロイヤルズ', code:'KC', color:'#004687', div:'al-central', divLabel:'ア・リーグ中', city:'アメリカその他都市', desc:'噴水で知られるカウフマン・スタジアムが本拠地。' },
+  { key:'guardians',name:'クリーブランド・ガーディアンズ', code:'CLE', color:'#0c2340', div:'al-central', divLabel:'ア・リーグ中', city:'アメリカその他都市', desc:'プログレッシブ・フィールドが本拠地のア・リーグ中地区の球団。' },
   // MLB — AL West
   { key:'astros',   name:'ヒューストン・アストロズ', code:'HOU', color:'#002d62', div:'al-west',  divLabel:'ア・リーグ西', city:'ヒューストン', desc:'開閉式ドームのダイキン・パークが本拠地。ア・リーグ西の強豪。' },
   { key:'mariners', name:'シアトル・マリナーズ',     code:'SEA', color:'#0c2c56', div:'al-west',  divLabel:'ア・リーグ西', city:'シアトル', desc:'T-モバイル・パークが本拠地。日本人選手の活躍でも知られる。' },
@@ -629,6 +630,7 @@ const TEAMS = [
   { key:'cardinals',name:'セントルイス・カージナルス', code:'STL', color:'#c41e3a', div:'nl-central', divLabel:'ナ・リーグ中', city:'アメリカその他都市', desc:'ブッシュ・スタジアムが本拠地。ナ・リーグ屈指の名門。' },
   { key:'brewers',  name:'ミルウォーキー・ブルワーズ', code:'MIL', color:'#12284b', div:'nl-central', divLabel:'ナ・リーグ中', city:'アメリカその他都市', desc:'開閉式屋根のアメリカン・ファミリー・フィールドが本拠地。' },
   { key:'pirates',  name:'ピッツバーグ・パイレーツ', code:'PIT', color:'#fdb827', div:'nl-central', divLabel:'ナ・リーグ中', city:'アメリカその他都市', desc:'川沿いの美しい景観で知られるPNCパークが本拠地。' },
+  { key:'reds',     name:'シンシナティ・レッズ',     code:'CIN', color:'#c6011f', div:'nl-central', divLabel:'ナ・リーグ中', city:'アメリカその他都市', desc:'グレートアメリカン・ボールパークが本拠地。MLB最古の歴史を持つ球団。' },
   // MLB — NL West
   { key:'dodgers',  name:'ロサンゼルス・ドジャース', code:'LAD', color:'#005a9c', div:'nl-west',  divLabel:'ナ・リーグ西', city:'ロサンゼルス', desc:'日本人選手が所属し世界が注目。外野の先に山並みが広がるドジャー・スタジアムが本拠地。' },
   { key:'padres',   name:'サンディエゴ・パドレス',   code:'SDP', color:'#2f241d', div:'nl-west',  divLabel:'ナ・リーグ西', city:'サンディエゴ', desc:'温暖なサンディエゴのペトコ・パークが本拠地。' },
@@ -721,6 +723,16 @@ const ACS = [
     title:'【2026年7月12日】フィラデルフィア開催 オールスター野球観戦＆ホテル宿泊パッケージ＜3泊4日／宿泊付＞',
     types:['ticket','package'], tags:[{label:'オールスター',variant:'feature'},{label:'宿泊付'},{label:'Uberバウチャー付'}],
     price:399858, priceLabel:'1名 / 3泊4日', rating:null, reviews:null },
+  { id:'202442', team:'redsox', code:'BOS', color1:'#bd3039', color2:'#0c2340', league:'mlb', division:'al-east', city:'ボストン',
+    url:'https://www.veltra.com/jp/north_america/boston/a/202442', image:null, venue:'FENWAY PARK',
+    title:'ボストン プロ野球観戦 ボストン野球チームの観戦チケット＆往路送迎＜2026年シーズン／4〜9月／日本語ガイド＞',
+    types:['ticket','transfer','jp'], tags:[{label:'観戦チケット付き',variant:'feature'},{label:'日本語ガイド',variant:'jp'},{label:'往路送迎'}],
+    price:20577, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'200028', team:'bluejays', code:'TOR', color1:'#134a8e', color2:'#0c1733', league:'mlb', division:'al-east', city:'トロント',
+    url:'https://www.veltra.com/jp/north_america/canada/toronto/a/200028', image:null, venue:'ROGERS CENTRE',
+    title:'トロント野球観戦 3泊4日英語パッケージ／観戦チケット＆トロントダウンタウンホテル3泊 ＆ 往路空港送迎付き',
+    types:['ticket','transfer','package'], tags:[{label:'早割15%OFF',variant:'feature'},{label:'宿泊付'},{label:'往路空港送迎'}],
+    price:131245, priceLabel:'1名 / 3泊4日', rating:null, reviews:null },
 
   // --- MLB観戦チケット series (共通グローブ写真) ---
   { id:'202305', team:'dodgers', code:'LAD', color1:'#005a9c', league:'mlb', division:'nl-west', city:'ロサンゼルス', image:TICKET_IMG,
@@ -801,6 +813,15 @@ const ACS = [
   { id:'202806', team:'athletics', code:'ATH', color1:'#003831', league:'mlb', division:'al-west', city:'アメリカその他都市', image:TICKET_IMG,
     url:'https://www.veltra.com/jp/north_america/america_Other/a/202806', title:'【MLB観戦チケット】アスレチックス ＜ホーム戦＞',
     types:['ticket'], tags:[{label:'ホーム戦'},{label:'サター・ヘルス・パーク'}], price:4960, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202638', team:'guardians', code:'CLE', color1:'#0c2340', league:'mlb', division:'al-central', city:'アメリカその他都市', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/america_Other/a/202638', title:'【MLB観戦チケット】クリーブランド・ガーディアンズ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'プログレッシブ・フィールド'}], price:5314, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202628', team:'reds', code:'CIN', color1:'#c6011f', league:'mlb', division:'nl-central', city:'アメリカその他都市', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/america_Other/a/202628', title:'【MLB観戦チケット】シンシナティ・レッズ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'グレートアメリカン・ボールパーク'}], price:3543, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202515', team:'angels', code:'LAA', color1:'#ba0021', league:'mlb', division:'al-west', city:'ロサンゼルス', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/los_angeles/a/202515', title:'【MLB観戦チケット】ロサンゼルス・エンゼルス ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'エンゼル・スタジアム'}], price:1299, priceLabel:'大人1名', rating:null, reviews:null },
 
   // --- Other overseas: Taiwan CPBL ---
   { id:'184887', team:'rakuten', code:'RAK', color1:'#cc0000', color2:'#000000', league:'cpbl', division:'cpbl', city:'台北',
