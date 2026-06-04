@@ -122,6 +122,12 @@
   .ac-thumb.has-img.img-failed img { display: none; }
   .ac-code-badge { position: absolute; top: 10px; left: 10px; background: rgba(12,18,40,.72); color: #fff; font-family: var(--mono); font-weight: 700; font-size: 13px; padding: 3px 9px; border-radius: 5px; letter-spacing: .02em; }
 
+  /* Team-color identifier band (all cards, just below thumb) */
+  .ac-teamband { display: flex; align-items: center; gap: 8px; padding: 5px 13px; background: linear-gradient(90deg, var(--tb1) 0%, var(--tb2) 100%); color: #fff; position: relative; }
+  .ac-teamband::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: rgba(255,255,255,.55); }
+  .ac-teamband .tb-code { font-family: var(--mono); font-weight: 700; font-size: 12px; letter-spacing: .06em; flex: none; }
+  .ac-teamband .tb-team { font-size: 11px; font-weight: 600; opacity: .94; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
   /* Thumb — gradient fallback variant */
   .ac-thumb.gradient { height: 160px; position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 14px 16px; color: #fff; background: linear-gradient(135deg, var(--thumb-1) 0%, var(--thumb-2) 100%); }
   .ac-thumb.gradient .ac-code { font-family: var(--mono); font-size: 26px; font-weight: 700; letter-spacing: 0.02em; }
@@ -143,8 +149,9 @@
   .ac-price { font-size: 18px; font-weight: 700; color: var(--page-accent); font-variant-numeric: tabular-nums; }
   .ac-price .ccy { font-size: 12px; font-weight: 600; margin-right: 1px; }
   .ac-price .tilde { font-size: 12px; font-weight: 500; }
-  .ac-cta { font-size: 12px; color: var(--page-accent); font-weight: 600; display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; }
+  .ac-cta { font-size: 12px; color: #fff; background: #1466d8; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; padding: 8px 14px; border-radius: 6px; transition: background .15s; }
   .ac-cta svg { width: 13px; height: 13px; }
+  .ac-card:hover .ac-cta, .ac-cta:hover { background: #0f4fa8; }
 
   /* Empty state */
   .ac-empty { padding: 60px 20px; text-align: center; background: var(--paper-warm); border: 1px dashed var(--line-strong); border-radius: var(--r-12); }
@@ -902,7 +909,6 @@ function thumbHtml(ac) {
   if (ac.image) {
     return `<div class="ac-thumb has-img" style="--thumb-1:${ac.color1};--thumb-2:${ac.color2||ac.color1}">
       <img src="${ac.image}" alt="" loading="lazy" onerror="this.closest('.ac-thumb').classList.add('img-failed')">
-      <span class="ac-code-badge">${ac.code}</span>
     </div>`;
   }
   return `<div class="ac-thumb gradient" style="--thumb-1:${ac.color1};--thumb-2:${ac.color2||'#0c1733'}">
@@ -913,12 +919,17 @@ function thumbHtml(ac) {
     </div>
   </div>`;
 }
+function teamLabel(ac) {
+  return TEAM_NAME[ac.team] || (ac.team === 'mlb-allstar' ? 'MLBオールスター' : 'MLB');
+}
 function cardHtml(ac) {
   const meta = ac.rating ? `<span class="rating-star">★ ${ac.rating.toFixed(1)}</span><span class="reviews">${ac.reviews}件の体験談</span>` : `<span class="reviews">体験談準備中</span>`;
   const catLabel = `${LABEL.type[ac.types[0]] || '観戦'} · ${ac.city}`;
+  const band = `<div class="ac-teamband" style="--tb1:${ac.color1};--tb2:${ac.color2||'#0c1733'}"><span class="tb-code">${ac.code}</span><span class="tb-team">${teamLabel(ac)}</span></div>`;
   return `
   <a class="ac-card" href="${ac.url}" target="_blank" rel="noopener" data-ga-ac="${ac.id}">
     ${thumbHtml(ac)}
+    ${band}
     <div class="ac-body">
       <div class="ac-cat"><span class="swatch" style="--cat-color:${ac.color1};"></span>${catLabel}</div>
       <h3 class="ac-title">${ac.title}</h3>
