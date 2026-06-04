@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MLB・海外野球観戦ツアー・チケット予約 | Veltra（ベルトラ）</title>
-<meta name="description" content="MLB（ドジャース・ヤンキース・メッツ・パドレス・エンゼルス・ホワイトソックス）と台湾プロ野球（楽天モンキーズ・味全ドラゴンズ）の海外野球観戦ツアー・チケットをVeltraで予約。観戦チケット手配・球場送迎・球場見学までまとめて検索できます。">
+<meta name="description" content="MLB（ドジャース・ヤンキース・メッツ・パドレス・エンゼルスほか全球団）と台湾プロ野球（楽天モンキーズ・味全ドラゴンズ）の海外野球観戦ツアー・チケットをVeltraで予約。観戦チケット手配・球場送迎・宿泊パッケージまでまとめて検索できます。">
 <link rel="canonical" href="https://www.veltra.com/jp/theme/sports/baseball/">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="MLB・海外野球観戦ツアー・チケット予約 | Veltra">
-<meta property="og:description" content="MLBと台湾プロ野球の現地観戦チケット・送迎・球場見学ツアーを、Veltraで検索・予約。">
+<meta property="og:description" content="MLBと台湾プロ野球の現地観戦チケット・送迎・宿泊パッケージを、Veltraで検索・予約。">
 <meta property="og:url" content="https://www.veltra.com/jp/theme/sports/baseball/">
 <meta property="og:site_name" content="Veltra">
 <meta name="twitter:card" content="summary_large_image">
@@ -37,7 +37,7 @@
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   "name": "MLB・海外野球観戦ツアー・チケット予約",
-  "description": "MLB主要球団と台湾プロ野球の現地観戦チケット・球場送迎・球場見学ツアーをVeltraで予約。",
+  "description": "MLB全球団と台湾プロ野球の現地観戦チケット・球場送迎・宿泊パッケージをVeltraで予約。",
   "url": "https://www.veltra.com/jp/theme/sports/baseball/",
   "inLanguage": "ja",
   "about": { "@type": "Thing", "name": "MLB・海外野球観戦" },
@@ -60,17 +60,26 @@
   .v-logo-fallback .dot { color: var(--veltra); }
   .v-logo-img.is-missing + .v-logo-fallback { display: inline-flex; align-items: baseline; }
 
+  /* Sub-block heading inside a section (MLB / その他海外野球) */
+  .block-head { display: flex; align-items: center; gap: 10px; margin: 28px 0 14px; }
+  .block-head:first-of-type { margin-top: 4px; }
+  .block-head .bh-badge { font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 0.04em; color: #fff; background: var(--page-accent); padding: 3px 10px; border-radius: 4px; }
+  .block-head .bh-badge.is-other { background: #b4862a; }
+  .block-head h3 { font-size: 16px; font-weight: 700; margin: 0; color: var(--ink); }
+  .block-head .bh-note { font-size: 12px; color: var(--ink-3); margin-left: auto; }
+
   /* Division & Team clickable cards */
-  .league-card[data-jump], .club-card[data-jump] { cursor: pointer; }
-  .league-card[data-jump]:hover, .club-card[data-jump]:hover { transform: translateY(-2px); transition: transform .15s; }
+  .league-card[data-jump-division], .club-card[data-jump-team] { cursor: pointer; }
+  .league-card[data-jump-division]:hover, .club-card[data-jump-team]:hover { transform: translateY(-2px); transition: transform .15s; }
+  .club-desc { font-size: 12px; color: var(--ink-3); line-height: 1.5; margin: 6px 0 0; }
 
   /* ============ Filterable Tours ============ */
   .tours-wrap { display: grid; grid-template-columns: 240px 1fr; gap: 28px; align-items: start; margin-top: 8px; }
   @media (max-width: 980px) { .tours-wrap { grid-template-columns: 1fr; gap: 18px; } }
 
   /* Sidebar (Klook-style) */
-  .filter-side { position: sticky; top: calc(var(--header-h) + var(--anchor-h) + 12px); align-self: start;
-    background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-12); padding: 6px 0; max-height: calc(100vh - 140px); overflow-y: auto; }
+  .filter-side { position: sticky; top: calc(var(--header-h) + 12px); align-self: start;
+    background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-12); padding: 6px 0; max-height: calc(100vh - 100px); overflow-y: auto; }
   @media (max-width: 980px) { .filter-side { position: static; max-height: none; } }
   .filter-side .fg { padding: 14px 16px; border-bottom: 1px solid var(--line); }
   .filter-side .fg:last-child { border-bottom: none; }
@@ -80,19 +89,11 @@
   .filter-side .fg label.fc input[type="checkbox"] { width: 15px; height: 15px; accent-color: var(--page-accent); flex: none; }
   .filter-side .fg label.fc .cnt { color: var(--ink-4); font-size: 12px; margin-left: auto; font-family: var(--mono); }
   .filter-side .fg label.fc.is-zero { opacity: .4; }
+  .filter-side .fg .fg-sub { font-size: 11px; font-weight: 700; color: var(--ink-4); margin: 8px 0 2px; letter-spacing: .04em; }
+  .filter-side .fg .fg-sub:first-of-type { margin-top: 0; }
   .filter-side .fs-head { padding: 12px 16px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; }
   .filter-side .fs-head .ttl { font-size: 13px; font-weight: 700; }
   .filter-side .fs-head .clear-all { font-family: var(--mono); font-size: 11px; color: var(--veltra-ink); cursor: pointer; text-decoration: underline; }
-
-  /* Mobile filter toggle */
-  .filter-mobile-btn { display: none; }
-  @media (max-width: 980px) {
-    .filter-mobile-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--line-strong); border-radius: 100px; background: var(--paper); font-size: 13px; font-weight: 600; cursor: pointer; }
-    .filter-mobile-btn .badge { background: var(--page-accent); color: #fff; border-radius: 100px; padding: 1px 8px; font-size: 11px; font-family: var(--mono); }
-    .filter-side.is-collapsed .fg, .filter-side.is-collapsed .fs-head .clear-all { display: none; }
-    .filter-side.is-collapsed { padding: 0; }
-    .filter-side.is-collapsed .fs-head { border-bottom: none; padding: 12px 16px; }
-  }
 
   /* Active filter chips above the list */
   .active-filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; min-height: 0; }
@@ -113,14 +114,24 @@
   @media (max-width: 720px) { .ac-list { grid-template-columns: 1fr; } }
   .ac-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-8); overflow: hidden; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s, box-shadow .15s; display: flex; flex-direction: column; }
   .ac-card:hover { border-color: var(--line-strong); transform: translateY(-2px); box-shadow: var(--shadow-pop); }
-  .ac-thumb { height: 140px; position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 14px 16px; color: #fff; background: linear-gradient(135deg, var(--thumb-1) 0%, var(--thumb-2) 100%); }
-  .ac-code { font-family: var(--mono); font-size: 26px; font-weight: 700; letter-spacing: 0.02em; }
-  .ac-venue { font-size: 11px; font-family: var(--mono); letter-spacing: 0.06em; line-height: 1.4; opacity: 0.95; text-transform: uppercase; }
-  .ac-id { font-family: var(--mono); font-size: 10px; opacity: 0.7; margin-top: 2px; }
+
+  /* Thumb — real image variant */
+  .ac-thumb.has-img { height: 160px; position: relative; background: #e9eef5; display: block; padding: 0; }
+  .ac-thumb.has-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ac-thumb.has-img.img-failed { background: linear-gradient(135deg, var(--thumb-1, #1B2C5B) 0%, var(--thumb-2, #0c1733) 100%); }
+  .ac-thumb.has-img.img-failed img { display: none; }
+  .ac-code-badge { position: absolute; top: 10px; left: 10px; background: rgba(12,18,40,.72); color: #fff; font-family: var(--mono); font-weight: 700; font-size: 13px; padding: 3px 9px; border-radius: 5px; letter-spacing: .02em; }
+
+  /* Thumb — gradient fallback variant */
+  .ac-thumb.gradient { height: 160px; position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 14px 16px; color: #fff; background: linear-gradient(135deg, var(--thumb-1) 0%, var(--thumb-2) 100%); }
+  .ac-thumb.gradient .ac-code { font-family: var(--mono); font-size: 26px; font-weight: 700; letter-spacing: 0.02em; }
+  .ac-thumb.gradient .ac-venue { font-size: 11px; font-family: var(--mono); letter-spacing: 0.06em; line-height: 1.4; opacity: 0.95; }
+  .ac-thumb.gradient .ac-id { font-family: var(--mono); font-size: 10px; opacity: 0.7; margin-top: 2px; }
+
   .ac-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
   .ac-cat { font-size: 11px; color: var(--ink-3); font-family: var(--mono); letter-spacing: 0.04em; display: flex; align-items: center; gap: 6px; }
   .ac-cat .swatch { width: 8px; height: 8px; border-radius: 50%; background: var(--cat-color, var(--page-accent)); }
-  .ac-title { font-size: 14px; font-weight: 600; line-height: 1.5; margin: 0; color: var(--ink); }
+  .ac-title { font-size: 14px; font-weight: 600; line-height: 1.5; margin: 0; color: var(--ink); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .ac-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
   .ac-tag { font-size: 11px; background: var(--surface); color: var(--ink-2); padding: 2px 8px; border-radius: 4px; }
   .ac-tag.is-feature { background: var(--baseball-soft); color: var(--page-accent); font-weight: 600; }
@@ -130,7 +141,7 @@
   .ac-bottom { margin-top: auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; padding-top: 6px; border-top: 1px dashed var(--line); }
   .ac-price-label { font-size: 11px; color: var(--ink-3); }
   .ac-price { font-size: 18px; font-weight: 700; color: var(--page-accent); font-variant-numeric: tabular-nums; }
-  .ac-price .ccy { font-size: 11px; font-weight: 500; color: var(--ink-3); margin-right: 3px; }
+  .ac-price .ccy { font-size: 12px; font-weight: 600; margin-right: 1px; }
   .ac-price .tilde { font-size: 12px; font-weight: 500; }
   .ac-cta { font-size: 12px; color: var(--page-accent); font-weight: 600; display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; }
   .ac-cta svg { width: 13px; height: 13px; }
@@ -146,7 +157,6 @@
   .load-more:hover { background: var(--page-accent); color: #fff; border-color: var(--page-accent); }
   .load-more[disabled] { display: none; }
 
-  /* Soon state */
   .league-card.is-soon, .club-card.is-soon { opacity: 0.55; cursor: default; }
   .league-card.is-soon:hover, .club-card.is-soon:hover { transform: none; }
 </style>
@@ -182,7 +192,7 @@
       <p class="eyebrow"><span class="accent-dot"></span>BASEBALL · MLB & 海外野球現地観戦</p>
       <h1>MLB・海外野球観戦ツアー・チケット予約</h1>
       <p class="intro">
-        ドジャース、ヤンキース、メッツ、パドレス、エンゼルス、ホワイトソックスといったMLB主要球団に加え、台湾プロ野球（楽天モンキーズ・味全ドラゴンズ）まで。海外野球の現地観戦チケット・球場送迎・球場見学ツアーを、Veltraでまとめて検索・予約できます。
+        ドジャース、ヤンキース、メッツ、パドレスをはじめMLB全球団に加え、台湾プロ野球（楽天モンキーズ・味全ドラゴンズ）まで。海外野球の現地観戦チケット・球場送迎・宿泊パッケージを、Veltraでまとめて検索・予約できます。
       </p>
     </div>
 
@@ -192,11 +202,11 @@
         <div class="l">対象リーグ</div>
       </div>
       <div>
-        <div class="v">8</div>
-        <div class="l">主要球団</div>
+        <div class="v" id="hero-team-count">28</div>
+        <div class="l">取扱球団</div>
       </div>
       <div>
-        <div class="v" id="hero-ac-count">15</div>
+        <div class="v" id="hero-ac-count">41</div>
         <div class="l">観戦ツアー</div>
       </div>
     </div>
@@ -221,82 +231,66 @@
       <div>
         <p class="eyebrow">01 — Pick a division</p>
         <h2>地区から選ぶ</h2>
-        <p class="lede">MLBは2リーグ × 6地区構造。加えて台湾プロ野球（CPBL）の観戦ツアーも取り扱っています。気になる地区を選ぶと、観戦ツアー一覧が絞り込まれます。</p>
+        <p class="lede">MLBは「ア・リーグ（アメリカン・リーグ）」「ナ・リーグ（ナショナル・リーグ）」の2リーグ × 各3地区。加えて台湾プロ野球（CPBL）の観戦ツアーも取り扱っています。地区を選ぶと観戦ツアー一覧が絞り込まれます。</p>
       </div>
-      <div class="count"><strong>7</strong>地区 / <strong>6</strong>取扱中</div>
     </div>
 
+    <!-- MLB block -->
+    <div class="block-head">
+      <span class="bh-badge">MLB</span>
+      <h3>メジャーリーグ（2リーグ・6地区）</h3>
+    </div>
     <div class="league-grid">
-
       <a class="league-card" style="--league:#0c2340;" data-jump-division="al-east" href="#tours">
-        <div class="country">AL · アメリカン東地区</div>
-        <h3>AL East <small>American League East</small></h3>
-        <p class="desc">ニューヨーク・ヤンキースの本拠地。伝統の名門球団・名門スタジアム巡りができる地区。</p>
-        <div class="league-meta">
-          <span class="live">取扱中</span>
-          <span><strong>1</strong>球団 / NY</span>
-        </div>
+        <div class="country">ア・リーグ 東地区</div>
+        <h3>ア・リーグ東 <small>American League East</small></h3>
+        <p class="desc">ヤンキース、レッドソックス、ブルージェイズ、オリオールズ。伝統の名門が集う激戦区。</p>
+        <div class="league-meta"><span class="live">取扱中</span><span>NY・ボストン・トロントほか</span></div>
       </a>
-
       <a class="league-card" style="--league:#27251f;" data-jump-division="al-central" href="#tours">
-        <div class="country">AL · アメリカン中地区</div>
-        <h3>AL Central <small>American League Central</small></h3>
-        <p class="desc">シカゴ・ホワイトソックスのホームゲーム観戦に対応。中西部の球場文化を体感できます。</p>
-        <div class="league-meta">
-          <span class="live">取扱中</span>
-          <span><strong>1</strong>球団 / シカゴ</span>
-        </div>
+        <div class="country">ア・リーグ 中地区</div>
+        <h3>ア・リーグ中 <small>American League Central</small></h3>
+        <p class="desc">ホワイトソックス、ツインズ、タイガース、ロイヤルズ。中西部の球団が揃う地区。</p>
+        <div class="league-meta"><span class="live">取扱中</span><span>シカゴ・ミネアポリスほか</span></div>
       </a>
-
       <a class="league-card" style="--league:#ba0021;" data-jump-division="al-west" href="#tours">
-        <div class="country">AL · アメリカン西地区</div>
-        <h3>AL West <small>American League West</small></h3>
-        <p class="desc">アナハイムを本拠地とするロサンゼルス・エンゼルス。日本人選手の所属歴がある球団としても注目。</p>
-        <div class="league-meta">
-          <span class="live">取扱中</span>
-          <span><strong>1</strong>球団 / アナハイム</span>
-        </div>
+        <div class="country">ア・リーグ 西地区</div>
+        <h3>ア・リーグ西 <small>American League West</small></h3>
+        <p class="desc">アストロズ、マリナーズ、エンゼルス、レンジャーズ、アスレチックス。日本人選手の所属でも注目。</p>
+        <div class="league-meta"><span class="live">取扱中</span><span>シアトル・アナハイムほか</span></div>
       </a>
-
       <a class="league-card" style="--league:#002d72;" data-jump-division="nl-east" href="#tours">
-        <div class="country">NL · ナショナル東地区</div>
-        <h3>NL East <small>National League East</small></h3>
-        <p class="desc">ニューヨーク・メッツのシティ・フィールドでの観戦。ヤンキースと同じNYで2球場ハシゴも可能。</p>
-        <div class="league-meta">
-          <span class="live">取扱中</span>
-          <span><strong>1</strong>球団 / NY</span>
-        </div>
+        <div class="country">ナ・リーグ 東地区</div>
+        <h3>ナ・リーグ東 <small>National League East</small></h3>
+        <p class="desc">メッツ、ブレーブス、フィリーズ、ナショナルズ、マーリンズ。東海岸の人気球団が集結。</p>
+        <div class="league-meta"><span class="live">取扱中</span><span>NY・アトランタほか</span></div>
       </a>
-
-      <div class="league-card is-soon" data-league="nl">
-        <div class="country">NL · ナショナル中地区</div>
-        <h3>NL Central <small>National League Central</small></h3>
-        <p class="desc">カブスのリグレー・フィールドなど。観戦ツアーは順次公開予定です。</p>
-        <div class="league-meta">
-          <span>準備中</span><span>順次公開</span>
-        </div>
-      </div>
-
+      <a class="league-card" style="--league:#0e3386;" data-jump-division="nl-central" href="#tours">
+        <div class="country">ナ・リーグ 中地区</div>
+        <h3>ナ・リーグ中 <small>National League Central</small></h3>
+        <p class="desc">カブス、カージナルス、ブルワーズ、パイレーツ。聖地リグレー・フィールドを含む地区。</p>
+        <div class="league-meta"><span class="live">取扱中</span><span>シカゴ・セントルイスほか</span></div>
+      </a>
       <a class="league-card" style="--league:#005a9c;" data-jump-division="nl-west" href="#tours">
-        <div class="country">NL · ナショナル西地区</div>
-        <h3>NL West <small>National League West</small></h3>
-        <p class="desc">ロサンゼルス・ドジャースとサンディエゴ・パドレス。日本人選手が活躍するMLBの中心エリア。</p>
-        <div class="league-meta">
-          <span class="live">取扱中</span>
-          <span><strong>2</strong>球団 / LA・SD</span>
-        </div>
+        <div class="country">ナ・リーグ 西地区</div>
+        <h3>ナ・リーグ西 <small>National League West</small></h3>
+        <p class="desc">ドジャース、パドレス、ジャイアンツ、ダイヤモンドバックス、ロッキーズ。日本人選手が活躍する中心エリア。</p>
+        <div class="league-meta"><span class="live">取扱中</span><span>LA・サンディエゴほか</span></div>
       </a>
+    </div>
 
+    <!-- Other overseas block -->
+    <div class="block-head">
+      <span class="bh-badge is-other">その他海外野球</span>
+      <h3>台湾プロ野球（CPBL）</h3>
+    </div>
+    <div class="league-grid">
       <a class="league-card" style="--league:#cc0000;" data-jump-division="cpbl" href="#tours">
         <div class="country">CPBL · 台湾プロ野球</div>
-        <h3>CPBL <small>Chinese Professional Baseball League</small></h3>
+        <h3>台湾プロ野球 <small>Chinese Professional Baseball League</small></h3>
         <p class="desc">楽天モンキーズ・味全ドラゴンズ。台北・桃園で楽しめる、アジア時間帯の熱気あるプロ野球観戦。</p>
-        <div class="league-meta">
-          <span class="live">取扱中</span>
-          <span><strong>2</strong>球団 / 台北</span>
-        </div>
+        <div class="league-meta"><span class="live">取扱中</span><span>台北・桃園</span></div>
       </a>
-
     </div>
   </div>
 </section>
@@ -308,78 +302,24 @@
       <div>
         <p class="eyebrow">02 — Pick a team</p>
         <h2>主要球団から選ぶ</h2>
-        <p class="lede">取扱中の8球団。気になる球団のカードをクリックすると、その球団の観戦ツアーが絞り込まれた状態でツアー一覧へ移動します。</p>
+        <p class="lede">観戦ツアー・チケットを取り扱う球団です。気になる球団のカードをクリックすると、その球団の観戦ツアーが絞り込まれた状態でツアー一覧へ移動します。</p>
       </div>
-      <div class="count"><strong>8</strong>球団 取扱中</div>
     </div>
 
-    <div class="club-grid">
-
-      <a class="club-card" href="#tours" data-jump-team="dodgers" style="--club:#005a9c;">
-        <div class="club-mono">LAD</div>
-        <div class="club-info">
-          <h3 class="nm">ロサンゼルス・ドジャース</h3>
-          <div class="meta"><span>NL西</span><span class="sep">·</span><span>ロサンゼルス</span></div>
-        </div>
-      </a>
-
-      <a class="club-card" href="#tours" data-jump-team="yankees" style="--club:#0c2340;">
-        <div class="club-mono">NYY</div>
-        <div class="club-info">
-          <h3 class="nm">ニューヨーク・ヤンキース</h3>
-          <div class="meta"><span>AL東</span><span class="sep">·</span><span>ニューヨーク</span></div>
-        </div>
-      </a>
-
-      <a class="club-card" href="#tours" data-jump-team="mets" style="--club:#002d72;">
-        <div class="club-mono">NYM</div>
-        <div class="club-info">
-          <h3 class="nm">ニューヨーク・メッツ</h3>
-          <div class="meta"><span>NL東</span><span class="sep">·</span><span>ニューヨーク</span></div>
-        </div>
-      </a>
-
-      <a class="club-card" href="#tours" data-jump-team="padres" style="--club:#2f241d;">
-        <div class="club-mono">SDP</div>
-        <div class="club-info">
-          <h3 class="nm">サンディエゴ・パドレス</h3>
-          <div class="meta"><span>NL西</span><span class="sep">·</span><span>サンディエゴ</span></div>
-        </div>
-      </a>
-
-      <a class="club-card" href="#tours" data-jump-team="angels" style="--club:#ba0021;">
-        <div class="club-mono">LAA</div>
-        <div class="club-info">
-          <h3 class="nm">ロサンゼルス・エンゼルス</h3>
-          <div class="meta"><span>AL西</span><span class="sep">·</span><span>アナハイム</span></div>
-        </div>
-      </a>
-
-      <a class="club-card" href="#tours" data-jump-team="whitesox" style="--club:#27251f;">
-        <div class="club-mono">CWS</div>
-        <div class="club-info">
-          <h3 class="nm">シカゴ・ホワイトソックス</h3>
-          <div class="meta"><span>AL中</span><span class="sep">·</span><span>シカゴ</span></div>
-        </div>
-      </a>
-
-      <a class="club-card" href="#tours" data-jump-team="rakuten" style="--club:#cc0000;">
-        <div class="club-mono">RAK</div>
-        <div class="club-info">
-          <h3 class="nm">楽天モンキーズ</h3>
-          <div class="meta"><span>CPBL</span><span class="sep">·</span><span>台北・桃園</span></div>
-        </div>
-      </a>
-
-      <a class="club-card" href="#tours" data-jump-team="weichuan" style="--club:#f4b400;">
-        <div class="club-mono">WEI</div>
-        <div class="club-info">
-          <h3 class="nm">味全ドラゴンズ</h3>
-          <div class="meta"><span>CPBL</span><span class="sep">·</span><span>台北</span></div>
-        </div>
-      </a>
-
+    <!-- MLB teams -->
+    <div class="block-head">
+      <span class="bh-badge">MLB</span>
+      <h3>メジャーリーグ</h3>
+      <span class="bh-note">全30球団のホームゲーム観戦チケットに対応</span>
     </div>
+    <div class="club-grid" id="club-grid-mlb"></div>
+
+    <!-- Other overseas teams -->
+    <div class="block-head">
+      <span class="bh-badge is-other">その他海外野球</span>
+      <h3>台湾プロ野球（CPBL）</h3>
+    </div>
+    <div class="club-grid" id="club-grid-other"></div>
   </div>
 </section>
 
@@ -390,7 +330,7 @@
       <div>
         <p class="eyebrow">03 — Book your ballpark trip</p>
         <h2>観戦ツアー一覧</h2>
-        <p class="lede">MLBと台湾プロ野球の観戦ツアー・チケット・球場送迎・球場見学を、リーグ・球団・都市・タイプで絞り込んで探せます。</p>
+        <p class="lede">MLBと台湾プロ野球の観戦ツアー・チケット・球場送迎・宿泊パッケージを、リーグ・地区・都市・タイプで絞り込んで探せます。</p>
       </div>
     </div>
 
@@ -404,38 +344,41 @@
 
         <div class="fg" data-fg="league">
           <h4>リーグ <span class="clear" data-clear="league">解除</span></h4>
-          <label class="fc"><input type="checkbox" data-filter-type="league" value="mlb"> MLB <span class="cnt" data-count="league:mlb">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="league" value="cpbl"> 台湾プロ野球 (CPBL) <span class="cnt" data-count="league:cpbl">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="league" value="mlb"> MLB（メジャーリーグ） <span class="cnt" data-count="league:mlb">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="league" value="cpbl"> 台湾プロ野球（CPBL） <span class="cnt" data-count="league:cpbl">0</span></label>
         </div>
 
         <div class="fg" data-fg="division">
           <h4>地区 <span class="clear" data-clear="division">解除</span></h4>
-          <label class="fc"><input type="checkbox" data-filter-type="division" value="al-east"> アメリカン東地区 <span class="cnt" data-count="division:al-east">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="division" value="al-central"> アメリカン中地区 <span class="cnt" data-count="division:al-central">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="division" value="al-west"> アメリカン西地区 <span class="cnt" data-count="division:al-west">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="division" value="nl-east"> ナショナル東地区 <span class="cnt" data-count="division:nl-east">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="division" value="nl-west"> ナショナル西地区 <span class="cnt" data-count="division:nl-west">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="division" value="cpbl"> 台湾プロ野球 <span class="cnt" data-count="division:cpbl">0</span></label>
-        </div>
-
-        <div class="fg" data-fg="team">
-          <h4>球団 <span class="clear" data-clear="team">解除</span></h4>
-          <label class="fc"><input type="checkbox" data-filter-type="team" value="dodgers"> ロサンゼルス・ドジャース <span class="cnt" data-count="team:dodgers">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="team" value="yankees"> ニューヨーク・ヤンキース <span class="cnt" data-count="team:yankees">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="team" value="mets"> ニューヨーク・メッツ <span class="cnt" data-count="team:mets">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="team" value="padres"> サンディエゴ・パドレス <span class="cnt" data-count="team:padres">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="team" value="angels"> ロサンゼルス・エンゼルス <span class="cnt" data-count="team:angels">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="team" value="whitesox"> シカゴ・ホワイトソックス <span class="cnt" data-count="team:whitesox">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="team" value="rakuten"> 楽天モンキーズ <span class="cnt" data-count="team:rakuten">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="team" value="weichuan"> 味全ドラゴンズ <span class="cnt" data-count="team:weichuan">0</span></label>
+          <div class="fg-sub">MLB</div>
+          <label class="fc"><input type="checkbox" data-filter-type="division" value="al-east"> ア・リーグ東地区 <span class="cnt" data-count="division:al-east">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="division" value="al-central"> ア・リーグ中地区 <span class="cnt" data-count="division:al-central">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="division" value="al-west"> ア・リーグ西地区 <span class="cnt" data-count="division:al-west">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="division" value="nl-east"> ナ・リーグ東地区 <span class="cnt" data-count="division:nl-east">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="division" value="nl-central"> ナ・リーグ中地区 <span class="cnt" data-count="division:nl-central">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="division" value="nl-west"> ナ・リーグ西地区 <span class="cnt" data-count="division:nl-west">0</span></label>
+          <div class="fg-sub">その他海外野球</div>
+          <label class="fc"><input type="checkbox" data-filter-type="division" value="cpbl"> 台湾プロ野球（CPBL） <span class="cnt" data-count="division:cpbl">0</span></label>
         </div>
 
         <div class="fg" data-fg="city">
           <h4>都市 <span class="clear" data-clear="city">解除</span></h4>
           <label class="fc"><input type="checkbox" data-filter-type="city" value="ロサンゼルス"> ロサンゼルス <span class="cnt" data-count="city:ロサンゼルス">0</span></label>
           <label class="fc"><input type="checkbox" data-filter-type="city" value="ニューヨーク"> ニューヨーク <span class="cnt" data-count="city:ニューヨーク">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="city" value="サンディエゴ"> サンディエゴ <span class="cnt" data-count="city:サンディエゴ">0</span></label>
           <label class="fc"><input type="checkbox" data-filter-type="city" value="シカゴ"> シカゴ <span class="cnt" data-count="city:シカゴ">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="city" value="サンディエゴ"> サンディエゴ <span class="cnt" data-count="city:サンディエゴ">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="city" value="ボストン"> ボストン <span class="cnt" data-count="city:ボストン">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="city" value="シアトル"> シアトル <span class="cnt" data-count="city:シアトル">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="city" value="サンフランシスコ"> サンフランシスコ <span class="cnt" data-count="city:サンフランシスコ">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="city" value="アトランタ"> アトランタ <span class="cnt" data-count="city:アトランタ">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="city" value="ヒューストン"> ヒューストン <span class="cnt" data-count="city:ヒューストン">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="city" value="フィラデルフィア"> フィラデルフィア <span class="cnt" data-count="city:フィラデルフィア">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="city" value="トロント"> トロント <span class="cnt" data-count="city:トロント">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="city" value="ワシントンDC"> ワシントンDC <span class="cnt" data-count="city:ワシントンDC">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="city" value="デンバー"> デンバー <span class="cnt" data-count="city:デンバー">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="city" value="マイアミ"> マイアミ <span class="cnt" data-count="city:マイアミ">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="city" value="フェニックス"> フェニックス <span class="cnt" data-count="city:フェニックス">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="city" value="アメリカその他都市"> アメリカその他都市 <span class="cnt" data-count="city:アメリカその他都市">0</span></label>
           <label class="fc"><input type="checkbox" data-filter-type="city" value="台北"> 台北 <span class="cnt" data-count="city:台北">0</span></label>
         </div>
 
@@ -444,8 +387,8 @@
           <label class="fc"><input type="checkbox" data-filter-type="type" value="ticket"> 観戦チケット付き <span class="cnt" data-count="type:ticket">0</span></label>
           <label class="fc"><input type="checkbox" data-filter-type="type" value="transfer"> 送迎付き <span class="cnt" data-count="type:transfer">0</span></label>
           <label class="fc"><input type="checkbox" data-filter-type="type" value="pregame"> プリゲーム体験付き <span class="cnt" data-count="type:pregame">0</span></label>
-          <label class="fc"><input type="checkbox" data-filter-type="type" value="stadiumtour"> 球場見学ツアー <span class="cnt" data-count="type:stadiumtour">0</span></label>
           <label class="fc"><input type="checkbox" data-filter-type="type" value="sightseeing"> 観光セット <span class="cnt" data-count="type:sightseeing">0</span></label>
+          <label class="fc"><input type="checkbox" data-filter-type="type" value="package"> 宿泊パッケージ <span class="cnt" data-count="type:package">0</span></label>
           <label class="fc"><input type="checkbox" data-filter-type="type" value="jp"> 日本語ガイド <span class="cnt" data-count="type:jp">0</span></label>
         </div>
       </aside>
@@ -453,7 +396,7 @@
       <!-- ====== Tours List ====== -->
       <div>
         <div class="tours-toolbar">
-          <div class="results"><strong id="result-count">15</strong> 件 / <strong id="total-count">15</strong> 件中</div>
+          <div class="results"><strong id="result-count">41</strong> 件 / <strong id="total-count">41</strong> 件中</div>
           <div class="right">
             <div class="sort-control">
               <label for="sort-baseball" style="font-size:12px; color:var(--ink-3); margin-right:6px;">並び替え</label>
@@ -468,7 +411,6 @@
         </div>
 
         <div class="active-filters" id="active-filters"></div>
-
         <div class="ac-list" id="ac-list"></div>
 
         <div class="ac-empty" id="ac-empty" style="display:none;">
@@ -502,40 +444,35 @@
         <h3>日本人選手のローテーション情報の調べ方</h3>
         <p>先発投手のローテーションはMLB公式サイト・球団公式SNS・スポーツメディアで数日前に公開されます。確実な保証はないものの、滞在期間を3〜4日確保すれば、おおむね1試合は登板の可能性があります。</p>
       </div>
-
       <div class="tip-card" style="--tip-accent:#0c2340;">
         <div class="tip-no">TIP 02</div>
         <div class="tip-cat">STADIUMS</div>
         <h3>球場ごとの「見どころ」を押さえる</h3>
         <p>ドジャー・スタジアムは外野の先に広がる山並みの眺め、ヤンキー・スタジアムは「外野のモニュメント・パーク」、楽天桃園球場は熱狂的なチアパフォーマンス。球場ごとの個性を楽しむのも観戦の醍醐味です。</p>
       </div>
-
       <div class="tip-card" style="--tip-accent:#bd3039;">
         <div class="tip-no">TIP 03</div>
         <div class="tip-cat">NIGHT GAME</div>
         <h3>ナイトゲーム後の足を確保しておく</h3>
         <p>ナイトゲームの終了は深夜にかかることが多く、終了後は配車アプリの料金が跳ね上がります。送迎付きツアーを予約しておくと、価格が固定で、混雑時の待ち時間もありません。</p>
       </div>
-
       <div class="tip-card" style="--tip-accent:#b4862a;">
         <div class="tip-no">TIP 04</div>
         <div class="tip-cat">SEATING</div>
         <h3>座席エリアの賢い選び方</h3>
         <p>内野指定席は試合全体が見渡せて初観戦に最適。外野席は本場の応援文化を体感できるリーズナブルな選択肢。バックネット裏は最高峰の体験で価格も最上クラス。価格差は2〜3倍開きます。</p>
       </div>
-
       <div class="tip-card" style="--tip-accent:#0e3386;">
         <div class="tip-no">TIP 05</div>
         <div class="tip-cat">SEASON</div>
         <h3>シーズン中のおすすめ観戦時期</h3>
         <p>MLBは6〜7月が安定した気候で観戦に最適。8〜9月は優勝争いで盛り上がります。台湾プロ野球は4〜10月開催で、春・初夏は比較的観戦しやすい時期です。</p>
       </div>
-
       <div class="tip-card" style="--tip-accent:#002d72;">
         <div class="tip-no">TIP 06</div>
         <div class="tip-cat">CITY MATCH</div>
         <h3>ニューヨーク2球団観戦の組み合わせ方</h3>
-        <p>ヤンキース（AL東・ヤンキー・スタジアム）とメッツ（NL東・シティ・フィールド）が同じNYで観戦可能。同じ週末にホームゲームが組まれていれば、1度の渡米で2球団・2球場をハシゴできます。</p>
+        <p>ヤンキース（ア・リーグ東・ヤンキー・スタジアム）とメッツ（ナ・リーグ東・シティ・フィールド）が同じNYで観戦可能。同じ週末にホームゲームが組まれていれば、1度の渡米で2球団・2球場をハシゴできます。</p>
       </div>
     </div>
   </div>
@@ -662,152 +599,230 @@
 </footer>
 
 <script>
-/* ===== AC data ===== */
-const ACS = [
-  { id:'183789', team:'dodgers', teamName:'ロサンゼルス・ドジャース', code:'LAD', color1:'#005a9c', color2:'#ef3e42',
-    league:'mlb', division:'nl-west', city:'ロサンゼルス',
-    url:'https://www.veltra.com/jp/north_america/los_angeles/a/183789',
-    title:'【JTB限定】アーリーエントリー付き！ロサンゼルス ドジャース戦観戦ツアー 観戦チケット＆往復送迎＜2026年3〜9月／日本語ガイド＞by JTB マイバス',
-    venue:'DODGER STADIUM',
-    types:['ticket','transfer','pregame','jp'],
-    tags:[{label:'JTB限定',variant:'feature'},{label:'日本語ガイド',variant:'jp'},{label:'往復送迎'}],
-    price:400, ccy:'USD', priceLabel:'大人1名', rating:8.6, reviews:42 },
-
-  { id:'193811', team:'dodgers', teamName:'ロサンゼルス・ドジャース', code:'LAD', color1:'#005a9c', color2:'#ef3e42',
-    league:'mlb', division:'nl-west', city:'ロサンゼルス',
-    url:'https://www.veltra.com/jp/north_america/los_angeles/a/193811',
-    title:'ドジャース 野球観戦プリゲームツアー 選手使用用具に触れて写真撮影できる特別体験付き',
-    venue:'PRE-GAME EXPERIENCE',
-    types:['ticket','pregame','jp'],
-    tags:[{label:'プリゲーム体験',variant:'feature'},{label:'日本語ガイド',variant:'jp'},{label:'写真撮影OK'}],
-    price:185, ccy:'USD', priceLabel:'大人1名', rating:9.0, reviews:18 },
-
-  { id:'182662', team:'dodgers', teamName:'ロサンゼルス・ドジャース', code:'LAD', color1:'#005a9c', color2:'#ef3e42',
-    league:'mlb', division:'nl-west', city:'ロサンゼルス',
-    url:'https://www.veltra.com/jp/north_america/los_angeles/a/182662',
-    title:'ロサンゼルス プロ野球観戦 Dチームの観戦チケット手配＜2026年シーズン／3〜9月＞',
-    venue:'TICKET ARRANGEMENT',
-    types:['ticket'],
-    tags:[{label:'座席選択可'},{label:'2026シーズン'}],
-    price:510, ccy:'USD', priceLabel:'大人1名', rating:9.0, reviews:27 },
-
-  { id:'186386', team:'dodgers', teamName:'ロサンゼルス・ドジャース', code:'LAD', color1:'#005a9c', color2:'#ef3e42',
-    league:'mlb', division:'nl-west', city:'ロサンゼルス',
-    url:'https://www.veltra.com/jp/north_america/los_angeles/a/186386',
-    title:'【往復送迎】球場 ⇔ ご宿泊ホテル間 往復送迎サービス＜貸切／日本語ガイド＞',
-    venue:'ROUND-TRIP TRANSFER',
-    types:['transfer','jp'],
-    tags:[{label:'最高評価',variant:'feature'},{label:'日本語ガイド',variant:'jp'},{label:'貸切'}],
-    price:880, ccy:'USD', priceLabel:'1台 / 最大6名様まで', rating:10.0, reviews:8 },
-
-  { id:'183163', team:'dodgers', teamName:'ロサンゼルス・ドジャース', code:'LAD', color1:'#005a9c', color2:'#ef3e42',
-    league:'mlb', division:'nl-west', city:'ロサンゼルス',
-    url:'https://www.veltra.com/jp/north_america/los_angeles/a/183163',
-    title:'ロサンゼルス 野球観戦前後の片道送迎サービス（球場⇔ダウンタウン）',
-    venue:'ONE-WAY TRANSFER',
-    types:['transfer'],
-    tags:[{label:'片道'}],
-    price:100, ccy:'USD', priceLabel:'大人1名', rating:7.8, reviews:12 },
-
-  { id:'103615', team:'angels', teamName:'ロサンゼルス・エンゼルス', code:'LAA', color1:'#ba0021', color2:'#003263',
-    league:'mlb', division:'al-west', city:'ロサンゼルス',
-    url:'https://www.veltra.com/jp/north_america/los_angeles/a/103615',
-    title:'ロサンゼルス アナハイムチーム野球観戦ツアー ＜4〜10月／日本語ガイド＞',
-    venue:'ANGEL STADIUM',
-    types:['ticket','transfer','jp'],
-    tags:[{label:'日本語ガイド',variant:'jp'},{label:'4〜10月'}],
-    price:250, ccy:'USD', priceLabel:'大人1名', rating:null, reviews:null },
-
-  { id:'157309', team:'angels', teamName:'ロサンゼルス・エンゼルス', code:'LAA', color1:'#ba0021', color2:'#003263',
-    league:'mlb', division:'al-west', city:'ロサンゼルス',
-    url:'https://www.veltra.com/jp/north_america/los_angeles/a/157309',
-    title:'ディズニーランド・パーク1日観光＋ロサンゼルス・エンゼルス メジャーリーグ(MLB)観戦ツアー＜日本語ガイド／往復送迎付き＞',
-    venue:'DISNEY + MLB',
-    types:['ticket','transfer','sightseeing','jp'],
-    tags:[{label:'観光セット',variant:'feature'},{label:'日本語ガイド',variant:'jp'},{label:'往復送迎'}],
-    price:420, ccy:'USD', priceLabel:'大人1名', rating:null, reviews:null },
-
-  { id:'108997', team:'yankees', teamName:'ニューヨーク・ヤンキース', code:'NYY', color1:'#0c2340', color2:'#c4ced4',
-    league:'mlb', division:'al-east', city:'ニューヨーク',
-    url:'https://www.veltra.com/jp/north_america/new_york/a/108997',
-    title:'ニューヨーク・Yチーム プロ野球観戦チケット ＜2026年シーズン／4〜9月／ホームゲーム＞',
-    venue:'YANKEE STADIUM',
-    types:['ticket'],
-    tags:[{label:'2026年4〜9月'},{label:'ホームゲーム'}],
-    price:160, ccy:'USD', priceLabel:'大人1名', rating:null, reviews:null },
-
-  { id:'19830', team:'yankees', teamName:'ニューヨーク・ヤンキース', code:'NYY', color1:'#0c2340', color2:'#c4ced4',
-    league:'mlb', division:'al-east', city:'ニューヨーク',
-    url:'https://www.veltra.com/jp/north_america/new_york/a/19830',
-    title:'メジャーリーグ(MLB)スタジアムツアー ヤンキー・スタジアム 球場見学＆バックステージツアー ＜4〜9月／日本語ガイド＞',
-    venue:'STADIUM TOUR',
-    types:['stadiumtour','jp'],
-    tags:[{label:'球場見学',variant:'feature'},{label:'日本語ガイド',variant:'jp'}],
-    price:110, ccy:'USD', priceLabel:'大人1名', rating:null, reviews:null },
-
-  { id:'177648', team:'yankees', teamName:'ニューヨーク・ヤンキース', code:'NYY', color1:'#0c2340', color2:'#c4ced4',
-    league:'mlb', division:'al-east', city:'ニューヨーク',
-    url:'https://www.veltra.com/jp/north_america/new_york/a/177648',
-    title:'ニューヨーク・ヤンキース野球観戦付き ニューヨーク観光ツアー ハーレム＆ユニバーサル・ヒップホップ・ミュージアム ＜1名から催行／日本語アシスタント＞',
-    venue:'YANKEES + NY TOUR',
-    types:['ticket','sightseeing','jp'],
-    tags:[{label:'観光セット',variant:'feature'},{label:'日本語アシスタント',variant:'jp'}],
-    price:340, ccy:'USD', priceLabel:'大人1名', rating:null, reviews:null },
-
-  { id:'103236', team:'mets', teamName:'ニューヨーク・メッツ', code:'NYM', color1:'#002d72', color2:'#ff5910',
-    league:'mlb', division:'nl-east', city:'ニューヨーク',
-    url:'https://www.veltra.com/jp/north_america/new_york/a/103236',
-    title:'ニューヨーク 野球観戦ツアー（M戦）＜4〜9月／日本語ガイド＞',
-    venue:'CITI FIELD',
-    types:['ticket','transfer','jp'],
-    tags:[{label:'日本語ガイド',variant:'jp'},{label:'往復送迎'}],
-    price:260, ccy:'USD', priceLabel:'大人1名', rating:null, reviews:null },
-
-  { id:'202520', team:'padres', teamName:'サンディエゴ・パドレス', code:'SDP', color1:'#2f241d', color2:'#ffc425',
-    league:'mlb', division:'nl-west', city:'サンディエゴ',
-    url:'https://www.veltra.com/jp/north_america/san_diego/a/202520',
-    title:'【MLB観戦チケット】サンディエゴ・パドレス ＜ホーム戦＞',
-    venue:'PETCO PARK',
-    types:['ticket'],
-    tags:[{label:'ホーム戦'}],
-    price:140, ccy:'USD', priceLabel:'大人1名', rating:null, reviews:null },
-
-  { id:'202637', team:'whitesox', teamName:'シカゴ・ホワイトソックス', code:'CWS', color1:'#27251f', color2:'#c4ced4',
-    league:'mlb', division:'al-central', city:'シカゴ',
-    url:'https://www.veltra.com/jp/north_america/chicago/a/202637',
-    title:'【MLB観戦チケット】シカゴ・ホワイトソックス ＜ホーム戦＞',
-    venue:'GUARANTEED RATE FIELD',
-    types:['ticket'],
-    tags:[{label:'ホーム戦'}],
-    price:120, ccy:'USD', priceLabel:'大人1名', rating:null, reviews:null },
-
-  { id:'184887', team:'rakuten', teamName:'楽天モンキーズ', code:'RAK', color1:'#cc0000', color2:'#000000',
-    league:'cpbl', division:'cpbl', city:'台北',
-    url:'https://www.veltra.com/jp/asia/taiwan/taipei/a/184887',
-    title:'【2026年春季】 台湾プロ野球・楽天モンキーズ観戦ツアー ＜楽天桃園球場／悠遊カードプレゼント／日本語ガイド＞',
-    venue:'楽天桃園球場',
-    types:['ticket','transfer','pregame','jp'],
-    tags:[{label:'台湾プロ野球',variant:'feature'},{label:'日本語ガイド',variant:'jp'},{label:'悠遊カード特典'}],
-    price:2800, ccy:'TWD', priceLabel:'大人1名', rating:null, reviews:null },
-
-  { id:'201667', team:'weichuan', teamName:'味全ドラゴンズ', code:'WEI', color1:'#f4b400', color2:'#1f4e9e',
-    league:'cpbl', division:'cpbl', city:'台北',
-    url:'https://www.veltra.com/jp/asia/taiwan/taipei/a/201667',
-    title:'【2026/4/3〜6/17期間限定】台湾プロ野球観戦ツアー 熱狂の球場で味全ドラゴンズ観戦！＜チア応援観覧席／チアガールと撮影＆球場案内プランあり／片道送迎＞',
-    venue:'天母棒球場',
-    types:['ticket','transfer','jp'],
-    tags:[{label:'台湾プロ野球',variant:'feature'},{label:'チア応援',variant:'jp'},{label:'4/3〜6/17限定'}],
-    price:3200, ccy:'TWD', priceLabel:'大人1名', rating:null, reviews:null },
+/* ===== Team master ===== */
+const TICKET_IMG = 'https://cdn2.veltra.com/ptr/20260414072305_16918642_17292_0.jpg';
+const TEAMS = [
+  // MLB — AL East
+  { key:'yankees',  name:'ニューヨーク・ヤンキース', code:'NYY', color:'#0c2340', div:'al-east',  divLabel:'ア・リーグ東', city:'ニューヨーク', desc:'ワールドシリーズ最多27回制覇。MLBを代表する名門。本拠地はヤンキー・スタジアム。' },
+  { key:'redsox',   name:'ボストン・レッドソックス', code:'BOS', color:'#bd3039', div:'al-east',  divLabel:'ア・リーグ東', city:'ボストン', desc:'現存最古の球場フェンウェイ・パークが本拠地。左翼の「グリーン・モンスター」が名物。' },
+  { key:'bluejays', name:'トロント・ブルージェイズ', code:'TOR', color:'#134a8e', div:'al-east',  divLabel:'ア・リーグ東', city:'トロント', desc:'カナダ唯一のMLB球団。開閉式ドームのロジャーズ・センターが本拠地。' },
+  { key:'orioles',  name:'ボルチモア・オリオールズ', code:'BAL', color:'#df4601', div:'al-east',  divLabel:'ア・リーグ東', city:'アメリカその他都市', desc:'クラシックな名球場オリオール・パークを本拠地とするア・リーグ東の球団。' },
+  // MLB — AL Central
+  { key:'whitesox', name:'シカゴ・ホワイトソックス', code:'CWS', color:'#27251f', div:'al-central', divLabel:'ア・リーグ中', city:'シカゴ', desc:'シカゴ・サウスサイドが本拠地。ア・リーグ中地区の伝統球団。' },
+  { key:'twins',    name:'ミネソタ・ツインズ',       code:'MIN', color:'#002b5c', div:'al-central', divLabel:'ア・リーグ中', city:'アメリカその他都市', desc:'ミネアポリスのターゲット・フィールドを本拠地とするア・リーグ中の球団。' },
+  { key:'tigers',   name:'デトロイト・タイガース',   code:'DET', color:'#0c2340', div:'al-central', divLabel:'ア・リーグ中', city:'アメリカその他都市', desc:'コメリカ・パークが本拠地。歴史あるア・リーグ中地区の球団。' },
+  { key:'royals',   name:'カンザスシティ・ロイヤルズ', code:'KC', color:'#004687', div:'al-central', divLabel:'ア・リーグ中', city:'アメリカその他都市', desc:'噴水で知られるカウフマン・スタジアムが本拠地。' },
+  // MLB — AL West
+  { key:'astros',   name:'ヒューストン・アストロズ', code:'HOU', color:'#002d62', div:'al-west',  divLabel:'ア・リーグ西', city:'ヒューストン', desc:'開閉式ドームのダイキン・パークが本拠地。ア・リーグ西の強豪。' },
+  { key:'mariners', name:'シアトル・マリナーズ',     code:'SEA', color:'#0c2c56', div:'al-west',  divLabel:'ア・リーグ西', city:'シアトル', desc:'T-モバイル・パークが本拠地。日本人選手の活躍でも知られる。' },
+  { key:'angels',   name:'ロサンゼルス・エンゼルス', code:'LAA', color:'#ba0021', div:'al-west',  divLabel:'ア・リーグ西', city:'ロサンゼルス', desc:'アナハイムのエンゼル・スタジアムが本拠地。日本人選手の所属歴でも注目。' },
+  { key:'rangers',  name:'テキサス・レンジャーズ',   code:'TEX', color:'#003278', div:'al-west',  divLabel:'ア・リーグ西', city:'アメリカその他都市', desc:'開閉式ドームのグローブライフ・フィールドが本拠地。' },
+  { key:'athletics',name:'アスレチックス',           code:'ATH', color:'#003831', div:'al-west',  divLabel:'ア・リーグ西', city:'アメリカその他都市', desc:'サクラメントのサター・ヘルス・パークを暫定本拠地とするア・リーグ西の球団。' },
+  // MLB — NL East
+  { key:'mets',     name:'ニューヨーク・メッツ',     code:'NYM', color:'#002d72', div:'nl-east',  divLabel:'ナ・リーグ東', city:'ニューヨーク', desc:'クイーンズのシティ・フィールドが本拠地。熱狂的なファンを抱えるナ・リーグ東の人気球団。' },
+  { key:'braves',   name:'アトランタ・ブレーブス',   code:'ATL', color:'#ce1141', div:'nl-east',  divLabel:'ナ・リーグ東', city:'アトランタ', desc:'トゥルーイスト・パークが本拠地。ナ・リーグ東の常勝軍団。' },
+  { key:'phillies', name:'フィラデルフィア・フィリーズ', code:'PHI', color:'#e81828', div:'nl-east', divLabel:'ナ・リーグ東', city:'フィラデルフィア', desc:'シチズンズ・バンク・パークが本拠地。熱い応援で知られるナ・リーグ東の球団。' },
+  { key:'nationals',name:'ワシントン・ナショナルズ', code:'WSH', color:'#ab0003', div:'nl-east',  divLabel:'ナ・リーグ東', city:'ワシントンDC', desc:'首都ワシントンDCのナショナルズ・パークが本拠地。' },
+  { key:'marlins',  name:'マイアミ・マーリンズ',     code:'MIA', color:'#00a3e0', div:'nl-east',  divLabel:'ナ・リーグ東', city:'マイアミ', desc:'開閉式屋根のローンデポ・パークが本拠地。' },
+  // MLB — NL Central
+  { key:'cubs',     name:'シカゴ・カブス',           code:'CHC', color:'#0e3386', div:'nl-central', divLabel:'ナ・リーグ中', city:'シカゴ', desc:'野球ファンの聖地リグレー・フィールドが本拠地。ツタの絡まる外野フェンスが名物。' },
+  { key:'cardinals',name:'セントルイス・カージナルス', code:'STL', color:'#c41e3a', div:'nl-central', divLabel:'ナ・リーグ中', city:'アメリカその他都市', desc:'ブッシュ・スタジアムが本拠地。ナ・リーグ屈指の名門。' },
+  { key:'brewers',  name:'ミルウォーキー・ブルワーズ', code:'MIL', color:'#12284b', div:'nl-central', divLabel:'ナ・リーグ中', city:'アメリカその他都市', desc:'開閉式屋根のアメリカン・ファミリー・フィールドが本拠地。' },
+  { key:'pirates',  name:'ピッツバーグ・パイレーツ', code:'PIT', color:'#fdb827', div:'nl-central', divLabel:'ナ・リーグ中', city:'アメリカその他都市', desc:'川沿いの美しい景観で知られるPNCパークが本拠地。' },
+  // MLB — NL West
+  { key:'dodgers',  name:'ロサンゼルス・ドジャース', code:'LAD', color:'#005a9c', div:'nl-west',  divLabel:'ナ・リーグ西', city:'ロサンゼルス', desc:'日本人選手が所属し世界が注目。外野の先に山並みが広がるドジャー・スタジアムが本拠地。' },
+  { key:'padres',   name:'サンディエゴ・パドレス',   code:'SDP', color:'#2f241d', div:'nl-west',  divLabel:'ナ・リーグ西', city:'サンディエゴ', desc:'温暖なサンディエゴのペトコ・パークが本拠地。' },
+  { key:'giants',   name:'サンフランシスコ・ジャイアンツ', code:'SFG', color:'#fd5a1e', div:'nl-west', divLabel:'ナ・リーグ西', city:'サンフランシスコ', desc:'湾に面したオラクル・パークが本拠地。SFの名門。' },
+  { key:'dbacks',   name:'アリゾナ・ダイヤモンドバックス', code:'ARI', color:'#a71930', div:'nl-west', divLabel:'ナ・リーグ西', city:'フェニックス', desc:'開閉式屋根のチェイス・フィールドが本拠地。' },
+  { key:'rockies',  name:'コロラド・ロッキーズ',     code:'COL', color:'#33006f', div:'nl-west',  divLabel:'ナ・リーグ西', city:'デンバー', desc:'標高の高いクアーズ・フィールドが本拠地。打球がよく飛ぶ「打者天国」。' },
+  // Other overseas — CPBL
+  { key:'rakuten',  name:'楽天モンキーズ',           code:'RAK', color:'#cc0000', div:'cpbl', divLabel:'台湾プロ野球', city:'台北', desc:'台湾CPBLの人気球団。桃園を本拠地に、チア「Rakuten Girls」の熱狂的応援が名物。', other:true },
+  { key:'weichuan', name:'味全ドラゴンズ',           code:'WEI', color:'#f4b400', div:'cpbl', divLabel:'台湾プロ野球', city:'台北', desc:'台北を本拠地とする台湾CPBLの古豪。チア応援とともに台湾野球文化を体感できる。', other:true },
 ];
 
-/* ===== Labels (for active filter chips) ===== */
+/* ===== AC data (Veltra実データ / 価格は円・公式表示準拠) ===== */
+const ACS = [
+  // --- Tours / packages / transfers (固有写真・レビューあり) ---
+  { id:'183789', team:'dodgers', code:'LAD', color1:'#005a9c', color2:'#ef3e42', league:'mlb', division:'nl-west', city:'ロサンゼルス',
+    url:'https://www.veltra.com/jp/north_america/los_angeles/a/183789',
+    image:'https://cdn2.veltra.com/ptr/20250729174349_953302527_2012_0.png',
+    title:'【JTB限定】アーリーエントリー付き！ロサンゼルス ドジャース戦観戦ツアー 観戦チケット＆往復送迎＜2026年3〜9月／日本語ガイド＞by JTB マイバス',
+    types:['ticket','transfer','jp'], tags:[{label:'JTB限定',variant:'feature'},{label:'日本語ガイド',variant:'jp'},{label:'往復送迎'}],
+    price:65847, priceLabel:'大人1名', rating:8.4, reviews:19 },
+  { id:'193811', team:'dodgers', code:'LAD', color1:'#005a9c', color2:'#ef3e42', league:'mlb', division:'nl-west', city:'ロサンゼルス',
+    url:'https://www.veltra.com/jp/north_america/los_angeles/a/193811',
+    image:'https://cdn2.veltra.com/ptr/20250729174548_1145761901_2012_0.png',
+    title:'ロサンゼルス・ドジャースチーム 野球観戦プリゲームツアー 選手使用用具に触れて写真撮影できる特別体験付き＜3〜9月／日本語ガイド＞by JTB マイバス',
+    types:['ticket','pregame','jp'], tags:[{label:'プリゲーム体験',variant:'feature'},{label:'日本語ガイド',variant:'jp'},{label:'写真撮影OK'}],
+    price:60909, priceLabel:'大人1名', rating:7.6, reviews:5 },
+  { id:'182662', team:'dodgers', code:'LAD', color1:'#005a9c', color2:'#0c1733', league:'mlb', division:'nl-west', city:'ロサンゼルス',
+    url:'https://www.veltra.com/jp/north_america/los_angeles/a/182662',
+    image:null, venue:'TICKET ARRANGEMENT',
+    title:'ロサンゼルス プロ野球観戦 ドジャースチームの観戦チケット手配＜2026年シーズン／3〜9月＞',
+    types:['ticket'], tags:[{label:'座席選択可'},{label:'2026シーズン'}],
+    price:83955, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'186386', team:'dodgers', code:'LAD', color1:'#005a9c', color2:'#0c1733', league:'mlb', division:'nl-west', city:'ロサンゼルス',
+    url:'https://www.veltra.com/jp/north_america/los_angeles/a/186386',
+    image:'https://cdn2.veltra.com/ptr/20260401054250_1129240426_12843_0.jpg',
+    title:'【往復送迎】球場 ⇔ ご宿泊ホテル間 往復送迎サービス＜貸切／日本語ガイド＞',
+    types:['transfer','jp'], tags:[{label:'最高評価',variant:'feature'},{label:'日本語ガイド',variant:'jp'},{label:'貸切'}],
+    price:144864, priceLabel:'1台 / 最大6名様まで', rating:10.0, reviews:3 },
+  { id:'185743', team:'dodgers', code:'LAD', color1:'#005a9c', color2:'#0c1733', league:'mlb', division:'nl-west', city:'ロサンゼルス',
+    url:'https://www.veltra.com/jp/north_america/los_angeles/a/185743',
+    image:'https://cdn2.veltra.com/ptr/20250807022840_702980033_2715_0.jpg',
+    title:'【往復送迎】球場 ⇔ ロサンゼルス周辺ホテル送迎サービス 野球観戦に便利＜3〜9月／日本語ドライバー＞',
+    types:['transfer','jp'], tags:[{label:'往復送迎'},{label:'日本語ドライバー',variant:'jp'}],
+    price:23047, priceLabel:'大人1名', rating:9.2, reviews:24 },
+  { id:'183163', team:'dodgers', code:'LAD', color1:'#005a9c', color2:'#0c1733', league:'mlb', division:'nl-west', city:'ロサンゼルス',
+    url:'https://www.veltra.com/jp/north_america/los_angeles/a/183163',
+    image:'https://cdn2.veltra.com/ptr/20250814015810_1848022936_10608_0.jpg',
+    title:'ロサンゼルス 野球観戦前後の片道送迎サービス 球場 ⇔ ロサンゼルス・ダウンタウン地区＜往路または復路／日本語または英語＞',
+    types:['transfer'], tags:[{label:'片道送迎'}], priceApprox:true,
+    price:16000, priceLabel:'大人1名', rating:7.8, reviews:21 },
+  { id:'196254', team:'dodgers', code:'LAD', color1:'#005a9c', color2:'#0c1733', league:'mlb', division:'nl-west', city:'ロサンゼルス',
+    url:'https://www.veltra.com/jp/north_america/los_angeles/a/196254',
+    image:'https://cdn2.veltra.com/ptr/20250807021323_1058658472_2198_0.jpg',
+    title:'【往復送迎】球場 ⇔ ミヤコホテル シャトル送迎サービス 野球観戦当日の移動をサポート＜英語ドライバー＞',
+    types:['transfer'], tags:[{label:'シャトル送迎'},{label:'リトルトーキョー'}], priceApprox:true,
+    price:8000, priceLabel:'大人1名', rating:8.5, reviews:26 },
+  { id:'103615', team:'angels', code:'LAA', color1:'#ba0021', color2:'#003263', league:'mlb', division:'al-west', city:'ロサンゼルス',
+    url:'https://www.veltra.com/jp/north_america/los_angeles/a/103615',
+    image:null, venue:'ANGEL STADIUM',
+    title:'ロサンゼルス アナハイムチーム 野球観戦ツアー 観戦チケット＆往復送迎＜2026年シーズン／4〜9月／日本語ガイド＞by JTB マイバス',
+    types:['ticket','transfer','jp'], tags:[{label:'日本語ガイド',variant:'jp'},{label:'往復送迎'}],
+    price:41135, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'108997', team:'yankees', code:'NYY', color1:'#0c2340', color2:'#c4ced4', league:'mlb', division:'al-east', city:'ニューヨーク',
+    url:'https://www.veltra.com/jp/north_america/new_york/a/108997',
+    image:'https://cdn2.veltra.com/ptr/20210806075853_1263435838_1985_0.jpg',
+    title:'ニューヨーク・ヤンキース プロ野球観戦チケット＜2026年シーズン／4〜9月／ホームゲーム＞',
+    types:['ticket'], tags:[{label:'2026年4〜9月'},{label:'ホームゲーム'}],
+    price:10206, priceLabel:'大人1名', rating:9.0, reviews:27 },
+  { id:'192599', team:'yankees', code:'NYY', color1:'#0c2340', color2:'#c4ced4', league:'mlb', division:'al-east', city:'ニューヨーク',
+    url:'https://www.veltra.com/jp/north_america/new_york/a/192599',
+    image:'https://cdn2.veltra.com/ptr/20220330045315_195867124_2012_0.jpg',
+    title:'ニューヨーク 野球観戦ツアー（ヤンキース戦）観戦チケット 往路地下鉄代込み＜2026年シーズン／4〜9月／日本語ガイド＞by JTB マイバス',
+    types:['ticket','transfer','jp'], tags:[{label:'日本語ガイド',variant:'jp'},{label:'往路地下鉄付'}],
+    price:49056, priceLabel:'大人1名', rating:9.1, reviews:37 },
+  { id:'177648', team:'yankees', code:'NYY', color1:'#0c2340', color2:'#c4ced4', league:'mlb', division:'al-east', city:'ニューヨーク',
+    url:'https://www.veltra.com/jp/north_america/new_york/a/177648',
+    image:'https://cdn2.veltra.com/ptr/20230406082656_1079651494_10518_0.jpg',
+    title:'ニューヨーク・ヤンキース野球観戦付き ニューヨーク観光ツアー ハーレム＆ブロンクス＜1名から催行／日本語アシスタント＞',
+    types:['ticket','sightseeing','jp'], tags:[{label:'観光セット',variant:'feature'},{label:'日本語アシスタント',variant:'jp'}],
+    price:37698, priceLabel:'大人1名', rating:6.0, reviews:1 },
+  { id:'192640', team:'mets', code:'NYM', color1:'#002d72', color2:'#ff5910', league:'mlb', division:'nl-east', city:'ニューヨーク',
+    url:'https://www.veltra.com/jp/north_america/new_york/a/192640',
+    image:'https://cdn2.veltra.com/ptr/20220330045315_195867124_2012_0.jpg',
+    title:'ニューヨーク 野球観戦ツアー（メッツ戦）観戦チケット 往路地下鉄代込み＜2026年シーズン／4〜9月／日本語ガイド＞by JTB マイバス',
+    types:['ticket','transfer','jp'], tags:[{label:'日本語ガイド',variant:'jp'},{label:'往路地下鉄付'}],
+    price:49056, priceLabel:'大人1名', rating:10.0, reviews:1 },
+  { id:'203447', team:'mlb-allstar', code:'ASG', color1:'#c8102e', color2:'#002d72', league:'mlb', division:'nl-east', city:'フィラデルフィア',
+    url:'https://www.veltra.com/jp/north_america/philadelphia/a/203447',
+    image:'https://cdn2.veltra.com/ptr/20260309172118_586725489_18290_0.jpg',
+    title:'【2026年7月12日】フィラデルフィア開催 オールスター野球観戦＆ホテル宿泊パッケージ＜3泊4日／宿泊付＞',
+    types:['ticket','package'], tags:[{label:'オールスター',variant:'feature'},{label:'宿泊付'},{label:'Uberバウチャー付'}],
+    price:399858, priceLabel:'1名 / 3泊4日', rating:null, reviews:null },
+
+  // --- MLB観戦チケット series (共通グローブ写真) ---
+  { id:'202305', team:'dodgers', code:'LAD', color1:'#005a9c', league:'mlb', division:'nl-west', city:'ロサンゼルス', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/los_angeles/a/202305', title:'【MLB観戦チケット】ロサンゼルス・ドジャース ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'ドジャー・スタジアム'}], price:10628, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202802', team:'yankees', code:'NYY', color1:'#0c2340', league:'mlb', division:'al-east', city:'ニューヨーク', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/new_york/a/202802', title:'【MLB観戦チケット】ニューヨーク・ヤンキース ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'ヤンキー・スタジアム'}], price:4960, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202804', team:'mets', code:'NYM', color1:'#002d72', league:'mlb', division:'nl-east', city:'ニューヨーク', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/new_york/a/202804', title:'【MLB観戦チケット】ニューヨーク・メッツ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'シティ・フィールド'}], price:2007, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202520', team:'padres', code:'SDP', color1:'#2f241d', league:'mlb', division:'nl-west', city:'サンディエゴ', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/san_diego/a/202520', title:'【MLB観戦チケット】サンディエゴ・パドレス ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'ペトコ・パーク'}], price:12872, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202524', team:'cubs', code:'CHC', color1:'#0e3386', league:'mlb', division:'nl-central', city:'シカゴ', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/chicago/a/202524', title:'【MLB観戦チケット】シカゴ・カブス ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'リグレー・フィールド'}], price:3779, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202637', team:'whitesox', code:'CWS', color1:'#27251f', league:'mlb', division:'al-central', city:'シカゴ', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/chicago/a/202637', title:'【MLB観戦チケット】シカゴ・ホワイトソックス ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'レート・フィールド'}], price:5543, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202640', team:'mariners', code:'SEA', color1:'#0c2c56', league:'mlb', division:'al-west', city:'シアトル', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/seattle/a/202640', title:'【MLB観戦チケット】シアトル・マリナーズ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'T-モバイル・パーク'}], price:4360, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202532', team:'redsox', code:'BOS', color1:'#bd3039', league:'mlb', division:'al-east', city:'ボストン', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/boston/a/202532', title:'【MLB観戦チケット】ボストン・レッドソックス ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'フェンウェイ・パーク'}], price:14525, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202644', team:'giants', code:'SFG', color1:'#fd5a1e', league:'mlb', division:'nl-west', city:'サンフランシスコ', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/san_francisco/a/202644', title:'【MLB観戦チケット】サンフランシスコ・ジャイアンツ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'オラクル・パーク'}], price:7085, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202646', team:'braves', code:'ATL', color1:'#ce1141', league:'mlb', division:'nl-east', city:'アトランタ', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/atlanta/a/202646', title:'【MLB観戦チケット】アトランタ・ブレーブス ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'トゥルーイスト・パーク'}], price:6022, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202627', team:'astros', code:'HOU', color1:'#002d62', league:'mlb', division:'al-west', city:'ヒューストン', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/houston/a/202627', title:'【MLB観戦チケット】ヒューストン・アストロズ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'ダイキン・パーク'}], price:5432, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202652', team:'phillies', code:'PHI', color1:'#e81828', league:'mlb', division:'nl-east', city:'フィラデルフィア', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/philadelphia/a/202652', title:'【MLB観戦チケット】フィラデルフィア・フィリーズ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'シチズンズ・バンク・パーク'}], price:6849, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202801', team:'bluejays', code:'TOR', color1:'#134a8e', league:'mlb', division:'al-east', city:'トロント', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/canada/toronto/a/202801', title:'【MLB観戦チケット】トロント・ブルージェイズ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'ロジャーズ・センター'}], price:4960, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202525', team:'cardinals', code:'STL', color1:'#c41e3a', league:'mlb', division:'nl-central', city:'アメリカその他都市', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/america_Other/a/202525', title:'【MLB観戦チケット】セントルイス・カージナルス ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'ブッシュ・スタジアム'}], price:6022, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202624', team:'rangers', code:'TEX', color1:'#003278', league:'mlb', division:'al-west', city:'アメリカその他都市', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/america_Other/a/202624', title:'【MLB観戦チケット】テキサス・レンジャーズ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'グローブライフ・フィールド'}], price:3070, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202530', team:'orioles', code:'BAL', color1:'#df4601', league:'mlb', division:'al-east', city:'アメリカその他都市', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/america_Other/a/202530', title:'【MLB観戦チケット】ボルチモア・オリオールズ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'オリオール・パーク'}], price:3543, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202526', team:'nationals', code:'WSH', color1:'#ab0003', league:'mlb', division:'nl-east', city:'ワシントンDC', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/washington_dc/a/202526', title:'【MLB観戦チケット】ワシントン・ナショナルズ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'ナショナルズ・パーク'}], price:7676, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202534', team:'brewers', code:'MIL', color1:'#12284b', league:'mlb', division:'nl-central', city:'アメリカその他都市', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/america_Other/a/202534', title:'【MLB観戦チケット】ミルウォーキー・ブルワーズ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'アメリカン・ファミリー・フィールド'}], price:2598, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202799', team:'twins', code:'MIN', color1:'#002b5c', league:'mlb', division:'al-central', city:'アメリカその他都市', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/america_Other/a/202799', title:'【MLB観戦チケット】ミネソタ・ツインズ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'ターゲット・フィールド'}], price:7912, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202643', team:'tigers', code:'DET', color1:'#0c2340', league:'mlb', division:'al-central', city:'アメリカその他都市', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/america_Other/a/202643', title:'【MLB観戦チケット】デトロイト・タイガース ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'コメリカ・パーク'}], price:2716, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202793', team:'dbacks', code:'ARI', color1:'#a71930', league:'mlb', division:'nl-west', city:'フェニックス', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/phoenix_scottsdale/a/202793', title:'【MLB観戦チケット】アリゾナ・ダイヤモンドバックス ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'チェイス・フィールド'}], price:5904, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202629', team:'royals', code:'KC', color1:'#004687', league:'mlb', division:'al-central', city:'アメリカその他都市', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/america_Other/a/202629', title:'【MLB観戦チケット】カンザスシティ・ロイヤルズ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'カウフマン・スタジアム'}], price:3543, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202796', team:'pirates', code:'PIT', color1:'#fdb827', league:'mlb', division:'nl-central', city:'アメリカその他都市', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/america_Other/a/202796', title:'【MLB観戦チケット】ピッツバーグ・パイレーツ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'PNCパーク'}], price:7912, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202649', team:'rockies', code:'COL', color1:'#33006f', league:'mlb', division:'nl-west', city:'デンバー', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/denver/a/202649', title:'【MLB観戦チケット】コロラド・ロッキーズ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'クアーズ・フィールド'}], price:3897, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202632', team:'marlins', code:'MIA', color1:'#00a3e0', league:'mlb', division:'nl-east', city:'マイアミ', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/miami/a/202632', title:'【MLB観戦チケット】マイアミ・マーリンズ ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'ローンデポ・パーク'}], price:4015, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'202806', team:'athletics', code:'ATH', color1:'#003831', league:'mlb', division:'al-west', city:'アメリカその他都市', image:TICKET_IMG,
+    url:'https://www.veltra.com/jp/north_america/america_Other/a/202806', title:'【MLB観戦チケット】アスレチックス ＜ホーム戦＞',
+    types:['ticket'], tags:[{label:'ホーム戦'},{label:'サター・ヘルス・パーク'}], price:4960, priceLabel:'大人1名', rating:null, reviews:null },
+
+  // --- Other overseas: Taiwan CPBL ---
+  { id:'184887', team:'rakuten', code:'RAK', color1:'#cc0000', color2:'#000000', league:'cpbl', division:'cpbl', city:'台北',
+    url:'https://www.veltra.com/jp/asia/taiwan/taipei/a/184887', image:null, venue:'楽天桃園球場',
+    title:'【2026年春季】台湾プロ野球・楽天モンキーズ観戦ツアー＜楽天桃園球場／悠遊カードプレゼント／日本語ガイド＞',
+    types:['ticket','transfer','jp'], tags:[{label:'台湾プロ野球',variant:'feature'},{label:'日本語ガイド',variant:'jp'},{label:'悠遊カード特典'}],
+    price:9149, priceLabel:'大人1名', rating:null, reviews:null },
+  { id:'201667', team:'weichuan', code:'WEI', color1:'#f4b400', color2:'#1f4e9e', league:'cpbl', division:'cpbl', city:'台北',
+    url:'https://www.veltra.com/jp/asia/taiwan/taipei/a/201667', image:null, venue:'天母棒球場',
+    title:'【2026/4/3〜6/17期間限定】台湾プロ野球観戦ツアー 熱狂の球場で味全ドラゴンズ観戦！＜チア応援観覧席／チアガールと撮影＆球場案内プランあり／片道送迎＞',
+    types:['ticket','transfer','jp'], tags:[{label:'台湾プロ野球',variant:'feature'},{label:'チア応援',variant:'jp'},{label:'4/3〜6/17限定'}],
+    price:8132, priceLabel:'大人1名', rating:null, reviews:null },
+];
+
+/* ===== Labels ===== */
 const LABEL = {
   league: { mlb:'MLB', cpbl:'台湾プロ野球' },
-  division: { 'al-east':'アメリカン東地区', 'al-central':'アメリカン中地区', 'al-west':'アメリカン西地区', 'nl-east':'ナショナル東地区', 'nl-west':'ナショナル西地区', cpbl:'台湾プロ野球' },
-  team: { dodgers:'ドジャース', yankees:'ヤンキース', mets:'メッツ', padres:'パドレス', angels:'エンゼルス', whitesox:'ホワイトソックス', rakuten:'楽天モンキーズ', weichuan:'味全ドラゴンズ' },
+  division: { 'al-east':'ア・リーグ東地区', 'al-central':'ア・リーグ中地区', 'al-west':'ア・リーグ西地区', 'nl-east':'ナ・リーグ東地区', 'nl-central':'ナ・リーグ中地区', 'nl-west':'ナ・リーグ西地区', cpbl:'台湾プロ野球' },
   city: {},
-  type: { ticket:'観戦チケット付き', transfer:'送迎付き', pregame:'プリゲーム体験付き', stadiumtour:'球場見学ツアー', sightseeing:'観光セット', jp:'日本語ガイド' },
+  type: { ticket:'観戦チケット付き', transfer:'送迎付き', pregame:'プリゲーム体験付き', sightseeing:'観光セット', package:'宿泊パッケージ', jp:'日本語ガイド' },
 };
+const TEAM_NAME = Object.fromEntries(TEAMS.map(t => [t.key, t.name]));
 
 /* ===== State ===== */
 const STATE = {
@@ -817,31 +832,40 @@ const STATE = {
 };
 const PAGE_SIZE = 10;
 
+/* ===== Build team cards ===== */
+function teamCardHtml(t) {
+  return `
+  <a class="club-card" href="#tours" data-jump-team="${t.key}" style="--club:${t.color};">
+    <div class="club-mono">${t.code}</div>
+    <div class="club-info">
+      <h3 class="nm">${t.name}</h3>
+      <div class="meta"><span>${t.divLabel}</span><span class="sep">·</span><span>${t.city}</span></div>
+      <p class="club-desc">${t.desc}</p>
+    </div>
+  </a>`;
+}
+function renderTeamCards() {
+  document.getElementById('club-grid-mlb').innerHTML = TEAMS.filter(t => !t.other).map(teamCardHtml).join('');
+  document.getElementById('club-grid-other').innerHTML = TEAMS.filter(t => t.other).map(teamCardHtml).join('');
+}
+
 /* ===== Filtering ===== */
 function matchOne(field, ac) {
   const f = STATE.filters[field];
   if (f.size === 0) return true;
-  if (field === 'type') {
-    for (const v of f) { if (!ac.types.includes(v)) return false; }
-    return true;
-  }
+  if (field === 'type') { for (const v of f) { if (!ac.types.includes(v)) return false; } return true; }
   return f.has(ac[field]);
 }
 function filterAcs() {
   return ACS.filter(ac => ['league','division','team','city','type'].every(f => matchOne(f, ac)));
 }
-
-/* ===== Sorting ===== */
 function sortAcs(list) {
   const arr = list.slice();
   switch (STATE.sort) {
-    case 'rating':
-      arr.sort((a,b) => (b.rating||0) - (a.rating||0)); break;
-    case 'price-asc':
-      arr.sort((a,b) => a.price - b.price); break;
-    case 'price-desc':
-      arr.sort((a,b) => b.price - a.price); break;
-    default: /* recommend: keep original order */ break;
+    case 'rating': arr.sort((a,b) => (b.rating||0) - (a.rating||0)); break;
+    case 'price-asc': arr.sort((a,b) => a.price - b.price); break;
+    case 'price-desc': arr.sort((a,b) => b.price - a.price); break;
+    default: break;
   }
   return arr;
 }
@@ -849,26 +873,33 @@ function sortAcs(list) {
 /* ===== Rendering ===== */
 function fmtPrice(ac) {
   const v = ac.price.toLocaleString('ja-JP');
-  return `<span class="ccy">${ac.ccy}</span>${v}<span class="tilde">〜</span>`;
+  const pre = ac.priceApprox ? '約' : '';
+  return `${pre}<span class="ccy">¥</span>${v}<span class="tilde">〜</span>`;
 }
-function tagHtml(t) {
-  const cls = t.variant ? `ac-tag is-${t.variant}` : 'ac-tag';
-  return `<span class="${cls}">${t.label}</span>`;
+function tagHtml(t) { return `<span class="${t.variant ? 'ac-tag is-'+t.variant : 'ac-tag'}">${t.label}</span>`; }
+function thumbHtml(ac) {
+  if (ac.image) {
+    return `<div class="ac-thumb has-img" style="--thumb-1:${ac.color1};--thumb-2:${ac.color2||ac.color1}">
+      <img src="${ac.image}" alt="" loading="lazy" onerror="this.closest('.ac-thumb').classList.add('img-failed')">
+      <span class="ac-code-badge">${ac.code}</span>
+    </div>`;
+  }
+  return `<div class="ac-thumb gradient" style="--thumb-1:${ac.color1};--thumb-2:${ac.color2||'#0c1733'}">
+    <div class="ac-code">${ac.code}</div>
+    <div>
+      <div class="ac-venue">${ac.venue||''}<br>${ac.city}</div>
+      <div class="ac-id">a/${ac.id}</div>
+    </div>
+  </div>`;
 }
 function cardHtml(ac) {
-  const meta = ac.rating ? `<span class="rating-star">★ ${ac.rating.toFixed(1)}</span><span class="reviews">${ac.reviews}件の体験談</span>` : `<span class="reviews">レビュー準備中</span>`;
-  const cityLabel = `${LABEL.type[ac.types[0]] || ''} · ${ac.city}`;
+  const meta = ac.rating ? `<span class="rating-star">★ ${ac.rating.toFixed(1)}</span><span class="reviews">${ac.reviews}件の体験談</span>` : `<span class="reviews">体験談準備中</span>`;
+  const catLabel = `${LABEL.type[ac.types[0]] || '観戦'} · ${ac.city}`;
   return `
   <a class="ac-card" href="${ac.url}" target="_blank" rel="noopener" data-ga-ac="${ac.id}">
-    <div class="ac-thumb" style="--thumb-1:${ac.color1}; --thumb-2:${ac.color2};">
-      <div class="ac-code">${ac.code}</div>
-      <div>
-        <div class="ac-venue">${ac.venue}<br>${ac.city.toUpperCase()}</div>
-        <div class="ac-id">a/${ac.id}</div>
-      </div>
-    </div>
+    ${thumbHtml(ac)}
     <div class="ac-body">
-      <div class="ac-cat"><span class="swatch" style="--cat-color:${ac.color1};"></span>${cityLabel}</div>
+      <div class="ac-cat"><span class="swatch" style="--cat-color:${ac.color1};"></span>${catLabel}</div>
       <h3 class="ac-title">${ac.title}</h3>
       <div class="ac-tags">${ac.tags.map(tagHtml).join('')}</div>
       <div class="ac-meta">${meta}</div>
@@ -885,41 +916,27 @@ function cardHtml(ac) {
 
 function render() {
   const filtered = sortAcs(filterAcs());
-  const total = ACS.length;
   const count = filtered.length;
   const shown = Math.min(STATE.shown, count);
 
   document.getElementById('result-count').textContent = count;
-  document.getElementById('total-count').textContent = total;
+  document.getElementById('total-count').textContent = ACS.length;
 
-  // List
   const listEl = document.getElementById('ac-list');
   const emptyEl = document.getElementById('ac-empty');
   if (count === 0) {
-    listEl.innerHTML = '';
-    listEl.style.display = 'none';
-    emptyEl.style.display = 'block';
+    listEl.innerHTML = ''; listEl.style.display = 'none'; emptyEl.style.display = 'block';
   } else {
-    listEl.style.display = '';
-    emptyEl.style.display = 'none';
+    listEl.style.display = ''; emptyEl.style.display = 'none';
     listEl.innerHTML = filtered.slice(0, shown).map(cardHtml).join('');
   }
 
-  // Load more
   const loadMore = document.getElementById('load-more');
   const rest = Math.max(0, count - shown);
-  if (rest > 0) {
-    loadMore.disabled = false;
-    loadMore.style.display = '';
-    document.getElementById('rest-count').textContent = rest;
-  } else {
-    loadMore.style.display = 'none';
-  }
+  if (rest > 0) { loadMore.style.display = ''; document.getElementById('rest-count').textContent = rest; }
+  else { loadMore.style.display = 'none'; }
 
-  // Active filter chips
   renderActiveFilters();
-
-  // Counts per checkbox
   updateCheckboxCounts();
 }
 
@@ -928,7 +945,7 @@ function renderActiveFilters() {
   const chips = [];
   for (const field of ['league','division','team','city','type']) {
     for (const v of STATE.filters[field]) {
-      const label = (LABEL[field][v]) || v;
+      const label = field === 'team' ? (TEAM_NAME[v] || v) : ((LABEL[field] && LABEL[field][v]) || v);
       chips.push(`<span class="af-chip">${label}<button type="button" data-remove-field="${field}" data-remove-value="${v}" aria-label="解除">×</button></span>`);
     }
   }
@@ -936,17 +953,14 @@ function renderActiveFilters() {
 }
 
 function updateCheckboxCounts() {
-  // Count how many results would show for each option given OTHER current filters
-  for (const field of ['league','division','team','city','type']) {
-    const opts = document.querySelectorAll(`[data-filter-type="${field}"]`);
-    opts.forEach(input => {
+  for (const field of ['league','division','city','type']) {
+    document.querySelectorAll(`[data-filter-type="${field}"]`).forEach(input => {
       const v = input.value;
-      // Temporarily evaluate with this field having only {v} selected, plus other current filters
       const saved = STATE.filters[field];
       STATE.filters[field] = new Set([v]);
       const cnt = filterAcs().length;
       STATE.filters[field] = saved;
-      const cntEl = document.querySelector(`[data-count="${field}:${v}"]`);
+      const cntEl = document.querySelector(`[data-count="${field}:${CSS.escape(v)}"]`);
       if (cntEl) cntEl.textContent = cnt;
       const label = input.closest('label.fc');
       if (label) label.classList.toggle('is-zero', cnt === 0 && !input.checked);
@@ -956,99 +970,66 @@ function updateCheckboxCounts() {
 
 function syncCheckboxes() {
   document.querySelectorAll('[data-filter-type]').forEach(inp => {
-    const f = inp.dataset.filterType;
-    inp.checked = STATE.filters[f].has(inp.value);
+    inp.checked = STATE.filters[inp.dataset.filterType].has(inp.value);
   });
 }
 
-/* ===== Wire up events ===== */
 document.addEventListener('DOMContentLoaded', () => {
-  // Checkboxes
+  renderTeamCards();
+
   document.querySelectorAll('[data-filter-type]').forEach(inp => {
     inp.addEventListener('change', () => {
       const f = inp.dataset.filterType;
-      if (inp.checked) STATE.filters[f].add(inp.value);
-      else STATE.filters[f].delete(inp.value);
-      STATE.shown = PAGE_SIZE;
-      render();
+      if (inp.checked) STATE.filters[f].add(inp.value); else STATE.filters[f].delete(inp.value);
+      STATE.shown = PAGE_SIZE; render();
     });
   });
 
-  // Sort
-  document.getElementById('sort-baseball').addEventListener('change', e => {
-    STATE.sort = e.target.value;
-    STATE.shown = PAGE_SIZE;
-    render();
-  });
+  document.getElementById('sort-baseball').addEventListener('change', e => { STATE.sort = e.target.value; STATE.shown = PAGE_SIZE; render(); });
+  document.getElementById('load-more').addEventListener('click', () => { STATE.shown += PAGE_SIZE; render(); });
 
-  // Load more
-  document.getElementById('load-more').addEventListener('click', () => {
-    STATE.shown += PAGE_SIZE;
-    render();
-  });
-
-  // Per-group clear
   document.querySelectorAll('[data-clear]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const f = btn.dataset.clear;
-      STATE.filters[f].clear();
-      syncCheckboxes();
-      STATE.shown = PAGE_SIZE;
-      render();
-    });
+    btn.addEventListener('click', () => { STATE.filters[btn.dataset.clear].clear(); syncCheckboxes(); STATE.shown = PAGE_SIZE; render(); });
   });
-
-  // Clear all
   document.getElementById('clear-all').addEventListener('click', () => {
     for (const f of ['league','division','team','city','type']) STATE.filters[f].clear();
-    syncCheckboxes();
-    STATE.shown = PAGE_SIZE;
-    render();
+    syncCheckboxes(); STATE.shown = PAGE_SIZE; render();
   });
-  document.getElementById('empty-clear').addEventListener('click', () => {
-    document.getElementById('clear-all').click();
-  });
+  document.getElementById('empty-clear').addEventListener('click', () => document.getElementById('clear-all').click());
 
-  // Active filter chip "remove" via event delegation
   document.getElementById('active-filters').addEventListener('click', e => {
     const btn = e.target.closest('[data-remove-field]');
     if (!btn) return;
-    const f = btn.dataset.removeField;
-    const v = btn.dataset.removeValue;
-    STATE.filters[f].delete(v);
-    syncCheckboxes();
-    STATE.shown = PAGE_SIZE;
-    render();
+    STATE.filters[btn.dataset.removeField].delete(btn.dataset.removeValue);
+    syncCheckboxes(); STATE.shown = PAGE_SIZE; render();
   });
 
-  // Division card jump → set filter & scroll
+  // Division card → set division filter & scroll
   document.querySelectorAll('[data-jump-division]').forEach(card => {
     card.addEventListener('click', e => {
       e.preventDefault();
       for (const f of ['league','division','team','city','type']) STATE.filters[f].clear();
       STATE.filters.division.add(card.dataset.jumpDivision);
-      syncCheckboxes();
-      STATE.shown = PAGE_SIZE;
-      render();
+      syncCheckboxes(); STATE.shown = PAGE_SIZE; render();
       document.getElementById('tours').scrollIntoView({ behavior:'smooth', block:'start' });
     });
   });
-  // Team card jump
-  document.querySelectorAll('[data-jump-team]').forEach(card => {
-    card.addEventListener('click', e => {
-      e.preventDefault();
-      for (const f of ['league','division','team','city','type']) STATE.filters[f].clear();
-      STATE.filters.team.add(card.dataset.jumpTeam);
-      syncCheckboxes();
-      STATE.shown = PAGE_SIZE;
-      render();
-      document.getElementById('tours').scrollIntoView({ behavior:'smooth', block:'start' });
-    });
+  // Team card → set team filter & scroll (event delegation; cards are injected)
+  document.getElementById('teams').addEventListener('click', e => {
+    const card = e.target.closest('[data-jump-team]');
+    if (!card) return;
+    e.preventDefault();
+    for (const f of ['league','division','team','city','type']) STATE.filters[f].clear();
+    STATE.filters.team.add(card.dataset.jumpTeam);
+    syncCheckboxes(); STATE.shown = PAGE_SIZE; render();
+    document.getElementById('tours').scrollIntoView({ behavior:'smooth', block:'start' });
   });
 
-  // Initial render
-  render();
+  // Hero counts
   document.getElementById('hero-ac-count').textContent = ACS.length;
+  document.getElementById('hero-team-count').textContent = TEAMS.length;
+
+  render();
 });
 </script>
 <script src="/planning/back-nav.js"></script>
