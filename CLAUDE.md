@@ -19,6 +19,8 @@ ToolSearch で "run_report" を検索 → mcp__*__run_report ツールを取得
 - Python SDK、curl、gcloud コマンドは**使わない**
 - MCP ツール名は `mcp__<UUID>__run_report` 形式（UUIDはセッションごとに変わる場合がある）
 
+> ⭐ **起動環境は毎回確認しない（2026-06-08 ユーザー指示）**：ユーザーは GA4 を使わせたい時、必ず Desktop アプリから指示している。だから「この環境で引けますか？」と先回りで聞かず、**まず `run_report` を1発打って疎通を確認 → 繋がれば黙ってそのまま進める**。応答しない／取得できない時だけ確認する。詳細は `docs/playbook.md` Section 1.1。
+
 **正しい呼び出し例:**
 
 ```json
