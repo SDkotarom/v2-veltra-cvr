@@ -245,47 +245,48 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
       <div class="kpf-lead-cell honmaru">
         <div class="kpf-k">伸びしろはどこか</div>
         <div class="kpf-v"><span class="kpf-red">新規 9.0%</span> <small>vs リピーター 22.8%</small></div>
-        <div class="kpf-sub">「AC到達→検討」の転換率。<b>新規はリピーターの半分以下</b>。リピーターは既に健全な水準のため、<b>新規ユーザーの CVR 改善に最大の伸びしろ</b>がある（GA4 日本・28日・bot除外）。</div>
+        <div class="kpf-sub">「AC到達→検討」の転換率。<b>新規はリピーターの半分以下</b>。22.8%は同UXの実証値（"天井"ではない）。新規優先は <b>母数 × 実測ギャップ × 即着手</b> の3点（GA4 日本・28日・bot除外）。</div>
       </div>
     </div>
 
     <div class="kpf-why"><button type="button" onclick="document.getElementById('kpf-why-modal').classList.add('open')">▸ なぜ新規を「優先」するのか？（リピーターを捨てるわけではない）</button></div>
 
-    <div class="kpf-laddertitle">新規を「意向ステージ」で分け、各層を1つ上へ進める</div>
-    <div class="kpf-laddersub">UIの細かな改善より、"新規をどのACに出会わせるか"という手前のUXが効く。今夏（7-8月）に最優先で取り組むのは <b style="color:var(--green)">S2</b>。</div>
+    <div class="kpf-laddertitle">新規を「購入意欲 × 欲しいAC（ニーズ）の確定度」で4層に分け、各層を1つ上へ進める</div>
+    <div class="kpf-laddersub">2軸（縦＝購入意欲／横＝欲しいACが決まっているか）で①〜④に分ける。番号は購入の近さ順。発見・比較・ランキングは既に実装済みのため、効くのは"出会わせ方"＝決済点の凝縮・緊急性・離脱後の再訪。最優先は <b style="color:var(--green)">② 比較中</b>（先行着手）。<br><span style="color:var(--text3)">母数は新規・日本・28日（GA4 2026-05-11〜06-07）のファネル断面からの近似。①〜③は重なり得るため「主たる滞在位置」で割当。</span></div>
 
     <div class="kpf-step s1">
-      <div class="kpf-left"><div class="kpf-stage">S1 確信層</div><div class="kpf-state">このACに決定／今すぐ買う</div></div>
+      <div class="kpf-left"><div class="kpf-stage">① 指名買い</div><div class="kpf-state">意欲：今すぐ予約したい<br>ニーズ：欲しいACが具体的に決まっている</div></div>
       <div class="kpf-right">
-        <div class="kpf-kpi">KPI：摩擦なく予約完了（基本は健全）</div>
-        <div class="kpf-chips"><span class="kpf-chip">カレンダー/フォーム動線</span><span class="kpf-chip">UI衛生</span></div>
-        <div class="kpf-note">伸びしろ：小</div>
+        <div class="kpf-kpi"><b>ACページで決め切らせる</b>（情報の質）＝ AC到達→検討→購入の各通過率を引き上げる</div>
+        <div class="kpf-chips"><span class="kpf-chip">価格/含まれるもの</span><span class="kpf-chip">キャンセル条件</span><span class="kpf-chip">口コミ・レビュー</span></div>
+        <div class="kpf-note">居場所：②AC到達→③検討→購入へ進む層。母数の目安：検討到達 約52,150人/28日＋その先</div>
       </div>
     </div>
 
     <div class="kpf-step s2">
-      <div class="kpf-left"><div class="kpf-stage">S2 比較検討層<span class="kpf-badge">最優先</span></div><div class="kpf-state">買う気あり／"これ"を決めかね、複数ACを比較中</div></div>
+      <div class="kpf-left"><div class="kpf-stage">② 比較中<span class="kpf-badge">最優先</span></div><div class="kpf-state">意欲：近々予約したい・高い<br>ニーズ：方向は固まったがACは未定／複数を比較中</div></div>
       <div class="kpf-right">
-        <div class="kpf-kpi">KPI：比較を収束させ「空き状況を見る」へ ＝ 新規 AC→検討率 <b>9.0% <span class="kpf-arrowno">→ 22.8%</span></b></div>
-        <div class="kpf-chips"><span class="kpf-chip">類似AC</span><span class="kpf-chip">同じ観光地のAC一覧</span><span class="kpf-chip">カテゴリ比較</span><span class="kpf-chip">決め手の提示</span></div>
-        <div class="kpf-note">新規は平均3.7件のACを見て比較中。供給に触れず・サイト内・即効 ＝ 今夏に最優先</div>
+        <div class="kpf-kpi"><b>比較を最短で収束させる</b>（ニーズに合う比較候補を迷わず発見）＝ 新規 AC到達→検討 <b>9.0% <span class="kpf-arrowno">→ 22.8%</span></b></div>
+        <div class="kpf-chips"><span class="kpf-chip">比較の収束</span><span class="kpf-chip">決め切らせる(No.1・残席)</span><span class="kpf-chip">見た候補の比較</span></div>
+        <div class="kpf-note">居場所：②AC到達済だが③検討に未到達（約528,900人/28日）。最優先の理由＝母数最大 × 実測ギャップ最大(9%↔22.8%) × Braze即着手</div>
       </div>
     </div>
 
     <div class="kpf-step s3">
-      <div class="kpf-left"><div class="kpf-stage">S3 絞り込み層</div><div class="kpf-state">方向（エリア/やりたいこと）は決定／具体ACは未定</div></div>
+      <div class="kpf-left"><div class="kpf-stage">③ 方向だけ</div><div class="kpf-state">意欲：今すぐ予約まではしない<br>ニーズ：エリア等の方向はあるが具体ACは未定</div></div>
       <div class="kpf-right">
-        <div class="kpf-kpi">KPI：候補ACに当てる ＝ 目的ACページ到達率</div>
-        <div class="kpf-chips"><span class="kpf-chip">発見・検索</span><span class="kpf-chip">絞り込み</span><span class="kpf-chip">レコメンド</span><span class="kpf-chip">エリア/カテゴリ動線</span></div>
+        <div class="kpf-kpi"><b>LPから候補ACへ絞り込ませる</b>（目的・ニーズで絞り、候補ACへ最短で当てる）＝ 新規 流入→AC到達 <b>47.7%</b></div>
+        <div class="kpf-chips"><span class="kpf-chip">既存導線への近道(SP上部)</span><span class="kpf-chip">流入意図に合わせる</span></div>
+        <div class="kpf-note">居場所：①訪問したが②AC未到達。母数の目安：約636,800人/28日（新規の約52%が②未到達）</div>
       </div>
     </div>
 
     <div class="kpf-step s4">
-      <div class="kpf-left"><div class="kpf-stage">S4 探索層</div><div class="kpf-state">漠然とした興味／今すぐは買わない</div></div>
+      <div class="kpf-left"><div class="kpf-stage">④ 探索</div><div class="kpf-state">意欲：まだ予約するつもりはない<br>ニーズ：欲しいものがあるか探している段階</div></div>
       <div class="kpf-right">
-        <div class="kpf-kpi">KPI：連れ戻す ＝ 再訪率・再訪間隔の短縮</div>
+        <div class="kpf-kpi"><b>再訪を太く・速く</b>（離脱した探索層を最適タイミングで連れ戻す）＝ 再訪率／再訪間隔の短縮</div>
         <div class="kpf-chips"><span class="kpf-chip">お気に入り</span><span class="kpf-chip">最適タイミング通知(Braze)</span><span class="kpf-chip">ナーチャリング</span></div>
-        <div class="kpf-note">計測整備が前提 ＝ 中長期トラック</div>
+        <div class="kpf-note">居場所：離脱後に戻らない層。母数の目安：お気に入り保存からの再訪 0.9%。計測整備が前提＝立ち上がりは静的フォールバックで先行</div>
       </div>
     </div>
 
@@ -301,13 +302,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
         <div class="msub">リピーターを捨てるのではない。「いま・同じUX予算で・最も動くレバー」が新規だから。リピーターは別軸（購入頻度）で並行して追う。</div>
 
         <h4>① 母数 × 到達可能な伸びしろ が 新規 ＞ リピーター</h4>
-        <p>同じ「AC到達→検討」で新規 <span class="mred">9.0%</span> / リピーター <b>22.8%</b>。リピーターの22.8%は<b>同じサイトで実証済み＝新規の到達可能な目標</b>。新規は母数（セッションの65.6%）も伸びしろ（9%→22.8%）も大きく、同じUX改修なら<b>新規の方が約4〜5倍取れる</b>。</p>
+        <p>同じ「AC到達→検討」で新規 <span class="mred">9.0%</span> / リピーター <b>22.8%</b>。22.8%は<b>同じサイト・同じUXで現に起きている実証値</b>＝新規の伸びしろが実在する証拠であり、新規の<b>当面の目標</b>（リピーターの"天井"という意味ではない）。新規は母数（セッションの約53%＝日本／グローバルでは66%）も実証済みギャップ（9%→22.8%）も大きく、同じUX改修なら<b>新規の方が約4〜5倍取れる</b>。</p>
 
         <h4>② 新規は「獲得」ではなく「すでに来ている層の転換」</h4>
         <p>「新規はハードルが高い」はコールド獲得（0から連れてくる）の話。新規は<b>すでにサイトに来て平均3.7件のACを4分見ている</b>。一番難しい集客は済んでおり、やるのは"居る新規"の転換。獲得の難しさはここには当てはまらない。</p>
 
-        <h4>③ リピーターの伸びしろは「CVR」ではなく「購入頻度」側</h4>
-        <p>リピーターのオンサイトCVRは <b>2.46%でほぼ天井</b>。UIを磨いても大きくは動かない。伸びしろは<b>「年約1.6回の海外渡航のうち、何回ベルトラで予約するか（購入頻度／share of wallet）」</b>側にあり、<b>CRM・再訪施策＝別KPI・別チーム</b>で並行追跡する（サイト内UX予算と取り合わない）。</p>
+        <h4>③ リピーターの伸びしろは主に「購入頻度」側（CVRも上げ得る）</h4>
+        <p>リピーターのオンサイトCVR（約2.46%）は新規の約4倍と高いが、<b>"天井"とは断定できない</b>（②→③ 22.8% もさらに上げ得る）。ただ<b>より大きいレバーは購入頻度／share of wallet</b>（年約1.6回の海外渡航のうち何回ベルトラで予約するか）側にあると見られ、<b>CRM・再訪施策＝別軸で並行追跡</b>する。新規優先は「リピーターを捨てる/打ち止め」ではなく、<b>いまの1スプリントをどこに置くか</b>の話。</p>
 
         <div class="mnote"><b>要確認（社内データ）：</b>リピーターの ①年間ベルトラ予約回数 ②再購入間隔。外部の「年約1.6回渡航」と突き合わせて<b>trip捕捉率</b>を出せば、頻度レバーの大きさが確定する。捕捉率が極端に低ければ、リピーター頻度にも本腰を入れる価値がある。<br><span style="color:var(--text3)">外部出典：JTB「海外観光旅行の現状2019」＝海外旅行者1人あたり年1.6回（2015年から安定）。</span></div>
       </div>
