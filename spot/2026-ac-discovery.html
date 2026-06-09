@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/spot/spot.css">
+<title>AC探索行動の分解 | スポット分析</title>
+<style>
+:root{--accent:#1b82c5;--accent-bg:#e8f2fb}
+#app .sub-headline{font-size:23px;line-height:1.55}
+#app .sub-lede{font-size:14.5px;line-height:1.8}
+#app .sub-sec-title{font-size:19px}
+.dx-stage{padding:0 44px 12px}
+/* レンズ（軸）カード */
+.dx-lens{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:8px 0 6px}
+.dx-card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:16px 18px;border-top:4px solid #1b82c5}
+.dx-card.b{border-top-color:#1a8c4e}.dx-card.c{border-top-color:#d97706}
+.dx-card h3{font-size:14px;font-weight:900;color:var(--text);margin:0 0 4px}
+.dx-card .dx-k{font-size:11.5px;font-weight:900;letter-spacing:.06em;color:var(--text3);text-transform:uppercase}
+.dx-card ul{margin:8px 0 0;padding:0;list-style:none}
+.dx-card li{font-size:13.5px;line-height:1.6;color:var(--text2);padding-left:14px;position:relative;margin-bottom:7px}
+.dx-card li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:#1b82c5}
+.dx-card.b li::before{background:#1a8c4e}.dx-card.c li::before{background:#d97706}
+.dx-card li b{color:var(--text)}
+/* ladder */
+.dx-ladder{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:6px 0 4px;font-size:13.5px}
+.dx-ladder .step{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text2)}
+.dx-ladder .step b{color:var(--text)}
+.dx-ladder .arr{color:var(--text3);font-weight:900}
+/* table */
+.dx-tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin:6px 0 10px}
+.dx-tbl th{text-align:left;font-size:11.5px;font-weight:900;color:var(--text3);text-transform:uppercase;padding:9px 10px;border-bottom:2px solid var(--border);vertical-align:bottom}
+.dx-tbl td{padding:11px 10px;border-bottom:1px solid var(--border);line-height:1.6;color:var(--text2);vertical-align:top}
+.dx-tbl td b{color:var(--text)}
+.dx-tbl .surf{font-weight:900;color:var(--text);white-space:nowrap}
+.dx-tbl .ask{color:var(--text)}
+.dx-tbl .dir{color:#1b6ea5}
+.dx-tbl tr.s-area{background:#f6fbf7}
+/* callout / list */
+.dx-ins{background:#eef6fc;border:1px solid #cfe3f5;border-radius:10px;padding:14px 18px;font-size:14px;line-height:1.8;color:var(--text2);margin:8px 0 14px}
+.dx-ins b{color:#1b6ea5}
+.dx-chk{list-style:none;margin:6px 0 6px;padding:0}
+.dx-chk li{font-size:14px;line-height:1.7;color:var(--text2);padding:9px 0 9px 26px;position:relative;border-bottom:1px dashed var(--border)}
+.dx-chk li:last-child{border-bottom:none}
+.dx-chk li::before{content:'✓';position:absolute;left:4px;top:9px;color:#1a8c4e;font-weight:900}
+.dx-chk li b{color:var(--text)}
+.dx-foot{padding:16px 44px 10px;font-size:13.5px;color:var(--text3);line-height:1.8}
+.dx-link{display:inline-block;margin-top:4px;font-size:13px;font-weight:700;color:#1b82c5}
+@media(max-width:768px){.dx-stage,.dx-foot{padding-left:22px;padding-right:22px}.dx-lens{grid-template-columns:1fr}.dx-tbl{font-size:12.5px}.dx-tbl th,.dx-tbl td{padding:8px 6px}}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">スポット分析<br><strong>AC探索行動の分解</strong></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sub-hero" style="background:linear-gradient(135deg,#eef6fc 0%,#fff 80%)">
+      <div class="sub-breadcrumb"><a href="/kpi.html">← KPIダッシュボード</a> / <strong>AC探索行動の分解</strong></div>
+      <div class="sub-tag">Discovery behavior</div>
+      <h1 class="sub-headline">
+        Traveler が AC を探す行動は<em>ひとつではない</em>。<br>
+        起点・タイミング・種別で分かれる。各面で「何を知りたいか」を分解する。
+      </h1>
+      <div class="sub-lede">
+        発見導線の "量" は揃っている。足りないのは <strong>質（軸・関連性・鮮度）</strong>。<br>
+        本ページは施策を出す前の<strong>土台</strong>＝探索行動を軸で分け、各面（TOP／エリア／カテゴリ／AC）で「Traveler は何を知りたいか・何があるべきか」を並べ、<strong>MECE・セレンディピティ・パーソナライズ</strong>を点検するためのもの。
+        <a class="dx-link" href="/spot/2026-new-user-kpi.html">▸ ここから出した打ち手は「新規ユーザー転換 施策」へ</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 探索の3レンズ -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">01</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Lenses</span>
+      <h2 class="sub-sec-title">探索の3レンズ — 同じ「AC探し」でも入口が違う</h2>
+    </div>
+    <div class="dx-stage">
+      <div class="dx-ins">いまのUIは <b>エリア × Veltraカテゴリ</b> の2軸に偏っている。Traveler の頭の中はもっと多軸。</div>
+      <div class="dx-lens">
+        <div class="dx-card">
+          <div class="dx-k">Lens A</div><h3>探索の起点（どこから探し始めるか）</h3>
+          <ul>
+            <li><b>スポット起点</b>：行きたい観光スポットが先（ハナウマ湾／ピサの斜塔）→ そこで・周辺で参加できるAC</li>
+            <li><b>エリア起点</b>：国→エリア→都市でざっくり（フランス→パリ）→ 全体を俯瞰</li>
+            <li><b>やりたいこと起点</b>：体験欲求が先（シュノーケル／食べ歩き／観劇）→ カテゴリ横断</li>
+            <li><b>出発地起点</b>：滞在/出発する都市が先（パリ発の日帰り）→ そこから参加可能なもの</li>
+          </ul>
+        </div>
+        <div class="dx-card b">
+          <div class="dx-k">Lens B</div><h3>予約タイミング</h3>
+          <ul>
+            <li><b>計画型</b>：渡航前に下調べして予約</li>
+            <li><b>直前型</b>：現地・移動中、<b>今日／明日</b>で予約</li>
+          </ul>
+          <div style="font-size:12.5px;color:var(--text3);line-height:1.6;margin-top:6px">同じ Traveler でも旅程フェーズで切り替わる。直前型は「今日明日参加OK」が決め手。</div>
+        </div>
+        <div class="dx-card c">
+          <div class="dx-k">Lens C</div><h3>探すモノ（種別）</h3>
+          <ul>
+            <li><b>周遊ツアー</b>（複数スポットを回る）</li>
+            <li><b>単発AC</b>（ひとつの体験）</li>
+            <li><b>送迎</b>（空港・現地の移動）</li>
+            <li><b>旅行サービス</b>（wifi・esim・保険）</li>
+          </ul>
+          <div style="font-size:12.5px;color:var(--text3);line-height:1.6;margin-top:6px">種別が違えば探し方も「関連の出し方」も違う。旅程として束で必要。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 エリアの決め方の階層 -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">02</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Hierarchy</span>
+      <h2 class="sub-sec-title">「行き先の決め方」の階層 — どの粒度で入ってくるか</h2>
+    </div>
+    <div class="dx-stage">
+      <div class="dx-ladder">
+        <span class="step"><b>国</b></span><span class="arr">›</span>
+        <span class="step"><b>ざっくりエリア</b></span><span class="arr">›</span>
+        <span class="step"><b>都市</b></span><span class="arr">›</span>
+        <span class="step"><b>出発点となる都市</b>（ここから参加できるもの）</span><span class="arr">›</span>
+        <span class="step"><b>行きたい場所・スポット</b></span>
+      </div>
+      <div class="dx-ins" style="margin-top:10px">Traveler はこのどこからでも入ってくる（「フランスに行きたい」＝エリア起点／「ハナウマ湾に行きたい」＝スポット起点／「パリ発で何かしたい」＝出発地起点）。<b>入口がエリアLP固定だと、スポット起点・出発地起点・やりたいこと起点が拾えない。</b></div>
+    </div>
+  </div>
+
+  <!-- 03 面ごとに何を知りたいか -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">03</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">By surface</span>
+      <h2 class="sub-sec-title">面ごとに「Traveler は何を知りたい／何があるべきか」</h2>
+    </div>
+    <div class="dx-stage">
+      <table class="dx-tbl">
+        <thead><tr><th style="width:78px">面</th><th>Traveler が知りたいこと</th><th>現状（AsIs）</th><th>問い（不足）</th><th>あるべき方向（足す軸）</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="surf">TOP</td>
+            <td class="ask">何ができる？どこに行ける？自分向けは？</td>
+            <td>保存リスト／最近チェック／あなたへのおすすめ／検索・エリア導線／人気</td>
+            <td>探索の<b>起点（スポット/やりたいこと/出発地）を選ぶ入口</b>があるか？推薦は枝葉でないか？</td>
+            <td class="dir">最上部で「起点の選択」（行き先 or やりたいこと or 出発地）を提示</td>
+          </tr>
+          <tr class="s-area">
+            <td class="surf">エリア</td>
+            <td class="ask">ここで何ができる？定番スポットは？目的に合うのは？いつ行く？</td>
+            <td>ランキング(売れ筋固定)／人気カテゴリ／おすすめカテゴリ(目的)／観光地から探す／日付／限定キャンペーン</td>
+            <td>①観光スポットがまず一覧に並ぶ？各スポットにおすすめ10件？②人気カテゴリは<b>MECE</b>か③穴場(それ以外)の発見④<b>興味外</b>が出ていないか⑤パーソナライズ要素</td>
+            <td class="dir">スポット起点を前面（スポット一覧→各AC）／目的起点／出発地起点／MECEなカテゴリ＋セレンディピティ枠／時期性</td>
+          </tr>
+          <tr>
+            <td class="surf">カテゴリ</td>
+            <td class="ask">この種類で自分に合うのはどれ？何で選べばいい？</td>
+            <td>Veltra任意の並び(人気順)／「直近◯件の予約」社会的証明／ランキング</td>
+            <td>①<b>Veltraの分類 ≠ 自分のニーズ</b>。所要/時間帯/送迎/難易度/対象/今日明日/価格で絞れない②一方的な並びから絞れない③興味外混入</td>
+            <td class="dir">ニーズ・ファセット絞り込み／並びの理由提示／今日明日フィルタ前面</td>
+          </tr>
+          <tr>
+            <td class="surf">AC</td>
+            <td class="ask">これは自分に合う？他とどう違う？一緒に何が要る？</td>
+            <td>写真／プラン・カレンダー・残席／スケジュール／地図／FAQ／レビュー★分布／関連おすすめ(汎用)／1タップ保存</td>
+            <td>①関連が<b>種別で整理されてない</b>（同スポット別形態/送迎/補完）②比較の中に発見が弱い③アップセル(送迎・wifi)が体系化されてない</td>
+            <td class="dir">種別別の関連（同スポット×別形態／同テーマ／同出発地／補完サービス）／比較に発見／旅程を完成させるアップセル</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 04 横断の点検観点 -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">04</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Quality checks</span>
+      <h2 class="sub-sec-title">発見の「質」を点検する4観点</h2>
+    </div>
+    <div class="dx-stage">
+      <ul class="dx-chk">
+        <li><b>MECE</b>：入口の軸（スポット/エリア/やりたいこと/出発地）が網羅・排他になっているか。漏れ（出発地起点が無い）やダブりが無いか。</li>
+        <li><b>セレンディピティ</b>：売れ筋・履歴の外＝「それ以外（穴場）」を覗かせる枠があるか。同じTop5ばかりになっていないか。</li>
+        <li><b>パーソナライズ</b>：枝葉を1つ出すのでなく<b>軸違いの面で</b>（定番／穴場／今が旬）。<b>興味外を除外</b>しているか。時期性（季節・繁忙期）が入っているか。</li>
+        <li><b>鮮度</b>：静的な売れ筋ランキング固定になっていないか。時期・属性・流入文脈で<b>動く</b>か。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 05 使い道 -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">05</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">How to use</span>
+      <h2 class="sub-sec-title">この分解の使い道</h2>
+    </div>
+    <div class="dx-stage">
+      <div class="dx-ins">
+        ・各面の<b>「あるべき方向」が施策の発生源</b>（特に S2＝比較継続・S3＝有効AC到達）。<br>
+        ・本命（ファセット検索・スポット/出発地起点のIA・動的ランキング）は<b>開発要</b>。<br>
+        ・だから <b>Braze-now で需要をプローブ → 勝った軸だけプロダクト投資</b> の順で進める。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="dx-foot">
+      ※ スポット分析。Traveler の AC 探索行動を「起点・タイミング・種別」で分解し、各面で知りたいことを並べた発見・IA設計の土台。AsIs は TOP／エリア／カテゴリ／AC の実画面を確認。打ち手は <a href="/spot/2026-new-user-kpi.html" style="color:#1b82c5;font-weight:700">新規ユーザー転換 施策</a>、前提は <a href="/kpi.html" style="color:#1b82c5;font-weight:700">KPIダッシュボード</a>。
+    </div>
+  </div>
+
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

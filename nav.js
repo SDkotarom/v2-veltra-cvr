@@ -119,7 +119,12 @@
   var isGwUiux = (path === '/spot/2026-gw/06-uiux.html');
   var isGwSub = isGwMacro || isGwCompetitive || isGwPricing || isGwProduct || isGwBehavior || isGwUiux;
   var isNewUserKpi = (path === '/spot/2026-new-user-kpi.html');
-  var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isNewUserKpi;
+  var isAcDiscovery = (path === '/spot/2026-ac-discovery.html');
+  var isVeltraTopSection = /^\/spot\/veltra-top-section-visibility(\.html)?$/.test(path);
+  var isTaiwanSection = /^\/spot\/taiwan-section-visibility(\.html)?$/.test(path);
+  var isJiufenSection = /^\/spot\/jiufen-category-section-visibility(\.html)?$/.test(path);
+  var isAcSection = /^\/spot\/ac-page-section-visibility(\.html)?$/.test(path);
+  var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isNewUserKpi || isAcDiscovery || isVeltraTopSection || isTaiwanSection || isJiufenSection || isAcSection;
   var isArchive = (path === '/reports/' || path === '/reports/index.html');
   var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
   var qp = new URLSearchParams(location.search);
@@ -195,6 +200,16 @@
       append(homeA, mkCurrent('スポット分析'), mkCurrent('エントリー別CVRジャーニー'));
     } else if (isNewUserKpi) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('新規ユーザー転換 施策'));
+    } else if (isAcDiscovery) {
+      append(homeA, mkCurrent('スポット分析'), mkCurrent('AC探索行動の分解'));
+    } else if (isVeltraTopSection) {
+      append(homeA, mkCurrent('スポット分析'), mkCurrent('セクション閲覧｜ベルトラTOPページ'));
+    } else if (isTaiwanSection) {
+      append(homeA, mkCurrent('スポット分析'), mkCurrent('セクション閲覧｜台湾トップページ'));
+    } else if (isJiufenSection) {
+      append(homeA, mkCurrent('スポット分析'), mkCurrent('セクション閲覧｜九份カテゴリーページ'));
+    } else if (isAcSection) {
+      append(homeA, mkCurrent('スポット分析'), mkCurrent('セクション閲覧｜商品詳細(AC)ページ'));
     } else if (isPlanning) {
       append(homeA, mkCurrent('施策案'));
     } else if (isPlanningItem) {
@@ -232,6 +247,11 @@
   // Hierarchical: items may have a `children` array for sub-pages.
   // 新しい順（新しいものが上 = 大きい番号）。番号は描画時に position から自動採番。
   var SPOT_ITEMS = [
+    { id: 'sec-veltra-top', href: '/spot/veltra-top-section-visibility.html', label: 'セクション閲覧｜ベルトラTOPページ', match: function(){ return isVeltraTopSection; } },
+    { id: 'sec-taiwan', href: '/spot/taiwan-section-visibility.html', label: 'セクション閲覧｜台湾トップページ', match: function(){ return isTaiwanSection; } },
+    { id: 'sec-jiufen', href: '/spot/jiufen-category-section-visibility.html', label: 'セクション閲覧｜九份カテゴリーページ', match: function(){ return isJiufenSection; } },
+    { id: 'sec-ac', href: '/spot/ac-page-section-visibility.html', label: 'セクション閲覧｜商品詳細(AC)ページ', match: function(){ return isAcSection; } },
+    { id: 'ac-discovery', href: '/spot/2026-ac-discovery.html', label: 'AC探索行動の分解', match: function(){ return isAcDiscovery; } },
     { id: 'new-user-kpi', href: '/spot/2026-new-user-kpi.html', label: '新規ユーザー転換 施策', match: function(){ return isNewUserKpi; } },
     {
       id: 'gw-decline',
