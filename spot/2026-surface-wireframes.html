@@ -246,7 +246,7 @@ html{scroll-behavior:smooth}
             </div>
           </div>
           <div class="wf-sec wf-dim" style="position:relative">
-            <div class="sec-cap">オアフ島（ホノルル）の人気カテゴリ — 人気アクティビティ</div>
+            <div class="sec-cap">オアフ島（ホノルル）の人気カテゴリ</div>
             <div class="wf-cards" style="margin-top:4px">
               <div class="wf-mini"><div class="wf-ph" style="height:16px"></div><div class="t">マリンスポーツ</div></div>
               <div class="wf-mini"><div class="wf-ph" style="height:16px"></div><div class="t">サンセット／ナイトクルーズ</div></div>
@@ -254,24 +254,52 @@ html{scroll-behavior:smooth}
             </div>
             <span class="wf-pin" data-co="a1b" style="background:#8a97a5">既存</span>
           </div>
-          <div class="wf-sec wf-dim"><div class="sec-cap">人気アクティビティ</div><div class="wf-line"></div></div>
           <div class="wf-sec wf-dim" style="position:relative">
             <div class="sec-cap">日程から探す</div>
             <div class="chiprow" style="margin-top:4px"><span class="tab">今日（6/7）</span><span class="tab">明日（6/8）</span><span class="tab">日付を指定する</span></div>
             <span class="wf-pin" data-co="a2b" style="background:#8a97a5">既存</span>
           </div>
-          <div class="wf-sec wf-dim"><div class="sec-cap">限定キャンペーン ／ 注目の特集</div><div class="wf-line"></div></div>
-          <div class="wf-sec wf-dim"><div class="sec-cap">あなたにおすすめのアクティビティ ／ 最新5つ星体験談</div><div class="wf-line m"></div></div>
-          <div class="wf-sec wf-dim"><div class="sec-cap">おすすめカテゴリーから探す</div><div class="wf-line s"></div></div>
-          <div class="wf-sec wf-dim"><div class="sec-cap">観光地から探す — 人気観光地TOP20</div><div class="wf-line s"></div></div>
+          <div class="wf-add"><span class="wf-pin" data-co="a4">A-4</span>
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><div class="ui-h">目的・条件から探す</div><span class="ui-link">もっと見る</span></div>
+            <div class="chiprow"><span class="chip">お得なキャンペーン中</span><span class="chip">コスパ重視！1万円以内</span><span class="chip">所要時間3時間以内</span><span class="chip">子どもとハワイ</span><span class="chip">季節のイベント</span></div>
+          </div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">限定キャンペーン</div><div class="wf-line"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">オアフ島（ホノルル）注目の特集</div><div class="wf-line m"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">あなたにおすすめのアクティビティ</div><div class="wf-line"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">最新5つ星体験談</div><div class="wf-line m"></div></div>
+          <div class="wf-sec wf-dim" style="position:relative">
+            <div class="sec-cap">オアフ島（ホノルル）の観光地から探す — 人気観光地TOP20</div>
+            <div style="font-size:8px;color:#1b6ea5;margin-top:3px;line-height:1.6">ダイヤモンドヘッド ／ ワイキキビーチ ／ ハナウマ湾 ／ モアナルア・ガーデン ／ カイルアビーチ …</div>
+            <span class="wf-pin" data-co="a5b" style="background:#8a97a5">既存</span>
+          </div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">エリアから探す（ハワイ島・マウイ島・カウアイ島・ハワイ全て）</div><div class="wf-line s"></div></div>
         </div></div>
         <div class="co-rail">
           <div class="co" data-co-id="a1"><div class="co-head"><span class="co-pin">A-1</span>改修・移動（人気スポット）</div>・<b>新設しない</b>：定番スポット群は既にカテゴリとして実装済みのため、新モジュールを足すと同じタイルが2か所に並ぶ。<b>既存「人気カテゴリ＞定番スポット」グループごと上部へ移動</b>し、見出しを「人気スポット」に<br>・スポット／やりたいことの分割はせず、<b>掲載タイルと並びを静的に任意設定</b>（手動キュレーション）で開始<br>・タップ先は既存カテゴリページのまま＝開発は表示順管理と見出しのみ<br>・自動出し分け（検索実需×在庫×季節）は次段。<b>Braze静的カード</b>で「上部に出す価値」の先行検証も可</div>
           <div class="co" data-co-id="a2"><div class="co-head"><span class="co-pin">A-2</span>追加（検索実需チップ）</div>エリア×直近90日のサイト内検索<b>上位5語</b>を自動選定。スポット名は A-1 に集約し、体験・条件語のみ。着地＝検索結果。初期は静的チップで先行A/B可。計測：<b>demand_chip_click</b>(keyword)</div>
           <div class="co" data-co-id="a3"><div class="co-head"><span class="co-pin">A-3</span>改修（切り口タブ追加）</div>既存タブ（売れ筋・満足度）と初期表示はそのまま。実績データ×新しい切り口を追加（下の切り口表から3〜4本で開始）。計測：<b>ranking_tab_switch</b>(tab)</div>
+          <div class="co" data-co-id="a4"><div class="co-head"><span class="co-pin">A-4</span>改修・統合（目的・条件から探す）</div>既存の「カテゴリから探す」バナーと「おすすめカテゴリーから探す」チップは<b>同内容の二重掲載</b>のため一本化し、バナー枠は廃止。<br>チップ資産・リンク先は既存のまま、表示順＝クリック実績順（静的開始）。人気カテゴリ（何をするか）との違い＝<b>いつ・誰と・いくらで</b>の条件軸。計測：<b>purpose_chip_click</b>(purpose)</div>
           <div class="co" data-co-id="a1b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>人気カテゴリ（A-1の移動後）</div>定番スポット群は A-1「人気スポット」として上部へ移動。ここには<b>人気アクティビティ群のみ</b>残す（同じタイルが2か所に並ぶ重複を回避）</div>
           <div class="co" data-co-id="a2b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>日程から探す（A-2の着地）</div>A-2「今日・明日OK」チップのタップ先。機能変更なし</div>
+          <div class="co" data-co-id="a5b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>観光地TOP20（A-1と階層化）</div>「人気スポット」との重複ではなく<b>階層化</b>：上部＝厳選（画像・任意並べ替え）、ここ＝全量テキスト索引（SEO・回遊）。A-1「すべて見る」の着地にする。機能変更なし</div>
         </div>
+      </div>
+      <div style="font-size:15px;font-weight:900;color:var(--text);margin:18px 0 8px">エリアページのゾーニング — 並び順のロジック</div>
+      <table class="rq">
+        <thead><tr><th style="width:120px">ゾーン</th><th>置くもの</th><th>ねらい（一言）</th></tr></thead>
+        <tbody>
+          <tr><td><b>A 入口</b></td><td>人気スポット（A-1）・よく探されています（A-2）</td><td>迷っている人が最短で候補に向かう「最初の一歩」。スポットと言葉の2起点</td></tr>
+          <tr><td><b>B 比較</b></td><td>ランキング（A-3）・人気カテゴリ</td><td>候補を見比べて方向を固める材料（<b>何をするか</b>の軸）</td></tr>
+          <tr><td><b>C 条件</b></td><td>日程から探す・目的・条件から探す（A-4）</td><td>日程・予算・同行者が決まっている人の絞り込み（<b>いつ・誰と・いくらで</b>の軸）</td></tr>
+          <tr><td><b>D 提案</b></td><td>限定キャンペーン・注目の特集・あなたにおすすめ・最新5つ星体験談</td><td>まだ漠然の人への受動的な提案と後押し</td></tr>
+          <tr><td><b>E 索引</b></td><td>観光地から探すTOP20・エリアから探す</td><td>全量のテキストリンク（SEO・回遊）。Aの「すべて見る」の着地</td></tr>
+        </tbody>
+      </table>
+      <div class="sw-ins" style="margin-top:8px">
+        <b>重複の整理（3つの決定）</b><br>
+        ・人気カテゴリ：定番スポット群を A-1 へ移動した後は<b>体験タイプの画像タイル</b>として比較ゾーンに残す（見出しは「人気カテゴリ」のまま）<br>
+        ・「カテゴリから探す」バナー ×「おすすめカテゴリーから探す」チップ＝<b>同内容の二重掲載</b> →「目的・条件から探す」（A-4）に一本化、バナー枠は廃止<br>
+        ・「観光地から探すTOP20」×「人気スポット」＝重複ではなく<b>階層化</b>（上部＝厳選画像、下部＝全量テキスト索引・A-1「すべて見る」の着地）
       </div>
       <table class="rq">
         <thead><tr><th>#</th><th>要素・解くペイン</th><th>配置・表示条件</th><th>データ・ロジック</th><th>計測</th></tr></thead>
@@ -296,6 +324,13 @@ html{scroll-behavior:smooth}
             <td>既存ランキング枠にタブ追加。初期表示＝売れ筋（現状維持）。タブは下表から3〜4本で開始</td>
             <td>・下表「切り口アイデア」参照。日次〜週次バッチ</td>
             <td><code>ranking_tab_switch</code><br>param: tab</td>
+          </tr>
+          <tr>
+            <td class="no">A-4</td>
+            <td><b>目的・条件から探す（重複2枠の統合）</b><br><span class="pain">ペイン：同内容の入口が「カテゴリから探す」バナーと「おすすめカテゴリーから探す」チップの2か所に分散し、どちらも下部で気づきにくい</span><span class="eff"><b>行動変化：</b>条件の入口を探して下までスクロール → 条件ゾーンの1か所で選ぶ<br><b>動く数値：</b>条件チップCTR・条件経由のAC到達↑（重複枠の削減でページ長↓）</span></td>
+            <td>日程から探すの直下（条件ゾーン）に統合。既存チップ資産・リンク先を流用し、バナー枠は廃止</td>
+            <td>・表示順＝クリック実績順（静的開始、月次見直し）<br>・人気カテゴリとの役割分担＝「何をするか」×「いつ・誰と・いくらで」</td>
+            <td><code>purpose_chip_click</code><br>param: purpose</td>
           </tr>
         </tbody>
       </table>
