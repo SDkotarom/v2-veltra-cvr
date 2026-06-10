@@ -214,7 +214,7 @@ html{scroll-behavior:smooth}
       <h2 class="sub-sec-title">エリアページ — 観光スポットを「見て」選べるように</h2>
     </div>
     <div class="sw-stage">
-      <div class="sw-ins">ペイン：<b>パッと見て観光スポットから探しづらい</b>（リンクはあるがページ下部にテキストだけ）。<b>ランキングがいつも同じ</b>。<br>
+      <div class="sw-ins">ペイン：<b>パッと見て観光スポットから探しづらい</b>（リンクはあるがページ下部にテキストだけ）。<b>ランキングがいつも同じ</b>。エリアTOPが<b>ベルトラ発のおすすめ偏重</b>で、自分の軸で探し始める入口が弱い（競合は大ジャンルの入口を最上部に：Klook＝タブ、KKday＝アイコン）。<br>
         <span style="font-size:12.5px;color:var(--text3)">・ワイヤーは現行エリアページ（SP）の並びを再現<br>・「この街発（出発地）」絞り込みはカット：Veltra は AC を出発地エリア配下に掲載しており、<b>現状のIAが既に出発地絞り込みに相当</b></span></div>
       <div class="wf-duo">
         <svg class="co-lines"></svg>
@@ -223,6 +223,10 @@ html{scroll-behavior:smooth}
           <div class="wf-sec wf-dim" style="padding-bottom:4px">
             <div style="font-size:11px;font-weight:900;color:#222">オアフ島（ホノルル）</div>
             <div class="chiprow" style="margin-top:3px"><span class="tab">ハワイ島</span><span class="tab">マウイ島</span><span class="tab">カウアイ島</span></div>
+          </div>
+          <div class="wf-add"><span class="wf-pin" data-co="a5">A-5</span>
+            <div class="ui-h">ジャンルから探す</div>
+            <div class="chiprow"><span class="chip">🚌 観光ツアー</span><span class="chip">🤿 アクティビティ</span><span class="chip">🚐 交通・移動</span><span class="chip">🎫 チケット・入場券</span><span class="chip">📶 eSIM・WiFi</span></div>
           </div>
           <div class="wf-add"><span class="wf-pin" data-co="a1">A-1</span>
             <div style="display:flex;justify-content:space-between;align-items:baseline"><div class="ui-h">人気スポット</div><span class="ui-link">すべて見る ▸</span></div>
@@ -234,7 +238,11 @@ html{scroll-behavior:smooth}
           </div>
           <div class="wf-add"><span class="wf-pin" data-co="a2">A-2</span>
             <div class="ui-h">よく探されています</div>
-            <div class="chiprow"><span class="chip">シュノーケリング</span><span class="chip">送迎付き</span><span class="chip">ディナークルーズ</span><span class="chip">天国の海</span><span class="chip">⚡ 今日・明日OK</span></div>
+            <div class="chiprow"><span class="chip">シュノーケリング</span><span class="chip">送迎付き</span><span class="chip">ディナークルーズ</span><span class="chip">天国の海</span><span class="chip">ウミガメ</span></div>
+          </div>
+          <div class="wf-add"><span class="wf-pin" data-co="a6">A-6</span>
+            <div class="ui-h">日程から探す</div>
+            <div class="chiprow"><span class="tab">今日（6/7）</span><span class="tab">明日（6/8）</span><span class="tab">日付を指定する</span></div>
           </div>
           <div class="wf-add"><span class="wf-pin" data-co="a3">A-3</span>
             <div class="ui-h">オアフ島（ホノルル）のランキング</div>
@@ -254,11 +262,6 @@ html{scroll-behavior:smooth}
             </div>
             <span class="wf-pin" data-co="a1b" style="background:#8a97a5">既存</span>
           </div>
-          <div class="wf-sec wf-dim" style="position:relative">
-            <div class="sec-cap">日程から探す</div>
-            <div class="chiprow" style="margin-top:4px"><span class="tab">今日（6/7）</span><span class="tab">明日（6/8）</span><span class="tab">日付を指定する</span></div>
-            <span class="wf-pin" data-co="a2b" style="background:#8a97a5">既存</span>
-          </div>
           <div class="wf-add"><span class="wf-pin" data-co="a4">A-4</span>
             <div style="display:flex;justify-content:space-between;align-items:baseline"><div class="ui-h">目的・条件から探す</div><span class="ui-link">もっと見る</span></div>
             <div class="chiprow"><span class="chip">お得なキャンペーン中</span><span class="chip">コスパ重視！1万円以内</span><span class="chip">所要時間3時間以内</span><span class="chip">子どもとハワイ</span><span class="chip">季節のイベント</span></div>
@@ -275,12 +278,13 @@ html{scroll-behavior:smooth}
           <div class="wf-sec wf-dim"><div class="sec-cap">エリアから探す（ハワイ島・マウイ島・カウアイ島・ハワイ全て）</div><div class="wf-line s"></div></div>
         </div></div>
         <div class="co-rail">
+          <div class="co" data-co-id="a5"><div class="co-head"><span class="co-pin">A-5</span>追加（ジャンルから探す）</div>Klook（大ジャンルタブ）・KKday（ジャンルアイコン）と同型の<b>種別起点の入口</b>を最上段に。既存グローバルナビのカテゴリ体系をエリアスコープで流用（着地＝エリア×ジャンル一覧、既存ページ）。計測：<b>genre_nav_click</b>(genre)</div>
           <div class="co" data-co-id="a1"><div class="co-head"><span class="co-pin">A-1</span>改修・移動（人気スポット）</div>・<b>新設しない</b>：定番スポット群は既にカテゴリとして実装済みのため、新モジュールを足すと同じタイルが2か所に並ぶ。<b>既存「人気カテゴリ＞定番スポット」グループごと上部へ移動</b>し、見出しを「人気スポット」に<br>・スポット／やりたいことの分割はせず、<b>掲載タイルと並びを静的に任意設定</b>（手動キュレーション）で開始<br>・タップ先は既存カテゴリページのまま＝開発は表示順管理と見出しのみ<br>・自動出し分け（検索実需×在庫×季節）は次段。<b>Braze静的カード</b>で「上部に出す価値」の先行検証も可</div>
           <div class="co" data-co-id="a2"><div class="co-head"><span class="co-pin">A-2</span>追加（検索実需チップ）</div>エリア×直近90日のサイト内検索<b>上位5語</b>を自動選定。スポット名は A-1 に集約し、体験・条件語のみ。着地＝検索結果。初期は静的チップで先行A/B可。計測：<b>demand_chip_click</b>(keyword)</div>
           <div class="co" data-co-id="a3"><div class="co-head"><span class="co-pin">A-3</span>改修（切り口タブ追加）</div>既存タブ（売れ筋・満足度）と初期表示はそのまま。実績データ×新しい切り口を追加（下の切り口表から3〜4本で開始）。計測：<b>ranking_tab_switch</b>(tab)</div>
           <div class="co" data-co-id="a4"><div class="co-head"><span class="co-pin">A-4</span>改修・統合（目的・条件から探す）</div>既存の「カテゴリから探す」バナーと「おすすめカテゴリーから探す」チップは<b>同内容の二重掲載</b>のため一本化し、バナー枠は廃止。<br>チップ資産・リンク先は既存のまま、表示順＝クリック実績順（静的開始）。人気カテゴリ（何をするか）との違い＝<b>いつ・誰と・いくらで</b>の条件軸。計測：<b>purpose_chip_click</b>(purpose)</div>
           <div class="co" data-co-id="a1b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>人気カテゴリ（A-1の移動後）</div>定番スポット群は A-1「人気スポット」として上部へ移動。ここには<b>人気アクティビティ群のみ</b>残す（同じタイルが2か所に並ぶ重複を回避）</div>
-          <div class="co" data-co-id="a2b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>日程から探す（A-2の着地）</div>A-2「今日・明日OK」チップのタップ先。機能変更なし</div>
+          <div class="co" data-co-id="a6"><div class="co-head"><span class="co-pin">A-6</span>改修・上へ移動（日程から探す）</div>日付起点は他と<b>役割・ニーズが違う入口</b>のため、ページ中盤の単独配置をやめ入口ゾーンへ移動。コンポーネント・着地は既存のまま（移動のみ）。直前型（今日・明日）の取りこぼしを入口で回収</div>
           <div class="co" data-co-id="a5b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>観光地TOP20（A-1と階層化）</div>「人気スポット」との重複ではなく<b>階層化</b>：上部＝厳選（画像・任意並べ替え）、ここ＝全量テキスト索引（SEO・回遊）。A-1「すべて見る」の着地にする。機能変更なし</div>
         </div>
       </div>
@@ -288,9 +292,9 @@ html{scroll-behavior:smooth}
       <table class="rq">
         <thead><tr><th style="width:120px">ゾーン</th><th>置くもの</th><th>ねらい（一言）</th></tr></thead>
         <tbody>
-          <tr><td><b>A 入口</b></td><td>人気スポット（A-1）・よく探されています（A-2）</td><td>迷っている人が最短で候補に向かう「最初の一歩」。スポットと言葉の2起点</td></tr>
+          <tr><td><b>A 入口</b></td><td>ジャンル（A-5）・人気スポット（A-1）・よく探されています（A-2）・日程（A-6）</td><td><b>種別・場所・言葉・日付の4起点</b>を出し揃えるポータル。ベルトラ発のおすすめを受け身に見るのではなく、自分の軸で探し始められる入口</td></tr>
           <tr><td><b>B 比較</b></td><td>ランキング（A-3）・人気カテゴリ</td><td>候補を見比べて方向を固める材料（<b>何をするか</b>の軸）</td></tr>
-          <tr><td><b>C 条件</b></td><td>日程から探す・目的・条件から探す（A-4）</td><td>日程・予算・同行者が決まっている人の絞り込み（<b>いつ・誰と・いくらで</b>の軸）</td></tr>
+          <tr><td><b>C 条件</b></td><td>目的・条件から探す（A-4）</td><td>予算・同行者・所要が決まっている人の絞り込み（<b>誰と・いくらで</b>の軸。日程は入口ゾーンへ移動）</td></tr>
           <tr><td><b>D 提案</b></td><td>限定キャンペーン・注目の特集・あなたにおすすめ・最新5つ星体験談</td><td>まだ漠然の人への受動的な提案と後押し</td></tr>
           <tr><td><b>E 索引</b></td><td>観光地から探すTOP20・エリアから探す</td><td>全量のテキストリンク（SEO・回遊）。Aの「すべて見る」の着地</td></tr>
         </tbody>
@@ -305,6 +309,13 @@ html{scroll-behavior:smooth}
         <thead><tr><th>#</th><th>要素・解くペイン</th><th>配置・表示条件</th><th>データ・ロジック</th><th>計測</th></tr></thead>
         <tbody>
           <tr>
+            <td class="no">A-5</td>
+            <td><b>ジャンルから探す（大ジャンル入口）</b><br><span class="pain">ペイン：エリアTOPがベルトラ発のおすすめ偏重で、自分の軸で探し始める入口が弱い</span><span class="eff"><b>行動変化：</b>おすすめを受け身に眺める → ジャンルを選んで能動的に探索<br><b>動く数値：</b>ジャンルナビCTR・一覧到達↑・エリアLP直帰↓</span></td>
+            <td>エリア名直下・最上段（Klook＝タブ／KKday＝アイコンと同型）。アイコン＋ラベルの横スクロールチップ</td>
+            <td>既存グローバルナビのカテゴリ体系（観光ツアー・アクティビティ・交通移動・チケット・eSIM/WiFi）をエリアスコープで流用。着地＝エリア×ジャンル一覧（既存ページ・新規開発なし）</td>
+            <td><code>genre_nav_click</code><br>param: genre</td>
+          </tr>
+          <tr>
             <td class="no">A-1</td>
             <td><b>人気スポット（既存・定番スポット群の移動＋静的並べ替え）</b><br><span class="pain">ペイン：パッと見てスポットから探しづらい（下部テキストのみ）</span><span class="eff"><b>行動変化：</b>下部リンクまで辿れず離脱 → 上部でスポットをタップして一覧へ<br><b>動く数値：</b>スポット経由のAC到達↑・エリアLP直帰↓（有効AC到達率：現状 訪問47.7%×質）</span></td>
             <td>既存「人気カテゴリ＞定番スポット」グループをエリア名直下へ<b>移動</b>（新設しない）。見出し＝「人気スポット」。横スクロール＋「すべて見る」。<br>元の位置には<b>人気アクティビティ群のみ残置</b>（同じタイルの二重掲載を回避）</td>
@@ -317,6 +328,13 @@ html{scroll-behavior:smooth}
             <td>A-1直下。エリア×直近90日のサイト内検索<b>上位5語</b>（スポット名は A-1 に集約し、体験・条件語に限定）。着地＝サイト内検索結果／該当一覧</td>
             <td>・GA4 <code>search_term</code>（エリア別）＋ Search Console のLP流入クエリ<br>・月次更新。<b>初期は静的チップで先行A/B可</b></td>
             <td><code>demand_chip_click</code><br>param: keyword</td>
+          </tr>
+          <tr>
+            <td class="no">A-6</td>
+            <td><b>日程から探す（入口ゾーンへ移動）</b><br><span class="pain">ペイン：日付起点は役割・ニーズが異なる入口なのに、ページ中盤に単独で置かれ気づきにくい</span><span class="eff"><b>行動変化：</b>日付が決まっている人が中盤まで探し回る → 入口で日付から直行<br><b>動く数値：</b>日程経由の一覧到達↑・直前型（今日明日）の予約↑</span></td>
+            <td>入口ゾーン（よく探されていますの直下）へ<b>移動</b>。コンポーネント・着地は既存のまま（移動のみ）</td>
+            <td>変更なし（既存の today／tomorrow／日付指定）</td>
+            <td>既存イベントのまま（位置変更の前後で利用率を比較）</td>
           </tr>
           <tr>
             <td class="no">A-3</td>
