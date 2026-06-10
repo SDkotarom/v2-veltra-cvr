@@ -225,11 +225,11 @@ html{scroll-behavior:smooth}
             <div class="chiprow" style="margin-top:3px"><span class="tab">ハワイ島</span><span class="tab">マウイ島</span><span class="tab">カウアイ島</span></div>
           </div>
           <div class="wf-add"><span class="wf-pin" data-co="a1">A-1</span>
-            <div style="display:flex;justify-content:space-between;align-items:baseline"><div class="ui-h">観光スポットから探す</div><span class="ui-link">すべて見る ▸</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><div class="ui-h">人気スポット</div><span class="ui-link">すべて見る ▸</span></div>
             <div class="wf-cards">
-              <div class="wf-mini"><div class="wf-ph" style="height:26px"></div><div class="t">ダイヤモンドヘッド</div><span class="wf-badge blue">体験 12件</span></div>
-              <div class="wf-mini"><div class="wf-ph" style="height:26px"></div><div class="t">ハナウマ湾</div><span class="wf-badge blue">体験 8件</span></div>
-              <div class="wf-mini"><div class="wf-ph" style="height:26px"></div><div class="t">クアロア・ランチ</div><span class="wf-badge blue">体験 9件</span></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:26px"></div><div class="t">クアロアランチツアー</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:26px"></div><div class="t">サンドバー（天国の海）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:26px"></div><div class="t">ダイヤモンドヘッドツアー</div></div>
             </div>
           </div>
           <div class="wf-add"><span class="wf-pin" data-co="a2">A-2</span>
@@ -245,12 +245,12 @@ html{scroll-behavior:smooth}
               <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">3位 クアロア・ランチ 四輪バギー体験</div><div class="wf-price">¥10,390〜</div><div class="st">★4.27（336）</div></div>
             </div>
           </div>
-          <div class="wf-sec wf-dim" data-co-anchor="a1b">
-            <div class="sec-cap">オアフ島（ホノルル）の人気カテゴリ — ハワイの定番スポット</div>
+          <div class="wf-sec wf-dim" style="position:relative">
+            <div class="sec-cap">オアフ島（ホノルル）の人気カテゴリ — 人気アクティビティ</div>
             <div class="wf-cards" style="margin-top:4px">
-              <div class="wf-mini"><div class="wf-ph" style="height:16px"></div><div class="t">クアロアランチツアー</div></div>
-              <div class="wf-mini"><div class="wf-ph" style="height:16px"></div><div class="t">サンドバー（天国の海）</div></div>
-              <div class="wf-mini"><div class="wf-ph" style="height:16px"></div><div class="t">ダイヤモンドヘッドツアー</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:16px"></div><div class="t">マリンスポーツ</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:16px"></div><div class="t">サンセット／ナイトクルーズ</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:16px"></div><div class="t">野生のイルカ</div></div>
             </div>
             <span class="wf-pin" data-co="a1b" style="background:#8a97a5">既存</span>
           </div>
@@ -266,10 +266,10 @@ html{scroll-behavior:smooth}
           <div class="wf-sec wf-dim"><div class="sec-cap">観光地から探す — 人気観光地TOP20</div><div class="wf-line s"></div></div>
         </div></div>
         <div class="co-rail">
-          <div class="co" data-co-id="a1"><div class="co-head"><span class="co-pin">A-1</span>改修・上へ移動</div>下部の既存「定番スポット」画像を流用して最上部へ移動。タップ先を<b>スポット×AC一覧</b>に変更。<br>出し分け（3条件AND）：①在庫ありAC3件以上 ②直近90日の検索・閲覧上位 ③当月シーズン該当。並び＝紐づきACの予約数、月次更新。<br><b>Braze静的Content Cardで先行配信可（開発0）</b></div>
+          <div class="co" data-co-id="a1"><div class="co-head"><span class="co-pin">A-1</span>改修・移動（人気スポット）</div>・<b>新設しない</b>：定番スポット群は既にカテゴリとして実装済みのため、新モジュールを足すと同じタイルが2か所に並ぶ。<b>既存「人気カテゴリ＞定番スポット」グループごと上部へ移動</b>し、見出しを「人気スポット」に<br>・スポット／やりたいことの分割はせず、<b>掲載タイルと並びを静的に任意設定</b>（手動キュレーション）で開始<br>・タップ先は既存カテゴリページのまま＝開発は表示順管理と見出しのみ<br>・自動出し分け（検索実需×在庫×季節）は次段。<b>Braze静的カード</b>で「上部に出す価値」の先行検証も可</div>
           <div class="co" data-co-id="a2"><div class="co-head"><span class="co-pin">A-2</span>追加（検索実需チップ）</div>エリア×直近90日のサイト内検索<b>上位5語</b>を自動選定。スポット名は A-1 に集約し、体験・条件語のみ。着地＝検索結果。初期は静的チップで先行A/B可。計測：<b>demand_chip_click</b>(keyword)</div>
           <div class="co" data-co-id="a3"><div class="co-head"><span class="co-pin">A-3</span>改修（切り口タブ追加）</div>既存タブ（売れ筋・満足度）と初期表示はそのまま。実績データ×新しい切り口を追加（下の切り口表から3〜4本で開始）。計測：<b>ranking_tab_switch</b>(tab)</div>
-          <div class="co" data-co-id="a1b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>定番スポット（A-1の移動元）</div>この画像資産を A-1 が流用。本枠は重複のため A-1 リリース後に縮小・撤去を検討</div>
+          <div class="co" data-co-id="a1b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>人気カテゴリ（A-1の移動後）</div>定番スポット群は A-1「人気スポット」として上部へ移動。ここには<b>人気アクティビティ群のみ</b>残す（同じタイルが2か所に並ぶ重複を回避）</div>
           <div class="co" data-co-id="a2b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>日程から探す（A-2の着地）</div>A-2「今日・明日OK」チップのタップ先。機能変更なし</div>
         </div>
       </div>
@@ -278,10 +278,10 @@ html{scroll-behavior:smooth}
         <tbody>
           <tr>
             <td class="no">A-1</td>
-            <td><b>観光スポットの画像カード一覧</b><br><span class="pain">ペイン：パッと見てスポットから探しづらい（下部テキストのみ）</span><span class="eff"><b>行動変化：</b>下部リンクまで辿れず離脱 → 上部でスポットをタップして一覧へ<br><b>動く数値：</b>スポット経由のAC到達↑・エリアLP直帰↓（有効AC到達率：現状 訪問47.7%×質）</span></td>
-            <td>エリア名直下へ<b>移動</b>。既存「定番スポット」画像を流用、横スクロール8〜12件＋「すべて見る」。<br><b>出すスポットの定義（3条件AND）</b>：<br>① 紐づく在庫ありACが3件以上<br>② 直近90日の「スポット名」サイト内検索・閲覧が当該エリア上位<br>③ 当月シーズンに該当（通年含む）<br>並び＝紐づきACの直近30日予約数。月次更新</td>
-            <td>・スポットマスター × AC × GA4検索/閲覧<br>・<b>Braze-now</b>：上位エリアLPに<b>静的Content Card</b>（画像＋スポット名＋件数。着地＝既存「観光地から探す」）を埋め込み配信し需要検証 → 勝てばネイティブ化</td>
-            <td><code>spot_card_click</code><br>param: spot_id, position</td>
+            <td><b>人気スポット（既存・定番スポット群の移動＋静的並べ替え）</b><br><span class="pain">ペイン：パッと見てスポットから探しづらい（下部テキストのみ）</span><span class="eff"><b>行動変化：</b>下部リンクまで辿れず離脱 → 上部でスポットをタップして一覧へ<br><b>動く数値：</b>スポット経由のAC到達↑・エリアLP直帰↓（有効AC到達率：現状 訪問47.7%×質）</span></td>
+            <td>既存「人気カテゴリ＞定番スポット」グループをエリア名直下へ<b>移動</b>（新設しない）。見出し＝「人気スポット」。横スクロール＋「すべて見る」。<br>元の位置には<b>人気アクティビティ群のみ残置</b>（同じタイルの二重掲載を回避）</td>
+            <td>・掲載タイルと並びは<b>静的に任意設定</b>（手動キュレーション。スポット／やりたいことの分割はしない）<br>・タップ先は既存カテゴリページのまま＝開発は表示順管理と見出しのみ<br>・自動出し分け（検索実需×在庫×季節）は次段。<b>Braze-now</b>＝静的Content Cardで「上部に出す価値」を先行検証可</td>
+            <td><code>spot_card_click</code><br>param: category_id, position</td>
           </tr>
           <tr>
             <td class="no">A-2</td>
