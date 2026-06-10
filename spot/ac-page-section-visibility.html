@@ -80,11 +80,18 @@ tr:last-child td{border-bottom:none}
     <p>③ 最下部(90%)到達は <b>7.8%</b>。下部の<b>「投稿写真・体験談・よくある質問・キャンセル情報・関連ツアー」は大半に見られていない</b>。レビューやFAQで不安を解消して背中を押す設計なら、位置が下すぎる可能性。</p>
   </div>
 
+  <div class="devtoggle" role="tablist">
+    <button data-dev="all" class="on">全体</button>
+    <button data-dev="pc">PC</button>
+    <button data-dev="mb">モバイル</button>
+  </div>
+  <p class="dev-hint">PC / モバイルを切り替えると上部4指標がデバイス別に更新されます（GA4 deviceCategory）。下のセクションマップは全体ベースです。<br><b>モバイル優位（73%）だが、デスクトップの方が深く読む（エンゲージ89% vs 69%・最下部到達12.4% vs 6.2%）。予約日付の選択率は両者ほぼ同じ（約12%）。</b></p>
+
   <div class="kpis">
-    <div class="kpi"><div class="v" style="color:var(--accent)">3,283</div><div class="l">ページ閲覧 Traveler 数</div><div class="s">page_view 6,997回 / view_item 6,577回</div></div>
-    <div class="kpi"><div class="v" style="color:var(--green)">75%</div><div class="l">エンゲージした Traveler</div><div class="s">2,450人 / user_engagement</div></div>
-    <div class="kpi"><div class="v" style="color:var(--accent)">12.5%</div><div class="l">予約日付を選択</div><div class="s">409人 / select_booking_date 760回</div></div>
-    <div class="kpi"><div class="v" style="color:var(--red)">7.8%</div><div class="l">最下部(90%)まで到達</div><div class="s">256人 / scroll 318回</div></div>
+    <div class="kpi"><div class="v" style="color:var(--accent)" data-all="3,283" data-pc="873" data-mb="2,535">3,283</div><div class="l">ページ閲覧 Traveler 数</div><div class="s" data-all="page_view 6,997回 / view_item 6,577回" data-pc="デスクトップ（全体の27%）" data-mb="モバイル（全体の73%）">page_view 6,997回 / view_item 6,577回</div></div>
+    <div class="kpi"><div class="v" style="color:var(--green)" data-all="75%" data-pc="89%" data-mb="69%">75%</div><div class="l">エンゲージした Traveler</div><div class="s" data-all="2,450人 / user_engagement" data-pc="780人 / 873人中" data-mb="1,760人 / 2,535人中">2,450人 / user_engagement</div></div>
+    <div class="kpi"><div class="v" style="color:var(--accent)" data-all="12.5%" data-pc="11.6%" data-mb="12.3%">12.5%</div><div class="l">予約日付を選択</div><div class="s" data-all="409人 / select_booking_date 760回" data-pc="101人" data-mb="313人">409人 / select_booking_date 760回</div></div>
+    <div class="kpi"><div class="v" style="color:var(--red)" data-all="7.8%" data-pc="12.4%" data-mb="6.2%">7.8%</div><div class="l">最下部(90%)まで到達</div><div class="s" data-all="256人 / scroll 318回" data-pc="108人" data-mb="157人">256人 / scroll 318回</div></div>
   </div>
 
   <h2>セクション別・推定到達度（上から下へ）</h2>
@@ -127,11 +134,13 @@ tr:last-child td{border-bottom:none}
       <li>セクション単位のビュー数は GA4 に存在しない。scroll は <b>90%到達の1段階のみ</b>のため、中間セクションの到達率は順序＋予約イベント（日付選択・カレンダー表示）からの推定。</li>
       <li>このページの <code>ac_page_reach</code> は<b>別商品ページへの回遊</b>（関連ツアー等）を指す。商品到達の入口イベントとは意味が異なる点に注意。</li>
       <li>「レビュー／FAQ がどれだけ予約に効くか」を厳密に出すには、各セクションに <b>到達・滞在のイベントを付与</b>する計測実装が必要（現状は90%スクロールの1点のみ）。</li>
+      <li><b>左ナビ／グローバルメニューのクリックは、このページでは計測されていない</b>。フィルタ・クリック(<code>search_filter_click</code>)が発火するのは検索結果ページ(<code>/…/search</code>)のみ。商品ページのヘッダ・パンくず等のナビは「押されたか」をボタン単位では追えない（押下＝次ページ遷移としてのみ記録）。</li>
       <li>本レポートは<b>約27%サンプル</b>の標本抽出値。傾向把握用で、絶対値は誤差を含む。</li>
     </ul>
   </div>
 </div>
 </div>
+<script src="/spot/device-toggle.js"></script>
 <script src="/nav.js"></script>
 </body>
 </html>

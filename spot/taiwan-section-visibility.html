@@ -85,11 +85,18 @@ tr:last-child td{border-bottom:none}
     <p>③ <b>27.5%</b> の Traveler が商品ページ（AC＝ツアー詳細ページ）へクリック到達。ただし<b>どのセクションのカード経由かは GA4 にタグ付けされていない</b>（<code>click_id</code> が全件空）ため、セクション別の貢献は現状の計測では特定できない。</p>
   </div>
 
+  <div class="devtoggle" role="tablist">
+    <button data-dev="all" class="on">全体</button>
+    <button data-dev="pc">PC</button>
+    <button data-dev="mb">モバイル</button>
+  </div>
+  <p class="dev-hint">PC / モバイルを切り替えると上部4指標がデバイス別に更新されます（GA4 deviceCategory）。下のセクションマップは全体ベースです。<br><b>モバイル優位（68%）。モバイルは商品カードを猛烈に押す（AC到達33.4%）一方、デスクトップは9.9%どまり。スクロールはデスクトップがやや深い。</b></p>
+
   <div class="kpis">
-    <div class="kpi"><div class="v" style="color:var(--accent)">5,598</div><div class="l">ページ閲覧 Traveler 数</div><div class="s">page_view 10,170回</div></div>
-    <div class="kpi"><div class="v" style="color:var(--red)">10.9%</div><div class="l">最下部(90%)まで到達</div><div class="s">610人 / scroll 705回</div></div>
-    <div class="kpi"><div class="v" style="color:var(--green)">27.5%</div><div class="l">商品ページ（AC）へクリック到達</div><div class="s">1,537人 / ac_page_reach 3,911回</div></div>
-    <div class="kpi"><div class="v" style="color:var(--accent)">6.6%</div><div class="l">ページ内検索を開始</div><div class="s">372人 / form_start 453回</div></div>
+    <div class="kpi"><div class="v" style="color:var(--accent)" data-all="5,598" data-pc="1,755" data-mb="3,943">5,598</div><div class="l">ページ閲覧 Traveler 数</div><div class="s" data-all="page_view 10,170回" data-pc="デスクトップ（全体の30%）" data-mb="モバイル（全体の68%）">page_view 10,170回</div></div>
+    <div class="kpi"><div class="v" style="color:var(--red)" data-all="10.9%" data-pc="11.6%" data-mb="9.4%">10.9%</div><div class="l">最下部(90%)まで到達</div><div class="s" data-all="610人 / scroll 705回" data-pc="203人" data-mb="371人">610人 / scroll 705回</div></div>
+    <div class="kpi"><div class="v" style="color:var(--green)" data-all="27.5%" data-pc="9.9%" data-mb="33.4%">27.5%</div><div class="l">商品ページ（AC）へクリック到達</div><div class="s" data-all="1,537人 / ac_page_reach 3,911回" data-pc="174人" data-mb="1,319人">1,537人 / ac_page_reach 3,911回</div></div>
+    <div class="kpi"><div class="v" style="color:var(--accent)" data-all="6.6%" data-pc="4.2%" data-mb="7.1%">6.6%</div><div class="l">ページ内検索を開始</div><div class="s" data-all="372人 / form_start 453回" data-pc="73人" data-mb="281人">372人 / form_start 453回</div></div>
   </div>
 
   <h2>セクション別・推定到達度（上から下へ）</h2>
@@ -126,10 +133,12 @@ tr:last-child td{border-bottom:none}
     <ul>
       <li>セクション単位のビュー数は GA4 に存在しない。scroll は <b>90%到達の1段階のみ</b>のため、中間セクション（5〜6）の到達率は順序からの推定。</li>
       <li><code>ac_page_reach</code>（商品ページ＝ACへの到達）の <code>click_id</code> はこのページで<b>全件空</b> → どのセクションのカードがクリックされたか特定不能。「どのセクションが売れているか」を出すには、各カードに <b>section名＋position をパラメータ付与</b>する計測実装が必要。</li>
+      <li><b>左ナビ（絞り込み）のクリックは、このページでは計測されていない</b>。フィルタ・クリック(<code>search_filter_click</code>)が発火するのは検索結果ページ(<code>/…/search</code>)のみ。エリアトップの左側リンクは「押されたか」をボタン単位では追えない（押下＝次ページ遷移としてのみ記録）。</li>
       <li>本レポートは<b>約27%サンプル</b>の標本抽出値。傾向把握用で、絶対値は誤差を含む。</li>
     </ul>
   </div>
 </div>
+<script src="/spot/device-toggle.js"></script>
 <script src="/nav.js"></script>
 </body>
 </html>
