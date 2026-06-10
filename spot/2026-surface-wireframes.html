@@ -69,6 +69,15 @@ html{scroll-behavior:smooth}
 .tabrow{display:flex;gap:3px;flex-wrap:wrap}
 .tab{font-size:8.5px;font-weight:900;color:#555;background:#fff;border:1px solid #dfe5ea;border-radius:4px;padding:2px 7px;white-space:nowrap}
 .tab.on{color:#fff;background:#1B82C5;border-color:#1B82C5}
+/* AC比較表（モック内部） */
+.cmp{width:100%;border-collapse:collapse;font-size:8px;margin-top:2px;table-layout:fixed}
+.cmp th,.cmp td{border:1px solid #dfe8ef;padding:3px 3px;text-align:center;background:#fff;color:#333;overflow:hidden;line-height:1.35}
+.cmp th{font-weight:900;font-size:8px;vertical-align:top}
+.cmp .lab{background:#f2f6f9;font-weight:900;color:#556;width:25px;text-align:left;padding-left:4px}
+.cmp .cur{background:#eef6fd}
+.cmp th.cur{border-top:2px solid #1b82c5}
+.cmp .you{display:inline-block;background:#1b82c5;color:#fff;border-radius:3px;font-size:7px;font-weight:900;padding:0 4px;margin-bottom:2px}
+.cmp .mini-cta{display:inline-block;background:#1B82C5;color:#fff;border-radius:4px;padding:2px 6px;font-size:7.5px;font-weight:900}
 /* 要件表 */
 .rq{width:100%;border-collapse:collapse;font-size:13px;margin:0 0 6px}
 .rq th{text-align:left;font-size:11.5px;font-weight:900;color:var(--text3);text-transform:uppercase;padding:8px 9px;border-bottom:2px solid var(--border);vertical-align:bottom;white-space:nowrap}
@@ -418,12 +427,23 @@ html{scroll-behavior:smooth}
           </div>
           <div class="wf-sec wf-dim" style="padding-top:2px;padding-bottom:2px"><div class="wf-cta" style="margin:4px 0">空き状況を見る・予約へ</div></div>
           <div class="wf-add"><span class="wf-pin" data-co="p1">P-1</span>
-            <div class="ui-h">同じ体験のほかのプラン</div>
-            <div class="wf-cards">
-              <div class="wf-mini" style="border-color:#1b82c5"><div class="t">このプラン<br>四輪バギー（1時間）</div><div class="wf-price">¥10,390</div><span class="wf-badge">送迎なし</span></div>
-              <div class="wf-mini"><div class="t">乗馬体験<br>（2時間）</div><div class="wf-price">¥20,991</div><span class="wf-badge">送迎なし</span></div>
-              <div class="wf-mini"><div class="t">1日満喫パッケージ<br>（終日）</div><div class="wf-price">¥34,645</div><span class="wf-badge">送迎付き</span><span class="wf-badge amber">残3</span></div>
-            </div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><div class="ui-h">クアロア・ランチの ほかの体験と比べる</div><span class="ui-link">すべて見る ▸</span></div>
+            <table class="cmp">
+              <tr>
+                <th class="lab"></th>
+                <th class="cur"><span class="you">いま見ている</span><br><div class="wf-ph" style="height:18px;margin:2px 0"></div>四輪バギー体験</th>
+                <th><div class="wf-ph" style="height:18px;margin:2px 0 2px"></div>乗馬体験</th>
+                <th><div class="wf-ph" style="height:18px;margin:2px 0 2px"></div>ジップライン体験</th>
+              </tr>
+              <tr><td class="lab">料金</td><td class="cur"><b>¥10,390〜</b></td><td>¥20,991〜</td><td>¥32,057〜</td></tr>
+              <tr><td class="lab">所要</td><td class="cur">1時間</td><td>2時間</td><td>3時間</td></tr>
+              <tr><td class="lab">送迎</td><td class="cur">なし</td><td>なし</td><td>なし</td></tr>
+              <tr><td class="lab">形式</td><td class="cur">混載</td><td>混載</td><td>混載</td></tr>
+              <tr><td class="lab">対象</td><td class="cur">16歳〜</td><td>10歳〜</td><td>7歳〜</td></tr>
+              <tr><td class="lab">評価</td><td class="cur">★4.27（336）</td><td>★4.41（519）</td><td>★4.50（210）</td></tr>
+              <tr><td class="lab">空き</td><td class="cur">明日OK</td><td>明日OK</td><td><span style="color:#b45309;font-weight:900">残3</span></td></tr>
+              <tr><td class="lab"></td><td class="cur"></td><td><span class="mini-cta">この体験を見る</span></td><td><span class="mini-cta">この体験を見る</span></td></tr>
+            </table>
           </div>
           <div class="wf-add"><span class="wf-pin" data-co="p3">P-3</span>
             <div class="ui-h">この旅程に、あわせて</div>
@@ -440,7 +460,7 @@ html{scroll-behavior:smooth}
         </div></div>
         <div class="co-rail">
           <div class="co braze" data-co-id="p2"><div class="co-head"><span class="co-pin">P-2</span>Braze先行可（安心バッジ凝縮）</div>CTA直上に最大3バッジ。<b>該当する保証のみ</b>表示（AC属性：cancel_policy・instant_confirm・jp_support）。Braze In-appで先行A/B → 検証後にネイティブ化。計測：<b>assurance_impression</b>、CTA到達率</div>
-          <div class="co" data-co-id="p1"><div class="co-head"><span class="co-pin">P-1</span>追加（形態ちがい比較）</div>価格・プラン選択の直下。閲覧中ACを左端に固定し、<b>同スポットの別形態</b>を軸が異なる順（送迎有無 → 所要 → 貸切/混載 → 時間帯）で2〜3件。在庫あり優先。<br>代替が2件未満なら同テーマ（カテゴリ×エリア）で補完、それも無ければ非表示。計測：<b>alt_plan_click</b>(from_ac, to_ac, diff_axis)</div>
+          <div class="co" data-co-id="p1"><div class="co-head"><span class="co-pin">P-1</span>追加（同じ場所の別AC比較）</div>・比べるのは「プラン」ではなく<b>別AC（体験）</b>。同一AC内のプラン選択は既存のまま。UIラベルも「ほかの体験」を使用<br>・左列＝<b>いま見ているAC</b>を固定（比較の基準）。候補＝同spot_idの別ACを「差分が出る軸」順（体験タイプ→所要→送迎→形式）で2件、在庫あり優先<br>・<b>列の要素（最大セット）</b>＝写真／AC名／料金（大人1名〜）／所要／送迎／形式（貸切・混載）／対象年齢／評価（★・件数）／直近の空き／CTA「この体験を見る」<br>・欠損は「—」（ダミー禁止）。候補2件未満→同テーマで補完、ゼロ→モジュール非表示<br>計測：<b>alt_plan_click</b>(from_ac, to_ac, diff_axis)</div>
           <div class="co" data-co-id="p3"><div class="co-head"><span class="co-pin">P-3</span>追加（補完アップセル）</div>同エリアの「交通・移動」「旅行サービス」から各1件（在庫あり×人気順）。種別マスターでACを分類。計測：<b>bundle_click</b>(bundle_type)</div>
           <div class="co braze" data-co-id="p4"><div class="co-head"><span class="co-pin">P-4</span>Braze先行可（比較トレイ）</div>同セッション3AC以上閲覧で出現する折りたたみバー（閲覧履歴はlocalStorage）。展開で価格・所要・評価の比較表。Braze Content Cardで先行検証可。計測：<b>compare_tray_open</b>／<b>compare_tray_item_click</b></div>
         </div>
@@ -451,8 +471,8 @@ html{scroll-behavior:smooth}
           <tr>
             <td class="no">P-1</td>
             <td><b>形態ちがい比較モジュール</b><br><span class="pain">ペイン：似た体験（半日版・送迎付き等）と比べたいのに、関連が汎用で代替に出会えない</span></td>
-            <td>価格・プラン選択の直下。閲覧中ACを左端に固定し、横並びで2〜3件。<br>同スポット代替が2件未満なら同テーマ（カテゴリ×エリア）で補完、それも無ければ非表示</td>
-            <td>・同spot_id×別AC を「軸が異なる順」（送迎有無→所要→貸切/混載→時間帯）で選定<br>・在庫ありを優先。比較行＝価格・所要・送迎・評価</td>
+            <td>価格・プラン選択の直下に<b>7軸の比較表</b>（料金・所要・送迎・形式・対象・評価・空き）。<br>左列＝いま見ているACを「いま見ている」バッジつきで固定、候補2〜3列。<br>同スポット代替が2件未満なら同テーマ（カテゴリ×エリア）で補完、それも無ければモジュール非表示</td>
+            <td>・同spot_id×別ACを「差分が出る軸」順（体験タイプ→所要→送迎→形式）で選定、在庫あり優先<br>・<b>列要素の最大セット</b>＝写真／AC名／料金（大人1名〜）／所要／送迎／形式／対象年齢／評価（★・件数）／直近の空き（今日明日OK・残N）／CTA。欠損は「—」表示（ダミー禁止）<br>・「プラン」の語は同一AC内のプラン選択と衝突するため使わない（UIラベル＝「ほかの体験」）</td>
             <td><code>alt_plan_click</code><br>param: from_ac, to_ac, diff_axis</td>
           </tr>
           <tr>
