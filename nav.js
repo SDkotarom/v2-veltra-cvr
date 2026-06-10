@@ -118,14 +118,13 @@
   var isGwBehavior = (path === '/spot/2026-gw/05-customer-behavior.html');
   var isGwUiux = (path === '/spot/2026-gw/06-uiux.html');
   var isGwSub = isGwMacro || isGwCompetitive || isGwPricing || isGwProduct || isGwBehavior || isGwUiux;
-  var isNewUserKpi = (path === '/spot/2026-new-user-kpi.html');
   var isAcDiscovery = (path === '/spot/2026-ac-discovery.html');
   var isSurfaceWf = (path === '/spot/2026-surface-wireframes.html');
   var isVeltraTopSection = /^\/spot\/veltra-top-section-visibility(\.html)?$/.test(path);
   var isTaiwanSection = /^\/spot\/taiwan-section-visibility(\.html)?$/.test(path);
   var isJiufenSection = /^\/spot\/jiufen-category-section-visibility(\.html)?$/.test(path);
   var isAcSection = /^\/spot\/ac-page-section-visibility(\.html)?$/.test(path);
-  var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isNewUserKpi || isAcDiscovery || isSurfaceWf || isVeltraTopSection || isTaiwanSection || isJiufenSection || isAcSection;
+  var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isAcDiscovery || isSurfaceWf || isVeltraTopSection || isTaiwanSection || isJiufenSection || isAcSection;
   var isArchive = (path === '/reports/' || path === '/reports/index.html');
   var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
   var qp = new URLSearchParams(location.search);
@@ -199,8 +198,6 @@
       append(homeA, mkCurrent('行動仮説ガイド'));
     } else if (isEntryJourney) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('エントリー別CVRジャーニー'));
-    } else if (isNewUserKpi) {
-      append(homeA, mkCurrent('スポット分析'), mkCurrent('新規ユーザー転換 施策'));
     } else if (isAcDiscovery) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('新規ユーザー転換｜探索分解と施策'));
     } else if (isSurfaceWf) {
@@ -250,10 +247,6 @@
   // Hierarchical: items may have a `children` array for sub-pages.
   // 新しい順（新しいものが上 = 大きい番号）。番号は描画時に position から自動採番。
   var SPOT_ITEMS = [
-    { id: 'sec-veltra-top', href: '/spot/veltra-top-section-visibility.html', label: 'セクション閲覧｜ベルトラTOPページ', match: function(){ return isVeltraTopSection; } },
-    { id: 'sec-taiwan', href: '/spot/taiwan-section-visibility.html', label: 'セクション閲覧｜台湾トップページ', match: function(){ return isTaiwanSection; } },
-    { id: 'sec-jiufen', href: '/spot/jiufen-category-section-visibility.html', label: 'セクション閲覧｜九份カテゴリーページ', match: function(){ return isJiufenSection; } },
-    { id: 'sec-ac', href: '/spot/ac-page-section-visibility.html', label: 'セクション閲覧｜商品詳細(AC)ページ', match: function(){ return isAcSection; } },
     {
       id: 'ac-discovery',
       href: '/spot/2026-ac-discovery.html',
@@ -264,6 +257,10 @@
         { id: 'surface-wf', href: '/spot/2026-surface-wireframes.html', label: '画面別 改修ワイヤー', match: function(){ return isSurfaceWf; } }
       ]
     },
+    { id: 'sec-veltra-top', href: '/spot/veltra-top-section-visibility.html', label: 'セクション閲覧｜ベルトラTOPページ', match: function(){ return isVeltraTopSection; } },
+    { id: 'sec-taiwan', href: '/spot/taiwan-section-visibility.html', label: 'セクション閲覧｜台湾トップページ', match: function(){ return isTaiwanSection; } },
+    { id: 'sec-jiufen', href: '/spot/jiufen-category-section-visibility.html', label: 'セクション閲覧｜九份カテゴリーページ', match: function(){ return isJiufenSection; } },
+    { id: 'sec-ac', href: '/spot/ac-page-section-visibility.html', label: 'セクション閲覧｜商品詳細(AC)ページ', match: function(){ return isAcSection; } },
     {
       id: 'gw-decline',
       href: '/spot/2026-gw-cvr-decline.html',
