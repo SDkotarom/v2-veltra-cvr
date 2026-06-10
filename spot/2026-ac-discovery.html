@@ -6,13 +6,117 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/report.css">
 <link rel="stylesheet" href="/spot/spot.css">
-<title>AC探索行動の分解 | スポット分析</title>
+<title>新規ユーザー転換｜探索行動の分解と施策 | スポット分析</title>
 <style>
 :root{--accent:#1b82c5;--accent-bg:#e8f2fb}
 #app .sub-headline{font-size:23px;line-height:1.55}
 #app .sub-lede{font-size:14.5px;line-height:1.8}
 #app .sub-sec-title{font-size:19px}
-.dx-stage{padding:0 44px 12px}
+#app .sub-score-val{font-size:36px}
+#app .sub-score-label{font-size:12.5px}
+#app .sub-score-note{font-size:12.5px;line-height:1.55}
+.nk-stage{padding:0 44px 12px}
+/* 意向ステージ（前提） */
+.st-row{display:grid;grid-template-columns:150px 1fr;gap:0;border:1px solid var(--border);border-left:5px solid #cbd5e1;border-radius:10px;margin-bottom:10px;background:#fff}
+.st-row.s2{border-left-color:#1a8c4e;background:#f6fbf7}
+.st-row.s1{border-left-color:#94a3b8}.st-row.s3{border-left-color:#1b82c5}.st-row.s4{border-left-color:#d97706}
+.st-l{padding:12px 16px;border-right:1px solid var(--border)}
+.st-name{font-size:16px;font-weight:900;color:var(--text)}
+.st-name .b{font-size:11px;font-weight:900;color:#fff;background:#1a8c4e;border-radius:4px;padding:2px 7px;margin-left:6px;vertical-align:middle}
+.st-kpi{display:inline-block;margin-top:7px;font-size:12.5px;font-weight:800;color:var(--text2);background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px 9px;line-height:1.4}
+.st-row.s2 .st-kpi{color:#1a8c4e;border-color:#bfe3cd;background:#f0fdf4}
+.st-r{padding:12px 16px;font-size:13.5px;color:var(--text2);line-height:1.65}
+.st-r b{color:var(--text)}
+/* callout / table */
+.nk-ins{background:#eef6fc;border:1px solid #cfe3f5;border-radius:10px;padding:16px 20px;font-size:14.5px;line-height:1.8;color:var(--text2);margin:8px 0 16px}
+.nk-ins b{color:#1b6ea5}
+.nk-feas{width:100%;border-collapse:collapse;font-size:13.5px;margin:4px 0 14px}
+.nk-feas th{text-align:left;font-size:12px;font-weight:900;color:var(--text3);text-transform:uppercase;padding:9px 10px;border-bottom:2px solid var(--border)}
+.nk-feas td{padding:10px;border-bottom:1px solid var(--border);line-height:1.55;color:var(--text2);vertical-align:top}
+.nk-feas td b{color:var(--text)}
+.nk-cav{font-size:13px;color:var(--text3);line-height:1.8}
+.nk-cav b{color:var(--text2)}
+/* 施策カード */
+.nk-card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:20px 24px;margin-bottom:16px;border-left:6px solid #1b82c5}
+.nk-card.s4{border-left-color:#d97706;background:#fffdf7}
+.nk-card-head{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin-bottom:10px}
+.nk-no{font-family:'DM Sans';font-weight:900;font-size:15px;color:#1b82c5}
+.nk-card.s4 .nk-no{color:#d97706}
+.nk-title{font-size:19px;font-weight:800;color:var(--text);line-height:1.4}
+.nk-badge{font-size:12px;font-weight:900;color:#fff;background:#1a8c4e;border-radius:5px;padding:3px 9px}
+.nk-ul{margin:8px 0 4px;padding:0;list-style:none}
+.nk-ul li{font-size:14.5px;line-height:1.7;color:var(--text2);padding-left:18px;position:relative;margin-bottom:6px}
+.nk-ul li::before{content:'•';position:absolute;left:2px;color:#1b82c5;font-weight:900}
+.nk-card.s4 .nk-ul li::before{color:#d97706}
+.nk-ul li b{color:var(--text);margin-right:4px}
+.nk-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.nk-chip{font-size:13px;font-weight:700;color:var(--text2);background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:4px 12px}
+.nk-chip.imp{color:#1a8c4e;border-color:#bfe3cd;background:#f0fdf4}
+/* toggle */
+.nk-toggle{border:1px solid #f0e0b8;border-radius:10px;margin:12px 0 2px;background:#fffdf5;overflow:hidden}
+.nk-toggle>summary{cursor:pointer;padding:13px 16px;font-size:14.5px;font-weight:800;color:#8a6d00;list-style:none}
+.nk-toggle>summary::-webkit-details-marker{display:none}
+.nk-toggle>summary::before{content:'▸ ';font-weight:900}
+.nk-toggle[open]>summary::before{content:'▾ '}
+.nk-toggle .tg-body{padding:2px 18px 16px}
+.nk-toggle h5{font-size:14px;font-weight:900;color:var(--text);margin:14px 0 4px}
+.nk-toggle ol{margin:4px 0;padding-left:22px}
+.nk-toggle ol>li{font-size:14px;line-height:1.75;color:var(--text2);margin-bottom:5px}
+.nk-toggle ol>li b{color:var(--text)}
+.nk-toggle pre{background:#1e2530;color:#e6edf3;border-radius:7px;padding:11px 13px;font-size:12.5px;line-height:1.55;overflow-x:auto;margin:5px 0;white-space:pre}
+/* mockup（内部UI再現は小さめ可） */
+.nk-mock{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0 4px}
+.nk-mock-col .mock-cap{font-size:12px;font-weight:900;letter-spacing:.06em;margin-bottom:6px}
+.nk-mock-col.before .mock-cap{color:var(--text3)}
+.nk-mock-col.after .mock-cap{color:#1a8c4e}
+.mock{border-radius:8px;overflow:hidden;background:#F2F5F8;font-size:11px;color:#1a1a1a}
+.mock.before{border:1px solid #E0E0E0}.mock.after{border:2px solid #2DAE6C}
+.mock-hd{background:#fff;padding:7px 10px;border-bottom:1px solid #eee;font-weight:900;font-size:11px;color:#1B82C5}
+.mock-bd{padding:10px}
+.mock-img{height:60px;background:#dde6ee;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#9bb0c4;font-size:18px;margin-bottom:8px}
+.mock-line{height:8px;background:#e3e9ef;border-radius:3px;margin:5px 0}.mock-line.s{width:55%}
+.mock-cta{background:#1B82C5;color:#fff;text-align:center;font-weight:800;padding:9px;border-radius:6px;margin-top:9px;font-size:12px}
+.mock-cards{display:flex;gap:6px;margin-top:9px}
+.mock-mini{flex:1;border:1px solid #e0e6ec;border-radius:5px;background:#fff;padding:6px}
+.mock-mini .mm-img{height:30px;background:#dde6ee;border-radius:3px;margin-bottom:4px}
+.mock-mini .mm-t{font-size:8.5px;color:#444;line-height:1.3}
+.mock-mini .mm-p{font-size:9px;font-weight:900;color:#1B82C5;margin-top:2px}
+.mock-badge{display:inline-block;font-size:8.5px;font-weight:900;color:#1a8c4e;background:#e6f7ee;border-radius:3px;padding:1px 5px;margin:1px 3px 1px 0}
+.mock-improve{font-size:10px;color:#1a8c4e;font-weight:700;margin-top:8px;text-align:center}
+/* ステージ別ワイヤー */
+.wf-wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start;margin:2px 0 22px}
+.wf-todo{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+.wf-todo h4{font-size:14px;font-weight:900;color:var(--text);margin:0 0 8px}
+.wf-todo ol{margin:0;padding-left:20px}
+.wf-todo li{font-size:13.5px;line-height:1.7;color:var(--text2);margin-bottom:7px}
+.wf-todo li b{color:var(--text)}
+.wf-legend{margin-top:10px;font-size:12.5px;color:var(--text3);line-height:1.7;border-top:1px dashed var(--border);padding-top:9px}
+.wf-legend b{color:#1a8c4e}
+.wf-cap{font-size:12px;font-weight:900;color:var(--text3);letter-spacing:.05em;margin-bottom:8px;text-align:center}
+.wf-phone{width:100%;max-width:340px;margin:0 auto;border:1.5px solid #d5dbe2;border-radius:22px;background:#fff;padding:8px;box-shadow:0 6px 24px rgba(20,40,60,.08)}
+.wf-screen{background:#f4f6f9;border-radius:15px;overflow:hidden;color:#333}
+.wf-hd{background:#fff;display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid #e8ecf0;font-weight:900;color:#1B82C5;font-size:11px}
+.wf-sec{padding:8px 10px}
+.wf-sec .sec-cap{font-size:9px;font-weight:900;color:#7d8da0}
+.wf-dim{opacity:.55}
+.wf-ph{background:#dde6ee;border-radius:6px}
+.wf-line{height:7px;background:#e2e8ef;border-radius:3px;margin:5px 0}
+.wf-line.s{width:55%}.wf-line.m{width:75%}
+.wf-price{font-size:12px;font-weight:900;color:#1B82C5}
+.wf-cta{background:#1B82C5;color:#fff;text-align:center;font-weight:800;padding:8px;border-radius:7px;font-size:11px;margin:6px 10px}
+.wf-braze{position:relative;margin:10px 8px;border:2px dashed #1a8c4e;background:#f2fcf5;border-radius:9px;padding:9px 8px 8px}
+.wf-braze .bz-tag{position:absolute;top:-9px;left:8px;background:#1a8c4e;color:#fff;font-size:9px;font-weight:900;border-radius:4px;padding:1px 6px;letter-spacing:.04em}
+.wf-pin{position:absolute;top:-11px;right:-7px;min-width:26px;height:20px;padding:0 5px;border-radius:10px;background:#1a8c4e;color:#fff;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.wf-cards{display:flex;gap:5px}
+.wf-mini{flex:1;background:#fff;border:1px solid #e2e8ef;border-radius:6px;padding:5px;min-width:0}
+.wf-mini .t{font-size:9px;line-height:1.35;color:#333;font-weight:700}
+.wf-badge{display:inline-block;font-size:8.5px;font-weight:900;color:#1a8c4e;background:#e6f7ee;border-radius:3px;padding:1px 5px;margin:2px 3px 0 0;white-space:nowrap}
+.wf-badge.amber{color:#b45309;background:#fdf2dd}
+.bz-title{font-size:9.5px;font-weight:900;color:#1a6e42;margin-bottom:4px}
+.bz-text{font-size:9px;color:#444;line-height:1.55}
+.nk-foot{padding:16px 44px 10px;font-size:13.5px;color:var(--text3);line-height:1.8}
+.kpi-link{display:inline-block;margin-top:4px;font-size:13px;font-weight:700;color:#1b82c5}
+@media(max-width:768px){.nk-stage,.nk-foot{padding-left:22px;padding-right:22px}.wf-wrap{grid-template-columns:1fr}.nk-mock{grid-template-columns:1fr}.st-row{grid-template-columns:1fr}.st-l{border-right:none;border-bottom:1px solid var(--border)}.nk-feas{font-size:12.5px}.nk-feas th,.nk-feas td{padding:7px 6px}}
 /* レンズ（軸）カード */
 .dx-lens{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:8px 0 6px}
 .dx-card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:16px 18px;border-top:4px solid #1b82c5}
@@ -63,41 +167,80 @@ html{scroll-behavior:smooth}
   <div class="card">
     <div class="header-band">
       <div class="logo">V2</div>
-      <div class="right">スポット分析<br><strong>AC探索行動の分解</strong></div>
+      <div class="right">スポット分析<br><strong>新規ユーザー転換｜探索分解と施策</strong></div>
     </div>
   </div>
 
   <div class="card">
     <div class="sub-hero" style="background:linear-gradient(135deg,#eef6fc 0%,#fff 80%)">
-      <div class="sub-breadcrumb"><a href="/kpi.html">← KPIダッシュボード</a> / <strong>AC探索行動の分解</strong></div>
-      <div class="sub-tag">Discovery behavior</div>
+      <div class="sub-breadcrumb"><a href="/kpi.html">← KPIダッシュボード</a> / <strong>新規ユーザー転換｜探索分解と施策</strong></div>
+      <div class="sub-tag">New-user conversion</div>
       <h1 class="sub-headline">
-        Traveler が AC を探す行動は<em>ひとつではない</em>。<br>
-        起点・タイミング・種別で分かれる。各面で「何を知りたいか」を分解する。
+        結論：いま CVR を動かすなら、<em>新規ユーザーの転換</em>。<br>
+        AC到達→検討 9.0%（リピーター 22.8%）のギャップが最大のレバー。
       </h1>
       <div class="sub-lede">
-        発見導線の "量" は揃っている。足りないのは <strong>質（軸・関連性・鮮度）</strong>。<br>
-        本ページは施策を出す前の<strong>土台</strong>＝探索行動を軸で分け、各面（TOP／エリア／カテゴリ／AC）で「Traveler は何を知りたいか・何があるべきか」を並べ、<strong>MECE・セレンディピティ・パーソナライズ</strong>を点検するためのもの。
-        <a class="dx-link" href="/spot/2026-new-user-kpi.html">▸ ここから出した打ち手は「新規ユーザー転換 施策」へ</a>
+        CVR（相対 +1%）は結果＝見るだけの北極星。動かすのは各ステージの操作KPI。<br>
+        <strong>このページの流れ</strong>：<strong>01</strong> なぜ新規か（結論の根拠）→ <strong>02</strong> 新規のニーズ＝意向ステージ → <strong>03</strong> 探索行動の分解 → <strong>04</strong> 現状とペイン → <strong>05</strong> 施策（Braze）。画面別の改修要件は<a href="/spot/2026-surface-wireframes.html" style="color:#1b82c5;font-weight:700">ワイヤー別ページ</a>へ。
+        <a class="kpi-link" href="/kpi.html">▸ 前提（KPI設計・なぜ新規か・意向ステージの詳細）は KPIダッシュボードへ</a>
+      </div>
+      <div class="sub-score">
+        <div class="sub-score-card"><div class="sub-score-label">新規 AC到達→検討</div><div class="sub-score-val">9.0<span style="font-size:24px">%</span></div><div class="sub-score-note">リピーター 22.8% は同UXで実証済みの参照値＝新規の当面の目標（"天井"ではない）</div></div>
+        <div class="sub-score-card"><div class="sub-score-label">新規の構成比（日本）</div><div class="sub-score-val">約53<span style="font-size:24px">%</span></div><div class="sub-score-note">セッションの過半（グローバルでは66%）</div></div>
       </div>
       <nav class="dx-toc" aria-label="ページ内リンク">
-        <a href="#sec-lens"><span class="n">01</span>探索の3レンズ</a>
-        <a href="#sec-hier"><span class="n">02</span>行き先の決め方の階層</a>
-        <a href="#sec-surface"><span class="n">03</span>面ごとに何を知りたいか</a>
-        <a href="#sec-quality"><span class="n">04</span>質の点検4観点</a>
-        <a href="#sec-howto"><span class="n">05</span>この分解の使い道</a>
+        <a href="#sec-why"><span class="n">01</span>なぜ新規か</a>
+        <a href="#sec-needs"><span class="n">02</span>意向ステージ</a>
+        <a href="#sec-paths"><span class="n">03</span>探索行動の分解</a>
+        <a href="#sec-gap"><span class="n">04</span>現状とペイン</a>
+        <a href="#sec-actions"><span class="n">05</span>施策</a>
+        <a href="/spot/2026-surface-wireframes.html" style="border-color:#bcd8ef;color:#1b6ea5"><span class="n">▶</span>画面別 改修ワイヤー</a>
       </nav>
     </div>
   </div>
 
-  <!-- 01 探索の3レンズ -->
-  <div class="card" id="sec-lens">
+  <!-- 01 結論：なぜ新規か -->
+  <div class="card" id="sec-why">
     <div class="sub-sec">
       <span class="sub-sec-num accent">01</span>
-      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Lenses</span>
-      <h2 class="sub-sec-title">探索の3レンズ — 同じ「AC探し」でも入口が違う</h2>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Why new users</span>
+      <h2 class="sub-sec-title">結論の根拠 — なぜ新規ユーザーに取り組むのか</h2>
     </div>
-    <div class="dx-stage">
+    <div class="nk-stage">
+      <div class="nk-ins">
+        ・<b>実証済みのギャップ</b>：AC到達→検討は新規 <b>9.0%</b> ↔ リピーター <b>22.8%</b>（同じUXでの実測値＝新規の当面の目標。"天井"ではない）<br>
+        ・<b>母数が最大</b>：新規＝日本セッションの<b>約53%</b>（グローバル66%）。同じ改修の取り分が最大<br>
+        ・<b>即着手できる</b>：Brazeのオーバーレイ配信＝ページ改修なし・開発リソース0で検証を開始できる
+      </div>
+      <div class="nk-cav">※ リピーターを捨てるのではない。リピーターの伸びしろは主に<b>購入頻度（share of wallet）</b>側＝別軸で並行追跡。数値は GA4 Property 347074845（日本・28日・bot除外、2026-05-11〜06-07）。</div>
+    </div>
+  </div>
+
+  <!-- 02 ニーズ：意向ステージ -->
+  <div class="card" id="sec-needs">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">02</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Needs</span>
+      <h2 class="sub-sec-title">新規ユーザーのニーズ — 意向ステージ（4層 × 操作KPI）</h2>
+    </div>
+    <div class="nk-stage">
+      <div class="st-row s1"><div class="st-l"><div class="st-name">① 指名買い</div><div class="st-kpi">KPI：検討→予約完了率</div></div><div class="st-r"><b>意欲：今すぐ予約したい／ニーズ：欲しいACが具体的に決まっている。</b>②AC到達→③検討→購入へ進む層。現状 検討→完了 約15%（カレンダー/フォーム離脱↓）。</div></div>
+      <div class="st-row s2"><div class="st-l"><div class="st-name">② 比較中<span class="b">最優先</span></div><div class="st-kpi">KPI：比較継続率</div></div><div class="st-r"><b>意欲：近々予約したい・高い／ニーズ：方向は固まったがACは未定で複数を比較中。</b>②AC到達済だが③検討に未到達（約528,900人/28日）。新規の「AC到達→検討」9.0%（リピーター22.8%）の主因。現状 即離脱（直帰）約41%。</div></div>
+      <div class="st-row s3"><div class="st-l"><div class="st-name">③ 方向だけ</div><div class="st-kpi">KPI：有効AC到達率</div></div><div class="st-r"><b>意欲：今すぐ予約まではしない／ニーズ：エリア等の方向はあるが具体ACは未定。</b>①訪問したが②AC未到達（新規の約52%）。現状 流入→AC到達 47.7% × 質（即離脱しない）。</div></div>
+      <div class="st-row s4"><div class="st-l"><div class="st-name">④ 探索</div><div class="st-kpi">KPI：再訪率／再訪間隔</div></div><div class="st-r"><b>意欲：まだ予約するつもりはない／ニーズ：欲しいものがあるか探している段階。</b>離脱後に戻らない層。現状 お気に入り保存からの再訪 0.9%。</div></div>
+      <div class="nk-cav" style="margin-top:4px">※ 各ステージの根拠・KPI設計の全体像は <a href="/kpi.html" style="color:#1b82c5;font-weight:700">KPIダッシュボード「何を改善するのか」</a> を参照。数値は GA4 Property 347074845（日本・28日・bot除外）。</div>
+    </div>
+  </div>
+
+  <!-- 03 探索パターンと行動経路仮説 -->
+  <div class="card" id="sec-paths">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">03</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Discovery paths</span>
+      <h2 class="sub-sec-title">探索行動の分解 — 起点・タイミング・種別、そして経路仮説</h2>
+    </div>
+    <div class="nk-stage">
+      <div class="nk-ins">探し方は1つではない。<b>起点 × タイミング × 種別</b>の3レンズで分けると、経路と詰まる場所が見えてくる。</div>
       <div class="dx-ins">いまのUIは <b>エリア × Veltraカテゴリ</b> の2軸に偏っている。Traveler の頭の中はもっと多軸。</div>
       <div class="dx-lens">
         <div class="dx-card">
@@ -128,17 +271,7 @@ html{scroll-behavior:smooth}
           <div style="font-size:12.5px;color:var(--text3);line-height:1.6;margin-top:6px">種別が違えば探し方も「関連の出し方」も違う。旅程として束で必要。</div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- 02 エリアの決め方の階層 -->
-  <div class="card" id="sec-hier">
-    <div class="sub-sec">
-      <span class="sub-sec-num accent">02</span>
-      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Hierarchy</span>
-      <h2 class="sub-sec-title">「行き先の決め方」の階層 — どの粒度で入ってくるか</h2>
-    </div>
-    <div class="dx-stage">
+      <div style="font-size:15px;font-weight:900;color:var(--text);margin:20px 0 8px">「行き先の決め方」の階層 — どの粒度で入ってくるか</div>
       <div class="dx-ladder">
         <span class="step"><b>国</b></span><span class="arr">›</span>
         <span class="step"><b>ざっくりエリア</b></span><span class="arr">›</span>
@@ -151,89 +284,493 @@ html{scroll-behavior:smooth}
         ・「ハナウマ湾に行きたい」＝スポット起点<br>
         ・「パリ発で何かしたい」＝出発地起点<br>
         <b>入口がエリアLP固定だと、スポット起点・出発地起点・やりたいこと起点が拾えない。</b></div>
+      <div style="font-size:15px;font-weight:900;color:var(--text);margin:20px 0 8px">この軸から出る、典型的な経路パターン（仮説）</div>
+      <table class="nk-feas">
+        <thead><tr><th>探索パターン（起点）</th><th>典型の行動経路（仮説）</th><th>主なステージ</th><th>詰まりやすい場所（仮説）</th></tr></thead>
+        <tbody>
+          <tr><td><b>スポット起点</b><br><span style="font-size:12px;color:var(--text3)">「ハナウマ湾 ツアー」</span></td><td>検索 → AC直着地 → 同スポットの他候補と行き来 → 検討</td><td>①・②</td><td>AC直着地後、<b>同スポットの代替（形態ちがい）が一望できず</b>比較が分断 → 即離脱</td></tr>
+          <tr><td><b>エリア起点</b><br><span style="font-size:12px;color:var(--text3)">「オアフ島 観光」</span></td><td>検索 → エリアLP → ランキング／カテゴリ → AC</td><td>③</td><td>LPが<b>カテゴリ＋静的ランキング</b>中心。スポット・目的の入口がSPで深い</td></tr>
+          <tr><td><b>やりたいこと起点</b><br><span style="font-size:12px;color:var(--text3)">「ハワイ シュノーケル」</span></td><td>検索 → カテゴリLP → 一覧から選ぶ → AC</td><td>②・③</td><td><b>Veltraの分類 ≠ ニーズ軸</b>。所要／送迎／難易度／対象で絞れず一覧を往復</td></tr>
+          <tr><td><b>出発地・直前型</b><br><span style="font-size:12px;color:var(--text3)">現地で「今日 ホノルル」</span></td><td>現地・移動中に検索 → 今日明日できるものを探す</td><td>②・③</td><td><b>「今日・明日OK」が前面に無く</b>、直前ニーズが埋もれる</td></tr>
+          <tr><td><b>探索（妄想）型</b><br><span style="font-size:12px;color:var(--text3)">SNS・ガイド記事から</span></td><td>ふらっと来訪 → 眺める → 保存 or 離脱</td><td>④</td><td>保存しても<b>戻る理由（価格・残枠の変化通知）が無い</b> → 保存再訪0.9%</td></tr>
+        </tbody>
+      </table>
+      <div class="nk-cav">経路は実画面とリファラー実測（04参照）から構成した仮説。精緻化は GA4 BigQuery のセッション内シーケンスで検証する。</div>
     </div>
   </div>
 
-  <!-- 03 面ごとに何を知りたいか -->
-  <div class="card" id="sec-surface">
+  <!-- 04 現状とのギャップ -->
+  <div class="card" id="sec-gap">
     <div class="sub-sec">
-      <span class="sub-sec-num accent">03</span>
-      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">By surface</span>
-      <h2 class="sub-sec-title" style="line-height:1.5">面ごとに「Traveler は何を知りたいか」<br>「何があるべきか」</h2>
+      <span class="sub-sec-num accent">04</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Gap</span>
+      <h2 class="sub-sec-title">現状とペイン — 面ごとに「やりたいのに、できない」</h2>
     </div>
-    <div class="dx-stage">
+    <div class="nk-stage">
+      <div class="nk-ins">
+        AC・カテゴリ・エリアの実画面には、<b>ランキング／人気カテゴリ／目的別の絞り込み／あなたにおすすめ／合わせてチェック／その他おすすめ</b>が既に実装されている。AC ページの直前ページ（リファラー）で流入量を実測すると：
+      </div>
+      <table class="nk-feas">
+        <thead><tr><th>AC到達（②）の流入元</th><th>シェア（28日）</th><th>担っているもの</th></tr></thead>
+        <tbody>
+          <tr><td><b>別のACページから</b></td><td>約15%（20.6万人）</td><td>「合わせてチェック／その他おすすめ」＝比較導線</td></tr>
+          <tr><td><b>カテゴリページから</b></td><td>約20%（24.9万人）</td><td>ランキング／おすすめ＝発見導線</td></tr>
+          <tr><td>お気に入り（保存）から</td><td><b style="color:#c0392b">約0.9%（6,828人）</b></td><td>再訪導線</td></tr>
+          <tr><td>（参考）検索エンジンから直接</td><td>外部流入の大半</td><td>新規検索でACに直着地</td></tr>
+        </tbody>
+      </table>
+      <div class="nk-cav">
+        <b>ステージ別ギャップ（経路 × 現状 → 各KPI）</b><br>
+        ・発見・比較・ランキングの「面」は揃っており、AC到達の <b>35%超</b> を実際に創出している。足りないのは質と文脈：<br>
+        　<b>② 比較中</b>：候補は出るが「自分の軸（所要/送迎/形態）」で比べられない → 即離脱（直帰）41%<br>
+        　<b>③ 方向だけ</b>：スポット起点・やりたいこと起点・直前型の入口が無い／SPで深い → 有効AC到達が伸びない<br>
+        　<b>① 指名買い</b>：安心材料・決め手レビューが決済点に無く深部に散在 → 検討→完了 15%止まり<br>
+        　<b>④ 探索</b>：離脱後に戻る理由・通知がゼロ → 保存再訪 0.9%<br>
+        ・このギャップを <b>タイミング・凝縮・緊急性・オフサイト通知</b>（Brazeの得意領域）で埋める ＝ 05 施策
+      </div>
+
+      <div class="nk-ins" style="background:#fff;border:1px solid var(--border);margin-top:14px">
+        <b style="color:var(--text)">面ごとの「知りたいこと × 現状 × ペイン仮説」</b>　<span style="font-size:12.5px;color:var(--text3)">あるべき方向の画面落とし込み（要件定義ドラフト）は各行のワイヤーへ</span>
+      </div>
       <table class="dx-tbl">
-        <thead><tr><th style="width:78px">面</th><th>Traveler が知りたいこと</th><th>現状（AsIs）</th><th>問い（不足）</th><th>あるべき方向（足す軸）</th></tr></thead>
+        <thead><tr><th style="width:64px">面</th><th>Traveler が知りたいこと</th><th>現状（AsIs）</th><th>ペイン仮説（やりたいのに、できない）</th><th>あるべき方向 → ワイヤー</th></tr></thead>
         <tbody>
           <tr>
             <td class="surf">TOP</td>
             <td class="ask">何ができる？<br>どこに行ける？<br>自分向けは？</td>
-            <td>・保存リスト<br>・最近チェック<br>・あなたへのおすすめ<br>・検索・エリア導線<br>・人気</td>
-            <td>・探索の<b>起点（スポット/やりたいこと/出発地）を選ぶ入口</b>があるか？<br>・推薦は枝葉でないか？</td>
-            <td class="dir">最上部で「起点の選択」（行き先 or やりたいこと or 出発地）を提示</td>
+            <td>・保存リスト<br>・最近チェック<br>・あなたへのおすすめ<br>・検索・エリア導線</td>
+            <td>・どこから探し始めるかを<b>選べない</b>（検索窓とエリア一覧だけ）<br>・おすすめが自分に合うか<b>判断できない</b>（1枝葉・理由なし）</td>
+            <td class="dir">・起点セレクタ<br>・おすすめの面化（定番、穴場、今が旬）<br><a href="/spot/2026-surface-wireframes.html#wf-top" style="font-weight:800">▸ ワイヤー T-1・T-2</a></td>
           </tr>
           <tr class="s-area">
             <td class="surf">エリア</td>
-            <td class="ask">ここで何ができる？<br>定番スポットは？<br>目的に合うのは？<br>いつ行く？</td>
+            <td class="ask">ここで何ができる？<br>定番スポットは？<br>目的に合うのは？</td>
             <td>・ランキング(売れ筋固定)<br>・人気カテゴリ<br>・おすすめカテゴリ(目的)<br>・観光地から探す<br>・日付・限定キャンペーン</td>
-            <td>①観光スポットがまず一覧に並ぶ？各スポットにおすすめ10件？<br>②人気カテゴリは<b>MECE</b>か<br>③穴場(それ以外)の発見<br>④<b>興味外</b>が出ていないか<br>⑤パーソナライズ要素</td>
-            <td class="dir">・スポット起点を前面（スポット一覧→各AC）<br>・目的起点、出発地起点<br>・MECEなカテゴリ＋セレンディピティ枠<br>・時期性</td>
+            <td>・パッと見て<b>観光スポットから探せない</b>（リンクはあるが下部にテキストだけ）<br>・ランキングがいつ見てもほぼ同じで、<b>時期や自分に合うか分からない</b><br>・目的（子連れ・半日等）で絞りたいが<b>入口がSPで深い</b></td>
+            <td class="dir">・スポット画像カードを上部へ<br>・目的チップ、この街発・今日明日<br>・動的ランキング＋発見枠<br><a href="/spot/2026-surface-wireframes.html#wf-area" style="font-weight:800">▸ ワイヤー A-1〜A-4</a></td>
           </tr>
           <tr>
             <td class="surf">カテゴリ</td>
-            <td class="ask">この種類で自分に合うのはどれ？<br>何で選べばいい？</td>
-            <td>・Veltra任意の並び(人気順)<br>・「直近◯件の予約」社会的証明<br>・ランキング</td>
-            <td>①<b>Veltraの分類 ≠ 自分のニーズ</b>。所要・時間帯・送迎・難易度・対象・今日明日・価格で絞れない<br>②一方的な並びから絞れない<br>③興味外混入</td>
-            <td class="dir">・ニーズ・ファセット絞り込み<br>・並びの理由提示<br>・今日明日フィルタ前面</td>
+            <td class="ask">自分に合うのはどれ？<br>何で選べばいい？</td>
+            <td>・人気順の一覧<br>・「直近◯件の予約」社会的証明<br>・ランキング</td>
+            <td>・所要・送迎・難易度・今日明日で<b>絞りたいのに絞れない</b>（人気順一覧のみ）<br>・<b>並び順の理由が分からず</b>、上から開いて戻るしかない</td>
+            <td class="dir">・ファセット絞り込み（固定表示）<br>・並び順の明示＋並べ替え<br>・カードに決め手バッジ<br><a href="/spot/2026-surface-wireframes.html#wf-category" style="font-weight:800">▸ ワイヤー C-1〜C-3</a></td>
           </tr>
           <tr>
             <td class="surf">AC</td>
             <td class="ask">これは自分に合う？<br>他とどう違う？<br>一緒に何が要る？</td>
             <td>・写真、スケジュール、地図<br>・プラン・カレンダー・残席<br>・FAQ、レビュー★分布<br>・関連おすすめ(汎用)<br>・1タップ保存</td>
-            <td>①関連が<b>種別で整理されてない</b>（同スポット別形態・送迎・補完）<br>②比較の中に発見が弱い<br>③アップセル(送迎・wifi)が体系化されてない</td>
-            <td class="dir">・種別別の関連（同スポット×別形態、同テーマ、同出発地、補完サービス）<br>・比較に発見<br>・旅程を完成させるアップセル</td>
+            <td>・似た体験（半日版・送迎付き等）と<b>比べたいのに、代替に出会えない</b>（関連が汎用）<br>・キャンセル可否等を予約直前に確かめたいが、<b>深部に散在</b><br>・送迎・wifi等を<b>一緒に手配したいが導線がない</b></td>
+            <td class="dir">・形態ちがい比較モジュール<br>・安心バッジ凝縮（CTA近傍）<br>・補完アップセル、比較トレイ<br><a href="/spot/2026-surface-wireframes.html#wf-ac" style="font-weight:800">▸ ワイヤー P-1〜P-4</a></td>
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
-
-  <!-- 04 横断の点検観点 -->
-  <div class="card" id="sec-quality">
-    <div class="sub-sec">
-      <span class="sub-sec-num accent">04</span>
-      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Quality checks</span>
-      <h2 class="sub-sec-title">発見の「質」を点検する4観点</h2>
-    </div>
-    <div class="dx-stage">
+      <div style="font-size:15px;font-weight:900;color:var(--text);margin:16px 0 6px">発見の「質」を点検する4観点（ペインの横断チェック）</div>
       <ul class="dx-chk">
         <li><b>MECE</b>：入口の軸（スポット/エリア/やりたいこと/出発地）が網羅・排他になっているか。漏れ（出発地起点が無い）やダブりが無いか。</li>
         <li><b>セレンディピティ</b>：売れ筋・履歴の外＝「それ以外（穴場）」を覗かせる枠があるか。同じTop5ばかりになっていないか。</li>
         <li><b>パーソナライズ</b>：枝葉を1つ出すのでなく<b>軸違いの面で</b>（定番／穴場／今が旬）。<b>興味外を除外</b>しているか。時期性（季節・繁忙期）が入っているか。</li>
         <li><b>鮮度</b>：静的な売れ筋ランキング固定になっていないか。時期・属性・流入文脈で<b>動く</b>か。</li>
       </ul>
-    </div>
-  </div>
-
-  <!-- 05 使い道 -->
-  <div class="card" id="sec-howto">
-    <div class="sub-sec">
-      <span class="sub-sec-num accent">05</span>
-      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">How to use</span>
-      <h2 class="sub-sec-title">この分解の使い道</h2>
-    </div>
-    <div class="dx-stage">
-      <div class="dx-ins">
-        ・各面の<b>「あるべき方向」が施策の発生源</b>（特に S2＝比較継続・S3＝有効AC到達）。<br>
-        ・本命（ファセット検索・スポット/出発地起点のIA・動的ランキング）は<b>開発要</b>。<br>
-        ・だから <b>Braze-now で需要をプローブ → 勝った軸だけプロダクト投資</b> の順で進める。
+      <div class="nk-cav">
+        <b>Klook比較</b><br>
+        ・Klook：価格直下に「無料キャンセル／即時確定／モバイルチケット」＋緊急性（残りわずか・X人が検討中）＋スティッキーCTA → <b>比較を打ち切らせて決めさせる</b><br>
+        ・Veltra：発見・比較導線は同等以上。弱いのは <b>決済点の凝縮・緊急性・オフサイト通知</b><br>
+        ・下記の施策はこの差分をBrazeで埋める
       </div>
     </div>
   </div>
 
+  <!-- 05 施策 -->
+  <div class="card" id="sec-actions">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">05</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Actions</span>
+      <h2 class="sub-sec-title">施策 — ギャップをBrazeで埋める（開発0／A・B・前後比較）。最優先は ② 比較中</h2>
+    </div>
+    <div class="nk-stage">
+      <div class="nk-ins">
+        ・上げるのは<b>質（軸・関連性・鮮度）</b>。各施策は <b>Braze-nowで需要をプローブ → 勝てばプロダクト投資</b>（本命の多くは開発要）<br>
+        ・各ステージ：<b>やるべきこと ＋ ワイヤー（SP・Braze配置）</b>→ 施策カード（課題／打ち手／Braze-now／要プロダクト／判定）<br>
+        ・優先 <b>② ＞ ③ ＞ ① ＞ ④</b>。<b>推し3本</b>（②-1形態違い・③-1スポット起点・①-1安心バッジ）から先行<br>
+        ・本命（要プロダクト）の画面落とし込みは <a href="/spot/2026-surface-wireframes.html" style="color:#1b82c5;font-weight:800">画面別 改修ワイヤー（要件定義ドラフト）</a> へ
+      </div>
+
+      <!-- ② 比較中（最優先） -->
+      <div style="font-size:15px;font-weight:900;color:#1a8c4e;margin:6px 0 10px">② 比較中 ― 最優先<span style="font-size:12.5px;font-weight:700;color:var(--text3)">／KPI：比較継続率（即離脱↓・現状 直帰約41%）</span></div>
+      <div class="nk-cav" style="margin:-2px 0 12px">
+        <b>なぜ②が最優先か（実測根拠）</b><br>
+        ・母数が最大級：AC到達済・未検討で <b>約528,900人/28日</b><br>
+        ・新規はAC平均 <b>2.1件</b> 見て比較するが、AC着地の <b>41%</b> が即離脱＝伸びしろ大<br>
+        ・即着手：Braze文脈配信のみで <b>開発・データ連携ゼロ</b>、先行スタート可
+      </div>
+
+      <div class="wf-wrap">
+        <div class="wf-todo">
+          <h4>やるべきこと（②）</h4>
+          <ol>
+            <li><b>②-1</b> 閲覧中ACの直下に「同じ体験の形態ちがい」（半日↔終日／貸切↔混載／送迎あり）を並べる</li>
+            <li><b>②-2</b> 滞在20秒で「何で選ぶか」の軸（所要・送迎・貸切/混載）を提示し、決定麻痺を解く</li>
+            <li><b>②-3</b> 同セッション3AC閲覧で、見た候補を価格・所要・評価で並べる比較トレイを出す</li>
+          </ol>
+          <div class="wf-legend">発火面＝AC詳細ページ。<b>緑の点線＝Brazeオーバーレイ</b>（ページ改修なし）。グレー＝既存モジュール。</div>
+        </div>
+        <div class="wf-fig">
+          <div class="wf-cap">ワイヤー：AC詳細（SP）</div>
+          <div class="wf-phone"><div class="wf-screen">
+            <div class="wf-hd"><span>VELTRA</span><span style="color:#888;font-weight:400">♡ 保存</span></div>
+            <div class="wf-sec">
+              <div class="wf-ph" style="height:62px"></div>
+              <div class="wf-line m"></div><div class="wf-line s"></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px"><span class="wf-price">¥6,800〜</span><span style="font-size:9px;color:#888">★4.5（1,234）</span></div>
+            </div>
+            <div class="wf-braze"><span class="bz-tag">Braze In-app</span><span class="wf-pin">②-2</span>
+              <div class="bz-title">迷ったら、この3つで比べる</div>
+              <div><span class="wf-badge">所要時間</span><span class="wf-badge">送迎の有無</span><span class="wf-badge">貸切／混載</span></div>
+            </div>
+            <div class="wf-sec wf-dim">
+              <div class="sec-cap">プラン選択・空き状況カレンダー（既存）</div>
+              <div class="wf-line"></div><div class="wf-line m"></div>
+            </div>
+            <div class="wf-braze"><span class="bz-tag">Braze Content Card</span><span class="wf-pin">②-1</span>
+              <div class="bz-title">同じ体験の「形態ちがい」</div>
+              <div class="wf-cards">
+                <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">半日・午前発</div><div class="wf-price" style="font-size:9.5px">¥6,800</div><span class="wf-badge">送迎あり</span></div>
+                <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">終日・貸切</div><div class="wf-price" style="font-size:9.5px">¥18,000</div><span class="wf-badge">ガイド付</span></div>
+                <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">夕方発</div><div class="wf-price" style="font-size:9.5px">¥7,500</div><span class="wf-badge amber">残3</span></div>
+              </div>
+            </div>
+            <div class="wf-braze"><span class="bz-tag">Braze Content Card</span><span class="wf-pin">②-3</span>
+              <div style="display:flex;align-items:center;gap:6px">
+                <div style="display:flex;gap:3px;flex-shrink:0"><div class="wf-ph" style="width:20px;height:20px"></div><div class="wf-ph" style="width:20px;height:20px"></div><div class="wf-ph" style="width:20px;height:20px"></div></div>
+                <div style="font-size:9.5px;font-weight:800;color:#1a6e42">見た3件を価格・所要・評価で比較 ▸</div>
+              </div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="nk-card">
+        <div class="nk-card-head"><span class="nk-no">②-1</span><span class="nk-title">同じ体験の「形態違い」を並べる（比較の中に発見）</span><span class="nk-badge">推し</span></div>
+        <ul class="nk-ul">
+          <li><b>課題</b>新規はAC平均2.1件を比較するが41%が即離脱。<b>同じ体験の別形態が一望できない</b></li>
+          <li><b>打ち手</b>閲覧中ACの直下に <b>半日↔終日／ガイド有無／貸切↔混載／送迎/時間帯</b> の形態違いを提示＝知らない選択肢の発見</li>
+          <li><b>Braze-now</b>feedタグで「このツアーの別プラン・近い体験」カード（同area×同テーマ）</li>
+          <li><b>要プロダクト</b>所要/送迎/形態の<b>軸フィルタ付き比較UI</b></li>
+          <li><b>判定</b>A/B＝即離脱率↓・比較継続率</li>
+        </ul>
+        <div class="nk-meta"><span class="nk-chip imp">推し</span><span class="nk-chip">即離脱↓</span><span class="nk-chip">Braze-now</span><span class="nk-chip">迷わず買う</span></div>
+      </div>
+
+      <div class="nk-card">
+        <div class="nk-card-head"><span class="nk-no">②-2</span><span class="nk-title">「何で選ぶか」の決め手の軸を提示（In-app message）</span></div>
+        <ul class="nk-ul">
+          <li><b>課題</b>選ぶ基準が無く比較が終わらない（決定麻痺）</li>
+          <li><b>打ち手</b><b>所要・送迎・難易度・対象</b>で「何が違うか」を並べ、決める軸を与える</li>
+          <li><b>Braze-now</b>In-appで3軸＋各ACの値を提示</li>
+          <li><b>要プロダクト</b>比較表の標準化（全AC共通スキーマ）</li>
+          <li><b>判定</b>A/B＝比較継続→検討率</li>
+        </ul>
+        <div class="nk-meta"><span class="nk-chip">パイプライン不要</span><span class="nk-chip">A/B</span><span class="nk-chip">迷わず買う</span></div>
+      </div>
+
+      <div class="nk-card">
+        <div class="nk-card-head"><span class="nk-no">②-3</span><span class="nk-title">見た候補を価格・所要・評価で並べる比較トレイ（Content Card）</span></div>
+        <ul class="nk-ul">
+          <li><b>課題</b>見た平均2.1件を<b>後から並べて見返せない</b>（既存「最近チェック」は単純カルーセル）</li>
+          <li><b>打ち手</b>同セッション3AC以上閲覧サイン（<code>ac_view</code>×3）で価格・所要・評価を揃えた比較トレイを出す</li>
+          <li><b>Braze-now</b>カスタムイベントでContent Card（既存タグに1行追加）</li>
+          <li><b>要プロダクト</b>常設の比較トレイUI</li>
+          <li><b>判定</b>前後比較＝②→③率</li>
+        </ul>
+        <div class="nk-meta"><span class="nk-chip">軽量タグ1行</span><span class="nk-chip">前後比較</span><span class="nk-chip">迷わず買う</span></div>
+      </div>
+
+      <!-- ③ 方向だけ -->
+      <div style="font-size:15px;font-weight:900;color:#1b82c5;margin:22px 0 10px">③ 方向だけ<span style="font-size:12.5px;font-weight:700;color:var(--text3)">／KPI：有効AC到達率（訪問47.7%×質＝即離脱しない）</span></div>
+      <div class="nk-cav" style="margin:-2px 0 12px">既存はVeltraの<b>カテゴリ＋静的ランキング</b>のみ。Traveler の探索軸（<b>スポット／やりたいこと／出発地／タイミング</b>）が無い。＝新しい探索軸の需要をBrazeで測り、勝った軸をプロダクト化。</div>
+
+      <div class="wf-wrap">
+        <div class="wf-todo">
+          <h4>やるべきこと（③）</h4>
+          <ol>
+            <li><b>③-1</b> LP上部に「観光スポットから探す」入口（スポット一覧 → そこで参加できるAC）</li>
+            <li><b>③-2</b> 「やりたいこと」（見る／食べる／遊ぶ）で選ばせる入口</li>
+            <li><b>③-3</b> 「この街発」「今日・明日OK」を前面化（直前型を拾う）</li>
+            <li><b>③-4</b> おすすめを時期・文脈で動かし「定番／穴場／今が旬」の面で見せる</li>
+          </ol>
+          <div class="wf-legend">発火面＝エリア／カテゴリLP上部。入口チップは<b>既存導線への近道</b>として機能し、タップ先は既存の「観光地から探す」等。</div>
+        </div>
+        <div class="wf-fig">
+          <div class="wf-cap">ワイヤー：エリアLP（SP）</div>
+          <div class="wf-phone"><div class="wf-screen">
+            <div class="wf-hd"><span>VELTRA</span><span style="color:#888;font-weight:400">検索</span></div>
+            <div class="wf-sec"><div style="font-size:11px;font-weight:900;color:#222">オアフ島（ホノルル）</div><div class="wf-line s"></div></div>
+            <div class="wf-braze"><span class="bz-tag">Braze In-app</span><span class="wf-pin">③-1〜3</span>
+              <div class="bz-title">どう探す？</div>
+              <div><span class="wf-badge">📍 観光スポットから</span><span class="wf-badge">🎯 やりたいことから</span><span class="wf-badge">🚐 この街発</span><span class="wf-badge amber">⚡ 今日・明日OK</span></div>
+              <div style="margin-top:6px;background:#fff;border:1px solid #dcebe2;border-radius:6px;padding:5px 7px">
+                <div style="font-size:9px;font-weight:900;color:#333">ダイヤモンドヘッド <span style="color:#1a8c4e">→ 体験 12件</span></div>
+                <div style="font-size:9px;font-weight:900;color:#333;margin-top:3px">ハナウマ湾 <span style="color:#1a8c4e">→ 体験 8件</span></div>
+                <div style="font-size:8.5px;color:#888;margin-top:3px">タップで既存「観光地から探す」へ</div>
+              </div>
+            </div>
+            <div class="wf-sec wf-dim">
+              <div class="sec-cap">ランキング・人気カテゴリ（既存）</div>
+              <div class="wf-cards" style="margin-top:4px"><div class="wf-mini"><div class="wf-ph" style="height:22px"></div></div><div class="wf-mini"><div class="wf-ph" style="height:22px"></div></div><div class="wf-mini"><div class="wf-ph" style="height:22px"></div></div></div>
+            </div>
+            <div class="wf-braze"><span class="bz-tag">Braze Content Card</span><span class="wf-pin">③-4</span>
+              <div class="bz-title">いま見られている：6月のオアフ</div>
+              <div><span class="wf-badge">定番</span><span class="wf-badge">穴場</span><span class="wf-badge amber">今が旬</span></div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="nk-card">
+        <div class="nk-card-head"><span class="nk-no">③-1</span><span class="nk-title">観光スポット起点で探す（"ルーブルで何ができる"）</span><span class="nk-badge">推し</span></div>
+        <ul class="nk-ul">
+          <li><b>課題</b>エリアLPで具体ACに辿り着けず離脱（訪問47.7%・質も低い）</li>
+          <li><b>打ち手</b><b>主要観光スポット一覧 → そこで参加できるAC</b>。"パリに行く"より"スポットで何をするか"で探させる</li>
+          <li><b>Braze-now</b>LP上部In-appで「スポットから探す」へ誘導→クリック→AC到達を測る（<b>需要プローブ</b>）</li>
+          <li><b>要プロダクト</b>スポット×AC のIA・一覧生成</li>
+          <li><b>判定</b>A/B＝有効AC到達率</li>
+        </ul>
+        <div class="nk-meta"><span class="nk-chip imp">推し</span><span class="nk-chip">新軸</span><span class="nk-chip">Braze-nowプローブ</span><span class="nk-chip">取りこぼし防止</span></div>
+      </div>
+
+      <div class="nk-card">
+        <div class="nk-card-head"><span class="nk-no">③-2</span><span class="nk-title">「やりたいこと」起点で探す（カテゴリ横断）</span></div>
+        <ul class="nk-ul">
+          <li><b>課題</b><b>カテゴリ≠欲求</b>。「何をしたいか」で探せず、Veltra都合の分類しか無い</li>
+          <li><b>打ち手</b>見る/食べる/遊ぶ/学ぶ → カテゴリを横断した候補に当てる</li>
+          <li><b>Braze-now</b>「目的で選ぶ」In-app誘導でプローブ</li>
+          <li><b>要プロダクト</b>desire軸の検索・タグ付け</li>
+          <li><b>判定</b>A/B＝有効AC到達率</li>
+        </ul>
+        <div class="nk-meta"><span class="nk-chip">新軸</span><span class="nk-chip">Braze-nowプローブ</span><span class="nk-chip">取りこぼし防止</span></div>
+      </div>
+
+      <div class="nk-card">
+        <div class="nk-card-head"><span class="nk-no">③-3</span><span class="nk-title">出発地起点／「今日明日参加OK」を前面化</span></div>
+        <ul class="nk-ul">
+          <li><b>課題</b>計画型と<b>直前型（現地・移動中）</b>が混在し、直前ニーズが埋もれる</li>
+          <li><b>打ち手</b>この街発の日帰り/周遊、<b>今日明日参加OK</b>を上部に出す</li>
+          <li><b>Braze-now</b>「今日明日OK」フィルタへの誘導（既存日付フィルタ活用）</li>
+          <li><b>要プロダクト</b>出発地起点のIA</li>
+          <li><b>判定</b>A/B＝有効AC到達率</li>
+        </ul>
+        <div class="nk-meta"><span class="nk-chip">新軸</span><span class="nk-chip">Braze-nowプローブ</span><span class="nk-chip">取りこぼし防止</span></div>
+      </div>
+
+      <div class="nk-card">
+        <div class="nk-card-head"><span class="nk-no">③-4</span><span class="nk-title">静的ランキング/単一推薦の「質」を上げる</span></div>
+        <ul class="nk-ul">
+          <li><b>課題</b>ランキングが<b>売れ筋固定で動かない</b>、おすすめが<b>単一ピックで枝葉</b>・興味外も混入</li>
+          <li><b>打ち手</b>時期・属性で動くランキング＋<b>軸違い3パターン</b>（定番/穴場/今が旬）＋"それ以外"発見枠＋興味外の除外</li>
+          <li><b>Braze-now</b>時期・文脈で出し分けるカード／3パターン提示</li>
+          <li><b>要プロダクト</b>動的ランキング・reco多様化/除外ロジック</li>
+          <li><b>判定</b>A/B＝有効AC到達率</li>
+        </ul>
+        <div class="nk-meta"><span class="nk-chip">質改善</span><span class="nk-chip">Braze-now部分可</span><span class="nk-chip">取りこぼし防止</span></div>
+      </div>
+
+      <!-- ① 指名買い -->
+      <div style="font-size:15px;font-weight:900;color:#64748b;margin:22px 0 10px">① 指名買い<span style="font-size:12.5px;font-weight:700;color:var(--text3)">／KPI：検討→予約完了率（カレンダー/フォーム離脱↓・約15%）</span></div>
+
+      <div class="wf-wrap">
+        <div class="wf-todo">
+          <h4>やるべきこと（①）</h4>
+          <ol>
+            <li><b>①-1</b> CTA近傍に安心3バッジ（無料キャンセル／即時確定／日本語サポート）を凝縮して再掲</li>
+            <li><b>①-2</b> カレンダー閲覧→未予約の離脱に空き枠リマインド（満席なら近い空き日を提案）</li>
+            <li><b>①-3</b> レビューを「良い点3つ」に要約して最後のひと押し</li>
+          </ol>
+          <div class="wf-legend">発火面＝AC詳細の決済点（カレンダー／CTA近傍）＋離脱後のオフサイト（push）。</div>
+        </div>
+        <div class="wf-fig">
+          <div class="wf-cap">ワイヤー：AC詳細・決済点（SP）</div>
+          <div class="wf-phone"><div class="wf-screen">
+            <div class="wf-hd"><span>VELTRA</span><span style="color:#888;font-weight:400">AC詳細</span></div>
+            <div class="wf-sec wf-dim">
+              <div class="sec-cap">空き状況カレンダー（既存）</div>
+              <div class="wf-line"></div><div class="wf-line m"></div>
+            </div>
+            <div class="wf-braze"><span class="bz-tag">Braze In-app</span><span class="wf-pin">①-1</span>
+              <div><span class="wf-badge">✓ 無料キャンセル</span><span class="wf-badge">✓ 即時確定</span><span class="wf-badge">✓ 日本語サポート</span></div>
+            </div>
+            <div class="wf-cta">空き状況を見る・予約へ</div>
+            <div class="wf-braze"><span class="bz-tag">Braze Content Card</span><span class="wf-pin">①-3</span>
+              <div class="bz-title">レビュー要約 — 良い点3つ</div>
+              <div class="bz-text">・ガイドの説明が丁寧<br>・集合場所が分かりやすい<br>・子連れでも安心</div>
+            </div>
+            <div class="wf-braze"><span class="bz-tag">Braze Push（離脱後）</span><span class="wf-pin">①-2</span>
+              <div class="bz-text">見ていた <b>6/15 は残3</b>。満席なら近い空き日 6/16・6/17 を提案</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="nk-card" style="border-left-color:#94a3b8">
+        <div class="nk-card-head"><span class="nk-no" style="color:#64748b">①-1</span><span class="nk-title">CTA近傍に「無料キャンセル/即時確定/日本語サポート」を要約</span><span class="nk-badge">推し</span></div>
+        <ul class="nk-ul">
+          <li><b>課題</b>検討→完了15%。<b>カレンダー→フォームで29%しか進まず</b>、安心材料がCTA近傍に無く深部に散在</li>
+          <li><b>打ち手</b>AC属性から該当保証を抽出し、<b>CTA近傍に3バッジで要約再掲</b>（Klook型）</li>
+          <li><b>Braze-now</b>In-app message（AC属性で出し分け）</li>
+          <li><b>要プロダクト</b>―（不要）</li>
+          <li><b>判定</b>A/B＝検討→完了率</li>
+        </ul>
+        <div class="nk-meta"><span class="nk-chip imp">推し</span><span class="nk-chip">パイプライン不要</span><span class="nk-chip">A/B</span><span class="nk-chip">迷わず買う</span></div>
+      </div>
+
+      <div class="nk-card" style="border-left-color:#94a3b8">
+        <div class="nk-card-head"><span class="nk-no" style="color:#64748b">①-2</span><span class="nk-title">カレンダー離脱に空き枠リマインド＋満席なら代替日（push／Content Card）</span></div>
+        <ul class="nk-ul">
+          <li><b>課題</b>カレンダー（③）到達後に予約せず離脱。満席だと<b>行き止まり</b></li>
+          <li><b>打ち手</b>当該AC・日付の<b>空き枠をリマインド</b>。満席なら<b>近い空き日</b>を提示</li>
+          <li><b>Braze-now</b>push/Content Card（カレンダー表示イベント連動）</li>
+          <li><b>要プロダクト</b>在庫連携（代替日の動的取得）</li>
+          <li><b>判定</b>前後比較＝検討→完了率</li>
+        </ul>
+        <div class="nk-meta"><span class="nk-chip">閲覧イベント連動</span><span class="nk-chip">前後比較</span><span class="nk-chip">迷わず買う</span></div>
+      </div>
+
+      <!-- ④ 探索 -->
+      <div style="font-size:15px;font-weight:900;color:#d97706;margin:22px 0 10px">④ 探索<span style="font-size:12.5px;font-weight:700;color:var(--text3)">／KPI：再訪率（X日内）／再訪間隔（保存再訪0.9%）</span></div>
+
+      <div class="wf-wrap">
+        <div class="wf-todo">
+          <h4>やるべきこと（④）</h4>
+          <ol>
+            <li><b>④-1</b> 保存ACの値下げ・残枠を通知し、戻る理由をつくる（静的フォールバックで先行）</li>
+            <li><b>④-2</b> 閲覧エリア/カテゴリに沿った後追い配信＋保存時に通知オプトインを提示</li>
+          </ol>
+          <div class="wf-legend">発火面＝離脱後のオフサイト（push／メール）→ 着地は保存リスト。<b>サイト外からの再訪喚起</b>が既存に無い領域。</div>
+        </div>
+        <div class="wf-fig">
+          <div class="wf-cap">ワイヤー：push → 保存リスト（SP）</div>
+          <div class="wf-phone"><div class="wf-screen">
+            <div class="wf-braze" style="margin-top:12px"><span class="bz-tag">Braze Push</span><span class="wf-pin">④-1</span>
+              <div class="bz-text">保存中の「夜景クルーズ」が<b>¥500値下げ</b>（残3）👉 今すぐ確認</div>
+            </div>
+            <div class="wf-hd"><span>VELTRA</span><span style="color:#888;font-weight:400">保存リスト</span></div>
+            <div class="wf-sec">
+              <div class="sec-cap">保存リスト（既存）＋変化バッジ</div>
+              <div class="wf-cards" style="margin-top:4px">
+                <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">市内半日ツアー</div><div class="wf-price" style="font-size:9.5px">¥4,800</div><span class="wf-badge amber">残3</span></div>
+                <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">夜景クルーズ</div><div class="wf-price" style="font-size:9.5px">¥3,500</div><span class="wf-badge">↓ 値下げ</span></div>
+              </div>
+            </div>
+            <div class="wf-cta">保存から予約する</div>
+            <div class="wf-braze"><span class="bz-tag">Braze メール（離脱後X日）</span><span class="wf-pin">④-2</span>
+              <div class="bz-title">先週見ていたオアフ島から</div>
+              <div class="bz-text">閲覧エリアに沿ったおすすめ3件（在庫・価格は配信時点で取得）</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="nk-card s4">
+        <div class="nk-card-head"><span class="nk-no">④-1</span><span class="nk-title">保存ACの値下げ・残枠を通知して連れ戻す（push／メール）</span><span class="nk-badge" style="background:#d97706">最大の空き</span></div>
+        <ul class="nk-ul">
+          <li><b>課題</b>保存(ハート)は1タップ既存だが、<b>保存後に戻る理由（価格/残枠変化）の通知がゼロ</b>。保存再訪0.9%</li>
+          <li><b>打ち手</b>保存ACの<b>値下げ・残枠</b>を通知。静的フォールバック（保存AC一覧）で先行スタート</li>
+          <li><b>Braze-now</b>push/メール（下記8項目の擬似レコメンド）</li>
+          <li><b>要プロダクト</b>在庫/価格の鮮度連携</li>
+          <li><b>判定</b>前後比較＝再訪率</li>
+        </ul>
+        <details class="nk-toggle">
+          <summary>④-1 価格／残枠リマインドの Braze 設定（ロジック・必要データ・手順）</summary>
+          <div class="tg-body">
+            <h5>① データソース</h5>
+            <ol>
+              <li>GA4 BigQuery export <b>events_*</b>（保存イベント <b>GA4_vtjp_ex_yokka_add_wishlist</b>）</li>
+              <li>AC マスター（価格・在庫。商品DB or 在庫API）</li>
+            </ol>
+            <h5>② 生成クエリ（BigQuery・1日1回）</h5>
+            <pre>-- 直近60日の「保存者 × 保存AC」
+SELECT user_pseudo_id AS uid,
+       (SELECT value.string_value FROM UNNEST(event_params)
+        WHERE key='ac_id') AS ac_id,
+       MAX(event_timestamp) AS saved_at
+FROM `proj.analytics_347074845.events_*`
+WHERE event_name='GA4_vtjp_ex_yokka_add_wishlist'
+  AND _TABLE_SUFFIX >=
+      FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(),INTERVAL 60 DAY))
+GROUP BY uid, ac_id;
+-- ↑ を AC マスターと JOIN し
+--   「前日比 価格↓」or「残枠 ≤ 5」の行だけ残す</pre>
+            <h5>③ 実行環境・スケジュール</h5>
+            <ol><li>Cloud Scheduler（毎朝1回）→ Cloud Functions でクエリ実行＋整形</li></ol>
+            <h5>④ Braze への投入経路</h5>
+            <ol><li>Braze REST <b>/users/track</b> でカスタム属性を上書き（or CSV import）</li></ol>
+            <h5>⑤ カスタム属性スキーマ（上位3件まで）</h5>
+            <ol>
+              <li><b>wishlist_1_name</b> (string) / <b>wishlist_1_price</b> (number) / <b>wishlist_1_stock</b> (number)</li>
+              <li><b>wishlist_1_pricedrop</b> (boolean) / <b>wishlist_1_url</b> (string)。_2 / _3 も同形</li>
+            </ol>
+            <h5>⑥ 属性更新の仕組み</h5>
+            <ol><li>日次バッチが /users/track で属性更新 → Braze Canvas を <b>「pricedrop=true」属性変化でトリガー</b>発火</li></ol>
+            <h5>⑦ Liquid テンプレート（Content Card 1枚）</h5>
+            <pre>{% if ${wishlist_1_pricedrop} == true %}
+保存中の「{{${wishlist_1_name}}}」が値下げ！
+今 ¥{{${wishlist_1_price}}}（残り{{${wishlist_1_stock}}}）
+👉 {{${wishlist_1_url}}}
+{% endif %}</pre>
+            <h5>⑧ 稼働責任</h5>
+            <ol>
+              <li>初期セットアップ（BQクエリ・Cloud Functions・Braze属性/Canvas）＝エンジニア＋AI coding</li>
+              <li>以降は Scheduler＋Braze のマネージドで自走。文言・出し分けは Braze 管理画面で切替</li>
+            </ol>
+          </div>
+        </details>
+        <div class="nk-meta"><span class="nk-chip imp">再訪率／再訪間隔</span><span class="nk-chip">擬似レコメンド</span><span class="nk-chip">静的フォールバックで先行</span><span class="nk-chip">前後比較</span></div>
+      </div>
+
+      <div class="nk-card s4">
+        <div class="nk-card-head"><span class="nk-no">④-2</span><span class="nk-title">閲覧エリア/カテゴリに沿った後追い＋保存時に通知オプトイン</span></div>
+        <ul class="nk-ul">
+          <li><b>課題</b>サイト内推薦はあるが<b>離脱後のオフサイト再訪喚起がゼロ</b></li>
+          <li><b>打ち手</b>直近の閲覧エリア/カテゴリに沿うおすすめACを離脱後X日で配信＋<b>保存時に「値下げ通知が届く」とオプトイン</b>を提示</li>
+          <li><b>Braze-now</b>Connected Content（下記8項目の擬似レコメンド）</li>
+          <li><b>要プロダクト</b>reco API</li>
+          <li><b>判定</b>前後比較＝再訪率／再訪間隔</li>
+        </ul>
+        <details class="nk-toggle">
+          <summary>④-2 閲覧ベースの後追いナーチャリングの Braze 設定（Connected Content）</summary>
+          <div class="tg-body">
+            <h5>① 必要データ → 属性</h5>
+            <ol>
+              <li>GA4 BQ の <b>view_item</b> から直近の閲覧エリア/カテゴリを集計</li>
+              <li>属性 <b>last_viewed_area</b> / <b>last_viewed_category</b> を /users/track で日次更新</li>
+            </ol>
+            <h5>② レコメンドの出し方（Connected Content）</h5>
+            <ol>
+              <li>おすすめAC一覧を返す軽量API（例：<b>/reco?area=◯◯&limit=3</b>）を用意</li>
+              <li>配信時に Braze が API を叩いて中身を差し込む（在庫・価格は配信時点で取得＝鮮度OK）</li>
+            </ol>
+            <h5>③ Liquid（Connected Content 実例）</h5>
+            <pre>{% connected_content
+   https://api.veltra.example/reco?area={{${last_viewed_area}}}&limit=3
+   :save reco %}
+{% for ac in reco.items %}
+・{{ ac.name }} ¥{{ ac.price }}
+{% endfor %}</pre>
+            <h5>④ 配信トリガー</h5>
+            <ol><li>Braze Canvas：離脱後 X 日で Push/メール。属性 last_viewed_area が有る人に限定</li></ol>
+            <h5>⑤ 稼働責任</h5>
+            <ol><li>初期＝reco API＋属性設計（エンジニア＋AI coding）。以降はマネージド</li></ol>
+          </div>
+        </details>
+        <div class="nk-meta"><span class="nk-chip">擬似レコメンド</span><span class="nk-chip">前後比較</span><span class="nk-chip">メインスポット取りこぼし防止</span></div>
+      </div>
+
+    </div>
+  </div>
+
   <div class="card">
-    <div class="dx-foot">
-      ※ スポット分析。Traveler の AC 探索行動を「起点・タイミング・種別」で分解し、各面で知りたいことを並べた発見・IA設計の土台。AsIs は TOP／エリア／カテゴリ／AC の実画面を確認。打ち手は <a href="/spot/2026-new-user-kpi.html" style="color:#1b82c5;font-weight:700">新規ユーザー転換 施策</a>、前提は <a href="/kpi.html" style="color:#1b82c5;font-weight:700">KPIダッシュボード</a>。
+    <div class="nk-foot">
+      ※ スポット分析。新規ユーザーの転換を主題に、<b>探索行動の分解 → 現状とペイン → 施策（Braze）</b>までを本ページに統合。画面別の改修要件は <a href="/spot/2026-surface-wireframes.html" style="color:#1b82c5;font-weight:700">画面別 改修ワイヤー</a>、KPI設計の前提は <a href="/kpi.html" style="color:#1b82c5;font-weight:700">KPIダッシュボード</a>。数値は GA4 Property 347074845（日本・28日・bot除外）。
     </div>
   </div>
 

@@ -120,11 +120,12 @@
   var isGwSub = isGwMacro || isGwCompetitive || isGwPricing || isGwProduct || isGwBehavior || isGwUiux;
   var isNewUserKpi = (path === '/spot/2026-new-user-kpi.html');
   var isAcDiscovery = (path === '/spot/2026-ac-discovery.html');
+  var isSurfaceWf = (path === '/spot/2026-surface-wireframes.html');
   var isVeltraTopSection = /^\/spot\/veltra-top-section-visibility(\.html)?$/.test(path);
   var isTaiwanSection = /^\/spot\/taiwan-section-visibility(\.html)?$/.test(path);
   var isJiufenSection = /^\/spot\/jiufen-category-section-visibility(\.html)?$/.test(path);
   var isAcSection = /^\/spot\/ac-page-section-visibility(\.html)?$/.test(path);
-  var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isNewUserKpi || isAcDiscovery || isVeltraTopSection || isTaiwanSection || isJiufenSection || isAcSection;
+  var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isNewUserKpi || isAcDiscovery || isSurfaceWf || isVeltraTopSection || isTaiwanSection || isJiufenSection || isAcSection;
   var isArchive = (path === '/reports/' || path === '/reports/index.html');
   var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
   var qp = new URLSearchParams(location.search);
@@ -201,7 +202,9 @@
     } else if (isNewUserKpi) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('新規ユーザー転換 施策'));
     } else if (isAcDiscovery) {
-      append(homeA, mkCurrent('スポット分析'), mkCurrent('AC探索行動の分解'));
+      append(homeA, mkCurrent('スポット分析'), mkCurrent('新規ユーザー転換｜探索分解と施策'));
+    } else if (isSurfaceWf) {
+      append(homeA, mkCurrent('スポット分析'), mkA('新規ユーザー転換｜探索分解と施策', '/spot/2026-ac-discovery.html'), mkCurrent('画面別 改修ワイヤー'));
     } else if (isVeltraTopSection) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('セクション閲覧｜ベルトラTOPページ'));
     } else if (isTaiwanSection) {
@@ -251,8 +254,16 @@
     { id: 'sec-taiwan', href: '/spot/taiwan-section-visibility.html', label: 'セクション閲覧｜台湾トップページ', match: function(){ return isTaiwanSection; } },
     { id: 'sec-jiufen', href: '/spot/jiufen-category-section-visibility.html', label: 'セクション閲覧｜九份カテゴリーページ', match: function(){ return isJiufenSection; } },
     { id: 'sec-ac', href: '/spot/ac-page-section-visibility.html', label: 'セクション閲覧｜商品詳細(AC)ページ', match: function(){ return isAcSection; } },
-    { id: 'ac-discovery', href: '/spot/2026-ac-discovery.html', label: 'AC探索行動の分解', match: function(){ return isAcDiscovery; } },
-    { id: 'new-user-kpi', href: '/spot/2026-new-user-kpi.html', label: '新規ユーザー転換 施策', match: function(){ return isNewUserKpi; } },
+    {
+      id: 'ac-discovery',
+      href: '/spot/2026-ac-discovery.html',
+      label: '新規ユーザー転換｜探索分解と施策',
+      match: function(){ return isAcDiscovery; },
+      hasActiveChild: function(){ return isSurfaceWf; },
+      children: [
+        { id: 'surface-wf', href: '/spot/2026-surface-wireframes.html', label: '画面別 改修ワイヤー', match: function(){ return isSurfaceWf; } }
+      ]
+    },
     {
       id: 'gw-decline',
       href: '/spot/2026-gw-cvr-decline.html',
