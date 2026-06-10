@@ -526,13 +526,26 @@ html{scroll-behavior:smooth}
               <div style="font-size:9px;font-weight:800;color:#333">最近見た3件を比較 ▸</div>
             </div>
           </div>
-          <div class="wf-sec wf-dim"><div class="sec-cap">スケジュール ／ 集合場所 ／ よくある質問 ／ 体験談</div><div class="wf-line"></div><div class="wf-line m"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">スケジュール ／ 集合場所 ／ よくある質問</div><div class="wf-line"></div><div class="wf-line m"></div></div>
+          <div class="wf-add"><span class="wf-pin" data-co="p5">P-5</span>
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><div class="ui-h">体験談（336件）★4.27</div><span class="ui-link">写真あり ／ すべて ▸</span></div>
+            <div style="background:#fff;border:1px solid #e2e8ef;border-radius:6px;padding:6px;margin-bottom:5px">
+              <div style="font-size:8.5px;font-weight:700;color:#333">★★★★★ 大満足でした！<span style="color:#999;font-weight:400">・2026/06 ・30代女性</span></div>
+              <div class="st" style="margin:2px 0">ガイドさんが親切で、バギーは爽快。子どもも大喜びでした…</div>
+              <div style="display:flex;gap:3px"><div class="wf-ph" style="width:30px;height:30px"></div><div class="wf-ph" style="width:30px;height:30px"></div><div class="wf-ph" style="width:30px;height:30px"></div></div>
+            </div>
+            <div style="background:#fff;border:1px solid #e2e8ef;border-radius:6px;padding:6px">
+              <div style="font-size:8.5px;font-weight:700;color:#333">★★★★★ 景色が最高<span style="color:#999;font-weight:400">・2026/06 ・40代男性</span></div>
+              <div class="st" style="margin-top:2px">映画のロケ地を巡れて感動。送迎なしでもアクセスは問題なし…</div>
+            </div>
+          </div>
         </div></div>
         <div class="co-rail">
           <div class="co braze" data-co-id="p2"><div class="co-head"><span class="co-pin">P-2</span>Braze先行可（安心バッジ凝縮）</div>CTA直上に最大3バッジ。<b>該当する保証のみ</b>表示（AC属性：cancel_policy・instant_confirm・jp_support）。Braze In-appで先行A/B → 検証後にネイティブ化。計測：<b>assurance_impression</b>、CTA到達率</div>
           <div class="co" data-co-id="p1"><div class="co-head"><span class="co-pin">P-1</span>追加（同じ場所の別AC比較）</div>・比べるのは「プラン」ではなく<b>別AC（体験）</b>。同一AC内のプラン選択は既存のまま。UIラベルも「ほかの体験」を使用<br>・左列＝<b>いま見ているAC</b>を固定（比較の基準）。候補＝同spot_idの別ACを「差分が出る軸」順（体験タイプ→所要→送迎→形式）で2件、在庫あり優先<br>・<b>列の要素（最大セット）</b>＝写真／AC名／料金（大人1名〜）／所要／送迎／形式（貸切・混載）／対象年齢／評価（★・件数）／直近の空き／CTA「この体験を見る」<br>・欠損は「—」（ダミー禁止）。候補2件未満→同テーマで補完、ゼロ→モジュール非表示<br>計測：<b>alt_plan_click</b>(from_ac, to_ac, diff_axis)</div>
           <div class="co" data-co-id="p3"><div class="co-head"><span class="co-pin">P-3</span>追加（補完アップセル）</div>同エリアの「交通・移動」「旅行サービス」から各1件（在庫あり×人気順）。種別マスターでACを分類。計測：<b>bundle_click</b>(bundle_type)</div>
           <div class="co braze" data-co-id="p4"><div class="co-head"><span class="co-pin">P-4</span>Braze先行可（比較トレイ）</div>同セッション3AC以上閲覧で出現する折りたたみバー（閲覧履歴はlocalStorage）。展開で価格・所要・評価の比較表。Braze Content Cardで先行検証可。計測：<b>compare_tray_open</b>／<b>compare_tray_item_click</b></div>
+          <div class="co" data-co-id="p5"><div class="co-head"><span class="co-pin">P-5</span>改修（体験談に写真を出す）</div>・狙いは「文字ばかりで内容が伝わらない」の解消。<b>写真つきは投稿サムネを表示</b>、<b>写真なしは文字のまま表示（足切りしない）</b><br>・AC詳細の表示順＝<b>新しい × 高評価（★5優先）</b>を担保しつつ、写真つきを軽く優先（写真なしも必ず混在）。★5の新着は写真有無で消さない<br>・<b>写真有無での絞り込みは体験談一覧側</b>に「写真あり」フィルタとして持つ（AC詳細では足切りせず代表数件のみ）<br>計測：<b>review_photo_click</b>／<b>review_filter</b>(has_photo)</div>
         </div>
       </div>
       <table class="rq">
@@ -565,6 +578,13 @@ html{scroll-behavior:smooth}
             <td>画面下部に折りたたみバー。同セッション3AC以上閲覧で出現</td>
             <td>・セッション内の閲覧AC履歴（localStorage）<br>・<b>BrazeのContent Cardで先行検証可</b>。展開で価格・所要・評価の比較表</td>
             <td><code>compare_tray_open</code><br><code>compare_tray_item_click</code></td>
+          </tr>
+          <tr>
+            <td class="no">P-5</td>
+            <td><b>体験談に写真を出す（写真つき優先・写真なしも表示）</b><br><span class="pain">ペイン：体験談が文字ばかりで、実際の様子・雰囲気が掴めず信頼や期待が高まらない</span><span class="eff"><b>行動変化：</b>文字レビューを読み飛ばし → 写真で雰囲気を掴んで予約を後押し<br><b>動く数値：</b>体験談エリアの滞在・スクロール↑・検討→完了↑</span></td>
+            <td>AC詳細の体験談ブロックで代表数件を表示。<b>写真つきは投稿サムネを併記、写真なしは文字のまま（足切りしない）</b>。並び＝新しい×高評価（★5優先）を担保しつつ写真つきを軽く優先。「写真あり／すべて」の切替と「すべて見る」（一覧へ）</td>
+            <td>・投稿写真（UGC）×レビュー本文・評価・投稿日<br>・★5の新着は写真有無に関わらず残す（消さない）<br>・写真有無の本格的な絞り込みは<b>体験談一覧画面</b>の「写真あり」フィルタが担当（AC詳細は代表数件のみ）</td>
+            <td><code>review_photo_click</code><br><code>review_filter</code>(has_photo)</td>
           </tr>
         </tbody>
       </table>
