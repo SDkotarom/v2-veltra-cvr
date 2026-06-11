@@ -221,7 +221,7 @@ html{scroll-behavior:smooth}
     <div class="sub-sec">
       <span class="sub-sec-num accent">A</span>
       <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Area</span>
-      <h2 class="sub-sec-title">エリアページ｜おすすめ偏重で自分の軸で探せない → 入口をポータル化して有効AC到達率を上げる</h2>
+      <h2 class="sub-sec-title">エリアページ｜ベルトラ発のおすすめ偏重で探しにくい → 多彩な切り口で「探す入口」と「ACの並べ方」を作り直し、有効AC到達率を上げる</h2>
     </div>
     <div class="sw-stage">
       <div class="sw-ins">ペイン：<b>パッと見て観光スポットから探しづらい</b>（リンクはあるがページ下部にテキストだけ）。<b>ランキングがいつも同じ</b>。エリアTOPが<b>ベルトラ発のおすすめ偏重</b>で、自分の軸で探し始める入口が弱い（競合は大ジャンルの入口を最上部に：Klook＝タブ、KKday＝アイコン）。<br>
@@ -316,23 +316,31 @@ html{scroll-behavior:smooth}
           <div class="co" data-co-id="a5"><div class="co-head"><span class="co-pin">A-5</span>追加（ジャンルから探す）</div>Klook（大ジャンルタブ）・KKday（ジャンルアイコン）と同型の<b>種別起点の入口</b>を最上段に。既存グローバルナビのカテゴリ体系をエリアスコープで流用（着地＝エリア×ジャンル一覧、既存ページ）。計測：<b>genre_nav_click</b>(genre)</div>
           <div class="co" data-co-id="a1"><div class="co-head"><span class="co-pin">A-1</span>改修・移動（人気スポット）</div>・<b>新設しない</b>：定番スポット群は既にカテゴリとして実装済みのため、新モジュールを足すと同じタイルが2か所に並ぶ。<b>既存「人気カテゴリ＞定番スポット」グループごと上部へ移動</b>し、見出しを「人気スポット」に<br>・スポット／やりたいことの分割はせず、<b>掲載タイルと並びを静的に任意設定</b>（手動キュレーション）で開始<br>・タップ先は既存カテゴリページのまま＝開発は表示順管理と見出しのみ<br>・自動出し分け（検索実需×在庫×季節）は次段。<b>Braze静的カード</b>で「上部に出す価値」の先行検証も可</div>
           <div class="co" data-co-id="a2"><div class="co-head"><span class="co-pin">A-2</span>追加（検索実需チップ）</div>エリア×直近90日のサイト内検索<b>上位5語</b>を自動選定。スポット名は A-1 に集約し、体験・条件語のみ。着地＝検索結果。初期は静的チップで先行A/B可。計測：<b>demand_chip_click</b>(keyword)</div>
-          <div class="co" data-co-id="a3"><div class="co-head"><span class="co-pin">A-3</span>改修（切り口タブ追加）</div>既存タブ（売れ筋・満足度）と初期表示はそのまま。実績データ×新しい切り口を追加（下の切り口表から3〜4本で開始）。計測：<b>ranking_tab_switch</b>(tab)</div>
+          <div class="co" data-co-id="a3"><div class="co-head"><span class="co-pin">A-3</span>改修（切り口タブ追加・インライン）</div><b>表示形式＝インライン</b>：各タブ AC10件のカルーセル＋「すべて見る」（タップ＝AC到達）。既存タブ（売れ筋・満足度）と初期表示はそのまま、実績データ×新しい切り口を追加（下の切り口表から3〜4本で開始）。計測：<b>ranking_tab_switch</b>(tab)</div>
           <div class="co" data-co-id="a4"><div class="co-head"><span class="co-pin">A-4</span>改修・統合（目的・条件から探す）</div>既存の「カテゴリから探す」バナーと「おすすめカテゴリーから探す」チップは<b>同内容の二重掲載</b>のため一本化し、バナー枠は廃止。<br>チップ資産・リンク先は既存のまま、表示順＝クリック実績順（静的開始）。人気カテゴリ（何をするか）との違い＝<b>いつ・誰と・いくらで</b>の条件軸。計測：<b>purpose_chip_click</b>(purpose)</div>
           <div class="co" data-co-id="a1b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>人気カテゴリ（A-1の移動後）</div>定番スポット群は A-1「人気スポット」として上部へ移動。ここには<b>人気アクティビティ群のみ</b>残す（同じタイルが2か所に並ぶ重複を回避）</div>
           <div class="co" data-co-id="a6"><div class="co-head"><span class="co-pin">A-6</span>改修・上へ移動（日程から探す）</div>日付起点は他と<b>役割・ニーズが違う入口</b>のため、ページ中盤の単独配置をやめ入口ゾーンへ移動。コンポーネント・着地は既存のまま（移動のみ）。直前型（今日・明日）の取りこぼしを入口で回収</div>
           <div class="co" data-co-id="a5b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>観光地TOP20（A-1と階層化）</div>「人気スポット」との重複ではなく<b>階層化</b>：上部＝厳選（画像・任意並べ替え）、ここ＝全量テキスト索引（SEO・回遊）。A-1「すべて見る」の着地にする。機能変更なし</div>
         </div>
       </div>
-      <div style="font-size:15px;font-weight:900;color:var(--text);margin:18px 0 8px">エリアページのゾーニング — 並び順のロジック</div>
+      <div style="font-size:15px;font-weight:900;color:var(--text);margin:18px 0 8px">設計方針 — 各ブロックは「遷移型」か「インライン型」か</div>
+      <div class="sw-ins">
+        <b>結論：全体でどちらか一方ではなく、ブロックの役割で使い分ける。</b><br>
+        判断軸＝<b>①ユーザーの段階</b>（方向未定か／候補を見たいか）<b>②対象件数</b>（大きく可変か／厳選か）<b>③KPIへの効き</b>（インラインのACタップ＝そのままAC到達）。<br>
+        ・<b>入口・条件・索引（A/C/E）＝遷移型</b>：母数が大きく方向が定まっていない段階。ACを並べず<b>軽いナビ＋件数</b>に。ここをカルーセルにすると①ページが極端に長くなる②方向を決めていない人に商品を浴びせる＝「ベルトラ発のおすすめ偏重」に逆戻り、になる。<br>
+        ・<b>比較・提案（B/D）＝インライン型</b>：候補を見たい段階。<b>ACカードを10件カルーセル＋「すべて見る」</b>で実際に並べる。この場のタップがそのままAC到達＝<b>有効AC到達率に直結</b>。ランキングはTop10が中身なのでカルーセルが成立。<br>
+        ・競合（KKday/Klook）も<b>ハイブリッド</b>：大ジャンルや交通・ホテルは遷移（専用UIの下層へ）、人気商品・ランキングはインラインでAC提示。本設計と同じ考え方。
+      </div>
+      <div style="font-size:15px;font-weight:900;color:var(--text);margin:18px 0 8px">エリアページのゾーニング — 並び順と表示形式</div>
       <table class="rq">
-        <thead><tr><th style="width:120px">ゾーン</th><th>置くもの</th><th>ねらい（一言）</th></tr></thead>
+        <thead><tr><th style="width:96px">ゾーン</th><th>置くもの</th><th style="width:118px">表示形式</th><th>ねらい（一言）</th></tr></thead>
         <tbody>
-          <tr><td><b>A 入口</b></td><td>ジャンル（A-5）・人気スポット（A-1）・よく探されています（A-2）・日程（A-6）</td><td><b>種別・場所・言葉・日付の4起点</b>を出し揃えるポータル。ベルトラ発のおすすめを受け身に見るのではなく、自分の軸で探し始められる入口</td></tr>
-          <tr><td><b>B 比較</b></td><td>ランキング（A-3）・人気カテゴリ</td><td>候補を見比べて方向を固める材料（<b>何をするか</b>の軸）</td></tr>
-          <tr><td><b>C 条件</b></td><td>目的・条件から探す（A-4）</td><td>予算・同行者・所要が決まっている人の絞り込み（<b>誰と・いくらで</b>の軸。日程は入口ゾーンへ移動）</td></tr>
-          <tr><td><b>D 提案</b></td><td>限定キャンペーン・注目の特集・あなたにおすすめ・最新5つ星体験談</td><td>まだ漠然の人への受動的な提案と後押し</td></tr>
-          <tr><td><b>E 索引・回遊</b></td><td>観光地から探すTOP20・エリアから探す</td><td>全量のテキストリンク（SEO・回遊）。Aの「すべて見る」の着地。次段＝近隣エリアを最安値つきカードに（KKday型）</td></tr>
-          <tr><td><b>F 計画情報</b><br><span style="font-size:11.5px;color:var(--text3)">次段候補</span></td><td>天気・ベストシーズン・よくある質問</td><td>検討段階の情報ニーズに答えつつSEO資産化（KKday型）。現状の下部SEOテキストを構造化して置き換え</td></tr>
+          <tr><td><b>A 入口</b></td><td>ジャンル（A-5）・人気スポット（A-1）・よく探されています（A-2）・日程（A-6）</td><td><b>遷移型</b><br>チップ＋件数→一覧へ</td><td><b>種別・場所・言葉・日付の4起点</b>。母数が大きく方向未定の段階なので、ACを並べず<b>軽い入口</b>に（件数表示で手応え）。ここをカルーセルにするとページが肥大化し「おすすめ偏重」に逆戻り</td></tr>
+          <tr><td><b>B 比較</b></td><td>ランキング（A-3）・人気カテゴリ</td><td><b>インライン型</b><br>AC10件カルーセル＋すべて見る</td><td>候補を見たい段階。<b>ACカードを実際に並べる＝この場のタップがそのままAC到達</b>（KPI直結）。Top10は厳選＝カルーセルが中身として成立。競合もここはインライン</td></tr>
+          <tr><td><b>C 条件</b></td><td>目的・条件から探す（A-4）</td><td><b>遷移型</b><br>チップ→絞り込み一覧</td><td>条件が決まっている人の絞り込み（<b>誰と・いくらで</b>）。結果は件数が多く可変＝一覧ページが本体</td></tr>
+          <tr><td><b>D 提案</b></td><td>限定キャンペーン・注目の特集・あなたにおすすめ・最新5つ星体験談</td><td><b>インライン型</b><br>AC/特集カルーセル</td><td>まだ漠然の人への受動的な提案。提案は中身を見せてこそなのでインライン（既存もこの形）</td></tr>
+          <tr><td><b>E 索引・回遊</b></td><td>観光地から探すTOP20・エリアから探す</td><td><b>遷移型</b><br>テキストリンク</td><td>全量のテキストリンク（SEO・回遊）。Aの「すべて見る」の着地。次段＝近隣エリアを最安値つきカードに（KKday型）</td></tr>
+          <tr><td><b>F 計画情報</b><br><span style="font-size:11.5px;color:var(--text3)">次段候補</span></td><td>天気・ベストシーズン・よくある質問</td><td><b>インライン型</b><br>情報ブロック</td><td>検討段階の情報ニーズに答えつつSEO資産化（KKday型）。現状の下部SEOテキストを構造化して置き換え</td></tr>
         </tbody>
       </table>
       <div class="sw-ins" style="margin-top:8px">
