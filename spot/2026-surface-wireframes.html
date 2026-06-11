@@ -170,10 +170,15 @@ html{scroll-behavior:smooth}
               </div>
             </div>
           </div>
-          <div class="wf-sec wf-dim"><div class="sec-cap">会員限定クーポン ／ ベルトラの会員特典（バナー）</div><div class="wf-line m"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">会員限定クーポン特集（バナー）</div><div class="wf-line m"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">ベルトラの会員特典（バナー）</div><div class="wf-line m"></div></div>
           <div class="wf-sec wf-dim">
             <div class="sec-cap">あなたの保存リスト</div>
-            <div class="wf-cards" style="margin-top:4px"><div class="wf-mini"><div class="wf-ph" style="height:20px"></div><div class="t">サンセット・ディナークルーズ</div></div><div class="wf-mini"><div class="wf-ph" style="height:20px"></div><div class="t">最近チェックしたアクティビティ</div></div></div>
+            <div class="wf-cards" style="margin-top:4px"><div class="wf-mini"><div class="wf-ph" style="height:20px"></div><div class="t">サンセット・ディナークルーズ</div></div><div class="wf-mini"><div class="wf-ph" style="height:20px"></div><div class="t">スターオブホノルル号</div></div></div>
+          </div>
+          <div class="wf-sec wf-dim">
+            <div class="sec-cap">最近チェックしたアクティビティ</div>
+            <div class="wf-cards" style="margin-top:4px"><div class="wf-mini"><div class="wf-ph" style="height:20px"></div></div><div class="wf-mini"><div class="wf-ph" style="height:20px"></div></div></div>
           </div>
           <div class="wf-add"><span class="wf-pin" data-co="t2">T-2</span>
             <div class="ui-h">あなたにおすすめのアクティビティ</div>
@@ -187,7 +192,15 @@ html{scroll-behavior:smooth}
               <div class="wf-mini"><div class="wf-ph" style="height:26px"></div><div class="t">クアロア・ランチ 四輪バギー体験</div><div class="wf-price">¥10,390〜</div><div class="st">★4.27（336）</div></div>
             </div>
           </div>
-          <div class="wf-sec wf-dim"><div class="sec-cap">特集・キャンペーン ／ 海外の人気アクティビティ</div><div class="wf-line"></div><div class="wf-line m"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">特集・キャンペーン</div><div class="wf-line"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">海外の人気アクティビティ</div><div class="wf-line m"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">国内の人気アクティビティ</div><div class="wf-line m"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">世界のグルメをお取り寄せ</div><div class="wf-line"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">旅行ガイド</div><div class="wf-line"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">旅のアイデアと現地情報</div><div class="wf-line"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">最新5つ星体験談</div><div class="wf-line m"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">ベルトラで取り扱いのエリア</div><div class="wf-line"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">世界のキーワード一覧</div><div class="wf-line s"></div></div>
         </div></div>
         <div class="co-rail">
           <div class="co" data-co-id="t1"><div class="co-head"><span class="co-pin">T-1</span>改修（探し方タブつき検索ユニット）</div>探し方が違うものは入口UIごと分ける。重複を避け<b>2タブ</b>に集約：<br>・タブ1「行き先から」＝<b>既存の検索窓・エリア候補そのまま</b>（変更なし・初期表示＝デフォルト）<br>・タブ2「日付・いますぐ」＝<b>今日／明日／日付指定</b>＋場所で「今すぐ参加できる」を探す専用UI（旧「いまの場所から」と「日付から」を統合）<br>・場所（例：ホノルル）＝初回は現在地（許諾時）か行き先で選んだエリア、<b>以降はキャッシュ保持</b>。「変更」でエリア選択<br>計測：<b>search_mode_switch</b>(tab)／<b>nearby_search_submit</b></div>
@@ -342,7 +355,7 @@ html{scroll-behavior:smooth}
           <div class="co" data-co-id="find"><div class="co-head"><span class="co-pin">探す</span>① 自分で探す（A-2/A-4/A-5/A-6 を1箇所に統合）</div><b>表示形式＝遷移型</b>。最上部に薄いタブ式の検索ユニット（常に1タブ分だけ表示＝画面を占有しない）。<br>・<b>行き先・キーワード</b>：エリア内検索ボックス＋「よく探されています」（A-2＝検索実需チップ。検索窓の隣だから機能する）<br>・<b>日付・いますぐ</b>：場所＋今日/明日/日付（A-6。TOPと同じ即時探索UI）<br>・<b>条件</b>：目的・予算・所要等のチップ（A-4）<br>・<b>ジャンル</b>：観光ツアー/交通/チケット等（A-5。着地＝エリア×ジャンル一覧）<br>各タップ＝既存の一覧／検索結果へ遷移（新規画面なし）。計測：<b>find_tab_switch</b>／各 *_click</div>
           <div class="co" data-co-id="a3"><div class="co-head"><span class="co-pin">A-3</span>② ランキング（インライン・切り口タブ）</div><b>表示形式＝インライン</b>（AC10件＋すべて見る、タップ＝AC到達）。<br>・<b>全エリア共通の3本</b>＝売れ筋／満足度／<b>急上昇</b>（キャッチ＝予約が急に伸びています）<br>・<b>エリアにより可変の切り口</b>＝子連れ・直前OK 等は、そのエリアに十分なデータがある時だけ自動で追加（下表）。<b>共通3＋可変N</b>の構成<br>計測：<b>ranking_tab_switch</b>(tab)</div>
           <div class="co braze" data-co-id="a1"><div class="co-head"><span class="co-pin">A-1</span>② 人気スポット（Braze静的）</div><b>表示形式＝インライン／Braze-now</b>。既存「定番スポット」画像を流用し、<b>Brazeの静的Content Cardで上部に出す＝開発0</b>。掲載と並びは手動キュレーション（月次）。タップ先は既存カテゴリ/観光地ページ。需要が確認できたらネイティブ化。計測：<b>spot_card_click</b>(category_id)</div>
-          <div class="co" data-co-id="a7"><div class="co-head"><span class="co-pin">A-7</span>② ジャンル別おすすめ（KKday型）</div><b>表示形式＝インライン</b>。カテゴリごとに人気AC3〜5件を<b>横1列ずつ複数行</b>で積む（半日・1日ツアー／チケット／交通／グルメ…）。各行右に「すべて見る」→そのカテゴリ一覧へ。<br>・<b>束ねる軸＝既存のカテゴリ分類をそのまま流用</b>（新規タグ付け不要）<br>・各行＝そのカテゴリの<b>売れ筋（直近30日予約数）上位5件</b>。在庫ACが一定数（例：5件）以上あるカテゴリのみ行を出す<br>・<b>出す行・順＝そのエリアの予約構成比 上位6カテゴリを自動選定</b>（月次）。リゾートと都市で並ぶカテゴリが変わる<br>計測：<b>genre_row_card_click</b>(category_id,position)／<b>genre_row_seeall_click</b>(category_id)</div>
+          <div class="co" data-co-id="a7"><div class="co-head"><span class="co-pin">A-7</span>② ジャンル別おすすめ（KKday型）</div><b>表示形式＝インライン</b>。カテゴリごとに人気AC3〜5件を<b>横1列ずつ複数行</b>で積む（半日・1日ツアー／チケット／交通／グルメ…）。各行右に「すべて見る」→そのカテゴリ一覧へ。<br>・<b>束ねる軸＝既存のカテゴリ分類をそのまま流用</b>（新規タグ付け不要）<br>・<b>どのジャンル（行）を出すか＝そのエリアで予約が多いカテゴリ順</b>に上位6（月次。在庫ACが5件以上のカテゴリのみ）。リゾートと都市で並ぶカテゴリが変わる<br>・<b>各行のAC＝そのカテゴリの既存の並び順（売れ筋）の上位5件</b>をそのまま使う＝新規の並び替えロジック不要<br>計測：<b>genre_row_card_click</b>(category_id,position)／<b>genre_row_seeall_click</b>(category_id)</div>
           <div class="co" data-co-id="a5b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>観光地TOP20（索引）</div>全量テキスト索引（SEO・回遊）。A-1「人気スポット」の「すべて見る」の着地。機能変更なし</div>
         </div>
       </div>
@@ -396,7 +409,7 @@ html{scroll-behavior:smooth}
             <td class="no">A-7</td>
             <td><b>ジャンル別おすすめ（カテゴリ別の人気AC行）</b><br><span style="font-size:12px;color:#14683e;font-weight:800">表示形式：インライン（カテゴリ別ロー×複数）</span><br><span class="pain">ペイン：ランキング/おすすめだけだと自分の興味カテゴリのACに辿り着きにくく、エリアの多彩さが見えない</span><span class="eff"><b>行動変化：</b>1本のランキングを見て離脱 → 興味カテゴリの行でACに出会う<br><b>動く数値：</b>おすすめ経由のAC到達↑・回遊（行間の横移動）↑</span></td>
             <td>おすすめゾーン。カテゴリごとに横1列（3〜5件）＋「すべて見る」を複数行で積む</td>
-            <td>・<b>既存のカテゴリ分類で束ねる</b>＝新規タグ不要<br>・各行＝カテゴリ内の売れ筋（直近30日予約数）上位5件、在庫AC≥5件のカテゴリのみ<br>・出す行・順＝エリアの予約構成比 上位6カテゴリを自動選定（月次）</td>
+            <td>・<b>既存のカテゴリ分類で束ねる</b>＝新規タグ不要<br>・<b>行（ジャンル）の選定＝そのエリアで予約が多いカテゴリ順 上位6</b>（在庫AC≥5のカテゴリのみ・月次更新）<br>・<b>各行のAC＝そのカテゴリの既存の並び順（売れ筋）上位5件</b>をそのまま使う（新規の並び替え不要）</td>
             <td><code>genre_row_card_click</code><br><code>genre_row_seeall_click</code></td>
           </tr>
         </tbody>
