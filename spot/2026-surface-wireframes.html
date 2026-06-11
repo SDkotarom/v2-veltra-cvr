@@ -69,6 +69,8 @@ html{scroll-behavior:smooth}
 .tabrow{display:flex;gap:3px;flex-wrap:wrap}
 .tab{font-size:8.5px;font-weight:900;color:#555;background:#fff;border:1px solid #dfe5ea;border-radius:4px;padding:2px 7px;white-space:nowrap}
 .tab.on{color:#fff;background:#1B82C5;border-color:#1B82C5}
+.tab[data-tab]{cursor:pointer}
+.tp[hidden]{display:none}
 /* AC比較表（モック内部） */
 .cmp{width:100%;border-collapse:collapse;font-size:8px;margin-top:2px;table-layout:fixed}
 .cmp th,.cmp td{border:1px solid #dfe8ef;padding:3px 3px;text-align:center;background:#fff;color:#333;overflow:hidden;line-height:1.35}
@@ -149,17 +151,23 @@ html{scroll-behavior:smooth}
       <h2 class="sub-sec-title">TOPページ｜「どこから探すか」を選べず離脱 → 探し始めの起点を用意して一覧到達を増やす</h2>
     </div>
     <div class="sw-stage">
-      <div class="sw-ins">ペイン：<b>どこから探し始めればいいか分からない</b>（検索窓とエリア一覧だけ）。おすすめが1枝葉で<b>自分に合うか判断できない</b>。</div>
+      <div class="sw-ins">ペイン：<b>どこから探し始めればいいか分からない</b>（検索窓とエリア一覧だけ）。おすすめが<b>1種類（人気順）しか出ず、自分に合うか判断できない</b>。</div>
       <div class="wf-duo">
         <svg class="co-lines"></svg>
         <div class="wf-phone"><div class="wf-screen">
           <div class="wf-hd"><span>VELTRA</span><span style="color:#888;font-weight:400">☰</span></div>
           <div class="wf-add"><span class="wf-pin" data-co="t1">T-1</span>
-            <div class="tabrow" style="margin-bottom:5px"><span class="tab">🔍 行き先から</span><span class="tab on">📍 いまの場所から</span><span class="tab">📅 日付から</span></div>
-            <div style="background:#fff;border:1px solid #dbe7f0;border-radius:7px;padding:6px 7px">
-              <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:9px;font-weight:800;color:#333">📍 ホノルル（現在地）</span><span class="ui-link">変更</span></div>
-              <div class="chiprow" style="margin-top:4px"><span class="facet">今日</span><span class="facet off">明日</span><span class="facet off">今週末</span></div>
-              <div style="background:#1B82C5;color:#fff;text-align:center;font-weight:800;padding:5px;border-radius:5px;font-size:9px;margin-top:5px">ホノルルで今日できる体験 132件を見る</div>
+            <div class="tabrow" data-tabgroup="t1" style="margin-bottom:5px"><span class="tab on" data-tab="t1:dest">🔍 行き先から</span><span class="tab" data-tab="t1:now">📅 日付・いますぐ</span></div>
+            <div class="tp" data-tp="t1:dest">
+              <div style="background:#fff;border:1px solid #dbe7f0;border-radius:14px;padding:6px 10px;font-size:8.5px;color:#999">🔍 行き先、やりたいことを入力</div>
+              <div class="chiprow" style="margin-top:5px"><span class="chip">オアフ島</span><span class="chip">タイ</span><span class="chip">グアム</span><span class="chip">韓国</span><span class="chip">台湾</span></div>
+            </div>
+            <div class="tp" data-tp="t1:now" hidden>
+              <div style="background:#fff;border:1px solid #dbe7f0;border-radius:7px;padding:6px 7px">
+                <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:9px;font-weight:800;color:#333">📍 ホノルル</span><span class="ui-link">変更</span></div>
+                <div class="chiprow" style="margin-top:4px"><span class="facet">今日</span><span class="facet off">明日</span><span class="facet off">日付を選ぶ</span></div>
+                <div style="background:#1B82C5;color:#fff;text-align:center;font-weight:800;padding:5px;border-radius:5px;font-size:9px;margin-top:5px">ホノルルで今日できる体験 132件を見る</div>
+              </div>
             </div>
           </div>
           <div class="wf-sec wf-dim"><div class="sec-cap">会員限定クーポン ／ ベルトラの会員特典（バナー）</div><div class="wf-line m"></div></div>
@@ -169,8 +177,10 @@ html{scroll-behavior:smooth}
           </div>
           <div class="wf-add"><span class="wf-pin" data-co="t2">T-2</span>
             <div class="ui-h">あなたにおすすめのアクティビティ</div>
-            <div class="tabrow" style="margin-bottom:3px"><span class="tab">人気</span><span class="tab on">急上昇</span><span class="tab">高評価</span></div>
-            <div style="font-size:8.5px;color:#1b6ea5;font-weight:700;margin-bottom:4px">予約が急に伸びているツアー・アクティビティ</div>
+            <div class="tabrow" data-tabgroup="t2" style="margin-bottom:3px"><span class="tab on" data-tab="t2:pop">人気</span><span class="tab" data-tab="t2:rise">急上昇</span><span class="tab" data-tab="t2:rate">高評価</span></div>
+            <div class="tp" data-tp="t2:pop" style="font-size:8.5px;color:#1b6ea5;font-weight:700;margin-bottom:4px">いちばん予約されています</div>
+            <div class="tp" data-tp="t2:rise" style="font-size:8.5px;color:#1b6ea5;font-weight:700;margin-bottom:4px" hidden>予約が急に伸びています</div>
+            <div class="tp" data-tp="t2:rate" style="font-size:8.5px;color:#1b6ea5;font-weight:700;margin-bottom:4px" hidden>クチコミ★4.5以上</div>
             <div class="wf-cards">
               <div class="wf-mini"><div class="wf-ph" style="height:26px"></div><div class="t">サンセット・ディナークルーズ スターオブホノルル号</div><div class="wf-price">¥14,683〜</div><div class="st">★4.22（3,022）</div></div>
               <div class="wf-mini"><div class="wf-ph" style="height:26px"></div><div class="t">ハワイでパラセーリング 高さ120m／150m</div><div class="wf-price">¥13,944〜</div><div class="st">★4.71（2,286）</div></div>
@@ -180,7 +190,7 @@ html{scroll-behavior:smooth}
           <div class="wf-sec wf-dim"><div class="sec-cap">特集・キャンペーン ／ 海外の人気アクティビティ</div><div class="wf-line"></div><div class="wf-line m"></div></div>
         </div></div>
         <div class="co-rail">
-          <div class="co" data-co-id="t1"><div class="co-head"><span class="co-pin">T-1</span>改修（探し方タブつき検索ユニット）</div>普通の検索と「探し方が違う」モードは入口UIごと分ける：<br>・タブ1「行き先から」＝<b>既存の検索窓・エリア候補をそのまま内包</b>（変更なし・初期表示）<br>・タブ2「いまの場所から」＝現在地 or 都市選択 → 今日／明日／今週末 → 該当一覧へ（直前型の専用入力UI）<br>・タブ3「日付から」＝カレンダー（今日・明日ショートカット付き）→ エリア → 一覧へ<br>計測：<b>search_mode_switch</b>(tab)／<b>nearby_search_submit</b></div>
+          <div class="co" data-co-id="t1"><div class="co-head"><span class="co-pin">T-1</span>改修（探し方タブつき検索ユニット）</div>探し方が違うものは入口UIごと分ける。重複を避け<b>2タブ</b>に集約：<br>・タブ1「行き先から」＝<b>既存の検索窓・エリア候補そのまま</b>（変更なし・初期表示＝デフォルト）<br>・タブ2「日付・いますぐ」＝<b>今日／明日／日付指定</b>＋場所で「今すぐ参加できる」を探す専用UI（旧「いまの場所から」と「日付から」を統合）<br>・場所（例：ホノルル）＝初回は現在地（許諾時）か行き先で選んだエリア、<b>以降はキャッシュ保持</b>。「変更」でエリア選択<br>計測：<b>search_mode_switch</b>(tab)／<b>nearby_search_submit</b></div>
           <div class="co" data-co-id="t2"><div class="co-head"><span class="co-pin">T-2</span>改修（おすすめの面化・3タブ）</div>・タブ名は説明不要の言葉に：<b>人気</b>（直近30日の予約数上位）／<b>急上昇</b>（予約数の前週比伸長上位）／<b>高評価</b>（★4.5以上×件数50件以上）。初期＝人気<br>・タブ直下に一言キャッチを表示：人気「いちばん予約されています」／急上昇「予約が急に伸びています」／高評価「クチコミ★4.5以上」<br>計測：<b>reco_tab_switch</b>(tab)</div>
         </div>
       </div>
@@ -190,13 +200,13 @@ html{scroll-behavior:smooth}
           <tr>
             <td class="no">T-1</td>
             <td><b>探し方タブつき検索ユニット</b><br><span class="pain">ペイン：どこから探し始めればいいか分からない。「いまの場所」「日付」起点は通常検索と入力が違うのに入口が1つ</span><span class="eff"><b>行動変化：</b>探し方が分からず直帰／検索放置 → 自分のモードを選んで一歩目を踏む<br><b>動く数値：</b>TOP直帰率↓・TOP→一覧遷移率↑（とくに現地・直前型の回収）</span></td>
-            <td>TOP最上部の検索エリアを<b>タブ式に置換</b>。<br>・タブ1「行き先から」＝既存の検索窓・エリア候補（変更なし・初期表示）<br>・タブ2「いまの場所から」＝現在地or都市選択→今日/明日/今週末→該当一覧<br>・タブ3「日付から」＝カレンダー（今日明日ショートカット）→エリア→一覧</td>
-            <td>・現在地は許諾が無ければ直近閲覧エリアで代替<br>・在庫件数の表示は当日〜翌日在庫から算出<br>・遷移先は既存一覧＋クエリパラメータ（新規画面なし）</td>
+            <td>TOP最上部の検索エリアを<b>2タブに置換</b>。<br>・タブ1「行き先から」＝既存の検索窓・エリア候補（変更なし・初期表示）<br>・タブ2「日付・いますぐ」＝今日/明日/日付指定＋場所で「今すぐ参加できる」を探す（旧「いまの場所から」「日付から」を統合）</td>
+            <td>・場所は初回＝現在地（許諾時）or 行き先で選んだエリア、<b>以降はキャッシュ保持</b>。許諾無し・未選択なら直近閲覧エリアで代替<br>・件数は当日〜翌日在庫から算出<br>・遷移先は既存一覧＋クエリパラメータ（新規画面なし）</td>
             <td><code>search_mode_switch</code>(tab)<br><code>nearby_search_submit</code></td>
           </tr>
           <tr>
             <td class="no">T-2</td>
-            <td><b>おすすめの面化（3タブ）</b><br><span class="pain">ペイン：おすすめが1枝葉で自分に合うか判断できない</span><span class="eff"><b>行動変化：</b>おすすめ1列を素通り → タブを替えて見比べる<br><b>動く数値：</b>おすすめ枠CTR↑・TOP→AC到達↑</span></td>
+            <td><b>おすすめの面化（3タブ）</b><br><span class="pain">ペイン：おすすめが1種類（人気順）しか出ず、自分に合うか判断できない</span><span class="eff"><b>行動変化：</b>おすすめ1列を素通り → タブを替えて見比べる<br><b>動く数値：</b>おすすめ枠CTR↑・TOP→AC到達↑</span></td>
             <td>既存「あなたへのおすすめ」枠を置換。タブ＝<b>人気／急上昇／高評価</b>、初期＝人気。タブ直下に一言キャッチ（人気「いちばん予約されています」等）</td>
             <td>人気＝直近30日予約数上位／急上昇＝予約数の前週比伸長上位／高評価＝★4.5以上×件数50件以上</td>
             <td><code>reco_tab_switch</code>(tab)</td>
@@ -246,12 +256,37 @@ html{scroll-behavior:smooth}
           </div>
           <div class="wf-add"><span class="wf-pin" data-co="a3">A-3</span>
             <div class="ui-h">オアフ島（ホノルル）のランキング</div>
-            <div class="tabrow" style="margin-bottom:5px"><span class="tab on">売れ筋</span><span class="tab">満足度</span><span class="tab">今月人気</span><span class="tab">穴場</span><span class="tab">子連れ</span><span class="tab">直前OK</span></div>
-            <div class="wf-cards">
+            <div class="tabrow" data-tabgroup="a3" style="margin-bottom:5px"><span class="tab on" data-tab="a3:sell">売れ筋</span><span class="tab" data-tab="a3:sat">満足度</span><span class="tab" data-tab="a3:month">今月人気</span><span class="tab" data-tab="a3:hidden">穴場</span><span class="tab" data-tab="a3:kids">子連れ</span><span class="tab" data-tab="a3:last">直前OK</span></div>
+            <div class="tp" data-tp="a3:sell"><div class="wf-cards">
               <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">1位 サンセット・ディナークルーズ スターオブホノルル号</div><div class="wf-price">¥14,683〜</div><div class="st">★4.22（3,022）</div></div>
               <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">2位 ハワイでパラセーリング 高さ120m／150m</div><div class="wf-price">¥13,944〜</div><div class="st">★4.71（2,286）</div></div>
               <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">3位 クアロア・ランチ 四輪バギー体験</div><div class="wf-price">¥10,390〜</div><div class="st">★4.27（336）</div></div>
-            </div>
+            </div></div>
+            <div class="tp" data-tp="a3:sat" hidden><div class="wf-cards">
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">1位 ハワイでパラセーリング 高さ120m／150m</div><div class="wf-price">¥13,944〜</div><div class="st">★4.71（2,286）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">2位 サンドバー シュノーケリング 天国の海</div><div class="wf-price">¥20,040〜</div><div class="st">★4.68（1,082）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">3位 クアロア・ランチ ジップライン</div><div class="wf-price">¥32,057〜</div><div class="st">★4.50（210）</div></div>
+            </div></div>
+            <div class="tp" data-tp="a3:month" hidden><div class="wf-cards">
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">1位 サンドバー シュノーケリング 天国の海</div><div class="wf-price">¥20,040〜</div><div class="st">★4.68（1,082）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">2位 サンセット・ディナークルーズ スターオブホノルル号</div><div class="wf-price">¥14,683〜</div><div class="st">★4.22（3,022）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">3位 野生のイルカと泳ぐツアー</div><div class="wf-price">¥18,500〜</div><div class="st">★4.55（420）</div></div>
+            </div></div>
+            <div class="tp" data-tp="a3:hidden" hidden><div class="wf-cards">
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">クアロア・ランチ 乗馬体験（隠れ高評価）</div><div class="wf-price">¥20,991〜</div><div class="st">★4.41（519）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">カイルア カヤック＆シュノーケル</div><div class="wf-price">¥16,800〜</div><div class="st">★4.66（188）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">ノースショア 半日ツアー</div><div class="wf-price">¥9,800〜</div><div class="st">★4.58（260）</div></div>
+            </div></div>
+            <div class="tp" data-tp="a3:kids" hidden><div class="wf-cards">
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">ホノルル動物園／水族館チケット</div><div class="wf-price">¥3,200〜</div><div class="st">★4.60（740）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">野生のイルカと泳ぐツアー</div><div class="wf-price">¥18,500〜</div><div class="st">★4.55（420）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">クアロア・ランチ 牧場ツアー</div><div class="wf-price">¥10,390〜</div><div class="st">★4.27（336）</div></div>
+            </div></div>
+            <div class="tp" data-tp="a3:last" hidden><div class="wf-cards">
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">パラセーリング（明日 空きあり）</div><div class="wf-price">¥13,944〜</div><div class="st">★4.71 ・残5</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">サンセットクルーズ（明日 空きあり）</div><div class="wf-price">¥14,683〜</div><div class="st">★4.22 ・残8</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">市内半日観光（今日 空きあり）</div><div class="wf-price">¥4,800〜</div><div class="st">★4.30 ・残3</div></div>
+            </div></div>
           </div>
           <div class="wf-sec wf-dim" style="position:relative">
             <div class="sec-cap">オアフ島（ホノルル）の人気カテゴリ</div>
@@ -648,6 +683,20 @@ html{scroll-behavior:smooth}
   }
   window.addEventListener('load', function () { draw(); setTimeout(draw, 250); });
   window.addEventListener('resize', draw);
+  // 汎用タブ：クリックで .on 切替＋対応パネル表示
+  document.querySelectorAll('.tab[data-tab]').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var v = tab.getAttribute('data-tab');
+      var g = v.split(':')[0];
+      document.querySelectorAll('.tab[data-tab^="' + g + ':"]').forEach(function (t) {
+        t.classList.toggle('on', t.getAttribute('data-tab') === v);
+      });
+      document.querySelectorAll('.tp[data-tp^="' + g + ':"]').forEach(function (p) {
+        p.hidden = (p.getAttribute('data-tp') !== v);
+      });
+      if (typeof draw === 'function') draw();
+    });
+  });
   if (document.readyState === 'complete') { draw(); setTimeout(draw, 250); }
 })();
 </script>
