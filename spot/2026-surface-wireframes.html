@@ -457,6 +457,7 @@ html{scroll-behavior:smooth}
         ・<b>絞れることに気づきにくい</b>（「条件」ボタン1つで、中の軸が画面に見えない）<br>
         ・モーダル往復が必要で、<b>結果を見ながらの調整がしづらい</b><br>
         ・<b>無い軸がある</b>：今日明日・価格帯・対象年齢・難易度<br>
+        ・<b>用意された固定の軸でしか絞れない</b>：細かい/具体的なニーズ（ウミガメ・天国の海・初心者向け 等）はファセットに無い。競合はその場で絞れる（ただし添付は<b>共通の検索結果ページ</b>＝エリア横断）。<b>フリーワード検索はカテゴリ内では候補がぐちゃつく</b>ので採らず、<b>人気の検索ワードを「おすすめ絞り込み」として出す</b>（C-4）<br>
         ・並び順（人気順）の<b>根拠が見えない</b></div>
       <div class="wf-duo">
         <svg class="co-lines"></svg>
@@ -471,6 +472,10 @@ html{scroll-behavior:smooth}
           <div class="wf-add"><span class="wf-pin" data-co="c1">C-1</span>
             <div class="chiprow"><span class="facet off">開始時間 ▾</span><span class="facet off">所要時間 ▾</span><span class="facet off">送迎あり</span><span class="facet off">日本語対応</span><span class="facet">⚡ 今日・明日</span><span class="facet">¥ 価格帯 ▾</span><span class="facet">対象年齢 ▾</span></div>
             <div style="font-size:8.5px;color:#555;margin-top:4px">77件のアクティビティ</div>
+          </div>
+          <div class="wf-add"><span class="wf-pin" data-co="c4">C-4</span>
+            <div class="ui-h">人気の絞り込み</div>
+            <div class="chiprow"><span class="chip">ウミガメと泳ぐ</span><span class="chip">天国の海</span><span class="chip">初心者向け</span><span class="chip">イルカ</span><span class="chip">ナイト</span></div>
           </div>
           <div class="wf-add"><span class="wf-pin" data-co="c2">C-2</span>
             <div style="font-size:9px;font-weight:800;color:#333">並び：人気順（直近30日の予約数）▾</div>
@@ -490,6 +495,7 @@ html{scroll-behavior:smooth}
         <div class="co-rail">
           <div class="co" data-co-id="c1b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>「条件」モーダル（C-1の元データ）</div>開始時間・所要・言語・送迎・食事・キャンペーンのモーダル絞り込み。C-1 リリース後はチップと重複するため統合</div>
           <div class="co" data-co-id="c1"><div class="co-head"><span class="co-pin">C-1</span>改修（常時チップ化＋ライブ反映）</div>既存「条件」モーダルの軸を常時チップで露出（薄色）＋<b>追加軸</b>（濃色）＝今日・明日、価格帯、対象年齢。<br>タップで即時絞り込み、件数をライブ更新（77→23件）。スクロールで上部固定。<br><b>Braze-now</b>：既存「条件」ボタンを指すIn-appハイライトで「視認性が制約か」を改修前に検証。計測：<b>facet_apply</b>(facet,value)</div>
+          <div class="co" data-co-id="c4"><div class="co-head"><span class="co-pin">C-4</span>追加（人気の絞り込み＝検索ワード）</div>固定ファセット(C-1)では拾えない具体ニーズを、<b>カテゴリ×直近90日の人気検索ワード</b>でチップ化（フリーワード入力はしない＝候補がぐちゃつくのを回避）。<br>・タップ＝そのワードでカテゴリ内を絞り込み（または同カテゴリ内の検索結果へ）<br>・A-2（エリアの検索実需チップ）と同ロジック・データを<b>カテゴリスコープで流用</b>＝大改修なし。初期は静的チップで先行A/B可<br>計測：<b>cat_demand_chip_click</b>(keyword)</div>
           <div class="co" data-co-id="c2"><div class="co-head"><span class="co-pin">C-2</span>追加（並び順の明示）</div>人気順の根拠（直近30日の予約数）を常時明示。タップで切替＝評価が高い・価格が安い・出発が早い。計測：<b>sort_change</b>(sort)</div>
           <div class="co" data-co-id="c3"><div class="co-head"><span class="co-pin">C-3</span>追加（決め手バッジ）</div>各ACカードの価格下に4バッジ：所要・送迎・評価・残席。残席＝当日〜翌日の最小値。属性欠損時は非表示（ダミー禁止）。既存「直近◯件の予約」は維持。バッジ有無でカードCTRをA/B</div>
         </div>
@@ -503,6 +509,13 @@ html{scroll-behavior:smooth}
             <td>既存「参加日・利用数・条件」バーを拡張し、モーダル内の軸（開始時間・所要・言語・送迎・食事・キャンペーン）を<b>常時チップで露出</b>。スクロールで上部固定。<br>タップで即時反映（既存モーダルの件数カウントを流用したライブ更新）。<b>追加軸</b>＝今日明日・価格帯・対象年齢</td>
             <td>・既存ファセットのデータをそのまま流用＋AC属性（価格帯・対象年齢・当日翌日在庫）を追加<br>・<b>Braze-now（先行検証）</b>：既存「条件」ボタンを指す In-app ハイライトを出し、絞り込み利用率と有効AC到達が上がるか＝<b>視認性が制約か</b>を改修前に確認</td>
             <td>既存絞り込みの利用率（現状未計測→要計装）<br><code>facet_apply</code> (facet, value)<br><code>facet_zero_hit</code></td>
+          </tr>
+          <tr>
+            <td class="no">C-4</td>
+            <td><b>人気の絞り込み（検索ワードのおすすめ）</b><br><span class="pain">ペイン：用意された固定ファセットでしか絞れず、具体ニーズ（ウミガメ・天国の海・初心者向け等）に当てられない</span><span class="eff"><b>行動変化：</b>軸が無く一覧を上から総当たり → 自分のニーズ語で一発で絞る<br><b>動く数値：</b>絞り込み利用率↑・一覧→AC到達↑（フリーワード入力の手間なし）</span></td>
+            <td>C-1ファセットの直下。カテゴリ×直近90日の人気検索ワードを<b>チップで提示</b>（フリーワード入力はしない）。タップ＝そのワードで絞り込み</td>
+            <td>・A-2（エリアの検索実需チップ）と同ロジック・データを<b>カテゴリスコープで流用</b>（GA4 search_term をカテゴリ別集計）＝大改修なし<br>・初期は静的チップで先行A/B可</td>
+            <td><code>cat_demand_chip_click</code><br>param: keyword</td>
           </tr>
           <tr>
             <td class="no">C-2</td>
