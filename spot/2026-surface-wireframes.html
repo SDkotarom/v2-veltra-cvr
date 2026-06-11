@@ -324,7 +324,7 @@ html{scroll-behavior:smooth}
         </div></div>
         <div class="co-rail">
           <div class="co" data-co-id="find"><div class="co-head"><span class="co-pin">探す</span>① 自分で探す（A-2/A-4/A-5/A-6 を1箇所に統合）</div><b>表示形式＝遷移型</b>。最上部に薄いタブ式の検索ユニット（常に1タブ分だけ表示＝画面を占有しない）。<br>・<b>行き先・キーワード</b>：エリア内検索ボックス＋「よく探されています」（A-2＝検索実需チップ。検索窓の隣だから機能する）<br>・<b>日付・いますぐ</b>：場所＋今日/明日/日付（A-6。TOPと同じ即時探索UI）<br>・<b>条件</b>：目的・予算・所要等のチップ（A-4）<br>・<b>ジャンル</b>：観光ツアー/交通/チケット等（A-5。着地＝エリア×ジャンル一覧）<br>各タップ＝既存の一覧／検索結果へ遷移（新規画面なし）。計測：<b>find_tab_switch</b>／各 *_click</div>
-          <div class="co" data-co-id="a3"><div class="co-head"><span class="co-pin">A-3</span>② ランキング（インライン・切り口タブ）</div><b>表示形式＝インライン</b>（AC10件＋すべて見る、タップ＝AC到達）。<br>・<b>全エリア共通の3本</b>＝売れ筋／満足度／<b>急上昇</b>（旧「今月人気」を改名。キャッチ＝予約が急に伸びています）。穴場は定義が曖昧なので<b>カット</b><br>・<b>エリアにより可変の切り口</b>＝子連れ・直前OK 等は、そのエリアに十分なデータがある時だけ自動で追加（下表）。固定6本ではなく<b>共通3＋可変N</b><br>計測：<b>ranking_tab_switch</b>(tab)</div>
+          <div class="co" data-co-id="a3"><div class="co-head"><span class="co-pin">A-3</span>② ランキング（インライン・切り口タブ）</div><b>表示形式＝インライン</b>（AC10件＋すべて見る、タップ＝AC到達）。<br>・<b>全エリア共通の3本</b>＝売れ筋／満足度／<b>急上昇</b>（キャッチ＝予約が急に伸びています）<br>・<b>エリアにより可変の切り口</b>＝子連れ・直前OK 等は、そのエリアに十分なデータがある時だけ自動で追加（下表）。<b>共通3＋可変N</b>の構成<br>計測：<b>ranking_tab_switch</b>(tab)</div>
           <div class="co braze" data-co-id="a1"><div class="co-head"><span class="co-pin">A-1</span>② 人気スポット（Braze静的）</div><b>表示形式＝インライン／Braze-now</b>。既存「定番スポット」画像を流用し、<b>Brazeの静的Content Cardで上部に出す＝開発0</b>。掲載と並びは手動キュレーション（月次）。タップ先は既存カテゴリ/観光地ページ。需要が確認できたらネイティブ化。計測：<b>spot_card_click</b>(category_id)</div>
           <div class="co" data-co-id="a7" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">第2弾</span>ジャンル別おすすめ（KKday型）</div>半日ツアー／チケット／グルメ などの<b>ジャンルごとに、人気のAC数件を横1列ずつ並べる</b>（KKdayの「人気商品＆ジャンル」と同じ見せ方）。おすすめゾーンでACをより多彩に見せられる。<br>実装には<b>①各ACにジャンルのタグを付ける ②ジャンルごとに何を出すかの選定</b>が要るため、まず基本の並び（A-3／A-1）を先に出し、<b>これは第2弾で追加</b>する。</div>
           <div class="co" data-co-id="a5b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>観光地TOP20（索引）</div>全量テキスト索引（SEO・回遊）。A-1「人気スポット」の「すべて見る」の着地。機能変更なし</div>
@@ -373,7 +373,7 @@ html{scroll-behavior:smooth}
             <td class="no">A-3</td>
             <td><b>ランキング（おすすめ・切り口タブ）</b><br><span style="font-size:12px;color:#14683e;font-weight:800">表示形式：インライン（AC10件＋すべて見る）</span><br><span class="pain">ペイン：売れ筋・満足度が固定で、時期や自分に合うか分からない</span><span class="eff"><b>行動変化：</b>固定ランキングを素通り → 切り口を替えて新候補に出会う<br><b>動く数値：</b>ランキングCTR↑・Top外のAC到達比率↑・有効AC到達率</span></td>
             <td>おすすめゾーン先頭（ファーストビュー近く）。<b>共通3タブ＋可変Nタブ</b>。各タブにキャッチ1行</td>
-            <td>下表「切り口」参照。<b>共通3（売れ筋/満足度/急上昇）は全エリア</b>、可変（子連れ/直前OK等）は<b>そのエリアにデータが十分な時だけ自動表示</b>。穴場はカット</td>
+            <td>下表「切り口」参照。<b>共通3（売れ筋/満足度/急上昇）は全エリア</b>、可変（子連れ/直前OK等）は<b>そのエリアにデータが十分な時だけ自動表示</b></td>
             <td><code>ranking_tab_switch</code>(tab)</td>
           </tr>
         </tbody>
@@ -385,7 +385,7 @@ html{scroll-behavior:smooth}
         <tbody>
           <tr><td><b>売れ筋</b></td><td>いちばん予約されています</td><td><b>全エリア共通</b></td><td>直近30日の予約数（既存）</td></tr>
           <tr><td><b>満足度</b></td><td>クチコミ評価が高い順</td><td><b>全エリア共通</b></td><td>体験談の評価（既存）</td></tr>
-          <tr><td><b>急上昇</b><br><span style="font-size:11.5px;color:var(--text3)">旧「今月人気」</span></td><td>予約が急に伸びています</td><td><b>全エリア共通</b></td><td>予約数の前週/前月比の伸長（季節ものを拾う）</td></tr>
+          <tr><td><b>急上昇</b></td><td>予約が急に伸びています</td><td><b>全エリア共通</b></td><td>予約数の前週/前月比の伸長（季節ものを拾う）</td></tr>
           <tr><td>子連れに人気</td><td>お子さま連れに人気</td><td><b>エリア可変</b></td><td>家族予約比率・体験談「子ども」言及が一定以上のエリアのみ。都市・大人向けが中心のエリアでは非表示</td></tr>
           <tr><td>直前でも取れる</td><td>今日・明日に参加できる</td><td><b>エリア可変</b></td><td>当日〜翌日在庫があるACが一定数あるエリアのみ。予約リードタイムが長いエリアでは非表示</td></tr>
           <tr><td>テーマ（海/自然/文化…）</td><td>—</td><td><b>エリア可変</b></td><td>そのエリアの主力テーマに応じて1〜2本（ハワイ=海、京都=文化 等）</td></tr>
