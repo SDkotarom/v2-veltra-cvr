@@ -95,6 +95,20 @@ html{scroll-behavior:smooth}
 .sw-note b{color:var(--text2)}
 .sw-ins{background:#eef6fc;border:1px solid #cfe3f5;border-radius:10px;padding:13px 18px;font-size:14px;line-height:1.8;color:var(--text2);margin:6px 0 14px}
 .sw-ins b{color:#1b6ea5}
+.sw-ins .bul{margin:6px 0 0;padding-left:20px}
+.sw-ins .bul li{margin-bottom:5px}
+.lbl{display:inline-block;font-size:11px;font-weight:900;border-radius:5px;padding:2px 9px;margin-right:7px;letter-spacing:.02em;white-space:nowrap}
+.lbl.fact{background:#e3f0fb;color:#155e8f}
+.lbl.org{background:#e7f4ec;color:#1a7a44}
+.lbl.hyp{background:#fdf2dd;color:#9a5a00}
+.lbl.pain{background:#fde7e3;color:#b3422f}
+.kbox{background:#fff;border:1px solid var(--border);border-radius:10px;margin:8px 0 16px;overflow:hidden}
+.kbox .kbox-h{background:#f3f6f9;font-size:13.5px;font-weight:900;color:var(--text);padding:9px 14px;border-bottom:1px solid var(--border)}
+.kbox .krow{padding:11px 14px;border-bottom:1px solid #eef1f4;font-size:13.5px;line-height:1.75;color:var(--text2)}
+.kbox .krow:last-child{border-bottom:none}
+.kbox .krow b{color:var(--text)}
+.kbox .krow ul{margin:6px 0 0;padding-left:20px}
+.kbox .krow li{margin-bottom:5px}
 .sw-foot{padding:16px 44px 10px;font-size:13.5px;color:var(--text3);line-height:1.8}
 @media(max-width:980px){.wf-duo{grid-template-columns:1fr}.co-lines{display:none}.co{position:static !important;margin:0 0 10px}.co-rail{min-height:0 !important}.wf-phone{margin:0 auto}}
 @media(max-width:768px){.sw-stage,.sw-foot{padding-left:22px;padding-right:22px}.rq{font-size:12.5px}.rq th,.rq td{padding:7px 6px}}
@@ -140,12 +154,12 @@ html{scroll-behavior:smooth}
         <span>吹き出し＝仕様・変更点（デザインには入らない）</span>
       </div>
       <div class="sw-note">・計測イベント名は仮称。実装時は既存規約（<code style="font-size:12px">GA4_vtjp_ex_yokka_*</code>）に合わせる。<br>・データ要件の前提：AC属性（spot_id・category・duration・pickup・price・stock）と観光スポットマスター（spot_id×名称×画像×紐づくAC）。spot_id が未整備の場合はその整備が先行タスク。<br>・ワイヤー内の商品・価格・件数は実ページの実在データ（2026-06時点・オアフ島）。</div>
-      <div class="sw-ins" style="margin-top:6px">
-        <b>全体の流れと前提の整理</b><br>
-        <b>【事実】</b>着手するページの順は <a href="/entry-journey.html" style="color:#1b82c5;font-weight:700">エントリー別CVRジャーニー</a> のCVR(session)順＝<b>GlobalTOP 2.28% ＞ エリア 1.21% ＞ カテゴリ 1.07%</b>。<br>
-        <b>【事実】</b>ただし同分析は「TOPが強いのではなく<b>TOP着地はリピーターが多い</b>のが実体（TOPの リピーターCVR 4.81%／新規CVR 0.62%）」と明記。本案の対象は<b>新規</b>なので、TOPの伸びしろは"購入"でなく<b>意向形成（探し始めの起点づくり）</b>。<br>
-        <b>【整理】2つの順序は別軸で両立</b>：<b>(a)改修の着手順＝TOP→エリア→カテゴリ→AC</b>（ファネル上流・CVR順）／<b>(b)KPIの主眼＝新規の最大ギャップである ②比較継続・③有効AC到達</b>。各画面の改修は下の層KPIに紐づく（TOP=③/④の起点、エリア=③、カテゴリ=③→②、AC=②→①）。<br>
-        <b>【仮説・代理／要BQ】</b>②の現状「即離脱 約41%」と③の「質＝非直帰 約59%」は<b>いずれも"AC着地ページの直帰"という同一データの裏返し</b>（41%＋59%＝100%）。BQで<b>エントリー経路別（LP経由→AC vs 検索から直着地）に分離</b>して精緻化する。現時点では代理値。
+      <div class="kbox" style="margin-top:6px">
+        <div class="kbox-h">全体の流れと前提の整理</div>
+        <div class="krow"><span class="lbl fact">事実</span>着手するページ順＝<a href="/entry-journey.html" style="color:#1b82c5;font-weight:700">エントリー別CVRジャーニー</a> のCVR(session)順<br><b style="font-size:15px">GlobalTOP 2.28% ＞ エリア 1.21% ＞ カテゴリ 1.07%</b></div>
+        <div class="krow"><span class="lbl fact">事実</span>TOPが強いのではなく<b>TOP着地はリピーターが多い</b>のが実体（TOP：リピーターCVR 4.81%／新規CVR 0.62%）。対象は<b>新規</b>なので、TOPの伸びしろは"購入"ではなく<b>意向形成（探し始めの起点づくり）</b></div>
+        <div class="krow"><span class="lbl org">整理</span>2つの順序は<b>別軸で両立</b><ul><li><b>(a) 改修の着手順</b>＝TOP→エリア→カテゴリ→AC（ファネル上流・CVR順）</li><li><b>(b) KPIの主眼</b>＝新規の最大ギャップ「②比較継続・③有効AC到達」</li><li>各画面が層KPIに紐づく：TOP＝③/④起点／エリア＝③／カテゴリ＝③→②／AC＝②→①</li></ul></div>
+        <div class="krow"><span class="lbl hyp">仮説・代理 / 要BQ</span>②「即離脱 約41%」と③「非直帰 約59%」は<b>同一データ（AC着地の直帰）の裏返し</b>（41%＋59%＝100%）。BQで<b>エントリー経路別（LP経由→AC ／ 検索から直着地）に分離</b>して精緻化。現時点は代理値</div>
       </div>
     </div>
   </div>
@@ -158,7 +172,7 @@ html{scroll-behavior:smooth}
       <h2 class="sub-sec-title">TOPページ｜「どこから探すか」を選べず離脱 → 探し始めの起点を用意して一覧到達を増やす</h2>
     </div>
     <div class="sw-stage">
-      <div class="sw-ins">ペイン：<b>どこから探し始めればいいか分からない</b>（検索窓とエリア一覧だけ）。おすすめが<b>1種類（人気順）しか出ず、自分に合うか判断できない</b>。</div>
+      <div class="sw-ins"><span class="lbl pain">ペイン</span><ul class="bul"><li><b>どこから探し始めればいいか分からない</b>（検索窓とエリア一覧だけ）</li><li>おすすめが<b>1種類（人気順）しか出ず</b>、自分に合うか判断できない</li></ul></div>
       <div class="wf-duo">
         <svg class="co-lines"></svg>
         <div class="wf-phone"><div class="wf-screen">
@@ -244,12 +258,14 @@ html{scroll-behavior:smooth}
       <h2 class="sub-sec-title">エリアページ｜ベルトラ発のおすすめ偏重で探しにくい → 「自分で探す」を1箇所に集約＋「おすすめ」でACを多彩に並べ、有効AC到達率を上げる</h2>
     </div>
     <div class="sw-stage">
-      <div class="sw-ins">ペイン：おすすめが受け身で<b>自分の軸で探しにくい</b>／探す機能はあるが<b>入口が散在</b>している。<br>
-        <b>方針＝エリアページを大きく2つに分ける。</b><br>
-        ① <b>「自分で探す」＝最上部に1箇所、薄くタブ切替</b>（行き先・キーワード／日付・いますぐ／条件／ジャンル）。<b>遷移型</b><br>
-        ② <b>「エリアのおすすめ」＝ACカルーセルを積む（Klook型）</b>。<b>インライン型</b>でACが次々目に入り、1クリックでAC到達<br>
-        ③ 索引・計画情報。<br>
-        競合（Klook/KKday）も「上部に薄い探す導線 → その下にACの一覧を多数」という構成。</div>
+      <div class="kbox">
+        <div class="kbox-h"><span class="lbl pain">ペイン</span>おすすめが受け身で自分の軸で探しにくい／探す機能はあるが入口が散在</div>
+        <div class="krow"><b>方針＝エリアページを大きく2つに分ける</b><ul>
+          <li>① <b>自分で探す</b>＝最上部に1箇所・薄くタブ切替（行き先/日付/条件/ジャンル）＝<b>遷移型</b></li>
+          <li>② <b>エリアのおすすめ</b>＝ACカルーセルを積む（Klook型）＝<b>インライン型</b>、1クリックでAC到達</li>
+          <li>③ 索引・計画情報</li>
+        </ul><div style="font-size:12.5px;color:var(--text3);margin-top:6px">競合（Klook/KKday）も「上部に薄い探す導線 → その下にACを多数」という構成</div></div>
+      </div>
 
       <table class="rq">
         <thead><tr><th style="width:120px">グループ</th><th>含むもの</th><th style="width:120px">表示形式</th><th>ねらい</th></tr></thead>
@@ -436,11 +452,13 @@ html{scroll-behavior:smooth}
       </table>
       <div class="sw-note"><b>考察：</b>売れ筋・満足度・急上昇は「実績データ×普遍的な切り口」なので<b>どのエリアでも成立</b>。一方 子連れ・直前OK・テーマは<b>エリアの在庫構成や客層に依存</b>し、合わないエリアでは0件や的外れになる → <b>固定で全部出さず、データ充足を条件に自動で出し分け</b>る。これにより「クアラルンプール（都市）」と「オアフ（リゾート）」で違うタブ構成になる。</div>
 
-      <div class="sw-ins" style="margin-top:14px">
-        <b>A-2 の設計考察 — 既存軸の昇格ではなく「検索実需」を採る理由</b><br>
-        ・既存軸の昇格（子供と・半日で）＝「条件」(A-4)と語彙が重複し価値が薄い<br>
-        ・<b>検索実需チップ（採用）</b>＝① Travelerの言葉（「天国の海」等はVeltra分類に無い）② 実需準拠で当たりやすい ③ 時期で自動入替 ④ 検索開始6.6%（モバイル7.1%）の入力負荷を肩代わり<br>
-        ・<b>検索ボックスの隣に置く</b>のが要点（キーワードだけ離れて置いても見られない、というご指摘の通り）。行動ベース（よく押される絞り込み）は左ナビ未計測のため第2弾
+      <div class="kbox" style="margin-top:14px">
+        <div class="kbox-h">A-2 の設計考察 — 既存軸の昇格ではなく「検索実需」を採る理由</div>
+        <div class="krow"><ul style="margin-top:0">
+          <li>既存軸の昇格（子供と・半日で）＝「条件」(A-4)と語彙が重複し<b>価値が薄い</b></li>
+          <li><b>検索実需チップ（採用）</b>：① Travelerの言葉（「天国の海」等はVeltra分類に無い）／② 実需準拠で当たりやすい／③ 時期で自動入替／④ 検索開始6.6%（モバイル7.1%）の入力負荷を肩代わり</li>
+          <li><b>検索ボックスの隣に置く</b>のが要点（キーワードだけ離して置いても見られない）。行動ベース（よく押される絞り込み）は左ナビ未計測のため第2弾</li>
+        </ul></div>
       </div>
     </div>
   </div>
@@ -453,13 +471,16 @@ html{scroll-behavior:smooth}
       <h2 class="sub-sec-title">カテゴリページ｜絞り込みに気づかず往復 → 条件を常時見せて一覧→AC到達と比較継続を上げる</h2>
     </div>
     <div class="sw-stage">
-      <div class="sw-ins"><b>前提</b>：絞り込みは<b>既にある</b>（「条件」モーダル＝開始時間・所要時間・言語・送迎・食事・キャンペーン、別モーダルで参加日・人数）。<br>
-        ペインは「絞れない」ではなく：<br>
-        ・<b>絞れることに気づきにくい</b>（「条件」ボタン1つで、中の軸が画面に見えない）<br>
-        ・モーダル往復が必要で、<b>結果を見ながらの調整がしづらい</b><br>
-        ・<b>無い軸がある</b>：今日明日・価格帯・対象年齢・難易度<br>
-        ・<b>用意された固定の軸でしか絞れない</b>：細かい/具体的なニーズ（ウミガメ・天国の海・初心者向け 等）はファセットに無い。競合はその場で絞れる（ただし添付は<b>共通の検索結果ページ</b>＝エリア横断）。<b>フリーワード検索はカテゴリ内では候補がぐちゃつく</b>ので採らず、<b>人気の検索ワードを「おすすめ絞り込み」として出す</b>（C-4）<br>
-        ・並び順（人気順）の<b>根拠が見えない</b></div>
+      <div class="kbox">
+        <div class="kbox-h">前提：絞り込みは<b style="color:#1a7a44">既にある</b>（「条件」モーダル＝開始時間・所要・言語・送迎・食事・キャンペーン＋参加日・人数）</div>
+        <div class="krow"><span class="lbl pain">ペイン</span>「絞れない」ではない<ul>
+          <li><b>絞れることに気づきにくい</b>（「条件」ボタン1つで、中の軸が画面に見えない）</li>
+          <li>モーダル往復が必要で、<b>結果を見ながらの調整がしづらい</b></li>
+          <li><b>無い軸がある</b>：今日明日・価格帯・対象年齢・難易度</li>
+          <li><b>固定の軸でしか絞れない</b>：ウミガメ・天国の海・初心者向け 等の具体ニーズがファセットに無い → フリーワードは候補がぐちゃつくので採らず<b>人気の検索ワードを「おすすめ絞り込み」に</b>（C-4）</li>
+          <li>並び順（人気順）の<b>根拠が見えない</b></li>
+        </ul></div>
+      </div>
       <div class="wf-duo">
         <svg class="co-lines"></svg>
         <div class="wf-phone"><div class="wf-screen">
@@ -545,7 +566,7 @@ html{scroll-behavior:smooth}
       <h2 class="sub-sec-title">ACページ（商品詳細）｜比較・安心材料が届かず離脱 → 比べて決め切れるようにして 比較継続率（即離脱↓）と検討→完了率を上げる</h2>
     </div>
     <div class="sw-stage">
-      <div class="sw-ins">ペイン：<b>似た体験（半日版・送迎付き等）と比べたいのに代替に出会えない</b>。<b>安心材料が深部に散在</b>。送迎・wifiなど<b>一緒に要るものをまとめて手配できない</b>。</div>
+      <div class="sw-ins"><span class="lbl pain">ペイン</span><ul class="bul"><li><b>似た体験（半日版・送迎付き等）と比べたいのに代替に出会えない</b></li><li><b>安心材料が深部に散在</b></li><li>送迎・wifiなど<b>一緒に要るものをまとめて手配できない</b></li></ul></div>
       <div class="wf-duo">
         <svg class="co-lines"></svg>
         <div class="wf-phone"><div class="wf-screen">
