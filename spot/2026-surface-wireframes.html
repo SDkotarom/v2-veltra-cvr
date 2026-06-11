@@ -140,6 +140,13 @@ html{scroll-behavior:smooth}
         <span>吹き出し＝仕様・変更点（デザインには入らない）</span>
       </div>
       <div class="sw-note">・計測イベント名は仮称。実装時は既存規約（<code style="font-size:12px">GA4_vtjp_ex_yokka_*</code>）に合わせる。<br>・データ要件の前提：AC属性（spot_id・category・duration・pickup・price・stock）と観光スポットマスター（spot_id×名称×画像×紐づくAC）。spot_id が未整備の場合はその整備が先行タスク。<br>・ワイヤー内の商品・価格・件数は実ページの実在データ（2026-06時点・オアフ島）。</div>
+      <div class="sw-ins" style="margin-top:6px">
+        <b>全体の流れと前提の整理</b><br>
+        <b>【事実】</b>着手するページの順は <a href="/entry-journey.html" style="color:#1b82c5;font-weight:700">エントリー別CVRジャーニー</a> のCVR(session)順＝<b>GlobalTOP 2.28% ＞ エリア 1.21% ＞ カテゴリ 1.07%</b>。<br>
+        <b>【事実】</b>ただし同分析は「TOPが強いのではなく<b>TOP着地はリピーターが多い</b>のが実体（TOPの リピーターCVR 4.81%／新規CVR 0.62%）」と明記。本案の対象は<b>新規</b>なので、TOPの伸びしろは"購入"でなく<b>意向形成（探し始めの起点づくり）</b>。<br>
+        <b>【整理】2つの順序は別軸で両立</b>：<b>(a)改修の着手順＝TOP→エリア→カテゴリ→AC</b>（ファネル上流・CVR順）／<b>(b)KPIの主眼＝新規の最大ギャップである ②比較継続・③有効AC到達</b>。各画面の改修は下の層KPIに紐づく（TOP=③/④の起点、エリア=③、カテゴリ=③→②、AC=②→①）。<br>
+        <b>【仮説・代理／要BQ】</b>②の現状「即離脱 約41%」と③の「質＝非直帰 約59%」は<b>いずれも"AC着地ページの直帰"という同一データの裏返し</b>（41%＋59%＝100%）。BQで<b>エントリー経路別（LP経由→AC vs 検索から直着地）に分離</b>して精緻化する。現時点では代理値。
+      </div>
     </div>
   </div>
 
@@ -535,7 +542,7 @@ html{scroll-behavior:smooth}
     <div class="sub-sec">
       <span class="sub-sec-num accent">P</span>
       <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Product (AC)</span>
-      <h2 class="sub-sec-title">ACページ（商品詳細）｜比較・安心材料が届かず離脱 → 比べて決め切れるようにして検討→完了率を上げる</h2>
+      <h2 class="sub-sec-title">ACページ（商品詳細）｜比較・安心材料が届かず離脱 → 比べて決め切れるようにして 比較継続率（即離脱↓）と検討→完了率を上げる</h2>
     </div>
     <div class="sw-stage">
       <div class="sw-ins">ペイン：<b>似た体験（半日版・送迎付き等）と比べたいのに代替に出会えない</b>。<b>安心材料が深部に散在</b>。送迎・wifiなど<b>一緒に要るものをまとめて手配できない</b>。</div>
