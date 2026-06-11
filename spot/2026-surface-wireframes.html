@@ -226,7 +226,7 @@ html{scroll-behavior:smooth}
     <div class="sw-stage">
       <div class="sw-ins">ペイン：おすすめが受け身で<b>自分の軸で探しにくい</b>／探す機能はあるが<b>入口が散在</b>している。<br>
         <b>方針＝エリアページを大きく2つに分ける。</b><br>
-        ① <b>「切り口を提案」＝最上部にジャンル分け（KKday型）＋切り口チップ</b>。<b>フリーワード検索はページに置かず</b>（決まっている人はヘッダー検索）、エリアでできることを大まかに見せる。<b>遷移型</b><br>
+        ① <b>「自分で探す」＝最上部に1箇所、薄くタブ切替</b>（行き先・キーワード／日付・いますぐ／条件／ジャンル）。<b>遷移型</b><br>
         ② <b>「エリアのおすすめ」＝ACカルーセルを積む（Klook型）</b>。<b>インライン型</b>でACが次々目に入り、1クリックでAC到達<br>
         ③ 索引・計画情報。<br>
         競合（Klook/KKday）も「上部に薄い探す導線 → その下にACの一覧を多数」という構成。</div>
@@ -234,7 +234,7 @@ html{scroll-behavior:smooth}
       <table class="rq">
         <thead><tr><th style="width:120px">グループ</th><th>含むもの</th><th style="width:120px">表示形式</th><th>ねらい</th></tr></thead>
         <tbody>
-          <tr><td><b>① 切り口を提案</b><br><span style="font-size:11.5px;color:var(--text3)">最上部・ジャンル中心</span></td><td>ジャンル（A-5）＝主／今日明日（A-6）・条件（A-4）・人気テーマ（A-2）＝補助の切り口チップ</td><td><b>遷移型</b><br>チップ→一覧</td><td>大まかに見たい人に「エリアでできること」を提案。フリーワード検索は置かない（決まっている人はヘッダー検索）</td></tr>
+          <tr><td><b>① 自分で探す</b><br><span style="font-size:11.5px;color:var(--text3)">最上部・1箇所</span></td><td>行き先・キーワード（A-2）／日付・いますぐ（A-6）／条件（A-4）／ジャンル（A-5）</td><td><b>遷移型</b><br>薄いタブ切替→一覧/検索結果</td><td>能動的に探したい人の入口を1箇所に集約。<b>表示は常に1タブ分だけ＝薄く</b>、画面を占有しない</td></tr>
           <tr><td><b>② エリアのおすすめ</b><br><span style="font-size:11.5px;color:var(--text3)">ACを積む</span></td><td>ランキング（A-3）／人気スポット（A-1）／人気カテゴリ／あなたにおすすめ／ジャンル別おすすめ（第2弾）／特集・キャンペーン／体験談</td><td><b>インライン型</b><br>AC10件カルーセル＋すべて見る</td><td>受け身でもACが次々目に入る（Klook型）。<b>その場のタップ＝AC到達</b>＝KPI直結・SEO</td></tr>
           <tr><td><b>③ 索引・計画</b></td><td>観光地TOP20／エリアから探す／天気・FAQ（第2弾）</td><td>遷移／情報</td><td>SEO・回遊・検討段階の情報</td></tr>
         </tbody>
@@ -248,12 +248,25 @@ html{scroll-behavior:smooth}
             <div style="font-size:11px;font-weight:900;color:#222">オアフ島（ホノルル）</div>
             <div class="chiprow" style="margin-top:3px"><span class="tab">ハワイ島</span><span class="tab">マウイ島</span><span class="tab">カウアイ島</span></div>
           </div>
-          <div class="wf-add"><span class="wf-pin" data-co="find">A-5</span>
-            <div class="ui-h">エリアでできること（ジャンルから見る）</div>
-            <div class="chiprow"><span class="chip">🚌 観光ツアー</span><span class="chip">🤿 アクティビティ</span><span class="chip">🎫 チケット・入場券</span><span class="chip">🚐 交通・移動</span><span class="chip">🍴 グルメ</span><span class="chip">📶 eSIM・WiFi</span></div>
-            <div style="font-size:8px;color:#7d8da0;margin:7px 0 2px">そのほかの切り口</div>
-            <div class="chiprow"><span class="chip">⚡ 今日・明日OK</span><span class="chip">コスパ¥1万以内</span><span class="chip">子どもと</span><span class="chip">人気：天国の海</span><span class="chip">人気：シュノーケリング</span></div>
-            <div style="font-size:8px;color:#999;margin-top:6px">🔍 行き先や名前がもう決まっている人は上部ヘッダーの検索へ</div>
+          <div class="wf-add"><span class="wf-pin" data-co="find">探す</span>
+            <div class="tabrow" data-tabgroup="find" style="margin-bottom:5px"><span class="tab on" data-tab="find:kw">🔍 行き先・キーワード</span><span class="tab" data-tab="find:date">📅 日付・いますぐ</span><span class="tab" data-tab="find:cond">⚙ 条件</span><span class="tab" data-tab="find:genre">🗂 ジャンル</span></div>
+            <div class="tp" data-tp="find:kw">
+              <div style="background:#fff;border:1px solid #dbe7f0;border-radius:14px;padding:6px 10px;font-size:8.5px;color:#999">🔍 オアフ島で やりたいこと・ACを入力</div>
+              <div style="font-size:8px;color:#7d8da0;margin:4px 0 2px">よく探されています</div>
+              <div class="chiprow"><span class="chip">シュノーケリング</span><span class="chip">天国の海</span><span class="chip">ディナークルーズ</span><span class="chip">ウミガメ</span></div>
+            </div>
+            <div class="tp" data-tp="find:date" hidden>
+              <div style="background:#fff;border:1px solid #dbe7f0;border-radius:7px;padding:6px 7px">
+                <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:9px;font-weight:800;color:#333">📍 ホノルル</span><span class="ui-link">変更</span></div>
+                <div class="chiprow" style="margin-top:4px"><span class="facet">今日</span><span class="facet off">明日</span><span class="facet off">日付を選ぶ</span></div>
+              </div>
+            </div>
+            <div class="tp" data-tp="find:cond" hidden>
+              <div class="chiprow"><span class="chip">コスパ¥1万以内</span><span class="chip">所要3時間以内</span><span class="chip">送迎あり</span><span class="chip">子どもと</span><span class="chip">貸切</span></div>
+            </div>
+            <div class="tp" data-tp="find:genre" hidden>
+              <div class="chiprow"><span class="chip">🚌 観光ツアー</span><span class="chip">🤿 アクティビティ</span><span class="chip">🚐 交通・移動</span><span class="chip">🎫 チケット</span><span class="chip">📶 eSIM・WiFi</span></div>
+            </div>
           </div>
           <div style="font-size:10px;font-weight:900;color:#1a1a1a;margin:12px 8px 4px">エリアのおすすめ</div>
           <div class="wf-add"><span class="wf-pin" data-co="a3">A-3</span>
@@ -310,7 +323,7 @@ html{scroll-behavior:smooth}
           <div class="wf-sec wf-dim"><div class="sec-cap">エリアから探す（ハワイ島・マウイ島・カウアイ島）</div><div class="wf-line s"></div></div>
         </div></div>
         <div class="co-rail">
-          <div class="co" data-co-id="find"><div class="co-head"><span class="co-pin">A-5</span>① 切り口を提案する（ジャンル中心）</div><b>表示形式＝遷移型</b>。<b>フリーワード検索はページに置かない</b>（ピンポイントに決まっている人はヘッダー検索で足りる／本来カテゴリ分けはそのためにある）。代わりに<b>「エリアでできること」を切り口で提案</b>する：<br>・<b>ジャンル</b>（観光ツアー/アクティビティ/チケット/交通/グルメ/eSIM）＝KKday型。大まかに見たい人の動線。着地＝エリア×ジャンル一覧（既存）<br>・<b>そのほかの切り口</b>＝今日・明日OK(A-6)／コスパ・子連れ等の条件(A-4)／人気テーマ(A-2＝検索実需データで選ぶが“検索”でなく“提案チップ”として)<br>計測：<b>genre_nav_click</b>／<b>facet_chip_click</b>／<b>theme_chip_click</b></div>
+          <div class="co" data-co-id="find"><div class="co-head"><span class="co-pin">探す</span>① 自分で探す（A-2/A-4/A-5/A-6 を1箇所に統合）</div><b>表示形式＝遷移型</b>。最上部に薄いタブ式の検索ユニット（常に1タブ分だけ表示＝画面を占有しない）。<br>・<b>行き先・キーワード</b>：エリア内検索ボックス＋「よく探されています」（A-2＝検索実需チップ。検索窓の隣だから機能する）<br>・<b>日付・いますぐ</b>：場所＋今日/明日/日付（A-6。TOPと同じ即時探索UI）<br>・<b>条件</b>：目的・予算・所要等のチップ（A-4）<br>・<b>ジャンル</b>：観光ツアー/交通/チケット等（A-5。着地＝エリア×ジャンル一覧）<br>各タップ＝既存の一覧／検索結果へ遷移（新規画面なし）。計測：<b>find_tab_switch</b>／各 *_click</div>
           <div class="co" data-co-id="a3"><div class="co-head"><span class="co-pin">A-3</span>② ランキング（インライン・切り口タブ）</div><b>表示形式＝インライン</b>（AC10件＋すべて見る、タップ＝AC到達）。<br>・<b>全エリア共通の3本</b>＝売れ筋／満足度／<b>急上昇</b>（旧「今月人気」を改名。キャッチ＝予約が急に伸びています）。穴場は定義が曖昧なので<b>カット</b><br>・<b>エリアにより可変の切り口</b>＝子連れ・直前OK 等は、そのエリアに十分なデータがある時だけ自動で追加（下表）。固定6本ではなく<b>共通3＋可変N</b><br>計測：<b>ranking_tab_switch</b>(tab)</div>
           <div class="co braze" data-co-id="a1"><div class="co-head"><span class="co-pin">A-1</span>② 人気スポット（Braze静的）</div><b>表示形式＝インライン／Braze-now</b>。既存「定番スポット」画像を流用し、<b>Brazeの静的Content Cardで上部に出す＝開発0</b>。掲載と並びは手動キュレーション（月次）。タップ先は既存カテゴリ/観光地ページ。需要が確認できたらネイティブ化。計測：<b>spot_card_click</b>(category_id)</div>
           <div class="co" data-co-id="a7" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">第2弾</span>ジャンル別おすすめ（KKday型）</div>半日ツアー／チケット／グルメ などの<b>ジャンルごとに、人気のAC数件を横1列ずつ並べる</b>（KKdayの「人気商品＆ジャンル」と同じ見せ方）。おすすめゾーンでACをより多彩に見せられる。<br>実装には<b>①各ACにジャンルのタグを付ける ②ジャンルごとに何を出すかの選定</b>が要るため、まず基本の並び（A-3／A-1）を先に出し、<b>これは第2弾で追加</b>する。</div>
@@ -381,10 +394,10 @@ html{scroll-behavior:smooth}
       <div class="sw-note"><b>考察：</b>売れ筋・満足度・急上昇は「実績データ×普遍的な切り口」なので<b>どのエリアでも成立</b>。一方 子連れ・直前OK・テーマは<b>エリアの在庫構成や客層に依存</b>し、合わないエリアでは0件や的外れになる → <b>固定で全部出さず、データ充足を条件に自動で出し分け</b>る。これにより「クアラルンプール（都市）」と「オアフ（リゾート）」で違うタブ構成になる。</div>
 
       <div class="sw-ins" style="margin-top:14px">
-        <b>A-2「人気テーマ」の考察 — フリーワード検索を置かない方針との関係</b><br>
-        ・<b>ページにフリーワード検索は置かない</b>：自分でキーワードを打てる人は具体的に決まっている人＝少数。その人はヘッダー検索を使う。カテゴリ分けはまさに「打たずに選べる」ためにある<br>
-        ・代わりに、<b>検索実需データ（エリア×直近90日の上位語）を“提案チップ”として出す</b>（入力させず、タップで結果へ）。「天国の海」等はVeltra分類に無いTravelerのことばなのでテーマとしてACに当てやすい。季節で自動入替<br>
-        ・行動ベース（よく押される絞り込み）は左ナビ未計測のため第2弾
+        <b>A-2 の設計考察 — 既存軸の昇格ではなく「検索実需」を採る理由</b><br>
+        ・既存軸の昇格（子供と・半日で）＝「条件」(A-4)と語彙が重複し価値が薄い<br>
+        ・<b>検索実需チップ（採用）</b>＝① Travelerの言葉（「天国の海」等はVeltra分類に無い）② 実需準拠で当たりやすい ③ 時期で自動入替 ④ 検索開始6.6%（モバイル7.1%）の入力負荷を肩代わり<br>
+        ・<b>検索ボックスの隣に置く</b>のが要点（キーワードだけ離れて置いても見られない、というご指摘の通り）。行動ベース（よく押される絞り込み）は左ナビ未計測のため第2弾
       </div>
     </div>
   </div>
