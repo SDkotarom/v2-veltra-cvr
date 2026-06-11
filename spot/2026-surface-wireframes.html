@@ -264,7 +264,7 @@ html{scroll-behavior:smooth}
       <div class="kbox">
         <div class="kbox-h"><span class="lbl pain">ペイン</span>おすすめが受け身で自分の軸で探しにくい／探す機能はあるが入口が散在</div>
         <div class="krow"><b>方針＝エリアページを大きく2つに分ける</b><ul>
-          <li>① <b>自分で探す</b>＝最上部に1箇所・薄くタブ切替（行き先/日付/条件/ジャンル）＝<b>遷移型</b></li>
+          <li>① <b>自分で探す</b>＝最上部に1箇所・薄くタブ切替（行き先・キーワード＋検索サジェスト／日付・いますぐ／ジャンル）＝<b>遷移型</b></li>
           <li>② <b>エリアのおすすめ</b>＝ACカルーセルを積む（Klook型）＝<b>インライン型</b>、1クリックでAC到達</li>
           <li>③ 索引・計画情報</li>
         </ul><div style="font-size:12.5px;color:var(--text3);margin-top:6px">競合（Klook/KKday）も「上部に薄い探す導線 → その下にACを多数」という構成</div></div>
@@ -305,7 +305,7 @@ html{scroll-behavior:smooth}
       <table class="rq">
         <thead><tr><th style="width:120px">グループ</th><th>含むもの</th><th style="width:120px">表示形式</th><th>ねらい</th></tr></thead>
         <tbody>
-          <tr><td><b>① 自分で探す</b><br><span style="font-size:11.5px;color:var(--text3)">最上部・1箇所</span></td><td>行き先・キーワード（A-2）／日付・いますぐ（A-6）／条件（A-4）／ジャンル（A-5）</td><td><b>遷移型</b><br>薄いタブ切替→一覧/検索結果</td><td>能動的に探したい人の入口を1箇所に集約。<b>表示は常に1タブ分だけ＝薄く</b>、画面を占有しない</td></tr>
+          <tr><td><b>① 自分で探す</b><br><span style="font-size:11.5px;color:var(--text3)">最上部・1箇所</span></td><td>行き先・キーワード＋検索サジェスト（A-2／A-8）／日付・いますぐ（A-6）／ジャンル（A-5）<br><span style="font-size:11.5px;color:var(--text3)">※条件(A-4)はカテゴリへ</span></td><td><b>遷移型</b><br>薄いタブ切替→一覧/検索結果</td><td>能動的に探したい人の入口を1箇所に集約。<b>表示は常に1タブ分だけ＝薄く</b>、画面を占有しない</td></tr>
           <tr><td><b>② エリアのおすすめ</b><br><span style="font-size:11.5px;color:var(--text3)">ACを積む</span></td><td>ランキング（A-3）／人気スポット（A-1）／人気カテゴリ／あなたにおすすめ／ジャンル別おすすめ（A-7）／特集・キャンペーン／体験談</td><td><b>インライン型</b><br>AC10件カルーセル＋すべて見る</td><td>受け身でもACが次々目に入る（Klook型）。<b>その場のタップ＝AC到達</b>＝KPI直結・SEO</td></tr>
           <tr><td><b>③ 索引・計画</b></td><td>観光地TOP20／エリアから探す／天気・FAQ（第2弾）</td><td>遷移／情報</td><td>SEO・回遊・検討段階の情報</td></tr>
         </tbody>
@@ -320,20 +320,19 @@ html{scroll-behavior:smooth}
             <div class="chiprow" style="margin-top:3px"><span class="tab">ハワイ島</span><span class="tab">マウイ島</span><span class="tab">カウアイ島</span></div>
           </div>
           <div class="wf-add"><span class="wf-pin" data-co="find">探す</span>
-            <div class="tabrow" data-tabgroup="find" style="margin-bottom:5px"><span class="tab on" data-tab="find:kw">🔍 行き先・キーワード</span><span class="tab" data-tab="find:date">📅 日付・いますぐ</span><span class="tab" data-tab="find:cond">⚙ 条件</span><span class="tab" data-tab="find:genre">🗂 ジャンル</span></div>
+            <div class="tabrow" data-tabgroup="find" style="margin-bottom:5px"><span class="tab on" data-tab="find:kw">🔍 行き先・キーワード</span><span class="tab" data-tab="find:date">📅 日付・いますぐ</span><span class="tab" data-tab="find:genre">🗂 ジャンル</span></div>
             <div class="tp" data-tp="find:kw">
-              <div style="background:#fff;border:1px solid #dbe7f0;border-radius:14px;padding:6px 10px;font-size:8.5px;color:#999">🔍 オアフ島で やりたいこと・ACを入力</div>
-              <div style="font-size:8px;color:#7d8da0;margin:4px 0 2px">よく探されています</div>
-              <div class="chiprow"><span class="chip">シュノーケリング</span><span class="chip">天国の海</span><span class="chip">ディナークルーズ</span><span class="chip">ウミガメ</span></div>
+              <div style="background:#fff;border:1px solid #1b82c5;border-radius:14px;padding:6px 10px;font-size:8.5px;color:#333">🔍 オアフ島で やりたいこと・ACを入力 <span style="color:#999">｜タップで↓を表示</span></div>
+              <div style="font-size:8px;color:#7d8da0;margin:5px 0 2px">検索履歴</div>
+              <div class="chiprow"><span class="chip">シュノーケリング</span><span class="chip">ダイヤモンドヘッド</span></div>
+              <div style="font-size:8px;color:#7d8da0;margin:5px 0 2px">人気の検索ワード</div>
+              <div class="chiprow"><span class="chip">天国の海</span><span class="chip">ディナークルーズ</span><span class="chip">ウミガメ</span><span class="chip">ノースショア</span></div>
+              <div style="font-size:8px;color:#7d8da0;margin:5px 0 2px">人気スポット</div>
+              <div class="chiprow"><span class="chip">ダイヤモンドヘッド</span><span class="chip">ハナウマ湾</span><span class="chip">クアロア・ランチ</span></div>
             </div>
             <div class="tp" data-tp="find:date" hidden>
-              <div style="background:#fff;border:1px solid #dbe7f0;border-radius:7px;padding:6px 7px">
-                <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:9px;font-weight:800;color:#333">📍 ホノルル</span><span class="ui-link">変更</span></div>
-                <div class="chiprow" style="margin-top:4px"><span class="facet">今日</span><span class="facet off">明日</span><span class="facet off">日付を選ぶ</span></div>
-              </div>
-            </div>
-            <div class="tp" data-tp="find:cond" hidden>
-              <div class="chiprow"><span class="chip">コスパ¥1万以内</span><span class="chip">所要3時間以内</span><span class="chip">送迎あり</span><span class="chip">子どもと</span><span class="chip">貸切</span></div>
+              <div style="font-size:8.5px;color:#555;margin-bottom:4px">このエリアで参加できる日から探す</div>
+              <div class="chiprow"><span class="facet">今日</span><span class="facet off">明日</span><span class="facet off">日付を選ぶ</span></div>
             </div>
             <div class="tp" data-tp="find:genre" hidden>
               <div class="chiprow"><span class="chip">🚌 観光ツアー</span><span class="chip">🤿 アクティビティ</span><span class="chip">🚐 交通・移動</span><span class="chip">🎫 チケット</span><span class="chip">📶 eSIM・WiFi</span></div>
@@ -410,7 +409,7 @@ html{scroll-behavior:smooth}
           <div class="wf-sec wf-dim"><div class="sec-cap">エリアから探す（ハワイ島・マウイ島・カウアイ島）</div><div class="wf-line s"></div></div>
         </div></div>
         <div class="co-rail">
-          <div class="co" data-co-id="find"><div class="co-head"><span class="co-pin">探す</span>① 自分で探す（A-2/A-4/A-5/A-6 を1箇所に統合）</div><b>表示形式＝遷移型</b>。最上部に薄いタブ式の検索ユニット（常に1タブ分だけ表示＝画面を占有しない）。<br>・<b>行き先・キーワード</b>：エリア内検索ボックス＋「よく探されています」（A-2＝検索実需チップ。検索窓の隣だから機能する）<br>・<b>日付・いますぐ</b>：場所＋今日/明日/日付（A-6。TOPと同じ即時探索UI）<br>・<b>条件</b>：目的・予算・所要等のチップ（A-4）<br>・<b>ジャンル</b>：観光ツアー/交通/チケット等（A-5。着地＝エリア×ジャンル一覧）<br>各タップ＝既存の一覧／検索結果へ遷移（新規画面なし）。計測：<b>find_tab_switch</b>／各 *_click</div>
+          <div class="co" data-co-id="find"><div class="co-head"><span class="co-pin">探す</span>① 自分で探す（薄いタブ・遷移型）</div>最上部に薄いタブ（常に1タブ分だけ表示）。<br>・<b>行き先・キーワード</b>：エリア内検索。<b>タップで「検索履歴＋人気の検索ワード＋人気スポット」のサジェスト</b>を展開（Klook/KKday型。本文と重複可）＝A-8<br>・<b>日付・いますぐ</b>：このエリアで<b>今日／明日／日付</b>に参加できるものを探す（<b>エリア変更は無し＝このエリア固定</b>）＝A-6<br>・<b>ジャンル</b>：観光ツアー/交通/チケット等。着地＝エリア×ジャンル一覧＝A-5<br>・<b>「条件」タブは不採用</b>：エリア×条件（コスパ等）だけでは検索範囲が広く需要が薄い。ジャンル×条件は<b>カテゴリページ（C-1/C-4）</b>で<br>計測：<b>find_tab_switch</b>／各 *_click</div>
           <div class="co" data-co-id="a3"><div class="co-head"><span class="co-pin">A-3</span>② ランキング（インライン・切り口タブ）</div><b>表示形式＝インライン</b>（AC10件＋すべて見る、タップ＝AC到達）。<br>・<b>全エリア共通の3本</b>＝売れ筋／満足度／<b>急上昇</b>（キャッチ＝予約が急に伸びています）<br>・<b>エリアにより可変の切り口</b>＝子連れ・直前OK 等は、そのエリアに十分なデータがある時だけ自動で追加（下表）。<b>共通3＋可変N</b>の構成<br>計測：<b>ranking_tab_switch</b>(tab)</div>
           <div class="co braze" data-co-id="a1"><div class="co-head"><span class="co-pin">A-1</span>② 人気スポット（Braze静的）</div><b>表示形式＝インライン／Braze-now</b>。既存「定番スポット」画像を流用し、<b>Brazeの静的Content Cardで上部に出す＝開発0</b>。掲載と並びは手動キュレーション（月次）。タップ先は既存カテゴリ/観光地ページ。需要が確認できたらネイティブ化。計測：<b>spot_card_click</b>(category_id)</div>
           <div class="co" data-co-id="a7"><div class="co-head"><span class="co-pin">A-7</span>② ジャンル別おすすめ（KKday型）</div><b>表示形式＝インライン</b>。カテゴリごとに人気AC3〜5件を<b>横1列ずつ複数行</b>で積む（半日・1日ツアー／チケット／交通／グルメ…）。各行右に「すべて見る」→そのカテゴリ一覧へ。<br>・<b>束ねる軸＝既存のカテゴリ分類をそのまま流用</b>（新規タグ付け不要）<br>・<b>どのジャンル（行）を出すか＝そのエリアで予約が多いカテゴリ順</b>に上位6（月次。在庫ACが5件以上のカテゴリのみ）。リゾートと都市で並ぶカテゴリが変わる<br>・<b>各行のAC＝そのカテゴリの既存の並び順（売れ筋）の上位5件</b>をそのまま使う＝新規の並び替えロジック不要<br>計測：<b>genre_row_card_click</b>(category_id,position)／<b>genre_row_seeall_click</b>(category_id)</div>
@@ -424,23 +423,30 @@ html{scroll-behavior:smooth}
           <tr>
             <td class="no">A-6</td>
             <td><b>日付・いますぐ（探すタブ）</b><br><span style="font-size:12px;color:#14683e;font-weight:800">表示形式：遷移型</span><br><span class="pain">ペイン：日付・現地ですぐ参加したいニーズの入口が無い／埋もれる</span><span class="eff"><b>行動変化：</b>中盤まで探し回る → 最上部で日付から直行<br><b>動く数値：</b>日程経由の一覧到達↑・直前型の予約↑</span></td>
-            <td>探すユニットの<b>初期から見えるタブ</b>（最上部）。場所（現在地/行き先選択、以降キャッシュ）＋今日/明日/日付指定</td>
+            <td>探すユニットのタブ。<b>このエリア固定</b>で 今日／明日／日付指定（エリア変更は無し＝エリアページなので当該エリア）</td>
             <td>既存の日付フィルタ（today/tomorrow/指定）へ。新規画面なし</td>
             <td><code>find_tab_switch</code>(date)<br><code>date_search_submit</code></td>
           </tr>
           <tr>
             <td class="no">A-2</td>
-            <td><b>行き先・キーワード＋よく探されています（探すタブ）</b><br><span style="font-size:12px;color:#14683e;font-weight:800">表示形式：遷移型</span><br><span class="pain">ペイン：検索したいが入力が手間。キーワードだけ離れて置いても見られない → <b>検索ボックスの隣に置く</b></span><span class="eff"><b>行動変化：</b>入力をやめて離脱 → チップ1タップで結果へ<br><b>動く数値：</b>検索開始↑（6.6%の裾野回収）・LP→AC到達↑</span></td>
-            <td>探すユニットの初期タブ（検索ボックスの直下に「よく探されています」チップ）。スポット名は人気スポット(A-1)に集約し、体験・条件語のみ</td>
-            <td>エリア×<b>直近90日</b>のサイト内検索 上位5語（季節性×安定性の折衷、量で調整・月次）。リンク先＝サイト内検索結果（エリア絞込済）。静的チップで先行A/B可</td>
-            <td><code>demand_chip_click</code>(keyword)</td>
+            <td><b>人気の検索ワード（検索サジェスト内）</b><br><span style="font-size:12px;color:#14683e;font-weight:800">表示形式：遷移型</span><br><span class="pain">ペイン：何で検索すればいいか分からない人が素通り</span><span class="eff"><b>行動変化：</b>入力をやめて離脱 → ワードを1タップで結果へ<br><b>動く数値：</b>検索開始↑（6.6%の裾野回収）・LP→AC到達↑</span></td>
+            <td><b>検索サジェスト（A-8）の中</b>に表示。スポット名は人気スポット欄に集約し、ここは体験・条件語に限定</td>
+            <td>エリア×<b>直近90日</b>のサイト内検索 上位5語（季節性×安定性の折衷・月次）。リンク先＝サイト内検索結果（エリア絞込済）</td>
+            <td><code>suggest_chip_click</code>(keyword)</td>
           </tr>
           <tr>
-            <td class="no">A-4</td>
-            <td><b>条件でしぼる（探すタブ）</b><br><span style="font-size:12px;color:#14683e;font-weight:800">表示形式：遷移型</span><br><span class="pain">ペイン：予算・同行者・所要が決まっている人の絞り込み入口が下部で気づきにくい</span><span class="eff"><b>行動変化：</b>条件入口を探して下までスクロール → 上部1箇所で選ぶ<br><b>動く数値：</b>条件チップCTR・条件経由のAC到達↑</span></td>
-            <td>探すユニットのタブ。既存「おすすめカテゴリから探す」上位＋コスパ/所要/送迎/対象</td>
-            <td>既存の目的別リンクを流用＝新規ロジック不要。表示順＝クリック実績順</td>
-            <td><code>purpose_chip_click</code>(purpose)</td>
+            <td class="no">A-8</td>
+            <td><b>検索サジェスト（検索窓タップ時）</b><br><span style="font-size:12px;color:#14683e;font-weight:800">表示形式：遷移型（オーバーレイ）</span><br><span class="pain">ペイン：検索窓は入力前提で、空欄のままだと何も起きず素通り</span><span class="eff"><b>行動変化：</b>空欄タップでも候補が出る → 1タップで遷移<br><b>動く数値：</b>検索開始↑・検索経由のAC到達↑</span></td>
+            <td>検索窓タップで<b>サジェストを展開</b>：①検索履歴 ②人気の検索ワード(A-2) ③人気スポット(A-1)。<b>本文と重複してよい</b>（Klook/KKday型）</td>
+            <td>履歴＝端末保持／人気ワード＝エリア×90日検索上位／人気スポット＝A-1と同じデータ</td>
+            <td><code>search_focus_open</code><br><code>suggest_chip_click</code>(type)</td>
+          </tr>
+          <tr>
+            <td class="no" style="color:#999">A-4</td>
+            <td><b>条件でしぼる</b><br><span style="font-size:12px;color:#b3422f;font-weight:800">この画面では不採用 → カテゴリへ</span><br>エリア×条件（例：ホノルル×¥1万以内）<b>だけ</b>は検索範囲が広く、「なんでもいいから安いもの」になりがちで需要が薄い。<b>ジャンル×条件の絞り込みはカテゴリページ（C-1 ファセット／C-4 人気の絞り込み）で実施</b></td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
           </tr>
           <tr>
             <td class="no">A-5</td>
