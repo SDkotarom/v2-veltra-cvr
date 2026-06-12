@@ -69,6 +69,15 @@
   .photo-hero .ph-sub { font-size: clamp(13px, 1.8vw, 15px); line-height: 1.9; margin: 0; opacity: .94; max-width: 560px; }
   @media (max-width: 720px) { .photo-hero .ph-inner { padding: 44px 18px 48px; } }
 
+  /* ============ ベルトラで予約するメリット ============ */
+  .merit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  @media (max-width: 720px) { .merit-grid { grid-template-columns: 1fr; } }
+  .merit-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-12); padding: 22px 22px 20px; position: relative; }
+  .merit-card .m-num { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--cta-blue); letter-spacing: .08em; margin-bottom: 10px; }
+  .merit-card .m-num::after { content: ""; display: block; width: 28px; height: 3px; background: var(--cta-blue); border-radius: 2px; margin-top: 6px; }
+  .merit-card h4 { font-size: 15px; font-weight: 700; margin: 0 0 8px; color: var(--ink); line-height: 1.5; }
+  .merit-card p { font-size: 13px; line-height: 1.8; color: var(--ink-2); margin: 0; }
+
   /* ============ Pickup ============ */
   .pickup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
   @media (max-width: 980px) { .pickup-grid { grid-template-columns: 1fr 1fr; } }
@@ -151,6 +160,20 @@
   .v-foot-simple .vfs-links a:hover { color: var(--ink); text-decoration: underline; }
   .v-foot-simple .vfs-links .sep { margin: 0 10px; opacity: .5; }
   .v-foot-simple .vfs-copy { font-size: 11px; color: var(--ink-4); }
+
+  /* ============ スマホビュー調整 ============ */
+  @media (max-width: 720px) {
+    .photo-hero h1 { font-size: 24px; }
+    .photo-hero .ph-sub br { display: none; }
+    .f-chip { padding: 6px 12px; font-size: 12px; }
+    .fr-chips { gap: 6px; }
+    .tours-toolbar { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .ac-thumb { height: 170px; }
+    .ac-title { font-size: 13px; }
+    .merit-card { padding: 18px 18px 16px; }
+    .load-more { width: 100%; }
+  }
+
 </style>
 </head>
 <body data-theme="baseball" data-page-type="genre">
@@ -179,31 +202,59 @@
 <section class="photo-hero">
   <div class="ph-inner">
     <p class="ph-eyebrow">MLB（メジャーリーグ）・海外野球観戦</p>
-    <h1>チケットも送迎も、<br>ぜんぶおまかせ。</h1>
-    <p class="ph-sub">はじめての海外野球観戦でも安心。<br>日本語ですべて完結する観戦ツアーを探せます。</p>
+    <h1>海外で野球観戦を、<br>思い思いに楽しむ。</h1>
+    <p class="ph-sub">チケット予約、スタジアムまでの送迎手配、<br>日本語ガイド付きの観戦ツアーなど充実のラインナップ。</p>
+  </div>
+</section>
+
+<!-- ========== ベルトラで予約するメリット ========== -->
+<section class="sec" id="merits">
+  <div class="shell">
+    <div class="sec-head">
+      <div>
+        <h2>ベルトラで予約するメリット</h2>
+      </div>
+    </div>
+    <div class="merit-grid">
+      <div class="merit-card">
+        <div class="m-num">01</div>
+        <h4>日本語で検索＆予約ができる</h4>
+        <p>商品探しから予約完了まで、すべて日本語でOK。海外サイトを英語で操作する必要はありません。</p>
+      </div>
+      <div class="merit-card">
+        <div class="m-num">02</div>
+        <h4>MLB 29球団の観戦チケットを即時予約</h4>
+        <p>システム連携により、空席を確認してそのまま予約確定。「即予約確定日あり」と表示されている商品が対象です。</p>
+      </div>
+      <div class="merit-card">
+        <div class="m-num">03</div>
+        <h4>日本語ガイド付きの観戦ツアーも</h4>
+        <p>はじめての海外野球観戦でも安心。球場送迎や入場までガイドがサポートするツアーをご用意しています。</p>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ========== Pickup ========== -->
-<section class="sec" id="pickup">
+<section class="sec sec--soft" id="pickup">
   <div class="shell">
     <div class="sec-head">
       <div>
-        <h2>人気のツアー・チケット</h2>
-        <p class="lede">タイプの異なる人気ツアーをピックアップ</p>
+        <h2>Pick Up!</h2>
+        <p class="lede">注目の商品をピックアップ</p>
       </div>
     </div>
     <div class="pickup-grid" id="pickup-grid"></div>
   </div>
 </section>
 
-<!-- ========== 観戦ツアー一覧 ========== -->
-<section class="sec sec--soft" id="tours">
+<!-- ========== 商品一覧 ========== -->
+<section class="sec" id="tours">
   <div class="shell">
     <div class="sec-head">
       <div>
-        <h2>観戦ツアー一覧</h2>
-        <p class="lede">MLBと台湾プロ野球の観戦ツアー・チケット・球場送迎・宿泊パッケージを、都市・球団・タイプで絞り込んで探せます。</p>
+        <h2>商品一覧</h2>
+        <p class="lede">MLB（メジャーリーグ）と台湾プロ野球の観戦ツアー・チケット・球場送迎・宿泊パッケージを、都市・球団・タイプで絞り込んで探せます。</p>
       </div>
     </div>
 
@@ -252,7 +303,7 @@
 </section>
 
 <!-- ========== Guide ========== -->
-<section class="sec" id="guide">
+<section class="sec sec--soft" id="guide">
   <div class="shell">
     <div class="sec-head">
       <div>
@@ -287,7 +338,7 @@
 </section>
 
 <!-- ========== FAQ ========== -->
-<section class="sec sec--soft" id="faq">
+<section class="sec" id="faq">
   <div class="shell">
     <div class="sec-head">
       <div>
