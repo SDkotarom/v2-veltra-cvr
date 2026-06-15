@@ -6,79 +6,410 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/report.css">
 <link rel="stylesheet" href="/summary.css">
-<title>W24（6/7〜6/13）サマリー | 週次ボトルネック分析</title>
+<title>W24（6/7〜6/13）サマリー | 上向きは定着せず反落 — 残り約2週、新規の決済完了に1点集中</title>
+<style>
+/* ───── W24 revert-under-stall infographic ───── */
+.rec-hero{padding:32px 44px 28px;background:linear-gradient(135deg,#fff7f5 0%,#fff 70%);border-bottom:3px solid #c0392b}
+.rec-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:.14em;color:#fff;background:#c0392b;padding:6px 14px;border-radius:4px;margin-bottom:18px;text-transform:uppercase}
+.rec-tag::before{content:'📉';font-size:14px}
+.rec-headline{font-size:28px;font-weight:900;line-height:1.45;margin-bottom:16px;letter-spacing:-.01em;color:#1a1a1a}
+.rec-headline em{font-style:normal;color:#c0392b;background:linear-gradient(transparent 60%,#ffe1df 60%);padding:0 2px}
+.rec-headline em.ok{color:#1a8c4e;background:linear-gradient(transparent 60%,#bbf7d0 60%)}
+.rec-sub{font-size:14px;color:var(--text2);line-height:1.85;margin-bottom:20px}
+.rec-sub strong{color:#1a1a1a}
+
+/* KPI strip */
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0 8px}
+.kpi-card{background:#fff;border:2px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left}
+.kpi-card.up{border-color:#1a8c4e;background:#f0fbf4}
+.kpi-card.gap{border-color:#c0392b;background:#fff5f5}
+.kpi-card.struct{border-color:#d97706;background:#fffbeb}
+.kpi-card.clock{border-color:#1b82c5;background:#f0f7fc}
+.kpi-label{font-size:10px;font-weight:900;letter-spacing:.1em;color:var(--text3);margin-bottom:6px;text-transform:uppercase}
+.kpi-val{font-family:'DM Sans';font-size:28px;font-weight:900;line-height:1;letter-spacing:-.02em}
+.kpi-card.up .kpi-val{color:#1a8c4e}
+.kpi-card.gap .kpi-val{color:#c0392b}
+.kpi-card.struct .kpi-val{color:#d97706}
+.kpi-card.clock .kpi-val{color:#1b82c5}
+.kpi-delta{font-size:11px;font-weight:700;color:var(--text3);margin-top:6px;line-height:1.55}
+.kpi-delta.up{color:#1a8c4e}
+.kpi-delta.down{color:#c0392b}
+.kpi-delta.warn{color:#d97706}
+
+/* Evidence cards */
+.evidence-block{padding:8px 44px 28px}
+.evidence-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.evidence-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:#fff;border-left:4px solid #1b82c5}
+.evidence-card.up{border-left-color:#1a8c4e;background:#f0fbf4}
+.evidence-card.down{border-left-color:#c0392b;background:#fff5f5}
+.evidence-card.struct{border-left-color:#d97706;background:#fffbeb}
+.evidence-card.peak{border-left-color:#1b82c5;background:#f0f7fc}
+.ev-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ev-icon{font-size:20px;line-height:1}
+.ev-title{font-size:13px;font-weight:900;letter-spacing:.02em;line-height:1.4}
+.ev-body{font-size:12px;color:var(--text2);line-height:1.7}
+.ev-body strong{color:var(--text)}
+.ev-bar{display:flex;align-items:center;gap:8px;font-family:'DM Sans';font-size:13px;font-weight:900;margin:8px 0;color:#1a1a1a}
+.ev-bar-bg{flex:1;height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden}
+.ev-bar-fill{height:100%;background:#1b82c5;border-radius:4px}
+.evidence-card.up .ev-bar-fill{background:#1a8c4e}
+.evidence-card.down .ev-bar-fill{background:#c0392b}
+.evidence-card.struct .ev-bar-fill{background:#d97706}
+.evidence-card.peak .ev-bar-fill{background:#1b82c5}
+
+/* 9-week sparkline (uptick then revert) */
+.flat-spark{display:flex;align-items:flex-end;gap:5px;height:60px;margin:10px 0 4px;border-bottom:1px solid var(--border);padding-bottom:4px}
+.fs-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.fs-bar{width:100%;background:#c0392b;border-radius:2px 2px 0 0;min-height:2px;opacity:.85}
+.fs-bar.peak{background:#1a8c4e;opacity:1}
+.fs-bar.now{background:#d97706;opacity:1}
+.fs-label{font-size:8.5px;color:var(--text3);font-weight:700}
+.fs-label.now{color:#d97706;font-weight:900}
+
+/* 4-layer ladder */
+.lyr-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0 4px}
+.lyr-card{border:1px solid var(--border);border-radius:8px;padding:12px;background:#fff;position:relative}
+.lyr-card.l1{border-top:4px solid #64748b}
+.lyr-card.l2{border-top:4px solid #1a8c4e}
+.lyr-card.l3{border-top:4px solid #1b82c5}
+.lyr-card.l4{border-top:4px solid #d97706}
+.lyr-no{font-family:'DM Sans';font-weight:900;font-size:12px;letter-spacing:.04em;margin-bottom:4px}
+.lyr-card.l1 .lyr-no{color:#64748b}.lyr-card.l2 .lyr-no{color:#1a8c4e}.lyr-card.l3 .lyr-no{color:#1b82c5}.lyr-card.l4 .lyr-no{color:#d97706}
+.lyr-name{font-size:12.5px;font-weight:900;color:var(--text);margin-bottom:6px}
+.lyr-kpi{font-size:10.5px;color:var(--text3);font-weight:700;line-height:1.5}
+.lyr-up{font-size:10.5px;color:var(--text2);line-height:1.55;margin-top:6px;border-top:1px dashed var(--border);padding-top:6px}
+.lyr-up b{color:var(--text)}
+
+/* Action cards */
+.action-block{padding:8px 44px 28px}
+.action-list{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+.action-item{display:flex;gap:18px;padding:18px 22px;background:#fff;border:1px solid var(--border);border-radius:12px;border-left:6px solid var(--red)}
+.action-item.p1{border-left-color:#c0392b}
+.action-item.p2{border-left-color:#1b82c5}
+.action-item.p3{border-left-color:#d97706}
+.action-icon{font-size:30px;line-height:1;flex-shrink:0}
+.action-body{flex:1;min-width:0}
+.action-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.action-prio{font-family:'DM Sans';font-size:11px;font-weight:900;padding:3px 8px;color:#fff;border-radius:4px;letter-spacing:.05em}
+.action-item.p1 .action-prio{background:#c0392b}
+.action-item.p2 .action-prio{background:#1b82c5}
+.action-item.p3 .action-prio{background:#d97706}
+.action-when{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.04em}
+.action-title{font-size:16px;font-weight:800;line-height:1.45;margin-bottom:8px}
+.action-bullets{margin:0;padding:0;list-style:none}
+.action-bullets li{font-size:12.5px;color:var(--text2);line-height:1.7;padding-left:14px;position:relative;margin-bottom:4px}
+.action-bullets li::before{content:'▸';position:absolute;left:0;font-weight:900;color:var(--red)}
+.action-item.p1 .action-bullets li::before{color:#c0392b}
+.action-item.p2 .action-bullets li::before{color:#1b82c5}
+.action-item.p3 .action-bullets li::before{color:#d97706}
+.action-bullets li strong{color:var(--text)}
+.action-bullets li a{color:#1b82c5;font-weight:700;text-decoration:underline}
+
+/* Top3 BN list inside action */
+.asl-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 4px}
+.asl-card{background:#f5f4f0;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.55;color:var(--text2);text-decoration:none;display:block;transition:background .15s}
+.asl-card:hover{background:#fff}
+.asl-rank{font-family:'DM Sans';font-weight:900;font-size:11px;color:#c0392b;letter-spacing:.05em;margin-bottom:4px}
+.asl-title{font-weight:800;color:var(--text);font-size:12px;line-height:1.5;margin-bottom:4px}
+.asl-meta{font-size:10px;color:var(--text3);font-family:'DM Sans';font-weight:700}
+
+/* timeline plan */
+.plan-row{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:8px 0;border-top:1px dashed var(--border);font-size:12.5px;line-height:1.6}
+.plan-wk{font-family:'DM Sans';font-weight:900;color:#1b82c5;font-size:12px}
+.plan-row strong{color:var(--text)}
+
+/* bot footnote */
+.bot-note{margin:6px 44px 0;padding:10px 14px;background:#faf8f5;border:1px dashed var(--border);border-radius:8px;font-size:11.5px;color:var(--text3);line-height:1.7}
+.bot-note strong{color:var(--text2)}
+
+@media(max-width:768px){
+  .rec-hero{padding:24px 22px 22px}
+  .rec-headline{font-size:22px}
+  .kpi-strip,.evidence-grid,.asl-list,.lyr-wrap{grid-template-columns:1fr}
+  .evidence-block,.action-block{padding-left:22px;padding-right:22px}
+  .plan-row{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
 <div id="app">
+  <!-- ── Header ─────────────────────────────── -->
   <div class="card">
     <div class="header-band">
       <div class="logo">V2</div>
-      <div class="right">週次サマリー<br><strong>W24（6/7〜6/13）</strong></div>
+      <div class="right">週次サマリー<br><strong>W24（6/7〜6/13）上向きは定着せず反落 — 残り約2週、新規の決済完了に1点集中</strong></div>
     </div>
-    <div style="padding:22px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:13px;line-height:1.8;color:var(--text2)">
-      <div><span style="color:var(--text3);font-weight:700">分析対象</span><br>W24（6/7〜6/13） 単週（2026-06-07 〜 2026-06-13）</div>
-      <div><span style="color:var(--text3);font-weight:700">GA4 Property</span><br>347074845</div>
+    <div style="padding:18px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:12px;line-height:1.7;color:var(--text2)">
+      <div><span style="color:var(--text3);font-weight:700">分析対象</span><br>W24 単週 + W16〜W24 の構造トレンド</div>
+      <div><span style="color:var(--text3);font-weight:700">比較基準</span><br>実質 CVR（bot 除外）/ 主目標 1.429% / 前年6月 1.677%</div>
+      <div><span style="color:var(--text3);font-weight:700">発行</span><br>2026-06-15 / 繁忙期（7-8月）まで残り約2週</div>
+      <div><span style="color:var(--text3);font-weight:700">GA4</span><br>347074845</div>
     </div>
   </div>
 
+  <!-- ─────────── 01 結論 ─────────── -->
   <div class="card">
-    <div class="sec-tag"><span class="sec-num red">01</span><span class="sec-main">Conclusion — 結論</span></div>
-    <div class="summary-hero">
-      <div class="summary-kicker">2026-W24 SPOT ANALYSIS</div>
-      <div class="summary-headline">
-        <!-- TODO: ユーザー行動の観察を主語にした1〜3行ヘッドライン。<em>強調</em>で数字を挟む -->
+    <div class="sec-tag"><span class="sec-num">01</span><span class="sec-main">結論 — 先週の「買い切る力」は今週戻った。上が広がり下が戻る＝壊れたファネルは追い風だけでは埋まらない</span></div>
+
+    <div class="rec-hero">
+      <div class="rec-tag">uptick did not hold</div>
+      <div class="rec-headline">
+        先週は予約を決め切れていたユーザーが、今週は <em>また決め切れなくなった</em>。<br>
+        AC本体まで来る人は <em class="ok">前週比 +8.8pp で大きく増えた</em>のに、最後に決済を <em>完了する率は -5.7pp で逆戻り</em>。<br>
+        実質 CVR は <em>1.51% → 1.42% に反落</em>。新規の予約完了ギャップ <em>-25.5pp は9週連続</em>で開いたまま。
       </div>
-      <div class="summary-sub">
-        <!-- TODO: 4〜6行のサブ説明。ユーザーが何を感じ、どこで止まっているかを数字で支える -->
+      <div class="rec-sub">
+        W24 の 7日間は、<strong>来訪 827,352（前週比 +0.8% でほぼ横ばい）に対し、予約完了は 10,056 → 9,890 件（-1.7%）に減った</strong>。先週 W23 で +18% に跳ねた完了は、今週そのまま定着せず一部を吐き出した。ファネルを段階で見ると分裂がはっきりする：<strong>AC到達（①→②）は 41.2% → 50.0%（+8.8pp）と大きく回復した一方、意向→完了（④→⑤）は 67.2% → 61.5%（-5.7pp）に逆戻り</strong>した。<strong>入口は広がったのに、出口がまた詰まった</strong>週。
+        <br>
+        先週のサマリーで「来週の数字で反落か定着かを必ず確認」と書いた。<strong>答えは反落だった</strong>。W18（GW週）に続いて2度目の「跳ねて戻る」で、追い風頼みの上振れは定着しないことがはっきりした。そして<strong>構造課題は今週も1ミリも解けていない</strong>：新規の予約完了ギャップ（④→⑤ -25.5pp）・モバイルの入口ギャップ（①→② -17.6pp）・リピーターの入口ギャップ（①→② -21.8pp）は、<strong>W16 から 9 週間ずっと同じ形のまま</strong>。
+        <br>
+        年間最大の商機 <strong>夏休み繁忙期（7-8月、過去2年 CVR 1.48〜1.54% 帯）まで残り約2週</strong>。設計を議論している猶予はもう無い。今週の分裂が示す通り、<strong>火力を寄せるべきは「出口」＝新規の決済完了（④→⑤）</strong>。最も母数が大きく、先週 +7.8pp 動いて「押せば動く」と実証済みで、フォーム改修は最速で ship できる。残り2週で検証まで回せる唯一の本命に1点集中する。
       </div>
-      <div class="summary-kpi-strip">
-        <div class="skpi">
-          <div class="skpi-label">セッション（2026-W24単週）</div>
-          <div class="skpi-val"><!-- TODO --></div>
-          <div class="skpi-wow"><!-- TODO: ▲/▼ ±X.X% WoW --></div>
+
+      <!-- KPI strip 4-cell -->
+      <div class="kpi-strip">
+        <div class="kpi-card gap">
+          <div class="kpi-label">実質 CVR（W24 7d・bot除外）</div>
+          <div class="kpi-val">1.42%</div>
+          <div class="kpi-delta down">W23 1.51% から -0.09pp（反落）／ 完了 -1.7% WoW ／ 主目標 1.429% を再び下回る</div>
         </div>
-        <div class="skpi">
-          <div class="skpi-label">予約完了（2026-W24単週）</div>
-          <div class="skpi-val"><!-- TODO --></div>
-          <div class="skpi-wow"><!-- TODO --></div>
+        <div class="kpi-card gap">
+          <div class="kpi-label">④→⑤ 意向→完了（7d WoW）</div>
+          <div class="kpi-val">-5.7pp</div>
+          <div class="kpi-delta down">67.2% → 61.5% ／ 先週の完了上振れが戻った＝出口が再び詰まる</div>
         </div>
-        <div class="skpi">
-          <div class="skpi-label">CVR（2026-W24単週）</div>
-          <div class="skpi-val"><!-- TODO --></div>
-          <div class="skpi-wow"><!-- TODO --></div>
+        <div class="kpi-card struct">
+          <div class="kpi-label">新規 ④→⑤ ギャップ（28d）</div>
+          <div class="kpi-val">-25.5pp</div>
+          <div class="kpi-delta warn">49.6% vs 全体 75.2% ／ 9週連続固着 ／ 影響 約632K</div>
+        </div>
+        <div class="kpi-card clock">
+          <div class="kpi-label">繁忙期まで</div>
+          <div class="kpi-val">約2週</div>
+          <div class="kpi-delta">7-8月（過去2年 1.48〜1.54%）／ 設計議論の猶予はもう無い</div>
         </div>
       </div>
     </div>
+
+    <div class="bot-note">
+      <strong>※ bot について（本レポートの主題ではない）：</strong>Singapore × China の Chrome bot は W21〜W24 と 4 週連続の慢性ノイズで、W24 は週内 15.7%（China 78,745 + Singapore 51,008 ≈ 129,753／活用ユーザー比 CN 0.99・SG 0.99 ＝ セッション再利用ゼロの機械指紋、人間基準 0.80〜0.90 を大きく超過）。今週は Singapore が WAF 強化で漸減、China が増勢に転じ総量は前週並み。<strong>根本解決はしておらず</strong>残存している。raw 7d CVR 1.195% は分母希釈後の見かけ値で、議論の主軸は実質 CVR（bot 除外 1.42%）に置く。WAF 恒久化と再来アラートは SRE 側で並行。
+    </div>
   </div>
 
+  <!-- ─────────── 02 論拠 ─────────── -->
   <div class="card">
-    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">Evidence — 論拠</span></div>
-    <div class="sec-big"><!-- TODO: 論拠全体のサマリー一文 --></div>
-    <div class="sec-sub"><!-- TODO: 補足 --></div>
-    <div class="evidence-grid">
-      <!-- TODO: Evidence カード ×3（ユーザー行動 / 乖離 / ユーザー層 の3軸） -->
+    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">事実と、だから次にやること — ①上振れは戻った ②同じ3ギャップが9週固着 ③繁忙期前にもう間に合わせる</span></div>
+    <div class="sec-sub" style="padding-top:6px">今週の分裂（入口+8.8pp / 出口-5.7pp）は、追い風が来ても<strong>出口＝新規の決済完了（④→⑤）</strong>を直さない限り CVR は積み上がらないことを示している。火力をここへ寄せる。</div>
+
+    <div class="evidence-block">
+      <div class="evidence-grid">
+
+        <!-- Evidence 1: uptick reverted -->
+        <div class="evidence-card down">
+          <div class="ev-head">
+            <span class="ev-icon">📉</span>
+            <span class="ev-title">① 先週の上振れは定着せず反落</span>
+          </div>
+          <div class="ev-body">
+            実質 CVR は W22 <strong>1.28%</strong> → W23 <strong>1.51%</strong>（+0.23pp の上振れ）→ W24 <strong>1.42%</strong>（-0.09pp）。先週の伸びの約4割を今週吐き出した。GW週（W18）に続く<strong>2度目の「跳ねて戻る」</strong>で、追い風頼みの上振れは定着しない。
+          </div>
+          <div class="flat-spark">
+            <div class="fs-col"><div class="fs-bar" style="height:79%"></div><div class="fs-label">W16</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:80%"></div><div class="fs-label">W17</div></div>
+            <div class="fs-col"><div class="fs-bar peak" style="height:100%"></div><div class="fs-label">W18*</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:78%"></div><div class="fs-label">W19</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:83%"></div><div class="fs-label">W20</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:79%"></div><div class="fs-label">W21</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:85%"></div><div class="fs-label">W22</div></div>
+            <div class="fs-col"><div class="fs-bar peak" style="height:100%"></div><div class="fs-label">W23</div></div>
+            <div class="fs-col"><div class="fs-bar now" style="height:94%"></div><div class="fs-label now">W24</div></div>
+          </div>
+          <div class="ev-body" style="font-size:11px;color:var(--text3)">
+            <strong style="color:var(--text)">→ やること：</strong>「もう大丈夫」と読まない。追い風が止めば 1.3% 帯へ戻る構造のまま。<strong>追い風待ちをやめ、出口（④→⑤）の構造改修に火力を移す</strong>。
+          </div>
+        </div>
+
+        <!-- Evidence 2: same 3 gaps, subtract the friction -->
+        <div class="evidence-card struct">
+          <div class="ev-head">
+            <span class="ev-icon">✂️</span>
+            <span class="ev-title">② 同じ3ギャップが9週固着 — 「引き算」で外す</span>
+          </div>
+          <div class="ev-body">
+            9週固着する3ギャップ（新規 ④→⑤ -25.5pp / モバイル ①→② -17.6pp / リピーター ①→② -21.8pp）は、いずれも <strong>情報を「足す」では動かない</strong>。迷い・不安・入力負荷を「引く」改修が効くタイプ。
+          </div>
+          <div class="ev-bar">
+            <span>新規 ④→⑤</span>
+            <span class="ev-bar-bg"><span class="ev-bar-fill" style="width:66%"></span></span>
+            <span style="color:#d97706">49.6%</span>
+          </div>
+          <div class="ev-body" style="font-size:11px;color:var(--text3)">
+            <strong style="color:var(--text)">→ やること：</strong>新規の決済完了から「離脱理由を引く」。<strong>最終価格の事前明示・フォーム圧縮・不安要素の先出し</strong>。要素を足す改修は止める。
+          </div>
+        </div>
+
+        <!-- Evidence 3: 4-layer + ship before peak -->
+        <div class="evidence-card peak">
+          <div class="ev-head">
+            <span class="ev-icon">🪜</span>
+            <span class="ev-title">③ 新規を4層で見て「各層を1つ上へ」</span>
+          </div>
+          <div class="ev-body">
+            新規は <strong>購入意欲 × 欲しいAC（ニーズ）の確定度</strong>で4層に分かれる。7-8月は<strong>初回利用の新規</strong>が比率で急増（28日 new 構成比 66.0%）。今いちばん詰まっている層が繁忙期にいちばん来る＝今の1手が最大効率。
+          </div>
+          <div class="ev-bar">
+            <span>new 構成比（28d）</span>
+            <span class="ev-bar-bg"><span class="ev-bar-fill" style="width:66%"></span></span>
+            <span style="color:#1b82c5">66.0%</span>
+          </div>
+          <div class="ev-body" style="font-size:11px;color:var(--text3)">
+            <strong style="color:var(--text)">→ やること：</strong>各ボトルネックを「どの層を1つ上へ進めるか」で読み替え（次セクション）。残り2週は<strong>① 指名買い → 完了</strong>に集中。
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
+  <!-- ─────────── 03 やるべきこと ─────────── -->
   <div class="card">
-    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">Action — やるべきこと</span></div>
-    <div class="sec-big"><!-- TODO: アクション方針 --></div>
-    <div class="sec-sub"><!-- TODO --></div>
-    <div class="action-list">
-      <!-- TODO: Action アイテム ×3（短期 NEW / 中期 既存BN Top3 / 継続監視） -->
+    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">やるべきこと — 打ち手は「新規4層 × 各層を1つ上へ」で見る。残り2週は出口（① 指名買い）に1点集中</span></div>
+    <div class="sec-sub" style="padding-top:6px">
+      今週から打ち手の見方を統一する。新規を <strong>意欲 × AC確定度</strong>の4層に分け、<strong>各層を1つ上の段へ進める</strong>のがゴール。ボトルネック10件はこの4層のどこかに必ず対応する（出典：<a href="/spot/2026-ac-discovery.html" style="color:#1b82c5;font-weight:700">AC discovery</a> / <a href="/kpi.html" style="color:#1b82c5;font-weight:700">KPIダッシュボード</a>）。残り約2週、検証まで回せるのは現実的に <strong>1施策</strong> → 最も母数が大きく押せば動く <strong>① 指名買い→完了</strong>に張る。
+    </div>
+
+    <div class="action-block">
+
+      <!-- 4-layer ladder reference -->
+      <div class="lyr-wrap">
+        <div class="lyr-card l4">
+          <div class="lyr-no">④ 探索</div>
+          <div class="lyr-name">まだ買う気はない／探し中</div>
+          <div class="lyr-kpi">KPI：再訪率・再訪間隔</div>
+          <div class="lyr-up"><b>↑ ③へ：</b>保存ACの値下げ・残枠を通知して戻る理由をつくる</div>
+        </div>
+        <div class="lyr-card l3">
+          <div class="lyr-no">③ 方向だけ</div>
+          <div class="lyr-name">エリア等の方向のみ／AC未定</div>
+          <div class="lyr-kpi">KPI：有効AC到達率</div>
+          <div class="lyr-up"><b>↑ ②へ：</b>スポット／やりたいこと／今日明日OK の探索軸を増やす</div>
+        </div>
+        <div class="lyr-card l2">
+          <div class="lyr-no">② 比較中 <span style="font-size:9px;background:#1a8c4e;color:#fff;padding:1px 5px;border-radius:3px">最優先</span></div>
+          <div class="lyr-name">方向は固まるが複数を比較中</div>
+          <div class="lyr-kpi">KPI：比較継続率（即離脱↓）</div>
+          <div class="lyr-up"><b>↑ ①へ：</b>同じ体験の形態ちがいを並べ、選ぶ軸を与える</div>
+        </div>
+        <div class="lyr-card l1">
+          <div class="lyr-no">① 指名買い</div>
+          <div class="lyr-name">今すぐ／AC決定済</div>
+          <div class="lyr-kpi">KPI：検討→予約完了率</div>
+          <div class="lyr-up"><b>↑ 完了へ：</b>安心バッジ凝縮・最終価格前出し・空き枠リマインド</div>
+        </div>
+      </div>
+
+      <div class="action-list">
+
+        <!-- Action 1: BN1 new 4->5 = Layer 1 -->
+        <div class="action-item p1">
+          <div class="action-icon">🎯</div>
+          <div class="action-body">
+            <div class="action-head">
+              <span class="action-prio">最優先 / 今週着手</span>
+              <span class="action-when">6/15週 設計+実装 → 6/22週 A/B</span>
+            </div>
+            <div class="action-title">第1の矢：新規ユーザーの「予約フォーム最終段階での離脱」を潰す（BN1 / new ④→⑤ ＝ 層① 指名買い→完了）</div>
+            <ul class="action-bullets">
+              <li><strong>なぜ最優先か</strong>：影響規模 約632K で全BN最大。かつ繁忙期に最も増える new 層。先週 ④→⑤ が +7.8pp 上振れし今週 -5.7pp 戻った＝<strong>振れ幅が大きい＝押せば動く出口</strong>。フォーム改善は quick win で最速 ship でき、残り2週で唯一「検証まで」間に合う本命</li>
+              <li><strong>層① を完了へ進める引き算の打ち手</strong>：最終総額（税・手数料込）を入力前に明示（不意打ち排除）／フォーム段階を圧縮／決済直前の不安要素（無料キャンセル・即時確定・日本語サポート）を CTA 近傍に凝縮。「情報を足す」のではなく「離脱理由を引く」</li>
+              <li><strong>狙い</strong>：49.6% → 全体水準 75.2% の半分でも戻せば、繁忙期の new 流入が増分 CV に直結。仮説3種・打ち手9種・モックは詳細ページ参照</li>
+            </ul>
+            <div class="asl-list">
+              <a class="asl-card" href="/bottleneck.html?week=2026-w24&num=1">
+                <div class="asl-rank">BN1 / -25.5pp / 632K</div>
+                <div class="asl-title">新規ユーザーが予約フォーム最終段階で『この価格・条件で確定してよいか』を決めきれず離脱している</div>
+                <div class="asl-meta">new × ④→⑤ ／ 層① 指名買い</div>
+              </a>
+              <a class="asl-card" href="/bottleneck.html?week=2026-w24&num=2">
+                <div class="asl-rank">BN2 / -17.6pp / 331K</div>
+                <div class="asl-title">スマホ来訪者が『自分の条件に合うアクティビティ』へたどり着けず入口で離脱している</div>
+                <div class="asl-meta">mobile × ①→② ／ 層③→②</div>
+              </a>
+              <a class="asl-card" href="/bottleneck.html?week=2026-w24&num=3">
+                <div class="asl-rank">BN3 / -10.7pp / 264K</div>
+                <div class="asl-title">初訪問者がカレンダーまで見ても『今ここで予約する』決断に至らず比較で止まっている</div>
+                <div class="asl-meta">new × ③→④ ／ 層① 指名買い</div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action 2: layer framing for the rest -->
+        <div class="action-item p2">
+          <div class="action-icon">🪜</div>
+          <div class="action-body">
+            <div class="action-head">
+              <span class="action-prio">第2の矢 / 設計のみ先行</span>
+              <span class="action-when">BN1 と並走、繁忙期中の段階投入</span>
+            </div>
+            <div class="action-title">第2の矢：入口の層（③→②）を繁忙期に向けて設計先行 — モバイルの「自分に合うACに辿り着けない」（BN2）</div>
+            <ul class="action-bullets">
+              <li><strong>なぜ次点か</strong>：影響 331K で2番手。今週 ①→② は +8.8pp 回復したが、モバイル単体は依然 -17.6pp で底。繁忙期はモバイル比率が上振れ＝<strong>層③（方向だけ）を層②（比較中）へ押し上げる</strong>探索軸の増設が効く</li>
+              <li><strong>層③→② の打ち手</strong>：スマホ上部に「観光スポットから／やりたいことから／今日・明日OK」の探索軸を常時提示。Braze の文脈配信で需要をプローブ → 勝った軸をプロダクト化（開発0で先行検証可）</li>
+              <li><strong>相乗</strong>：new×mobile は重複層。BN1（出口）と BN2（入口）を両輪で入れると、モバイル新規の体験が入口から完了まで一気通貫で改善。残り2週は設計を先行させ、検証は繁忙期入り後の段階投入で回収</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Action 3: schedule + deprioritize + bot -->
+        <div class="action-item p3">
+          <div class="action-icon">🗓</div>
+          <div class="action-body">
+            <div class="action-head">
+              <span class="action-prio">実行計画 / やらない判断</span>
+              <span class="action-when">6月の残り2週で逆算</span>
+            </div>
+            <div class="action-title">残り2週の逆算スケジュールと「今はやらない」明確化</div>
+            <div style="margin:6px 0 10px">
+              <div class="plan-row"><span class="plan-wk">W25 (6/15週)</span><span>BN1 設計＋実装（最終総額の事前明示・フォーム圧縮・安心バッジ凝縮）。今週の ④→⑤ 反落が<strong>底打ちか続落か</strong>を日次でモニタ。SRE は WAF behavioral 検出を並行恒久化</span></div>
+              <div class="plan-row"><span class="plan-wk">W26 (6/22週)</span><span>BN1 <strong>A/B 開始</strong>。並行して BN2（モバイル AC 発見＝層③→②）を設計</span></div>
+              <div class="plan-row"><span class="plan-wk">7月〜 繁忙期</span><span>BN1 勝ちパターンをフル投入。BN2 は段階投入。増えた new×mobile 流入を増分 CV として回収</span></div>
+            </div>
+            <ul class="action-bullets">
+              <li><strong>今はやらない</strong>：リピーター ①→②（影響237K だが既存客は導線を学習済みで繁忙期の増幅が小さい）／Organic Search 系（SEO・LP 起点で2週では動かない）→ 繁忙期明けに回す</li>
+              <li><strong>最悪シナリオ</strong>：先週の上向きを「もう大丈夫」と読み違え（今週の反落で否定済み）、構造改善を1つも ship せず、年間最大の 7-8月トラフィックを9週開いたままのギャップに流す。追い風が止めば実質 CVR は 1.3% 帯へ逆戻りし、前年6月（1.68%）に再び大きく未達</li>
+              <li><strong>bot（補足・小）</strong>：WAF 恒久化と日次再来アラート（機械指紋 10K/日超で通知）は SRE 側タスクとして並行。レポートは raw／実質／前年同期の 3軸併記を継続するのみで、UIUX チームの工数は構造改善に集中させる</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
+  <!-- ─────────── 詳細セクション ─────────── -->
   <div id="summary-detail" style="scroll-margin-top:24px"></div>
 
+  <!-- ─────────── 28日参照 ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">参照</span><span class="sec-main">28日 raw ベースライン（5/17〜6/13・bot 含む）</span></div>
+    <div style="padding:14px 44px;font-size:12px;line-height:1.8;color:var(--text2)">
+      セッション <strong>3,750,019</strong> / 予約完了 <strong>37,136</strong> / raw CVR <strong>0.99%</strong>。
+      ファネル: ①→② <strong>50.2%</strong> ／ ②→③ <strong>9.1%</strong> ／ ③→④ <strong>41.8%</strong> ／ ④→⑤ <strong>75.2%</strong>。
+      <span style="color:var(--text3)">※ 議論主軸は実質 CVR（7d bot除外 1.42%）。28d raw は参照値で、4-5月の bot 残存と W21-W24 の慢性 bot（週内 ≈16〜19%）を含むため希釈方向に偏る。クリーンな読みは 7d 実質。</span>
+    </div>
+  </div>
+
+  <!-- ── Footer ─────────────────────────────── -->
   <div class="card">
     <div class="footer">
       <span>VELTRA CVR改善チーム — UIUX Design Squad</span>
       <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
-      <span><!-- TODO: 発行日 --></span>
+      <span>2026-06-15</span>
     </div>
   </div>
 </div>
+
 <script src="/nav.js"></script>
 <script src="/summary-detail.js"></script>
 </body>

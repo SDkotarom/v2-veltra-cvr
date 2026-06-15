@@ -201,10 +201,20 @@ def audit_week(week_id: str, auto_fill: bool = False, report_only: bool = False)
                 }
                 all_actions.append(action_info)
 
+                # 人手レビュー済みの差分判定を尊重する。
+                # implementation_check.status == "partial" かつ matched_feature が
+                # 埋まっている場合、キーワード一致は確認済みの差分（別物）として
+                # overlap（重複疑い）ではなく partial（差分確認済み）に分類する。
+                impl_check_review = action.get("implementation_check") or {}
+                reviewed_partial = (
+                    impl_check_review.get("status") == "partial"
+                    and bool(impl_check_review.get("matched_feature"))
+                )
+
                 # 重複チェック（スコア2以上、またはキーワード完全一致）
-                if impl_matches and impl_matches[0]["score"] >= 2:
+                if impl_matches and impl_matches[0]["score"] >= 2 and not reviewed_partial:
                     overlap_actions.append(action_info)
-                elif impl_matches and impl_matches[0]["score"] == 1:
+                elif impl_matches and (impl_matches[0]["score"] == 1 or reviewed_partial):
                     partial_actions.append(action_info)
 
                 # 高リスク制約
@@ -212,7 +222,7 @@ def audit_week(week_id: str, auto_fill: bool = False, report_only: bool = False)
                     high_risk_actions.append(action_info)
 
                 # Quick Wins (重複ではない場合のみ)
-                is_overlap = impl_matches and impl_matches[0]["score"] >= 2
+                is_overlap = bool(impl_matches and impl_matches[0]["score"] >= 2 and not reviewed_partial)
                 if effort == "S" and not constraint_matches and not is_overlap:
                     quick_win_actions.append(action_info)
 
