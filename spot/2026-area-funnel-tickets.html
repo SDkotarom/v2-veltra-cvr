@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/spot/spot.css">
+<title>エリアページ改修｜開発チケット集（4件） | スポット分析</title>
+<style>
+:root{--accent:#1b82c5;--accent-bg:#e8f2fb}
+#app .sub-headline{font-size:23px;line-height:1.55}
+#app .sub-lede{font-size:14.5px;line-height:1.8}
+#app .sub-sec-title{font-size:19px}
+.tk-stage{padding:0 44px 14px}
+/* ページ内リンク */
+.tk-toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.tk-toc a{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;color:var(--text2);background:#fff;border:1px solid var(--border);border-radius:20px;padding:7px 15px;text-decoration:none;line-height:1.3;transition:border-color .12s,color .12s}
+.tk-toc a:hover{border-color:#1b82c5;color:#1b82c5}
+.tk-toc .n{font-family:'DM Sans';font-size:11px;font-weight:900;color:#1b82c5}
+html{scroll-behavior:smooth}
+/* 共通 callout / table */
+.tk-ins{background:#eef6fc;border:1px solid #cfe3f5;border-radius:10px;padding:14px 18px;font-size:14px;line-height:1.8;color:var(--text2);margin:8px 0 14px}
+.tk-ins b{color:#1b6ea5}
+.tk-tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin:6px 0 12px}
+.tk-tbl th{text-align:left;font-size:11.5px;font-weight:900;color:var(--text3);text-transform:uppercase;padding:9px 10px;border-bottom:2px solid var(--border);vertical-align:bottom}
+.tk-tbl td{padding:10px;border-bottom:1px solid var(--border);line-height:1.6;color:var(--text2);vertical-align:top}
+.tk-tbl td b{color:var(--text)}
+.tk-tbl .c1{font-weight:900;color:var(--text);white-space:nowrap}
+.tk-tbl tr.hl{background:#f6fbf7}
+.tk-kv{width:100%;border-collapse:collapse;font-size:13.5px;margin:4px 0 12px}
+.tk-kv th{text-align:left;width:170px;font-size:12.5px;font-weight:900;color:var(--text3);padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.tk-kv td{padding:8px 10px;border-bottom:1px solid var(--border);line-height:1.6;color:var(--text2)}
+.tk-kv td b{color:var(--text)}
+/* チケットカード */
+.tk-card{border:1px solid var(--border);border-radius:14px;background:#fff;padding:0;margin:16px 0;overflow:hidden}
+.tk-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 22px;background:linear-gradient(135deg,#eef6fc 0%,#fff 85%);border-bottom:1px solid var(--border)}
+.tk-id{font-family:'DM Sans';font-weight:900;font-size:15px;color:#fff;background:#1b82c5;border-radius:7px;padding:4px 11px;letter-spacing:.03em}
+.tk-name{font-size:18px;font-weight:900;color:var(--text);line-height:1.4;flex:1;min-width:220px}
+.tk-zone{font-size:12px;font-weight:900;color:#1a6e42;background:#e6f7ee;border:1px solid #bfe3cd;border-radius:20px;padding:4px 11px;white-space:nowrap}
+.tk-eff{font-size:12px;font-weight:900;color:var(--text2);background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:4px 11px;white-space:nowrap}
+.tk-body{padding:6px 22px 18px}
+.tk-sub{font-size:13.5px;font-weight:900;color:#1b82c5;letter-spacing:.04em;margin:18px 0 7px;padding-bottom:5px;border-bottom:2px solid #e3eef7;text-transform:uppercase}
+.tk-sub:first-child{margin-top:8px}
+.tk-p{font-size:14px;line-height:1.8;color:var(--text2);margin:6px 0}
+.tk-p b{color:var(--text)}
+.tk-ul{margin:6px 0;padding:0;list-style:none}
+.tk-ul li{font-size:14px;line-height:1.7;color:var(--text2);padding-left:18px;position:relative;margin-bottom:6px}
+.tk-ul li::before{content:'•';position:absolute;left:2px;color:#1b82c5;font-weight:900}
+.tk-ul li b{color:var(--text)}
+.tk-chk{margin:6px 0;padding:0;list-style:none}
+.tk-chk li{font-size:13.5px;line-height:1.65;color:var(--text2);padding:7px 0 7px 26px;position:relative;border-bottom:1px dashed var(--border)}
+.tk-chk li:last-child{border-bottom:none}
+.tk-chk li::before{content:'☐';position:absolute;left:4px;top:6px;color:#1b82c5;font-weight:900}
+.tk-chk li b{color:var(--text)}
+.tk-story{background:#f8fbfe;border-left:4px solid #1b82c5;border-radius:0 8px 8px 0;padding:10px 14px;font-size:14px;line-height:1.75;color:var(--text2);margin:6px 0}
+.tk-story b{color:var(--text)}
+.tk-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:6px 0}
+.tk-metric{border:1px solid var(--border);border-radius:10px;padding:11px 13px;background:#fff}
+.tk-metric .ml{font-size:11.5px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
+.tk-metric.p{border-top:3px solid #1a8c4e}.tk-metric.p .ml{color:#1a8c4e}
+.tk-metric.s{border-top:3px solid #1b82c5}.tk-metric.s .ml{color:#1b6ea5}
+.tk-metric.g{border-top:3px solid #d97706}.tk-metric.g .ml{color:#b45309}
+.tk-metric ul{margin:0;padding-left:16px}.tk-metric li{font-size:12.5px;line-height:1.55;color:var(--text2);margin-bottom:4px}
+.tk-ev{font-family:'DM Mono',ui-monospace,monospace;font-size:12.5px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:2px 7px;color:#0f3a57;display:inline-block;margin:2px 4px 2px 0}
+.tk-foot{padding:16px 44px 12px;font-size:13.5px;color:var(--text3);line-height:1.8}
+.tk-foot b{color:var(--text2)}
+.tk-foot a{color:#1b82c5;font-weight:700}
+.tk-ref{font-size:13px;color:var(--text3);line-height:1.7}
+.tk-ref a{color:#1b82c5;font-weight:700}
+@media(max-width:768px){
+  .tk-stage,.tk-foot{padding-left:22px;padding-right:22px}
+  .tk-metrics{grid-template-columns:1fr}
+  .tk-kv th{width:120px}
+  .tk-tbl{font-size:12.5px}.tk-tbl th,.tk-tbl td{padding:7px 6px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">スポット分析<br><strong>エリアページ改修｜開発チケット集（4件）</strong></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sub-hero" style="background:linear-gradient(135deg,#eef6fc 0%,#fff 80%)">
+      <div class="sub-breadcrumb"><a href="/kpi.html">← KPIダッシュボード</a> / <a href="/spot/2026-ac-discovery.html">探索分解と施策</a> / <strong>エリアページ改修 チケット集</strong></div>
+      <div class="sub-tag">Area page · Dev tickets</div>
+      <h1 class="sub-headline">
+        エリアページ｜ベルトラ発のおすすめ偏重で探しにくい →<br>
+        「自分で探す」を1箇所に集約＋「おすすめ」でACを多彩に並べ、<em>有効AC到達率</em>を上げる。
+      </h1>
+      <div class="sub-lede">
+        この打ち手を <strong>開発単位の4チケット</strong> に分解。各チケットは A/B テスト前提のプロダクト改修として、仮説・ユーザーストーリー・詳細仕様・指標・計測・スコープ・関係者の相談ポイントまで定義。<br>
+        ClickUp コピペ用は <strong>2026-area-funnel-tickets.md</strong>（同内容）。元の分析は
+        <a href="/spot/2026-ac-discovery.html" style="color:#1b82c5;font-weight:700">探索分解</a>・
+        <a href="/spot/2026-surface-wireframes.html#wf-area" style="color:#1b82c5;font-weight:700">改修ワイヤー（エリア）</a>へ。
+      </div>
+      <nav class="tk-toc" aria-label="チケット内リンク">
+        <a href="#epic"><span class="n">★</span>エピック概要</a>
+        <a href="#t-a5"><span class="n">1</span>T-A5 ジャンル常時ボタン</a>
+        <a href="#t-a3"><span class="n">2</span>T-A3 ランキング切り口タブ</a>
+        <a href="#t-a7"><span class="n">3</span>T-A7 ジャンル別おすすめ</a>
+        <a href="#t-search"><span class="n">4</span>T-SEARCH 検索ユニット</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- エピック概要 -->
+  <div class="card" id="epic">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">★</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Epic</span>
+      <h2 class="sub-sec-title">エピック概要 — 共通前提（全チケットに適用）</h2>
+    </div>
+    <div class="tk-stage">
+      <table class="tk-kv">
+        <tr><th>対象画面</th><td>エリアページ（Site: JP／Device: Mobile・PC、SP優先設計）</td></tr>
+        <tr><th>狙う層</th><td><b>③ 方向だけ</b>（エリア等の方向はあるが具体ACは未定）</td></tr>
+        <tr><th>Primary KPI</th><td><b>有効AC到達率</b>＝エリアページ流入セッションのうち、AC（商品）ページへ到達し、かつ即離脱しないセッションの比率</td></tr>
+        <tr><th>戦略軸</th><td>メインスポット取りこぼし防止</td></tr>
+        <tr><th>出典</th><td>GA4 Property <b>347074845</b>（日本・28日・bot除外、2026-05-11〜06-07）</td></tr>
+      </table>
+
+      <div class="tk-ins">
+        <b>なぜエリアページか</b><br>
+        ・エントリー別CVR(session)＝GlobalTOP 2.28% ＞ <b>エリア 1.21%</b> ＞ カテゴリ 1.07%。改修着手はファネル上流のCVR順<br>
+        ・エリアは ③方向だけ層の主戦場。新規の「AC到達→検討」は 9.0%（リピーター 22.8%）で最大ギャップ<br>
+        ・既存は「ベルトラ発のおすすめ（売れ筋固定ランキング＋人気カテゴリ）」中心で、Traveler が自分の軸で探す入口が散在。AC（商品）に辿り着く前に離脱している
+      </div>
+
+      <div style="font-size:15px;font-weight:900;color:var(--text);margin:16px 0 6px">方針＝エリアページを3ゾーンに再構成</div>
+      <table class="tk-tbl">
+        <thead><tr><th style="width:150px">ゾーン</th><th>含むもの</th><th style="width:120px">表示形式</th><th>ねらい</th></tr></thead>
+        <tbody>
+          <tr><td class="c1">① 自分で探す<br><span style="font-size:11.5px;color:var(--text3)">最上部・1箇所</span></td><td>探す検索ユニット（T-SEARCH）／ジャンル常時ボタン（T-A5）</td><td><b>遷移型</b></td><td>能動的に探したい人の入口を1箇所に集約。常に1タブ分だけ＝薄く、画面を占有しない</td></tr>
+          <tr class="hl"><td class="c1">② エリアのおすすめ<br><span style="font-size:11.5px;color:var(--text3)">ACを積む</span></td><td>ランキング切り口タブ（T-A3）／ジャンル別おすすめ（T-A7）／人気カテゴリ・あなたにおすすめ（既存）</td><td><b>インライン型</b></td><td>受け身でもACが次々目に入る。その場のタップ＝AC到達でKPI直結・SEO</td></tr>
+          <tr><td class="c1">③ 索引・計画</td><td>観光地TOP20／エリアから探す 等（既存・本スコープ外）</td><td>遷移／情報</td><td>SEO・回遊・検討段階の情報</td></tr>
+        </tbody>
+      </table>
+
+      <div style="font-size:15px;font-weight:900;color:var(--text);margin:16px 0 6px">4チケットと推奨着手順</div>
+      <table class="tk-tbl">
+        <thead><tr><th style="width:42px">順</th><th>チケット</th><th style="width:110px">ゾーン</th><th style="width:90px">表示形式</th><th style="width:64px">規模</th><th>根拠</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td class="c1"><a href="#t-a5" style="color:#1b82c5">T-A5</a> ジャンルから探す（常時ボタン）</td><td>①自分で探す</td><td>遷移型</td><td><b>小</b></td><td>既存カテゴリ体系を流用、新規開発ほぼ不要のクイックウィン</td></tr>
+          <tr><td><b>2</b></td><td class="c1"><a href="#t-a3" style="color:#1b82c5">T-A3</a> ランキング切り口タブ</td><td>②おすすめ</td><td>インライン</td><td>中</td><td>共通3切り口は既存データで成立、タップ＝AC到達でKPI直結</td></tr>
+          <tr><td><b>3</b></td><td class="c1"><a href="#t-a7" style="color:#1b82c5">T-A7</a> ジャンル別おすすめ</td><td>②おすすめ</td><td>インライン</td><td>中</td><td>既存カテゴリ分類・既存並びを流用、多彩さを見せて回遊増</td></tr>
+          <tr><td><b>4</b></td><td class="c1"><a href="#t-search" style="color:#1b82c5">T-SEARCH</a> 探す検索ユニット</td><td>①自分で探す</td><td>遷移型</td><td><b>大</b></td><td>サジェスト・検索実需データ・日付在庫統合で作り込みが必要</td></tr>
+        </tbody>
+      </table>
+
+      <div class="tk-ins" style="background:#fff;border:1px solid var(--border)">
+        <b style="color:var(--text)">共通テスト設計</b>：Control＝現行エリアページ（当該モジュール無し）／ Variant＝当該モジュール追加版。対象エリアはトラフィックとデータが充足するエリアから段階展開（具体エリアは関係者で確定）。<br>
+        <b style="color:var(--text)">共通ガードレール</b>：エリアページ直帰率／CVR(session)（1.21%を下回らせない）／既存導線のCTR（カニバリ監視）。<br>
+        <b style="color:var(--text)">セキュリティ・運用</b>：月次選定バッチのデータ参照は最小権限の読み取りに限定。認証情報・APIキーはハードコードせずシークレット管理。計測イベントに個人特定値を載せない。
+      </div>
+    </div>
+  </div>
+
+  <!-- T-A5 -->
+  <div class="card" id="t-a5">
+    <div class="tk-card">
+      <div class="tk-head"><span class="tk-id">T-A5</span><span class="tk-name">ジャンルから探す（常時ボタン・KKday型）</span><span class="tk-zone">① 自分で探す</span><span class="tk-eff">規模：小</span></div>
+      <div class="tk-body">
+        <div class="tk-sub">概要 / Overview</div>
+        <p class="tk-p">エリアページの「探す」直下に、種別（観光ツアー・アクティビティ・チケット・交通・グルメ 等）のアイコンボタンを 5〜7 個 <b>常時表示</b>し、種別起点で能動的に探せる入口を作る。タブに隠さず、エリア×ジャンルの既存一覧へ送る。</p>
+
+        <div class="tk-sub">狙う層・KPI・戦略軸</div>
+        <ul class="tk-ul"><li><b>層</b>③ 方向だけ</li><li><b>Primary KPI</b>有効AC到達率</li><li><b>戦略軸</b>メインスポット取りこぼし防止</li></ul>
+
+        <div class="tk-sub">仮説 / Hypothesis</div>
+        <ul class="tk-ul">
+          <li><b>課題</b>種別起点で探したい入口が無い。絞り込みがタブやモーダルに隠れると気づかれず、受け身でランキングを眺めて離脱する</li>
+          <li><b>打ち手</b>探すユニット直下に 5〜7 個のジャンルボタンを常時表示し、1タップでエリア×ジャンル一覧へ</li>
+          <li><b>期待成果</b>能動的な探索が増え、一覧→AC到達が伸び、有効AC到達率が上がる</li>
+        </ul>
+
+        <div class="tk-sub">ユーザーストーリー & 受け入れ条件</div>
+        <div class="tk-story">As a Traveler、エリアページを開いたとき、まず「どんな種類の体験があるか」を一目で選びたい。<b>so that</b> 自分の関心（チケットだけ・交通だけ 等）に最短で辿り着ける。</div>
+        <ul class="tk-chk">
+          <li>Given エリアページ表示、When ファーストビュー付近、Then 探す直下にジャンルボタンが 5〜7 個、<b>常時</b>表示されている</li>
+          <li>Given ジャンルボタンをタップ、When 遷移、Then そのエリア×ジャンルの<b>既存一覧</b>が開く（新規画面を作らない）</li>
+          <li>Given エリアごとに需要構成が違う、When 表示、Then 並び順がそのエリアの需要の大きい順</li>
+          <li>Given タップ、When 計測、Then <span class="tk-ev">genre_btn_click(genre, position)</span> 発火</li>
+          <li>SP（390px幅）で横スクロールや崩れが無い</li>
+        </ul>
+
+        <div class="tk-sub">詳細仕様</div>
+        <ul class="tk-ul">
+          <li><b>配置</b>探すユニット（T-SEARCH）の直下。タブに隠さず常時表示。アイコン＋ラベルを 5〜7 個</li>
+          <li><b>ジャンル種別</b>既存グローバルナビのカテゴリ体系を流用（観光ツアー／アクティビティ／チケット／交通・移動／グルメ／eSIM・WiFi 等）</li>
+          <li><b>並び順</b>エリアごとに需要の大きい順（リゾート＝アクティビティ/チケット上位、都市＝グルメ/交通上位）。<b>月次バッチ</b>で予約実績（DWH/BigQuery）を集計しエリア別の並び順データを生成、フロントが参照</li>
+          <li><b>着地</b>エリア×ジャンルの既存一覧ページ（新規開発なし）</li>
+          <li><b>不採用</b>「条件でしぼる（A-4）」はこの画面では不採用。ジャンル×条件はカテゴリページ（C-1／C-4）で実施</li>
+        </ul>
+
+        <div class="tk-sub">テストパターン / Test Variations</div>
+        <ul class="tk-ul"><li><b>Control</b>現行エリアページ（ジャンル常時ボタン無し）</li><li><b>Variant</b>探す直下にジャンル常時ボタンを表示</li><li><b>対象</b>Site: JP／Device: Mobile・PC</li></ul>
+
+        <div class="tk-sub">指標 / Metrics</div>
+        <div class="tk-metrics">
+          <div class="tk-metric p"><div class="ml">Primary</div><ul><li>有効AC到達率</li></ul></div>
+          <div class="tk-metric s"><div class="ml">Sub</div><ul><li>ジャンルボタンCTR</li><li>ジャンル一覧到達率</li><li>一覧→AC到達率</li></ul></div>
+          <div class="tk-metric g"><div class="ml">Guardrail</div><ul><li>直帰率／CVR(session)</li><li>既存カテゴリ・ナビ動線のCTR（カニバリ）</li></ul></div>
+        </div>
+
+        <div class="tk-sub">計測イベント</div>
+        <p class="tk-p"><span class="tk-ev">genre_btn_click(genre, position)</span></p>
+
+        <div class="tk-sub">スコープ・依存</div>
+        <ul class="tk-ul"><li><b>新規開発はほぼ無し</b>：既存カテゴリ体系・既存一覧ページを流用</li><li>月次のジャンル並び順選定バッチ</li><li>計測基盤（イベント実装）に依存</li></ul>
+
+        <div class="tk-sub">関係者・相談ポイント</div>
+        <p class="tk-p"><b>主担当</b>：フロントエンド／マーケ・カテゴリ運用（並び順）／データ(GA4)（計測）</p>
+        <ul class="tk-chk">
+          <li>常時表示するジャンルの<b>個数（5/6/7）</b>とエリア横断の初期セット</li>
+          <li>並び順の月次更新の<b>データソースと運用責任</b>の確定</li>
+          <li>1行カルーセルか折り返しグリッドか（SPの占有面積）</li>
+        </ul>
+
+        <div class="tk-sub">参照</div>
+        <p class="tk-ref">改修ワイヤー：<a href="/spot/2026-surface-wireframes.html#wf-area">エリア（A-5）</a>／探索分解：<a href="/spot/2026-ac-discovery.html">③ 方向だけ</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T-A3 -->
+  <div class="card" id="t-a3">
+    <div class="tk-card">
+      <div class="tk-head"><span class="tk-id">T-A3</span><span class="tk-name">ランキング切り口タブ（共通3＋エリア可変N）</span><span class="tk-zone">② おすすめ</span><span class="tk-eff">規模：中</span></div>
+      <div class="tk-body">
+        <div class="tk-sub">概要 / Overview</div>
+        <p class="tk-p">おすすめゾーン先頭の「ランキング」を、固定の売れ筋一本から <b>切り口タブ</b> に拡張。全エリア共通3切り口（売れ筋・満足度・急上昇）＋エリアのデータが充足したときだけ可変タブ（子連れ・直前OK・テーマ）を自動追加。各タブはインラインのACカルーセル（10件＋すべて見る）で、その場のタップ＝AC到達。</p>
+
+        <div class="tk-sub">狙う層・KPI・戦略軸</div>
+        <ul class="tk-ul"><li><b>層</b>③ 方向だけ</li><li><b>Primary KPI</b>有効AC到達率</li><li><b>戦略軸</b>メインスポット取りこぼし防止</li></ul>
+
+        <div class="tk-sub">仮説 / Hypothesis</div>
+        <ul class="tk-ul">
+          <li><b>課題</b>ランキングが売れ筋・満足度の固定でいつ見てもほぼ同じ。時期や自分に合うかが分からず素通りされる</li>
+          <li><b>打ち手</b>切り口タブで複数の見せ方を用意し、時期で動く「急上昇」やエリアに合う可変タブで新候補に出会わせる</li>
+          <li><b>期待成果</b>ランキングCTRと Top外（4位以降）のAC到達比率が上がり、有効AC到達率が上がる</li>
+        </ul>
+
+        <div class="tk-sub">ユーザーストーリー & 受け入れ条件</div>
+        <div class="tk-story">As a Traveler、エリアのおすすめを見るとき、売れ筋以外の切り口（評価が高い・いま伸びている・自分の条件に合う）でも見比べたい。<b>so that</b> 定番以外の自分に合うACに出会える。</div>
+        <ul class="tk-chk">
+          <li>Given おすすめゾーン先頭、When 表示、Then 共通3タブ（売れ筋／満足度／急上昇）、初期は売れ筋</li>
+          <li>Given 各タブ、When 表示、Then タブ直下にキャッチ1行（「いちばん予約されています」等）</li>
+          <li>Given タブをタップ、When 切替、Then そのタブのACカルーセル（最大10件＋すべて見る）が即時切替</li>
+          <li>Given エリアのデータが充足、When 表示、Then 該当エリアにだけ可変タブ（子連れ／直前OK／テーマ）を自動追加。データ不足エリアでは非表示</li>
+          <li>Given ACカードをタップ、When 遷移、Then AC詳細へ到達（タップ＝AC到達）</li>
+          <li>Given タブ切替、When 計測、Then <span class="tk-ev">ranking_tab_switch(tab)</span> 発火</li>
+        </ul>
+
+        <div class="tk-sub">詳細仕様</div>
+        <ul class="tk-ul">
+          <li><b>配置</b>おすすめゾーン先頭（ファーストビュー近く）。<b>表示形式</b>インライン（ACカルーセル 10件＋すべて見る）</li>
+        </ul>
+        <table class="tk-tbl">
+          <thead><tr><th>共通切り口（全エリア）</th><th>キャッチ</th><th>データ</th></tr></thead>
+          <tbody>
+            <tr><td class="c1">売れ筋</td><td>いちばん予約されています</td><td>直近30日の予約数（既存）</td></tr>
+            <tr><td class="c1">満足度</td><td>クチコミ評価が高い順</td><td>体験談の評価（既存）</td></tr>
+            <tr><td class="c1">急上昇</td><td>予約が急に伸びています</td><td>予約数の前週/前月比の伸長（季節ものを拾う）</td></tr>
+          </tbody>
+        </table>
+        <table class="tk-tbl">
+          <thead><tr><th>可変切り口（データ充足時のみ）</th><th>キャッチ</th><th>出す条件</th></tr></thead>
+          <tbody>
+            <tr><td class="c1">子連れに人気</td><td>お子さま連れに人気</td><td>家族予約比率・体験談「子ども」言及が一定以上のエリアのみ</td></tr>
+            <tr><td class="c1">直前でも取れる</td><td>今日・明日に参加できる</td><td>当日〜翌日在庫があるACが一定数あるエリアのみ</td></tr>
+            <tr><td class="c1">テーマ（海/自然/文化…）</td><td>—</td><td>そのエリアの主力テーマに応じて1〜2本</td></tr>
+          </tbody>
+        </table>
+        <p class="tk-p"><b>出し分けロジック</b>：共通3＋可変N。可変タブは<b>月次バッチ</b>でエリアごとのデータ充足を判定して自動で出し入れ（固定で全部出さない）。データソースは予約実績・体験談・在庫（DWH/BigQuery＋在庫データ）。売れ筋・満足度・急上昇は「実績データ×普遍的な切り口」でどのエリアでも成立。子連れ・直前OK・テーマはエリアの在庫・客層に依存するため、合わないエリアでは0件や的外れになる。</p>
+
+        <div class="tk-sub">テストパターン / Test Variations</div>
+        <ul class="tk-ul"><li><b>Control</b>現行の固定ランキング（売れ筋中心）</li><li><b>Variant</b>切り口タブ（共通3＋可変N）</li><li><b>任意アーム</b>可変タブ有無の比較</li><li><b>対象</b>Site: JP／Device: Mobile・PC</li></ul>
+
+        <div class="tk-sub">指標 / Metrics</div>
+        <div class="tk-metrics">
+          <div class="tk-metric p"><div class="ml">Primary</div><ul><li>有効AC到達率</li></ul></div>
+          <div class="tk-metric s"><div class="ml">Sub</div><ul><li>ランキングCTR</li><li>Top外(4位以降)AC到達比率</li><li>タブ切替率・タブ別CTR</li></ul></div>
+          <div class="tk-metric g"><div class="ml">Guardrail</div><ul><li>直帰率／CVR(session)</li><li>可変タブの誤表示（データ不足エリアに出ていないか）</li></ul></div>
+        </div>
+
+        <div class="tk-sub">計測イベント</div>
+        <p class="tk-p"><span class="tk-ev">ranking_tab_switch(tab)</span>／AC到達イベントにランキング経由・タブ・順位の文脈を付与</p>
+
+        <div class="tk-sub">スコープ・依存</div>
+        <ul class="tk-ul"><li>共通3タブは既存データで成立</li><li>可変タブはデータ充足判定バッチ（月次）</li><li>インラインACカルーセルUIの新規実装（T-A7とUI共通化可）</li><li>ランキング算出（DWH/定期ジョブ）・計測に依存</li></ul>
+
+        <div class="tk-sub">関係者・相談ポイント</div>
+        <p class="tk-p"><b>主担当</b>：フロントエンド／データ(GA4)・分析（算出・判定）／PdM</p>
+        <ul class="tk-chk">
+          <li>「急上昇」の<b>算出窓と閾値</b>（前週比か前月比か、最低予約数の足切り）</li>
+          <li>可変タブを出す<b>データ充足の閾値</b>（家族予約比率○%・直前在庫○件 等）</li>
+          <li>カルーセル件数（10件で確定か）と「すべて見る」の着地</li>
+          <li>有効AC到達率の「即離脱しない」の定義（滞在秒数・スクロール・2ページ目 等）</li>
+        </ul>
+
+        <div class="tk-sub">参照</div>
+        <p class="tk-ref">改修ワイヤー：<a href="/spot/2026-surface-wireframes.html#wf-area">エリア（A-3）</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T-A7 -->
+  <div class="card" id="t-a7">
+    <div class="tk-card">
+      <div class="tk-head"><span class="tk-id">T-A7</span><span class="tk-name">ジャンル別おすすめ（カテゴリ別の人気AC行）</span><span class="tk-zone">② おすすめ</span><span class="tk-eff">規模：中</span></div>
+      <div class="tk-body">
+        <div class="tk-sub">概要 / Overview</div>
+        <p class="tk-p">おすすめゾーンに、カテゴリごとの人気ACを <b>横1列×複数行</b> で積む（半日・1日ツアー／チケット／交通／グルメ…）。各行右に「すべて見る」。ランキングや単一おすすめだけでは見えないエリアの多彩さを、実ACカードで見せて回遊とAC到達を増やす。</p>
+
+        <div class="tk-sub">狙う層・KPI・戦略軸</div>
+        <ul class="tk-ul"><li><b>層</b>③ 方向だけ</li><li><b>Primary KPI</b>有効AC到達率</li><li><b>戦略軸</b>メインスポット取りこぼし防止</li></ul>
+
+        <div class="tk-sub">仮説 / Hypothesis</div>
+        <ul class="tk-ul">
+          <li><b>課題</b>ランキング／単一のおすすめだけだと、自分の興味カテゴリのACに辿り着きにくく、エリアの多彩さ（チケット・交通・グルメ 等の幅）が見えない</li>
+          <li><b>打ち手</b>カテゴリ別に人気ACを横1列ずつ複数行で積み、興味カテゴリの行で実ACに直接出会わせる</li>
+          <li><b>期待成果</b>おすすめ経由のAC到達と、行間の横移動（回遊）が増える</li>
+        </ul>
+
+        <div class="tk-sub">ユーザーストーリー & 受け入れ条件</div>
+        <div class="tk-story">As a Traveler、エリアのおすすめを見るとき、種類ごと（ツアー・チケット・交通…）に実際のACを数件ずつ眺めたい。<b>so that</b> 1本のランキングに縛られず、自分の興味カテゴリのACにそのまま出会える。</div>
+        <ul class="tk-chk">
+          <li>Given おすすめゾーン、When 表示、Then カテゴリごとに横1列（3〜5件）＋「すべて見る」が複数行で積まれている</li>
+          <li>Given 行の選定、When 表示、Then そのエリアで予約が多いカテゴリ順の上位（在庫AC5件以上のカテゴリのみ）が並ぶ</li>
+          <li>Given 各行のAC、When 表示、Then そのカテゴリの<b>既存の並び順（売れ筋）上位5件</b>がそのまま使われる（新規の並び替えをしない）</li>
+          <li>Given ACカードをタップ、When 遷移、Then AC詳細へ到達</li>
+          <li>Given 「すべて見る」をタップ、When 遷移、Then そのカテゴリ一覧へ</li>
+          <li>Given タップ、When 計測、Then <span class="tk-ev">genre_row_card_click(category_id, position)</span>／<span class="tk-ev">genre_row_seeall_click(category_id)</span> 発火</li>
+        </ul>
+
+        <div class="tk-sub">詳細仕様</div>
+        <ul class="tk-ul">
+          <li><b>配置</b>おすすめゾーン（人気カテゴリ・あなたにおすすめの近傍）。<b>表示形式</b>インライン（カテゴリ別ロー×複数）</li>
+          <li><b>束ねる軸</b>既存のカテゴリ分類をそのまま流用（新規タグ付け不要）</li>
+          <li><b>行（ジャンル）の選定</b>そのエリアで予約が多いカテゴリ順の<b>上位6</b>（在庫AC≥5のカテゴリのみ・<b>月次更新</b>）。リゾートと都市で並ぶカテゴリが変わる</li>
+          <li><b>各行のAC</b>そのカテゴリの既存の並び順（売れ筋）<b>上位5件</b>をそのまま使用（新規の並び替えロジック不要）</li>
+          <li><b>データ生成</b>月次バッチで予約実績（DWH/BigQuery）からエリア×カテゴリの予約ランクを算出し、行構成データを生成してフロントが参照</li>
+        </ul>
+
+        <div class="tk-sub">テストパターン / Test Variations</div>
+        <ul class="tk-ul"><li><b>Control</b>現行（ジャンル別おすすめ行なし）</li><li><b>Variant</b>カテゴリ別の人気AC行を複数表示</li><li><b>任意アーム</b>行数（3行 vs 6行）で情報過多を検証</li><li><b>対象</b>Site: JP／Device: Mobile・PC</li></ul>
+
+        <div class="tk-sub">指標 / Metrics</div>
+        <div class="tk-metrics">
+          <div class="tk-metric p"><div class="ml">Primary</div><ul><li>有効AC到達率</li></ul></div>
+          <div class="tk-metric s"><div class="ml">Sub</div><ul><li>おすすめ経由のAC到達数</li><li>回遊（複数ジャンル行の閲覧率・行間横移動）</li><li>カード/すべて見るのクリック率</li></ul></div>
+          <div class="tk-metric g"><div class="ml">Guardrail</div><ul><li>直帰率／CVR(session)</li><li>ページ高さ増による下部既存モジュールのスクロール到達低下</li></ul></div>
+        </div>
+
+        <div class="tk-sub">計測イベント</div>
+        <p class="tk-p"><span class="tk-ev">genre_row_card_click(category_id, position)</span><span class="tk-ev">genre_row_seeall_click(category_id)</span></p>
+
+        <div class="tk-sub">スコープ・依存</div>
+        <ul class="tk-ul"><li>既存カテゴリ分類・既存売れ筋並びを流用（新規並び替え不要）</li><li>行選定の月次バッチ</li><li>複数行カルーセルUIの新規実装（T-A3とUI共通化可）</li></ul>
+
+        <div class="tk-sub">関係者・相談ポイント</div>
+        <p class="tk-p"><b>主担当</b>：フロントエンド／データ(GA4)・分析／PdM</p>
+        <ul class="tk-chk">
+          <li><b>何行まで出すか</b>（上位6 or 最大3）。既存レーン（人気カテゴリ・あなたにおすすめ）と合わせて情報過多にならないか</li>
+          <li>「すべてのカテゴリーを見る」導線（ナビのモーダル）を足すか</li>
+          <li>1行あたり件数（3 or 5）とカルーセルのUI（現行サイト風の「＞」表現）</li>
+        </ul>
+
+        <div class="tk-sub">参照</div>
+        <p class="tk-ref">改修ワイヤー：<a href="/spot/2026-surface-wireframes.html#wf-area">エリア（A-7）</a>。棲み分け：人気カテゴリ＝「どこへ送るか（入口）」、ジャンル別おすすめ＝「ACを多彩に見せて回遊・AC到達を増やす（中身）」で役割が重複しない。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T-SEARCH -->
+  <div class="card" id="t-search">
+    <div class="tk-card">
+      <div class="tk-head"><span class="tk-id">T-SEARCH</span><span class="tk-name">探す検索ユニット（A-8 サジェスト＋A-2 人気検索ワード＋A-6 日付・いますぐ）</span><span class="tk-zone">① 自分で探す</span><span class="tk-eff">規模：大</span></div>
+      <div class="tk-body">
+        <div class="tk-sub">概要 / Overview</div>
+        <p class="tk-p">エリアページ最上部に「自分で探す」を1箇所に集約する薄いタブ（常に1タブ分だけ表示）。タブ1＝行き先・キーワード（タップで検索サジェスト＝検索履歴／人気の検索ワード／人気スポット を展開）、タブ2＝日付・いますぐ（このエリア固定で 今日・明日・日付指定）。空欄でも候補が出て、日付・直前ニーズの入口も用意する。</p>
+
+        <div class="tk-sub">狙う層・KPI・戦略軸</div>
+        <ul class="tk-ul"><li><b>層</b>③ 方向だけ（＋直前型を一部回収）</li><li><b>Primary KPI</b>有効AC到達率</li><li><b>戦略軸</b>メインスポット取りこぼし防止</li></ul>
+
+        <div class="tk-sub">仮説 / Hypothesis</div>
+        <ul class="tk-ul">
+          <li><b>課題</b>検索窓は入力前提で、空欄のままだと何も起きず素通り。何で検索すればいいか分からない人が離脱。日付・現地ですぐ参加したい直前ニーズの入口が無い／埋もれる</li>
+          <li><b>打ち手</b>検索窓タップでサジェスト（履歴・人気ワード・人気スポット）を展開し、空欄でも1タップで結果へ。日付・いますぐタブで直前ニーズの入口を最上部に</li>
+          <li><b>期待成果</b>検索開始（現状6.6%・モバイル7.1%）の裾野を回収し、検索・日付経由のAC到達が増え、有効AC到達率が上がる</li>
+        </ul>
+
+        <div class="tk-sub">ユーザーストーリー & 受け入れ条件</div>
+        <div class="tk-story">As a Traveler、検索窓に触れたとき、何を入れればいいか分からなくても候補（よく探される言葉・人気スポット・過去の検索）を見たい。<b>so that</b> 入力に迷わず1タップで一覧へ進める。<br>As a Traveler（現地・直前）、今日・明日に参加できるものを最上部からすぐ探したい。<b>so that</b> 滞在中の直前ニーズで取りこぼされない。</div>
+        <ul class="tk-chk">
+          <li>Given 最上部、When 表示、Then 薄いタブ（行き先・キーワード／日付・いますぐ）が常に1タブ分だけ表示され、画面を占有しない</li>
+          <li>Given 行き先・キーワードタブ、When 検索窓をタップ、Then サジェスト展開：①検索履歴 ②人気の検索ワード ③人気スポット</li>
+          <li>Given 人気の検索ワード、When 表示、Then エリア×直近90日のサイト内検索 上位5語（体験・条件語に限定）</li>
+          <li>Given サジェストをタップ、When 遷移、Then エリア絞込済のサイト内検索結果へ</li>
+          <li>Given 日付・いますぐタブ、When 表示、Then このエリア固定で 今日・明日・日付指定（エリア変更は無し）</li>
+          <li>Given 日付を選ぶ、When 遷移、Then 既存の日付フィルタ付き一覧へ（新規画面なし）</li>
+          <li>Given 各操作、When 計測、Then <span class="tk-ev">find_tab_switch</span>／<span class="tk-ev">search_focus_open</span>／<span class="tk-ev">suggest_chip_click</span>／<span class="tk-ev">date_search_submit</span> 発火</li>
+        </ul>
+
+        <div class="tk-sub">詳細仕様</div>
+        <ul class="tk-ul">
+          <li><b>構成</b>薄いタブ（常に1タブ分だけ表示・遷移型）。タブ1＝行き先・キーワード（初期表示）、タブ2＝日付・いますぐ</li>
+          <li><b>A-8 検索サジェスト</b>検索窓タップで展開。①検索履歴（端末保持）②人気の検索ワード ③人気スポット（既存の人気カテゴリ由来）。本文の他ブロックと重複してよい</li>
+          <li><b>A-2 人気の検索ワード</b>サジェスト内に表示。データ＝エリア×直近90日のサイト内検索 上位5語（季節性×安定性の折衷・<b>月次</b>）。リンク先＝サイト内検索結果（エリア絞込済）。スポット名は人気スポットに任せ、ここは体験・条件語に限定</li>
+          <li><b>A-6 日付・いますぐ</b>このエリア固定で 今日・明日・日付指定。着地＝既存の日付フィルタ（today/tomorrow/指定）。件数は当日〜翌日在庫から算出</li>
+          <li><b>不採用</b>「条件でしぼる（A-4）」はこの画面では不採用（→ カテゴリ C-1／C-4）</li>
+          <li><b>設計考察</b>既存軸の昇格（子供と・半日で）は「条件」と語彙が重複し価値が薄い。検索実需チップは ①Traveler の言葉（「天国の海」等はベルトラ分類に無い）②実需準拠で当たりやすい ③時期で自動入替 ④検索開始の入力負荷を肩代わり、で採用。検索ボックスの隣に置くのが要点</li>
+        </ul>
+
+        <div class="tk-sub">テストパターン / Test Variations</div>
+        <ul class="tk-ul"><li><b>Control</b>現行の検索（入力前提・サジェスト無し／日付・いますぐの前面入口無し）</li><li><b>Variant</b>薄いタブ＋検索サジェスト＋日付・いますぐ</li><li><b>任意アーム</b>タブ方式 vs 検索窓タップでモーダル方式</li><li><b>対象</b>Site: JP／Device: Mobile・PC</li></ul>
+
+        <div class="tk-sub">指標 / Metrics</div>
+        <div class="tk-metrics">
+          <div class="tk-metric p"><div class="ml">Primary</div><ul><li>有効AC到達率（検索・サジェスト・日付経由のAC到達を含む）</li></ul></div>
+          <div class="tk-metric s"><div class="ml">Sub</div><ul><li>検索開始率（search_focus_open）</li><li>サジェストCTR・日付検索実行</li><li>検索→AC到達率</li></ul></div>
+          <div class="tk-metric g"><div class="ml">Guardrail</div><ul><li>検索離脱率／ゼロ件率（日付・キーワード）</li><li>直帰率／CVR(session)</li></ul></div>
+        </div>
+
+        <div class="tk-sub">計測イベント</div>
+        <p class="tk-p"><span class="tk-ev">find_tab_switch(tab)</span><span class="tk-ev">search_focus_open</span><span class="tk-ev">suggest_chip_click(type)</span><span class="tk-ev">suggest_chip_click(keyword)</span><span class="tk-ev">date_search_submit</span></p>
+
+        <div class="tk-sub">スコープ・依存</div>
+        <ul class="tk-ul"><li><b>本スコープで最も重い</b>：検索窓サジェストのオーバーレイUI、サイト内検索データ（エリア×90日上位語）、人気スポット（既存人気カテゴリ由来）、日付・いますぐ（既存日付フィルタ統合・当日〜翌日在庫）</li><li>検索基盤・在庫データ・計測に依存</li><li>A-4（条件）は不採用＝カテゴリページへ</li></ul>
+
+        <div class="tk-sub">関係者・相談ポイント</div>
+        <p class="tk-p"><b>主担当</b>：フロントエンド／検索・在庫バックエンド／データ(GA4)・分析／UXデザイン／PdM</p>
+        <ul class="tk-chk">
+          <li><b>タブ方式（遷移型）か、検索窓タップでモーダル方式か</b>（モーダルなら既定で「人気の検索ワード」だけ表示、履歴・人気スポットはモーダル内）</li>
+          <li>人気の検索ワードの<b>データ取得元</b>（サイト内検索ログの参照経路）と月次更新の運用</li>
+          <li>「今日・明日OK」の在庫判定の<b>正確性</b>（当日〜翌日在庫のソースとリアルタイム性）</li>
+          <li>検索履歴の保持仕様（端末保持で確定か）とプライバシー配慮</li>
+        </ul>
+
+        <div class="tk-sub">参照</div>
+        <p class="tk-ref">改修ワイヤー：<a href="/spot/2026-surface-wireframes.html#wf-area">エリア（探す／A-8／A-2／A-6）</a>／探索分解：<a href="/spot/2026-ac-discovery.html">③ 方向だけ・直前型</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 進め方 -->
+  <div class="card">
+    <div class="tk-foot">
+      <b>進め方（提案）</b><br>
+      1. この内容を関係者レビューにかける（Vercel上のこのページを Slack で共有）<br>
+      2. 各チケットの「相談ポイント」を潰し、対象エリアと KPI 定義（有効AC到達率の「即離脱しない」）を確定<br>
+      3. 合意後、ClickUp へ <b>T-A5 → T-A3 → T-A7 → T-SEARCH</b> の順で起票（親＝エピック「エリアページ改修」。T-A3／T-A7 はUI共通化で相互参照、T-SEARCH は検索基盤の見積り後）<br>
+      <span style="font-size:12.5px;color:var(--text3)">ClickUp コピペ用の同内容 Markdown：<b>spot/2026-area-funnel-tickets.md</b>｜出典：GA4 Property 347074845（日本・28日・bot除外、2026-05-11〜06-07）</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
