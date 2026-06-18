@@ -122,7 +122,92 @@
 .bot-note{margin:6px 44px 0;padding:10px 14px;background:#faf8f5;border:1px dashed var(--border);border-radius:8px;font-size:11.5px;color:var(--text3);line-height:1.7}
 .bot-note strong{color:var(--text2)}
 
+/* ───── W24 cause analysis — 3DS-style (exec summary → layers → verdict) ───── */
+.ca{padding:8px 44px 28px}
+.ca-exec{background:#fff;border:2px solid #c0392b;border-radius:14px;padding:26px 30px;margin:6px 0 24px}
+.ca-eyebrow{font-size:11px;font-weight:900;letter-spacing:.08em;color:#c0392b;text-transform:uppercase;margin-bottom:12px}
+.ca-verdict{font-size:19px;font-weight:800;line-height:1.62;letter-spacing:-.01em;margin-bottom:18px;color:#1a1a1a}
+.ca-verdict em{font-style:normal;color:#c0392b;background:linear-gradient(transparent 62%,#ffe1df 62%);padding:0 2px}
+.ca-verdict em.ok{color:#1a8c4e;background:linear-gradient(transparent 62%,#bbf7d0 62%)}
+.ca-mg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.ca-mc{background:#faf8f5;border:1px solid var(--border);border-radius:10px;padding:14px 15px}
+.ca-ml{font-size:10px;font-weight:900;letter-spacing:.04em;color:var(--text3);text-transform:uppercase;margin-bottom:6px;line-height:1.45}
+.ca-mv{font-family:'DM Sans';font-size:23px;font-weight:900;letter-spacing:-.02em;line-height:1.05;color:#1a1a1a}
+.ca-mc.down .ca-mv{color:#c0392b}.ca-mc.up .ca-mv{color:#1a8c4e}.ca-mc.flat .ca-mv{color:#1b82c5}
+.ca-ms{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.5}
+.ca-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ca-sub{background:#faf8f5;border-radius:10px;padding:15px 18px}
+.ca-sub h5{font-size:12.5px;font-weight:900;color:var(--text);margin:0 0 7px}
+.ca-sub p{font-size:12.5px;color:var(--text2);line-height:1.75;margin:0}
+.ca-sub strong{color:var(--text)}
+.ca-sub.align{background:#f0f7fc}
+
+.ca-layer{margin-bottom:20px}
+.ca-lh{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ca-lnum{font-family:'DM Sans';font-size:10.5px;font-weight:900;letter-spacing:.04em;color:#fff;background:#64748b;padding:4px 11px;border-radius:5px;flex-shrink:0}
+.ca-layer.l2 .ca-lnum{background:#1b82c5}.ca-layer.l3 .ca-lnum{background:#c0392b}
+.ca-lt{font-size:14.5px;font-weight:800;color:var(--text);line-height:1.4}
+
+/* data table */
+.ca-tbl{width:100%;border-collapse:collapse;font-size:12.5px;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.ca-tbl th{background:#faf8f5;font-weight:900;text-align:left;padding:9px 13px;border-bottom:2px solid var(--border);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.03em}
+.ca-tbl td{padding:8px 13px;border-bottom:1px solid var(--border);color:var(--text2)}
+.ca-tbl tr:last-child td{border-bottom:none}
+.ca-tbl .num{text-align:right;font-family:'DM Sans';font-variant-numeric:tabular-nums;font-weight:700;color:var(--text)}
+.ca-tbl .hot{background:#fff5f5}
+.ca-tbl .neg{color:#c0392b}.ca-tbl .pos{color:#1a8c4e}
+.ca-tbl tr.tot td{background:#f0f4f8;font-weight:900;border-top:2px solid var(--border)}
+.ca-tbl b.k{font-weight:700;color:var(--text)}
+
+/* channel waterfall */
+.ca-wf{border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.ca-wf-row{display:grid;grid-template-columns:152px 1fr 60px;align-items:center;gap:12px;padding:6px 16px;border-top:1px solid var(--border);font-size:12.5px}
+.ca-wf-row.head{border-top:none;background:#faf8f5;font-size:10px;font-weight:900;color:var(--text3);text-transform:uppercase;letter-spacing:.04em}
+.ca-wf-name{font-weight:700;color:var(--text)}.ca-wf-name span{font-weight:400;color:var(--text3);font-family:'DM Sans';font-size:11px}
+.ca-wf-bar{position:relative;height:15px}
+.ca-wf-bar .mid{position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:#d8d4cc}
+.ca-wf-bar i{position:absolute;height:12px;top:1.5px;border-radius:3px}
+.ca-wf-bar i.neg{right:50%;background:#dd7d75}.ca-wf-bar i.pos{left:50%;background:#76c39b}
+.ca-wf-d{font-family:'DM Sans';font-weight:900;font-size:12.5px;text-align:right}
+.ca-wf-d.neg{color:#c0392b}.ca-wf-d.pos{color:#1a8c4e}
+.ca-wf-row.hot{background:#fff5f5}.ca-wf-row.tot{background:#f0f4f8;font-weight:900;border-top:2px solid var(--border)}
+
+/* daily email bars */
+.ca-daily{display:flex;align-items:flex-end;gap:3px;height:96px;border-bottom:1px solid var(--border);padding-bottom:2px;margin-top:6px}
+.ca-dc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px}
+.ca-db{width:76%;background:#cbd5e1;border-radius:2px 2px 0 0;min-height:2px}
+.ca-db.spike{background:#c0392b}
+.ca-dv{font-family:'DM Sans';font-size:9px;font-weight:900;color:var(--text3)}
+.ca-dv.spike{color:#c0392b}
+.ca-dl{font-size:8px;color:var(--text3);font-weight:700;white-space:nowrap}
+.ca-dl.spike{color:#c0392b;font-weight:900}
+
+/* verdict callout */
+.ca-ib{border-left:4px solid;border-radius:0 10px 10px 0;padding:13px 18px;margin-top:12px;font-size:12.5px;line-height:1.72}
+.ca-ib h4{font-size:13px;font-weight:900;margin-bottom:5px}
+.ca-ib.blue{border-color:#1b82c5;background:#f0f7fc}.ca-ib.blue h4{color:#1b5a8c}
+.ca-ib.red{border-color:#c0392b;background:#fff5f5}.ca-ib.red h4{color:#991b1b}
+.ca-ib.amber{border-color:#d97706;background:#fffbeb}.ca-ib.amber h4{color:#92580e}
+.ca-ib strong{color:var(--text)}
+.ca-foot{font-size:11px;color:var(--text3);line-height:1.65;margin-top:8px}
+.ca-foot code{background:#f1f1ec;padding:1px 5px;border-radius:4px;font-size:11px}
+.ca-srcnote{font-size:11px;color:var(--text3);margin-top:4px}
+
+/* jump link to cause-analysis block */
+.jump-cause{display:flex;align-items:center;gap:12px;margin:18px 0 2px;padding:13px 18px;background:#fff;border:1.5px solid #c0392b;border-radius:10px;text-decoration:none;transition:background .15s,box-shadow .15s}
+.jump-cause:hover{background:#fff5f5;box-shadow:0 2px 12px rgba(192,57,43,.13)}
+.jc-ico{font-size:20px;flex-shrink:0;line-height:1}
+.jc-tx{flex:1;font-size:13px;color:var(--text2);line-height:1.5}
+.jc-tx strong{color:#c0392b;font-weight:900}
+.jc-arrow{font-family:'DM Sans';font-weight:900;color:#c0392b;font-size:15px;flex-shrink:0;letter-spacing:.02em}
+
 @media(max-width:768px){
+  .ca{padding-left:22px;padding-right:22px}
+  .ca-exec{padding:20px 18px}
+  .ca-mg{grid-template-columns:repeat(2,1fr)}
+  .ca-2col{grid-template-columns:1fr}
+  .ca-wf-row{grid-template-columns:112px 1fr 52px}
+  .ca-verdict{font-size:16px}
   .rec-hero{padding:24px 22px 22px}
   .rec-headline{font-size:22px}
   .kpi-strip,.evidence-grid,.asl-list,.lyr-wrap{grid-template-columns:1fr}
@@ -163,8 +248,14 @@
         <br>
         先週のサマリーで「来週の数字で反落か定着かを必ず確認」と書いた。<strong>答えは反落だった</strong>。W18（GW週）に続いて2度目の「跳ねて戻る」で、追い風頼みの上振れは定着しないことがはっきりした。そして<strong>構造課題は今週も1ミリも解けていない</strong>：新規の予約完了ギャップ（④→⑤ -25.5pp）・モバイルの入口ギャップ（①→② -17.6pp）・リピーターの入口ギャップ（①→② -21.8pp）は、<strong>W16 から 9 週間ずっと同じ形のまま</strong>。
         <br>
-        年間最大の商機 <strong>夏休み繁忙期（7-8月、過去2年 CVR 1.48〜1.54% 帯）まで残り約2週</strong>。設計を議論している猶予はもう無い。今週の分裂が示す通り、<strong>火力を寄せるべきは「出口」＝新規の決済完了（④→⑤）</strong>。最も母数が大きく、先週 +7.8pp 動いて「押せば動く」と実証済みで、フォーム改修は最速で ship できる。残り2週で検証まで回せる唯一の本命に1点集中する。
+        年間最大の商機 <strong>夏休み繁忙期（7-8月、過去2年 CVR 1.48〜1.54% 帯）まで残り約2週</strong>。設計を議論している猶予はもう無い。今週の分裂が示す通り、<strong>火力を寄せるべきは「出口」＝新規の決済完了（④→⑤）</strong>。最も母数が大きく、28日で -25.5pp と全ボトルネック最大の構造ギャップ（9週固着）で、繁忙期にいちばん増える new 層に直結する。フォーム改修は最速で ship でき、残り2週で唯一「検証まで」間に合う本命に1点集中する。
       </div>
+
+      <a href="#cause" class="jump-cause">
+        <span class="jc-ico">🔬</span>
+        <span class="jc-tx"><strong>なぜ反落したのか — 原因分解を見る</strong>　Email流入 −31%（6/1配信の剥落）が主因で、転換率はむしろ微増。新規の完了は改善。</span>
+        <span class="jc-arrow">↓ 02へ</span>
+      </a>
 
       <!-- KPI strip 4-cell -->
       <div class="kpi-strip">
@@ -196,9 +287,125 @@
     </div>
   </div>
 
-  <!-- ─────────── 02 論拠 ─────────── -->
+  <!-- ─────────── 02 原因分解 ─────────── -->
+  <div class="card" id="cause" style="scroll-margin-top:20px">
+    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">原因分解 — 反落の主因は Email流入の −31% 減少（6/1配信の剥落）。Emailの転換率は安定し、新規の完了はむしろ改善</span></div>
+    <div class="sec-sub" style="padding-top:6px">週次 CVR の ±0.1pp を「構造が良くなった／悪くなった」と読み違えないために、<strong>増減した完了数を発生源まで分解して原因を1つに特定する</strong>。完了 −166 件 → チャネル → Email の「流入×転換」 → 配信の特定、の順で詰める。</div>
+
+    <div class="ca">
+
+      <!-- Executive summary -->
+      <div class="ca-exec">
+        <div class="ca-eyebrow">Executive summary — 原因分解</div>
+        <div class="ca-verdict">
+          今週の実質CVR反落（1.51% → 1.42%）の主因は <em>Email経由の購入 −216件</em>。<br>
+          その正体は <em>Emailの流入（クリック）が −31% 減った</em>ことで、起点は 6/1 のポイントメール配信のスパイク剥落。<em class="ok">Email自体の転換率はむしろ微増（2.0% → 2.1%）</em>で、<em class="ok">新規の完了は +45件で改善</em>。ファネルや決済の劣化ではない。
+        </div>
+        <div class="ca-mg">
+          <div class="ca-mc down"><div class="ca-ml">実質CVR W24（7d・bot除外）</div><div class="ca-mv">1.42%</div><div class="ca-ms">W23 1.51% から −0.09pp</div></div>
+          <div class="ca-mc down"><div class="ca-ml">完了数 WoW</div><div class="ca-mv">−166</div><div class="ca-ms">10,056 → 9,890 件</div></div>
+          <div class="ca-mc down"><div class="ca-ml">Email 流入（セッション）WoW</div><div class="ca-mv">−31%</div><div class="ca-ms">36,735 → 25,339</div></div>
+          <div class="ca-mc up"><div class="ca-ml">新規の完了 WoW</div><div class="ca-mv">+45</div><div class="ca-ms">2,328 → 2,373 件</div></div>
+        </div>
+        <div class="ca-2col">
+          <div class="ca-sub">
+            <h5>何がわかったか</h5>
+            <p>完了 −166件は、ほぼ <strong>Email（−216）＝リピーター（−211）</strong>に集約される。Email を割ると、セッション（流入）が −31% 減った一方で <strong>転換率は安定〜微増</strong>。つまり「メールの着地や決済が悪化した」のではなく、<strong>「配信の波（6/1ポイントメール）が引いた」</strong>ことが原因。</p>
+          </div>
+          <div class="ca-sub align">
+            <h5>方向をぶらさない読み</h5>
+            <p>週次 ±0.1pp は Email配信のカデンツと bot 希釈で説明できる<strong>ノイズ帯</strong>。本当に直すのは<strong>構造の天井＝28日 新規 ④→⑤ −25.5pp（9週固着）</strong>で、今週のノイズと無関係に存続している。新規完了の弾力性はこの数字ではなく <strong>BN1 の A/B</strong> で検証する。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 1 -->
+      <div class="ca-layer l1">
+        <div class="ca-lh"><span class="ca-lnum">LAYER 1</span><span class="ca-lt">完了 −166件はどこで消えたか（チャネル × 新規/リピーター）</span></div>
+        <div class="ca-wf">
+          <div class="ca-wf-row head"><span>チャネル（W23→W24）</span><span>← 減　　│　　増 →</span><span style="text-align:right">前週差</span></div>
+          <div class="ca-wf-row hot"><span class="ca-wf-name">Email <span>746→530</span></span><span class="ca-wf-bar"><span class="mid"></span><i class="neg" style="width:47.1%"></i></span><span class="ca-wf-d neg">−216</span></div>
+          <div class="ca-wf-row"><span class="ca-wf-name">Direct <span>1,939→1,825</span></span><span class="ca-wf-bar"><span class="mid"></span><i class="neg" style="width:24.9%"></i></span><span class="ca-wf-d neg">−114</span></div>
+          <div class="ca-wf-row"><span class="ca-wf-name">Referral <span>619→601</span></span><span class="ca-wf-bar"><span class="mid"></span><i class="neg" style="width:3.9%"></i></span><span class="ca-wf-d neg">−18</span></div>
+          <div class="ca-wf-row"><span class="ca-wf-name">Organic Search <span>2,216→2,204</span></span><span class="ca-wf-bar"><span class="mid"></span><i class="neg" style="width:2.6%"></i></span><span class="ca-wf-d neg">−12</span></div>
+          <div class="ca-wf-row"><span class="ca-wf-name">Unassigned <span>2,006→2,028</span></span><span class="ca-wf-bar"><span class="mid"></span><i class="pos" style="width:4.8%"></i></span><span class="ca-wf-d pos">+22</span></div>
+          <div class="ca-wf-row"><span class="ca-wf-name">その他8ch <span>合算</span></span><span class="ca-wf-bar"><span class="mid"></span><i class="pos" style="width:7.6%"></i></span><span class="ca-wf-d pos">+35</span></div>
+          <div class="ca-wf-row"><span class="ca-wf-name">Paid Search <span>2,152→2,289</span></span><span class="ca-wf-bar"><span class="mid"></span><i class="pos" style="width:29.9%"></i></span><span class="ca-wf-d pos">+137</span></div>
+          <div class="ca-wf-row tot"><span class="ca-wf-name">純増減</span><span class="ca-wf-bar"><span class="mid"></span><i class="neg" style="width:36.2%"></i></span><span class="ca-wf-d neg">−166</span></div>
+        </div>
+        <div class="ca-ib red">
+          <h4>Layer 1 判定：消えた完了は Email＝既存客に集約</h4>
+          純減 −166 のうち Email が −216（純減を上回り、Paid Search +137 が一部を埋め戻し）。<strong>Email減 −216 ≒ リピーター減 −211</strong> が一致し、出どころは Email経由＝既存客向け配信と特定できる。新規はむしろ <strong>+45件</strong>、予約ページ到達も +6.5%（15,127→16,113）で、フォーム手前は詰まっていない。
+        </div>
+      </div>
+
+      <!-- Layer 2 -->
+      <div class="ca-layer l2">
+        <div class="ca-lh"><span class="ca-lnum">LAYER 2</span><span class="ca-lt">Email を「流入 × 転換」に割る — 落ちたのはどちらか</span></div>
+        <table class="ca-tbl">
+          <thead><tr><th>週</th><th class="num">Emailセッション</th><th class="num">Email購入</th><th class="num">Email CVR</th><th>意味</th></tr></thead>
+          <tbody>
+            <tr><td><b class="k">W22</b> 5/24–30</td><td class="num">29,630</td><td class="num">552</td><td class="num">1.86%</td><td>平常週</td></tr>
+            <tr class="hot"><td><b class="k">W23</b> 5/31–6/6</td><td class="num">36,735</td><td class="num">746</td><td class="num">2.03%</td><td>流入が突出（6/1配信）</td></tr>
+            <tr><td><b class="k">W24</b> 6/7–13</td><td class="num">25,339</td><td class="num">530</td><td class="num pos">2.09%</td><td>流入が平常以下へ</td></tr>
+            <tr class="tot"><td>W23→W24</td><td class="num neg">−31%</td><td class="num neg">−29%</td><td class="num pos">+0.06pp</td><td>転換は下がっていない</td></tr>
+          </tbody>
+        </table>
+        <div class="ca-ib blue">
+          <h4>Layer 2 判定：落ちたのは「流入」であって「転換」ではない</h4>
+          Email購入が減ったのは <strong>流入（クリック）が −31% 減った</strong>から。<strong>転換率は 2.03% → 2.09% とむしろ微増</strong>。したがって原因はフォーム・決済・着地ページの劣化ではなく、<strong>メールが運ぶ人数の減少</strong>。打ち手の論点は「メールの中身」ではなく「配信のボリューム/頻度」。
+        </div>
+      </div>
+
+      <!-- Layer 3 -->
+      <div class="ca-layer l3">
+        <div class="ca-lh"><span class="ca-lnum">LAYER 3</span><span class="ca-lt">配信の直接特定 — 6/1のポイントメールが起点</span></div>
+        <div class="ca-foot" style="margin-top:0;margin-bottom:2px">Emailセッション 日次（5/24〜6/13）。<strong style="color:#c0392b">6/1 に 8,544 で突出</strong>（平常 ~3,000-5,000）、同日の購入も 197件（平常 ~80）。</div>
+        <div class="ca-daily">
+          <div class="ca-dc"><div class="ca-db" style="height:54px"></div><div class="ca-dl">24</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:41px"></div><div class="ca-dl">25</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:34px"></div><div class="ca-dl">26</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:30px"></div><div class="ca-dl">27</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:29px"></div><div class="ca-dl">28</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:70px"></div><div class="ca-dl">29</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:62px"></div><div class="ca-dl">30</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:43px"></div><div class="ca-dl">31</div></div>
+          <div class="ca-dc"><div class="ca-dv spike">8,544</div><div class="ca-db spike" style="height:90px"></div><div class="ca-dl spike">6/1</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:49px"></div><div class="ca-dl">2</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:45px"></div><div class="ca-dl">3</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:42px"></div><div class="ca-dl">4</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:51px"></div><div class="ca-dl">5</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:58px"></div><div class="ca-dl">6</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:45px"></div><div class="ca-dl">7</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:40px"></div><div class="ca-dl">8</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:38px"></div><div class="ca-dl">9</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:34px"></div><div class="ca-dl">10</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:32px"></div><div class="ca-dl">11</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:31px"></div><div class="ca-dl">12</div></div>
+          <div class="ca-dc"><div class="ca-db" style="height:49px"></div><div class="ca-dl">13</div></div>
+        </div>
+        <div class="ca-foot" style="margin-bottom:10px">区切り：W22（5/24-30）｜W23（5/31-6/6、6/1スパイク含む）｜W24（6/7-13、突出なし）。</div>
+        <table class="ca-tbl">
+          <thead><tr><th>キャンペーン名（購入の出どころ）</th><th>種別</th><th class="num">W22</th><th class="num">W23</th><th class="num">W24</th></tr></thead>
+          <tbody>
+            <tr class="hot"><td><code style="font-size:11px">point_mail_20260601_store_top</code></td><td>一斉配信（6/1）</td><td class="num">0</td><td class="num">54</td><td class="num neg">2</td></tr>
+            <tr><td><code style="font-size:11px">4008_booking_detail</code></td><td>トリガー（予約詳細）</td><td class="num">74</td><td class="num">70</td><td class="num">74</td></tr>
+            <tr><td><code style="font-size:11px">cart_2hr</code></td><td>トリガー（カート放棄）</td><td class="num">22</td><td class="num">36</td><td class="num">36</td></tr>
+          </tbody>
+        </table>
+        <div class="ca-ib amber">
+          <h4>Layer 3 判定：6/1配信を名前付きで特定。ただし「配信ボリューム全体の波」が主</h4>
+          キャンペーン名 <code>point_mail_20260601_store_top</code> が W23 に 54件・W24 に 2件で、<strong>一過性の一斉配信の実在を直接確認</strong>。トリガー型（予約詳細・カート放棄）は安定。<strong>ただし 6/1単独 54件では −216 を全部は説明しない</strong>。W23 は Email流入が平常を上回り、W24 は平常以下に落ちた「<strong>配信ボリューム全体の波</strong>」が主因。
+        </div>
+        <div class="ca-srcnote">出典：GA4 347074845。期間 W24（6/7-13）／ W23（5/31-6/6）／ W22（5/24-30）。Email = <code style="font-size:10.5px">sessionDefaultChannelGroup=Email</code> のセッション最終帰属、購入 = <code style="font-size:10.5px">eventName=purchase</code> の eventCount。既存客 = <code style="font-size:10.5px">newVsReturning=returning</code>（W24で94%）。「Email経由」は購入が発生したセッションの最終チャネルがEmailだった件数で、初回流入元とは異なる。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─────────── 03 論拠 ─────────── -->
   <div class="card">
-    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">事実と、だから次にやること — ①上振れは戻った ②同じ3ギャップが9週固着 ③繁忙期前にもう間に合わせる</span></div>
+    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">事実と、だから次にやること — ①上振れは戻った ②同じ3ギャップが9週固着 ③繁忙期前にもう間に合わせる</span></div>
     <div class="sec-sub" style="padding-top:6px">今週の分裂（入口+8.8pp / 出口-5.7pp）は、追い風が来ても<strong>出口＝新規の決済完了（④→⑤）</strong>を直さない限り CVR は積み上がらないことを示している。火力をここへ寄せる。</div>
 
     <div class="evidence-block">
@@ -271,11 +478,11 @@
     </div>
   </div>
 
-  <!-- ─────────── 03 やるべきこと ─────────── -->
+  <!-- ─────────── 04 やるべきこと ─────────── -->
   <div class="card">
-    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">やるべきこと — 打ち手は「新規4層 × 各層を1つ上へ」で見る。残り2週は出口（① 指名買い）に1点集中</span></div>
+    <div class="sec-tag"><span class="sec-num">04</span><span class="sec-main">やるべきこと — 打ち手は「新規4層 × 各層を1つ上へ」で見る。残り2週は出口（① 指名買い）に1点集中</span></div>
     <div class="sec-sub" style="padding-top:6px">
-      今週から打ち手の見方を統一する。新規を <strong>意欲 × AC確定度</strong>の4層に分け、<strong>各層を1つ上の段へ進める</strong>のがゴール。ボトルネック10件はこの4層のどこかに必ず対応する（出典：<a href="/spot/2026-ac-discovery.html" style="color:#1b82c5;font-weight:700">AC discovery</a> / <a href="/kpi.html" style="color:#1b82c5;font-weight:700">KPIダッシュボード</a>）。残り約2週、検証まで回せるのは現実的に <strong>1施策</strong> → 最も母数が大きく押せば動く <strong>① 指名買い→完了</strong>に張る。
+      今週から打ち手の見方を統一する。新規を <strong>意欲 × AC確定度</strong>の4層に分け、<strong>各層を1つ上の段へ進める</strong>のがゴール。ボトルネック10件はこの4層のどこかに必ず対応する（出典：<a href="/spot/2026-ac-discovery.html" style="color:#1b82c5;font-weight:700">AC discovery</a> / <a href="/kpi.html" style="color:#1b82c5;font-weight:700">KPIダッシュボード</a>）。残り約2週、検証まで回せるのは現実的に <strong>1施策</strong> → 最も母数が大きく構造の天井になっている <strong>① 指名買い→完了</strong>に張る。
     </div>
 
     <div class="action-block">
@@ -320,7 +527,7 @@
             </div>
             <div class="action-title">第1の矢：新規ユーザーの「予約フォーム最終段階での離脱」を潰す（BN1 / new ④→⑤ ＝ 層① 指名買い→完了）</div>
             <ul class="action-bullets">
-              <li><strong>なぜ最優先か</strong>：影響規模 約632K で全BN最大。かつ繁忙期に最も増える new 層。先週 ④→⑤ が +7.8pp 上振れし今週 -5.7pp 戻った＝<strong>振れ幅が大きい＝押せば動く出口</strong>。フォーム改善は quick win で最速 ship でき、残り2週で唯一「検証まで」間に合う本命</li>
+              <li><strong>なぜ最優先か</strong>：影響規模 約632K で全BN最大。28日で -25.5pp と全ボトルネック最大の<strong>構造ギャップ（9週固着）</strong>で、繁忙期に最も増える new 層に直結する。フォーム改善は quick win で最速 ship でき、残り2週で唯一「検証まで」間に合う本命。なお先週の ④→⑤ 上振れ→今週反落は Email×既存客の配信カデンツ由来（<strong>02 原因分解</strong>）で、新規完了の弾力性はこの A/B で初めて検証する</li>
               <li><strong>層① を完了へ進める引き算の打ち手</strong>：最終総額（税・手数料込）を入力前に明示（不意打ち排除）／フォーム段階を圧縮／決済直前の不安要素（無料キャンセル・即時確定・日本語サポート）を CTA 近傍に凝縮。「情報を足す」のではなく「離脱理由を引く」</li>
               <li><strong>狙い</strong>：49.6% → 全体水準 75.2% の半分でも戻せば、繁忙期の new 流入が増分 CV に直結。仮説3種・打ち手9種・モックは詳細ページ参照</li>
             </ul>
