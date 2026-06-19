@@ -113,6 +113,17 @@
 .act-box.mob{background:#eef5fb;border:1px solid #d6e6f2}
 .act-box.mob h5{color:#1b5a8c}
 
+/* in/out two-column spec */
+.io2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 44px 4px}
+.io-card{border-radius:10px;padding:14px 16px 16px}
+.io-card.in{background:#f0fdf4;border:1px solid #bbf0cf}
+.io-card.out{background:#fff5f5;border:1px solid #f0c8c4}
+.io-h{font-size:13.5px;font-weight:900;color:var(--text)}
+.io-h span{display:block;font-size:10.5px;font-weight:700;color:var(--text3);margin-top:2px}
+.io-card ul{margin:8px 0 0;padding-left:16px}
+.io-card li{font-size:12.5px;line-height:1.6;margin-bottom:5px;color:var(--text2)}
+.io-card li:last-child{margin-bottom:0}
+
 /* mobile vs desktop funnel comparison */
 .fnl{display:grid;gap:9px;margin-top:4px}
 .fnl-row{display:grid;grid-template-columns:140px 1fr 1fr;gap:10px;align-items:center;font-size:12px}
@@ -133,6 +144,7 @@
   .spot-toc,.spot-sec-head,.spot-sec-sub,.spot-body,.spot-foot{padding-left:22px;padding-right:22px}
   .spot-mg{grid-template-columns:repeat(2,1fr);padding-left:22px;padding-right:22px}
   .gf,.spot-ib{margin-left:0;grid-template-columns:1fr}
+  .io2{grid-template-columns:1fr;margin-left:22px;margin-right:22px}
   .spot-ib{margin-left:22px;margin-right:22px}
   .spot-tbl{font-size:11px}
   .spot-tbl th,.spot-tbl td{padding:6px 6px}
@@ -446,10 +458,24 @@
       <h4>判定：弱点は「入口（AC到達）」と「完了（決済）」。"探して比較する"はむしろ強い</h4>
       モバイルは ②→③（検討）<strong>14.5% で desktop 4.2% に圧勝</strong>＝探して比較するのは得意。落ちるのは2か所だけ：<strong>① 入口＝AC到達（32.7%・最も低い段、desktop比 −6.1pp）</strong>と <strong>④→⑤ 完了＝決済（65.9% ↔ desktop 80.5%／−14.6pp）</strong>。前者は小さい画面で"自分に合うAC"へ辿り着けない、後者はフォーム・決済の摩擦。
     </div>
-    <div class="spot-ib green">
-      <h4>やること（既存の施策に直結）</h4>
-      <strong>入口（①→②）</strong>：モバイル上部に探索軸（スポット／やりたいこと／出発地／タイミング）＝07の「新規 AC到達→検討」と同じ打ち手。到達さえすれば ②→③ が強い（14.5%）ので<strong>レバレッジが最大</strong>、ここから先に着手。<br>
-      <strong>完了（④→⑤）</strong>：モバイルのフォーム段階圧縮・最終総額の事前明示・決済直前の不安要素を引く。単段の差（−14.6pp）が最も大きい。
+    <div class="io2">
+      <div class="io-card in">
+        <div class="io-h">入口（①→② AC到達）<span>まずここ・レバレッジ最大</span></div>
+        <ul>
+          <li>上部に探索軸タブ：スポット／やりたいこと／出発地／今日明日OK</li>
+          <li>1タップでAC一覧へ（階層を浅く）</li>
+          <li>ファーストビューに季節・人気ACを数枚</li>
+        </ul>
+      </div>
+      <div class="io-card out">
+        <div class="io-h">出口（④→⑤ 完了）<span>単段の差 −14.6pp</span></div>
+        <ul>
+          <li>最終総額（税・手数料込）を入力前に表示</li>
+          <li>フォーム段階を圧縮（入力・画面数を減らす）</li>
+          <li>決済直前に安心要素（無料キャンセル・即時確定）</li>
+          <li>モバイル決済を最適化（Apple/Google Pay 等）</li>
+        </ul>
+      </div>
     </div>
     <div class="spot-foot" style="padding-top:8px">出典：GA4 <code>347074845</code>。通過率は 28日・デバイス別（data.json）。前年比はW24購入の device YoY（モバイル 7,049 → 6,844）。流入／転換の厳密な分解はセッション計測の整備が前提。</div>
   </div>
