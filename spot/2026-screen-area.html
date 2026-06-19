@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="/spot/spot.css">
 <title>エリアページ改修｜AC到達率を上げる | 画面別 打ち手</title>
 <style>
-:root{--accent:#1b82c5;--accent-bg:#e8f2fb}
+:root{--accent:#1b82c5;--accent-bg:#e8f2fb;--text3:#717a82}
 #app .sub-headline{font-size:24px;line-height:1.5}
 #app .sub-sec-title{font-size:19px}
 .sa-stage{padding:0 44px 16px}
@@ -20,12 +20,13 @@ html{scroll-behavior:smooth}
 .sa-toc .n{font-family:'DM Sans';font-size:11px;font-weight:900;color:#1b82c5}
 /* metric cards */
 .sa-mg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:6px 0 14px}
-.sa-mc{background:#fff;border:1px solid var(--border);border-radius:12px;padding:15px 16px;border-top:3px solid #1b82c5}
+.sa-mc{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;border-top:3px solid #1b82c5;display:flex;flex-direction:column}
 .sa-mc.g{border-top-color:#1a8c4e}.sa-mc.a{border-top-color:#d97706}
-.sa-mc .l{font-size:11.5px;font-weight:900;letter-spacing:.04em;color:var(--text3);margin-bottom:6px;line-height:1.4}
-.sa-mc .v{font-size:30px;font-weight:900;letter-spacing:-.02em;color:var(--text);font-family:'DM Sans'}
+.sa-mc .l{font-size:12px;font-weight:900;letter-spacing:.03em;color:var(--text2);margin-bottom:10px;line-height:1.4;min-height:34px}
+.sa-mc .v{font-size:28px;font-weight:900;letter-spacing:-.02em;color:var(--text);font-family:'DM Sans';line-height:1.1}
+.sa-mc .v.t{font-size:18px;line-height:1.3}
 .sa-mc .v small{font-size:16px}
-.sa-mc .s{font-size:12px;color:var(--text3);margin-top:3px;line-height:1.5}
+.sa-mc .s{font-size:12px;color:var(--text2);margin-top:10px;line-height:1.6}
 .sa-mc.g .v{color:#1a8c4e}.sa-mc.a .v{color:#b45309}
 /* callout */
 .sa-ins{background:#eef6fc;border:1px solid #cfe3f5;border-radius:10px;padding:15px 19px;font-size:14px;line-height:1.85;color:var(--text2);margin:8px 0 14px}
@@ -70,6 +71,11 @@ html{scroll-behavior:smooth}
 .sa-act-head h3{font-size:17px;font-weight:900;color:var(--text);flex:1;min-width:200px;line-height:1.4}
 .sa-act-head .eff{font-size:12px;font-weight:900;color:var(--text2);background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:4px 11px}
 .sa-act-body{padding:6px 22px 18px}
+.sa-jump{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:12px 0 2px}
+.sa-jump .lbl{font-size:11.5px;font-weight:800;color:var(--text3);margin-right:2px}
+.sa-jump a{font-size:12px;font-weight:800;color:var(--text2);background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:3px 11px;text-decoration:none;transition:border-color .12s,color .12s}
+.sa-jump a:hover{border-color:#1b82c5;color:#1b82c5}
+.sa-jump a .j{font-family:'DM Sans';font-weight:900;color:#1b82c5;margin-right:4px}
 .sa-h5{font-size:13px;font-weight:900;color:#1b82c5;letter-spacing:.04em;margin:16px 0 7px;padding-bottom:5px;border-bottom:2px solid #e3eef7;text-transform:uppercase}
 .sa-h5.task{color:#b45309;border-bottom-color:#f0e0c0}
 .sa-p{font-size:14px;line-height:1.8;color:var(--text2);margin:6px 0}
@@ -173,9 +179,9 @@ html{scroll-behavior:smooth}
       <div class="sa-ins">狙うのは <b>③ 方向だけ</b> 層（エリア等の方向は決まったが具体ACは未定）。エリアページはこの層の主戦場で、<b>Primary KPI＝有効AC到達率</b>（エリアページ流入のうち、AC＝商品ページへ到達し、かつ即離脱しない比率）。</div>
       <div class="sa-mg">
         <div class="sa-mc"><div class="l">エリア CVR（session）</div><div class="v">1.21<small>%</small></div><div class="s">GlobalTOP 2.28% ＞ エリア ＞ カテゴリ 1.07%（着手は上流から）</div></div>
-        <div class="sa-mc g"><div class="l">Primary KPI</div><div class="v">有効AC<br>到達率</div><div class="s">流入→AC到達 47.7% × 即離脱しない（質）</div></div>
+        <div class="sa-mc g"><div class="l">Primary KPI</div><div class="v t">有効AC到達率</div><div class="s">流入→AC到達 47.7% × 即離脱しない（質）</div></div>
         <div class="sa-mc a"><div class="l">新規 AC到達→検討</div><div class="v">9.0<small>%</small></div><div class="s">リピーター 22.8% が同UXの参照値＝当面の目標</div></div>
-        <div class="sa-mc"><div class="l">戦略軸</div><div class="v" style="font-size:18px">取りこぼし<br>防止</div><div class="s">メインスポット取りこぼし防止</div></div>
+        <div class="sa-mc"><div class="l">戦略軸</div><div class="v t">取りこぼし防止</div><div class="s">メインスポット取りこぼし防止</div></div>
       </div>
       <div class="sa-foot" style="padding:0">出典：GA4 Property 347074845（日本・28日・bot除外、2026-05-11〜06-07）。詳細＝<a href="/spot/2026-ac-discovery.html">探索分解と施策</a>。</div>
     </div>
@@ -275,6 +281,7 @@ html{scroll-behavior:smooth}
     <div class="sa-act-sec">
       <div class="sa-act-head"><span class="id">A-5</span><h3>ジャンルから探す（常時ボタン・KKday型）</h3><span class="eff">ZONE① ／ 規模：小</span></div>
       <div class="sa-act-body">
+        <div class="sa-jump"><span class="lbl">他の施策へ</span><a href="#a3"><span class="j">A-3</span>ランキングタブ</a><a href="#a7"><span class="j">A-7</span>ジャンル別おすすめ</a><a href="#search"><span class="j">探す</span>検索ユニット</a></div>
         <div class="sa-h5">施策内容</div>
         <p class="sa-p">探すユニットの直下に、種別（観光ツアー・アクティビティ・チケット・交通・グルメ 等）のアイコンボタンを <b>5〜7個 常時表示</b>。タブに隠さず、1タップでエリア×ジャンルの<b>既存一覧</b>へ送る。既存グローバルナビのカテゴリ体系を流用するため新規開発はほぼ不要。</p>
         <ul class="sa-ul">
@@ -300,6 +307,7 @@ html{scroll-behavior:smooth}
     <div class="sa-act-sec">
       <div class="sa-act-head"><span class="id">A-3</span><h3>ランキングを切り口タブ化（共通3＋エリア可変）</h3><span class="eff">ZONE② ／ 規模：中</span></div>
       <div class="sa-act-body">
+        <div class="sa-jump"><span class="lbl">他の施策へ</span><a href="#a5"><span class="j">A-5</span>ジャンル常時ボタン</a><a href="#a7"><span class="j">A-7</span>ジャンル別おすすめ</a><a href="#search"><span class="j">探す</span>検索ユニット</a></div>
         <div class="sa-h5">施策内容</div>
         <p class="sa-p">おすすめゾーン先頭のランキングを、固定の売れ筋一本から <b>切り口タブ</b> に拡張。全エリア共通3（売れ筋／満足度／急上昇）＋エリアのデータが充足したときだけ可変タブ（子連れ／直前OK／テーマ）を自動追加。各タブはインラインのACカルーセルで、その場のタップ＝AC到達。</p>
         <ul class="sa-ul">
@@ -327,6 +335,7 @@ html{scroll-behavior:smooth}
     <div class="sa-act-sec">
       <div class="sa-act-head"><span class="id">A-7</span><h3>ジャンル別おすすめ（カテゴリ別の人気AC行）</h3><span class="eff">ZONE② ／ 規模：中</span></div>
       <div class="sa-act-body">
+        <div class="sa-jump"><span class="lbl">他の施策へ</span><a href="#a5"><span class="j">A-5</span>ジャンル常時ボタン</a><a href="#a3"><span class="j">A-3</span>ランキングタブ</a><a href="#search"><span class="j">探す</span>検索ユニット</a></div>
         <div class="sa-h5">施策内容</div>
         <p class="sa-p">おすすめゾーンに、カテゴリごとの人気ACを <b>横1列×複数行</b> で積む（半日・1日ツアー／チケット／交通／グルメ…）。各行右に「すべて見る」。<b>既存のカテゴリ分類・既存の売れ筋並びをそのまま流用</b>（新規の並び替え不要）。ランキング/単一おすすめだけでは見えないエリアの多彩さを実ACで見せる。</p>
         <ul class="sa-ul">
@@ -352,6 +361,7 @@ html{scroll-behavior:smooth}
     <div class="sa-act-sec">
       <div class="sa-act-head"><span class="id">探す</span><h3>「自分で探す」検索ユニット集約（サジェスト＋日付・いますぐ）</h3><span class="eff">ZONE① ／ 規模：大</span></div>
       <div class="sa-act-body">
+        <div class="sa-jump"><span class="lbl">他の施策へ</span><a href="#a5"><span class="j">A-5</span>ジャンル常時ボタン</a><a href="#a3"><span class="j">A-3</span>ランキングタブ</a><a href="#a7"><span class="j">A-7</span>ジャンル別おすすめ</a></div>
         <div class="sa-h5">施策内容</div>
         <p class="sa-p">最上部に「自分で探す」を1箇所に集約する薄いタブ（常に1タブ分だけ表示）。タブ1＝<b>行き先・キーワード</b>（タップで検索サジェスト＝検索履歴／人気の検索ワード／人気スポット を展開）、タブ2＝<b>日付・いますぐ</b>（このエリア固定で 今日・明日・日付指定）。空欄でも候補が出て、直前ニーズの入口も用意する。条件絞り込みはこの画面では持たず、カテゴリページへ寄せる。</p>
         <ul class="sa-ul">
