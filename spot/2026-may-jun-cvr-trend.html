@@ -66,6 +66,15 @@
 .spot-tbl .rawcvr{color:var(--text3)}
 .spot-tbl .botpct{color:#c0392b;font-weight:700}
 
+/* heatmap matrix */
+.spot-tbl.heat td{font-size:11.5px;padding:7px 8px}
+.spot-tbl.heat td.trough{background:#fde2e0;color:#c0392b;font-weight:900;border-radius:3px}
+.spot-tbl.heat tr.axhead td{background:#f0ede8;color:var(--text3);font-weight:900;font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;font-family:inherit}
+.spot-tbl.heat td.drop{color:#c0392b;font-weight:700}
+.spot-tbl.heat td.rec{color:#1a8c4e;font-weight:700}
+.spot-tbl.heat td.rec.flatx{color:#d97706}
+.spot-tbl.heat tr.up td:first-child{color:#1a8c4e}
+
 /* weekly stacked bars */
 .spot-bars{display:flex;align-items:flex-end;gap:10px;height:200px;padding:20px 0 0;border-bottom:1px solid var(--border)}
 .spot-bcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:0}
@@ -124,7 +133,8 @@
         <li><a href="#s2">02 週次フルデータ表</a></li>
         <li><a href="#s3">03 なぜ raw は乱高下するか（bot）</a></li>
         <li><a href="#s4">04 購入数の季節変動（新規/リピーター）</a></li>
-        <li><a href="#s5">05 結論と読み筋</a></li>
+        <li><a href="#s5">05 4軸トラフスキャン（谷は特定軸か全体か）</a></li>
+        <li><a href="#s6">06 結論と読み筋</a></li>
       </ul>
     </div>
   </div>
@@ -277,9 +287,60 @@
     </div>
   </div>
 
-  <!-- Section 05: conclusion -->
+  <!-- Section 05: 4-axis trough scan -->
   <div class="card" id="s5" style="scroll-margin-top:16px">
-    <div class="spot-sec-head"><span class="spot-sec-num green">05</span><h2 class="spot-sec-title">結論と読み筋 — 追うべきは週次ノイズではなく構造の天井</h2></div>
+    <div class="spot-sec-head"><span class="spot-sec-num">05</span><h2 class="spot-sec-title">4軸トラフスキャン — 谷は「特定の軸」か「全体」か</h2></div>
+    <div class="spot-sec-sub">チャネル・デバイス・新規/リピーター・エリアを<strong>同じ週次の物差し</strong>で並べ、各セグメントの谷（最小週）を特定する。判定の原則はシンプル：<strong>1つの軸だけが凹むならそこに固有の問題（深掘りして直す）／全軸が一斉に凹むなら需要・季節性（追わない）</strong>。bot無関係の購入数で比較。</div>
+    <div class="spot-body" style="overflow-x:auto">
+      <table class="spot-tbl heat">
+        <thead>
+          <tr><th>セグメント</th><th>W18<br><small>GW</small></th><th>W19</th><th>W20</th><th>W21</th><th>W22</th><th>W23</th><th>W24</th><th>Peak→谷</th><th>谷→W24</th></tr>
+        </thead>
+        <tbody>
+          <tr class="axhead"><td colspan="10">チャネル別</td></tr>
+          <tr><td>Organic Search</td><td>2,929</td><td>2,510</td><td>2,050</td><td>2,010</td><td class="trough">1,930</td><td>2,216</td><td>2,204</td><td class="drop">−34%</td><td class="rec">+14%</td></tr>
+          <tr><td>Paid Search</td><td>2,494</td><td>2,134</td><td class="trough">1,844</td><td>2,029</td><td>1,912</td><td>2,152</td><td>2,289</td><td class="drop">−26%</td><td class="rec">+24%</td></tr>
+          <tr><td>Unassigned</td><td>2,441</td><td>2,043</td><td>1,623</td><td>1,628</td><td class="trough">1,569</td><td>2,006</td><td>2,028</td><td class="drop">−36%</td><td class="rec">+29%</td></tr>
+          <tr><td>Direct</td><td>2,079</td><td>1,835</td><td>1,716</td><td class="trough">1,593</td><td>1,655</td><td>1,939</td><td>1,825</td><td class="drop">−23%</td><td class="rec">+15%</td></tr>
+          <tr><td>Email</td><td>920</td><td>692</td><td>557</td><td class="trough">528</td><td>552</td><td>746</td><td>530</td><td class="drop">−43%</td><td class="rec flatx">±0%</td></tr>
+          <tr><td>Referral</td><td>730</td><td>598</td><td>538</td><td>532</td><td class="trough">529</td><td>619</td><td>601</td><td class="drop">−28%</td><td class="rec">+14%</td></tr>
+          <tr class="axhead"><td colspan="10">デバイス別</td></tr>
+          <tr><td>Mobile</td><td>8,235</td><td>7,187</td><td>5,939</td><td>5,926</td><td class="trough">5,756</td><td>6,961</td><td>6,844</td><td class="drop">−30%</td><td class="rec">+19%</td></tr>
+          <tr><td>Desktop</td><td>3,619</td><td>2,878</td><td>2,638</td><td>2,684</td><td class="trough">2,623</td><td>2,975</td><td>2,936</td><td class="drop">−28%</td><td class="rec">+12%</td></tr>
+          <tr class="axhead"><td colspan="10">新規 / リピーター別</td></tr>
+          <tr><td>リピーター</td><td>9,197</td><td>7,791</td><td>6,682</td><td>6,728</td><td class="trough">6,497</td><td>7,728</td><td>7,517</td><td class="drop">−29%</td><td class="rec">+16%</td></tr>
+          <tr><td>新規</td><td>2,806</td><td>2,384</td><td>1,993</td><td class="trough">1,967</td><td>1,997</td><td>2,328</td><td>2,373</td><td class="drop">−30%</td><td class="rec">+21%</td></tr>
+        </tbody>
+      </table>
+      <div class="spot-foot" style="padding-left:0;padding-right:0">赤セル＝そのセグメントの最小（谷）週。Peak→谷 = GW週W18からの下落率。谷→W24 = 谷からの回復率。Email の「±0%」はW24が谷とほぼ同水準（6月の一斉配信が無く未回復）。</div>
+    </div>
+
+    <!-- area (3-week sample) -->
+    <div class="spot-sec-sub" style="padding-top:6px"><strong>エリア別</strong>（landingPage・W18/W22/W24の3週サンプル）も同じ形。主要導線・主要destinationは一斉に谷→回復。例外は<strong>北海道/札幌が逆行で上昇</strong>（夏需要の立ち上がり）。</div>
+    <div class="spot-body" style="overflow-x:auto;padding-top:6px">
+      <table class="spot-tbl heat">
+        <thead><tr><th>ランディング（エリア）</th><th>W18 GW</th><th>W22 谷</th><th>W24</th><th>傾向</th></tr></thead>
+        <tbody>
+          <tr><td>/jp（TOP）</td><td>2,553</td><td class="trough">1,676</td><td>2,035</td><td class="rec">谷→回復</td></tr>
+          <tr><td>/jp/hawaii</td><td>118</td><td class="trough">84</td><td>91</td><td class="rec">谷→回復</td></tr>
+          <tr class="up"><td>北海道/札幌 ctg-3239</td><td>50</td><td>65</td><td>91</td><td class="rec">逆行↑（夏需要）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="spot-ib amber">
+      <h4>判定：谷は「全軸一斉」＝ 季節性（GW後の需要収縮）。特定軸の固有問題ではない</h4>
+      チャネル6・デバイス2・新規/リピーター2・主要エリアの<strong>すべてが W20〜W22 で谷を打ち、GWから −23〜−36% とほぼ同率で下落、6月に +12〜+29% で一斉回復</strong>。<strong>1つの軸だけが落ちる「固有の穴」は無い</strong>＝これは UX やファネルの不具合ではなく需要（季節）の波。例外は2つだけ：<strong>① Email</strong>（6月に一斉配信が無く未回復・小規模＝CRMカデンツ）、<strong>② 北海道/札幌</strong>（夏需要で逆行上昇）。
+    </div>
+    <div class="spot-ib blue">
+      <h4>この物差しの使い方（今後の標準）</h4>
+      毎週この4軸スキャンを当てる。<strong>谷が1軸に集中していたら、その軸を掛け合わせ（例：モバイル×新規×該当チャネル）で深掘りして直す。</strong>谷が全軸一斉なら季節性と判断し、追わずに需要を作る打ち手（繁忙期送客・CRM）へ回す。今回は後者。
+    </div>
+  </div>
+
+  <!-- Section 06: conclusion -->
+  <div class="card" id="s6" style="scroll-margin-top:16px">
+    <div class="spot-sec-head"><span class="spot-sec-num green">06</span><h2 class="spot-sec-title">結論と読み筋 — 追うべきは週次ノイズではなく構造の天井</h2></div>
     <div class="spot-ib green">
       <h4>① 5-6月に実質的なCVRの落ち込みは無い</h4>
       実質CVRは5月 ~1.30% で安定、6月は 1.43〜1.48% に上昇。raw の乱高下と、配信で持ち上がったW23との比較が「反落」に見せていただけ。
