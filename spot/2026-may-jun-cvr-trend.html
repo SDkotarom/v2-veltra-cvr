@@ -93,7 +93,27 @@
 .spot-foot{font-size:11px;color:var(--text3);line-height:1.7;padding:6px 44px 0}
 .spot-foot code{background:#f1f1ec;padding:1px 5px;border-radius:4px;font-size:10.5px}
 
+/* action plan cards */
+.act-grid{display:grid;grid-template-columns:1fr;gap:14px;padding:14px 44px 4px}
+.act{border:1px solid var(--border);border-radius:12px;padding:18px 22px;border-left:6px solid}
+.act.s1{border-left-color:#1b82c5}.act.s2{border-left-color:#d97706}.act.s3{border-left-color:#1a8c4e}
+.act-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.act-no{font-family:'DM Sans';font-weight:900;font-size:11px;color:#fff;padding:3px 10px;border-radius:5px;letter-spacing:.04em}
+.act.s1 .act-no{background:#1b82c5}.act.s2 .act-no{background:#d97706}.act.s3 .act-no{background:#1a8c4e}
+.act-title{font-size:16px;font-weight:900;color:var(--text)}
+.act-when{font-size:11px;font-weight:700;color:var(--text3);margin-left:auto;white-space:nowrap}
+.act-kpi{font-size:12.5px;color:var(--text2);margin:2px 0 12px;line-height:1.6}
+.act-kpi b{color:var(--text);font-family:'DM Sans';font-weight:900}
+.act-rows{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.act-box{background:#faf8f5;border-radius:8px;padding:11px 14px;font-size:13px;line-height:1.7;color:var(--text2)}
+.act-box h5{font-size:10.5px;font-weight:900;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.act-box strong{color:var(--text)}
+.act-box.mob{background:#eef5fb;border:1px solid #d6e6f2}
+.act-box.mob h5{color:#1b5a8c}
+
 @media(max-width:768px){
+  .act-grid{padding-left:22px;padding-right:22px}
+  .act-rows{grid-template-columns:1fr}
   .spot-hero{padding:24px 22px}
   .spot-headline{font-size:21px}
   .spot-toc,.spot-sec-head,.spot-sec-sub,.spot-body,.spot-foot{padding-left:22px;padding-right:22px}
@@ -114,11 +134,11 @@
       <div class="spot-tag">spot analysis — 繁忙期前のCVR反落</div>
       <div class="spot-headline">
         繁忙期へ自然に右肩上がりになるべき時期に、<em>W24は先週比でCVR反落</em>。<br>
-        何が伸びなかったか —— <em class="ok">新規・desktopは伸長</em>、一方で <em>モバイルと既存客（リピーター）が失速</em>。
+        何が伸びなかったか —— <em class="ok">新規・desktopは伸長</em>、一方で <em>モバイルと既存客（リピーター）が伸び悩み</em>。
       </div>
       <div class="spot-lede">
-        7-8月の大繁忙期へ需要が立ち上がる時期で、本来CVRは右肩上がりになるのが自然。だが <strong>W24（6/7-13）は実質CVR 1.48% → 1.43%、予約完了 10,056 → 9,890件（−166）と先週比で下げた</strong>。bot を除いた実質ベースでも下げているので、見かけだけの問題ではなく<em>実在する反落</em>。<br>
-        「何が伸びなかったか」を4軸（チャネル / デバイス / 新規↔リピーター / エリア）で特定すると、<strong>新規ユーザー・Paid Search・desktop は伸びている</strong>一方、<strong>購入の約7割を占めるモバイルと、既存客（リピーター＝Email/Direct）が伸びを欠いた</strong>。とくに<em>モバイルは前年同週（YoY）も下回って</em>おり、繁忙期の主力が弱いのが最大の懸念。
+        7-8月の大繁忙期へ需要が立ち上がる時期で、本来CVRは右肩上がりになるのが自然。だが <strong>W24（6/7-13）は実質CVR 1.48% → 1.43%（−0.05pp）、予約完了 10,056 → 9,890件（−166）と先週比で下げた</strong>。<strong>下げ幅自体は小幅</strong>だが、bot を除いた実質ベースでも残るので<em>見かけではない実在の下げ</em>。問題は大きさより方向——<strong>加速すべき時期に減速している</strong>こと。<br>
+        「何が伸びなかったか」を4軸（チャネル / デバイス / 新規↔リピーター / エリア）で特定すると、<strong>新規ユーザー・Paid Search・desktop は伸びている</strong>一方、<strong>購入の約7割を占めるモバイルと、既存客（リピーター＝Email/Direct）が伸びを欠いた</strong>。とくに<em>モバイルは前年同週（YoY）も下回って</em>おり、繁忙期の主力が前年を下回る点が要注意。
       </div>
     </div>
     <div class="spot-toc">
@@ -130,6 +150,7 @@
         <li><a href="#s4">04 前年比（YoY）— モバイルが前年割れ</a></li>
         <li><a href="#s5">05 4軸スキャン（背景の季節性）</a></li>
         <li><a href="#s6">06 結論 — 繁忙期へ向けて伸ばす3点</a></li>
+        <li><a href="#s7">07 具体施策（送客 × CRM × 新規完了）</a></li>
       </ul>
     </div>
   </div>
@@ -190,8 +211,8 @@
       </div>
     </div>
     <div class="spot-ib amber">
-      <h4>論点：繁忙期へ向けて加速すべき局面で、W24は減速した</h4>
-      実質CVRは W23 1.48% → W24 1.43%、予約完了は 10,056 → 9,890件（−166）。<strong>夏繁忙期はCVRが最も伸びるべき時期</strong>であり、ここで先週比に下げる・目標1.515%に届かないのは見過ごせない。「どこが伸びなかったのか」を以下で特定する。
+      <h4>論点：下げ幅は小幅。ただし加速すべき局面での減速・目標未達は看過しない</h4>
+      実質CVRは W23 1.48% → W24 1.43%（<strong>−0.05pp、単独では週次の揺れの範囲</strong>）、予約完了 10,056 → 9,890件（−166）。W24は<strong>5月平常(~1.30%)より上</strong>だが、<strong>先週比は下げ・目標1.515%・繁忙期帯1.48-1.54%には未達</strong>。<strong>夏繁忙期はCVRが最も伸びるべき時期</strong>なので、小幅でも「加速できていない」方向は看過しない。「どこが伸びなかったのか」を以下で特定する。
     </div>
   </div>
 
@@ -259,7 +280,7 @@
     </div>
     <div class="spot-ib red">
       <h4>判定：成長は desktop 頼み、主力モバイルは前年割れ</h4>
-      総予約は前年比 +3.7% と微増だが、中身は <strong>desktop（+24%）が牽引し、購入の約7割を占めるモバイルは −2.9% と前年を下回る</strong>。繁忙期はモバイル比率がさらに上がる時期で、<strong>主力が前年割れのまま入るのは大きなリスク</strong>。先週比（03）と前年比（04）の両方で「モバイル」が共通の弱点として浮かぶ。
+      総予約は前年比 +3.7% と微増だが、中身は <strong>desktop（+24%）が牽引し、購入の約7割を占めるモバイルは −2.9% と前年を下回る</strong>。繁忙期はモバイル比率がさらに上がる時期で、<strong>主力が前年割れのまま入るのは繁忙期前に正したい弱点</strong>。先週比（03）と前年比（04）の両方で「モバイル」が共通の弱点として浮かぶ。
     </div>
   </div>
 
@@ -311,6 +332,84 @@
     </div>
     <div class="spot-foot" style="padding-top:14px">
       出典：GA4 <code>347074845</code>。先週比＝W24(6/7-13) vs W23(5/31-6/6)、前年比＝2026 W24 vs 2025(6/7-13)。予約完了＝<code>eventName=purchase</code>。実質CVR＝purchase ÷（セッション − CN/SG）。<strong>注</strong>：2025のチャネル/新規リピーター内訳は属性欠損（(not set)）が多く、YoYはデバイスと総数のみ採用。週バケットは日〜土。関連：<a href="/spot/2026-gw-cvr-decline.html" style="color:#d97706;font-weight:700">GW CVR 構造低下（YoY視点）</a> ／ <a href="/reports/2026-w24/" style="color:#d97706;font-weight:700">W24 週次サマリー</a>
+    </div>
+  </div>
+
+  <!-- 07 action plan -->
+  <div class="card" id="s7" style="scroll-margin-top:16px">
+    <div class="spot-sec-head"><span class="spot-sec-num amber">07</span><h2 class="spot-sec-title">具体施策 — 繁忙期へ向けてCVRを押し上げる（送客 × CRM × 新規完了）</h2></div>
+    <div class="spot-sec-sub">弱点（モバイル・既存客の伸び悩み）と強み（新規取込の伸長）を踏まえ、3レバーを具体化する。共通テコは<strong>モバイル</strong>——購入の約7割かつ先週比・前年比の両方で弱点のため、各施策をモバイル起点で設計する。</div>
+    <div class="act-grid">
+
+      <!-- 送客 -->
+      <div class="act s1">
+        <div class="act-head"><span class="act-no">送客</span><span class="act-title">夏需要の先行destinationを送客面に前出し＋伸びている流入をスケール</span><span class="act-when">即〜7月頭</span></div>
+        <div class="act-kpi">狙う指標：<b>来訪 × 有効AC到達</b>（分子の母数）。シグナル：北海道/札幌が逆行で上昇（50→65→91）＝夏アクティビティ需要が先行で立ち上がっている。Paid Searchは先週比 +137 で伸長中。</div>
+        <div class="act-rows">
+          <div class="act-box">
+            <h5>具体アクション</h5>
+            ① TOP・主要エリア面の上部に<strong>夏アクティビティ特集枠</strong>（海・離島・花火・避暑＝北海道）を期間出し。<br>② Paid Searchの<strong>夏KW群（destination×季節語）を増額・拡張</strong>し、伸びている流入を取りこぼさない。
+          </div>
+          <div class="act-box mob">
+            <h5>モバイル観点</h5>
+            モバイルTOPの<strong>ファーストビューに夏特集</strong>を固定。スクロール前に「今行ける夏体験」を見せ、有効AC到達率を上げる。
+          </div>
+        </div>
+        <div class="act-box" style="margin-top:10px">
+          <h5>データ／仕組み</h5>
+          GA4 <code>347074845</code> で <code>landingPage</code> 別の前年比・前週比成長を月次抽出 → 伸長destinationを送客面に自動反映（手選定ではなくルール抽出）。効果は <code>sessionDefaultChannelGroup</code> × destination で週次トラッキング。
+        </div>
+      </div>
+
+      <!-- CRM -->
+      <div class="act s2">
+        <div class="act-head"><span class="act-no">CRM</span><span class="act-title">会員（既存客）配信を単発で切らさず、繁忙期に向けた配信カレンダーで継続</span><span class="act-when">計画は即・繁忙期通して継続</span></div>
+        <div class="act-kpi">狙う指標：<b>リピーターの再来・再購入</b>（Email/Direct経由）。背景：6/1ポイントメールで会員需要は +194 動いたが、6月にフォロー配信が無くEmail−216・Direct−114で失速。</div>
+        <div class="act-rows">
+          <div class="act-box">
+            <h5>具体アクション</h5>
+            ① 繁忙期（7-8月）へ向けた<strong>週次の一斉配信カレンダー</strong>を組む（単発で終わらせない）。<br>② <strong>セグメント配信</strong>：直近閲覧destination・カート放棄・過去予約エリアで出し分け（汎用一斉より転換が高い）。
+          </div>
+          <div class="act-box mob">
+            <h5>モバイル観点</h5>
+            メール開封はモバイルが大半。<strong>タップ→カレンダー→決済までモバイルで完結</strong>する着地に統一し、PC前提の導線をやめる。
+          </div>
+        </div>
+        <div class="act-box" style="margin-top:10px">
+          <h5>データ／仕組み</h5>
+          稼働中のトリガー配信（<code>cart_2hr</code>・<code>4008_booking_detail</code> 等は安定）はそのまま、一斉配信のみ週次計画化。各配信の効果は <code>sessionCampaignName</code> 単位で週次に購入を追い、効いた型を残す。
+        </div>
+      </div>
+
+      <!-- 新規完了 -->
+      <div class="act s3">
+        <div class="act-head"><span class="act-no">新規完了</span><span class="act-title">伸びている新規取込を「予約完了」まで取り切る（④→⑤の構造ギャップ）</span><span class="act-when">繁忙期前にship→A/B</span></div>
+        <div class="act-kpi">狙う指標：<b>新規の予約完了率（④意向→⑤完了）</b>。背景：新規ユーザー購入は先週比 +45・6月通して堅調＝入口の取込は順調。完了で取りこぼさなければ増分CVに直結。</div>
+        <div class="act-rows">
+          <div class="act-box">
+            <h5>具体アクション</h5>
+            <strong>予約フォーム最終段階の離脱を引き算</strong>：①最終総額（税・手数料込）を入力前に明示、②フォーム段階を圧縮、③無料キャンセル・即時確定・日本語サポートをCTA近傍に凝縮。（W24ボトルネックBN1）
+          </div>
+          <div class="act-box mob">
+            <h5>モバイル観点</h5>
+            モバイルは入力負荷・決済不安が最大。<strong>モバイル優先でA/B</strong>を回し、勝ち筋を繁忙期にフル投入。
+          </div>
+        </div>
+        <div class="act-box" style="margin-top:10px">
+          <h5>データ／仕組み</h5>
+          詳細仮説・打ち手・モックは <a href="/bottleneck.html?week=2026-w24&num=1" style="color:#1a8c4e;font-weight:700">W24 BN1</a>。A/Bは新規×モバイルをセグメントに、④→⑤完了率を主指標で評価。
+        </div>
+      </div>
+
+    </div>
+    <div class="spot-ib amber">
+      <h4>優先順位と時期</h4>
+      <ol>
+        <li><strong>CRM（即・低コスト）</strong>：開発不要で配信計画だけ。6/1の途切れを埋め、繁忙期まで会員需要を継続的に押し上げる。最速で効く。</li>
+        <li><strong>新規完了のA/B（繁忙期前にship）</strong>：増えている新規をそのまま増分CVへ。モバイル優先で検証まで回す。</li>
+        <li><strong>送客（並行）</strong>：夏destinationの前出し＋Paid Search拡張で母数を作る。CRM・完了改善が効く土台になる。</li>
+      </ol>
+      共通KPIは<strong>モバイルの予約完了</strong>。3施策とも「モバイルで完結するか」を設計の起点にする。
     </div>
   </div>
 
