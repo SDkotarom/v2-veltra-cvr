@@ -212,7 +212,7 @@
     } else if (isAcSection) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('セクション閲覧｜商品詳細(AC)ページ'));
     } else if (isMayJunCvr) {
-      append(homeA, mkCurrent('スポット分析'), mkCurrent('5-6月 週次CVRの実態'));
+      append(homeA, mkCurrent('スポット分析'), mkCurrent('繁忙期前のCVR反落｜何が伸びなかったか'));
     } else if (isPlanning) {
       append(homeA, mkCurrent('施策案'));
     } else if (isPlanningItem) {
@@ -250,7 +250,7 @@
   // Hierarchical: items may have a `children` array for sub-pages.
   // 新しい順（新しいものが上 = 大きい番号）。番号は描画時に position から自動採番。
   var SPOT_ITEMS = [
-    { id: 'mayjun-cvr', href: '/spot/2026-may-jun-cvr-trend.html', label: '5-6月 週次CVRの実態（落ち込み検証）', match: function(){ return isMayJunCvr; } },
+    { id: 'mayjun-cvr', href: '/spot/2026-may-jun-cvr-trend.html', label: '繁忙期前のCVR反落｜何が伸びなかったか', match: function(){ return isMayJunCvr; } },
     {
       id: 'ac-discovery',
       href: '/spot/2026-ac-discovery.html',

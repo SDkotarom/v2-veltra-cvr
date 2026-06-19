@@ -6,45 +6,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/report.css">
 <link rel="stylesheet" href="/summary.css">
-<title>スポット分析: 5-6月 週次CVRの点検 — 見かけの上下の正体と、繁忙期へ向けた本当の論点</title>
+<title>スポット分析: 繁忙期前なのに先週比でCVR反落 — 何が伸びなかったか</title>
 <style>
-.spot-hero{padding:36px 44px 28px;background:linear-gradient(135deg,#f0fdf4 0%,#fff 80%);border-bottom:3px solid #1a8c4e}
-.spot-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:.14em;color:#fff;background:#1a8c4e;padding:6px 14px;border-radius:4px;margin-bottom:14px;text-transform:uppercase}
-.spot-tag::before{content:'📈';font-size:14px}
-.spot-headline{font-size:30px;font-weight:900;line-height:1.42;letter-spacing:-.01em;margin-bottom:14px;color:#1a1a1a}
-.spot-headline em{font-style:normal;color:#1a8c4e;background:linear-gradient(transparent 60%,#bbf7d0 60%);padding:0 2px}
-.spot-headline em.warn{color:#c0392b;background:linear-gradient(transparent 60%,#ffe1df 60%)}
+.spot-hero{padding:36px 44px 28px;background:linear-gradient(135deg,#fff7ed 0%,#fff 80%);border-bottom:3px solid #d97706}
+.spot-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:.14em;color:#fff;background:#d97706;padding:6px 14px;border-radius:4px;margin-bottom:14px;text-transform:uppercase}
+.spot-tag::before{content:'⚠️';font-size:14px}
+.spot-headline{font-size:29px;font-weight:900;line-height:1.45;letter-spacing:-.01em;margin-bottom:14px;color:#1a1a1a}
+.spot-headline em{font-style:normal;color:#c0392b;background:linear-gradient(transparent 60%,#ffe1df 60%);padding:0 2px}
+.spot-headline em.ok{color:#1a8c4e;background:linear-gradient(transparent 60%,#bbf7d0 60%)}
 .spot-lede{font-size:14px;color:var(--text2);line-height:1.9}
 .spot-lede strong{color:var(--text)}
+.spot-lede em{font-style:normal;color:#c0392b;font-weight:700}
 
-/* TOC */
 .spot-toc{padding:18px 44px;background:#f5f4f0;border-bottom:1px solid var(--border);font-size:12px}
 .spot-toc-title{font-size:10px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase;margin-bottom:10px}
 .spot-toc-list{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}
 .spot-toc-list li a{padding:5px 12px;background:#fff;border:1px solid var(--border);border-radius:16px;color:var(--text2);text-decoration:none;font-weight:700;font-size:11px}
-.spot-toc-list li a:hover{background:#1a8c4e;color:#fff;border-color:#1a8c4e}
+.spot-toc-list li a:hover{background:#d97706;color:#fff;border-color:#d97706}
 
-/* section heading */
 .spot-sec-head{padding:24px 44px 0}
 .spot-sec-num{display:inline-block;font-family:'DM Sans';font-size:11px;font-weight:900;letter-spacing:.1em;padding:4px 10px;background:#1f2937;color:#fff;border-radius:4px;margin-right:8px}
-.spot-sec-num.green{background:#1a8c4e}
 .spot-sec-num.red{background:#c0392b}
+.spot-sec-num.amber{background:#d97706}
 .spot-sec-title{display:inline;font-size:18px;font-weight:900;letter-spacing:-.01em}
 .spot-sec-sub{font-size:13px;color:var(--text2);line-height:1.8;padding:10px 44px 0}
+.spot-sec-sub strong{color:var(--text)}
 .spot-body{padding:14px 44px 8px}
 
-/* KPI cards */
 .spot-mg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:18px 44px 6px}
 .spot-mc{background:#faf8f5;border:1px solid var(--border);border-radius:10px;padding:14px 16px}
 .spot-mc.ok{border-color:#1a8c4e;background:#f0fdf4}
 .spot-mc.warn{border-color:#c0392b;background:#fff5f5}
-.spot-mc.flat{border-color:#1b82c5;background:#f0f7fc}
 .spot-ml{font-size:10px;font-weight:900;letter-spacing:.04em;color:var(--text3);text-transform:uppercase;margin-bottom:6px;line-height:1.45}
 .spot-mv{font-family:'DM Sans';font-size:24px;font-weight:900;letter-spacing:-.02em;line-height:1.05;color:#1a1a1a}
-.spot-mc.ok .spot-mv{color:#1a8c4e}.spot-mc.warn .spot-mv{color:#c0392b}.spot-mc.flat .spot-mv{color:#1b82c5}
+.spot-mc.ok .spot-mv{color:#1a8c4e}.spot-mc.warn .spot-mv{color:#c0392b}
 .spot-ms{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.5}
 
-/* chart */
 .spot-chart-wrap{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;margin-top:4px}
 .spot-chart-wrap svg{width:100%;height:auto;display:block}
 .spot-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--text2);margin-top:10px}
@@ -52,19 +49,28 @@
 .spot-legend .ln{width:18px;height:0;border-top-width:3px;border-top-style:solid;flex-shrink:0}
 .spot-legend .dash{border-top-style:dashed}
 
-/* data table */
+/* grew/fell two-column */
+.gf{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+.gf-card{border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.gf-card.up{border-left:4px solid #1a8c4e;background:#f0fdf4}
+.gf-card.down{border-left:4px solid #c0392b;background:#fff5f5}
+.gf-h{font-size:13px;font-weight:900;margin-bottom:8px}
+.gf-card.up .gf-h{color:#0f6e3d}.gf-card.down .gf-h{color:#991b1b}
+.gf-row{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;padding:4px 0;border-top:1px dashed var(--border);line-height:1.5}
+.gf-row:first-of-type{border-top:none}
+.gf-row b{font-family:'DM Sans';font-weight:900}
+.gf-row .d-up{color:#1a8c4e}.gf-row .d-down{color:#c0392b}
+.gf-tag{font-size:10px;color:var(--text3);font-weight:700}
+
 .spot-tbl{width:100%;border-collapse:collapse;font-size:12.5px;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:4px}
 .spot-tbl th{background:#1f2937;color:#fff;padding:9px 11px;font-size:10px;letter-spacing:.04em;text-align:right;font-weight:900;text-transform:uppercase}
 .spot-tbl th:first-child{text-align:left}
 .spot-tbl td{padding:8px 11px;border-bottom:1px solid var(--border);text-align:right;font-family:'DM Sans';font-variant-numeric:tabular-nums;color:var(--text2)}
 .spot-tbl td:first-child{text-align:left;font-weight:900;color:var(--text);font-family:inherit}
 .spot-tbl tr:last-child td{border-bottom:none}
-.spot-tbl tr.gw{background:#fffbeb}
-.spot-tbl tr.botweek{background:#fff5f5}
-.spot-tbl tr.now td:first-child{color:#1a8c4e}
-.spot-tbl .realcvr{font-weight:900;color:#1a8c4e}
-.spot-tbl .rawcvr{color:var(--text3)}
-.spot-tbl .botpct{color:#c0392b;font-weight:700}
+.spot-tbl .yoy-up{color:#1a8c4e;font-weight:900}
+.spot-tbl .yoy-down{color:#c0392b;font-weight:900}
+.spot-tbl tr.hot{background:#fff5f5}
 
 /* heatmap matrix */
 .spot-tbl.heat td{font-size:11.5px;padding:7px 8px}
@@ -73,19 +79,6 @@
 .spot-tbl.heat td.drop{color:#c0392b;font-weight:700}
 .spot-tbl.heat td.rec{color:#1a8c4e;font-weight:700}
 .spot-tbl.heat td.rec.flatx{color:#d97706}
-.spot-tbl.heat tr.up td:first-child{color:#1a8c4e}
-
-/* weekly stacked bars */
-.spot-bars{display:flex;align-items:flex-end;gap:10px;height:200px;padding:20px 0 0;border-bottom:1px solid var(--border)}
-.spot-bcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:0}
-.spot-btot{font-family:'DM Sans';font-size:11px;font-weight:900;color:var(--text);margin-bottom:4px}
-.spot-bstack{width:62%;display:flex;flex-direction:column-reverse;border-radius:3px 3px 0 0;overflow:hidden}
-.spot-bret{background:#1a8c4e;width:100%}
-.spot-bnew{background:#86efac;width:100%}
-.spot-bcol.gw .spot-btot{color:#d97706}
-.spot-blabels{display:flex;gap:10px;margin-top:6px}
-.spot-blabel{flex:1;text-align:center;font-size:10px;color:var(--text3);font-weight:700}
-.spot-blabel small{display:block;font-size:9px;color:var(--text3);font-weight:400}
 
 /* verdict callout */
 .spot-ib{border-left:4px solid;border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 44px 4px;font-size:13px;line-height:1.75}
@@ -95,14 +88,17 @@
 .spot-ib.red{border-color:#c0392b;background:#fff5f5}.spot-ib.red h4{color:#991b1b}
 .spot-ib.amber{border-color:#d97706;background:#fffbeb}.spot-ib.amber h4{color:#92580e}
 .spot-ib strong{color:var(--text)}
+.spot-ib ol,.spot-ib ul{margin:6px 0 0 18px}
+.spot-ib li{margin-bottom:6px}
 .spot-foot{font-size:11px;color:var(--text3);line-height:1.7;padding:6px 44px 0}
 .spot-foot code{background:#f1f1ec;padding:1px 5px;border-radius:4px;font-size:10.5px}
 
 @media(max-width:768px){
   .spot-hero{padding:24px 22px}
-  .spot-headline{font-size:22px}
+  .spot-headline{font-size:21px}
   .spot-toc,.spot-sec-head,.spot-sec-sub,.spot-body,.spot-foot{padding-left:22px;padding-right:22px}
   .spot-mg{grid-template-columns:repeat(2,1fr);padding-left:22px;padding-right:22px}
+  .gf,.spot-ib{margin-left:0;grid-template-columns:1fr}
   .spot-ib{margin-left:22px;margin-right:22px}
   .spot-tbl{font-size:11px}
   .spot-tbl th,.spot-tbl td{padding:6px 6px}
@@ -115,25 +111,25 @@
   <!-- Hero -->
   <div class="card">
     <div class="spot-hero">
-      <div class="spot-tag">spot analysis — 週次CVR 5-6月</div>
+      <div class="spot-tag">spot analysis — 繁忙期前のCVR反落</div>
       <div class="spot-headline">
-        5-6月の週次CVRを点検した。見かけの上下は <em class="warn">測定要因（bot）と配信タイミング</em>が大きい。<br>
-        本当に効くのは、年間最大の繁忙期（7-8月）へ向けて <em>横ばいの実質CVRを右肩上がりに転じさせる</em>こと。
+        繁忙期へ自然に右肩上がりになるべき時期に、<em>W24は先週比でCVR反落</em>。<br>
+        何が伸びなかったか —— <em class="ok">新規・desktopは伸長</em>、一方で <em>モバイルと既存客（リピーター）が失速</em>。
       </div>
       <div class="spot-lede">
-        繁忙期を目前に、CVRの動きに目を配るのは正しい初動。点検の結論：<strong>bot を除いた実質CVRは5月 1.29〜1.33%、6月 1.43〜1.48% で、転換そのものは底堅い</strong>。週次CVRが乱高下して見えるのは bot 混入率が週で <strong>5%→44%</strong> と動くため（W21は5/20-21に約36万のbotスパイク）。購入数の増減は GW後の季節的な需要の波（W18ピーク→5月中旬の谷→6月回復）。<br>
-        論点はここから先。<strong>実質CVRは ~1.30% で横ばい、主目標 1.515% にも未達</strong>。年間最大の <strong>7-8月繁忙期はCVRが最も伸びるべき時期</strong>で、横ばいのまま突入するのは避けたい。点検で実需と測定要因を切り分けられた今、火力を「<strong>繁忙期へ向けたCVRの押し上げ</strong>」に寄せる。
+        7-8月の大繁忙期へ需要が立ち上がる時期で、本来CVRは右肩上がりになるのが自然。だが <strong>W24（6/7-13）は実質CVR 1.48% → 1.43%、予約完了 10,056 → 9,890件（−166）と先週比で下げた</strong>。bot を除いた実質ベースでも下げているので、見かけだけの問題ではなく<em>実在する反落</em>。<br>
+        「何が伸びなかったか」を4軸（チャネル / デバイス / 新規↔リピーター / エリア）で特定すると、<strong>新規ユーザー・Paid Search・desktop は伸びている</strong>一方、<strong>購入の約7割を占めるモバイルと、既存客（リピーター＝Email/Direct）が伸びを欠いた</strong>。とくに<em>モバイルは前年同週（YoY）も下回って</em>おり、繁忙期の主力が弱いのが最大の懸念。
       </div>
     </div>
     <div class="spot-toc">
       <div class="spot-toc-title">このページの構成</div>
       <ul class="spot-toc-list">
-        <li><a href="#s1">01 実質 vs raw CVR の週次推移</a></li>
-        <li><a href="#s2">02 週次フルデータ表</a></li>
-        <li><a href="#s3">03 なぜ raw は乱高下するか（bot）</a></li>
-        <li><a href="#s4">04 購入数の季節変動（新規/リピーター）</a></li>
-        <li><a href="#s5">05 4軸トラフスキャン（谷は特定軸か全体か）</a></li>
-        <li><a href="#s6">06 結論と読み筋</a></li>
+        <li><a href="#s1">01 事実：繁忙期前に先週比で反落</a></li>
+        <li><a href="#s2">02 反落は実在か（bot確認）</a></li>
+        <li><a href="#s3">03 何が伸びなかったか（先週比分解）</a></li>
+        <li><a href="#s4">04 前年比（YoY）— モバイルが前年割れ</a></li>
+        <li><a href="#s5">05 4軸スキャン（背景の季節性）</a></li>
+        <li><a href="#s6">06 結論 — 繁忙期へ向けて伸ばす3点</a></li>
       </ul>
     </div>
   </div>
@@ -141,21 +137,20 @@
   <!-- KPI strip -->
   <div class="card">
     <div class="spot-mg">
-      <div class="spot-mc ok"><div class="spot-ml">実質CVR 5月（W19-22平均帯）</div><div class="spot-mv">~1.30%</div><div class="spot-ms">1.287〜1.321% で安定</div></div>
-      <div class="spot-mc ok"><div class="spot-ml">実質CVR 6月（W23-24）</div><div class="spot-mv">1.43-1.48%</div><div class="spot-ms">持ち直すも目標は未達</div></div>
-      <div class="spot-mc flat"><div class="spot-ml">raw CVR の振れ幅（W18-24）</div><div class="spot-mv">0.73-1.26%</div><div class="spot-ms">bot比率 5%→44% に連動（測定要因）</div></div>
-      <div class="spot-mc warn"><div class="spot-ml">繁忙期(7-8月)へ向けて</div><div class="spot-mv">横ばい</div><div class="spot-ms">目標1.515%未達。右肩上げが必須</div></div>
+      <div class="spot-mc warn"><div class="spot-ml">実質CVR W24（先週比）</div><div class="spot-mv">1.43%</div><div class="spot-ms">W23 1.48% から反落・目標1.515%未達</div></div>
+      <div class="spot-mc warn"><div class="spot-ml">予約完了 先週比</div><div class="spot-mv">−166</div><div class="spot-ms">10,056 → 9,890 件</div></div>
+      <div class="spot-mc warn"><div class="spot-ml">モバイル購入 前年同週比</div><div class="spot-mv">−2.9%</div><div class="spot-ms">7,049 → 6,844（主力が前年割れ）</div></div>
+      <div class="spot-mc ok"><div class="spot-ml">新規ユーザー購入 先週比</div><div class="spot-mv">+45</div><div class="spot-ms">2,328 → 2,373（取込は伸長）</div></div>
     </div>
   </div>
 
-  <!-- Section 01: chart -->
+  <!-- 01 fact -->
   <div class="card" id="s1" style="scroll-margin-top:16px">
-    <div class="spot-sec-head"><span class="spot-sec-num green">01</span><h2 class="spot-sec-title">実質 vs raw CVR の週次推移 — 実質はほぼ水平、6月は上昇</h2></div>
-    <div class="spot-sec-sub">同じ週でも「raw（bot込み）」と「実質（bot除外）」でCVRはまったく違う。実質（緑）は7週ほぼ水平で6月に上昇。raw（灰）はbot混入率に振り回されて乱高下する。</div>
+    <div class="spot-sec-head"><span class="spot-sec-num amber">01</span><h2 class="spot-sec-title">事実 — 右肩上がりであるべき時期に、W24で反落</h2></div>
+    <div class="spot-sec-sub">繁忙期（7-8月、過去2年のCVR 1.48〜1.54%帯）へ向けて June は需要が立ち上がる時期。実質CVR（bot除外）は5月の谷から6月に持ち直したが、<strong>W23 1.48% をピークに W24 は 1.43% へ反落</strong>し、<strong>主目標 1.515% にも、繁忙期水準にも届いていない</strong>。</div>
     <div class="spot-body">
       <div class="spot-chart-wrap">
         <svg viewBox="0 0 720 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="週次CVR推移">
-          <!-- gridlines + y labels (0.6%..1.6%) -->
           <g font-family="DM Sans, sans-serif" font-size="10" fill="#94a3b8">
             <line x1="60" y1="20"  x2="690" y2="20"  stroke="#eee"/>
             <line x1="60" y1="75"  x2="690" y2="75"  stroke="#eee"/>
@@ -168,192 +163,154 @@
             <text x="52" y="189" text-anchor="end">0.85%</text>
             <text x="52" y="244" text-anchor="end">0.6%</text>
           </g>
-          <!-- target line 1.515% -->
           <line x1="60" y1="38.7" x2="690" y2="38.7" stroke="#1b82c5" stroke-width="1.5" stroke-dasharray="6 4"/>
           <text x="686" y="34" text-anchor="end" font-family="DM Sans, sans-serif" font-size="10" font-weight="700" fill="#1b82c5">主目標 1.515%</text>
-          <!-- raw CVR line (gray, volatile) -->
-          <polyline fill="none" stroke="#b4b2a9" stroke-width="2" stroke-dasharray="5 3"
+          <!-- raw (gray) -->
+          <polyline fill="none" stroke="#cfcdc6" stroke-width="2" stroke-dasharray="5 3"
             points="60,95.5 165,146.1 270,118.3 375,210.5 480,144.1 585,104.7 690,106.7"/>
-          <g fill="#8a8880">
-            <circle cx="60" cy="95.5" r="3"/><circle cx="165" cy="146.1" r="3"/><circle cx="270" cy="118.3" r="3"/>
-            <circle cx="375" cy="210.5" r="4" fill="#c0392b"/><circle cx="480" cy="144.1" r="3"/><circle cx="585" cy="104.7" r="3"/><circle cx="690" cy="106.7" r="3"/>
-          </g>
-          <text x="375" y="226" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9.5" font-weight="900" fill="#c0392b">bot44% → 0.73%</text>
-          <!-- real CVR line (green, stable) -->
-          <polyline fill="none" stroke="#1a8c4e" stroke-width="3"
+          <!-- real (dark) with W24 down emphasis -->
+          <polyline fill="none" stroke="#1f2937" stroke-width="3"
             points="60,79.8 165,81.4 270,82.1 375,83.1 480,88.9 585,45.5 690,57.2"/>
-          <g fill="#1a8c4e">
+          <g fill="#1f2937">
             <circle cx="60" cy="79.8" r="3.5"/><circle cx="165" cy="81.4" r="3.5"/><circle cx="270" cy="82.1" r="3.5"/>
-            <circle cx="375" cy="83.1" r="3.5"/><circle cx="480" cy="88.9" r="3.5"/><circle cx="585" cy="45.5" r="4.5"/><circle cx="690" cy="57.2" r="4.5"/>
+            <circle cx="375" cy="83.1" r="3.5"/><circle cx="480" cy="88.9" r="3.5"/><circle cx="585" cy="45.5" r="4.5" fill="#1a8c4e"/><circle cx="690" cy="57.2" r="5" fill="#c0392b"/>
           </g>
-          <!-- x labels -->
+          <text x="585" y="38" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="10" font-weight="900" fill="#1a8c4e">1.48%</text>
+          <text x="690" y="50" text-anchor="end" font-family="DM Sans, sans-serif" font-size="11" font-weight="900" fill="#c0392b">1.43% ↓</text>
           <g font-family="DM Sans, sans-serif" font-size="11" font-weight="700" fill="#64748b" text-anchor="middle">
             <text x="60" y="258">W18</text><text x="165" y="258">W19</text><text x="270" y="258">W20</text>
             <text x="375" y="258">W21</text><text x="480" y="258">W22</text><text x="585" y="258">W23</text><text x="690" y="258">W24</text>
           </g>
         </svg>
         <div class="spot-legend">
-          <span><span class="ln" style="border-top-color:#1a8c4e"></span> 実質CVR（bot除外）</span>
-          <span><span class="ln dash" style="border-top-color:#b4b2a9"></span> raw CVR（bot込み）</span>
+          <span><span class="ln" style="border-top-color:#1f2937"></span> 実質CVR（bot除外）</span>
+          <span><span class="ln dash" style="border-top-color:#cfcdc6"></span> raw CVR（bot込み・参考）</span>
           <span><span class="ln dash" style="border-top-color:#1b82c5"></span> 主目標 1.515%</span>
         </div>
       </div>
     </div>
-    <div class="spot-ib green">
-      <h4>判定：転換は底堅い。ただし繁忙期へ向けて「横ばい」なのが論点</h4>
-      実質CVRは <strong>W18 1.33% → W22 1.29%</strong> とほぼ水平、<strong>W23 1.48%・W24 1.43%</strong> と直近は持ち直した。週次のraw上下は下のセクションの通り bot 混入率の差が大きく、転換そのものは底堅い。一方で、<strong>繁忙期（7-8月）に向けて明確な右肩上がりにはまだ転じていない</strong>。点検で「測定要因」と「実需」を切り分けられたので、次はこの横ばいを上げにいくのが主題。
+    <div class="spot-ib amber">
+      <h4>論点：繁忙期へ向けて加速すべき局面で、W24は減速した</h4>
+      実質CVRは W23 1.48% → W24 1.43%、予約完了は 10,056 → 9,890件（−166）。<strong>夏繁忙期はCVRが最も伸びるべき時期</strong>であり、ここで先週比に下げる・目標1.515%に届かないのは見過ごせない。「どこが伸びなかったのか」を以下で特定する。
     </div>
   </div>
 
-  <!-- Section 02: full table -->
+  <!-- 02 bot real? -->
   <div class="card" id="s2" style="scroll-margin-top:16px">
-    <div class="spot-sec-head"><span class="spot-sec-num">02</span><h2 class="spot-sec-title">週次フルデータ（W18〜W24・5-6月）</h2></div>
-    <div class="spot-sec-sub">raw セッションから bot 代理（China+Singapore）を引いた実質セッションで CVR を再計算。購入は bot を含まない（botは購入しない）ためそのまま。</div>
-    <div class="spot-body" style="overflow-x:auto">
+    <div class="spot-sec-head"><span class="spot-sec-num">02</span><h2 class="spot-sec-title">反落は実在か — bot を除いても下げている</h2></div>
+    <div class="spot-sec-sub">raw CVR は bot 混入率（5-6月で 5%→44%）に振られるため週次比較に向かない。そこで bot 代理（China+Singapore）を除いた実質CVRで確認する。</div>
+    <div class="spot-body">
       <table class="spot-tbl">
-        <thead>
-          <tr><th>週（期間）</th><th>raw<br>セッション</th><th>bot<br>(CN+SG)</th><th>bot率</th><th>実質<br>セッション</th><th>購入</th><th>raw<br>CVR</th><th>実質<br>CVR</th></tr>
-        </thead>
+        <thead><tr><th>週</th><th>bot率</th><th>raw CVR</th><th>実質CVR</th><th>実質WoW</th></tr></thead>
         <tbody>
-          <tr class="gw"><td>W18 <small>4/26-5/2 GW</small></td><td>954,547</td><td>50,808</td><td class="botpct">5.3%</td><td>903,739</td><td>12,003</td><td class="rawcvr">1.257%</td><td class="realcvr">1.328%</td></tr>
-          <tr><td>W19 <small>5/3-5/9</small></td><td>990,595</td><td>220,320</td><td class="botpct">22.2%</td><td>770,275</td><td>10,175</td><td class="rawcvr">1.027%</td><td class="realcvr">1.321%</td></tr>
-          <tr><td>W20 <small>5/10-5/16</small></td><td>752,594</td><td>94,544</td><td class="botpct">12.6%</td><td>658,050</td><td>8,675</td><td class="rawcvr">1.153%</td><td class="realcvr">1.318%</td></tr>
-          <tr class="botweek"><td>W21 <small>5/17-5/23</small></td><td>1,184,880</td><td>522,338</td><td class="botpct">44.1%</td><td>662,542</td><td>8,696</td><td class="rawcvr">0.734%</td><td class="realcvr">1.313%</td></tr>
-          <tr><td>W22 <small>5/24-5/30</small></td><td>819,884</td><td>159,898</td><td class="botpct">19.5%</td><td>659,986</td><td>8,494</td><td class="rawcvr">1.036%</td><td class="realcvr">1.287%</td></tr>
-          <tr><td>W23 <small>5/31-6/6</small></td><td>827,894</td><td>150,332</td><td class="botpct">18.2%</td><td>677,562</td><td>10,056</td><td class="rawcvr">1.215%</td><td class="realcvr">1.484%</td></tr>
-          <tr class="now"><td>W24 <small>6/7-6/13</small></td><td>820,021</td><td>128,904</td><td class="botpct">15.7%</td><td>691,117</td><td>9,890</td><td class="rawcvr">1.206%</td><td class="realcvr">1.431%</td></tr>
+          <tr><td>W22 5/24-30</td><td>19.5%</td><td>1.036%</td><td>1.287%</td><td>—</td></tr>
+          <tr><td>W23 5/31-6/6</td><td>18.2%</td><td>1.215%</td><td>1.484%</td><td class="yoy-up">+0.20pp</td></tr>
+          <tr class="hot"><td>W24 6/7-13</td><td>15.7%</td><td>1.206%</td><td>1.431%</td><td class="yoy-down">−0.05pp</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="spot-foot">※ W25（6/14-18・部分週）は購入 7,043件（5日）で進行中のため週次比較から除外。実質CVR = 購入 ÷（raw セッション − CN/SG セッション）。bot 代理は W24 で 128,904（既存W24レポートの 129,753 と整合）。</div>
+    <div class="spot-ib blue">
+      <h4>判定：bot 由来の見かけではなく、実需ベースの反落</h4>
+      bot を除いた実質CVRでも <strong>W24 は −0.05pp の反落</strong>、予約完了も bot 無関係で −166件。<strong>反落は実在する</strong>。一部は 6/1 のポイントメール配信で W23 が一時的に押し上がった反動だが、それを差し引いても「繁忙期へ向けて加速できていない」事実は変わらない。
+    </div>
   </div>
 
-  <!-- Section 03: bot noise -->
+  <!-- 03 what didn't grow -->
   <div class="card" id="s3" style="scroll-margin-top:16px">
-    <div class="spot-sec-head"><span class="spot-sec-num red">03</span><h2 class="spot-sec-title">なぜ raw CVR は乱高下するか — bot 混入率が週で 5%→44% に激変</h2></div>
-    <div class="spot-sec-sub">raw CVR の谷（W21 0.73%）は転換の悪化ではなく、分母（セッション）が bot で水増しされた結果。特に <strong>5/20-5/21 に China+Singapore から約36万のセッションスパイク</strong>が入り、W21 の bot 率を 44% に押し上げた。</div>
+    <div class="spot-sec-head"><span class="spot-sec-num red">03</span><h2 class="spot-sec-title">何が伸び、何が伸びなかったか（先週比 W23→W24）</h2></div>
+    <div class="spot-sec-sub">予約完了の先週比増減を発生源で分解。<strong>伸びたのは新規ユーザーとPaid Search（取込側）</strong>。<strong>伸びなかった＝下げたのは、既存客（リピーター）とモバイル</strong>。</div>
+    <div class="spot-body">
+      <div class="gf">
+        <div class="gf-card up">
+          <div class="gf-h">▲ 伸びた（繁忙期に向け立ち上がり）</div>
+          <div class="gf-row"><span>新規ユーザー <span class="gf-tag">取込</span></span><b class="d-up">+45</b></div>
+          <div class="gf-row"><span>Paid Search <span class="gf-tag">広告流入</span></span><b class="d-up">+137</b></div>
+          <div class="gf-row"><span>Unassigned</span><b class="d-up">+22</b></div>
+        </div>
+        <div class="gf-card down">
+          <div class="gf-h">▼ 伸びず・下げた（ここが弱点）</div>
+          <div class="gf-row"><span>リピーター（既存客） <span class="gf-tag">合計</span></span><b class="d-down">−211</b></div>
+          <div class="gf-row"><span>┗ Email（会員配信）</span><b class="d-down">−216</b></div>
+          <div class="gf-row"><span>┗ Direct（指名・再訪）</span><b class="d-down">−114</b></div>
+          <div class="gf-row"><span>モバイル <span class="gf-tag">購入の約7割</span></span><b class="d-down">−117</b></div>
+        </div>
+      </div>
+    </div>
+    <div class="spot-ib red">
+      <h4>特徴：取込（新規）は伸び、再来・既存客（リピーター）が伸びなかった</h4>
+      先週比で増えた完了は <strong>新規ユーザー（+45）と Paid Search（+137）＝新しく取り込む側</strong>。一方、<strong>既存客（リピーター −211、内訳 Email −216・Direct −114）と、購入の主力モバイル（−117）が下げた</strong>。6/1のポイントメールで持ち上がった会員需要が、6月にフォローの配信が無く失速したのが大きい。<strong>「新規は獲れているが、既存客の再来購入とモバイルが繁忙期に向けて伸びていない」</strong>のが今週の特徴。
+    </div>
+  </div>
+
+  <!-- 04 YoY -->
+  <div class="card" id="s4" style="scroll-margin-top:16px">
+    <div class="spot-sec-head"><span class="spot-sec-num red">04</span><h2 class="spot-sec-title">前年比（YoY）— 主力モバイルが前年を下回る</h2></div>
+    <div class="spot-sec-sub">「本来の右肩上がり」に乗れているかを前年同週（2025/6/7-13）と比較。デバイス別と総数は信頼できる（属性の整備状況により、2025のチャネル/新規リピーター内訳は欠損が多く比較不可）。</div>
     <div class="spot-body">
       <table class="spot-tbl">
-        <thead><tr><th>週</th><th>bot率</th><th>raw CVR</th><th>実質 CVR</th><th>raw が実質より低く出た幅</th></tr></thead>
+        <thead><tr><th>区分</th><th>2025 W24</th><th>2026 W24</th><th>前年比</th></tr></thead>
         <tbody>
-          <tr><td>W18</td><td class="botpct">5.3%</td><td class="rawcvr">1.257%</td><td class="realcvr">1.328%</td><td>−0.07pp</td></tr>
-          <tr><td>W19</td><td class="botpct">22.2%</td><td class="rawcvr">1.027%</td><td class="realcvr">1.321%</td><td>−0.29pp</td></tr>
-          <tr><td>W20</td><td class="botpct">12.6%</td><td class="rawcvr">1.153%</td><td class="realcvr">1.318%</td><td>−0.17pp</td></tr>
-          <tr class="botweek"><td>W21</td><td class="botpct">44.1%</td><td class="rawcvr">0.734%</td><td class="realcvr">1.313%</td><td>−0.58pp</td></tr>
-          <tr><td>W22</td><td class="botpct">19.5%</td><td class="rawcvr">1.036%</td><td class="realcvr">1.287%</td><td>−0.25pp</td></tr>
-          <tr><td>W23</td><td class="botpct">18.2%</td><td class="rawcvr">1.215%</td><td class="realcvr">1.484%</td><td>−0.27pp</td></tr>
-          <tr class="now"><td>W24</td><td class="botpct">15.7%</td><td class="rawcvr">1.206%</td><td class="realcvr">1.431%</td><td>−0.23pp</td></tr>
+          <tr><td>予約完了 計</td><td>9,536</td><td>9,890</td><td class="yoy-up">+3.7%</td></tr>
+          <tr class="hot"><td>モバイル</td><td>7,049</td><td>6,844</td><td class="yoy-down">−2.9%</td></tr>
+          <tr><td>desktop</td><td>2,363</td><td>2,936</td><td class="yoy-up">+24.2%</td></tr>
+          <tr><td>tablet</td><td>124</td><td>110</td><td class="yoy-down">−11.3%</td></tr>
         </tbody>
       </table>
     </div>
     <div class="spot-ib red">
-      <h4>判定：raw 週次CVRは指標として使えない</h4>
-      bot 率が 5%→44% で動く以上、raw CVR の週次比較は<strong>「人の転換」ではなく「その週どれだけbotが来たか」を測っている</strong>。raw CVR と実質CVRの乖離は bot 率にきれいに連動（W21は乖離 −0.58pp）。<strong>週次の議論は必ず実質CVR（bot除外）で行う</strong>。bot の恒久対策（WAF）は SRE 側で並行。
+      <h4>判定：成長は desktop 頼み、主力モバイルは前年割れ</h4>
+      総予約は前年比 +3.7% と微増だが、中身は <strong>desktop（+24%）が牽引し、購入の約7割を占めるモバイルは −2.9% と前年を下回る</strong>。繁忙期はモバイル比率がさらに上がる時期で、<strong>主力が前年割れのまま入るのは大きなリスク</strong>。先週比（03）と前年比（04）の両方で「モバイル」が共通の弱点として浮かぶ。
     </div>
   </div>
 
-  <!-- Section 04: purchase seasonality -->
-  <div class="card" id="s4" style="scroll-margin-top:16px">
-    <div class="spot-sec-head"><span class="spot-sec-num">04</span><h2 class="spot-sec-title">購入数の増減は「季節的な需要の波」— 新規は安定、リピーターが動く</h2></div>
-    <div class="spot-sec-sub">購入数は GW週（W18）でピーク → 5月中旬（W20-22）で谷 → 6月（W23-24）で回復。動いているのは主に<strong>リピーター（既存客）</strong>で、<strong>新規はほぼ一定〜微増</strong>。実質CVRが保たれているのは、来訪（需要）が減った週はセッションも減るため。</div>
-    <div class="spot-body">
-      <div class="spot-bars">
-        <div class="spot-bcol gw"><div class="spot-btot">12,003</div><div class="spot-bstack" style="height:160px"><div class="spot-bnew" style="height:37px"></div><div class="spot-bret" style="height:123px"></div></div></div>
-        <div class="spot-bcol"><div class="spot-btot">10,175</div><div class="spot-bstack" style="height:136px"><div class="spot-bnew" style="height:32px"></div><div class="spot-bret" style="height:104px"></div></div></div>
-        <div class="spot-bcol"><div class="spot-btot">8,675</div><div class="spot-bstack" style="height:116px"><div class="spot-bnew" style="height:27px"></div><div class="spot-bret" style="height:89px"></div></div></div>
-        <div class="spot-bcol"><div class="spot-btot">8,696</div><div class="spot-bstack" style="height:116px"><div class="spot-bnew" style="height:26px"></div><div class="spot-bret" style="height:90px"></div></div></div>
-        <div class="spot-bcol"><div class="spot-btot">8,494</div><div class="spot-bstack" style="height:113px"><div class="spot-bnew" style="height:27px"></div><div class="spot-bret" style="height:86px"></div></div></div>
-        <div class="spot-bcol"><div class="spot-btot">10,056</div><div class="spot-bstack" style="height:134px"><div class="spot-bnew" style="height:31px"></div><div class="spot-bret" style="height:103px"></div></div></div>
-        <div class="spot-bcol"><div class="spot-btot">9,890</div><div class="spot-bstack" style="height:132px"><div class="spot-bnew" style="height:32px"></div><div class="spot-bret" style="height:100px"></div></div></div>
-      </div>
-      <div class="spot-blabels">
-        <div class="spot-blabel">W18<small>GWピーク</small></div>
-        <div class="spot-blabel">W19</div>
-        <div class="spot-blabel">W20</div>
-        <div class="spot-blabel">W21</div>
-        <div class="spot-blabel">W22<small>谷</small></div>
-        <div class="spot-blabel">W23</div>
-        <div class="spot-blabel">W24</div>
-      </div>
-      <div class="spot-legend">
-        <span><span class="ln" style="border-top-color:#1a8c4e;border-top-width:10px"></span> リピーター購入</span>
-        <span><span class="ln" style="border-top-color:#86efac;border-top-width:10px"></span> 新規購入</span>
-      </div>
-    </div>
-    <div class="spot-ib blue">
-      <h4>判定：需要の波であって転換の劣化ではない</h4>
-      リピーター購入は <strong>GW 9,197 → 5月谷 6,497（W22）→ 6月 7,517（W24）</strong> と季節で動く。新規購入は <strong>1,967〜2,806 でほぼ一定、W24（2,373）はむしろ高水準</strong>。来訪が細った週は購入も減るが実質CVRは ~1.3% で維持＝<strong>「買う力」は落ちていない</strong>。新規獲得はむしろ堅調。
-    </div>
-  </div>
-
-  <!-- Section 05: 4-axis trough scan -->
+  <!-- 05 trough scan (context) -->
   <div class="card" id="s5" style="scroll-margin-top:16px">
-    <div class="spot-sec-head"><span class="spot-sec-num">05</span><h2 class="spot-sec-title">4軸トラフスキャン — 谷は「特定の軸」か「全体」か</h2></div>
-    <div class="spot-sec-sub">チャネル・デバイス・新規/リピーター・エリアを<strong>同じ週次の物差し</strong>で並べ、各セグメントの谷（最小週）を特定する。判定の原則はシンプル：<strong>1つの軸だけが凹むならそこに固有の問題（深掘りして直す）／全軸が一斉に凹むなら需要・季節性（穴つぶしではなく需要の押し上げに切り替える）</strong>。bot無関係の購入数で比較。</div>
+    <div class="spot-sec-head"><span class="spot-sec-num">05</span><h2 class="spot-sec-title">背景：5月の谷は全軸一斉＝季節性。問題はその後の「伸び切らなさ」</h2></div>
+    <div class="spot-sec-sub">4軸を同一週次で並べた購入数（bot無関係）。GW(W18)→5月中旬の谷→6月回復は<strong>全セグメント一斉＝GW後の季節需要</strong>。ただし回復はしたものの、上述の通り <strong>W24でモバイル・既存客が再び下げ、繁忙期へ加速し切れていない</strong>。</div>
     <div class="spot-body" style="overflow-x:auto">
       <table class="spot-tbl heat">
         <thead>
-          <tr><th>セグメント</th><th>W18<br><small>GW</small></th><th>W19</th><th>W20</th><th>W21</th><th>W22</th><th>W23</th><th>W24</th><th>Peak→谷</th><th>谷→W24</th></tr>
+          <tr><th>セグメント</th><th>W18<br><small>GW</small></th><th>W19</th><th>W20</th><th>W21</th><th>W22</th><th>W23</th><th>W24</th><th>谷→W24</th></tr>
         </thead>
         <tbody>
-          <tr class="axhead"><td colspan="10">チャネル別</td></tr>
-          <tr><td>Organic Search</td><td>2,929</td><td>2,510</td><td>2,050</td><td>2,010</td><td class="trough">1,930</td><td>2,216</td><td>2,204</td><td class="drop">−34%</td><td class="rec">+14%</td></tr>
-          <tr><td>Paid Search</td><td>2,494</td><td>2,134</td><td class="trough">1,844</td><td>2,029</td><td>1,912</td><td>2,152</td><td>2,289</td><td class="drop">−26%</td><td class="rec">+24%</td></tr>
-          <tr><td>Unassigned</td><td>2,441</td><td>2,043</td><td>1,623</td><td>1,628</td><td class="trough">1,569</td><td>2,006</td><td>2,028</td><td class="drop">−36%</td><td class="rec">+29%</td></tr>
-          <tr><td>Direct</td><td>2,079</td><td>1,835</td><td>1,716</td><td class="trough">1,593</td><td>1,655</td><td>1,939</td><td>1,825</td><td class="drop">−23%</td><td class="rec">+15%</td></tr>
-          <tr><td>Email</td><td>920</td><td>692</td><td>557</td><td class="trough">528</td><td>552</td><td>746</td><td>530</td><td class="drop">−43%</td><td class="rec flatx">±0%</td></tr>
-          <tr><td>Referral</td><td>730</td><td>598</td><td>538</td><td>532</td><td class="trough">529</td><td>619</td><td>601</td><td class="drop">−28%</td><td class="rec">+14%</td></tr>
-          <tr class="axhead"><td colspan="10">デバイス別</td></tr>
-          <tr><td>Mobile</td><td>8,235</td><td>7,187</td><td>5,939</td><td>5,926</td><td class="trough">5,756</td><td>6,961</td><td>6,844</td><td class="drop">−30%</td><td class="rec">+19%</td></tr>
-          <tr><td>Desktop</td><td>3,619</td><td>2,878</td><td>2,638</td><td>2,684</td><td class="trough">2,623</td><td>2,975</td><td>2,936</td><td class="drop">−28%</td><td class="rec">+12%</td></tr>
-          <tr class="axhead"><td colspan="10">新規 / リピーター別</td></tr>
-          <tr><td>リピーター</td><td>9,197</td><td>7,791</td><td>6,682</td><td>6,728</td><td class="trough">6,497</td><td>7,728</td><td>7,517</td><td class="drop">−29%</td><td class="rec">+16%</td></tr>
-          <tr><td>新規</td><td>2,806</td><td>2,384</td><td>1,993</td><td class="trough">1,967</td><td>1,997</td><td>2,328</td><td>2,373</td><td class="drop">−30%</td><td class="rec">+21%</td></tr>
+          <tr class="axhead"><td colspan="9">チャネル別</td></tr>
+          <tr><td>Organic Search</td><td>2,929</td><td>2,510</td><td>2,050</td><td>2,010</td><td class="trough">1,930</td><td>2,216</td><td>2,204</td><td class="rec">+14%</td></tr>
+          <tr><td>Paid Search</td><td>2,494</td><td>2,134</td><td class="trough">1,844</td><td>2,029</td><td>1,912</td><td>2,152</td><td>2,289</td><td class="rec">+24%</td></tr>
+          <tr><td>Direct</td><td>2,079</td><td>1,835</td><td>1,716</td><td class="trough">1,593</td><td>1,655</td><td>1,939</td><td>1,825</td><td class="rec">+15%</td></tr>
+          <tr><td>Email</td><td>920</td><td>692</td><td>557</td><td class="trough">528</td><td>552</td><td>746</td><td>530</td><td class="rec flatx">±0%</td></tr>
+          <tr class="axhead"><td colspan="9">デバイス別</td></tr>
+          <tr><td>Mobile</td><td>8,235</td><td>7,187</td><td>5,939</td><td>5,926</td><td class="trough">5,756</td><td>6,961</td><td>6,844</td><td class="rec">+19%</td></tr>
+          <tr><td>Desktop</td><td>3,619</td><td>2,878</td><td>2,638</td><td>2,684</td><td class="trough">2,623</td><td>2,975</td><td>2,936</td><td class="rec">+12%</td></tr>
+          <tr class="axhead"><td colspan="9">新規 / リピーター別</td></tr>
+          <tr><td>リピーター</td><td>9,197</td><td>7,791</td><td>6,682</td><td>6,728</td><td class="trough">6,497</td><td>7,728</td><td>7,517</td><td class="rec">+16%</td></tr>
+          <tr><td>新規</td><td>2,806</td><td>2,384</td><td>1,993</td><td class="trough">1,967</td><td>1,997</td><td>2,328</td><td>2,373</td><td class="rec">+21%</td></tr>
         </tbody>
       </table>
-      <div class="spot-foot" style="padding-left:0;padding-right:0">赤セル＝そのセグメントの最小（谷）週。Peak→谷 = GW週W18からの下落率。谷→W24 = 谷からの回復率。Email の「±0%」はW24が谷とほぼ同水準（6月の一斉配信が無く未回復）。</div>
-    </div>
-
-    <!-- area (3-week sample) -->
-    <div class="spot-sec-sub" style="padding-top:6px"><strong>エリア別</strong>（landingPage・W18/W22/W24の3週サンプル）も同じ形。主要導線・主要destinationは一斉に谷→回復。例外は<strong>北海道/札幌が逆行で上昇</strong>（夏需要の立ち上がり）。</div>
-    <div class="spot-body" style="overflow-x:auto;padding-top:6px">
-      <table class="spot-tbl heat">
-        <thead><tr><th>ランディング（エリア）</th><th>W18 GW</th><th>W22 谷</th><th>W24</th><th>傾向</th></tr></thead>
-        <tbody>
-          <tr><td>/jp（TOP）</td><td>2,553</td><td class="trough">1,676</td><td>2,035</td><td class="rec">谷→回復</td></tr>
-          <tr><td>/jp/hawaii</td><td>118</td><td class="trough">84</td><td>91</td><td class="rec">谷→回復</td></tr>
-          <tr class="up"><td>北海道/札幌 ctg-3239</td><td>50</td><td>65</td><td>91</td><td class="rec">逆行↑（夏需要）</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="spot-ib amber">
-      <h4>判定：谷は「全軸一斉」＝ 季節性（GW後の需要収縮）。特定軸の固有問題ではない</h4>
-      チャネル6・デバイス2・新規/リピーター2・主要エリアの<strong>すべてが W20〜W22 で谷を打ち、GWから −23〜−36% とほぼ同率で下落、6月に +12〜+29% で一斉回復</strong>。<strong>1つの軸だけが落ちる「固有の穴」は無い</strong>＝これは UX やファネルの不具合ではなく需要（季節）の波。例外は2つだけ：<strong>① Email</strong>（6月に一斉配信が無く未回復・小規模＝CRMカデンツ）、<strong>② 北海道/札幌</strong>（夏需要で逆行上昇）。
+      <div class="spot-foot" style="padding-left:0;padding-right:0">赤セル＝そのセグメントの谷（最小週）。5月中旬〜下旬(W20-22)に全軸一斉で谷→6月回復。エリア別（landingPage・W18/W22/W24サンプル）も同形で、北海道/札幌のみ逆行上昇（夏需要の立ち上がり）。</div>
     </div>
     <div class="spot-ib blue">
-      <h4>この物差しの使い方（今後の標準）</h4>
-      毎週この4軸スキャンを当てる。<strong>谷が1軸に集中していたら、その軸を掛け合わせ（例：モバイル×新規×該当チャネル）で深掘りして直す。</strong>谷が全軸一斉なら需要・季節性と判断し、個別UXの穴探しではなく<strong>需要を押し上げる打ち手（繁忙期送客・CRM・主力destinationの押し出し）に切り替える</strong>。今回は後者で、しかも繁忙期前なので押し上げの優先度は高い。
+      <h4>読み筋：季節性で説明できる「谷と回復」と、説明できない「W24の減速」を分ける</h4>
+      5月の谷は全軸一斉＝GW後の季節需要で、ここは想定内。問題はその先で、<strong>繁忙期へ加速すべき6月後半（W24）に、モバイルと既存客が再び下げた</strong>こと。1軸だけが凹むなら固有問題として深掘り、全軸一斉なら需要側の打ち手——という物差しで見ると、今回は<strong>「モバイル×既存客」に絞った深掘りと押し上げ</strong>が次の一手。
     </div>
   </div>
 
-  <!-- Section 06: conclusion -->
+  <!-- 06 conclusion -->
   <div class="card" id="s6" style="scroll-margin-top:16px">
-    <div class="spot-sec-head"><span class="spot-sec-num green">06</span><h2 class="spot-sec-title">結論と読み筋 — 繁忙期へ向けて、横ばいのCVRを右肩上がりに転じさせる</h2></div>
-    <div class="spot-ib blue">
-      <h4>① 点検は正しかった — 実需と測定要因を切り分けられた</h4>
-      繁忙期前にCVRの動きを点検したのは適切な初動。結果、週次の見かけの上下は <strong>測定要因（bot 混入率 5%→44%）と配信タイミング</strong>が大きく、実需の転換は底堅いと確認できた。次の判断材料がクリアになった。
+    <div class="spot-sec-head"><span class="spot-sec-num amber">06</span><h2 class="spot-sec-title">結論 — 繁忙期へ向けて伸ばす3点</h2></div>
+    <div class="spot-ib red">
+      <h4>① モバイルを上げる（先週比・前年比の両方で弱点）</h4>
+      購入の約7割を占めるモバイルが、先週比 −117・前年比 −2.9%。繁忙期はモバイル比率がさらに上がるため、ここが伸びないと全体が伸びない。<strong>モバイルの予約完了（フォーム・決済・速度）を最優先で深掘り</strong>。
     </div>
     <div class="spot-ib amber">
-      <h4>② 本当の論点 — 繁忙期目前なのにCVRが横ばい</h4>
-      実質CVRは ~1.30%（6月 1.43〜1.48%）で<strong>横ばい、主目標 1.515% にも未達</strong>。年間最大の <strong>7-8月繁忙期はCVRが最も伸びるべき時期</strong>で、いま右肩上がりに転じていないのが最大のリスク。ここを上げ切ることが最優先。
+      <h4>② 既存客（会員）の再来購入を切らさない</h4>
+      6/1のポイントメールで会員需要は動いた（その週 +194）が、6月にフォロー配信が無く失速し、Email・Directが下げた。<strong>繁忙期に向けて会員へのCRM配信を継続的に設計</strong>し、再来購入を右肩上がりに乗せる。
     </div>
     <div class="spot-ib green">
-      <h4>③ やること — 「押し上げ」に火力を寄せる</h4>
-      谷は全軸一斉＝季節性なので、個別の穴つぶしより<strong>需要を押し上げる打ち手</strong>（繁忙期送客・CRM・主力destination）と、<strong>構造の天井＝新規の予約完了（④→⑤）</strong>を繁忙期前に動かす。週次4軸スキャンは早期に異変を捕まえる定点観測として継続。
+      <h4>③ 伸びている新規取込を、完了まで取り切る</h4>
+      新規ユーザーとPaid Searchは伸びている＝<strong>入口の取込は順調</strong>。これを取りこぼさないよう、<strong>新規の予約完了（④→⑤の構造ギャップ）</strong>を繁忙期前に動かせば、増えた新規がそのまま増分CVに変わる。
     </div>
     <div class="spot-foot" style="padding-top:14px">
-      出典：GA4 <code>347074845</code>。期間 2026-04-26〜06-18（W18〜W25部分）。CVR = purchase ÷ セッション。実質 = raw − CN/SG（bot代理）。主目標 1.515%（reports-index targets）。週バケットは日〜土。関連：<a href="/spot/2026-gw-cvr-decline.html" style="color:#1a8c4e;font-weight:700">GW CVR 構造低下（YoY視点）</a> ／ <a href="/reports/2026-w24/" style="color:#1a8c4e;font-weight:700">W24 週次サマリー</a>
+      出典：GA4 <code>347074845</code>。先週比＝W24(6/7-13) vs W23(5/31-6/6)、前年比＝2026 W24 vs 2025(6/7-13)。予約完了＝<code>eventName=purchase</code>。実質CVR＝purchase ÷（セッション − CN/SG）。<strong>注</strong>：2025のチャネル/新規リピーター内訳は属性欠損（(not set)）が多く、YoYはデバイスと総数のみ採用。週バケットは日〜土。関連：<a href="/spot/2026-gw-cvr-decline.html" style="color:#d97706;font-weight:700">GW CVR 構造低下（YoY視点）</a> ／ <a href="/reports/2026-w24/" style="color:#d97706;font-weight:700">W24 週次サマリー</a>
     </div>
   </div>
 
