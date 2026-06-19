@@ -113,6 +113,18 @@
 .act-box.mob{background:#eef5fb;border:1px solid #d6e6f2}
 .act-box.mob h5{color:#1b5a8c}
 
+/* mobile vs desktop funnel comparison */
+.fnl{display:grid;gap:9px;margin-top:4px}
+.fnl-row{display:grid;grid-template-columns:140px 1fr 1fr;gap:10px;align-items:center;font-size:12px}
+.fnl-row.head{font-weight:900;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.04em}
+.fnl-step{font-weight:700;color:var(--text)}
+.fnl-bar{position:relative;height:22px;background:#f0ede8;border-radius:4px;overflow:hidden}
+.fnl-bar i{position:absolute;left:0;top:0;height:100%;border-radius:4px}
+.fnl-bar.m i{background:#d97706}.fnl-bar.m.weak i{background:#c0392b}.fnl-bar.m.win i{background:#1a8c4e}
+.fnl-bar.d i{background:#b4b2a9}
+.fnl-bar b{position:absolute;right:7px;top:50%;transform:translateY(-50%);font-family:'DM Sans';font-weight:900;font-size:11px;color:#1a1a1a}
+.fnl-gap{font-family:'DM Sans';font-weight:900;font-size:11px}
+
 @media(max-width:768px){
   .act-grid{padding-left:22px;padding-right:22px}
   .act-rows{grid-template-columns:1fr}
@@ -153,6 +165,7 @@
         <li><a href="#s5">05 4軸スキャン（背景の季節性）</a></li>
         <li><a href="#s6">06 結論 — 繁忙期へ向けて伸ばす3点</a></li>
         <li><a href="#s7">07 具体施策（送客 × CRM × 新規完了）</a></li>
+        <li><a href="#s8">08 深掘り：モバイルの何が悪いか</a></li>
       </ul>
     </div>
   </div>
@@ -282,7 +295,7 @@
     </div>
     <div class="spot-ib red">
       <h4>判定：成長は desktop 頼み、主力モバイルは前年割れ</h4>
-      総予約は前年比 +3.7% と微増だが、中身は <strong>desktop（+24%）が牽引し、購入の約7割を占めるモバイルは −2.9% と前年を下回る</strong>。繁忙期はモバイル比率がさらに上がる時期で、<strong>主力が前年割れのまま入るのは繁忙期前に正したい弱点</strong>。先週比（03）の下げは「W23の反動」で恒常需要は健在だったが、<strong>前年比で見るとモバイルの予約完了件数は構造的に前年を下回っている</strong>＝こちらが追うべき本当の弱点。なおこれは<strong>件数ベース</strong>で、前年割れが「モバイル流入の減少」か「モバイル転換の低下」かは、デバイス別のクリーンなセッションが要り<strong>未分離</strong>＝次の深掘り対象。
+      総予約は前年比 +3.7% と微増だが、中身は <strong>desktop（+24%）が牽引し、購入の約7割を占めるモバイルは −2.9% と前年を下回る</strong>。繁忙期はモバイル比率がさらに上がる時期で、<strong>主力が前年割れのまま入るのは繁忙期前に正したい弱点</strong>。先週比（03）の下げは「W23の反動」で恒常需要は健在だったが、<strong>前年比で見るとモバイルの予約完了件数は構造的に前年を下回っている</strong>＝こちらが追うべき本当の弱点。なおこれは<strong>件数ベース</strong>で、前年割れが「モバイル流入の減少」か「モバイル転換の低下」かは、デバイス別のクリーンなセッションが要り<strong>未分離</strong>。代わりに<strong>ファネルのどこで漏れるか</strong>を構造で見たのが <a href="#s8" style="color:#c0392b;font-weight:700">08</a>（モバイルの何が悪いか）。
     </div>
   </div>
 
@@ -413,6 +426,32 @@
       </ol>
       共通テコは<strong>モバイル</strong>（購入の約7割・前年割れ）。各施策とも「モバイルで完結するか」を設計の起点にする。
     </div>
+  </div>
+
+  <!-- 08 mobile deep dive -->
+  <div class="card" id="s8" style="scroll-margin-top:16px">
+    <div class="spot-sec-head"><span class="spot-sec-num red">08</span><h2 class="spot-sec-title">深掘り：モバイルの「何が」悪いか — 入口（AC到達）と完了（決済）</h2></div>
+    <div class="spot-sec-sub">モバイル購入は前年比 −2.9%。ただし「流入が減った」のか「転換が落ちた」のかは、セッションが両年とも不安定（2025は計測が薄い・2026はbot混在）で断定できない。そこで<strong>モバイルのファネルがどこで漏れるかを desktop と比較</strong>（28日・通過率）して、構造で答える。</div>
+    <div class="spot-body">
+      <div class="fnl">
+        <div class="fnl-row head"><span>ファネル段階</span><span>モバイル</span><span>desktop</span></div>
+        <div class="fnl-row"><span class="fnl-step">①→② 入口（AC到達）</span><span class="fnl-bar m weak"><i style="width:33%"></i><b>32.7%</b></span><span class="fnl-bar d"><i style="width:39%"></i><b>38.8%</b></span></div>
+        <div class="fnl-row"><span class="fnl-step">②→③ 検討（カレンダー）</span><span class="fnl-bar m win"><i style="width:15%"></i><b>14.5%</b></span><span class="fnl-bar d"><i style="width:5%"></i><b>4.2%</b></span></div>
+        <div class="fnl-row"><span class="fnl-step">③→④ 意向（フォーム）</span><span class="fnl-bar m"><i style="width:44%"></i><b>43.5%</b></span><span class="fnl-bar d"><i style="width:48%"></i><b>47.5%</b></span></div>
+        <div class="fnl-row"><span class="fnl-step">④→⑤ 完了（決済）</span><span class="fnl-bar m weak"><i style="width:66%"></i><b>65.9%</b></span><span class="fnl-bar d"><i style="width:81%"></i><b>80.5%</b></span></div>
+      </div>
+      <div class="spot-foot" style="padding-left:0;padding-right:0">赤＝モバイルが desktop に負ける段、緑＝モバイルが勝つ段。差（モバイル−desktop）：①→② <strong>−6.1pp</strong>／②→③ +10.3pp／③→④ −4.0pp／④→⑤ <strong>−14.6pp</strong>。④→⑤ は決済段で bot の影響を受けにくくクリーン。</div>
+    </div>
+    <div class="spot-ib red">
+      <h4>判定：弱点は「入口（AC到達）」と「完了（決済）」。"探して比較する"はむしろ強い</h4>
+      モバイルは ②→③（検討）<strong>14.5% で desktop 4.2% に圧勝</strong>＝探して比較するのは得意。落ちるのは2か所だけ：<strong>① 入口＝AC到達（32.7%・最も低い段、desktop比 −6.1pp）</strong>と <strong>④→⑤ 完了＝決済（65.9% ↔ desktop 80.5%／−14.6pp）</strong>。前者は小さい画面で"自分に合うAC"へ辿り着けない、後者はフォーム・決済の摩擦。
+    </div>
+    <div class="spot-ib green">
+      <h4>やること（既存の施策に直結）</h4>
+      <strong>入口（①→②）</strong>：モバイル上部に探索軸（スポット／やりたいこと／出発地／タイミング）＝07の「新規 AC到達→検討」と同じ打ち手。到達さえすれば ②→③ が強い（14.5%）ので<strong>レバレッジが最大</strong>、ここから先に着手。<br>
+      <strong>完了（④→⑤）</strong>：モバイルのフォーム段階圧縮・最終総額の事前明示・決済直前の不安要素を引く。単段の差（−14.6pp）が最も大きい。
+    </div>
+    <div class="spot-foot" style="padding-top:8px">出典：GA4 <code>347074845</code>。通過率は 28日・デバイス別（data.json）。前年比はW24購入の device YoY（モバイル 7,049 → 6,844）。流入／転換の厳密な分解はセッション計測の整備が前提。</div>
   </div>
 
   <!-- Footer -->
