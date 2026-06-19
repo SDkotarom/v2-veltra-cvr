@@ -120,11 +120,12 @@
   var isGwSub = isGwMacro || isGwCompetitive || isGwPricing || isGwProduct || isGwBehavior || isGwUiux;
   var isAcDiscovery = (path === '/spot/2026-ac-discovery.html');
   var isSurfaceWf = (path === '/spot/2026-surface-wireframes.html');
+  var isMayJunCvr = /^\/spot\/2026-may-jun-cvr-trend(\.html)?$/.test(path);
   var isVeltraTopSection = /^\/spot\/veltra-top-section-visibility(\.html)?$/.test(path);
   var isTaiwanSection = /^\/spot\/taiwan-section-visibility(\.html)?$/.test(path);
   var isJiufenSection = /^\/spot\/jiufen-category-section-visibility(\.html)?$/.test(path);
   var isAcSection = /^\/spot\/ac-page-section-visibility(\.html)?$/.test(path);
-  var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isAcDiscovery || isSurfaceWf || isVeltraTopSection || isTaiwanSection || isJiufenSection || isAcSection;
+  var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isAcDiscovery || isSurfaceWf || isMayJunCvr || isVeltraTopSection || isTaiwanSection || isJiufenSection || isAcSection;
   var isArchive = (path === '/reports/' || path === '/reports/index.html');
   var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
   var qp = new URLSearchParams(location.search);
@@ -210,6 +211,8 @@
       append(homeA, mkCurrent('スポット分析'), mkCurrent('セクション閲覧｜九份カテゴリーページ'));
     } else if (isAcSection) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('セクション閲覧｜商品詳細(AC)ページ'));
+    } else if (isMayJunCvr) {
+      append(homeA, mkCurrent('スポット分析'), mkCurrent('5-6月 週次CVRの実態'));
     } else if (isPlanning) {
       append(homeA, mkCurrent('施策案'));
     } else if (isPlanningItem) {
@@ -247,6 +250,7 @@
   // Hierarchical: items may have a `children` array for sub-pages.
   // 新しい順（新しいものが上 = 大きい番号）。番号は描画時に position から自動採番。
   var SPOT_ITEMS = [
+    { id: 'mayjun-cvr', href: '/spot/2026-may-jun-cvr-trend.html', label: '5-6月 週次CVRの実態（落ち込み検証）', match: function(){ return isMayJunCvr; } },
     {
       id: 'ac-discovery',
       href: '/spot/2026-ac-discovery.html',
