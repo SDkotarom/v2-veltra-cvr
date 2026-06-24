@@ -289,6 +289,125 @@
     .filter-chips { flex-wrap: wrap; row-gap: 8px; }
   }
 
+  /* =====================================================================
+     Mobile filter (chip row + modal). Shown only at <992px.
+  ===================================================================== */
+  .filter-mobile { display: none; }
+  @media (max-width: 991.98px) {
+    .filter-section { display: none; }
+    .filter-mobile {
+      display: flex; align-items: center; gap: 8px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+      margin-bottom: 16px;
+    }
+    .filter-mobile::-webkit-scrollbar { display: none; }
+  }
+  .fm-chip {
+    flex: none;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    height: 32px;
+    padding: 0 12px;
+    display: inline-flex; align-items: center; gap: 2px;
+    font-size: 12px;
+    color: var(--ink);
+    line-height: 1;
+    white-space: nowrap;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .fm-chip svg { width: 16px; height: 16px; flex: none; }
+  .fm-chip.is-active {
+    background: var(--blue-soft);
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+  .fm-chip.fm-trigger.has-selection {
+    background: var(--blue-soft);
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+  .fm-chip.fm-trigger.has-selection svg { color: var(--blue); }
+  .fm-trigger-count {
+    margin-left: 2px;
+    background: var(--blue);
+    color: #fff;
+    border-radius: 100px;
+    min-width: 16px; height: 16px;
+    padding: 0 5px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700;
+    line-height: 1;
+  }
+
+  /* Modal (filter chooser) */
+  .fm-modal {
+    position: fixed; inset: 0;
+    z-index: 100;
+    display: none;
+  }
+  .fm-modal.is-open { display: block; }
+  .fm-modal-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+  }
+  .fm-modal-panel {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 32px);
+    max-width: 360px;
+    max-height: calc(100vh - 64px);
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    overflow-y: auto;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  }
+  .fm-modal-close {
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--ink);
+    padding: 0;
+  }
+  .fm-modal-close:hover { border-color: var(--ink); }
+  .fm-modal-title {
+    font-size: 16px; font-weight: 700; color: var(--ink);
+    margin: 0 0 16px;
+    padding-right: 36px;
+    line-height: 1.4;
+  }
+  .fm-modal-chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .fm-modal-chip {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .fm-modal-chip.is-active {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+
   /* Active filters */
   .active-filters {
     display: flex; flex-wrap: wrap; gap: 6px;
@@ -619,7 +738,7 @@
 <!-- ========== Tours (filterable) ========== -->
 <section class="sec" id="tours">
   <div class="shell">
-    <!-- フィルタ -->
+    <!-- フィルタ（PC） -->
     <div class="filter-section">
       <div class="filter-row">
         <span class="filter-label">エリア</span>
@@ -634,6 +753,9 @@
         <div class="filter-chips" id="chips-cat"></div>
       </div>
     </div>
+
+    <!-- フィルタ（モバイル：チップ列 + モーダル） -->
+    <div class="filter-mobile" id="filter-mobile"></div>
 
     <div class="active-filters" id="active-filters"></div>
 
@@ -664,6 +786,18 @@
     </div>
   </div>
 </section>
+
+<!-- ========== Filter modal (mobile) ========== -->
+<div class="fm-modal" id="fm-modal" aria-hidden="true" role="dialog" aria-labelledby="fm-modal-title">
+  <div class="fm-modal-backdrop" data-fm-close></div>
+  <div class="fm-modal-panel">
+    <button type="button" class="fm-modal-close" data-fm-close aria-label="閉じる">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M1 1 L11 11 M11 1 L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <h3 class="fm-modal-title" id="fm-modal-title"></h3>
+    <div class="fm-modal-chips" id="fm-modal-chips"></div>
+  </div>
+</div>
 
 <!-- ========== Guide ========== -->
 <section class="sec">
@@ -1054,6 +1188,54 @@ function renderChips() {
     CATS.map(c => chipHtml('cat', c, CAT_LABELS[c], false)).join('');
 }
 
+const PIN_SVG = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.667c-2.577 0-4.667 2.09-4.667 4.667 0 3.5 4.667 8 4.667 8s4.667-4.5 4.667-8c0-2.577-2.09-4.667-4.667-4.667Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="6.333" r="1.667" stroke="currentColor" stroke-width="1.2"/></svg>';
+const MOBILE_GROUPS = [
+  { group: 'city', label: 'エリア', icon: true },
+  { group: 'team', label: '球団', icon: true },
+];
+function renderFilterMobile() {
+  const el = document.getElementById('filter-mobile');
+  if (!el) return;
+  const triggers = MOBILE_GROUPS.map(g => {
+    const count = STATE.filters[g.group].size;
+    const cls = 'fm-chip fm-trigger' + (count > 0 ? ' has-selection' : '');
+    const countEl = count > 0 ? `<span class="fm-trigger-count">${count}</span>` : '';
+    return `<button type="button" class="${cls}" data-fm-open="${g.group}">${g.icon ? PIN_SVG : ''}${g.label}${countEl}</button>`;
+  }).join('');
+  const cats = CATS.map(c => {
+    const active = STATE.filters.cat.has(c);
+    return `<button type="button" class="fm-chip${active ? ' is-active' : ''}" data-group="cat" data-value="${c}">${CAT_LABELS[c]}</button>`;
+  }).join('');
+  el.innerHTML = triggers + cats;
+}
+
+function openFilterModal(group) {
+  const modal = document.getElementById('fm-modal');
+  const titleEl = document.getElementById('fm-modal-title');
+  const chipsEl = document.getElementById('fm-modal-chips');
+  if (!modal || !titleEl || !chipsEl) return;
+  const meta = group === 'city'
+    ? { title: 'エリア', items: [...CITY_PRIMARY, ...CITY_EXTRA].map(v => ({ value: v, label: v })) }
+    : { title: '球団', items: [...TEAM_PRIMARY, ...TEAM_EXTRA].map(v => ({ value: v, label: TEAM_LABELS[v] || v })) };
+  titleEl.textContent = meta.title;
+  chipsEl.dataset.group = group;
+  chipsEl.innerHTML = meta.items.map(it => {
+    const active = STATE.filters[group].has(it.value);
+    return `<button type="button" class="fm-modal-chip${active ? ' is-active' : ''}" data-value="${it.value}">${it.label}</button>`;
+  }).join('');
+  modal.classList.add('is-open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFilterModal() {
+  const modal = document.getElementById('fm-modal');
+  if (!modal) return;
+  modal.classList.remove('is-open');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
 function renderActiveFilters() {
   const el = document.getElementById('active-filters');
   const chips = [];
@@ -1093,6 +1275,7 @@ function render() {
   else { loadMore.style.display = 'none'; }
 
   renderActiveFilters();
+  renderFilterMobile();
   syncChips();
 }
 
@@ -1102,6 +1285,38 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('pickup-grid').innerHTML = PICKUP_IDS.map(id => byId[id] ? cardHtml(byId[id]) : '').join('');
 
   renderChips();
+  renderFilterMobile();
+
+  // モバイルチップ列：トリガー→モーダル、カテゴリ→直接トグル
+  document.getElementById('filter-mobile').addEventListener('click', e => {
+    const trig = e.target.closest('[data-fm-open]');
+    if (trig) { openFilterModal(trig.dataset.fmOpen); return; }
+    const cat = e.target.closest('.fm-chip[data-group="cat"]');
+    if (!cat) return;
+    const set = STATE.filters.cat;
+    const v = cat.dataset.value;
+    if (set.has(v)) set.delete(v); else set.add(v);
+    STATE.shown = PAGE_SIZE;
+    render();
+  });
+
+  // モーダル操作
+  const fmModal = document.getElementById('fm-modal');
+  fmModal.addEventListener('click', e => {
+    if (e.target.closest('[data-fm-close]')) { closeFilterModal(); return; }
+    const chip = e.target.closest('.fm-modal-chip');
+    if (!chip) return;
+    const group = document.getElementById('fm-modal-chips').dataset.group;
+    const set = STATE.filters[group];
+    const v = chip.dataset.value;
+    if (set.has(v)) set.delete(v); else set.add(v);
+    chip.classList.toggle('is-active');
+    STATE.shown = PAGE_SIZE;
+    render();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && fmModal.classList.contains('is-open')) closeFilterModal();
+  });
 
   // チップ操作（委譲）
   document.querySelector('.filter-section').addEventListener('click', e => {
