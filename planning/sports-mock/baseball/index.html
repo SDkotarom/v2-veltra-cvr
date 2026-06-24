@@ -16,8 +16,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/sports-theme.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
 <script src="/auth.js"></script>
 
@@ -46,246 +45,455 @@
 </script>
 
 <style>
-  :root { --page-accent: #1B2C5B; --cta-blue: #1466d8; }
-
-  /* Logo image with text fallback */
-  .v-logo { display: inline-flex; align-items: center; gap: 0; line-height: 1; }
-  .v-logo-img { height: 28px; width: auto; display: inline-block; }
-  .v-logo-img.is-missing { display: none; }
-  .v-logo-fallback { display: none; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; color: var(--ink); }
-  .v-logo-fallback .dot { color: var(--veltra); }
-  .v-logo-img.is-missing + .v-logo-fallback { display: inline-flex; align-items: baseline; }
-
-  /* ============ Photo hero ============ */
-  .photo-hero { position: relative; color: #fff;
-    background:
-      linear-gradient(100deg, rgba(8,14,32,.82) 0%, rgba(8,14,32,.55) 45%, rgba(8,14,32,.30) 100%),
-      url('https://cdn2.veltra.com/ptr/20210806075853_1263435838_1985_0.jpg?imwidth=1600&impolicy=custom') center 35% / cover no-repeat;
-    background-color: #0c1733; }
-  .photo-hero .ph-inner { max-width: 1080px; margin: 0 auto; padding: 64px 24px 68px; }
-  .photo-hero .ph-eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; opacity: .9; margin: 0 0 14px; display: flex; align-items: center; gap: 8px; }
-  .photo-hero .ph-eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #fff; opacity: .85; }
-  .photo-hero h1 { font-size: clamp(26px, 4.6vw, 42px); font-weight: 800; line-height: 1.35; margin: 0 0 14px; letter-spacing: .01em; }
-  .photo-hero .ph-sub { font-size: clamp(13px, 1.8vw, 15px); line-height: 1.9; margin: 0; opacity: .94; max-width: 560px; }
-  @media (max-width: 720px) { .photo-hero .ph-inner { padding: 44px 18px 48px; } }
-
-  /* ============ ベルトラで予約するメリット ============ */
-  .merit-head { max-width: 760px; margin: 0 0 24px; }
-  .merit-head .eyebrow { margin: 0 0 8px; }
-  .merit-head h2 { font-size: clamp(21px, 2.8vw, 28px); font-weight: 800; margin: 0 0 12px; color: var(--ink); line-height: 1.45; }
-  .merit-head h2 .mh-br { display: none; }
-  @media (min-width: 721px) { .merit-head h2 .mh-br { display: inline; } }
-  .merit-head .merit-lede { font-size: 14px; line-height: 1.95; color: var(--ink-2); margin: 0; }
-  .merit-head .merit-lede strong { color: var(--page-accent); font-weight: 700; }
-  .merit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  @media (max-width: 720px) { .merit-grid { grid-template-columns: 1fr; } }
-  .merit-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-12); padding: 22px 22px 20px; position: relative; }
-  .merit-card .m-num { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--cta-blue); letter-spacing: .08em; margin-bottom: 10px; }
-  .merit-card .m-num::after { content: ""; display: block; width: 28px; height: 3px; background: var(--cta-blue); border-radius: 2px; margin-top: 6px; }
-  .merit-card h4 { font-size: 15px; font-weight: 700; margin: 0 0 8px; color: var(--ink); line-height: 1.5; }
-  .merit-card p { font-size: 13px; line-height: 1.8; color: var(--ink-2); margin: 0; }
-
-  /* ============ Pickup ============ */
-  .pickup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  @media (max-width: 980px) { .pickup-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 640px) { .pickup-grid { grid-template-columns: 1fr; } }
-
-  /* ============ Product cards（Pickup・一覧共通） ============ */
-  .ac-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-8); overflow: hidden; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s, box-shadow .15s; display: flex; flex-direction: column; }
-  .ac-card:hover { border-color: var(--line-strong); transform: translateY(-2px); box-shadow: var(--shadow-pop); }
-  .ac-thumb { position: relative; height: 180px; background: #e9eef5; }
-  .ac-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .ac-thumb.img-failed { background: linear-gradient(135deg, var(--thumb-1, #1B2C5B) 0%, var(--thumb-2, #0c1733) 100%); }
-  .ac-thumb.img-failed img { display: none; }
-  .ac-badge { position: absolute; top: 10px; left: 10px; background: var(--cta-blue); color: #fff; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 4px; letter-spacing: .02em; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
-  .ac-body { padding: 13px 15px 15px; display: flex; flex-direction: column; gap: 7px; flex: 1; }
-  .ac-cat { font-size: 11px; color: var(--ink-3); display: flex; align-items: center; gap: 6px; }
-  .ac-cat .swatch { width: 7px; height: 7px; border-radius: 50%; background: var(--cat-color, var(--page-accent)); flex: none; }
-  .ac-title { font-size: 13.5px; font-weight: 600; line-height: 1.55; margin: 0; color: var(--ink); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .ac-meta { font-size: 12px; color: var(--ink-3); display: flex; gap: 8px; align-items: center; }
-  .ac-meta .rating-star { color: var(--rating); font-weight: 700; }
-  .ac-price-row { margin-top: auto; padding-top: 7px; }
-  .ac-price { font-size: 18px; font-weight: 800; color: var(--page-accent); font-variant-numeric: tabular-nums; }
-  .ac-price .ccy { font-size: 13px; font-weight: 700; margin-right: 1px; }
-  .ac-price .tilde { font-size: 12px; font-weight: 500; }
-  .ac-price-label { font-size: 11px; color: var(--ink-4); margin-left: 6px; }
-
-  /* ============ 一覧：チップ式フィルタ ============ */
-  .filter-rows { display: flex; flex-direction: column; gap: 10px; margin: 18px 0 16px; }
-  .filter-row { display: flex; align-items: flex-start; gap: 10px; }
-  .filter-row .fr-label { flex: none; font-size: 12px; font-weight: 700; color: var(--ink-2); padding: 7px 0; min-width: 48px; }
-  .filter-row .fr-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-  .f-chip { border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink-2); font-size: 12.5px; font-weight: 600; padding: 6px 14px; border-radius: 100px; cursor: pointer; transition: all .12s; }
-  .f-chip:hover { border-color: var(--page-accent); color: var(--page-accent); }
-  .f-chip.is-active { background: var(--page-accent); border-color: var(--page-accent); color: #fff; }
-  .f-more { background: none; border: none; color: var(--cta-blue); font-size: 12.5px; font-weight: 600; cursor: pointer; padding: 6px 4px; text-decoration: underline; text-underline-offset: 3px; }
-  .fr-chips .is-extra { display: none; }
-  .fr-chips.is-expanded .is-extra { display: inline-block; }
-  @media (max-width: 720px) {
-    .filter-row { flex-direction: column; gap: 6px; }
-    .filter-row .fr-label { padding: 0; }
+  /* ==================== Design tokens (Figmaトークン準拠) ==================== */
+  :root {
+    --ink: #484848;
+    --ink-2: #484848;
+    --ink-3: #7F7F7F;
+    --ink-4: #aaaaaa;
+    --line: #DADADA;
+    --line-soft: #F4F4F4;
+    --paper: #FFFFFF;
+    --blue: #0077D9;        /* clickable blue */
+    --blue-dark: #376DAB;   /* chip active border/text */
+    --blue-soft: #EFF4FA;   /* light blue bg */
+    --pink: #E4336B;        /* rating */
+    --orange: #ED6E2A;      /* veltra brand band */
+    --orange-deep: #C0431A;
+    --r-8: 8px;
+    --r-12: 12px;
+    --r-20: 20px;
+    --shell-w: 1240px;
+    --shell-pad: 100px;
+    --shell-pad-mb: 24px;
   }
 
-  /* toolbar */
-  .tours-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-  .tours-toolbar .results { font-size: 13px; color: var(--ink-2); }
-  .tours-toolbar .results strong { color: var(--ink); font-weight: 700; }
-  .tours-toolbar .sort-control { display: flex; align-items: center; gap: 8px; }
-  .tours-toolbar .sort-control label { font-size: 12px; color: var(--ink-3); }
-  .tours-toolbar .sort-control select { padding: 7px 12px; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--paper); font-size: 13px; font-family: inherit; }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'Noto Sans JP', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: #fff;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  button { font-family: inherit; }
+  h1, h2, h3, h4 { margin: 0; }
 
-  /* list grid */
-  .ac-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  @media (max-width: 980px) { .ac-list { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 640px) { .ac-list { grid-template-columns: 1fr; } }
+  .shell { max-width: var(--shell-w); margin: 0 auto; padding-left: var(--shell-pad); padding-right: var(--shell-pad); width: 100%; }
+  @media (max-width: 980px) { .shell { padding-left: var(--shell-pad-mb); padding-right: var(--shell-pad-mb); } }
 
-  /* active chips */
+  /* ==================== Header ==================== */
+  .v-topbar { background: #fff; border-bottom: 1px solid var(--line-soft); height: 60px; display: flex; align-items: center; position: sticky; top: 0; z-index: 50; }
+  .v-topbar-inner { max-width: 1440px; margin: 0 auto; width: 100%; padding: 0 var(--shell-pad); display: flex; align-items: center; justify-content: space-between; }
+  @media (max-width: 980px) { .v-topbar-inner { padding: 0 var(--shell-pad-mb); } }
+  .v-logo { display: inline-flex; align-items: center; line-height: 1; }
+  .v-logo-img { height: 28px; width: auto; }
+  .v-logo-img.is-missing { display: none; }
+  .v-logo-fallback { display: none; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; color: var(--ink); }
+  .v-logo-fallback .dot { color: var(--orange); }
+  .v-logo-img.is-missing + .v-logo-fallback { display: inline-flex; align-items: baseline; }
+  .v-topbar-right { font-size: 13px; font-weight: 500; color: var(--ink); }
+
+  /* ==================== Hero ==================== */
+  .photo-hero {
+    height: 200px;
+    position: relative;
+    color: #fff;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.55) 100%),
+      linear-gradient(135deg, #1a3760 0%, #0b1a33 100%),
+      #0b1a33;
+  }
+  /* Stadium-vibe ambient pattern */
+  .photo-hero::before {
+    content: "";
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse at 18% 35%, rgba(102, 178, 255, 0.18) 0%, transparent 35%),
+      radial-gradient(ellipse at 82% 65%, rgba(255, 200, 120, 0.12) 0%, transparent 45%),
+      radial-gradient(ellipse at 50% 110%, rgba(46, 96, 160, 0.35) 0%, transparent 55%);
+  }
+  .photo-hero .ph-inner { position: relative; padding: 0 var(--shell-pad); max-width: 1240px; width: 100%; }
+  .photo-hero .ph-eyebrow { font-size: 14px; line-height: 1.4; font-weight: 700; margin: 0 0 4px; opacity: .95; }
+  .photo-hero h1 { font-size: 32px; line-height: 1.4; font-weight: 700; margin: 0 0 12px; }
+  .photo-hero .ph-sub { font-size: 14px; line-height: 1.6; margin: 0; opacity: .94; }
+  @media (max-width: 720px) {
+    .photo-hero { height: 200px; }
+    .photo-hero .ph-inner { padding: 0 24px; }
+    .photo-hero h1 { font-size: 22px; }
+    .photo-hero .ph-eyebrow { font-size: 12px; }
+    .photo-hero .ph-sub { font-size: 13px; }
+  }
+
+  /* ==================== Reasons section ==================== */
+  .reasons-sec { background: var(--blue-soft); padding: 40px 0; }
+  .reasons-sec .shell { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+  .reasons-sec h2 {
+    font-size: 24px; font-weight: 700; color: var(--ink);
+    text-align: center; line-height: 1.4; width: 100%;
+  }
+  .reasons-grid { display: flex; gap: 12px; width: 100%; align-items: stretch; }
+  .reason-card {
+    flex: 1 0 0; min-width: 0;
+    background: #fff; border-radius: var(--r-20);
+    padding: 20px;
+    display: flex; gap: 12px; align-items: center;
+    min-height: 133px;
+  }
+  .reason-icon { flex: none; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; color: var(--blue); }
+  .reason-icon svg { width: 56px; height: 56px; }
+  .reason-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+  .reason-body h3 { font-size: 18px; font-weight: 700; line-height: 1.4; color: var(--ink); }
+  .reason-body p { font-size: 14px; line-height: 1.55; color: var(--ink); margin: 0; }
+  @media (max-width: 720px) {
+    .reasons-sec { padding: 32px 0; }
+    .reasons-sec .shell { padding-left: 24px; padding-right: 24px; }
+    .reasons-sec h2 { font-size: 20px; }
+    .reasons-grid { flex-direction: column; gap: 12px; }
+    .reason-card { padding: 18px; min-height: auto; }
+    .reason-icon { width: 56px; height: 56px; }
+    .reason-icon svg { width: 48px; height: 48px; }
+    .reason-body h3 { font-size: 16px; }
+    .reason-body p { font-size: 13px; }
+  }
+
+  /* ==================== Section common ==================== */
+  .sec { padding-top: 64px; }
+  .sec-head { margin-bottom: 24px; }
+  .sec-head h2 { font-size: 24px; font-weight: 700; line-height: 1.4; color: var(--ink); }
+  @media (max-width: 720px) {
+    .sec { padding-top: 40px; }
+    .sec-head h2 { font-size: 20px; }
+  }
+
+  /* ==================== AC Card (Pickup & Tours 共通) ==================== */
+  .ac-card {
+    display: flex; flex-direction: column; background: #fff;
+    border: 1px solid var(--line); border-radius: var(--r-12);
+    overflow: hidden;
+    transition: box-shadow .15s, transform .15s;
+  }
+  .ac-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); transform: translateY(-2px); }
+  .ac-thumb { aspect-ratio: 4 / 3; background: #e9eef5; overflow: hidden; position: relative; }
+  .ac-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .ac-thumb.img-failed { background: linear-gradient(135deg, var(--thumb-1, #1B2C5B) 0%, #0c1733 100%); }
+  .ac-thumb.img-failed img { display: none; }
+  .ac-body { padding: 12px 16px 16px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .ac-meta-row { display: flex; flex-direction: column; gap: 0; }
+  .ac-cat { font-size: 12px; line-height: 1.55; color: var(--ink-3); letter-spacing: 0.03em; height: 19px; display: flex; align-items: center; }
+  .ac-title {
+    font-size: 14px; font-weight: 700; line-height: 1.5; color: var(--ink);
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    max-height: 42px;
+  }
+  .ac-rating { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin-top: 4px; }
+  .ac-rating .star { display: inline-flex; align-items: center; gap: 2px; }
+  .ac-rating .star svg { width: 12px; height: 12px; fill: var(--pink); }
+  .ac-rating .score { font-size: 14px; color: var(--pink); line-height: 1.4; }
+  .ac-rating .count { font-size: 12px; color: var(--ink-3); line-height: 1.4; }
+  .ac-rating .pending { font-size: 12px; color: var(--ink-3); }
+  .ac-price-row { margin-top: auto; }
+  .ac-price { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1; }
+
+  /* ==================== Pickup (RecommendedTours) ==================== */
+  .pickup-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  @media (max-width: 980px) {
+    .pickup-grid {
+      display: flex; gap: 16px;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      margin-left: calc(var(--shell-pad-mb) * -1); margin-right: calc(var(--shell-pad-mb) * -1);
+      padding: 0 var(--shell-pad-mb) 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .pickup-grid::-webkit-scrollbar { display: none; }
+    .pickup-grid .ac-card { flex: 0 0 calc(80vw); max-width: 333px; scroll-snap-align: start; }
+  }
+
+  /* ==================== Tours filter ==================== */
+  .filter-section { display: flex; flex-direction: column; gap: 12px; }
+  .filter-row { display: flex; gap: 8px; align-items: center; }
+  .filter-label { flex: none; width: 60px; font-family: Inter, 'Noto Sans JP', sans-serif; font-weight: 600; font-size: 13px; color: var(--ink); }
+  .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; flex: 1; }
+  .f-chip {
+    background: #fff; border: 1px solid var(--line); color: var(--ink);
+    font-family: Inter, 'Noto Sans JP', sans-serif;
+    font-size: 12px; font-weight: 400;
+    padding: 12px; border-radius: 20px;
+    cursor: pointer; transition: all .12s;
+    line-height: 1; white-space: nowrap;
+  }
+  .f-chip:hover { border-color: var(--blue-dark); color: var(--blue-dark); }
+  .f-chip.is-active { background: var(--blue-soft); border-color: var(--blue-dark); color: var(--blue-dark); }
+  .f-chip.is-extra { display: none; }
+  .filter-chips.is-expanded .f-chip.is-extra { display: inline-block; }
+  .f-more {
+    background: #fff; border: 1px solid var(--line); color: var(--ink);
+    font-family: Inter, 'Noto Sans JP', sans-serif; font-size: 12px;
+    padding: 12px; border-radius: 20px;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+    line-height: 1; transition: all .12s; white-space: nowrap;
+  }
+  .f-more:hover { border-color: var(--blue-dark); color: var(--blue-dark); }
+  .f-more svg { width: 10px; height: 10px; }
+
+  @media (max-width: 720px) {
+    .filter-section { gap: 8px; }
+    .filter-row {
+      overflow-x: auto;
+      margin-left: calc(var(--shell-pad-mb) * -1); margin-right: calc(var(--shell-pad-mb) * -1);
+      padding: 0 var(--shell-pad-mb);
+      -webkit-overflow-scrolling: touch;
+    }
+    .filter-row::-webkit-scrollbar { display: none; }
+    .filter-row { gap: 8px; }
+    .filter-label { display: none; }
+    .filter-chips { flex-wrap: nowrap; flex: none; gap: 8px; }
+    .f-chip, .f-more { flex: none; padding: 8px 14px; font-size: 13px; }
+  }
+
+  /* ==================== Tours list ==================== */
+  .tours-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 16px 0 16px; flex-wrap: wrap; }
+  .tours-toolbar .results-count { font-size: 20px; font-weight: 700; color: var(--ink); }
+  .tours-toolbar .sort-control {
+    display: flex; align-items: center; gap: 4px;
+    background: #fff; border: 1px solid var(--line);
+    padding: 9px 13px; border-radius: 8px;
+    cursor: pointer; position: relative;
+  }
+  .tours-toolbar .sort-control select {
+    appearance: none; -webkit-appearance: none; -moz-appearance: none;
+    background: transparent; border: none; outline: none;
+    font-family: inherit; font-size: 13px; color: var(--ink);
+    padding-right: 14px; cursor: pointer;
+  }
+  .tours-toolbar .sort-control::after {
+    content: ""; position: absolute; right: 12px; top: 50%;
+    width: 6px; height: 6px; transform: translateY(-75%) rotate(45deg);
+    border-right: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink);
+  }
+
+  .ac-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  @media (max-width: 1180px) { .ac-list { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 880px) { .ac-list { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .ac-list { grid-template-columns: 1fr; } }
+
   .active-filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
   .active-filters:empty { margin: 0; }
-  .af-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--baseball-soft); color: var(--page-accent); padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; }
+  .af-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--blue-soft); color: var(--blue-dark); padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; }
   .af-chip button { all: unset; cursor: pointer; font-size: 15px; line-height: 1; padding: 0 2px; }
 
-  /* empty / load more */
-  .ac-empty { padding: 60px 20px; text-align: center; background: var(--paper-warm); border: 1px dashed var(--line-strong); border-radius: var(--r-12); }
+  .ac-empty { padding: 60px 20px; text-align: center; background: #fafafa; border: 1px dashed var(--line); border-radius: var(--r-12); }
   .ac-empty p { color: var(--ink-3); font-size: 14px; margin: 0 0 12px; }
-  .ac-empty button { background: var(--page-accent); color: #fff; border: none; padding: 8px 18px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
-  .load-more-wrap { text-align: center; margin-top: 26px; }
-  .load-more { background: var(--paper); border: 1px solid var(--line-strong); padding: 11px 32px; border-radius: 100px; font-size: 13px; font-weight: 700; color: var(--ink); cursor: pointer; transition: all .15s; }
-  .load-more:hover { background: var(--page-accent); color: #fff; border-color: var(--page-accent); }
+  .ac-empty button { background: var(--blue); color: #fff; border: none; padding: 8px 18px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
 
-  /* ============ simplified footer ============ */
-  .v-foot-simple { border-top: 1px solid var(--line); background: var(--paper); margin-top: 40px; }
-  .v-foot-simple .vfs-inner { max-width: 1080px; margin: 0 auto; padding: 36px 24px 30px; text-align: center; }
-  .v-foot-simple .brand-logo { display: inline-flex; align-items: center; line-height: 1; margin-bottom: 18px; }
-  .brand-logo-img { height: 30px; width: auto; display: inline-block; }
-  .brand-logo-img.is-missing { display: none; }
-  .brand-logo-fallback { display: none; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; color: var(--ink); }
-  .brand-logo-fallback .dot { color: var(--veltra); }
-  .brand-logo-img.is-missing + .brand-logo-fallback { display: inline-flex; align-items: baseline; }
-  .v-foot-simple .vfs-links { font-size: 12px; color: var(--ink-3); margin-bottom: 14px; }
-  .v-foot-simple .vfs-links a { color: var(--ink-3); text-decoration: none; }
-  .v-foot-simple .vfs-links a:hover { color: var(--ink); text-decoration: underline; }
-  .v-foot-simple .vfs-links .sep { margin: 0 10px; opacity: .5; }
-  .v-foot-simple .vfs-copy { font-size: 11px; color: var(--ink-4); }
-
-  /* ============ スマホビュー調整 ============ */
-  @media (max-width: 720px) {
-    .photo-hero h1 { font-size: 24px; }
-    .photo-hero .ph-sub br { display: none; }
-    .f-chip { padding: 6px 12px; font-size: 12px; }
-    .fr-chips { gap: 6px; }
-    .tours-toolbar { flex-direction: column; align-items: flex-start; gap: 8px; }
-    .ac-thumb { height: 170px; }
-    .ac-title { font-size: 13px; }
-    .merit-card { padding: 18px 18px 16px; }
-    .load-more { width: 100%; }
+  .load-more-wrap { text-align: center; margin-top: 28px; }
+  .load-more {
+    background: #fff; border: 1px solid var(--line);
+    padding: 9px 28px; border-radius: 100px;
+    font-size: 14px; font-weight: 700; color: var(--ink);
+    cursor: pointer; transition: all .15s;
+    display: inline-flex; align-items: center; gap: 6px;
   }
+  .load-more:hover { background: var(--blue-dark); color: #fff; border-color: var(--blue-dark); }
+  .load-more .count { color: inherit; }
+
+  /* ==================== Guide ==================== */
+  .guide-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .guide-card {
+    background: #fff; border: 1px solid var(--line); border-radius: var(--r-20);
+    padding: 21px;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: 4px;
+  }
+  .guide-illust {
+    width: 185px; max-width: 100%; aspect-ratio: 185 / 146;
+    background: linear-gradient(135deg, #e7f0f9 0%, #c4d9ed 100%);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--blue-dark);
+    margin-bottom: 8px;
+  }
+  .guide-illust svg { width: 60%; height: 60%; opacity: .85; }
+  .guide-card h4 { font-size: 18px; font-weight: 700; line-height: 1.4; color: var(--ink); padding: 4px 0; width: 100%; }
+  .guide-card p { font-size: 14px; line-height: 1.5; color: var(--ink); margin: 0; }
+  @media (max-width: 980px) {
+    .guide-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .guide-grid { grid-template-columns: 1fr; }
+    .guide-card p { font-size: 12px; }
+  }
+
+  /* ==================== FAQ ==================== */
+  .faq-sec { padding-bottom: 40px; }
+  .faq-list { width: 100%; }
+  .faq-item { display: flex; gap: 24px; align-items: flex-start; padding: 20px 24px 21px; border-bottom: 1px solid var(--line); }
+  .faq-item .q-mark { font-family: Montserrat, sans-serif; font-weight: 700; font-size: 20px; color: var(--blue); line-height: 1.4; flex: none; }
+  .faq-item > div { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .faq-item h4 { font-size: 14px; font-weight: 700; line-height: 1.4; color: var(--ink); }
+  .faq-item p { font-size: 14px; line-height: 1.4; color: var(--ink); margin: 0; }
+  @media (max-width: 720px) {
+    .faq-item { gap: 16px; padding: 20px 0 21px; }
+    .faq-item p { font-size: 13px; }
+  }
+
+  /* ==================== Breadcrumb ==================== */
+  .v-crumb {
+    max-width: 1240px; margin: 0 auto;
+    padding: 4px var(--shell-pad);
+    font-size: 13px; color: var(--ink-3); line-height: 1.4;
+    display: flex; gap: 4px; align-items: center;
+  }
+  .v-crumb a { color: var(--ink-3); }
+  .v-crumb .curr { color: var(--ink); }
+  .v-crumb .sep { color: var(--ink-3); padding: 0 2px; }
+  @media (max-width: 980px) { .v-crumb { padding: 4px var(--shell-pad-mb); } }
+
+  /* ==================== Footer band (VELTRA orange) ==================== */
+  .footer-band { padding: 16px 0; background: #fff; }
+  .fb-inner {
+    height: 300px;
+    background: linear-gradient(135deg, #f29137 0%, #e16d24 45%, #c44a14 100%);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .fb-inner::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 15% 30%, rgba(255,255,255,.15) 0%, transparent 25%),
+      radial-gradient(circle at 85% 70%, rgba(255,255,255,.12) 0%, transparent 30%);
+    pointer-events: none;
+  }
+  .fb-content { position: relative; text-align: center; max-width: 920px; padding: 0 24px; }
+  .fb-logo { font-family: 'Noto Sans JP', sans-serif; font-weight: 700; font-size: 56px; letter-spacing: .08em; line-height: 1; margin-bottom: 16px; color: #fff; }
+  .fb-tagline { font-size: 18px; line-height: 1.6; font-weight: 500; margin-bottom: 14px; }
+  .fb-mini { font-size: 13px; opacity: .88; line-height: 1.7; }
+  @media (max-width: 720px) {
+    .fb-inner { height: 250px; }
+    .fb-logo { font-size: 40px; }
+    .fb-tagline { font-size: 15px; }
+    .fb-mini { font-size: 12px; }
+  }
+
+  /* ==================== Container BG (for sections wrapped) ==================== */
+  .main-container { background: #fff; }
 
 </style>
 </head>
-<body data-theme="baseball" data-page-type="genre">
+<body>
 
+<!-- ========== Header ========== -->
 <header class="v-topbar">
   <div class="v-topbar-inner">
     <span class="v-logo" aria-label="Veltra">
       <img src="../assets/img/logo_a1_jp-1.png" alt="Veltra" class="v-logo-img" onerror="this.classList.add('is-missing');">
       <span class="v-logo-fallback">Veltra<span class="dot">.</span></span>
     </span>
-    <nav class="v-topbar-nav" aria-label="MLB・海外野球観戦">
-      <a href="./" aria-current="page">野球</a>
-    </nav>
+    <a class="v-topbar-right" href="https://www.veltra.com/jp/">ベルトラTOPへ</a>
   </div>
 </header>
 
-<nav class="v-crumb" aria-label="パンくずリスト">
-  <a href="https://www.veltra.com/jp/">Veltra</a><span class="sep">›</span>
-  <span>海外スポーツ観戦特集</span><span class="sep">›</span>
-  <span class="curr">MLB・海外野球観戦</span>
-</nav>
-
-<!-- ========== Hero（写真背景） ========== -->
+<!-- ========== Hero ========== -->
 <section class="photo-hero">
   <div class="ph-inner">
-    <p class="ph-eyebrow">MLB（メジャーリーグ）・海外野球観戦</p>
-    <h1>海外で野球観戦を、<br>思い思いに楽しむ。</h1>
-    <p class="ph-sub">チケット予約、スタジアムまでの送迎手配、<br>日本語ガイド付きの観戦ツアーなど充実のラインナップ。</p>
+    <p class="ph-eyebrow">チケット・送迎・宿泊</p>
+    <h1>MLB（メジャーリーグ）・海外野球観戦予約</h1>
+    <p class="ph-sub">チケット予約、スタジアムまでの送迎手配、<br>日本語ガイド付きの観戦ツアーなど即時予約できます。</p>
   </div>
 </section>
 
-<!-- ========== ベルトラで予約するメリット ========== -->
-<section class="sec" id="merits">
+<!-- ========== Reasons (予約メリット) ========== -->
+<section class="reasons-sec">
   <div class="shell">
-    <div class="merit-head">
-      <p class="eyebrow">WHY VELTRA</p>
-      <h2>ベルトラなら、海外野球の<br class="mh-br">観戦ツアー・チケット予約もらくらく！</h2>
-      <p class="merit-lede">海外の球場の座席表を英語で読み解いたり、当日の足を自分で手配したり——本場の野球観戦には、チケット以外にも意外とハードルがあります。ベルトラなら、<strong>検索から予約・当日の移動まで日本語で完結</strong>。観戦チケット単体から、送迎・日本語ガイド付きのフルサポートツアーまで、旅のスタイルに合わせて選べます。</p>
-    </div>
-    <div class="merit-grid">
-      <div class="merit-card">
-        <div class="m-num">01</div>
-        <h4>日本語で検索＆予約ができる</h4>
-        <p>商品探しから予約完了まで、すべて日本語でOK。海外サイトを英語で操作したり、現地に問い合わせたりする必要はありません。決済も日本円で完結します。</p>
+    <h2>ベルトラなら海外観戦ツアー・チケットも簡単予約！</h2>
+    <div class="reasons-grid">
+      <div class="reason-card">
+        <div class="reason-icon" aria-hidden="true">
+          <svg viewBox="0 0 56 56" fill="none">
+            <circle cx="24" cy="24" r="13" stroke="currentColor" stroke-width="3"/>
+            <line x1="34" y1="34" x2="46" y2="46" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <text x="24" y="28" font-family="Noto Sans JP, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="currentColor">日本語</text>
+          </svg>
+        </div>
+        <div class="reason-body">
+          <h3>日本語で検索＆予約</h3>
+          <p>商品探しから予約完了まで、すべて日本語でOK。決済も日本円で完結します。</p>
+        </div>
       </div>
-      <div class="merit-card">
-        <div class="m-num">02</div>
-        <h4>MLB 29球団の観戦チケットを即時予約</h4>
-        <p>システム連携により、空席をその場で確認してそのまま予約確定。気になる試合日の席を、思い立ったときに押さえられます。<strong>「即予約確定日あり」</strong>と表示されている商品が対象です。</p>
+      <div class="reason-card">
+        <div class="reason-icon" aria-hidden="true">
+          <svg viewBox="0 0 56 56" fill="none">
+            <rect x="6" y="14" width="44" height="28" rx="3" stroke="currentColor" stroke-width="3"/>
+            <line x1="20" y1="14" x2="20" y2="42" stroke="currentColor" stroke-width="3" stroke-dasharray="3 3"/>
+            <circle cx="36" cy="28" r="3.5" fill="currentColor"/>
+            <text x="12" y="32" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="currentColor">即</text>
+          </svg>
+        </div>
+        <div class="reason-body">
+          <h3>チケットを即時予約</h3>
+          <p>空席をその場で確認してそのまま予約確定。「即予約確定日あり」と表示されている商品が対象です。</p>
+        </div>
       </div>
-      <div class="merit-card">
-        <div class="m-num">03</div>
-        <h4>日本語ガイド付きの観戦ツアーも</h4>
-        <p>はじめての海外野球観戦でも安心。ホテルと球場間の送迎から、入場・観戦ルールの案内まで、日本語ガイドがサポートするツアーをご用意しています。</p>
+      <div class="reason-card">
+        <div class="reason-icon" aria-hidden="true">
+          <svg viewBox="0 0 56 56" fill="none">
+            <circle cx="28" cy="18" r="7" stroke="currentColor" stroke-width="3"/>
+            <path d="M14 46c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <rect x="34" y="6" width="14" height="10" rx="1.5" fill="currentColor"/>
+            <line x1="34" y1="16" x2="34" y2="26" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="reason-body">
+          <h3>日本語ガイド付きの観戦ツアー</h3>
+          <p>ホテルと球場間の送迎、日本語ガイドがご案内するプランもご用意しています。</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ========== Pickup ========== -->
-<section class="sec sec--soft" id="pickup">
+<!-- ========== Pickup (注目の体験) ========== -->
+<section class="sec">
   <div class="shell">
-    <div class="sec-head">
-      <div>
-        <h2>Pick Up!</h2>
-        <p class="lede">注目の試合をピックアップ！</p>
-      </div>
-    </div>
+    <div class="sec-head"><h2>注目の体験</h2></div>
     <div class="pickup-grid" id="pickup-grid"></div>
   </div>
 </section>
 
-<!-- ========== 商品一覧 ========== -->
+<!-- ========== Tours (filterable) ========== -->
 <section class="sec" id="tours">
   <div class="shell">
-    <div class="sec-head">
-      <div>
-        <h2>商品一覧</h2>
-        <p class="lede">MLB（メジャーリーグ）と台湾プロ野球の観戦ツアー・チケット・球場送迎・宿泊パッケージ。都市・球団・タイプで絞り込んで探せます。</p>
-      </div>
-    </div>
-
-    <!-- チップ式フィルタ -->
-    <div class="filter-rows">
+    <!-- フィルタ -->
+    <div class="filter-section">
       <div class="filter-row">
-        <span class="fr-label">都市</span>
-        <div class="fr-chips" id="chips-city"></div>
+        <span class="filter-label">エリア</span>
+        <div class="filter-chips" id="chips-city"></div>
       </div>
       <div class="filter-row">
-        <span class="fr-label">球団</span>
-        <div class="fr-chips" id="chips-team"></div>
+        <span class="filter-label">球団</span>
+        <div class="filter-chips" id="chips-team"></div>
       </div>
       <div class="filter-row">
-        <span class="fr-label">タイプ</span>
-        <div class="fr-chips" id="chips-cat"></div>
+        <span class="filter-label">タイプ</span>
+        <div class="filter-chips" id="chips-cat"></div>
       </div>
     </div>
 
     <div class="active-filters" id="active-filters"></div>
 
     <div class="tours-toolbar">
-      <div class="results"><strong id="result-count">46</strong> 件 / <strong id="total-count">46</strong> 件中</div>
+      <div class="results-count"><span id="result-count">46</span> 件の結果</div>
       <div class="sort-control">
-        <label for="sort-baseball">並び替え</label>
-        <select id="sort-baseball">
+        <select id="sort-baseball" aria-label="並び替え">
           <option value="recommend">おすすめ順</option>
           <option value="rating">評価が高い順</option>
           <option value="price-asc">料金が安い順</option>
@@ -302,39 +510,62 @@
     </div>
 
     <div class="load-more-wrap">
-      <button class="load-more" id="load-more" type="button">もっと見る（残り <span id="rest-count">0</span> 件）</button>
+      <button class="load-more" id="load-more" type="button">
+        <span>もっと見る</span>
+        <span class="count">（残り <span id="rest-count">0</span> 件）</span>
+      </button>
     </div>
   </div>
 </section>
 
 <!-- ========== Guide ========== -->
-<section class="sec sec--soft" id="guide">
+<section class="sec">
   <div class="shell">
-    <div class="sec-head">
-      <div>
-        <p class="eyebrow">BEFORE YOU GO</p>
-        <h2>はじめての海外野球観戦ガイド</h2>
-        <p class="lede">球場到着・送迎・観戦マナー・球場グルメ。当日のボールパーク体験を膨らませる実用情報をまとめました。</p>
-      </div>
-    </div>
+    <div class="sec-head"><h2>はじめての海外野球観戦ガイド</h2></div>
     <div class="guide-grid">
       <div class="guide-card">
-        <div class="num">GUIDE 01</div>
+        <div class="guide-illust" aria-hidden="true">
+          <svg viewBox="0 0 60 60" fill="none">
+            <rect x="8" y="20" width="44" height="32" rx="2" stroke="currentColor" stroke-width="2.5"/>
+            <path d="M8 20 L30 8 L52 20" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+            <rect x="25" y="34" width="10" height="18" stroke="currentColor" stroke-width="2.5"/>
+          </svg>
+        </div>
         <h4>球場到着とゲート入場</h4>
         <p>ボディチェック・荷物制限の基本。プレイボール30分前の到着が理想です。ゲートごとの混雑差にも注意。</p>
       </div>
       <div class="guide-card">
-        <div class="num">GUIDE 02</div>
+        <div class="guide-illust" aria-hidden="true">
+          <svg viewBox="0 0 60 60" fill="none">
+            <rect x="6" y="22" width="40" height="20" rx="4" stroke="currentColor" stroke-width="2.5"/>
+            <circle cx="16" cy="44" r="5" stroke="currentColor" stroke-width="2.5"/>
+            <circle cx="38" cy="44" r="5" stroke="currentColor" stroke-width="2.5"/>
+            <line x1="50" y1="32" x2="56" y2="32" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
         <h4>送迎と帰りの足</h4>
         <p>ナイトゲーム後は配車アプリの料金が跳ね上がります。事前に送迎付きツアーで足を確保しておくと安心です。</p>
       </div>
       <div class="guide-card">
-        <div class="num">GUIDE 03</div>
+        <div class="guide-illust" aria-hidden="true">
+          <svg viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="22" r="9" stroke="currentColor" stroke-width="2.5"/>
+            <path d="M14 52 C 14 41 21 36 30 36 C 39 36 46 41 46 52" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M30 14 L34 18 L30 22 L26 18 Z" fill="currentColor"/>
+          </svg>
+        </div>
         <h4>観戦マナーと服装</h4>
         <p>応援道具・カメラ持ち込み・国歌斉唱時のマナー。ホームチームカラーの着用は喜ばれます。</p>
       </div>
       <div class="guide-card">
-        <div class="num">GUIDE 04</div>
+        <div class="guide-illust" aria-hidden="true">
+          <svg viewBox="0 0 60 60" fill="none">
+            <rect x="12" y="22" width="36" height="24" rx="12" stroke="currentColor" stroke-width="2.5"/>
+            <line x1="20" y1="22" x2="20" y2="46" stroke="currentColor" stroke-width="2.5"/>
+            <line x1="40" y1="22" x2="40" y2="46" stroke="currentColor" stroke-width="2.5"/>
+            <circle cx="30" cy="14" r="3" fill="currentColor"/>
+          </svg>
+        </div>
         <h4>球場グルメと売り子</h4>
         <p>ホットドッグ・ガーリックフライ・地域ごとの名物が楽しめます。キャッシュレス対応の有無もチェックを。</p>
       </div>
@@ -343,13 +574,9 @@
 </section>
 
 <!-- ========== FAQ ========== -->
-<section class="sec" id="faq">
+<section class="sec faq-sec">
   <div class="shell">
-    <div class="sec-head">
-      <div>
-        <h2>よくある質問</h2>
-      </div>
-    </div>
+    <div class="sec-head"><h2>よくある質問</h2></div>
     <div class="faq-list">
       <div class="faq-item">
         <span class="q-mark">Q</span>
@@ -390,17 +617,20 @@
   </div>
 </section>
 
-<!-- ========== Footer（簡素版） ========== -->
-<footer class="v-foot-simple">
-  <div class="vfs-inner">
-    <div class="brand-logo">
-      <img src="../assets/img/logo_a1_jp-1.png" alt="Veltra" class="brand-logo-img" onerror="this.classList.add('is-missing');">
-      <span class="brand-logo-fallback">Veltra<span class="dot">.</span></span>
+<!-- ========== Breadcrumb ========== -->
+<nav class="v-crumb" aria-label="パンくずリスト">
+  <a href="https://www.veltra.com/jp/">Veltra</a><span class="sep">›</span>
+  <span class="curr">MLB（メジャーリーグ）・海外野球観戦</span>
+</nav>
+
+<!-- ========== Footer band (VELTRA brand) ========== -->
+<footer class="footer-band">
+  <div class="fb-inner">
+    <div class="fb-content">
+      <div class="fb-logo">VELTRA</div>
+      <p class="fb-tagline">世界の現地体験を、日本語で予約。</p>
+      <p class="fb-mini">© VELTRA Corporation All Rights Reserved</p>
     </div>
-    <div class="vfs-links">
-      <a href="https://www.veltra.com/jp/">プライバシーポリシー</a><span class="sep">|</span><a href="https://www.veltra.com/jp/">特定商取引法に基づく表記</a>
-    </div>
-    <div class="vfs-copy">© VELTRA Corporation All Rights Reserved</div>
   </div>
 </footer>
 
@@ -608,25 +838,24 @@ function acCategory(ac) {
   return 'other';
 }
 const CAT_LABELS = { 'ticket':'観戦チケットのみ', 'ticket-transfer':'観戦チケット＋送迎', 'ticket-stay':'観戦チケット＋宿泊', 'transfer':'送迎のみ' };
-const CAT_BADGES = { 'ticket':'観戦チケット', 'ticket-transfer':'送迎＆チケット付！', 'ticket-stay':'宿泊パッケージ', 'transfer':'送迎サービス' };
 
-/* チップの定義（先頭=常時表示、extra=「もっと見る」で展開） */
+/* チップの定義（先頭=常時表示、extra=「他N◯」で展開） */
 const CITY_PRIMARY = ['ロサンゼルス','ニューヨーク','シカゴ','ボストン','シアトル'];
 const CITY_EXTRA = ['サンディエゴ','サンフランシスコ','アトランタ','ヒューストン','フィラデルフィア','トロント','ワシントンDC','デンバー','マイアミ','フェニックス','アメリカその他都市','台北'];
 const TEAM_PRIMARY = ['dodgers','cubs','padres','redsox','mets','angels'];
 const TEAM_EXTRA = ['yankees','whitesox','mariners','giants','braves','astros','phillies','bluejays','cardinals','rangers','orioles','nationals','brewers','twins','tigers','dbacks','royals','pirates','rockies','marlins','athletics','guardians','reds','rakuten','weichuan','mlb-allstar'];
 const CATS = ['ticket','ticket-transfer','ticket-stay','transfer'];
 
-/* Pickup（タイプの異なる人気商品） */
-const PICKUP_IDS = ['183789','108997','203447'];
+/* Pickup（タイプの異なる人気商品 — 4枚） */
+const PICKUP_IDS = ['183789','108997','203447','184887'];
 
 /* ===== State ===== */
 const STATE = {
   filters: { city:new Set(), team:new Set(), cat:new Set() },
   sort: 'recommend',
-  shown: 12,
+  shown: 16,
 };
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 16;
 
 /* ===== Filtering / sorting ===== */
 function filterAcs() {
@@ -650,24 +879,31 @@ function sortAcs(list) {
 /* ===== Rendering ===== */
 function fmtPrice(ac) {
   const v = ac.price.toLocaleString('ja-JP');
-  return `${ac.priceApprox ? '約' : ''}<span class="ccy">¥</span>${v}<span class="tilde">〜</span>`;
+  return `${ac.priceApprox ? '約' : ''}¥${v}〜`;
 }
 function cardHtml(ac) {
   const cat = acCategory(ac);
-  const meta = ac.rating
-    ? `<span class="rating-star">★ ${ac.rating.toFixed(1)}</span><span class="reviews">${ac.reviews}件の体験談</span>`
-    : `<span class="reviews">体験談準備中</span>`;
+  const ratingHtml = ac.rating
+    ? `<div class="ac-rating">
+         <span class="star">
+           <svg viewBox="0 0 12 12"><path d="M6 0.5l1.7 3.5 3.8 0.5-2.8 2.7 0.7 3.8L6 9.2 2.6 11l0.7-3.8L0.5 4.5l3.8-0.5L6 0.5z"/></svg>
+         </span>
+         <span class="score">${ac.rating.toFixed(1)}</span>
+         <span class="count">(${ac.reviews})</span>
+       </div>`
+    : `<div class="ac-rating"><span class="pending">体験談準備中</span></div>`;
   return `
   <a class="ac-card" href="${ac.url}" target="_blank" rel="noopener" data-ga-ac="${ac.id}">
     <div class="ac-thumb" style="--thumb-1:${ac.color1};">
       <img src="${ac.image}" alt="" loading="lazy" onerror="this.closest('.ac-thumb').classList.add('img-failed')">
-      <span class="ac-badge">${CAT_BADGES[cat] || '観戦'}</span>
     </div>
     <div class="ac-body">
-      <div class="ac-cat"><span class="swatch" style="--cat-color:${ac.color1};"></span>${CAT_LABELS[cat] || '観戦'} · ${ac.city}</div>
-      <h3 class="ac-title">${ac.title}</h3>
-      <div class="ac-meta">${meta}</div>
-      <div class="ac-price-row"><span class="ac-price">${fmtPrice(ac)}</span><span class="ac-price-label">${ac.priceLabel}</span></div>
+      <div class="ac-meta-row">
+        <div class="ac-cat">${CAT_LABELS[cat] || '観戦'} · ${ac.city}</div>
+        <h3 class="ac-title">${ac.title}</h3>
+        ${ratingHtml}
+      </div>
+      <div class="ac-price-row"><span class="ac-price">${fmtPrice(ac)}</span></div>
     </div>
   </a>`;
 }
@@ -675,15 +911,16 @@ function cardHtml(ac) {
 function chipHtml(group, value, label, extra) {
   return `<button type="button" class="f-chip${extra ? ' is-extra' : ''}" data-group="${group}" data-value="${value}">${label}</button>`;
 }
+const CHEVRON_SVG = '<svg viewBox="0 0 10 10" fill="none"><path d="M2 4 L5 7 L8 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 function renderChips() {
   document.getElementById('chips-city').innerHTML =
     CITY_PRIMARY.map(c => chipHtml('city', c, c, false)).join('') +
     CITY_EXTRA.map(c => chipHtml('city', c, c, true)).join('') +
-    `<button type="button" class="f-more" data-more="city">もっと見る</button>`;
+    `<button type="button" class="f-more" data-more="city">${CHEVRON_SVG}<span class="lbl">他${CITY_EXTRA.length}都市</span></button>`;
   document.getElementById('chips-team').innerHTML =
     TEAM_PRIMARY.map(t => chipHtml('team', t, TEAM_LABELS[t], false)).join('') +
     TEAM_EXTRA.map(t => chipHtml('team', t, TEAM_LABELS[t], true)).join('') +
-    `<button type="button" class="f-more" data-more="team">もっと見る</button>`;
+    `<button type="button" class="f-more" data-more="team">${CHEVRON_SVG}<span class="lbl">他${TEAM_EXTRA.length}球団</span></button>`;
   document.getElementById('chips-cat').innerHTML =
     CATS.map(c => chipHtml('cat', c, CAT_LABELS[c], false)).join('');
 }
@@ -711,7 +948,6 @@ function render() {
   const shown = Math.min(STATE.shown, count);
 
   document.getElementById('result-count').textContent = count;
-  document.getElementById('total-count').textContent = ACS.length;
 
   const listEl = document.getElementById('ac-list');
   const emptyEl = document.getElementById('ac-empty');
@@ -732,19 +968,20 @@ function render() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Pickup
+  // Pickup（4枚）
   const byId = Object.fromEntries(ACS.map(a => [a.id, a]));
-  document.getElementById('pickup-grid').innerHTML = PICKUP_IDS.map(id => cardHtml(byId[id])).join('');
+  document.getElementById('pickup-grid').innerHTML = PICKUP_IDS.map(id => byId[id] ? cardHtml(byId[id]) : '').join('');
 
   renderChips();
 
   // チップ操作（委譲）
-  document.querySelector('.filter-rows').addEventListener('click', e => {
+  document.querySelector('.filter-section').addEventListener('click', e => {
     const more = e.target.closest('[data-more]');
     if (more) {
       const chips = document.getElementById('chips-' + more.dataset.more);
       const expanded = chips.classList.toggle('is-expanded');
-      more.textContent = expanded ? '閉じる' : 'もっと見る';
+      const lbl = more.querySelector('.lbl');
+      if (lbl) lbl.textContent = expanded ? '閉じる' : (more.dataset.more === 'city' ? `他${CITY_EXTRA.length}都市` : `他${TEAM_EXTRA.length}球団`);
       return;
     }
     const chip = e.target.closest('.f-chip');
