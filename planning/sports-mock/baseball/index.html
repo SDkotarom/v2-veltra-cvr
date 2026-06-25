@@ -692,19 +692,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* =====================================================================
      Breadcrumb + Footer
   ===================================================================== */
+  .v-crumb-wrap {
+    margin-top: 64px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: #fff;
+  }
   .v-crumb {
     max-width: calc(var(--shell-max) + var(--shell-pad-pc) * 2);
-    margin: 64px auto 0;
-    padding: 0 var(--shell-pad-pc);
-    display: flex; align-items: center; gap: 4px;
-    font-size: 13px;
-    color: var(--ink-2);
+    margin: 0 auto;
+    padding: 4px var(--shell-pad-pc);
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px;
+    color: #484848;
   }
-  .v-crumb a { color: var(--blue); }
-  .v-crumb .sep { color: var(--ink-3); margin: 0 4px; }
-  .v-crumb .curr { color: var(--ink); }
+  .v-crumb a {
+    color: #343434;
+    padding: 2px 0;
+  }
+  .v-crumb a:hover { text-decoration: underline; }
+  .v-crumb .sep {
+    color: #7F7F7F;
+    font-size: 11px;
+    line-height: 18.7px;
+    font-family: 'Inter', sans-serif;
+  }
+  .v-crumb .curr { color: #484848; }
   @media (max-width: 991.98px) {
-    .v-crumb { padding: 0 var(--shell-pad-mb); font-size: 12px; }
+    .v-crumb { padding: 4px var(--shell-pad-mb); }
   }
 
   .footer-band {
@@ -964,10 +979,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ========== Breadcrumb ========== -->
-<nav class="v-crumb" aria-label="パンくずリスト">
-  <a href="https://www.veltra.com/jp/">Veltra</a><span class="sep">›</span>
-  <span class="curr">MLB（メジャーリーグ）・海外野球観戦</span>
-</nav>
+<div class="v-crumb-wrap">
+  <nav class="v-crumb" aria-label="パンくずリスト">
+    <a href="https://www.veltra.com/jp/">VELTRA</a>
+    <span class="sep" aria-hidden="true">›</span>
+    <span class="curr">MLB（メジャーリーグ）・海外野球観戦</span>
+  </nav>
+</div>
 
 <!-- ========== Footer band (VELTRA brand) ========== -->
 <footer class="footer-band">
