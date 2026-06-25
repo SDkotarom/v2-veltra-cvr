@@ -710,7 +710,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .footer-band {
     margin-top: 24px;
     border-top: 1px solid var(--line-soft);
-    padding: 24px 0;
+    padding: 48px 0 56px;
     background: #fff;
   }
   .footer-band .fb-inner {
@@ -719,16 +719,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding: 0 var(--shell-pad-pc);
   }
   .footer-band .fb-content {
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    display: flex; flex-direction: column; align-items: center; gap: 24px;
     text-align: center;
   }
-  .footer-band .fb-logo {
-    font-weight: 800; font-size: 18px; letter-spacing: -0.02em; color: var(--ink);
+  .footer-band .fb-logo-link {
+    display: inline-block;
+    line-height: 0;
   }
-  .footer-band .fb-tagline { font-size: 13px; color: var(--ink-2); margin: 0; }
-  .footer-band .fb-mini { font-size: 12px; color: var(--ink-3); margin: 0; }
+  .footer-band .fb-logo-img {
+    height: 56px; width: auto; display: block;
+  }
+  .footer-band .fb-links {
+    display: flex; align-items: center; gap: 16px;
+    font-size: 14px; font-weight: 700;
+  }
+  .footer-band .fb-links a { color: var(--ink); }
+  .footer-band .fb-links a:hover { text-decoration: underline; }
+  .footer-band .fb-links .sep { color: var(--line); font-weight: 400; }
+  .footer-band .fb-copy {
+    font-size: 12px; color: var(--ink-2); margin: 0;
+  }
   @media (max-width: 991.98px) {
+    .footer-band { padding: 36px 0 40px; }
     .footer-band .fb-inner { padding: 0 var(--shell-pad-mb); }
+    .footer-band .fb-logo-img { height: 48px; }
+    .footer-band .fb-links { font-size: 13px; gap: 12px; }
   }
 </style>
 </head>
@@ -958,9 +973,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <footer class="footer-band">
   <div class="fb-inner">
     <div class="fb-content">
-      <div class="fb-logo">VELTRA</div>
-      <p class="fb-tagline">世界の現地体験を、日本語で予約。</p>
-      <p class="fb-mini">© VELTRA Corporation All Rights Reserved</p>
+      <a href="https://www.veltra.com/jp/" class="fb-logo-link" aria-label="Veltra（ベルトラ）トップへ">
+        <img src="../assets/img/logo_a1_jp-1.png" alt="VELTRA" class="fb-logo-img">
+      </a>
+      <div class="fb-links">
+        <a href="https://www.veltra.com/jp/privacy/">プライバシーポリシー</a>
+        <span class="sep" aria-hidden="true">|</span>
+        <a href="https://www.veltra.com/jp/commercialtransactions/">特定商取引法に基づく表記</a>
+      </div>
+      <p class="fb-copy">(c) 2026 VELTRA Corporation All Rights Reserved</p>
     </div>
   </div>
 </footer>
