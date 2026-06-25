@@ -348,8 +348,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .filter-chips.is-expanded .f-more svg { transform: rotate(180deg); }
   /* Wrap on PC for chips (single line) — overflow scroll on mobile, wrap on PC */
   @media (min-width: 992px) {
-    .filter-row { overflow-x: visible; }
+    .filter-row {
+      overflow-x: visible;
+      align-items: flex-start;  /* 折り返し時、ラベルを上部固定 */
+    }
     .filter-chips { flex-wrap: wrap; row-gap: 8px; }
+    .filter-label {
+      /* チップ1行目（高さ32px）の中央にラベルを揃える */
+      line-height: 32px;
+    }
   }
 
   /* =====================================================================
