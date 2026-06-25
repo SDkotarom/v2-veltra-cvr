@@ -471,11 +471,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color: var(--blue);
   }
 
-  /* Active filters */
+  /* Active filters — PCでは絞り込みチップの is-active 状態で選択が見えるため非表示 */
   .active-filters {
-    display: flex; flex-wrap: wrap; gap: 6px;
-    margin-bottom: 16px;
-    min-height: 26px;
+    display: none;
+  }
+  @media (max-width: 991.98px) {
+    .active-filters {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-bottom: 16px;
+      min-height: 26px;
+    }
   }
   .af-chip {
     display: inline-flex; align-items: center; gap: 4px;
