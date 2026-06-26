@@ -817,7 +817,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ========== Header ========== -->
 <header class="v-topbar">
   <div class="v-topbar-inner">
-    <a class="v-logo" href="https://www.veltra.com/jp/" aria-label="Veltra（ベルトラ）トップへ">
+    <a class="v-logo" href="https://www.veltra.com/jp/" aria-label="Veltra（ベルトラ）トップへ"
+       data-event="header_link_click"
+       data-payload='{"link_target":"header_logo","dest_url":"https://www.veltra.com/jp/"}'>
       <img src="../assets/img/logo_a1_jp-1.png" alt="Veltra" class="v-logo-img" onerror="this.classList.add('is-missing');">
       <span class="v-logo-fallback">Veltra<span class="dot">.</span></span>
     </a>
@@ -826,7 +828,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </header>
 
 <!-- ========== Hero ========== -->
-<section class="photo-hero">
+<section class="photo-hero" data-section="hero">
   <div class="ph-inner">
     <p class="ph-eyebrow">チケット・送迎・宿泊</p>
     <h1>MLB（メジャーリーグ）・海外野球観戦予約</h1>
@@ -835,7 +837,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ========== Reasons (予約メリット) ========== -->
-<section class="reasons-sec">
+<section class="reasons-sec" data-section="reasons">
   <div class="shell">
     <h2>ベルトラなら海外観戦ツアー・チケットも簡単予約！</h2>
     <div class="reasons-grid">
@@ -871,7 +873,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ========== Pickup (注目の体験) ========== -->
-<section class="sec">
+<section class="sec" data-section="pickup">
   <div class="shell">
     <div class="sec-head"><h2>注目の体験</h2></div>
     <div class="pickup-grid" id="pickup-grid"></div>
@@ -879,7 +881,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ========== Tours (filterable) ========== -->
-<section class="sec" id="tours">
+<section class="sec" id="tours" data-section="list">
   <div class="shell">
     <!-- フィルタ（PC） -->
     <div class="filter-section">
@@ -905,7 +907,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="tours-toolbar">
       <div class="results-count"><span id="result-count">46</span> 件の結果</div>
       <div class="sort-control">
-        <select id="sort-baseball" aria-label="並び替え">
+        <select id="lp-sort" aria-label="並び替え">
           <option value="recommend">おすすめ順</option>
           <option value="rating">評価が高い順</option>
           <option value="price-asc">料金が安い順</option>
@@ -952,7 +954,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <!-- ========== Guide ========== -->
-<section class="sec">
+<section class="sec" data-section="guide">
   <div class="shell">
     <div class="sec-head"><h2>はじめての海外野球観戦ガイド</h2></div>
     <div class="guide-grid">
@@ -977,7 +979,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ========== FAQ ========== -->
-<section class="sec faq-sec">
+<section class="sec faq-sec" data-section="faq">
   <div class="shell">
     <div class="sec-head"><h2>よくある質問</h2></div>
     <div class="faq-list">
@@ -1023,23 +1025,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ========== Breadcrumb ========== -->
 <div class="v-crumb-wrap">
   <nav class="v-crumb" aria-label="パンくずリスト">
-    <a href="https://www.veltra.com/jp/">VELTRA</a>
+    <a href="https://www.veltra.com/jp/"
+       data-event="header_link_click"
+       data-payload='{"link_target":"breadcrumb_veltra","dest_url":"https://www.veltra.com/jp/"}'>VELTRA</a>
     <span class="sep" aria-hidden="true">›</span>
     <span class="curr">MLB（メジャーリーグ）・海外野球観戦</span>
   </nav>
 </div>
 
 <!-- ========== Footer band (VELTRA brand) ========== -->
-<footer class="footer-band">
+<footer class="footer-band" data-section="footer">
   <div class="fb-inner">
     <div class="fb-content">
-      <a href="https://www.veltra.com/jp/" class="fb-logo-link" aria-label="Veltra（ベルトラ）トップへ">
+      <a href="https://www.veltra.com/jp/" class="fb-logo-link" aria-label="Veltra（ベルトラ）トップへ"
+         data-event="header_link_click"
+         data-payload='{"link_target":"footer_logo","dest_url":"https://www.veltra.com/jp/"}'>
         <img src="../assets/img/logo_a1_jp-1.png" alt="VELTRA" class="fb-logo-img">
       </a>
       <div class="fb-links">
-        <a href="https://www.veltra.com/jp/privacy/">プライバシーポリシー</a>
+        <a href="https://www.veltra.com/jp/privacy/"
+           data-event="footer_link_click"
+           data-payload='{"link_text":"プライバシーポリシー","link_url":"https://www.veltra.com/jp/privacy/"}'>プライバシーポリシー</a>
         <span class="sep" aria-hidden="true">|</span>
-        <a href="https://www.veltra.com/jp/commercialtransactions/">特定商取引法に基づく表記</a>
+        <a href="https://www.veltra.com/jp/commercialtransactions/"
+           data-event="footer_link_click"
+           data-payload='{"link_text":"特定商取引法に基づく表記","link_url":"https://www.veltra.com/jp/commercialtransactions/"}'>特定商取引法に基づく表記</a>
       </div>
       <p class="fb-copy">(c) 2026 VELTRA Corporation All Rights Reserved</p>
     </div>
@@ -1047,6 +1057,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <script>
+/* =====================================================================
+   LP tracking config (汎用部 — 他ジャンルLPに移植時は LP_CONFIG だけ差替)
+   全イベントに lp_id / lp_genre / page_path を付与するので、GA4で
+   「lp_id=baseball のみ」のような個別LP分析と、横並びの横断分析の両方
+   が可能。
+===================================================================== */
+const LP_CONFIG = {
+  lp_id: 'baseball',
+  lp_genre: 'sports',
+  lp_name: 'MLB・海外野球観戦',
+};
+
+window.dataLayer = window.dataLayer || [];
+function trackEvent(eventName, payload) {
+  window.dataLayer.push({
+    event: eventName,
+    lp_id: LP_CONFIG.lp_id,
+    lp_genre: LP_CONFIG.lp_genre,
+    lp_name: LP_CONFIG.lp_name,
+    page_path: location.pathname,
+    event_payload: payload || {},
+  });
+}
+
 /* ===== AC data (Veltra実データ / 価格は円・公式表示準拠 / ratingは5点満点・MCP10点値÷2を四捨五入) ===== */
 const TICKET_IMG = 'https://cdn2.veltra.com/ptr/20260414072305_16918642_17292_0.jpg';
 const ACS = [
@@ -1315,6 +1349,30 @@ const STATE = {
   sort: 'recommend',
   shown: 16,
 };
+
+/* ===== Filter snapshot helper (汎用部・GA4送信用)
+   STATE.filters の全軸を見て、現時点の選択状態を1つの signature 文字列にまとめる。
+   どの軸でも動くので、他ジャンルLPで軸を増減してもそのまま使える。
+===================================================================== */
+function buildFilterSnapshot() {
+  const snap = {};
+  const parts = [];
+  let total = 0;
+  Object.keys(STATE.filters).forEach(group => {
+    const sorted = [...STATE.filters[group]].sort();
+    snap['active_' + group] = sorted.join('|');
+    if (sorted.length) {
+      parts.push(group + '=' + sorted.join('|'));
+      total += sorted.length;
+    }
+  });
+  snap.active_filter_count = total;
+  snap.active_filter_signature = parts.join(';');
+  snap.result_count = filterAcs().length;
+  return snap;
+}
+/* モーダルを開いた時点での状態保持（閉じた時の changed 判定用） */
+let _modalOpenSnapshot = null;
 const PAGE_SIZE = 16;
 
 /* ===== Filtering / sorting ===== */
@@ -1341,8 +1399,16 @@ function fmtPrice(ac) {
   const v = ac.price.toLocaleString('ja-JP');
   return `${ac.priceApprox ? '約' : ''}¥${v}〜`;
 }
-function cardHtml(ac) {
+function cardHtml(ac, opts = {}) {
   const cat = acCategory(ac);
+  const placement = opts.placement || 'grid';
+  const card_index = opts.index ?? 0;
+  const trackPayload = JSON.stringify({
+    ac_id: ac.id,
+    placement,
+    card_index,
+    dest_url: ac.url,
+  }).replace(/'/g, '&#39;');
   const ratingHtml = ac.rating
     ? `<div class="ac-rating">
          <span class="star">
@@ -1353,7 +1419,8 @@ function cardHtml(ac) {
        </div>`
     : `<div class="ac-rating"><span class="pending">体験談準備中</span></div>`;
   return `
-  <a class="ac-card" href="${ac.url}" target="_blank" rel="noopener" data-ga-ac="${ac.id}">
+  <a class="ac-card" href="${ac.url}" target="_blank" rel="noopener" data-ga-ac="${ac.id}"
+     data-event="ac_click" data-payload='${trackPayload}'>
     <div class="ac-thumb" style="--thumb-1:${ac.color1};">
       <img src="${ac.image}" alt="" loading="lazy" onerror="this.closest('.ac-thumb').classList.add('img-failed')">
     </div>
@@ -1411,6 +1478,8 @@ function openFilterModal(group) {
   const titleEl = document.getElementById('fm-modal-title');
   const chipsEl = document.getElementById('fm-modal-chips');
   if (!modal || !titleEl || !chipsEl) return;
+  _modalOpenSnapshot = { group, values: new Set(STATE.filters[group]) };
+  trackEvent('filter_modal_open', Object.assign({ modal: group }, buildFilterSnapshot()));
   const meta = group === 'city'
     ? { title: 'エリア', items: [...CITY_PRIMARY, ...CITY_EXTRA].map(v => ({ value: v, label: v })) }
     : { title: '球団', items: [...TEAM_PRIMARY, ...TEAM_EXTRA].map(v => ({ value: v, label: TEAM_LABELS[v] || v })) };
@@ -1428,6 +1497,18 @@ function openFilterModal(group) {
 function closeFilterModal() {
   const modal = document.getElementById('fm-modal');
   if (!modal) return;
+  if (_modalOpenSnapshot) {
+    const g = _modalOpenSnapshot.group;
+    const before = _modalOpenSnapshot.values;
+    const after = STATE.filters[g];
+    const changed = before.size !== after.size || [...before].some(v => !after.has(v));
+    trackEvent('filter_modal_close', Object.assign({
+      modal: g,
+      changed,
+      applied_count: after.size,
+    }, buildFilterSnapshot()));
+    _modalOpenSnapshot = null;
+  }
   modal.classList.remove('is-open');
   modal.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
@@ -1463,7 +1544,7 @@ function render() {
     listEl.innerHTML = ''; listEl.style.display = 'none'; emptyEl.style.display = 'block';
   } else {
     listEl.style.display = ''; emptyEl.style.display = 'none';
-    listEl.innerHTML = filtered.slice(0, shown).map(cardHtml).join('');
+    listEl.innerHTML = filtered.slice(0, shown).map((ac, i) => cardHtml(ac, { placement: 'grid', index: i + 1 })).join('');
   }
 
   const loadMore = document.getElementById('load-more');
@@ -1479,7 +1560,7 @@ function render() {
 document.addEventListener('DOMContentLoaded', () => {
   // Pickup（4枚）
   const byId = Object.fromEntries(ACS.map(a => [a.id, a]));
-  document.getElementById('pickup-grid').innerHTML = PICKUP_IDS.map(id => byId[id] ? cardHtml(byId[id]) : '').join('');
+  document.getElementById('pickup-grid').innerHTML = PICKUP_IDS.map((id, i) => byId[id] ? cardHtml(byId[id], { placement: 'pickup', index: i + 1 }) : '').join('');
 
   // 構造化データ（ItemList + per-AC Product / aggregateRating）
   const ldEl = document.getElementById('ld-itemlist');
@@ -1529,8 +1610,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!cat) return;
     const set = STATE.filters.cat;
     const v = cat.dataset.value;
-    if (set.has(v)) set.delete(v); else set.add(v);
+    const wasActive = set.has(v);
+    if (wasActive) set.delete(v); else set.add(v);
     STATE.shown = PAGE_SIZE;
+    trackEvent('filter_apply', Object.assign({
+      filter_group: 'cat',
+      filter_value: v,
+      state: wasActive ? 'remove' : 'add',
+      from: 'mobile_chip',
+    }, buildFilterSnapshot()));
     render();
   });
 
@@ -1543,9 +1631,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const group = document.getElementById('fm-modal-chips').dataset.group;
     const set = STATE.filters[group];
     const v = chip.dataset.value;
-    if (set.has(v)) set.delete(v); else set.add(v);
+    const wasActive = set.has(v);
+    if (wasActive) set.delete(v); else set.add(v);
     chip.classList.toggle('is-active');
     STATE.shown = PAGE_SIZE;
+    trackEvent('filter_apply', Object.assign({
+      filter_group: group,
+      filter_value: v,
+      state: wasActive ? 'remove' : 'add',
+      from: 'modal',
+    }, buildFilterSnapshot()));
     render();
   });
   document.addEventListener('keydown', e => {
@@ -1564,10 +1659,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const chip = e.target.closest('.f-chip');
     if (!chip) return;
-    const set = STATE.filters[chip.dataset.group];
-    if (set.has(chip.dataset.value)) set.delete(chip.dataset.value);
-    else set.add(chip.dataset.value);
+    const group = chip.dataset.group;
+    const value = chip.dataset.value;
+    const set = STATE.filters[group];
+    const wasActive = set.has(value);
+    if (wasActive) set.delete(value); else set.add(value);
     STATE.shown = PAGE_SIZE;
+    trackEvent('filter_apply', Object.assign({
+      filter_group: group,
+      filter_value: value,
+      state: wasActive ? 'remove' : 'add',
+      from: 'pc',
+    }, buildFilterSnapshot()));
     render();
   });
 
@@ -1575,17 +1678,67 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('active-filters').addEventListener('click', e => {
     const btn = e.target.closest('[data-remove-group]');
     if (!btn) return;
-    STATE.filters[btn.dataset.removeGroup].delete(btn.dataset.removeValue);
+    const group = btn.dataset.removeGroup;
+    const value = btn.dataset.removeValue;
+    STATE.filters[group].delete(value);
     STATE.shown = PAGE_SIZE;
+    trackEvent('filter_apply', Object.assign({
+      filter_group: group,
+      filter_value: value,
+      state: 'remove',
+      from: 'active_chip',
+    }, buildFilterSnapshot()));
     render();
   });
 
-  document.getElementById('sort-baseball').addEventListener('change', e => { STATE.sort = e.target.value; STATE.shown = PAGE_SIZE; render(); });
-  document.getElementById('load-more').addEventListener('click', () => { STATE.shown += PAGE_SIZE; render(); });
+  document.getElementById('lp-sort').addEventListener('change', e => {
+    STATE.sort = e.target.value;
+    STATE.shown = PAGE_SIZE;
+    trackEvent('sort_change', { sort_value: e.target.value });
+    render();
+  });
+  document.getElementById('load-more').addEventListener('click', () => {
+    const before = STATE.shown;
+    STATE.shown += PAGE_SIZE;
+    const total = filterAcs().length;
+    trackEvent('load_more', {
+      current_count: before,
+      next_count: Math.min(STATE.shown, total),
+      total,
+    });
+    render();
+  });
   document.getElementById('empty-clear').addEventListener('click', () => {
     for (const g of ['city','team','cat']) STATE.filters[g].clear();
     STATE.shown = PAGE_SIZE; render();
   });
+
+  // ===== GA4 Tracking instrumentation =====
+  // 1) data-event 属性のある要素のクリックを delegation で吸い上げる
+  //    対象: ac_click / header_link_click / footer_link_click
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-event]');
+    if (!el) return;
+    let payload = {};
+    try { payload = JSON.parse(el.dataset.payload || '{}'); } catch (err) {}
+    trackEvent(el.dataset.event, payload);
+  });
+
+  // 2) section_view を IntersectionObserver で発火（各セクション50%超過で初回1回）
+  const _seenSections = new Set();
+  const _sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting || en.intersectionRatio < 0.5) return;
+      const s = en.target.dataset.section;
+      if (!s || _seenSections.has(s)) return;
+      _seenSections.add(s);
+      trackEvent('section_view', { section: s });
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-section]').forEach(el => _sectionObserver.observe(el));
+
+  // 3) 初回 page_view 補強（GTMでpage_viewが自動取得されるが、lp_id等の付与確実化）
+  trackEvent('lp_view', { section: 'page' });
 
   render();
 });
