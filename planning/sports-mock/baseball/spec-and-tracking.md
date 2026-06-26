@@ -132,7 +132,7 @@ ACS.filter(ac =>
 | 5 | ac_click (Grid) | ✅ | 同上 |
 | 6 | filter_apply | ✅ | **どの絞り込みボタンが押されたか + 押下後の組み合わせ** |
 | 7 | filter_modal_open | ✅ | |
-| 8 | filter_modal_close | ❌ | open があれば足りる |
+| 8 | filter_modal_close | ✅ | 閉じた時点での `applied_count` と `result_count` を取得（モーダル内での意思決定の有無分析用） |
 | 9 | filter_clear | ❌ | 不要 |
 | 10 | sort_change | ✅ | |
 | 11 | load_more | ✅ | |
@@ -143,7 +143,7 @@ ACS.filter(ac =>
 | 15 | footer_link_click | ✅ | **どのリンクが押されたか分かる** |
 | 16 | outbound_click | ✅ | **AC=#4/#5 と統合**、その他外部リンクは別系統で扱う |
 
-→ 計測イベント **計 11 種類**
+→ 計測イベント **計 12 種類**
 
 ### 2.2 絞り込みセットの集計（新規要件）
 
@@ -201,6 +201,7 @@ GROUP BY sig ORDER BY cnt DESC LIMIT 20
 | `ac_click` | `ac_id`, `ac_position`, `placement` ∈ {pickup, grid}, `card_index`, `dest_url` | クリック = 外部遷移なので outbound_click を兼ねる |
 | `filter_apply` | 上 2.2 参照 | "セット" 集計可能 |
 | `filter_modal_open` | `modal` ∈ {city, team, cat} | SP のみ |
+| `filter_modal_close` | `modal`, `result_count`, `applied_count`, `changed`（true/false） | SP のみ、開いてから閉じるまでの状態変化を把握 |
 | `sort_change` | `sort_value` ∈ {recommend, rating, price-asc, price-desc} | |
 | `load_more` | `current_count`, `next_count`, `total` | |
 | `header_link_click` | `link_target` ∈ {header_logo, breadcrumb_veltra, footer_logo}, `dest_url` | Veltra TOP 系の3入口 |
@@ -285,6 +286,7 @@ document.addEventListener('click', (e) => {
 |---|---|
 | `section_view` | IntersectionObserver で `[data-section]` 要素を観測、初回50%超過で push |
 | `filter_modal_open` | `openFilterModal()` 関数内で push |
+| `filter_modal_close` | `closeFilterModal()` 関数内で push（開いた時点の state を保持し、閉じる時に diff を取って `changed` 判定） |
 | `sort_change` | `#sort-baseball` の `change` listener 内で push（既存 listener に1行追加） |
 | `load_more` | `#load-more` ハンドラ内で push |
 
@@ -318,7 +320,7 @@ flowchart LR
         T1[Click - All Elements<br/>条件: data-event 属性あり]
         T2[Custom Event - section_view]
         T3[Custom Event - filter_apply]
-        T4[Custom Event - filter_modal_open]
+        T4[Custom Event - filter_modal_open / close]
         T5[Custom Event - sort_change]
         T6[Custom Event - load_more]
         T7[Custom Event - header_link_click]
