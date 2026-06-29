@@ -511,6 +511,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color: var(--blue);
     font-weight: 700;
   }
+  .fm-modal-chip.is-extra { display: none; }
+  .fm-modal-chips.is-expanded .fm-modal-chip.is-extra { display: inline-block; }
+  .fm-modal-more {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .fm-modal-more svg { width: 10px; height: 10px; }
+  .fm-modal-chips.is-expanded .fm-modal-more svg { transform: rotate(180deg); }
 
   /* Active filters — 選択済みラベルチップは PC/モバイルとも非表示。
      選択状態は PC=チップ is-active / モバイル=エリア・球団トリガーの件数バッジ で表現する。 */
@@ -1460,14 +1477,26 @@ function openFilterModal(group) {
   _modalOpenSnapshot = { group, values: new Set(STATE.filters[group]) };
   trackEvent('filter_modal_open', Object.assign({ modal: group }, buildFilterSnapshot()));
   const meta = group === 'city'
-    ? { title: 'エリア', items: [...CITY_PRIMARY, ...CITY_EXTRA].map(v => ({ value: v, label: v })) }
-    : { title: '球団', items: [...TEAM_PRIMARY, ...TEAM_EXTRA].map(v => ({ value: v, label: TEAM_LABELS[v] || v })) };
+    ? { title: 'エリア', moreLabel: `他${CITY_EXTRA.length}都市`,
+        primary: CITY_PRIMARY.map(v => ({ value: v, label: v })),
+        extra: CITY_EXTRA.map(v => ({ value: v, label: v })) }
+    : { title: '球団', moreLabel: `他${TEAM_EXTRA.length}球団`,
+        primary: TEAM_PRIMARY.map(v => ({ value: v, label: TEAM_LABELS[v] || v })),
+        extra: TEAM_EXTRA.map(v => ({ value: v, label: TEAM_LABELS[v] || v })) };
   titleEl.textContent = meta.title;
   chipsEl.dataset.group = group;
-  chipsEl.innerHTML = meta.items.map(it => {
+  chipsEl.classList.remove('is-expanded');
+  const chipBtn = (it, extra) => {
     const active = STATE.filters[group].has(it.value);
-    return `<button type="button" class="fm-modal-chip${active ? ' is-active' : ''}" data-value="${it.value}">${it.label}</button>`;
-  }).join('');
+    return `<button type="button" class="fm-modal-chip${active ? ' is-active' : ''}${extra ? ' is-extra' : ''}" data-value="${it.value}">${it.label}</button>`;
+  };
+  // 選択済みの extra は最初から表示しておく（選択が隠れないように）
+  const hasSelectedExtra = meta.extra.some(it => STATE.filters[group].has(it.value));
+  if (hasSelectedExtra) chipsEl.classList.add('is-expanded');
+  chipsEl.innerHTML =
+    meta.primary.map(it => chipBtn(it, false)).join('') +
+    meta.extra.map(it => chipBtn(it, true)).join('') +
+    `<button type="button" class="fm-modal-more" data-modal-more>${CHEVRON_SVG}<span class="lbl">${meta.moreLabel}</span></button>`;
   modal.classList.add('is-open');
   modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
@@ -1605,6 +1634,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const fmModal = document.getElementById('fm-modal');
   fmModal.addEventListener('click', e => {
     if (e.target.closest('[data-fm-close]')) { closeFilterModal(); return; }
+    const more = e.target.closest('[data-modal-more]');
+    if (more) {
+      const chipsEl = document.getElementById('fm-modal-chips');
+      const expanded = chipsEl.classList.toggle('is-expanded');
+      const lbl = more.querySelector('.lbl');
+      const group = chipsEl.dataset.group;
+      const moreLabel = group === 'city' ? `他${CITY_EXTRA.length}都市` : `他${TEAM_EXTRA.length}球団`;
+      if (lbl) lbl.textContent = expanded ? '閉じる' : moreLabel;
+      return;
+    }
     const chip = e.target.closest('.fm-modal-chip');
     if (!chip) return;
     const group = document.getElementById('fm-modal-chips').dataset.group;
