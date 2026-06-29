@@ -366,23 +366,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media (max-width: 991.98px) {
     .filter-section { display: none; }
     .filter-mobile {
-      display: flex; align-items: center; gap: 8px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding-bottom: 2px;
+      display: flex; flex-direction: column; gap: 12px;
       margin-bottom: 16px;
     }
-    .filter-mobile::-webkit-scrollbar { display: none; }
   }
+  /* 行1: エリア/球団トリガー（横幅2分割）, 行2: カテゴリ（横スクロール） */
+  .fm-row { display: flex; align-items: center; gap: 8px; }
+  .fm-row-triggers > .fm-chip { flex: 1 0 0; min-width: 0; }
+  .fm-row-cats {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .fm-row-cats::-webkit-scrollbar { display: none; }
+  .fm-row-cats > .fm-chip { flex: none; }
   .fm-chip {
-    flex: none;
     background: #fff;
     border: 1px solid var(--line);
     border-radius: 20px;
-    height: 32px;
-    padding: 0 12px;
-    display: inline-flex; align-items: center; gap: 2px;
+    padding: 12px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 2px;
     font-size: 12px;
     color: var(--ink);
     line-height: 1;
@@ -390,7 +394,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family: inherit;
     cursor: pointer;
   }
-  .fm-chip svg { width: 16px; height: 16px; flex: none; }
+  .fm-chip svg { width: 10px; height: 10px; flex: none; }
   .fm-chip.is-active {
     background: var(--blue-soft);
     border-color: var(--blue);
@@ -1460,13 +1464,15 @@ function renderFilterMobile() {
     const count = STATE.filters[g.group].size;
     const cls = 'fm-chip fm-trigger' + (count > 0 ? ' has-selection' : '');
     const countEl = count > 0 ? `<span class="fm-trigger-count">${count}</span>` : '';
-    return `<button type="button" class="${cls}" data-fm-open="${g.group}">${g.icon ? PIN_SVG : ''}${g.label}${countEl}</button>`;
+    return `<button type="button" class="${cls}" data-fm-open="${g.group}">${g.label}${countEl}${CHEVRON_SVG}</button>`;
   }).join('');
   const cats = CATS.map(c => {
     const active = STATE.filters.cat.has(c);
     return `<button type="button" class="fm-chip${active ? ' is-active' : ''}" data-group="cat" data-value="${c}">${CAT_LABELS[c]}</button>`;
   }).join('');
-  el.innerHTML = triggers + cats;
+  el.innerHTML =
+    `<div class="fm-row fm-row-triggers">${triggers}</div>` +
+    `<div class="fm-row fm-row-cats">${cats}</div>`;
 }
 
 function openFilterModal(group) {
