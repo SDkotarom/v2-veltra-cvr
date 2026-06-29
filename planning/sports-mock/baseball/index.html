@@ -439,7 +439,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .fm-modal-header {
     position: sticky; top: 0;
     flex: none;
-    display: flex; align-items: center;
+    display: flex; align-items: center; justify-content: center;
     padding: 16px 20px;
     border-bottom: 1px solid var(--line);
     background: #fff;
@@ -448,13 +448,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-size: 16px; font-weight: 700; color: var(--ink);
     margin: 0;
     line-height: 1.4;
-    flex: 1;
     text-align: center;
-    padding-left: 32px; /* close ボタン分の中央寄せ補正 */
   }
   .fm-modal-close {
-    flex: none;
-    order: -1; /* タイトル左に配置 */
+    position: absolute;
+    left: 20px; top: 50%;
+    transform: translateY(-50%);
     width: 32px; height: 32px;
     border-radius: 50%;
     border: none;
