@@ -511,32 +511,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color: var(--blue);
   }
 
-  /* Active filters — PCでは絞り込みチップの is-active 状態で選択が見えるため非表示 */
+  /* Active filters — 選択済みラベルチップは PC/モバイルとも非表示。
+     選択状態は PC=チップ is-active / モバイル=エリア・球団トリガーの件数バッジ で表現する。 */
   .active-filters {
     display: none;
   }
-  @media (max-width: 991.98px) {
-    .active-filters {
-      display: flex; flex-wrap: wrap; gap: 6px;
-      margin-bottom: 16px;
-      min-height: 26px;
-    }
-  }
-  .af-chip {
-    display: inline-flex; align-items: center; gap: 4px;
-    background: var(--blue-soft);
-    color: var(--blue);
-    border-radius: 100px;
-    padding: 4px 8px 4px 12px;
-    font-size: 12px; font-weight: 700;
-  }
-  .af-chip button {
-    all: unset; cursor: pointer;
-    width: 18px; height: 18px;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 14px; line-height: 1;
-  }
-  .af-chip button:hover { color: var(--blue-dark); }
 
   /* Tours toolbar */
   .tours-toolbar {
