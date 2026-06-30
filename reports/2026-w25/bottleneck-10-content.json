@@ -1,0 +1,417 @@
+{
+  "number": 10,
+  "title": "指名・再訪のDirect層すら最終確定で価格・在庫の再確認に引っかかり完了を落としている",
+  "tags": [
+    {
+      "label": "④→⑤ 意向→完了",
+      "type": "red"
+    },
+    {
+      "label": "Direct",
+      "type": "default"
+    }
+  ],
+  "deviation": "-11.9%",
+  "impact_sessions": "111K / 月",
+  "description_html": "Direct（930,812セッション・全体の28.3%）の④→⑤ 意向→完了は <strong style=\"color:var(--red)\">63.09%</strong> で、ベースライン <strong>75.04%</strong> から <strong style=\"color:var(--red)\">-11.9pp</strong> 低い。ブックマーク・履歴・指名検索で再訪する高意向の層なのに、フォーム最終段で総額・在庫・キャンセル条件の再確認に引っかかり決済直前で手が止まる。④→⑤ をベースライン水準まで戻すだけで月間約 <strong>111,185セッション分</strong>のリフトが見込める。<span style=\"color:var(--text3);font-size:12px;display:block;margin-top:6px\">※ 直近28日 raw 値（GA4 Property 347074845）。W16から継続するChromium Headless系bot（週内≈12.7%）は分母を希釈するが、本セグメント間ギャップとは独立した構造課題。</span>",
+  "funnel_overview": {
+    "title": "ファネル全体比較（Direct vs ベースライン）",
+    "cells": [
+      {
+        "label": "①→② 流入→AC到達",
+        "value": "33.85%",
+        "sub": "ベースライン 47.32%"
+      },
+      {
+        "label": "②→③ AC到達→検討",
+        "value": "6.01%",
+        "sub": "ベースライン 11.56%"
+      },
+      {
+        "label": "③→④ 検討→意向",
+        "value": "59.38%",
+        "sub": "ベースライン 41.87%"
+      },
+      {
+        "label": "④→⑤ 意向→完了",
+        "value": "63.09%",
+        "sub": "ベースライン 75.04% | -11.9pp",
+        "alert": true
+      }
+    ]
+  },
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "意向→完了",
+      "value": "75.04%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Direct",
+      "stage": "意向→完了",
+      "value": "63.09%",
+      "sub": "-11.9% vs 全体",
+      "alert": true
+    },
+    {
+      "label": "Cross-network",
+      "stage": "意向→完了",
+      "value": "80.57%",
+      "sub": "+7.4% vs 全体"
+    },
+    {
+      "label": "Organic Video",
+      "stage": "意向→完了",
+      "value": "75.00%",
+      "sub": "-0.1% vs 全体"
+    },
+    {
+      "label": "Unassigned",
+      "stage": "意向→完了",
+      "value": "67.71%",
+      "sub": "-9.8% vs 全体"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "③→④ は全体を大きく上回るのに ④→⑤ で失速する",
+      "body_html": "Direct は ③→④ 検討→意向が <strong>59.38%</strong>（ベースライン 41.87%、+17.5pp）と高く、カレンダーまで進んだら意向化する力は明確に強い。ところが最終の ④→⑤ で <strong style=\"color:var(--red)\">63.09%</strong> まで落ちる。意向まで他チャネル以上に進めておきながら最後の確定だけ取りこぼす形で、摩擦はフォーム末端（総額・在庫・確定条件の確認）に局在している。",
+      "note": "③→④ +17.5pp と ④→⑤ -11.9pp のギャップが、課題がフォーム末端に局在する根拠。"
+    },
+    {
+      "title": "高完了の returning・desktop と比べた最終確定の差",
+      "body_html": "リピーター主体の returning は ④→⑤ <strong>73.03%</strong>、desktop は <strong>80.23%</strong> で完了しきる。Direct はその両方の性格（指名・再訪）を併せ持つはずなのに 63.09% にとどまる。前回の連絡先・決済方法・参加者情報を再利用できず、在庫と総額を毎回確認し直す導線が完了を削っている可能性が高い。",
+      "note": "Direct は指名・再訪層なのに returning(73.03%)・desktop(80.23%) の完了水準に届いていない。"
+    }
+  ],
+  "callout": {
+    "title": "Direct の意向→完了を全体水準へ戻すだけで月間約111Kセッション",
+    "body_html": "④→⑤ における Direct の通過率 <strong>63.09%</strong> はベースライン <strong>75.04%</strong> から <strong>-11.9pp</strong> の乖離。月間 930,812 セッション・全体の28.3% を占めるため、<strong>意向→完了を 75.04% 水準まで戻すだけで月間約 111,185 セッション分の追加完了</strong>が見込める。指名・再訪の高意向層なので、最終確定の不安（総額・在庫・確定条件）を取り除く施策は即効性が高い。"
+  },
+  "behavior_context": {
+    "estimated_action": "ブックマーク・履歴・指名検索で再訪した高意向の Traveler が、フォーム最終段で『この総額で合っているか』『まだ空いているか』『キャンセルできるか』を確認し直す過程で迷い、決済直前に手が止まっている可能性が高い。",
+    "evidence": [
+      "Direct ④→⑤ 意向→完了: 63.09%（ベースライン 75.04%）",
+      "Direct ③→④ 検討→意向: 59.38%（ベースライン 41.87%、+17.5pp）。意向化は強いのに最終確定だけ落ちる",
+      "returning ④→⑤ 73.03% / desktop ④→⑤ 80.23%。指名・再訪の性格を持つ Direct はこの水準に届いていない",
+      "Direct のシェア 28.3% / 月間影響 約111,185セッション規模"
+    ],
+    "page_role_check": "予約フォーム/決済は『完了』を担うページ。Direct はブックマーク・指名検索で意向が固まった状態で到達するため、新情報を足す段階ではなく総額・在庫・確定条件を一目で確かめさせて背中を押す役割。情報追加でなく確認コストの削減が本筋。",
+    "subtraction_check": "総額を最終画面で初出しにせずフォーム冒頭から1つに集約し、在庫・キャンセル条件もその場で見せれば『確認のための往復』を引き算できる。ログイン済の再訪なら前回の連絡先・決済方法を初期表示してフォーム入力自体を引く。新機能というより既存データの再利用と表示位置の前出し。",
+    "pattern_references": []
+  },
+  "hypo_section_title": "原因仮説 × 3 &amp; 打ち手 × 9",
+  "hypo_section_desc": "なぜ Direct の ④→⑤ 意向→完了 が低いか？ 仮説をクリックして打ち手・プロトタイプを展開。",
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "最終総額・在庫・確定条件が決済直前まで隠れ、最後に『再確認』して手が止まる",
+      "body": "Direct は指名・再訪で意向が固まった状態で到達するのに、総額（手数料・税込）が決済直前まで主表示されず、残枠の鮮度やキャンセル条件もフォーム末端で初めて目に入る。『この値段で合ってる？』『まだ空いてる？』の再確認が最後の往復を生み、決済直前で離脱する。フォーム冒頭に安心3要素（無料キャンセル/即時確定/日本語サポート）と総額・残枠を凝縮して前出しすれば、確認コストを引き算できる。",
+      "evidence": [
+        "Direct ④→⑤ 意向→完了: 63.09%（ベースライン 75.04%）",
+        "Direct ③→④ 検討→意向: 59.38%（+17.5pp）で意向化は強い。落ちるのは最終確定だけ",
+        "site-features.md §8: フォームに安心3バッジ・総額の冒頭固定表示は未記載で、動的価格は決済段で表示"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "CTA近傍に安心3バッジ（無料キャンセル/即時確定/日本語サポート）を凝縮",
+          "description": "予約ボタン直近に「無料キャンセル・即時確定・日本語サポート」の3バッジを1行で凝縮表示。指名・再訪の高意向 Traveler が抱える『確定して大丈夫か』の最後の不安を、決済直前のひと目で払拭する。",
+          "spec_html": "<strong>Braze-now</strong>：Direct判定（landing=トップ/AC直、referrer空）の高意向セッションに、Content Cards で予約CTA上に3バッジ帯を差し込み需要をプローブ。<strong>要プロダクト</strong>：恒久化はAC詳細・フォームのCTA直上に静的バッジ帯を実装し、ACのキャンセル区分・即時確定可否をマスタから出し分け。",
+          "impact": "④→⑤ +2.0〜3.0pt / 月2.0〜2.9万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">予約内容の確認</div><div style=\"margin:0 10px;font-size:13px;color:#333\">大人2名 6/20(土) 09:00</div><div style=\"margin:8px 10px;background:#1B82C5;color:#fff;border-radius:6px;padding:9px;text-align:center;font-weight:700;font-size:13px\">予約に進む</div><div style=\"font-size:13px;color:#999;padding:6px 10px\">確定して大丈夫かの判断材料がCTA周りに無く、最後にためらう</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">予約内容の確認</div><div style=\"margin:0 10px;font-size:13px;color:#333\">大人2名 6/20(土) 09:00</div><div style=\"margin:8px 10px;display:flex;gap:4px;font-size:13px\"><span style=\"flex:1;background:#E6F8EE;border:1px solid #2DAE6C;border-radius:4px;padding:4px;text-align:center;color:#2DAE6C;font-weight:700\">無料キャンセル</span><span style=\"flex:1;background:#E6F8EE;border:1px solid #2DAE6C;border-radius:4px;padding:4px;text-align:center;color:#2DAE6C;font-weight:700\">即時確定</span><span style=\"flex:1;background:#E6F8EE;border:1px solid #2DAE6C;border-radius:4px;padding:4px;text-align:center;color:#2DAE6C;font-weight:700\">日本語サポート</span></div><div style=\"margin:8px 10px;background:#1B82C5;color:#fff;border-radius:6px;padding:9px;text-align:center;font-weight:700;font-size:13px\">予約に進む</div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">CTA直近に安心3要素を凝縮し最終確定の不安を払拭</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        },
+        {
+          "letter": "B",
+          "title": "最終総額（手数料・税込）をフォーム冒頭から主表示し決済直前の不意打ちを排除",
+          "description": "商品代金だけでなく決済手数料・税を含む総額を、予約フォームの最初の画面から大きく主表示。決済直前で初めて加算額が判明する『聞いてない』を排除し、指名・再訪層の最終確認の往復を引き算する。",
+          "spec_html": "<strong>要プロダクト</strong>：AC詳細・カレンダー・フォーム・決済の全画面で総額を主表示に統一し、明細はタップで展開。総額計算ロジックを画面共通化し、Globick動的価格APIの戻り値に手数料・税を合算。site-features.md §8 の動的価格表示の表示位置をフォーム冒頭へ前倒し。",
+          "impact": "④→⑤ +2.5〜3.5pt / 月2.6〜3.4万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">決済直前</div><div style=\"margin:0 10px;font-size:13px\">商品代金 ¥17,000</div><div style=\"margin:2px 10px;font-size:13px;color:#E63946\">＋手数料 ¥510（ここで初表示）</div><div style=\"margin:2px 10px;font-size:13px;color:#E63946\">＋税 ¥1,750（ここで初表示）</div><div style=\"font-size:13px;color:#999;padding:6px 10px\">決済直前で加算額が判明し気が変わって離脱</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">予約フォーム（冒頭）</div><div style=\"margin:0 10px;background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;font-size:13px\"><div style=\"display:flex;justify-content:space-between;color:#666\"><span>商品代金</span><span>¥17,000</span></div><div style=\"display:flex;justify-content:space-between;color:#666\"><span>手数料・税</span><span>¥2,260</span></div><div style=\"display:flex;justify-content:space-between;font-weight:700;margin-top:4px\"><span>お支払い総額</span><span style=\"color:#2DAE6C;font-size:14px\">¥19,260</span></div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">冒頭で総額を主表示し決済直前の不意打ちを排除</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "動的価格表示（Globick API、2025-03〜05）",
+            "note": "site-features.md §8 に動的価格表示はあるが決済段での表示。総額をフォーム冒頭へ前出しする拡張。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [
+              "price_calc"
+            ],
+            "constraint_notes": "総額計算（手数料・税合算）の全画面共通化が必要。AC・決済手段で手数料率が異なる点に対応。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        },
+        {
+          "letter": "C",
+          "title": "キャンセル条件の早見表をフォーム上部に常時表示",
+          "description": "決済直前ではなく予約フォーム上部から「8日前まで無料／3-7日前30%／1-2日前50%／当日100%」の早見表を表示。指名・再訪層が抱える『あとで予定が変わったら』の不安を冒頭で解消し、安心して入力を進めてもらう。",
+          "spec_html": "<strong>要プロダクト</strong>：ACごとのキャンセル区分マスタから日付別パーセンテージを取得し、フォーム上部に表形式で固定表示。即時確定/予約確認待ちの区分も併記。AC詳細のキャンセル表記コンポーネントを再利用。",
+          "impact": "④→⑤ +1.5〜2.0pt / 月1.4〜1.9万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">決済直前</div><div style=\"margin:0 10px;font-size:13px;color:#E63946\">⚠ キャンセル料は72h前から発生（ここで初表示）</div><div style=\"font-size:13px;color:#999;padding:6px 10px\">条件が厳しく感じ最終確定をためらう</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">予約フォーム（上部）</div><div style=\"margin:0 10px;background:#E6F8EE;border:1px solid #2DAE6C;border-radius:6px;padding:8px;font-size:13px\"><div style=\"color:#2DAE6C;font-weight:700\">キャンセル条件</div><div style=\"margin-top:4px;color:#333;line-height:1.7\">8日前まで 無料 ／ 3-7日前 30%<br>1-2日前 50% ／ 当日 100%</div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">早見表を冒頭で透明化し予定変更の不安を先回りで解消</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "途中離脱した再訪で『続きから』再開できず、毎回ゼロから入力し直して疲れる",
+      "body": "Direct は同一 Traveler が複数回戻ってくる層。だが一度フォームを離れると入力内容が消え、再訪時にゼロから入力し直しになる。ログイン済なら前回の連絡先・参加者情報・決済方法が再利用できず、毎回の再入力が最終確定の手前で疲労離脱を生む。離脱時点の状態を保持して『続きから』再開できれば、再訪の取りこぼしを完了に変えられる。",
+      "evidence": [
+        "Direct ④→⑤ 意向→完了: 63.09%（ベースライン 75.04%）",
+        "returning ④→⑤ 73.03% に対し Direct は 63.09%。再訪の性格を持ちながら完了水準が低い",
+        "site-features.md §8: フォーム入力の途中保存・前回情報の再利用・続きから再開は未記載"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "離脱→再訪時に『続きから』入力を復元（途中保存）",
+          "description": "フォーム入力内容を端末側に自動保存し、離脱しても再訪時に「入力途中の予約があります → 続きから」で復元。指名・再訪が多い Direct で発生しがちな中断離脱を、完全な予約完了に転換する。",
+          "spec_html": "<strong>要プロダクト</strong>：debounce 5秒で localStorage に保存（TTL 24h）。次回訪問時にバナーで復元を提案。決済カード番号は保存対象外（PCI DSS）。ログイン済なら入力状態をアカウント側に保持しデバイス跨ぎでも復元。",
+          "impact": "④→⑤ +1.5〜2.0pt / 月1.4〜1.9万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">フォーム入力中に離脱→再訪</div><div style=\"margin:0 10px;font-size:13px;color:#333\">入力欄がすべて空に戻っている</div><div style=\"font-size:13px;color:#999;padding:6px 10px\">入れ直す気力が無くそのまま離脱</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">再訪時</div><div style=\"margin:0 10px;background:#E6F8EE;border:1px solid #2DAE6C;border-radius:6px;padding:8px;font-size:13px\"><div style=\"color:#2DAE6C;font-weight:700\">入力途中の予約があります</div><div style=\"color:#666;margin-top:3px\">6/14 12:34 に保存（3/5項目入力済）</div><div style=\"margin-top:6px;background:#2DAE6C;color:#fff;border-radius:6px;padding:8px;text-align:center;font-weight:700\">続きから再開</div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">途中保存＋続きから再開で再訪の取りこぼしをゼロに</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "localStorage 完結（ログイン跨ぎ復元はアカウント保存が前提）。",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        },
+        {
+          "letter": "E",
+          "title": "ログイン済の再訪は『前回と同じ内容で予約』1クリック再利用",
+          "description": "ログイン済リピーターに前回予約の連絡先・参加者情報・決済方法（トークン化済）を提示し「同じ内容で進む」1クリックで決済確認へ。指名・再訪の Direct 層がフォームをほぼスキップして完了できる。",
+          "spec_html": "<strong>要プロダクト</strong>：マイページから直近予約を取得しフォーム冒頭にカード表示。決済方法はトークン参照のみ（番号は伏字）。1クリックで全項目を初期化。site-features.md §11 の会員基盤に紐付け。",
+          "impact": "④→⑤ +1.5〜2.5pt / 月1.4〜2.3万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">予約フォーム（ログイン済）</div><div style=\"margin:0 10px;font-size:13px;color:#333\">前回情報があるのに空欄から入力</div><div style=\"font-size:13px;color:#999;padding:6px 10px\">毎回の手入力が決済手前で疲労離脱を生む</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">予約フォーム（前回情報）</div><div style=\"margin:0 10px;background:#fff;border:1px solid #2DAE6C;border-radius:6px;padding:8px;font-size:13px\"><div style=\"font-weight:700\">前回と同じ内容で予約しますか？</div><div style=\"color:#666;margin-top:3px\">山田太郎 / 大人2名 / VISA末尾1234</div><div style=\"margin-top:6px;background:#2DAE6C;color:#fff;border-radius:6px;padding:8px;text-align:center;font-weight:700\">同じ内容で進む</div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">前回情報の1クリック再利用で再訪を即完了へ</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [
+              "login_required"
+            ],
+            "constraint_notes": "ログイン状態とトークン化決済が前提。会員でない Direct セッションには適用不可。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        },
+        {
+          "letter": "F",
+          "title": "離脱直前のフォーム放棄に Braze で『続きから』リマインドを配信",
+          "description": "フォーム途中で離脱した既知の Traveler に、メール/プッシュで「途中の予約があります、在庫はまだあります」を配信し再訪を促す。指名・再訪が多い Direct と相性が良く、開発0でリカバリ需要をプローブできる。",
+          "spec_html": "<strong>Braze-now</strong>：form_start 後 purchase 未達のセッションを離脱イベントとしてBrazeに連携、Canvas で30分後・24時間後にリマインド配信。本文に当該AC名・残枠・総額をConnected Contentで差し込み。データ蓄積前は静的フォールバック（汎用文面）で先行。",
+          "impact": "④→⑤ +1.0〜1.5pt / 月0.9〜1.4万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">フォーム放棄後</div><div style=\"margin:0 10px;font-size:13px;color:#333\">何のフォローもなく予約は放置される</div><div style=\"font-size:13px;color:#999;padding:6px 10px\">在庫が埋まる前の再訪機会を逃す</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">放棄後のリマインド</div><div style=\"margin:0 10px;border:1px dashed #2DAE6C;background:#F2FBF6;border-radius:6px;padding:8px;font-size:13px\"><div style=\"font-size:13px;color:#2DAE6C;font-weight:700\">Braze</div><div style=\"margin-top:3px;color:#333\">途中の予約があります。6/20の枠は残りわずか。</div><div style=\"margin-top:6px;background:#2DAE6C;color:#fff;border-radius:6px;padding:8px;text-align:center;font-weight:700\">続きから予約する</div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">放棄セッションへ残枠付きリマインドで再訪を回収</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [
+              "external_dependency"
+            ],
+            "constraint_notes": "残枠の差し込みはパートナーAPIごとに在庫取得方式が異なり、リアルタイム取得できないACは『残りわずか』等の静的文面にフォールバック。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "在庫（残枠）の鮮度が見えず『まだ空いてるか』を確かめに戻って失速する",
+      "body": "意向が固まった Direct 層でも、フォーム段で残枠がリアルタイムに見えないと『まだ空いているか』が不安になり、カレンダーへ戻って確認する往復が発生する。その間に迷いが生じ最終確定が遠のく。残枠を鮮度付きで表示し、満席なら即座に代替日を提示すれば、確認の往復と取りこぼしを同時に減らせる。",
+      "evidence": [
+        "Direct ④→⑤ 意向→完了: 63.09%（ベースライン 75.04%）",
+        "Direct ③→④ 検討→意向: 59.38%（+17.5pp）。カレンダーまで強く進むぶん残枠への関心が高い",
+        "site-features.md §5: 開始時間・価格差分表示・確定ステータスはあるがフォーム段の残枠リアルタイム表示は未記載"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "残枠をリアルタイム表示（残り◯枠・更新時刻付き）",
+          "description": "選択中の日時の残枠をフォーム上で「残り3枠（◯分前更新）」と鮮度付きで表示。指名・再訪の高意向層が『まだ空いてるか』を確かめにカレンダーへ戻る往復を排除し、その場で確定へ進ませる。",
+          "spec_html": "<strong>要プロダクト</strong>：選択日時に対しパートナー在庫APIへ問い合わせ、残枠と取得時刻を表示。取得できないACは『空き状況を確認のうえ確定』表記にフォールバック。site-features.md §5 の確定ステータス表示をフォーム段へ拡張。",
+          "impact": "④→⑤ +1.5〜2.0pt / 月1.4〜1.9万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">予約フォーム</div><div style=\"margin:0 10px;font-size:13px;color:#333\">6/20(土) 09:00 を選択</div><div style=\"font-size:13px;color:#999;padding:6px 10px\">空きが今もあるか見えず、確かめに前の画面へ戻る</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">予約フォーム</div><div style=\"margin:0 10px;font-size:13px;color:#333\">6/20(土) 09:00</div><div style=\"margin:6px 10px;background:#FFF4E0;border:1px solid #E88B00;border-radius:6px;padding:8px;font-size:13px;color:#E88B00;font-weight:700\">残り3枠（2分前に更新）</div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">残枠を鮮度付きで表示し確認の往復を排除</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "カレンダー補足情報・確定ステータス表示（2025-04）",
+            "note": "既存はカレンダーの確定ステータス（即時確定/リクエスト）表示のみ。本施策は残枠数を鮮度付き（残り◯枠・◯分前更新）でフォーム段に出す点が差分。在庫数はGlobick v3.1が対応、Linktivity等は要確認で取得不可ACは静的表記にフォールバック。"
+          },
+          "feasibility": {
+            "effort": "L",
+            "constraints": [
+              "external_dependency"
+            ],
+            "constraint_notes": "残枠取得はパートナーAPIごとに方式・更新頻度が異なり、一部ACはリアルタイム取得不可。取得不可ACは静的表記へフォールバックする設計が必須。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        },
+        {
+          "letter": "H",
+          "title": "選択日が満席なら同AC・近接日の空き枠を即提示",
+          "description": "選択した日時が満席のとき、エラーで止めず同ACの前後の空き枠を即座に提示。指名で来た Traveler を他社へ逃さず、近接日へ振り替えて完了させる。",
+          "spec_html": "<strong>要プロダクト</strong>：在庫APIで満席判定時に同ACの前後7日の空き枠を取得しチップで提示。1タップで日時を差し替えフォームを維持。在庫取得不可ACは『他の日程を見る』リンクにフォールバック。",
+          "impact": "④→⑤ +1.0〜1.5pt / 月0.9〜1.4万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">予約フォーム</div><div style=\"margin:0 10px;font-size:13px;color:#E63946\">この日時は満席です</div><div style=\"font-size:13px;color:#999;padding:6px 10px\">代替が示されず離脱・他社流出</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">予約フォーム</div><div style=\"margin:0 10px;font-size:13px;color:#E63946\">6/20(土)は満席。近い日に空きがあります</div><div style=\"margin:6px 10px;display:flex;gap:6px;font-size:13px\"><span style=\"flex:1;background:#E6F8EE;border:1px solid #2DAE6C;border-radius:6px;padding:6px;text-align:center;color:#2DAE6C;font-weight:700\">6/21 残2</span><span style=\"flex:1;background:#E6F8EE;border:1px solid #2DAE6C;border-radius:6px;padding:6px;text-align:center;color:#2DAE6C;font-weight:700\">6/22 残5</span></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">満席時に近接日を即提示し他社流出を防ぐ</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "L",
+            "constraints": [
+              "external_dependency"
+            ],
+            "constraint_notes": "前後日の空き取得はパートナーAPIごとに範囲・更新頻度が異なり一括取得不可なACがある。取得不可時は一覧リンクへフォールバック。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        },
+        {
+          "letter": "I",
+          "title": "保存ACの残枠変化を Braze で通知し再訪確定を促す",
+          "description": "ウィッシュリスト保存ACの残枠が減ったタイミングで、保存した Traveler にプッシュ/メールで「残りわずか」を配信し再訪・確定を促す。Direct の指名・再訪を在庫鮮度で後押しする。",
+          "spec_html": "<strong>Braze-now</strong>：保存AC×日時の残枠を定期取得し、閾値割れでBraze Canvasから通知。本文に残枠・総額をConnected Contentで差し込み。在庫取得不可ACは値下げ・締切接近など別シグナルで配信、なければ静的フォールバック。site-features.md §10 のウィッシュリストに紐付け。",
+          "impact": "④→⑤ +0.8〜1.2pt / 月0.7〜1.1万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">保存しただけのAC</div><div style=\"margin:0 10px;font-size:13px;color:#333\">残枠が減っても保存者には伝わらない</div><div style=\"font-size:13px;color:#999;padding:6px 10px\">再訪のきっかけが無く保存のまま埋もれる</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">保存ACの残枠通知</div><div style=\"margin:0 10px;border:1px dashed #2DAE6C;background:#F2FBF6;border-radius:6px;padding:8px;font-size:13px\"><div style=\"font-size:13px;color:#2DAE6C;font-weight:700\">Braze</div><div style=\"margin-top:3px;color:#333\">保存した体験、6/20の枠が残り3枠になりました。</div><div style=\"margin-top:6px;background:#2DAE6C;color:#fff;border-radius:6px;padding:8px;text-align:center;font-weight:700\">今すぐ予約する</div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">保存ACの残枠変化を通知し再訪・確定を後押し</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": null
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [
+              "external_dependency"
+            ],
+            "constraint_notes": "残枠の定期取得はパートナーAPIごとに方式が異なり、取得できないACは値下げ・締切接近等の代替シグナルで配信する設計が必要。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_32,h_32/v1643959325/blog/klook-favicon.png",
+      "url": "https://www.klook.com/",
+      "feature": "決済点に総額＋安心要素を凝縮し緊急性を併記",
+      "detail": "Klookは予約・決済画面で総額（手数料込）を主表示し、無料キャンセル/即時確定バッジと『残りわずか・X人が検討中』の緊急性を同居させ、最終確定の往復を排除している。"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicon/favicon-32x32.png",
+      "url": "https://www.getyourguide.com/",
+      "feature": "残枠リアルタイム表示＋満席時の近接日提示",
+      "detail": "GetYourGuideは選択日時の残枠を鮮度付きで表示し、満席時は同アクティビティの近接日空き枠を即提示。確認の往復と離脱を同時に抑える。"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://www.viator.com/favicon.ico",
+      "url": "https://www.viator.com/",
+      "feature": "前回情報の1クリック再利用と続きから再開",
+      "detail": "Viatorはログイン済リピーターに前回予約情報を提示し『同じ内容で進む』1クリックで決済へ。途中離脱しても続きから復元でき、再訪の完了率が高い。"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.ico",
+      "url": "https://www.kkday.com/",
+      "feature": "総額（手数料・税込）を全画面で前出し",
+      "detail": "KKdayは商品・カレンダー・フォーム・決済の全画面で総額を主表示し、決済直前に加算額が判明するパターンを排除。最終確定の不意打ちを構造的に防ぐ。"
+    },
+    {
+      "name": "アクティビティジャパン",
+      "favicon_url": "https://activityjapan.com/favicon.ico",
+      "url": "https://activityjapan.com/",
+      "feature": "キャンセル早見表をフォーム上部に固定",
+      "detail": "アクティビティジャパンはフォーム上部に日付別キャンセル料の早見表を常時表示。予定変更の不安を冒頭で解消し、安心して入力を進められる。"
+    },
+    {
+      "name": "じゃらん",
+      "favicon_url": "https://www.jalan.net/favicon.ico",
+      "url": "https://www.jalan.net/",
+      "feature": "保存・履歴からの再訪導線と残枠通知",
+      "detail": "じゃらんは保存・閲覧履歴から再訪を最短化し、残枠の減少や締切接近を通知して再訪確定を促す。指名・再訪層の取りこぼしを在庫鮮度で後押しする。"
+    }
+  ],
+  "competitive_insight": "競合は④→⑤の改善を『①決済点に総額＋安心要素を凝縮 ②残枠リアルタイム＋満席時の代替日 ③前回情報の再利用・続きから再開・オフサイト通知』の3層で固めている。Veltraに足りないのは決済点の凝縮（総額の前出し・安心3バッジ）、在庫鮮度の可視化、そして放棄・保存への通知。Direct は指名・再訪の高意向層なので、最終確定の確認コストを引き算する施策（A 安心3バッジ・B 総額前出し・D 続きから）は即効性が高い。在庫連携を要するG/H/Iは効果が大きい一方パートナーAPIごとの差異があり、取得不可ACは静的フォールバックを前提に段階導入する。",
+  "verification": [
+    "GA4 で sessionDefaultChannelGroup=Direct の form_start → purchase 転換率を週次計測（ベースライン 75.04% への接近を確認）",
+    "総額前出し（B）・安心3バッジ（A）はA/Bテストで表示有/無の④→⑤差を定量比較",
+    "残枠表示・満席時代替日（G/H）は在庫取得可能ACに限定したセグメントで完了率を比較"
+  ],
+  "verification_method": "GA4 > Explorations で sessionDefaultChannelGroup=Direct に絞り、form_start → purchase 転換率を週次トラッキング。各施策はA/Bテストで定量検証：A（安心3バッジ有/無）、B（総額前出し有/無）、D（続きから復元の利用率と完了寄与）、G/H（在庫表示・代替日提示は在庫取得可能ACに限定）。Braze配信（F/I）はCanvas別の再訪・予約完了をカスタムイベントで計測し、静的フォールバック群とリアルタイム差し込み群を比較。在庫連携施策はパートナーAPI取得可否でセグメントを分け、取得可能ACでの純効果を評価する。"
+}

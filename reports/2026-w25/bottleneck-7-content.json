@@ -1,0 +1,408 @@
+{
+  "number": 7,
+  "title": "スマホの予約フォームが入力負荷と決済不安でPC利用者ほど完了しきれない",
+  "tags": [
+    {
+      "label": "④→⑤ 意向→完了",
+      "type": "red"
+    },
+    {
+      "label": "Mobile",
+      "type": "default"
+    }
+  ],
+  "deviation": "-9.5%",
+  "impact_sessions": "181K / 月",
+  "description_html": "Mobile が AC決定済みでフォームに入った後の ④→⑤ 意向→完了 で <strong style=\"color:var(--red)\">65.54%</strong> しか通過せず、ベースライン <strong>75.04%</strong> から <strong style=\"color:var(--red)\">-9.5pp</strong> 低い。Desktop は同ステージ <strong>80.23%</strong>（+6.9pp）で、同じフォームでも入力デバイスの差が出る。Tablet も 65.16% と低く、タッチ入力＋小画面という共通条件で完了率が割れている。<span style=\"color:var(--text3);font-size:12px;display:block;margin-top:6px\">※ 28日 raw 値（基準: Property 347074845）。W16から継続する Chromium Headless bot は分母を希釈するが、本セグメント間ギャップは bot とは独立した構造課題。</span>",
+  "funnel_overview": {
+    "title": "ファネル全体比較（Mobile vs ベースライン）",
+    "cells": [
+      {
+        "label": "①→② 流入→AC到達",
+        "value": "32.56%",
+        "sub": "ベースライン 47.32%"
+      },
+      {
+        "label": "②→③ AC到達→検討",
+        "value": "15.06%",
+        "sub": "ベースライン 11.56%"
+      },
+      {
+        "label": "③→④ 検討→意向",
+        "value": "43.25%",
+        "sub": "ベースライン 41.87%"
+      },
+      {
+        "label": "④→⑤ 意向→完了",
+        "value": "65.54%",
+        "sub": "ベースライン 75.04% | -9.5pp",
+        "alert": true
+      }
+    ]
+  },
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "意向→完了",
+      "value": "75.04%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "Mobile",
+      "stage": "意向→完了",
+      "value": "65.54%",
+      "sub": "-9.5% vs 全体",
+      "alert": true
+    },
+    {
+      "label": "Desktop",
+      "stage": "意向→完了",
+      "value": "80.23%",
+      "sub": "+6.9% vs 全体"
+    },
+    {
+      "label": "Tablet",
+      "stage": "意向→完了",
+      "value": "65.16%",
+      "sub": "-13.2% vs 全体"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "同じフォームでもデバイスで完了率が15pp割れる",
+      "body_html": "AC決定済みでフォームに入った後（④→⑤）の通過率は、Mobile <strong style=\"color:var(--red)\">65.54%</strong> に対し Desktop <strong>80.23%</strong>・差は <strong style=\"color:var(--red)\">-14.7pp</strong>。Tablet も 65.16% と低く、<strong>タッチ入力＋小画面という共通条件で完了率が割れている</strong>ことから、商品やオファーの問題ではなく「フォームの入力負荷と決済直前の不安」が Mobile 固有の摩擦源と読める。Mobile は全体セッションの過半を占めるため、ここを Desktop 並みに寄せる効果が CVR 全体に最も直接効く。",
+      "note": "Mobile 65.54% vs Desktop 80.23%（-14.7pp）。タッチ入力デバイス（Tablet 65.16%）も共通して低い。"
+    },
+    {
+      "title": "Mobile は決定済みで来ているのに最後で落ちる（前段は良い）",
+      "body_html": "Mobile は ②→③ AC到達→検討 15.06%（ベースライン 11.56%）・③→④ 検討→意向 43.25%（同 41.87%）と、<strong>意向形成までは全体平均を上回る</strong>。にもかかわらず最終 ④→⑤ だけ落ちるため、これは「AC を選べていない」層ではなく「買う気で来た指名買い層（層①）がフォーム手前で取りこぼされている」構図。つまり打ち手は探索強化ではなく、フォームの入力負荷削減と決済直前の不安解消に集約すべき。",
+      "note": "③→④ までは全体超え。④→⑤ だけ -9.5pp。層① 指名買い→完了の取りこぼし。"
+    }
+  ],
+  "callout": {
+    "title": "Mobile の ④→⑤ を全体水準に戻すだけで月間約181Kセッション分のリフト",
+    "body_html": "Mobile の ④→⑤ 意向→完了 <strong>65.54%</strong> はベースライン <strong>75.04%</strong> から <strong style=\"color:var(--red)\">-9.5pp</strong> の乖離。このセグメントは全体セッションの過半を占めるため、<strong>意向→完了を 75.04% 水準まで戻すだけで月間約 181,000 セッション分の追加インパクト</strong>が見込める。買う気で来た層①（指名買い）の取りこぼし回収なので、探索改善より確度が高く、効果も即 CVR に乗る。"
+  },
+  "behavior_context": {
+    "estimated_action": "Mobile の Traveler は、長いフォームの手入力（カード番号・住所・氏名フリガナ）に疲れつつ、決済直前で「無料キャンセルできるのか」「今押したら即確定で取り消せないのか」という不安が重なり、『後でPCから予約しよう』と先送り離脱している可能性が高い。実際にPC再訪する割合は低く、機会損失になっていると見られる。",
+    "evidence": [
+      "Mobile ④→⑤ 意向→完了: 65.54%（ベースライン 75.04%）",
+      "Desktop 同ステージ 80.23% / Tablet 65.16%。タッチ入力＋小画面デバイスで共通して低く、Mobile-Desktop 差は -14.7pp",
+      "Mobile は ②→③ 15.06%・③→④ 43.25% と意向形成まではベースライン超え。最後の ④→⑤ だけ落ちており、層①（指名買い）の取りこぼしと読める",
+      "Mobile は全体セッションの過半シェア / 月間影響 約181,000 セッション規模"
+    ],
+    "page_role_check": "予約フォームは戦略ガイド上「完了（最終コミット）」の役割。Mobile では入力フォームのキーボード遷移・住所の手入力・カード手打ち・決済直前の不安が積み重なり、本来「迷いなく確定させる」役割を果たせていない。安心材料（無料キャンセル/即時確定/日本語サポート）が確定ボタン近傍に無いことも不安を残す。",
+    "subtraction_check": "情報の追加ではなく引き算で解く。(1) 入力項目自体を減らす（ゲスト購入・郵便番号→住所自動展開・登録済みカード）。(2) カード手入力を Apple Pay / Google Pay の前面化で『打鍵ゼロ』にする。(3) 散らばった安心情報を確定ボタン直上の3バッジ（無料キャンセル/即時確定/日本語サポート）に凝縮し、不安という『余計な迷い』を引く。新機能の積み増しではなく負荷と不安の除去が筋。",
+    "pattern_references": []
+  },
+  "hypo_section_title": "原因仮説 × 3 &amp; 打ち手 × 9",
+  "hypo_section_desc": "なぜ Mobile の ④→⑤ 意向→完了 が低いか？ 仮説をクリックして打ち手・プロトタイプを展開。",
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "決済直前の不安（無料キャンセル可否・即確定の怖さ）を解く材料が確定ボタン近傍に無い",
+      "body": "Mobile は意向形成までベースラインを上回る指名買い層なのに ④→⑤ だけ落ちる。小画面では『無料キャンセルできるか』『今押したら取り消せないのか』『困ったら日本語で聞けるか』という最後の不安が、確定ボタン直上に安心材料が無いため解消されないまま先送りされる。①-1 安心3バッジの SP 版を確定導線に凝縮するのが最有力。",
+      "evidence": [
+        "Mobile ④→⑤ 意向→完了: 65.54%（ベースライン 75.04%）",
+        "Mobile は ③→④ 43.25%（ベースライン 41.87%）で意向形成は全体超え。落ちるのは最終確定だけ",
+        "Desktop ④→⑤ 80.23%。広い画面では安心情報が同時に視野に入るため不安が残りにくいと考えられる"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "確定ボタン直上に安心3バッジ（無料キャンセル/即時確定/日本語サポート）を凝縮",
+          "description": "①-1 のSP版。散らばっていた安心情報を、確定ボタンの真上に横並び3バッジで固定。『無料キャンセル可・予約は即時確定・困ったら日本語サポート』を1スクロールで視認させ、決済直前の最後の不安を消して ④→⑤ の先送り離脱を止める。",
+          "spec_html": "要プロダクト（軽量）。確定ボタンの直上に sticky な3バッジ行を追加。文言はAC属性（キャンセルポリシー区分・確定方式）から出し分け、無料キャンセル非対象ACは『キャンセル条件はこちら』リンクに差し替え。Brazeの In-app Message でも先行A/B可能（確定画面到達イベントで発火）。",
+          "impact": "④→⑤ +3.0〜4.0pt / 月 約5.7〜7.5万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">ご予約内容の確認</div><div style=\"padding:0 10px;display:flex;flex-direction:column;gap:4px\"><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#333\">合計 ¥12,800</div><div style=\"background:#1B82C5;color:#fff;border-radius:6px;padding:9px;text-align:center;font-weight:700;font-size:13px\">予約を確定する</div></div><div style=\"font-size:12px;color:#999;padding:6px 10px\">無料キャンセルや即時確定の安心材料が確定ボタン近くに無く、押す直前で迷う</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">ご予約内容の確認</div><div style=\"padding:0 10px;display:flex;flex-direction:column;gap:6px\"><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#333\">合計 ¥12,800</div><div style=\"display:flex;gap:4px\"><div style=\"flex:1;background:#E6F8EE;border:1px solid #2DAE6C;border-radius:5px;padding:6px 2px;text-align:center;font-size:11px;color:#1B7A4B;font-weight:700\">無料<br>キャンセル</div><div style=\"flex:1;background:#E6F8EE;border:1px solid #2DAE6C;border-radius:5px;padding:6px 2px;text-align:center;font-size:11px;color:#1B7A4B;font-weight:700\">即時<br>確定</div><div style=\"flex:1;background:#E6F8EE;border:1px solid #2DAE6C;border-radius:5px;padding:6px 2px;text-align:center;font-size:11px;color:#1B7A4B;font-weight:700\">日本語<br>サポート</div></div><div style=\"background:#1B82C5;color:#fff;border-radius:6px;padding:9px;text-align:center;font-weight:700;font-size:13px\">予約を確定する</div></div><div style=\"font-size:12px;color:#2DAE6C;padding:6px 10px\">確定ボタン直上に安心3バッジを凝縮し、決済直前の不安を消す</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": "site-features §8 に安心バッジの記載なし。新規だが軽量。AC属性（キャンセルポリシー区分）の参照のみで実装可。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "AC属性からキャンセルポリシー区分を取得しバッジ出し分け。Braze In-app で先行A/B可。",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        },
+        {
+          "letter": "B",
+          "title": "最終価格（手数料・税込）を入力前に確定表示し、確定ボタン横に固定",
+          "description": "Mobile は小画面で価格内訳が確定直前まで見えにくく、最後に金額が動くと不安で止まる。手数料・税込の最終価格をフォーム冒頭で確定提示し、確定ボタン横に sticky で常時表示。『今いくら払うか』の不意打ちを消して ④→⑤ を通す。",
+          "spec_html": "要プロダクト。動的価格（既存Globick API）の確定金額をフォーム遷移前に固定し、sticky フッターに『合計 ¥X（税・手数料込）』を常時表示。価格変動が発生した場合のみ差分を明示。",
+          "impact": "④→⑤ +2.0〜3.0pt / 月 約3.8〜5.6万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">お支払い</div><div style=\"padding:0 10px;display:flex;flex-direction:column;gap:4px\"><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#888\">商品代金 ¥12,000</div><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#888\">手数料・税 … 確定画面で表示</div></div><div style=\"font-size:12px;color:#999;padding:6px 10px\">最終金額が確定直前まで見えず、増えると不安で止まる</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">お支払い</div><div style=\"padding:0 10px;display:flex;flex-direction:column;gap:4px\"><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#333\">商品代金 ¥12,000</div><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#333\">手数料・税込 ¥800</div></div><div style=\"position:relative;margin:6px 10px 0;background:#fff;border:2px solid #2DAE6C;border-radius:6px;padding:8px;display:flex;justify-content:space-between;align-items:center\"><span style=\"font-size:12px;color:#666\">お支払い合計</span><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">¥12,800</span></div><div style=\"font-size:12px;color:#2DAE6C;padding:6px 10px\">税・手数料込の最終価格を入力前に確定提示し、不意打ちを消す</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "動的価格表示（Globick API、2025-03〜05）",
+            "note": "価格算出は既存。差分は『最終確定額をフォーム冒頭＋sticky フッターに前出しする表示位置の変更』。金額計算ロジックの新規開発は不要。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "既存Globick価格の表示タイミングと配置の変更。バックエンド改修不要。",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        },
+        {
+          "letter": "C",
+          "title": "確定直前のレビュー要約「良い点3つ」を1行バッジで添える",
+          "description": "①-3 のSP圧縮版。確定ボタン近傍に、このACのレビューから抽出した『良い点3つ』を1行バッジ（例: ガイド親切・景色◎・予約スムーズ）で添え、買う直前の最後の後押しにする。長文レビューを開かせず、小画面で一目で安心を補強。",
+          "spec_html": "要プロダクト（軽量）。レビューテキストから頻出ポジティブ要素を月次バッチで抽出（GA4 BigQuery ＋ レビューDB → 上位3キーワード）。確定画面に静的バッジとして配信。Braze Content Card でも差し込み可能。",
+          "impact": "④→⑤ +1.5〜2.0pt / 月 約2.8〜3.8万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">ご予約内容の確認</div><div style=\"padding:0 10px\"><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#888\">レビュー ★4.7（842件）→ 開くと長文</div></div><div style=\"font-size:12px;color:#999;padding:6px 10px\">確定直前に後押しになる安心材料が無い</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">ご予約内容の確認</div><div style=\"padding:0 10px\"><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#333\">レビュー ★4.7（842件）</div><div style=\"display:flex;gap:4px;margin-top:6px;flex-wrap:wrap\"><span style=\"background:#E6F8EE;border:1px solid #2DAE6C;border-radius:12px;padding:3px 8px;font-size:11px;color:#1B7A4B\">ガイドが親切</span><span style=\"background:#E6F8EE;border:1px solid #2DAE6C;border-radius:12px;padding:3px 8px;font-size:11px;color:#1B7A4B\">景色が最高</span><span style=\"background:#E6F8EE;border:1px solid #2DAE6C;border-radius:12px;padding:3px 8px;font-size:11px;color:#1B7A4B\">予約が簡単</span></div></div><div style=\"font-size:12px;color:#2DAE6C;padding:6px 10px\">レビューの良い点3つを1行に要約し、確定直前の後押しにする</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "AI Summary・Tips & Suggestions（HA→EN、2025-10〜11、JP未対応？）／レビュー翻訳デフォルト表示（2025-10）",
+            "note": "AC詳細にはレビュー要約系が一部あるが JP予約フォーム確定画面には未配置。差分は『確定導線での良い点3バッジ化』。JPのAI Summary対応状況は要確認。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "月次バッチでレビューから上位3要素抽出。確定画面に静的配信、Braze Content Card併用可。",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "フォームの入力項目が多く、会員登録の壁とオートフィル不在でスマホ手入力が重すぎる",
+      "body": "氏名・フリガナ・住所・電話・カードを小画面で一字ずつ打つ負荷に加え、会員登録が必須だと一気に離脱する。ゲスト購入・郵便番号→住所自動展開・最適キーボード自動表示など『打鍵を減らす』入力補助が弱く、指名買い層が完了手前で疲弊して落ちる。",
+      "evidence": [
+        "Mobile ④→⑤ 意向→完了: 65.54%（ベースライン 75.04%）",
+        "Tablet ④→⑤ 65.16%。タッチ入力で手打ちが重いデバイス共通で低い",
+        "Desktop ④→⑤ 80.23%。物理キーボードのある環境では同フォームでも14.7pp高く、入力負荷が効いていると読める"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "ゲスト購入（会員登録なしで予約完了）を既定動線に",
+          "description": "会員登録を必須にせず、メールアドレス＋必要最小項目だけで予約完了できるゲスト購入を既定に。登録は完了後に任意で促す。決済直前の『アカウント作成して』という最大級の入力負荷を取り除き、指名買い層の ④→⑤ を通す。",
+          "spec_html": "要プロダクト。フォーム冒頭の選択を『ゲストで予約 / ログイン』に変更（ゲストが既定強調）。完了画面でワンタップ会員化（既入力情報を流用）を提示。決済はゲストでも既存Stripe/Veritrans経由で処理。",
+          "impact": "④→⑤ +2.5〜3.5pt / 月 約4.7〜6.6万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">予約手続き</div><div style=\"padding:0 10px;display:flex;flex-direction:column;gap:4px\"><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#888\">会員登録が必要です</div><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#888\">メール / パスワード / パスワード確認</div></div><div style=\"font-size:12px;color:#999;padding:6px 10px\">予約前に会員登録が必須で、ここで離脱が多い</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">予約手続き</div><div style=\"padding:0 10px;display:flex;flex-direction:column;gap:6px\"><div style=\"background:#1B82C5;color:#fff;border-radius:6px;padding:9px;text-align:center;font-weight:700;font-size:13px\">ゲストで予約する</div><div style=\"text-align:center;font-size:11px;color:#999\">— または —</div><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;text-align:center;font-size:12px;color:#666\">ログインして予約</div></div><div style=\"font-size:12px;color:#2DAE6C;padding:6px 10px\">会員登録なしで予約完了。登録は完了後に任意で案内</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": "site-features §11 は会員登録・ログイン・2FAを記載するが、ゲスト購入の記載なし。新規動線。決済は既存Stripe/Veritransで処理可。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [
+              "auth_flow"
+            ],
+            "constraint_notes": "ゲスト予約のデータ保持・後追い会員化・不正検知（既存Sift）との整合が必要。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        },
+        {
+          "letter": "E",
+          "title": "郵便番号→住所自動展開＋入力欄ごとの最適キーボード自動表示",
+          "description": "郵便番号7桁入力で都道府県〜町名を自動展開し、番地のみ手入力に。あわせて電話番号・郵便番号・カード番号は数字キーボード、メールは@付きキーボードを自動表示。手打ちと切替操作を引き算して入力負荷を下げる。",
+          "spec_html": "要プロダクト（軽量）。YubinBango-core で郵便番号→住所展開。各 input に type / inputmode / autocomplete 属性付与（tel・numeric・email・postal-code・cc-number）でiOS/Android の最適キーボードとオートフィルを呼ぶ。",
+          "impact": "④→⑤ +2.0〜2.5pt / 月 約3.8〜4.7万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">住所・連絡先</div><div style=\"padding:0 10px;display:flex;flex-direction:column;gap:4px\"><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#888\">郵便番号</div><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#888\">都道府県 / 市区町村 / 番地（全て手入力）</div><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#888\">電話番号 → 英字キーボードが出る</div></div><div style=\"font-size:12px;color:#999;padding:6px 10px\">住所を全て手入力、入力欄ごとにキーボードを手で切替</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">住所・連絡先</div><div style=\"padding:0 10px;display:flex;flex-direction:column;gap:4px\"><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#333\">郵便番号 150-0001 <span style=\"color:#2DAE6C\">数字キーボード</span></div><div style=\"background:#E6F8EE;border:1px solid #2DAE6C;padding:8px;font-size:12px;color:#1B7A4B\">東京都 渋谷区 神宮前 ← 自動入力</div><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#333\">電話番号 <span style=\"color:#2DAE6C\">数字キーボード</span></div></div><div style=\"font-size:12px;color:#2DAE6C;padding:6px 10px\">郵便番号→住所自動展開＋入力欄ごとに最適キーボードを自動表示</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": "site-features §8 にオートフィル・キーボード最適化の記載なし。HTML属性付与＋軽量ライブラリ導入で実装可。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "input属性付与とYubinBango-core導入のみ。バックエンド改修不要。",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        },
+        {
+          "letter": "F",
+          "title": "フォームを3ステップに分割＋進捗バーで『あと1ステップ』を可視化",
+          "description": "全項目を一画面に積むと小画面で終わりが見えず疲労で離脱する。『代表者 → 決済 → 確認』の3ステップに分割し上部に進捗バーを表示。各ステップは入力内容を自動保存し、『あと1ステップで完了』と残距離を示して継続意欲を保つ。",
+          "spec_html": "要プロダクト（軽量）。3カラムの進捗バー（完了=緑/現在=青/未=グレー）。ステップ遷移時に localStorage へ自動保存し、離脱→再訪で復元。通信切断時も入力保持。",
+          "impact": "④→⑤ +1.0〜1.5pt / 月 約1.9〜2.8万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">予約フォーム</div><div style=\"padding:0 10px;font-size:12px;color:#888\">全項目を一画面に縦に積む。スクロールの終わりが見えない</div><div style=\"font-size:12px;color:#999;padding:6px 10px\">完了までの距離感がなく、途中で疲れて離脱</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">予約フォーム</div><div style=\"padding:0 10px\"><div style=\"display:flex;gap:4px;font-size:11px\"><div style=\"flex:1;background:#2DAE6C;color:#fff;padding:5px;text-align:center;border-radius:4px\">✓ 代表者</div><div style=\"flex:1;background:#1B82C5;color:#fff;padding:5px;text-align:center;border-radius:4px\">2/3 決済</div><div style=\"flex:1;background:#eee;color:#999;padding:5px;text-align:center;border-radius:4px\">3 確認</div></div><div style=\"font-size:12px;color:#666;text-align:center;margin-top:6px\">あと1ステップで完了</div></div><div style=\"font-size:12px;color:#2DAE6C;padding:6px 10px\">3ステップ分割＋進捗バーで終わりを見せ、各ステップ自動保存</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": "site-features §8 に分割フォーム・進捗バーの記載なし。新規だがフロント完結で実装可。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [
+              "privacy"
+            ],
+            "constraint_notes": "localStorage 自動保存は機密情報を除外しプライバシー明記。フロント完結。",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "クレジットカードの手入力（16桁＋有効期限＋CVC）がスマホで重く、決済直前で打鍵に挫折する",
+      "body": "決済情報の手打ちは ④→⑤ の最後の関門。小画面でカード16桁・有効期限・CVCを正確に打つのは負荷が高く、ここで『PCで後日』と先送りする。Apple Pay / Google Pay の前面化や登録済みカードの1タップ選択で、打鍵そのものを引き算する。",
+      "evidence": [
+        "Mobile ④→⑤ 意向→完了: 65.54%（ベースライン 75.04%）",
+        "Desktop ④→⑤ 80.23%。物理キーボードでカードを打てる環境では完了率が高く、手入力負荷が効いていると読める",
+        "Tablet ④→⑤ 65.16%。タッチ入力でのカード手打ちが重いデバイスは共通して低い"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "Apple Pay / Google Pay をお支払い最上部に大ボタン配置",
+          "description": "お支払いの最上部に Apple Pay / Google Pay の大ボタンを固定。生体認証1タップで決済完了し、カード手入力を完全スキップできるようにする。クレカ手入力はフォールバックとして下部に折りたたみ、打鍵をゼロにして ④→⑤ を通す。",
+          "spec_html": "要プロダクト。既存Stripe決済に Payment Request API を載せる（iOS=Apple Pay優先 / Android=Google Pay優先）。フォールバックで下部にクレカ手入力欄を折りたたみ表示。Apple Developer のドメイン検証が前提。",
+          "impact": "④→⑤ +3.0〜4.5pt / 月 約5.7〜8.5万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">お支払い</div><div style=\"padding:0 10px;display:flex;flex-direction:column;gap:4px\"><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#888\">カード番号（16桁）</div><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#888\">有効期限 / CVC</div><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#888\">カード名義</div></div><div style=\"font-size:12px;color:#999;padding:6px 10px\">カード手入力のみ。スマホで16桁の打ち込みに挫折する</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">お支払い</div><div style=\"padding:0 10px;display:flex;flex-direction:column;gap:6px\"><div style=\"background:#000;color:#fff;border-radius:6px;padding:11px;text-align:center;font-weight:700;font-size:13px\">Apple Pay で支払う</div><div style=\"background:#fff;border:2px solid #333;color:#333;border-radius:6px;padding:11px;text-align:center;font-weight:700;font-size:13px\">Google Pay で支払う</div><div style=\"text-align:center;font-size:11px;color:#999\">— または —</div><div style=\"background:#F2F5F8;border:1px solid #ddd;border-radius:6px;padding:8px;text-align:center;font-size:12px;color:#666\">クレジットカード手入力</div></div><div style=\"font-size:12px;color:#2DAE6C;padding:6px 10px\">生体認証1タップで決済完了、カード手入力ゼロ</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "3Dセキュア（Stripe/Veritrans、2025-03〜05）",
+            "note": "決済基盤（Stripe）は既存。差分は『Payment Request API でApple/Google Payボタンを追加する』フロント＋設定作業。新規決済基盤の構築は不要。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [
+              "payment_integration"
+            ],
+            "constraint_notes": "Apple Developer のドメイン検証・Stripe側のウォレット有効化が前提。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        },
+        {
+          "letter": "H",
+          "title": "カメラでカード情報をOCR読み取り、手入力を自動化",
+          "description": "カード番号欄を iOS/Android のネイティブ『スキャンして入力』に対応させ、カメラ撮影で番号・有効期限を自動入力。Apple/Google Pay を使わない Traveler でも、16桁の手打ちを引き算して決済直前の挫折を防ぐ。",
+          "spec_html": "要プロダクト（軽量）。カード番号 input に autocomplete=\"cc-number\" を付与しiOS/Androidのカメラ読取を有効化。OCRライブラリ併用も可。フロント属性追加が中心。",
+          "impact": "④→⑤ +1.5〜2.0pt / 月 約2.8〜3.8万件",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">カード情報入力</div><div style=\"padding:0 10px\"><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#888\">カード番号（16桁）を手入力</div></div><div style=\"font-size:12px;color:#999;padding:6px 10px\">カードを見ながら16桁を打つのが辛く、ミスして止まる</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">カード情報入力</div><div style=\"padding:0 10px\"><div style=\"background:#1B82C5;color:#fff;border-radius:6px;padding:9px;text-align:center;font-weight:700;font-size:13px\">カメラでカードを読み取る</div><div style=\"text-align:center;font-size:11px;color:#999;padding:4px 0\">または手入力</div><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#888\">カード番号（16桁）</div></div><div style=\"font-size:12px;color:#2DAE6C;padding:6px 10px\">カメラ撮影でカード番号・有効期限を自動入力（OCR）</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": "site-features §8 にカードOCR読取の記載なし。autocomplete属性付与中心で実装可。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "HTML autocomplete 属性の付与が中心。",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        },
+        {
+          "letter": "I",
+          "title": "登録済みカードのトークン化＋次回1タップ選択",
+          "description": "予約時にカード情報をトークン化して保存（カード番号自体は保持しない）。2回目以降は登録済みカードを自動選択し、下4桁の確認＋1タップで決済完了。リピートする Mobile の指名買い層がカード再入力で落ちるのを防ぐ。",
+          "spec_html": "要プロダクト。既存Stripeの Customer/Token でカード番号を保持せずトークンのみ管理。設定でカード削除・変更可。PCI-DSS準拠・プライバシーポリシー改訂が前提。",
+          "impact": "④→⑤ +1.5〜2.0pt / 月 約2.8〜3.8万件（リピート層中心）",
+          "prototype": {
+            "before_html": "<div style=\"border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">お支払い</div><div style=\"padding:0 10px\"><div style=\"background:#fff;border:1px solid #ddd;padding:8px;font-size:12px;color:#888\">ログイン済みでも毎回カード情報を再入力</div></div><div style=\"font-size:12px;color:#999;padding:6px 10px\">リピーターも毎回カードを打ち直し、離脱要因になる</div></div>",
+            "after_html": "<div style=\"border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;max-width:375px;margin:0 auto;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;font-weight:700\">お支払い</div><div style=\"padding:0 10px\"><div style=\"background:#E6F8EE;border:2px solid #2DAE6C;border-radius:6px;padding:8px;display:flex;align-items:center;gap:8px\"><span style=\"background:#2DAE6C;color:#fff;border-radius:4px;padding:3px 7px;font-size:11px;font-weight:700\">●●●● 1234</span><span style=\"flex:1;font-size:12px;font-weight:700;color:#333\">登録済みカード</span><span style=\"color:#2DAE6C;font-size:12px\">✓</span></div><div style=\"text-align:center;font-size:11px;color:#1B82C5;padding:6px 0\">別のカードを使う</div></div><div style=\"font-size:12px;color:#2DAE6C;padding:6px 10px\">登録済みカードを下4桁確認＋1タップで決済</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "3Dセキュア（Stripe/Veritrans、2025-03〜05）",
+            "note": "決済基盤は既存Stripe。差分は『Customer/Token でカードを保存し次回選択させる』機能追加。基盤新規構築は不要だがPCI・規約対応が必要。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [
+              "payment_integration",
+              "pci_compliance"
+            ],
+            "constraint_notes": "PCI-DSS準拠・プライバシーポリシー改訂・カード管理UIが必要。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_32,h_32/v1643959325/blog/klook-favicon.png",
+      "url": "https://www.klook.com/",
+      "feature": "確定導線に安心要素を凝縮＋Apple/Google Pay最上部",
+      "detail": "Klookはモバイル確定画面で無料キャンセル・即時確定を確定ボタン近傍に明示し、決済はApple/Google Payの大ボタンを最上部に固定。安心と打鍵削減を同一画面で同時に解く設計。"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicon/favicon-32x32.png",
+      "url": "https://www.getyourguide.com/",
+      "feature": "inputmode 属性で数字キーボード自動表示",
+      "detail": "GetYourGuideは数値入力欄に inputmode=\"numeric\" / \"tel\" を設定し、スマホで電話番号・カード番号入力時に数字パッドを自動表示。切替操作ゼロで入力負荷を引き算。"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://www.viator.com/favicon.ico",
+      "url": "https://www.viator.com/",
+      "feature": "無料キャンセル明示＋最終価格の前出し",
+      "detail": "Viatorは『Free cancellation』を確定導線に常時バッジ表示し、税・手数料込の最終価格をフォーム冒頭で確定提示。金額の不意打ちと不安を決済前に消す。"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.ico",
+      "url": "https://www.kkday.com/",
+      "feature": "ゲスト購入＋カメラOCRカード読取",
+      "detail": "KKdayは会員登録なしのゲスト予約を既定にし、カード番号欄は autocomplete=\"cc-number\" でカメラ撮影読取に対応。会員化は完了後に任意で促す。"
+    },
+    {
+      "name": "アクティビティジャパン",
+      "favicon_url": "https://activityjapan.com/favicon.ico",
+      "url": "https://activityjapan.com/",
+      "feature": "郵便番号→住所自動入力＋自動保存",
+      "detail": "アクティビティジャパンは郵便番号7桁で住所を自動展開し、入力内容を自動保存。再アクセス時に続きから再開でき、日本仕様の入力負荷を最小化。"
+    },
+    {
+      "name": "じゃらん",
+      "favicon_url": "https://www.jalan.net/favicon.ico",
+      "url": "https://www.jalan.net/",
+      "feature": "登録済みカード1タップ選択＋日本語サポート常設",
+      "detail": "じゃらんはログイン済みユーザーに登録済みカードを自動選択表示し『●●●● 1234』の確認だけで決済完了。確定導線に日本語サポート窓口を常設して不安を解消。"
+    }
+  ],
+  "competitive_insight": "競合は Mobile の確定導線で『①安心の凝縮（無料キャンセル/即時確定/日本語サポート/最終価格前出し）②入力の引き算（ゲスト購入・郵便番号→住所・最適キーボード）③打鍵の消去（Apple/Google Pay・OCR・登録済みカード1タップ）』の3層を同一画面で同時に解く。Veltraに足りないのは決済点（確定導線）の凝縮であり、安心バッジ（打ち手A）と最終価格前出し（打ち手B）は開発軽量で先行でき、ゲスト購入（D）とApple/Google Pay（G）は層①（指名買い）の取りこぼし回収に最も効く。",
+  "verification": [
+    "GA4 Explorations で deviceCategory = mobile の ④→⑤（begin_checkout → purchase）転換率を週次監視し、Desktop との差（現状 -14.7pp）の縮小を追う",
+    "確定画面到達後の離脱率を Mobile / Desktop 別に計測し、打ち手導入前後で Mobile 離脱が下がるか確認",
+    "決済手段別（Apple/Google Pay vs カード手入力）の完了率と平均決済所要時間を比較し、打鍵削減の効果を切り分ける"
+  ],
+  "verification_method": "GA4 > Explorations > ファネル探索で「begin_checkout → purchase」の2ステップを deviceCategory=mobile で絞り週次モニタリング（出典: Property 347074845）。Apple/Google Pay・カメラ読取・ゲスト購入の使用をカスタムイベント化して手段別完了率を比較。打ち手A（安心バッジ）/B（最終価格前出し）は Braze In-app Message で先行A/Bし、確定到達→購入率を群間比較。"
+}

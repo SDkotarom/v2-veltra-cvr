@@ -1,0 +1,395 @@
+{
+  "number": 3,
+  "title": "初訪問者がカレンダーまで見ても『今ここで予約する』決断に至らず比較で止まっている",
+  "tags": [
+    {
+      "label": "③→④ 検討→意向",
+      "type": "red"
+    },
+    {
+      "label": "新規ユーザー",
+      "type": "default"
+    }
+  ],
+  "deviation": "-10.9%",
+  "impact_sessions": "225K / 月",
+  "description_html": "新規ユーザーはAC詳細でカレンダー（検討③）まで開いても、予約フォーム（意向④）へ進む率が <strong style=\"color:var(--red)\">30.93%</strong> にとどまり、ベースライン <strong>41.87%</strong> から <strong style=\"color:var(--red)\">-10.9pp（-26.1%）</strong> 低い。カレンダーで日付・空き・価格を見た後「ここで決めるか、他で確認するか」で止まる層。③→④を全体水準まで戻せば月間 <strong>約225Kセッション分のリフト</strong>が見込める。<span style=\"color:var(--text3);font-size:12px;display:block;margin-top:6px\">※ 28日 raw 値。W16から継続する Chromium Headless 系 bot が分母を希釈するが、本セグメント間ギャップは bot とは独立した構造課題。</span>",
+  "funnel_overview": {
+    "title": "ファネル全体比較（新規ユーザー vs ベースライン）",
+    "cells": [
+      {
+        "label": "①→② 流入→AC到達",
+        "value": "42.91%",
+        "sub": "ベースライン 47.32%"
+      },
+      {
+        "label": "②→③ AC到達→検討",
+        "value": "6.60%",
+        "sub": "ベースライン 11.56%"
+      },
+      {
+        "label": "③→④ 検討→意向",
+        "value": "30.93%",
+        "sub": "ベースライン 41.87% | -10.9pp",
+        "alert": true
+      },
+      {
+        "label": "④→⑤ 意向→完了",
+        "value": "50.55%",
+        "sub": "ベースライン 75.04%"
+      }
+    ]
+  },
+  "funnel_compare": [
+    {
+      "label": "全体平均",
+      "stage": "検討→意向",
+      "value": "41.87%",
+      "sub": "ベースライン"
+    },
+    {
+      "label": "新規ユーザー",
+      "stage": "検討→意向",
+      "value": "30.93%",
+      "sub": "-10.9% vs 全体",
+      "alert": true
+    },
+    {
+      "label": "リピーター",
+      "stage": "検討→意向",
+      "value": "56.00%",
+      "sub": "+33.8% vs 全体"
+    }
+  ],
+  "drill_down": [
+    {
+      "title": "検討（カレンダー閲覧）に到達した後の脱落に絞る",
+      "body_html": "新規ユーザーで検討③（カレンダー閲覧）に到達した層のうち、意向④（予約フォーム着手）へ進んだのは <strong style=\"color:var(--red)\">30.93%</strong> のみ。リピーターの同ステージ <strong>56.00%</strong> と比べ -25.1pp 低く、カレンダーで空き・価格・締切を見た「ほぼ購入直前」の層が予約フォームの一歩手前で止まっている。AC到達→検討（②→③ 6.60%）の希少な通過者を、ここで取りこぼしている構図。",
+      "note": "検討③到達者の約7割が『カレンダーは見たが予約に進まなかった』新規ユーザー。希少な通過者ほど取りこぼしの損失が大きい。"
+    },
+    {
+      "title": "リピーターとの差は『初回の確信づくり』に集約",
+      "body_html": "③→④ は新規 30.93% / リピーター 56.00% で約1.81倍の開き。④→⑤（意向→完了）も新規 50.55% / リピーター水準と差が残るが、検討→意向のギャップ（-25.1pp）が最大。一度買った経験のあるリピーターは「カレンダー＝予約導線」と理解しているのに対し、新規はカレンダーを『日程の確認画面』として閉じてしまい、予約フォームへの遷移を起こせていない可能性が高い。",
+      "note": "新規の③→④押し上げは、リピーターが既に通っている『カレンダー＝そのまま予約』の動線を新規にも体感させることが鍵。"
+    }
+  ],
+  "callout": {
+    "title": "検討→意向を全体水準へ戻すだけで月間約225Kセッション影響",
+    "body_html": "③→④ 検討→意向の新規ユーザー通過率 <strong>30.93%</strong> はベースライン <strong>41.87%</strong> から <strong>-10.9pp</strong> の乖離。このセグメントは流入の大半を占めるため、<strong>カレンダー閲覧後の遷移をベースライン水準まで戻すだけで月間約 225,000 セッション分の追加インパクト</strong>が見込める。打ち手の軸は「カレンダー→予約フォームの往復を削る」「満席・価格の不意打ちで止めない」「閲覧後の離脱を Braze で拾い戻す」の3点。"
+  },
+  "behavior_context": {
+    "estimated_action": "新規ユーザーはカレンダーで日付・空き枠・価格を確認した時点で、満席や手数料の不意打ち、あるいは予約フォームまでの距離に直面し『一旦保留して他社でも確認しよう』と離脱している可能性が高い。",
+    "evidence": [
+      "新規ユーザー ③→④ 検討→意向: 30.93%（ベースライン 41.87%、-10.9pp）",
+      "リピーター 同ステージ: 56.00%。同一ステージで -25.1pp の差があり、新規ユーザー固有のカレンダー→フォーム遷移摩擦が示唆される",
+      "新規ユーザーは検討③到達者のうち約7割が意向④に着手せず離脱。希少な通過者を取りこぼしている"
+    ],
+    "page_role_check": "AC詳細のカレンダー（日程検索）は戦略ガイド上「日付を確定し予約フォームへ送り出す」中継の役割。現状は空き枠と価格の表示が中心で、満席時の代替日提示・手数料込みの総額提示・カレンダー直下の予約導線凝縮が弱く、確認画面で終わってしまう。",
+    "subtraction_check": "情報追加ではなく『往復の引き算』。カレンダー→料金内訳→予約ボタンへのスクロール往復を減らし、カレンダー直下に総額と予約CTAを凝縮。新たな説明を足すのではなく、遷移ステップと不意打ちを削って一直線にする方向。",
+    "pattern_references": []
+  },
+  "hypo_section_title": "原因仮説 × 3 &amp; 打ち手 × 9",
+  "hypo_section_desc": "なぜ 新規ユーザー の ③→④ 検討→意向 が低いか？ 仮説をクリックして打ち手・プロトタイプを展開。",
+  "hypotheses": [
+    {
+      "level": "h1",
+      "level_label": "仮説 1（有力）",
+      "title": "カレンダーから予約フォームまでの導線が長く、確認画面で止まってしまう",
+      "body": "新規ユーザーはカレンダーで日付を選んだ後、料金内訳や予約ボタンを探してスクロールを往復する必要がある。「カレンダー＝そのまま予約に進む」とは認識されず、日程を確認しただけで閉じてしまう。検討③から意向④への遷移ステップを縮め、選んだ日付の直下で予約まで一直線にすることが最優先。",
+      "body_html": "新規ユーザーはカレンダーで日付を選んだ後、料金内訳や予約ボタンを探してスクロールを往復する必要がある。「カレンダー＝そのまま予約に進む」とは認識されず、日程を確認しただけで閉じてしまう。検討③から意向④への遷移ステップを縮め、選んだ日付の直下で予約まで一直線にすることが最優先。",
+      "evidence": [
+        "新規ユーザー ③→④ 検討→意向: 30.93%（ベースライン 41.87%、-10.9pp）",
+        "リピーター ③→④: 56.00%。カレンダー＝予約導線と理解済みのリピーターは約1.81倍",
+        "新規は検討③到達者の約7割が意向④に着手できていない"
+      ],
+      "actions": [
+        {
+          "letter": "A",
+          "title": "日付選択の直下に総額＋予約CTAを凝縮（カレンダー往復をゼロに）",
+          "description": "カレンダーで日付・人数を選ぶと、そのすぐ下に総額（税・手数料込み）と「この日程で予約へ」CTAを固定表示。料金内訳や予約ボタンを探して上下にスクロールする往復をなくし、検討③→意向④を1アクションで繋ぐ。",
+          "spec_html": "要プロダクト。日程検索（/jp/booking/ 直前のカレンダーUI）で日付選択イベントに連動し、直下に総額サマリー＋予約CTA（#E8386E）をスティッキー表示。Globick API の動的価格を税・手数料込みで集計。",
+          "impact": "③→④ +4.0pt / 月 約8.5万件",
+          "prototype": {
+            "before_html": "<div style=\"max-width:375px;margin:0 auto;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:6px\">日程を選ぶ</div><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-size:13px;text-align:center;color:#333\"><span>9</span><span style=\"background:#EBF4FA;color:#1B82C5;border-radius:3px\">10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span></div><div style=\"font-size:13px;color:#666;margin-top:8px\">…料金内訳・予約ボタンは下へスクロール</div></div><div style=\"font-size:13px;color:#999;padding:6px 10px\">日付を選んでも予約ボタンまで遠く、確認だけで閉じやすい</div></div>",
+            "after_html": "<div style=\"max-width:375px;margin:0 auto;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px\"><div style=\"font-size:13px;font-weight:700;margin-bottom:6px\">日程を選ぶ</div><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-size:13px;text-align:center;color:#333\"><span>9</span><span style=\"background:#1B82C5;color:#fff;border-radius:3px;font-weight:700\">10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span></div><div style=\"margin-top:8px;background:#fff;border:1px solid #2DAE6C;border-radius:6px;padding:8px\"><div style=\"font-size:13px;color:#333\">6/10(火) 大人2名</div><div style=\"font-size:15px;font-weight:900;color:#E8386E;margin-top:2px\">合計 ¥17,000 <span style=\"font-size:13px;color:#666;font-weight:400\">税・手数料込</span></div><div style=\"background:#E8386E;color:#fff;border-radius:6px;padding:9px;text-align:center;font-weight:700;font-size:13px;margin-top:6px\">この日程で予約へ</div></div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">日付直下に総額＋予約CTAを凝縮し、検討→意向を1アクションで接続</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "予約ボタンテキスト変更",
+            "note": "既存は予約ボタンの文言変更のみ。本施策は日付選択の直下に総額＋予約CTAを凝縮しカレンダー往復をゼロにする点が差分。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": ["price_api"],
+            "constraint_notes": "Globick API の動的価格を税・手数料込み総額として即時集計する必要がある。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        },
+        {
+          "letter": "B",
+          "title": "総額の内訳（基本料金・手数料・税）をカレンダー段階で前出し",
+          "description": "カレンダーで日付を選んだ時点で、基本料金・手数料・税を分解した総額を提示。予約フォームに進んでから価格が上がる『不意打ち』をなくし、検討③で見た金額のまま意向④へ進める安心を作る。",
+          "spec_html": "要プロダクト。日程検索カレンダーの選択結果に、Globick API の価格を「基本料金／手数料／税」に分解したミニ内訳テーブルを表示。手数料0のACは『追加手数料なし』と明示。",
+          "impact": "③→④ +2.5pt / 月 約5.3万件",
+          "prototype": {
+            "before_html": "<div style=\"max-width:375px;margin:0 auto;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px\"><div style=\"font-size:13px;font-weight:700\">6/10(火) 大人2名</div><div style=\"font-size:16px;font-weight:900;color:#E8386E;margin-top:4px\">¥16,000</div><div style=\"font-size:13px;color:#666;margin-top:4px\">※ 手数料・税は予約手続きで加算</div></div><div style=\"font-size:13px;color:#999;padding:6px 10px\">フォームで総額が上がり、不意打ちで離脱しやすい</div></div>",
+            "after_html": "<div style=\"max-width:375px;margin:0 auto;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px\"><div style=\"font-size:13px;font-weight:700\">6/10(火) 大人2名</div><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;margin-top:6px\"><div style=\"display:flex;justify-content:space-between;font-size:13px;padding:2px 0\"><span style=\"color:#666\">基本料金</span><span>¥16,000</span></div><div style=\"display:flex;justify-content:space-between;font-size:13px;padding:2px 0\"><span style=\"color:#666\">手数料</span><span>¥800</span></div><div style=\"display:flex;justify-content:space-between;font-size:13px;padding:2px 0\"><span style=\"color:#666\">税</span><span>¥200</span></div><div style=\"display:flex;justify-content:space-between;font-size:13px;font-weight:900;color:#E8386E;border-top:1px solid #eee;padding-top:4px;margin-top:2px\"><span>合計</span><span>¥17,000</span></div></div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">手数料・税をカレンダー段階で前出しし、フォームでの不意打ちを排除</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "動的価格表示（Globick API、2025-03〜05）／開始時間・価格差分表示（2025-04）",
+            "note": "価格差分表示は既存。手数料・税まで分解した総額の前出しは未対応のため拡張として開発。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": ["price_api"],
+            "constraint_notes": "手数料・税の内訳をAC単位で取得・分解する集計が前提。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        },
+        {
+          "letter": "C",
+          "title": "カレンダー下に下部スティッキー予約バー（選択日程＋総額＋CTA）",
+          "description": "カレンダーをスクロールしても画面下部に「選択中の日程・総額・空き確認CTA」を常時固定。検討③で日程を見た直後の意向④への動線を、スクロール位置に関係なく確保する。",
+          "spec_html": "要プロダクト。position:sticky;bottom:0; 高さ60px。左に選択日程＋総額、右に予約CTA（#E8386E）。日付未選択時は『日程を選ぶ』を促す薄表示。",
+          "impact": "③→④ +1.5pt / 月 約3.2万件",
+          "prototype": {
+            "before_html": "<div style=\"max-width:375px;margin:0 auto;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;color:#666\">カレンダー…料金…レビュー…とスクロール中</div><div style=\"padding:0 10px\"><div style=\"background:#1B82C5;color:#fff;border-radius:6px;padding:9px;text-align:center;font-weight:700;font-size:13px\">予約手続きへ</div></div><div style=\"font-size:13px;color:#999;padding:6px 10px\">予約CTAはページ内に1つだけ。スクロール中は見えない</div></div>",
+            "after_html": "<div style=\"max-width:375px;margin:0 auto;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;color:#666\">カレンダー…料金…レビュー…とスクロール中</div><div style=\"position:sticky;bottom:0;background:#fff;border-top:2px solid #E8386E;padding:8px 10px;display:flex;align-items:center;gap:8px\"><div style=\"flex:1\"><div style=\"font-size:13px;color:#333\">6/10(火) 大人2名</div><div style=\"font-size:13px;font-weight:900;color:#E8386E\">¥17,000 <span style=\"font-size:13px;color:#666;font-weight:400\">税込</span></div></div><div style=\"background:#E8386E;color:#fff;border-radius:6px;padding:9px 14px;text-align:center;font-weight:700;font-size:13px\">空き確認 →</div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">選択日程＋総額＋CTAを下部に常時固定し、検討→意向の取りこぼしを防止</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": "BN3施策Cとして開発。スティッキーバー自体は軽量だが選択日程・総額の即時反映が必要。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        }
+      ]
+    },
+    {
+      "level": "h2",
+      "level_label": "仮説 2",
+      "title": "満席・締切に当たると行き止まりになり、代替日を提示できていない",
+      "body": "新規ユーザーが希望日を選んでも満席や締切超過だと『予約不可』で行き止まりになり、近い空き日へ誘導されない。検討③まで来た意欲のある層を、満席という1点で取りこぼしている。満席時に最寄りの空き日・空き枠を即提示し、検討③→意向④を繋ぎ直す。",
+      "body_html": "新規ユーザーが希望日を選んでも満席や締切超過だと『予約不可』で行き止まりになり、近い空き日へ誘導されない。検討③まで来た意欲のある層を、満席という1点で取りこぼしている。満席時に最寄りの空き日・空き枠を即提示し、検討③→意向④を繋ぎ直す。",
+      "evidence": [
+        "新規ユーザー ③→④ 検討→意向: 30.93%（ベースライン 41.87%、-10.9pp）",
+        "新規の④→⑤: 50.55%（ベースライン 75.04%）。意向到達後も離脱が多く、行き止まり体験が後続にも波及",
+        "予約締切設定（開始時間からのN時間前、2025-07）により直前日程は締切超過で不可になりやすい"
+      ],
+      "actions": [
+        {
+          "letter": "D",
+          "title": "満席・締切超過の日付に『最寄りの空き日』を即提示",
+          "description": "希望日が満席や締切超過の場合、カレンダー上で『最も近い空き日』を自動ハイライトし『6/12(木)なら空きあり』と1タップで切替提示。行き止まりにせず検討③→意向④へ繋ぎ直す。",
+          "spec_html": "要プロダクト。日程検索の空き枠APIから、選択日±数日で空きのある最近接日を抽出しカレンダー直下に提案カード表示。タップで日付差し替え＋総額再計算。",
+          "impact": "③→④ +3.0pt / 月 約6.4万件",
+          "prototype": {
+            "before_html": "<div style=\"max-width:375px;margin:0 auto;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px\"><div style=\"font-size:13px;font-weight:700\">6/10(火)</div><div style=\"background:#FBECEC;border:1px solid #D91F26;border-radius:6px;padding:8px;margin-top:6px;font-size:13px;color:#D91F26;font-weight:700\">満席 / 予約できません</div></div><div style=\"font-size:13px;color:#999;padding:6px 10px\">行き止まり。他の日付は自分で探し直す必要がある</div></div>",
+            "after_html": "<div style=\"max-width:375px;margin:0 auto;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px\"><div style=\"font-size:13px;font-weight:700\">6/10(火)</div><div style=\"background:#FBECEC;border:1px solid #D91F26;border-radius:6px;padding:6px 8px;margin-top:6px;font-size:13px;color:#D91F26;font-weight:700\">満席</div><div style=\"background:#fff;border:1px solid #2DAE6C;border-radius:6px;padding:8px;margin-top:6px\"><div style=\"font-size:13px;color:#2DAE6C;font-weight:700\">最寄りの空き日</div><div style=\"display:flex;gap:6px;margin-top:4px\"><span style=\"background:#E6F8EE;border:1px solid #2DAE6C;color:#2DAE6C;border-radius:14px;padding:4px 10px;font-size:13px;font-weight:700\">6/12(木) 空きあり</span><span style=\"background:#F2F5F8;border:1px solid #ccc;color:#333;border-radius:14px;padding:4px 10px;font-size:13px\">6/13(金)</span></div></div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">満席でも最寄りの空き日を即提示し、検討→意向の行き止まりを解消</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": "BN3施策Dとして開発。既存の空き枠データを近接日探索ロジックで再利用。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": ["inventory_api"],
+            "constraint_notes": "選択日周辺の空き枠を即時に走査する在庫APIが前提。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        },
+        {
+          "letter": "E",
+          "title": "翌月覗き見の延長として『この先30日の空き状況』をひと目で",
+          "description": "翌月カレンダー覗き見（モバイル、2025-04既存）を拡張し、向こう30日の空き◯満席×をヒートマップ風に俯瞰。希望日が満席でも『近い空き』を自力ですぐ見つけられ、検討③のまま意向④へ進める。",
+          "spec_html": "要プロダクト。既存の翌月覗き見UIに30日分の空き状況サマリー（◯/△/×）を集約表示。各セルタップで日付確定＋総額表示。",
+          "impact": "③→④ +1.5pt / 月 約3.2万件",
+          "prototype": {
+            "before_html": "<div style=\"max-width:375px;margin:0 auto;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px\"><div style=\"font-size:13px;font-weight:700\">6月</div><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;margin-top:6px;display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-size:13px;text-align:center;color:#333\"><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span></div><div style=\"font-size:13px;color:#666;margin-top:6px\">空き状況は日付ごとに開かないと分からない</div></div><div style=\"font-size:13px;color:#999;padding:6px 10px\">いつ空いているか俯瞰できず、探すのを諦めやすい</div></div>",
+            "after_html": "<div style=\"max-width:375px;margin:0 auto;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px\"><div style=\"font-size:13px;font-weight:700\">この先30日の空き</div><div style=\"background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;margin-top:6px;display:grid;grid-template-columns:repeat(7,1fr);gap:3px;font-size:13px;text-align:center\"><span style=\"background:#E6F8EE;color:#2DAE6C;border-radius:3px;padding:2px 0\">9◯</span><span style=\"background:#FBECEC;color:#D91F26;border-radius:3px;padding:2px 0\">10×</span><span style=\"background:#FFF4E0;color:#E88B00;border-radius:3px;padding:2px 0\">11△</span><span style=\"background:#E6F8EE;color:#2DAE6C;border-radius:3px;padding:2px 0\">12◯</span><span style=\"background:#E6F8EE;color:#2DAE6C;border-radius:3px;padding:2px 0\">13◯</span><span style=\"background:#FBECEC;color:#D91F26;border-radius:3px;padding:2px 0\">14×</span><span style=\"background:#E6F8EE;color:#2DAE6C;border-radius:3px;padding:2px 0\">15◯</span></div><div style=\"font-size:13px;color:#666;margin-top:4px\">◯空き △残少 ×満席</div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">30日の空きを俯瞰でき、満席でも近い空き日へ即移動できる</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "翌月カレンダー覗き見（モバイル）",
+            "note": "既存は翌月カレンダーの覗き見のみ。本施策は翌月覗き見の延長で、この先30日を一覧化する拡張が差分。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": ["inventory_api"],
+            "constraint_notes": "30日分の空き状況を軽量に集約する在庫APIが前提。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        },
+        {
+          "letter": "F",
+          "title": "締切間近の日程に『あと◯時間で締切』カウントダウン",
+          "description": "予約締切（開始時間からのN時間前、既存）が迫る日程に『あと6時間で締切』と残時間を提示。締切超過で行き止まる前に意思決定を後押しし、検討③→意向④への移行を早める。",
+          "spec_html": "要プロダクト。各日程の締切時刻（既存の予約締切設定）と現在時刻の差から残時間を算出し、24時間以内の日程に橙バッジ表示。締切超過日は薄表示＋空き日提案へ誘導。",
+          "impact": "③→④ +1.0pt / 月 約2.1万件",
+          "prototype": {
+            "before_html": "<div style=\"max-width:375px;margin:0 auto;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px\"><div style=\"font-size:13px;font-weight:700\">6/10(火) 09:00〜</div><div style=\"font-size:13px;color:#666;margin-top:4px\">空きあり</div></div><div style=\"font-size:13px;color:#999;padding:6px 10px\">いつまで予約できるかが分からず、後回しにして締切超過</div></div>",
+            "after_html": "<div style=\"max-width:375px;margin:0 auto;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px\"><div style=\"font-size:13px;font-weight:700\">6/10(火) 09:00〜</div><div style=\"display:flex;align-items:center;gap:6px;margin-top:4px\"><span style=\"background:#FFF4E0;border:1px solid #E88B00;color:#E88B00;border-radius:4px;padding:3px 8px;font-size:13px;font-weight:700\">あと6時間で締切</span><span style=\"font-size:13px;color:#2DAE6C\">空きあり</span></div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">締切残時間を提示し、後回しによる締切超過の行き止まりを防止</div></div>"
+          },
+          "implementation_check": {
+            "status": "partial",
+            "matched_feature": "予約締切設定（開始時間からのN時間前）",
+            "note": "既存は予約締切のN時間前設定のみ。本施策は締切間近の日程に『あと◯時間で締切』カウントダウンを可視化する点が差分。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        }
+      ]
+    },
+    {
+      "level": "h3",
+      "level_label": "仮説 3",
+      "title": "カレンダー閲覧後に離脱した層を拾い戻す仕組みがない",
+      "body": "カレンダーを見たが予約しなかった新規ユーザーへの後追いがなく、保留＝そのまま離脱になっている。閲覧したACの空き枠・価格変動・締切を Braze で後追い配信し、再訪→検討③→意向④へ繋ぐ。開発0で始められる Braze 配信を先行させ、データ蓄積後にプロダクト側のリマインドへ拡張する。",
+      "body_html": "カレンダーを見たが予約しなかった新規ユーザーへの後追いがなく、保留＝そのまま離脱になっている。閲覧したACの空き枠・価格変動・締切を Braze で後追い配信し、再訪→検討③→意向④へ繋ぐ。開発0で始められる Braze 配信を先行させ、データ蓄積後にプロダクト側のリマインドへ拡張する。",
+      "evidence": [
+        "新規ユーザー ③→④ 検討→意向: 30.93%（ベースライン 41.87%、-10.9pp）",
+        "検討③到達者のうち意向④未着手が約7割。後追い対象として最大規模",
+        "リピーター ③→④ 56.00%。再訪を起点に検討→意向を通せている対照群"
+      ],
+      "actions": [
+        {
+          "letter": "G",
+          "title": "カレンダー閲覧→未予約に空き枠リマインドをBraze配信",
+          "description": "AC詳細でカレンダーを見たが予約しなかった新規ユーザーへ、24時間後に『見ていた○○、ご希望日に空きがあります』をpush/メール配信。閲覧した日付の空き枠を再提示し再訪→検討③→意向④へ繋ぐ。",
+          "spec_html": "Braze-now。calendar_view イベント発火後 begin_checkout 未到達のユーザーを Braze セグメントで抽出。データ蓄積前は『最近見たアクティビティの予約はお済みですか』の静的テンプレで先行配信し、空き枠APIのConnected Content連携後にパーソナライズへ切替。カスタム属性: last_viewed_ac_id / last_viewed_date。",
+          "impact": "③→④ +2.0pt / 月 約4.3万件（再訪経由）",
+          "prototype": {
+            "before_html": "<div style=\"max-width:375px;margin:0 auto;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;color:#666\">カレンダーを見たが予約せず離脱</div><div style=\"font-size:13px;color:#999;padding:6px 10px\">後追いがなく、保留のまま戻ってこない</div></div>",
+            "after_html": "<div style=\"max-width:375px;margin:0 auto;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px\"><div style=\"border:1px dashed #2DAE6C;background:#F2FBF6;border-radius:6px;padding:8px\"><div style=\"font-size:13px;color:#2DAE6C;font-weight:700\">Braze プッシュ通知</div><div style=\"font-size:13px;font-weight:700;color:#333;margin-top:4px\">見ていた「箱根温泉日帰りツアー」</div><div style=\"font-size:13px;color:#333;margin-top:2px\">ご希望の 6/10 に空きがあります。¥17,000(税込)</div><div style=\"background:#E8386E;color:#fff;border-radius:6px;padding:8px;text-align:center;font-weight:700;font-size:13px;margin-top:6px\">空きを確認する</div></div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">閲覧→未予約を24h後に拾い戻し、再訪経由で検討→意向へ接続</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": "BN3施策G。開発0で静的テンプレ先行、Connected Content連携後にパーソナライズ。"
+          },
+          "feasibility": {
+            "effort": "S",
+            "constraints": [],
+            "constraint_notes": "Braze 既存配信基盤を利用。空き枠の動的差し込みは Connected Content 整備後。",
+            "prerequisites": [],
+            "quick_wins": true
+          }
+        },
+        {
+          "letter": "H",
+          "title": "閲覧ACの価格下落・締切接近をトリガー配信",
+          "description": "カレンダー閲覧後に価格が下がった、または締切が近づいたACを検知し『見ていた○○が値下がり』『あと1日で締切』を Braze 配信。価格・締切という意思決定材料の変化を起点に再訪→検討③→意向④を促す。",
+          "spec_html": "Braze-now。GA4 BigQuery export の calendar_view と価格マスタ／締切設定をCloud Schedulerで日次照合し、価格下落・締切24h以内のACを抽出して Braze REST API でトリガー配信。カスタム属性: last_viewed_ac_price / last_viewed_ac_deadline。",
+          "impact": "③→④ +1.5pt / 月 約3.2万件（再訪経由）",
+          "prototype": {
+            "before_html": "<div style=\"max-width:375px;margin:0 auto;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;color:#666\">見ていたACが値下がりしても気づけない</div><div style=\"font-size:13px;color:#999;padding:6px 10px\">価格・締切の変化を伝える手段がない</div></div>",
+            "after_html": "<div style=\"max-width:375px;margin:0 auto;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px\"><div style=\"border:1px dashed #2DAE6C;background:#F2FBF6;border-radius:6px;padding:8px\"><div style=\"font-size:13px;color:#2DAE6C;font-weight:700\">Braze メール / プッシュ</div><div style=\"font-size:13px;font-weight:700;color:#333;margin-top:4px\">見ていた「箱根温泉日帰りツアー」</div><div style=\"display:flex;align-items:center;gap:6px;margin-top:4px\"><span style=\"background:#E6F8EE;color:#2DAE6C;border-radius:4px;padding:2px 6px;font-size:13px;font-weight:700\">↓ -8% 値下がり</span><span style=\"font-size:13px;color:#666\">¥18,500→¥17,000</span></div><div style=\"background:#E8386E;color:#fff;border-radius:6px;padding:8px;text-align:center;font-weight:700;font-size:13px;margin-top:6px\">今の価格で予約</div></div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">価格・締切の変化を起点に再訪を喚起し、検討→意向へ接続</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": "BN3施策H。価格マスタ・締切のBigQuery照合バッチを新規構築。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": ["price_api", "data_pipeline"],
+            "constraint_notes": "GA4 export と価格／締切マスタの日次照合パイプラインが前提。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        },
+        {
+          "letter": "I",
+          "title": "再訪時に『見ていた日程の続きから』ワンタップ再開",
+          "description": "後追い配信から再訪したユーザーに、AC詳細の冒頭で『前回見ていた 6/10 の続きから』を提示し1タップでカレンダー選択済み状態へ復元。再訪の意欲を検討③→意向④へ最短で繋ぐ。",
+          "spec_html": "要プロダクト。last_viewed_ac_id / last_viewed_date を localStorage と Braze 属性に保持し、再訪時にAC詳細上部へ復元バナー表示。タップでカレンダー該当日選択＋総額表示状態へ遷移。",
+          "impact": "③→④ +1.0pt / 月 約2.1万件（再訪経由）",
+          "prototype": {
+            "before_html": "<div style=\"max-width:375px;margin:0 auto;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px;font-size:13px;color:#666\">再訪してもまた最初から日程を選び直す</div><div style=\"font-size:13px;color:#999;padding:6px 10px\">前回の検討状態が失われ、もう一度迷う</div></div>",
+            "after_html": "<div style=\"max-width:375px;margin:0 auto;border:2px solid #2DAE6C;border-radius:8px;overflow:hidden;background:#F2F5F8\"><div style=\"background:#fff;padding:8px 10px;border-bottom:1px solid #eee\"><span style=\"font-size:15px;font-weight:900;color:#1B82C5\">VELTRA</span></div><div style=\"padding:10px\"><div style=\"background:#EBF4FA;border:1px solid #1B82C5;border-radius:6px;padding:8px\"><div style=\"font-size:13px;color:#1B82C5;font-weight:700\">前回の続きから</div><div style=\"font-size:13px;color:#333;margin-top:2px\">6/10(火) 大人2名 ¥17,000(税込)</div><div style=\"background:#1B82C5;color:#fff;border-radius:6px;padding:8px;text-align:center;font-weight:700;font-size:13px;margin-top:6px\">この日程で予約へ</div></div></div><div style=\"font-size:13px;color:#2DAE6C;padding:6px 10px\">前回の選択日程を復元し、再訪を検討→意向へ最短接続</div></div>"
+          },
+          "implementation_check": {
+            "status": "new",
+            "matched_feature": null,
+            "note": "BN3施策I。閲覧状態の保持と復元バナーを新規実装。"
+          },
+          "feasibility": {
+            "effort": "M",
+            "constraints": [],
+            "constraint_notes": "閲覧状態の永続化（localStorage／Braze属性）と復元UIが必要。",
+            "prerequisites": [],
+            "quick_wins": false
+          }
+        }
+      ]
+    }
+  ],
+  "competitive": [
+    {
+      "name": "Klook",
+      "favicon_url": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_32,h_32/v1643959325/blog/klook-favicon.png",
+      "url": "https://www.klook.com/",
+      "feature": "日付選択直下に総額＋予約CTAを凝縮",
+      "detail": "Klookは日付・人数を選ぶとその場で税・手数料込み総額と予約CTAを直下に固定表示。カレンダー閲覧（検討）から予約フォーム（意向）への往復をゼロにする標準UI。施策Aの直接の参照元。"
+    },
+    {
+      "name": "GetYourGuide",
+      "favicon_url": "https://cdn.getyourguide.com/tf/assets/static/favicon/favicon-32x32.png",
+      "url": "https://www.getyourguide.com/",
+      "feature": "選択時点で手数料・税込みの総額を前出し",
+      "detail": "GetYourGuideは日程選択の時点で総額を税・手数料込みで提示し、フォームでの価格上昇の不意打ちをなくす。検討→意向で金額が変わらない安心を作る設計。施策Bの参照元。"
+    },
+    {
+      "name": "Viator",
+      "favicon_url": "https://www.viator.com/favicon.ico",
+      "url": "https://www.viator.com/",
+      "feature": "満席日に最寄りの空き日を自動提案",
+      "detail": "Viatorは希望日が満席の場合、近接する空き日をカレンダー上で自動ハイライトし行き止まりを回避。検討まで来た層を別日で拾い直す。施策Dの参照元。"
+    },
+    {
+      "name": "KKday",
+      "favicon_url": "https://www.kkday.com/favicon.ico",
+      "url": "https://www.kkday.com/",
+      "feature": "下部スティッキー予約バー（日程＋総額＋CTA常時固定）",
+      "detail": "KKdayはスクロール位置に関係なく画面下部に選択日程・総額・予約CTAを常時固定。検討から意向への動線をどの位置でも確保する。施策Cの参照元。"
+    },
+    {
+      "name": "アクティビティジャパン",
+      "favicon_url": "https://activityjapan.com/favicon.ico",
+      "url": "https://activityjapan.com/",
+      "feature": "締切残時間カウントダウン表示",
+      "detail": "アクティビティジャパンは締切が迫る日程に『あと◯時間で締切』を提示し、後回しによる締切超過の行き止まりを防ぐ。施策Fの参照元。"
+    },
+    {
+      "name": "じゃらん",
+      "favicon_url": "https://www.jalan.net/favicon.ico",
+      "url": "https://www.jalan.net/",
+      "feature": "閲覧後の値下がり・空き枠を後追い通知",
+      "detail": "じゃらんは閲覧した宿・プランの値下がりや空き枠復活をメール／アプリ通知で後追いし、保留したユーザーを再訪→予約へ呼び戻す。施策G・Hの参照元。"
+    }
+  ],
+  "competitive_insight": "競合各社は『カレンダー閲覧後の取りこぼし』をUIとオフサイト通知の両面で塞いでいる。①日付直下に総額＋CTAを凝縮（Klook） ②手数料・税込みの前出し（GetYourGuide） ③満席時の代替日提案（Viator） ④下部スティッキー予約バー（KKday） ⑤締切カウントダウン（アクティビティジャパン） ⑥閲覧後の値下がり・空き枠の後追い通知（じゃらん）が標準装備。Veltraに足りないのは『カレンダー→フォームの遷移短縮』『満席の行き止まり解消』『閲覧後の拾い戻し』の3点。特に施策C（下部スティッキー）・F（締切カウントダウン）・G（Braze空き枠リマインド）は実装コスト最小のクイックウィン。",
+  "verification": [
+    "GA4 Explorations で「newVsReturning = new」の calendar_view → begin_checkout（③→④）転換率を週次監視。施策A・C 実装前後で比較",
+    "満席・締切超過に当たったセッションの離脱率を計測し、施策D（代替日提案）導入前後で検討③到達後の離脱が減るかを検証",
+    "Braze 配信（施策G・H）経由の再訪セッションをUTM／属性で識別し、再訪後の③→④転換率を非配信群と比較"
+  ],
+  "verification_method": "GA4 > Explorations > ファネル探索で「view_calendar（calendar_view）→ begin_checkout」の2ステップファネルを作成し、セグメント「newVsReturning = new」で絞り込む。③→④転換率を週次モニタリング。満席・締切超過イベントを別途カスタムイベント化し、行き止まり率を施策D前後で比較。Braze配信群はカスタム属性で識別し再訪→検討→意向の通過率を非配信群と対比する。"
+}
