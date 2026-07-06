@@ -10,27 +10,65 @@
 <style>
 :root { --slide-pad: 44px }
 
-/* Hero slide */
+/* Hero */
 .slide-hero{padding:44px 44px 32px;background:linear-gradient(135deg,#eff6ff 0%,#fff 80%);border-bottom:3px solid #1b82c5}
 .slide-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:.14em;color:#fff;background:#1b82c5;padding:6px 14px;border-radius:4px;margin-bottom:16px;text-transform:uppercase}
 .slide-tag::before{content:'📊';font-size:14px}
-.slide-title{font-size:34px;font-weight:900;line-height:1.35;letter-spacing:-.01em;margin-bottom:10px;color:#1a1a1a}
+.slide-title{font-size:32px;font-weight:900;line-height:1.35;letter-spacing:-.01em;margin-bottom:16px;color:#1a1a1a}
 .slide-title em{font-style:normal;color:#c0392b}
 .slide-title em.ok{color:#1a8c4e}
-.slide-sub{font-size:15px;color:var(--text2);line-height:1.7;font-weight:500}
+.hero-lines{display:grid;gap:8px;font-size:15px;line-height:1.6;color:var(--text2)}
+.hero-lines .l{padding-left:18px;position:relative}
+.hero-lines .l::before{content:'';position:absolute;left:0;top:11px;width:8px;height:8px;border-radius:50%;background:#94a3b8}
+.hero-lines .l.ok::before{background:#1a8c4e}
+.hero-lines .l.ng::before{background:#c0392b}
+.hero-lines .l.ext::before{background:#d97706}
+.hero-lines .l strong{color:var(--text)}
+
+/* Bot definition box */
+.bot-def{margin-top:18px;padding:12px 16px;background:#fff;border:1px dashed #cbd5e1;border-radius:6px;font-size:12px;color:var(--text2);line-height:1.7}
+.bot-def strong{color:var(--text)}
+.bot-def code{background:#f1f1ec;padding:2px 6px;border-radius:3px;font-size:11px;font-family:'DM Sans','SF Mono',monospace}
+
+/* Global bot toggle bar */
+.bot-bar{padding:14px var(--slide-pad);background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:10}
+.bot-bar-label{font-size:11px;font-weight:900;color:var(--text3);letter-spacing:.06em;text-transform:uppercase}
+.bot-bar-hint{font-size:11.5px;color:var(--text3);margin-left:auto;line-height:1.5}
+.bot-bar-hint b{color:var(--text2);font-weight:700}
 
 /* Slide layout */
 .slide{padding:32px var(--slide-pad) 36px;border-bottom:1px solid var(--border)}
 .slide:last-child{border-bottom:none}
-.slide-h{display:flex;align-items:baseline;gap:14px;margin-bottom:18px}
+.slide-h{display:flex;align-items:baseline;gap:14px;margin-bottom:20px}
 .slide-num{font-family:'DM Sans';font-size:14px;font-weight:900;letter-spacing:.06em;padding:6px 12px;background:#1f2937;color:#fff;border-radius:4px}
 .slide-num.blue{background:#1b82c5}.slide-num.green{background:#1a8c4e}.slide-num.amber{background:#d97706}.slide-num.red{background:#c0392b}
-.slide-hd{font-size:24px;font-weight:900;color:var(--text);letter-spacing:-.01em;line-height:1.35}
-.slide-tk{margin-left:auto;font-size:12px;font-weight:900;color:var(--text2);letter-spacing:.02em;background:#fff;padding:8px 14px;border-radius:6px;border:2px solid;text-align:right;line-height:1.35;max-width:400px}
+.slide-hd{font-size:23px;font-weight:900;color:var(--text);letter-spacing:-.01em;line-height:1.35}
+.slide-tk{margin-left:auto;font-size:12px;font-weight:900;color:var(--text2);letter-spacing:.02em;background:#fff;padding:9px 15px;border-radius:6px;border:2px solid;text-align:right;line-height:1.55;max-width:360px}
 .slide-tk.blue{border-color:#1b82c5;color:#1b5a8c;background:#f0f7fc}
 .slide-tk.green{border-color:#1a8c4e;color:#0f6e3d;background:#f0fdf4}
 .slide-tk.amber{border-color:#d97706;color:#92580e;background:#fffbeb}
 .slide-tk.red{border-color:#c0392b;color:#991b1b;background:#fff5f5}
+
+/* Note block after visual */
+.notes{margin-top:20px;padding:16px 20px 18px;background:#faf8f5;border-radius:8px}
+.notes-h{font-size:11px;font-weight:900;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.notes ul{list-style:none;padding:0;margin:0;display:grid;gap:9px}
+.notes.two-col ul{grid-template-columns:1fr 1fr;gap:9px 24px}
+.notes li{font-size:12.5px;line-height:1.7;padding-left:14px;position:relative;color:var(--text2)}
+.notes li::before{content:'▸';position:absolute;left:0;color:#1b82c5;font-weight:900}
+.notes li strong{color:var(--text)}
+.notes-blocks{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.notes-block{padding:12px 14px 14px;background:#fff;border-radius:6px;border-left:3px solid #1b82c5}
+.notes-block.ok{border-left-color:#1a8c4e}
+.notes-block.ng{border-left-color:#c0392b}
+.notes-block.ext{border-left-color:#d97706}
+.notes-block-h{font-size:11px;font-weight:900;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.notes-block.ok .notes-block-h{color:#0f6e3d}
+.notes-block.ng .notes-block-h{color:#991b1b}
+.notes-block.ext .notes-block-h{color:#92580e}
+.notes-block p{margin:0;font-size:12.5px;line-height:1.7;color:var(--text2)}
+.notes-block p + p{margin-top:6px}
+.notes-block strong{color:var(--text)}
 
 /* KPI strip */
 .kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:22px var(--slide-pad) 26px}
@@ -71,9 +109,9 @@
 .arc-d.dn{color:#c0392b}.arc-d.up{color:#1a8c4e}
 .arc-d::before{content:'→';display:block;font-size:16px;color:#94a3b8;line-height:1}
 
-/* Compact impact chips */
+/* Impact chips */
 .chips{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.chip{background:#fff;border:1px solid var(--border);border-left:4px solid;border-radius:8px;padding:10px 12px}
+.chip{background:#fff;border:1px solid var(--border);border-left:4px solid;border-radius:8px;padding:11px 13px}
 .chip.pos{border-left-color:#1a8c4e;background:#f0fdf4}
 .chip.neg{border-left-color:#c0392b;background:#fff5f5}
 .chip.neu{border-left-color:#94a3b8}
@@ -81,7 +119,8 @@
 .chip-w{font-family:'DM Sans';font-size:10.5px;font-weight:900;color:var(--text3);letter-spacing:.03em}
 .chip-d{font-family:'DM Sans';font-size:14px;font-weight:900;color:var(--text);margin-top:2px}
 .chip.pos .chip-d{color:#0f6e3d}.chip.neg .chip-d{color:#c0392b}.chip.big .chip-d{color:#92580e}
-.chip-t{font-size:11.5px;color:var(--text2);margin-top:5px;line-height:1.45;font-weight:600}
+.chip-t{font-size:11.5px;color:var(--text2);margin-top:5px;line-height:1.5;font-weight:600}
+.chip-t small{display:block;font-size:10px;font-weight:400;color:var(--text3);margin-top:2px}
 
 /* DoW bars */
 .dow{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:flex-end;height:180px;padding-top:26px}
@@ -93,53 +132,55 @@
 .dow-l{font-size:12px;color:var(--text3);font-weight:700;margin-top:6px}
 .dow-l.w{color:#1a8c4e;font-weight:900}
 
-/* Device trend chart controls */
-.dev-controls{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
-.dev-toggle{display:inline-flex;background:#f1f1ec;border-radius:6px;padding:2px;font-size:11.5px;font-weight:700}
-.dev-toggle button{background:none;border:none;padding:6px 14px;color:var(--text2);cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:700;border-radius:4px;transition:.15s}
-.dev-toggle button.active{background:#1f2937;color:#fff;font-weight:900}
-.dev-toggle-label{font-size:10.5px;font-weight:900;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;margin-right:6px}
-.dev-share{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}
-.dev-share-c{padding:10px 14px;background:#faf8f5;border-radius:6px;border-left:3px solid;text-align:center}
+/* Device / chart controls (shared UI) */
+.tg-bar{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.tg-lbl{font-size:10.5px;font-weight:900;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;margin-right:6px}
+.tg{display:inline-flex;background:#f1f1ec;border-radius:6px;padding:2px;font-size:11.5px;font-weight:700}
+.tg button{background:none;border:none;padding:6px 14px;color:var(--text2);cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:700;border-radius:4px;transition:.15s;line-height:1}
+.tg button.active{background:#1f2937;color:#fff;font-weight:900}
+
+/* Device share */
+.dev-share{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
+.dev-share-c{padding:12px 14px;background:#faf8f5;border-radius:6px;border-left:3px solid;text-align:center}
 .dev-share-c.m{border-left-color:#1a8c4e}
 .dev-share-c.d{border-left-color:#94a3b8}
 .dev-share-c.t{border-left-color:#cbd5e1}
-.dev-share-l{font-size:10px;font-weight:900;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
-.dev-share-v{font-family:'DM Sans';font-size:18px;font-weight:900;color:var(--text)}
+.dev-share-l{font-size:10px;font-weight:900;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.dev-share-v{font-family:'DM Sans';font-size:20px;font-weight:900;color:var(--text)}
 .dev-share-c.m .dev-share-v{color:#0f6e3d}
-.dev-share-s{font-size:10.5px;color:var(--text3);margin-top:2px}
+.dev-share-s{font-size:10.5px;color:var(--text3);margin-top:3px}
 
 /* Composition bar */
 .wkc{display:flex;height:36px;border-radius:6px;overflow:hidden;font-family:'DM Sans';font-size:12px;font-weight:900;color:#fff;margin-bottom:12px}
 .wkc-s{display:flex;align-items:center;justify-content:center;padding:0 8px}
 .wkc-s.u{background:#1a8c4e}.wkc-s.d{background:#c0392b}.wkc-s.n{background:#94a3b8}.wkc-s.p{background:#d97706}
 
-/* Matrix */
-.mtx{display:grid;grid-template-columns:110px repeat(2,1fr);gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden}
-.mtx > div{padding:12px 14px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+/* Matrix — cell padding fixed */
+.mtx{display:grid;grid-template-columns:130px repeat(2,1fr);gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.mtx > div{padding:16px 18px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);min-height:100px;display:flex;flex-direction:column;justify-content:center}
 .mtx > div:nth-child(3n){border-right:none}
-.mtx > div.h{background:#1f2937;color:#fff;font-weight:900;font-size:11px;letter-spacing:.05em;text-transform:uppercase;text-align:center;padding:14px}
-.mtx > div.h small{display:block;font-weight:400;font-size:10px;letter-spacing:0;text-transform:none;margin-top:3px;opacity:.75}
-.mtx > div.rh{background:#f5f4f0;font-weight:900;font-size:12px;color:var(--text);display:flex;flex-direction:column;justify-content:center;text-align:right;padding-right:16px}
-.mtx > div.rh small{display:block;font-size:10px;font-weight:400;color:var(--text3);margin-top:2px}
-.mtx > div.cell{background:#fff;text-align:center}
-.mtx > div.cell .n{font-family:'DM Sans';font-weight:900;font-size:32px;color:var(--text);display:block;line-height:1}
-.mtx > div.cell .lb{font-size:11px;color:var(--text2);margin-top:8px;line-height:1.5;text-align:left}
+.mtx > div.h{background:#1f2937;color:#fff;font-weight:900;font-size:11px;letter-spacing:.05em;text-transform:uppercase;text-align:center;padding:16px 14px;min-height:auto}
+.mtx > div.h small{display:block;font-weight:400;font-size:10px;letter-spacing:0;text-transform:none;margin-top:4px;opacity:.75}
+.mtx > div.rh{background:#f5f4f0;font-weight:900;font-size:12.5px;color:var(--text);text-align:right;padding-right:18px}
+.mtx > div.rh small{display:block;font-size:10.5px;font-weight:400;color:var(--text3);margin-top:3px}
+.mtx > div.cell{background:#fff;text-align:center;align-items:center}
+.mtx > div.cell .n{font-family:'DM Sans';font-weight:900;font-size:32px;color:var(--text);line-height:1}
+.mtx > div.cell .lb{font-size:11.5px;color:var(--text2);margin-top:10px;line-height:1.7;text-align:left;width:100%}
 .mtx > div.cell.ok{background:#f0fdf4}
 .mtx > div.cell.ok .n{color:#0f6e3d}
 .mtx > div.cell.ng{background:#fff5f5}
 .mtx > div.cell.ng .n{color:#c0392b}
 .mtx > div.cell.neu{background:#faf8f5}
-.mtx > div.cell.dim{background:#f7f7f4;color:var(--text3)}
-.mtx > div.cell.dim .n{color:var(--text3);font-size:18px}
-.mtx > div:last-child{border-bottom:none}
+.mtx > div.cell.dim{background:#f7f7f4}
+.mtx > div.cell.dim .n{color:var(--text3);font-size:20px}
+.mtx > div.cell.dim .lb{color:var(--text3);text-align:center}
 .mtx > div:nth-last-child(-n+3){border-bottom:none}
 
-/* Compact table */
-.tbl{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
-.tbl th{background:#1f2937;color:#fff;padding:9px 10px;font-size:10px;letter-spacing:.04em;text-align:right;font-weight:900;text-transform:uppercase}
+/* Table (evenly padded) */
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.tbl th{background:#1f2937;color:#fff;padding:11px 12px;font-size:10.5px;letter-spacing:.04em;text-align:right;font-weight:900;text-transform:uppercase;line-height:1.35}
 .tbl th:first-child{text-align:left}
-.tbl td{padding:9px 10px;border-bottom:1px solid var(--border);text-align:right;font-family:'DM Sans';font-variant-numeric:tabular-nums;color:var(--text2)}
+.tbl td{padding:11px 12px;border-bottom:1px solid var(--border);text-align:right;font-family:'DM Sans';font-variant-numeric:tabular-nums;color:var(--text2);line-height:1.4}
 .tbl td:first-child{text-align:left;font-weight:900;color:var(--text);font-family:inherit}
 .tbl tr:last-child td{border-bottom:none}
 .tbl .up{color:#1a8c4e;font-weight:900}
@@ -147,10 +188,22 @@
 .tbl tr.hi{background:#f0fdf4}
 .tbl tr.lo{background:#fff5f5}
 
+/* External initiative box */
+.ext-box{margin-top:16px;padding:16px 20px;background:#fffbeb;border:1px solid #fde3ba;border-left:4px solid #d97706;border-radius:6px}
+.ext-box-h{font-size:11px;font-weight:900;color:#92580e;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.ext-box-h::before{content:'⚠ 参考';font-size:10px;padding:2px 8px;background:#d97706;color:#fff;border-radius:3px;font-weight:900;letter-spacing:.03em}
+.ext-box p{margin:0;font-size:12.5px;line-height:1.7;color:var(--text2)}
+.ext-box p + p{margin-top:8px}
+.ext-box strong{color:var(--text)}
+
 /* Footer */
-.foot{padding:22px var(--slide-pad);background:#f5f4f0;font-size:11px;color:var(--text3);line-height:1.7}
-.foot code{background:#fff;padding:1px 5px;border-radius:4px;font-size:10.5px;border:1px solid var(--border)}
+.foot{padding:22px var(--slide-pad);background:#f5f4f0;font-size:11.5px;color:var(--text3);line-height:1.8}
+.foot code{background:#fff;padding:2px 6px;border-radius:4px;font-size:11px;border:1px solid var(--border)}
 .foot a{color:#1b82c5;font-weight:700;text-decoration:none}
+.foot-block{margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.foot-block strong{color:var(--text2)}
+.foot-block ul{margin:6px 0 0;padding-left:18px}
+.foot-block li{margin-bottom:4px}
 
 @media(max-width:768px){
   :root{--slide-pad:22px}
@@ -162,13 +215,16 @@
   .arc{grid-template-columns:1fr}
   .arc-d{transform:rotate(90deg);padding:6px 0}
   .chips{grid-template-columns:repeat(2,1fr)}
-  .dev{grid-template-columns:1fr}
-  .dev svg{width:180px;height:180px;margin:0 auto}
-  .mtx{grid-template-columns:80px 1fr 1fr}
-  .mtx > div.h{font-size:9.5px;padding:8px}
+  .dev-share{grid-template-columns:1fr}
+  .mtx{grid-template-columns:90px 1fr 1fr}
+  .mtx > div.h{font-size:10px;padding:10px}
+  .mtx > div{padding:12px 10px}
   .mtx > div.cell .n{font-size:22px}
   .tbl{font-size:11px}
-  .tbl th,.tbl td{padding:6px}
+  .tbl th,.tbl td{padding:7px 6px}
+  .notes.two-col ul{grid-template-columns:1fr}
+  .notes-blocks{grid-template-columns:1fr}
+  .bot-bar{padding:12px 22px}
 }
 </style>
 </head>
@@ -182,17 +238,30 @@
       <div class="slide-title">
         実質CVR <em>1.54% → 1.33%</em> → <em class="ok">1.41%</em> で着地
       </div>
-      <div class="slide-sub">
-        当プロジェクトで効いたのは <strong>次月カレンダーちら見せ</strong> 1件。効かなかったのは <strong>3件のA/B（Point・Direct日付・SilverEgg）</strong>。参考記録として <strong>他チーム CRM の 6/1 配信</strong>で単発 +0.17pp を観測。
+      <div class="hero-lines">
+        <div class="l ok"><strong>効いた（当プロジェクト）</strong>：次月カレンダーちら見せ の 1件のみ</div>
+        <div class="l ng"><strong>効かなかった（A/B既存維持）</strong>：Point 訴求・Direct 日付ボタン・SilverEgg ロジック の 3件</div>
+        <div class="l ext"><strong>参考記録（他チーム施策）</strong>：CRM の 6/1 ポイントメール一斉配信で単発 +0.17pp を観測</div>
       </div>
-      <div style="margin-top:14px;padding:10px 14px;background:#fff;border:1px dashed #cbd5e1;border-radius:6px;font-size:11.5px;color:var(--text2);line-height:1.55">
-        <strong style="color:var(--text)">実質CVR 定義（当プロジェクト独自）</strong>：purchase ÷（全セッション − bot proxy）／bot proxy = <code style="background:#f1f1ec;padding:1px 5px;border-radius:3px;font-size:11px">country = China</code> または <code style="background:#f1f1ec;padding:1px 5px;border-radius:3px;font-size:11px">country = Singapore</code> の全セッション。GA4公式実数とは異なる。判定を安定させる目的で採用。
+      <div class="bot-def">
+        <strong>実質CVR 定義（当プロジェクト独自）</strong>：<code>purchase ÷ (全セッション − bot proxy)</code>。<br>
+        <strong>bot proxy</strong>：<code>country = China</code> または <code>country = Singapore</code> の全セッション。5月に比率が最大 43% に達し raw CVR を過度に劣化させたため、判定を安定させる目的で採用。<span style="color:var(--text3)">GA4 の公式実数値とは異なる。</span>
       </div>
     </div>
+
+    <div class="bot-bar" id="bot-bar">
+      <span class="bot-bar-label">bot 扱い（全セクション共通）</span>
+      <div class="tg" id="global-bot-tg">
+        <button data-v="real" class="active">除外</button>
+        <button data-v="raw">含む</button>
+      </div>
+      <span class="bot-bar-hint">切り替えで <b>KPI・01・03・05</b> の数値が bot 除外／含む に連動します。</span>
+    </div>
+
     <div class="kpi">
       <div class="kpi-c blue"><div class="kpi-l">セッション</div><div class="kpi-v">14.96M</div><div class="kpi-s">bot 2.54M（17.0%）／実質 12.42M</div></div>
       <div class="kpi-c blue"><div class="kpi-l">予約完了</div><div class="kpi-v">176,744</div><div class="kpi-s">日次平均 1,449件</div></div>
-      <div class="kpi-c warn"><div class="kpi-l">実質CVR 平均</div><div class="kpi-v">1.42%</div><div class="kpi-s">3月ピーク → 5月谷 → 6月部分回復</div></div>
+      <div class="kpi-c warn"><div class="kpi-l" id="kpi-cvr-lbl">実質CVR 平均</div><div class="kpi-v" id="kpi-cvr">1.42%</div><div class="kpi-s" id="kpi-cvr-s">3月ピーク → 5月谷 → 6月部分回復</div></div>
       <div class="kpi-c ok"><div class="kpi-l">売上</div><div class="kpi-v">¥1,133M</div><div class="kpi-s">3月 ¥303M ／ 5月 ¥271M ／ 6月 ¥283M</div></div>
     </div>
   </div>
@@ -205,35 +274,40 @@
         <h2 class="slide-hd">4か月ダイジェスト</h2>
         <div class="slide-tk blue">3月ピーク → 5月谷 → 6月部分回復<br>3月水準には戻らず</div>
       </div>
-      <div class="arc">
-        <div class="arc-n peak">
-          <div class="arc-l">3月</div>
-          <div class="arc-v">1.54%</div>
-          <div class="arc-s">期間最高</div>
-        </div>
+
+      <div id="arc-real" class="arc">
+        <div class="arc-n peak"><div class="arc-l">3月</div><div class="arc-v">1.54%</div><div class="arc-s">期間最高</div></div>
         <div class="arc-d dn">−0.12pp</div>
-        <div class="arc-n">
-          <div class="arc-l">4月</div>
-          <div class="arc-v">1.42%</div>
-          <div class="arc-s">GW前で漸減</div>
-        </div>
+        <div class="arc-n"><div class="arc-l">4月</div><div class="arc-v">1.42%</div><div class="arc-s">GW前で漸減</div></div>
         <div class="arc-d dn">−0.09pp</div>
-        <div class="arc-n trough">
-          <div class="arc-l">5月</div>
-          <div class="arc-v">1.33%</div>
-          <div class="arc-s">期間最低（谷）</div>
-        </div>
+        <div class="arc-n trough"><div class="arc-l">5月</div><div class="arc-v">1.33%</div><div class="arc-s">期間最低（谷）</div></div>
         <div class="arc-d up">+0.08pp</div>
-        <div class="arc-n rec">
-          <div class="arc-l">6月</div>
-          <div class="arc-v">1.41%</div>
-          <div class="arc-s">部分回復</div>
-        </div>
+        <div class="arc-n rec"><div class="arc-l">6月</div><div class="arc-v">1.41%</div><div class="arc-s">部分回復</div></div>
+      </div>
+
+      <div id="arc-raw" class="arc" style="display:none">
+        <div class="arc-n peak"><div class="arc-l">3月</div><div class="arc-v">1.47%</div><div class="arc-s">期間最高</div></div>
+        <div class="arc-d dn">−0.31pp</div>
+        <div class="arc-n"><div class="arc-l">4月</div><div class="arc-v">1.16%</div><div class="arc-s">bot増で急落</div></div>
+        <div class="arc-d dn">−0.16pp</div>
+        <div class="arc-n trough"><div class="arc-l">5月</div><div class="arc-v">1.00%</div><div class="arc-s">bot率 43%</div></div>
+        <div class="arc-d up">+0.16pp</div>
+        <div class="arc-n rec"><div class="arc-l">6月</div><div class="arc-v">1.16%</div><div class="arc-s">bot減で回復</div></div>
+      </div>
+
+      <div class="notes">
+        <div class="notes-h">解説</div>
+        <ul>
+          <li><strong>3月がピーク（1.54%）</strong>。前年繁忙期水準にほぼ並ぶ月で、当プロジェクトの起点となった。</li>
+          <li><strong>4月〜5月にかけて漸減</strong>し、5月に期間最低の 1.33% を記録。GW前後で指名買いが減り、カレンダー比較が長期化した季節要因が主。</li>
+          <li><strong>6月に 1.41% へ部分回復</strong>したが、3月水準には戻らず。7-8月の繁忙期入りに向けた加速には至っていない。</li>
+          <li><strong>bot 含む raw では 1.47% → 1.00% → 1.16%</strong> と減衰が過大に見える。5月の bot 率 43% が raw を押し下げているため、判定は実質CVRで統一。</li>
+        </ul>
       </div>
     </div>
   </div>
 
-  <!-- 02 月次 -->
+  <!-- 02 月次推移 -->
   <div class="card">
     <div class="slide" id="s2">
       <div class="slide-h">
@@ -297,87 +371,35 @@
           </table>
         </div>
       </div>
+
+      <div class="notes">
+        <div class="notes-h">解説</div>
+        <ul>
+          <li><strong>売上は ¥303M → ¥276M → ¥271M → ¥283M</strong>。3月から5月にかけて計 −10.6% 減速し、6月にわずかに戻した。</li>
+          <li><strong>売上とCVRはほぼ連動</strong>している。単価上昇による相殺は限定的で、件数（予約完了）が売上ドライブの主。</li>
+          <li><strong>モバイルCVR も同じV字</strong>（1.43% → 1.30% → 1.42%）。全体CVRを主導しているのはモバイル。</li>
+          <li><strong>bot 率は4-5月に大きく拡大</strong>（4.6% → 24.9%）し、raw では実際以上に劣化して見える。実質CVR で見ると減衰幅は −0.21pp 程度。</li>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <!-- 03 週次 -->
+  <!-- 03 週次推移 -->
   <div class="card">
     <div class="slide" id="s3">
       <div class="slide-h">
         <span class="slide-num blue">03</span>
         <h2 class="slide-hd">週次推移（土-金）</h2>
-        <div class="slide-tk blue">18週で大きな変動は 4週のみ<br>うち施策由来は 2週（次月カレンダー・6/1ポイントメール）</div>
+        <div class="slide-tk blue">18週で大きな変動は 4週のみ<br>うち施策由来は 1週（次月カレンダー）</div>
       </div>
       <div class="chart">
-        <svg viewBox="0 0 720 300" aria-label="週次CVR推移">
-          <g font-family="DM Sans" font-size="10" fill="#94a3b8">
-            <line x1="60" y1="20"  x2="690" y2="20"  stroke="#eee"/>
-            <line x1="60" y1="75"  x2="690" y2="75"  stroke="#eee"/>
-            <line x1="60" y1="130" x2="690" y2="130" stroke="#eee"/>
-            <line x1="60" y1="185" x2="690" y2="185" stroke="#eee"/>
-            <line x1="60" y1="240" x2="690" y2="240" stroke="#ddd"/>
-            <text x="52" y="24"  text-anchor="end">1.65%</text>
-            <text x="52" y="79"  text-anchor="end">1.5%</text>
-            <text x="52" y="134" text-anchor="end">1.35%</text>
-            <text x="52" y="189" text-anchor="end">1.2%</text>
-            <text x="52" y="244" text-anchor="end">1.05%</text>
-          </g>
-          <polyline fill="none" stroke="#1f2937" stroke-width="3"
-            points="60,28.4 96.8,32.5 133.5,57.0 170.3,101.4 207.1,106.2 243.8,64.7 280.6,90.4 317.4,91.5 354.1,156.7 390.9,134.7 427.6,150.2 464.4,147.3 501.2,150.5 537.9,86.7 574.7,95.2 611.5,119.7 648.2,144.3 685,60.7"/>
-          <g fill="#1f2937">
-            <circle cx="60" cy="28.4" r="3.5"/>
-            <circle cx="96.8" cy="32.5" r="3.5"/>
-            <circle cx="133.5" cy="57" r="3.5"/>
-            <circle cx="170.3" cy="101.4" r="4.5" fill="#c0392b"/>
-            <circle cx="207.1" cy="106.2" r="3.5"/>
-            <circle cx="243.8" cy="64.7" r="4.5" fill="#1a8c4e"/>
-            <circle cx="280.6" cy="90.4" r="3.5"/>
-            <circle cx="317.4" cy="91.5" r="3.5"/>
-            <circle cx="354.1" cy="156.7" r="5" fill="#c0392b"/>
-            <circle cx="390.9" cy="134.7" r="3.5"/>
-            <circle cx="427.6" cy="150.2" r="3.5"/>
-            <circle cx="464.4" cy="147.3" r="3.5"/>
-            <circle cx="501.2" cy="150.5" r="3.5"/>
-            <circle cx="537.9" cy="86.7" r="5" fill="#1a8c4e"/>
-            <circle cx="574.7" cy="95.2" r="3.5"/>
-            <circle cx="611.5" cy="119.7" r="3.5"/>
-            <circle cx="648.2" cy="144.3" r="3.5"/>
-            <circle cx="685" cy="60.7" r="4.5" fill="#d97706"/>
-          </g>
-          <line x1="170.3" y1="101.4" x2="170.3" y2="255" stroke="#c0392b" stroke-width="1" stroke-dasharray="3 3"/>
-          <line x1="243.8" y1="64.7" x2="243.8" y2="255" stroke="#1a8c4e" stroke-width="1" stroke-dasharray="3 3"/>
-          <line x1="354.1" y1="156.7" x2="354.1" y2="270" stroke="#c0392b" stroke-width="1" stroke-dasharray="3 3"/>
-          <line x1="537.9" y1="86.7" x2="537.9" y2="255" stroke="#1a8c4e" stroke-width="1" stroke-dasharray="3 3"/>
-          <line x1="685" y1="60.7" x2="685" y2="255" stroke="#d97706" stroke-width="1" stroke-dasharray="3 3"/>
-          <g font-family="DM Sans" font-size="9" font-weight="700" fill="#c0392b">
-            <text x="170.3" y="266" text-anchor="middle">−0.12pp</text>
-            <text x="170.3" y="277" text-anchor="middle" fill="#94a3b8" font-weight="400">春休み終盤</text>
-            <text x="354.1" y="281" text-anchor="middle">−0.18pp</text>
-            <text x="354.1" y="292" text-anchor="middle" fill="#94a3b8" font-weight="400">GW谷</text>
-          </g>
-          <g font-family="DM Sans" font-size="9" font-weight="700" fill="#1a8c4e">
-            <text x="243.8" y="266" text-anchor="middle">+0.11pp</text>
-            <text x="243.8" y="277" text-anchor="middle" fill="#94a3b8" font-weight="400">4/2 次月カレ</text>
-            <text x="537.9" y="266" text-anchor="middle">+0.17pp</text>
-            <text x="537.9" y="277" text-anchor="middle" fill="#94a3b8" font-weight="400">6/1 ポイントメール</text>
-          </g>
-          <g font-family="DM Sans" font-size="9" font-weight="700" fill="#d97706">
-            <text x="675" y="266" text-anchor="end">+0.23pp</text>
-            <text x="675" y="277" text-anchor="end" fill="#94a3b8" font-weight="400">部分週(4日)</text>
-          </g>
-          <g font-family="DM Sans" font-size="8" fill="#64748b" text-anchor="middle">
-            <text x="60" y="255">3/1</text><text x="96.8" y="255">3/7</text><text x="133.5" y="255">3/14</text>
-            <text x="170.3" y="255" font-weight="700" fill="#c0392b">3/21</text>
-            <text x="207.1" y="255">3/28</text>
-            <text x="243.8" y="255" font-weight="700" fill="#1a8c4e">4/4</text>
-            <text x="280.6" y="255">4/11</text><text x="317.4" y="255">4/18</text>
-            <text x="354.1" y="255" font-weight="700" fill="#c0392b">4/25</text>
-            <text x="390.9" y="255">5/2</text><text x="427.6" y="255">5/9</text><text x="464.4" y="255">5/16</text><text x="501.2" y="255">5/23</text>
-            <text x="537.9" y="255" font-weight="700" fill="#1a8c4e">5/30</text>
-            <text x="574.7" y="255">6/6</text><text x="611.5" y="255">6/13</text><text x="648.2" y="255">6/20</text>
-            <text x="685" y="255" font-weight="700" fill="#d97706">6/27</text>
-          </g>
-        </svg>
+        <svg id="wk-svg" viewBox="0 0 720 300" aria-label="週次CVR推移"></svg>
+        <div class="legend">
+          <span><span class="ln" style="border-top-color:#1f2937"></span> <span id="wk-legend-label">実質CVR</span></span>
+          <span><span class="dot" style="background:#1a8c4e"></span> 上振れ</span>
+          <span><span class="dot" style="background:#c0392b"></span> 下振れ</span>
+          <span><span class="dot" style="background:#d97706"></span> 部分週 / 他チーム</span>
+        </div>
       </div>
       <div style="margin-top:14px">
         <div class="wkc">
@@ -387,11 +409,21 @@
           <div class="wkc-s p" style="width:11.1%">部分週 2</div>
         </div>
         <div class="chips">
-          <div class="chip pos"><div class="chip-w">W5 4/4-10</div><div class="chip-d">+0.11pp</div><div class="chip-t">4/2 次月カレンダー</div></div>
-          <div class="chip big"><div class="chip-w">W13 5/30-6/5</div><div class="chip-d">+0.17pp</div><div class="chip-t">6/1 ポイントメール<br><span style="font-size:10px;color:var(--text3);font-weight:400">※他チーム CRM 施策</span></div></div>
-          <div class="chip neg"><div class="chip-w">W3 3/21-27</div><div class="chip-d">−0.12pp</div><div class="chip-t">春休み終盤・季節性</div></div>
-          <div class="chip neg"><div class="chip-w">W8 4/25-5/1</div><div class="chip-d">−0.18pp</div><div class="chip-t">GW谷・季節性</div></div>
+          <div class="chip pos"><div class="chip-w">W5 4/4-10</div><div class="chip-d">+0.11pp</div><div class="chip-t">4/2 次月カレンダー<br><small>当プロジェクト施策</small></div></div>
+          <div class="chip big"><div class="chip-w">W13 5/30-6/5</div><div class="chip-d">+0.17pp</div><div class="chip-t">6/1 ポイントメール<br><small>他チーム CRM 施策</small></div></div>
+          <div class="chip neg"><div class="chip-w">W3 3/21-27</div><div class="chip-d">−0.12pp</div><div class="chip-t">春休み終盤<br><small>季節性</small></div></div>
+          <div class="chip neg"><div class="chip-w">W8 4/25-5/1</div><div class="chip-d">−0.18pp</div><div class="chip-t">GW谷<br><small>季節性</small></div></div>
         </div>
+      </div>
+
+      <div class="notes">
+        <div class="notes-h">解説</div>
+        <ul>
+          <li><strong>18週のうち16週は変動幅 ±0.10pp 以内</strong>。実質CVRは通常のブレ幅で推移し、施策 or 季節要因を判断できるのは残り2週。</li>
+          <li><strong>上振れ2週のうち、当プロジェクト由来は W5 の 1件のみ</strong>（次月カレンダー）。W13 は他チームCRM施策。</li>
+          <li><strong>下振れ2週はいずれも季節性</strong>。W3 は春休み終盤、W8 は GW 初日の需要落ちで、施策要因ではない。</li>
+          <li><strong>W17（部分週・4日）で 1.54% まで戻し</strong>ているが、7月頭の繁忙期入りとの重なりで判定不能。7月データで確認要。</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -419,8 +451,18 @@
         <div>
           <div class="chip pos" style="margin-bottom:8px"><div class="chip-w">期間ピーク</div><div class="chip-d">1.91% (日)</div><div class="chip-t">4/19・3/8・6/7 いずれも日曜</div></div>
           <div class="chip neg" style="margin-bottom:8px"><div class="chip-w">期間ボトム</div><div class="chip-d">0.92% (金)</div><div class="chip-t">4/24・4/28・4/25 (GW前後)</div></div>
-          <div class="chip big"><div class="chip-w">6/1 配信日</div><div class="chip-d">1.52% (日)</div><div class="chip-t">単日押し上げ・翌日 1.40%に剥落</div></div>
+          <div class="chip big"><div class="chip-w">6/1 (他チーム施策日)</div><div class="chip-d">1.52% (日)</div><div class="chip-t">単日押し上げ・翌日 1.40%に剥落</div></div>
         </div>
+      </div>
+
+      <div class="notes">
+        <div class="notes-h">解説</div>
+        <ul>
+          <li><strong>日曜が最大の押し上げ要因</strong>。土日で +0.4pp 前後の上乗せがあり、施策効果を判定する際は曜日を揃える必要がある。</li>
+          <li><strong>期間ピーク3日は全て日曜</strong>で、いずれも 1.85% 以上。3月・4月・6月それぞれで発生している。</li>
+          <li><strong>期間ボトム3日は GW 前後の平日/初日</strong>で、1% を割った。この週で月次CVR が崩れている。</li>
+          <li><strong>6/1 の押し上げは1-2日で剥落</strong>する短命効果。恒常CVR を動かすには継続的な配信が必要と示唆される。</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -433,112 +475,40 @@
         <h2 class="slide-hd">デバイス別の推移</h2>
         <div class="slide-tk blue">予約の 69% はモバイル<br>モバイル 5月ボトム→6月V字回復／デスクトップは横ばい</div>
       </div>
-      <div class="dev-controls">
-        <span class="dev-toggle-label">粒度</span>
-        <div class="dev-toggle" data-tg="gran">
+
+      <div class="tg-bar">
+        <span class="tg-lbl">粒度</span>
+        <div class="tg" id="dev-gran-tg">
           <button data-v="monthly" class="active">月次</button>
           <button data-v="weekly">週次</button>
         </div>
-        <span class="dev-toggle-label" style="margin-left:14px">bot 扱い</span>
-        <div class="dev-toggle" data-tg="bot">
-          <button data-v="real" class="active">除外</button>
-          <button data-v="raw">含む</button>
-        </div>
       </div>
-      <div class="chart" id="dev-chart">
+
+      <div class="chart">
         <svg id="dev-svg" viewBox="0 0 720 260" aria-label="デバイス別 CVR推移"></svg>
         <div class="legend">
           <span><span class="ln" style="border-top-color:#1a8c4e"></span> Mobile CVR</span>
           <span><span class="ln" style="border-top-color:#94a3b8"></span> Desktop CVR</span>
         </div>
       </div>
+
       <div class="dev-share">
         <div class="dev-share-c m"><div class="dev-share-l">Mobile</div><div class="dev-share-v">69.1%</div><div class="dev-share-s">予約完了 122,189件</div></div>
         <div class="dev-share-c d"><div class="dev-share-l">Desktop</div><div class="dev-share-v">29.7%</div><div class="dev-share-s">予約完了 52,449件</div></div>
         <div class="dev-share-c t"><div class="dev-share-l">Tablet・他</div><div class="dev-share-v">1.2%</div><div class="dev-share-s">2,106件（グラフ省略）</div></div>
       </div>
-      <div style="margin-top:12px;padding:10px 14px;background:#f0f7fc;border-left:3px solid #1b82c5;border-radius:4px;font-size:11.5px;color:var(--text2);line-height:1.55">
-        <strong style="color:var(--text)">bot 除外の中身</strong>：<code style="background:#fff;padding:1px 5px;border-radius:3px;font-size:11px;border:1px solid var(--border)">country = China</code> または <code style="background:#fff;padding:1px 5px;border-radius:3px;font-size:11px;border:1px solid var(--border)">country = Singapore</code> の全セッションを分母から除外。実際の bot 数とは異なるが、期間内で急増した無効トラフィックの代理指標として当プロジェクトで採用。<strong style="color:var(--text)">99% がデスクトップ経路</strong>のため、モバイルには実質影響なし。
+
+      <div class="notes">
+        <div class="notes-h">解説</div>
+        <ul>
+          <li><strong>予約の約7割はモバイル</strong>。CVR推移もモバイルが全体を主導している。</li>
+          <li><strong>モバイルCVR は 5月ボトム → 6月に V字回復</strong>（1.30% → 1.42%）。3月水準まで戻している。</li>
+          <li><strong>デスクトップCVR は横ばい</strong>（実質ベースで 1.4-1.9% レンジ、bot 除外前後で見え方が大きく変わる）。</li>
+          <li><strong>bot の 99% はデスクトップ経路</strong>のため、モバイルは bot 除外前後でほぼ変わらない。</li>
+        </ul>
       </div>
     </div>
   </div>
-
-  <script>
-  (function(){
-    var DEV = {
-      monthly: [
-        {l:'3月',   m:1.425, d_raw:1.598, d_real:1.928},
-        {l:'4月',   m:1.405, d_raw:0.835, d_real:1.464},
-        {l:'5月',   m:1.301, d_raw:0.646, d_real:1.415},
-        {l:'6月',   m:1.417, d_raw:0.805, d_real:1.390}
-      ],
-      weekly: [
-        {l:'2/28',  m:1.525, d_raw:1.790, d_real:1.942},
-        {l:'3/7',   m:1.526, d_raw:1.651, d_real:1.912},
-        {l:'3/14',  m:1.446, d_raw:1.584, d_real:1.949},
-        {l:'3/21',  m:1.293, d_raw:1.420, d_real:1.906},
-        {l:'3/28',  m:1.330, d_raw:1.418, d_real:1.680},
-        {l:'4/4',   m:1.406, d_raw:1.474, d_real:1.861},
-        {l:'4/11',  m:1.461, d_raw:0.487, d_real:1.529},
-        {l:'4/18',  m:1.430, d_raw:0.808, d_real:1.527},
-        {l:'4/25',  m:1.336, d_raw:0.982, d_real:1.152},
-        {l:'5/2',   m:1.289, d_raw:0.743, d_real:1.496},
-        {l:'5/9',   m:1.295, d_raw:0.849, d_real:1.300},
-        {l:'5/16',  m:1.289, d_raw:0.384, d_real:1.371},
-        {l:'5/23',  m:1.270, d_raw:0.737, d_real:1.371},
-        {l:'5/30',  m:1.490, d_raw:0.825, d_real:1.405},
-        {l:'6/6',   m:1.418, d_raw:0.907, d_real:1.544},
-        {l:'6/13',  m:1.373, d_raw:0.869, d_real:1.376},
-        {l:'6/20',  m:1.360, d_raw:0.754, d_real:1.192},
-        {l:'6/27',  m:1.485, d_raw:0.703, d_real:1.749}
-      ]
-    };
-    var state = { gran: 'monthly', bot: 'real' };
-    var svg = document.getElementById('dev-svg');
-    function render(){
-      var data = DEV[state.gran];
-      var W = 720, H = 260, padL = 50, padR = 30, padT = 20, padB = 40;
-      var innerW = W - padL - padR, innerH = H - padT - padB;
-      var minY = 0.3, maxY = 2.0;
-      function y(v){ return padT + (maxY - v)/(maxY - minY) * innerH; }
-      function x(i){ return padL + (data.length === 1 ? innerW/2 : i * innerW / (data.length - 1)); }
-      var gridLines = '';
-      [0.5, 1.0, 1.5, 2.0].forEach(function(g){
-        gridLines += '<line x1="'+padL+'" y1="'+y(g)+'" x2="'+(W-padR)+'" y2="'+y(g)+'" stroke="#eee"/>';
-        gridLines += '<text x="'+(padL-6)+'" y="'+(y(g)+3)+'" text-anchor="end" font-family="DM Sans" font-size="10" fill="#94a3b8">'+g.toFixed(1)+'%</text>';
-      });
-      var dKey = state.bot === 'real' ? 'd_real' : 'd_raw';
-      var mLine = data.map(function(d,i){ return x(i)+','+y(d.m); }).join(' ');
-      var dLine = data.map(function(d,i){ return x(i)+','+y(d[dKey]); }).join(' ');
-      var mDots = '', dDots = '', labels = '', values = '';
-      data.forEach(function(d,i){
-        mDots += '<circle cx="'+x(i)+'" cy="'+y(d.m)+'" r="4" fill="#1a8c4e"/>';
-        dDots += '<circle cx="'+x(i)+'" cy="'+y(d[dKey])+'" r="4" fill="#94a3b8"/>';
-        labels += '<text x="'+x(i)+'" y="'+(H-padB+18)+'" text-anchor="middle" font-family="DM Sans" font-size="'+(state.gran==='monthly'?12:9)+'" fill="#64748b" font-weight="'+(state.gran==='monthly'?900:400)+'">'+d.l+'</text>';
-        if(state.gran==='monthly'){
-          values += '<text x="'+x(i)+'" y="'+(y(d.m)-10)+'" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="900" fill="#0f6e3d">'+d.m.toFixed(2)+'%</text>';
-          values += '<text x="'+x(i)+'" y="'+(y(d[dKey])+18)+'" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="900" fill="#64748b">'+d[dKey].toFixed(2)+'%</text>';
-        }
-      });
-      svg.innerHTML =
-        gridLines +
-        '<polyline fill="none" stroke="#1a8c4e" stroke-width="2.5" points="'+mLine+'"/>' +
-        '<polyline fill="none" stroke="#94a3b8" stroke-width="2.5" points="'+dLine+'"'+(state.bot==='raw'?' stroke-dasharray="5 3"':'')+'/>' +
-        mDots + dDots + labels + values;
-    }
-    document.querySelectorAll('[data-tg]').forEach(function(g){
-      g.querySelectorAll('button').forEach(function(b){
-        b.addEventListener('click', function(){
-          state[g.dataset.tg] = b.dataset.v;
-          g.querySelectorAll('button').forEach(function(x){ x.classList.remove('active'); });
-          b.classList.add('active');
-          render();
-        });
-      });
-    });
-    render();
-  })();
-  </script>
 
   <!-- 06 施策振り返り -->
   <div class="card">
@@ -560,29 +530,59 @@
         </div>
         <div class="cell neu">
           <span class="n">7</span>
-          <div class="lb">UI標準化、シェアボタン、eSIM Ph1／1.5、検索絞込、SilverEgg see-more、Looker／Braze整備</div>
+          <div class="lb">
+            <ul style="list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:11.5px;line-height:1.5">
+              <li>・UI 標準化</li>
+              <li>・シェアボタン整理</li>
+              <li>・eSIM Phase 1</li>
+              <li>・eSIM Phase 1.5</li>
+              <li>・検索絞込追加</li>
+              <li>・SilverEgg see-more</li>
+              <li style="grid-column:1/-1">・Looker／Braze アカウント整備</li>
+            </ul>
+          </div>
         </div>
 
         <div class="rh">効かず<small>A/B既存維持</small></div>
         <div class="cell ng">
           <span class="n">3</span>
-          <div class="lb">・Point訴求（4/21）<br>・Direct日付ボタン（6/1）<br>・SilverEggロジック（6/8）</div>
+          <div class="lb">・Point 訴求（4/21）<br>・Direct 日付ボタン（6/1）<br>・SilverEgg ロジック（6/8）</div>
         </div>
-        <div class="cell dim"><span class="n">—</span></div>
+        <div class="cell dim"><span class="n">—</span><div class="lb">該当なし</div></div>
       </div>
-      <div style="margin-top:12px;padding:12px 16px;background:#fffbeb;border-left:3px solid #d97706;border-radius:6px;font-size:12px;color:var(--text2);line-height:1.6">
-        <strong style="color:#92580e">参考記録：他チーム CRM 施策</strong> — 6/1 ポイントメール一斉配信で単発 <b>+0.17pp</b>（週次 W13）。<em>当プロジェクトの成果ではなく</em>、CRM チーム側の単発配信の観測値。次期に <b>この配信の型を活かした計画配信を CRM と連携して展開したい</b>（→ 次スライド 施策①）。
+
+      <div class="ext-box">
+        <div class="ext-box-h">他チーム CRM 施策（当プロジェクト外）</div>
+        <p><strong>6/1 ポイントメール一斉配信</strong>で単発 +0.17pp（週次 W13）を観測。</p>
+        <p>当プロジェクトの成果ではなく CRM チーム側の単発配信で、押し上げは1-2日で剥落。</p>
+        <p>次期は <strong>この配信の型を活かした計画配信を CRM チームと連携して展開したい</strong>（→ 次スライド 施策①）。</p>
+      </div>
+
+      <div class="notes">
+        <div class="notes-h">解説</div>
+        <div class="notes-blocks">
+          <div class="notes-block ok">
+            <div class="notes-block-h">効いた 1件の型</div>
+            <p><strong>「ファネル中段の摩擦解消」</strong>が効くパターン。カレンダー選択率・予約フロー遷移率という主要指標が明確にプラスに動いた。</p>
+            <p>同種の「先読み表示」（税・手数料・キャンセル可否の前出し）に応用余地あり。</p>
+          </div>
+          <div class="notes-block ng">
+            <div class="notes-block-h">効かず 3件の共通点</div>
+            <p><strong>「単機能の視覚的変更／単純なアルゴリズム変更」</strong>ではCVRが動かないことが3件連続で反証された。</p>
+            <p>次期は「単機能変更」ではなく「ファネル段の情報整理」で攻める方向へ。</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- 07 次の一手 -->
+  <!-- 07 次の一手（アイデア） -->
   <div class="card">
     <div class="slide" id="s7">
       <div class="slide-h">
         <span class="slide-num amber">07</span>
-        <h2 class="slide-hd">次の一手（繁忙期 7-8月）</h2>
-        <div class="slide-tk amber">CRM を最優先／AC到達→検討 と モバイルファネル は戦略施策<br>単機能変更は DON'T（3件反証済み）</div>
+        <h2 class="slide-hd">次の一手（繁忙期 7-8月）— アイデア</h2>
+        <div class="slide-tk amber">CRM 連携を最優先<br>単機能変更は DON'T（3件反証済み）</div>
       </div>
       <div class="chart">
         <svg viewBox="0 0 720 320" aria-label="優先順位マトリクス">
@@ -600,7 +600,7 @@
             <circle cx="160" cy="80" r="16" fill="#1a8c4e"/>
             <text x="160" y="86" text-anchor="middle" font-family="DM Sans" font-size="14" font-weight="900" fill="#fff">①</text>
             <text x="188" y="76" font-family="'Noto Sans JP',sans-serif" font-size="13" font-weight="900" fill="#0f6e3d">CRM 計画配信 連携</text>
-            <text x="188" y="92" font-family="'Noto Sans JP',sans-serif" font-size="10" fill="#374151">CRM チームと共同で 6/1 の型を横展開／開発0</text>
+            <text x="188" y="92" font-family="'Noto Sans JP',sans-serif" font-size="10" fill="#374151">CRM チームと 6/1 の型を横展開／開発0</text>
           </g>
           <g>
             <circle cx="435" cy="70" r="16" fill="#d97706"/>
@@ -637,23 +637,53 @@
           <text x="45" y="150" text-anchor="middle" font-family="DM Sans" font-size="10" font-weight="900" fill="#64748b" letter-spacing="0.05em" transform="rotate(-90 45 150)">← インパクト 低・高 →</text>
         </svg>
       </div>
+
+      <div class="notes">
+        <div class="notes-h">解説（アイデア段階）</div>
+        <div class="notes-blocks">
+          <div class="notes-block ok">
+            <div class="notes-block-h">① CRM 計画配信 連携</div>
+            <p>他チーム CRM 施策の 6/1 配信で確認された「単発配信でCVRを動かせる」型を活かす。</p>
+            <p>過去予約エリア・直近閲覧 destination の会員セグメントに、夏 destination のポイント／特集メールを CRM チームと連携して計画配信。</p>
+            <p><strong>開発コスト 0</strong>、CRM チームとの調整のみ。</p>
+          </div>
+          <div class="notes-block">
+            <div class="notes-block-h">② 新規 AC 到達→検討</div>
+            <p>新規 9.0% ↔ リピーター 22.8% のギャップ（対象 約528,900人/28日）を Braze In-app／配信で先行検証。</p>
+            <p>スポット／やりたいこと／出発地／タイミング の探索軸のうち、勝った軸をプロダクト化する2段構え。</p>
+          </div>
+          <div class="notes-block">
+            <div class="notes-block-h">③ モバイル ファネル深掘り</div>
+            <p>モバイル決済段（④→⑤）が desktop に −14.6pp 負ける構造課題を分解。</p>
+            <p>次月カレンダーで効いた「情報前出し」の型を、決済直前の税・手数料・キャンセル可否の可視化に応用。</p>
+          </div>
+          <div class="notes-block ng">
+            <div class="notes-block-h">DON'T（反証済み 3件）</div>
+            <p><strong>単機能の視覚的変更で CVR を動かそうとする方向は避ける</strong>。Point 訴求・Direct 日付ボタン・SilverEgg ロジックで3件連続で反証されている。</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Footer -->
   <div class="card">
     <div class="foot">
-      <div style="display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap">
-        <div>出典：GA4 <code>347074845</code> ／ 期間 <strong>2026-03-01 〜 06-30（122日）</strong> ／ 実質CVR = purchase ÷ (セッション − CN/SG bot proxy)</div>
-        <div>関連：<a href="/spot/2026-may-jun-cvr-trend.html">may-jun trend</a> ／ <a href="/spot/2026-gw-cvr-decline.html">GW CVR</a> ／ <a href="/spot/2026-ac-discovery.html">AC discovery</a></div>
+      <div>
+        出典：GA4 <code>347074845</code> ／ 期間 <strong>2026-03-01 〜 06-30（122日）</strong>
       </div>
-      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);color:var(--text3)">
-        <strong style="color:var(--text2)">確認したい 3点：</strong>
-        ① A/B負け3件の副次効果（滞在時間・回遊・再来）／
-        ② 6/1 ポイントメールの再現性（2回目・3回目で減衰するか）／
-        ③ eSIM の CVR 横ばいは需要創出 or 既存需要のカニバリか
+      <div style="margin-top:6px">
+        関連：<a href="/spot/2026-may-jun-cvr-trend.html">may-jun trend</a> ／ <a href="/spot/2026-gw-cvr-decline.html">GW CVR</a> ／ <a href="/spot/2026-ac-discovery.html">AC discovery</a>
       </div>
-      <div class="footer" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px">
+      <div class="foot-block">
+        <strong>確認したい 3点：</strong>
+        <ul>
+          <li>A/B負け3件の副次効果（滞在時間・回遊・再来）に何か観測できないか</li>
+          <li>6/1 ポイントメールの再現性 — 2回目・3回目で減衰するか維持するか</li>
+          <li>eSIM の CVR 横ばいは「新規需要創出」か「既存需要のカニバリ」か</li>
+        </ul>
+      </div>
+      <div class="foot-block" style="display:flex;justify-content:space-between;font-size:11px">
         <span>VELTRA CVR改善プロジェクト 振り返り — UIUX Design Squad</span>
         <span>2026-07-06</span>
       </div>
@@ -661,6 +691,202 @@
   </div>
 
 </div>
+
+<script>
+(function(){
+  // Global bot state
+  window.BotState = { mode: 'real' };
+  var botListeners = [];
+
+  function setBotMode(mode){
+    window.BotState.mode = mode;
+    // Global toggle UI
+    document.querySelectorAll('#global-bot-tg button').forEach(function(b){
+      b.classList.toggle('active', b.dataset.v === mode);
+    });
+    // KPI CVR
+    var v = document.getElementById('kpi-cvr');
+    var l = document.getElementById('kpi-cvr-lbl');
+    var s = document.getElementById('kpi-cvr-s');
+    if(v){
+      v.textContent = mode === 'real' ? '1.42%' : '1.18%';
+      l.textContent = mode === 'real' ? '実質CVR 平均' : 'raw CVR 平均';
+      s.textContent = mode === 'real' ? '3月ピーク → 5月谷 → 6月部分回復' : 'bot増で raw は過剰劣化して見える';
+    }
+    // Section 01 arc swap
+    document.getElementById('arc-real').style.display = mode === 'real' ? '' : 'none';
+    document.getElementById('arc-raw').style.display = mode === 'raw' ? '' : 'none';
+    // Weekly legend
+    var wl = document.getElementById('wk-legend-label');
+    if(wl) wl.textContent = mode === 'real' ? '実質CVR（bot 除外）' : 'raw CVR（bot 含む）';
+    // Trigger chart re-renders
+    botListeners.forEach(function(fn){ fn(mode); });
+  }
+
+  document.querySelectorAll('#global-bot-tg button').forEach(function(b){
+    b.addEventListener('click', function(){ setBotMode(b.dataset.v); });
+  });
+
+  // Weekly chart
+  var WEEKLY = [
+    {l:'3/1', real:1.627, raw:1.594},
+    {l:'3/7', real:1.616, raw:1.556},
+    {l:'3/14', real:1.549, raw:1.474},
+    {l:'3/21', real:1.428, raw:1.327},
+    {l:'3/28', real:1.415, raw:1.350},
+    {l:'4/4', real:1.528, raw:1.431},
+    {l:'4/11', real:1.458, raw:0.907},
+    {l:'4/18', real:1.455, raw:1.154},
+    {l:'4/25', real:1.277, raw:1.207},
+    {l:'5/2', real:1.337, raw:1.068},
+    {l:'5/9', real:1.295, raw:1.114},
+    {l:'5/16', real:1.303, raw:0.742},
+    {l:'5/23', real:1.294, raw:1.035},
+    {l:'5/30', real:1.468, raw:1.208},
+    {l:'6/6', real:1.445, raw:1.205},
+    {l:'6/13', real:1.378, raw:1.176},
+    {l:'6/20', real:1.311, raw:1.112},
+    {l:'6/27', real:1.539, raw:1.123}
+  ];
+  var wkAnnots = [
+    {i:3, dir:'dn', v:'−0.12pp', sub:'春休み終盤'},
+    {i:5, dir:'up', v:'+0.11pp', sub:'4/2 次月カレ'},
+    {i:8, dir:'dn', v:'−0.18pp', sub:'GW谷'},
+    {i:13, dir:'up', v:'+0.17pp', sub:'6/1 他チーム'},
+    {i:17, dir:'partial', v:'+0.23pp', sub:'部分週(4日)'}
+  ];
+
+  var wkSvg = document.getElementById('wk-svg');
+  function renderWeekly(){
+    var W=720, H=300, padL=60, padR=30, padT=20, padB=60;
+    var innerW = W - padL - padR;
+    var minY = 0.6, maxY = 1.7;
+    var mode = window.BotState.mode;
+    var key = mode === 'real' ? 'real' : 'raw';
+    // For raw, expand Y range since it goes lower
+    if(mode === 'raw'){ minY = 0.5; maxY = 1.7; }
+    function y(v){ return padT + (maxY - v)/(maxY - minY) * (H - padT - padB); }
+    function x(i){ return padL + i * innerW / (WEEKLY.length - 1); }
+
+    var g = '<g font-family="DM Sans" font-size="10" fill="#94a3b8">';
+    var yTicks = mode === 'real' ? [1.65, 1.5, 1.35, 1.2, 1.05] : [1.65, 1.4, 1.15, 0.9, 0.65];
+    yTicks.forEach(function(t){
+      g += '<line x1="'+padL+'" y1="'+y(t)+'" x2="'+(W-padR)+'" y2="'+y(t)+'" stroke="#eee"/>';
+      g += '<text x="'+(padL-8)+'" y="'+(y(t)+3)+'" text-anchor="end">'+t.toFixed(2)+'%</text>';
+    });
+    g += '</g>';
+
+    var line = WEEKLY.map(function(d,i){ return x(i)+','+y(d[key]); }).join(' ');
+    g += '<polyline fill="none" stroke="#1f2937" stroke-width="3" points="'+line+'"/>';
+
+    // Dots
+    WEEKLY.forEach(function(d,i){
+      var ann = wkAnnots.find(function(a){ return a.i === i; });
+      var color = '#1f2937', r = 3.5;
+      if(ann){
+        if(ann.dir === 'up'){ color = '#1a8c4e'; r = 5; }
+        if(ann.dir === 'dn'){ color = '#c0392b'; r = 5; }
+        if(ann.dir === 'partial'){ color = '#d97706'; r = 4.5; }
+      }
+      g += '<circle cx="'+x(i)+'" cy="'+y(d[key])+'" r="'+r+'" fill="'+color+'"/>';
+    });
+
+    // Annotation lines + labels
+    wkAnnots.forEach(function(a){
+      var xp = x(a.i), yp = y(WEEKLY[a.i][key]);
+      var color = a.dir === 'up' ? '#1a8c4e' : a.dir === 'dn' ? '#c0392b' : '#d97706';
+      g += '<line x1="'+xp+'" y1="'+yp+'" x2="'+xp+'" y2="255" stroke="'+color+'" stroke-width="1" stroke-dasharray="3 3"/>';
+      g += '<text x="'+xp+'" y="266" text-anchor="middle" font-family="DM Sans" font-size="9" font-weight="700" fill="'+color+'">'+a.v+'</text>';
+      g += '<text x="'+xp+'" y="278" text-anchor="middle" font-family="\'Noto Sans JP\',sans-serif" font-size="9" fill="#94a3b8">'+a.sub+'</text>';
+    });
+
+    // X labels
+    WEEKLY.forEach(function(d,i){
+      var ann = wkAnnots.find(function(a){ return a.i === i; });
+      var color = '#64748b', fw = 400;
+      if(ann){
+        color = ann.dir === 'up' ? '#1a8c4e' : ann.dir === 'dn' ? '#c0392b' : '#d97706';
+        fw = 700;
+      }
+      g += '<text x="'+x(i)+'" y="254" text-anchor="middle" font-family="DM Sans" font-size="8" fill="'+color+'" font-weight="'+fw+'">'+d.l+'</text>';
+    });
+    wkSvg.innerHTML = g;
+  }
+  botListeners.push(renderWeekly);
+  renderWeekly();
+
+  // Device chart
+  var DEV = {
+    monthly: [
+      {l:'3月', m:1.425, d_raw:1.598, d_real:1.928},
+      {l:'4月', m:1.405, d_raw:0.835, d_real:1.464},
+      {l:'5月', m:1.301, d_raw:0.646, d_real:1.415},
+      {l:'6月', m:1.417, d_raw:0.805, d_real:1.390}
+    ],
+    weekly: [
+      {l:'2/28', m:1.525, d_raw:1.790, d_real:1.942},
+      {l:'3/7',  m:1.526, d_raw:1.651, d_real:1.912},
+      {l:'3/14', m:1.446, d_raw:1.584, d_real:1.949},
+      {l:'3/21', m:1.293, d_raw:1.420, d_real:1.906},
+      {l:'3/28', m:1.330, d_raw:1.418, d_real:1.680},
+      {l:'4/4',  m:1.406, d_raw:1.474, d_real:1.861},
+      {l:'4/11', m:1.461, d_raw:0.487, d_real:1.529},
+      {l:'4/18', m:1.430, d_raw:0.808, d_real:1.527},
+      {l:'4/25', m:1.336, d_raw:0.982, d_real:1.152},
+      {l:'5/2',  m:1.289, d_raw:0.743, d_real:1.496},
+      {l:'5/9',  m:1.295, d_raw:0.849, d_real:1.300},
+      {l:'5/16', m:1.289, d_raw:0.384, d_real:1.371},
+      {l:'5/23', m:1.270, d_raw:0.737, d_real:1.371},
+      {l:'5/30', m:1.490, d_raw:0.825, d_real:1.405},
+      {l:'6/6',  m:1.418, d_raw:0.907, d_real:1.544},
+      {l:'6/13', m:1.373, d_raw:0.869, d_real:1.376},
+      {l:'6/20', m:1.360, d_raw:0.754, d_real:1.192},
+      {l:'6/27', m:1.485, d_raw:0.703, d_real:1.749}
+    ]
+  };
+  var devGran = 'monthly';
+  var devSvg = document.getElementById('dev-svg');
+  function renderDev(){
+    var data = DEV[devGran];
+    var W=720, H=260, padL=50, padR=30, padT=20, padB=40;
+    var innerW = W - padL - padR, innerH = H - padT - padB;
+    var minY = 0.3, maxY = 2.0;
+    function y(v){ return padT + (maxY - v)/(maxY - minY) * innerH; }
+    function x(i){ return padL + (data.length === 1 ? innerW/2 : i * innerW / (data.length - 1)); }
+    var g = '';
+    [0.5, 1.0, 1.5, 2.0].forEach(function(t){
+      g += '<line x1="'+padL+'" y1="'+y(t)+'" x2="'+(W-padR)+'" y2="'+y(t)+'" stroke="#eee"/>';
+      g += '<text x="'+(padL-6)+'" y="'+(y(t)+3)+'" text-anchor="end" font-family="DM Sans" font-size="10" fill="#94a3b8">'+t.toFixed(1)+'%</text>';
+    });
+    var dKey = window.BotState.mode === 'real' ? 'd_real' : 'd_raw';
+    var mLine = data.map(function(d,i){ return x(i)+','+y(d.m); }).join(' ');
+    var dLine = data.map(function(d,i){ return x(i)+','+y(d[dKey]); }).join(' ');
+    g += '<polyline fill="none" stroke="#1a8c4e" stroke-width="2.5" points="'+mLine+'"/>';
+    g += '<polyline fill="none" stroke="#94a3b8" stroke-width="2.5" points="'+dLine+'"'+(window.BotState.mode==='raw'?' stroke-dasharray="5 3"':'')+'/>';
+    data.forEach(function(d,i){
+      g += '<circle cx="'+x(i)+'" cy="'+y(d.m)+'" r="4" fill="#1a8c4e"/>';
+      g += '<circle cx="'+x(i)+'" cy="'+y(d[dKey])+'" r="4" fill="#94a3b8"/>';
+      g += '<text x="'+x(i)+'" y="'+(H-padB+18)+'" text-anchor="middle" font-family="DM Sans" font-size="'+(devGran==='monthly'?12:9)+'" fill="#64748b" font-weight="'+(devGran==='monthly'?900:400)+'">'+d.l+'</text>';
+      if(devGran==='monthly'){
+        g += '<text x="'+x(i)+'" y="'+(y(d.m)-10)+'" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="900" fill="#0f6e3d">'+d.m.toFixed(2)+'%</text>';
+        g += '<text x="'+x(i)+'" y="'+(y(d[dKey])+18)+'" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="900" fill="#64748b">'+d[dKey].toFixed(2)+'%</text>';
+      }
+    });
+    devSvg.innerHTML = g;
+  }
+  document.querySelectorAll('#dev-gran-tg button').forEach(function(b){
+    b.addEventListener('click', function(){
+      devGran = b.dataset.v;
+      document.querySelectorAll('#dev-gran-tg button').forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+      renderDev();
+    });
+  });
+  botListeners.push(renderDev);
+  renderDev();
+})();
+</script>
+
 <script src="/nav.js"></script>
 </body>
 </html>
