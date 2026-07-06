@@ -121,11 +121,12 @@
   var isAcDiscovery = (path === '/spot/2026-ac-discovery.html');
   var isSurfaceWf = (path === '/spot/2026-surface-wireframes.html');
   var isMayJunCvr = /^\/spot\/2026-may-jun-cvr-trend(\.html)?$/.test(path);
+  var isH1Wrap = /^\/spot\/2026-h1-cvr-wrap(\.html)?$/.test(path);
   var isVeltraTopSection = /^\/spot\/veltra-top-section-visibility(\.html)?$/.test(path);
   var isTaiwanSection = /^\/spot\/taiwan-section-visibility(\.html)?$/.test(path);
   var isJiufenSection = /^\/spot\/jiufen-category-section-visibility(\.html)?$/.test(path);
   var isAcSection = /^\/spot\/ac-page-section-visibility(\.html)?$/.test(path);
-  var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isAcDiscovery || isSurfaceWf || isMayJunCvr || isVeltraTopSection || isTaiwanSection || isJiufenSection || isAcSection;
+  var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isAcDiscovery || isSurfaceWf || isMayJunCvr || isH1Wrap || isVeltraTopSection || isTaiwanSection || isJiufenSection || isAcSection;
   var isArchive = (path === '/reports/' || path === '/reports/index.html');
   var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
   var qp = new URLSearchParams(location.search);
@@ -213,6 +214,8 @@
       append(homeA, mkCurrent('スポット分析'), mkCurrent('セクション閲覧｜商品詳細(AC)ページ'));
     } else if (isMayJunCvr) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('繁忙期前のCVR反落｜何が伸びなかったか'));
+    } else if (isH1Wrap) {
+      append(homeA, mkCurrent('スポット分析'), mkCurrent('3-6月 CVR改善プロジェクト 振り返り'));
     } else if (isPlanning) {
       append(homeA, mkCurrent('施策案'));
     } else if (isPlanningItem) {
@@ -250,6 +253,7 @@
   // Hierarchical: items may have a `children` array for sub-pages.
   // 新しい順（新しいものが上 = 大きい番号）。番号は描画時に position から自動採番。
   var SPOT_ITEMS = [
+    { id: 'h1-wrap', href: '/spot/2026-h1-cvr-wrap.html', label: '3-6月 CVR改善プロジェクト 振り返り', match: function(){ return isH1Wrap; } },
     { id: 'mayjun-cvr', href: '/spot/2026-may-jun-cvr-trend.html', label: '繁忙期前のCVR反落｜何が伸びなかったか', match: function(){ return isMayJunCvr; } },
     {
       id: 'ac-discovery',

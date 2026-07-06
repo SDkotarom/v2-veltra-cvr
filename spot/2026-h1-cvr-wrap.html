@@ -93,18 +93,21 @@
 .dow-l{font-size:12px;color:var(--text3);font-weight:700;margin-top:6px}
 .dow-l.w{color:#1a8c4e;font-weight:900}
 
-/* Device donut */
-.dev{display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:center}
-.dev svg{width:200px;height:200px}
-.dev-list{display:grid;gap:10px}
-.dev-r{display:grid;grid-template-columns:16px 1fr auto;gap:12px;align-items:center;padding:10px 14px;background:#faf8f5;border-radius:6px}
-.dev-r .sw{width:16px;height:16px;border-radius:3px}
-.dev-r.m .sw{background:#1a8c4e}
-.dev-r.d .sw{background:#94a3b8}
-.dev-r.t .sw{background:#cbd5e1}
-.dev-r .lb{font-size:13.5px;font-weight:900;color:var(--text)}
-.dev-r .pc{font-family:'DM Sans';font-size:20px;font-weight:900;color:var(--text)}
-.dev-r.m .pc{color:#0f6e3d}
+/* Device trend chart controls */
+.dev-controls{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.dev-toggle{display:inline-flex;background:#f1f1ec;border-radius:6px;padding:2px;font-size:11.5px;font-weight:700}
+.dev-toggle button{background:none;border:none;padding:6px 14px;color:var(--text2);cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:700;border-radius:4px;transition:.15s}
+.dev-toggle button.active{background:#1f2937;color:#fff;font-weight:900}
+.dev-toggle-label{font-size:10.5px;font-weight:900;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;margin-right:6px}
+.dev-share{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}
+.dev-share-c{padding:10px 14px;background:#faf8f5;border-radius:6px;border-left:3px solid;text-align:center}
+.dev-share-c.m{border-left-color:#1a8c4e}
+.dev-share-c.d{border-left-color:#94a3b8}
+.dev-share-c.t{border-left-color:#cbd5e1}
+.dev-share-l{font-size:10px;font-weight:900;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
+.dev-share-v{font-family:'DM Sans';font-size:18px;font-weight:900;color:var(--text)}
+.dev-share-c.m .dev-share-v{color:#0f6e3d}
+.dev-share-s{font-size:10.5px;color:var(--text3);margin-top:2px}
 
 /* Composition bar */
 .wkc{display:flex;height:36px;border-radius:6px;overflow:hidden;font-family:'DM Sans';font-size:12px;font-weight:900;color:#fff;margin-bottom:12px}
@@ -180,7 +183,10 @@
         実質CVR <em>1.54% → 1.33%</em> → <em class="ok">1.41%</em> で着地
       </div>
       <div class="slide-sub">
-        効いたのは <strong>CRM単発配信</strong> と <strong>機能リリースの学び</strong>。効かなかったのは <strong>3件のA/B（Point・Direct日付・SilverEgg）</strong>。
+        当プロジェクトで効いたのは <strong>次月カレンダーちら見せ</strong> 1件。効かなかったのは <strong>3件のA/B（Point・Direct日付・SilverEgg）</strong>。参考記録として <strong>他チーム CRM の 6/1 配信</strong>で単発 +0.17pp を観測。
+      </div>
+      <div style="margin-top:14px;padding:10px 14px;background:#fff;border:1px dashed #cbd5e1;border-radius:6px;font-size:11.5px;color:var(--text2);line-height:1.55">
+        <strong style="color:var(--text)">実質CVR 定義（当プロジェクト独自）</strong>：purchase ÷（全セッション − bot proxy）／bot proxy = <code style="background:#f1f1ec;padding:1px 5px;border-radius:3px;font-size:11px">country = China</code> または <code style="background:#f1f1ec;padding:1px 5px;border-radius:3px;font-size:11px">country = Singapore</code> の全セッション。GA4公式実数とは異なる。判定を安定させる目的で採用。
       </div>
     </div>
     <div class="kpi">
@@ -382,7 +388,7 @@
         </div>
         <div class="chips">
           <div class="chip pos"><div class="chip-w">W5 4/4-10</div><div class="chip-d">+0.11pp</div><div class="chip-t">4/2 次月カレンダー</div></div>
-          <div class="chip pos"><div class="chip-w">W13 5/30-6/5</div><div class="chip-d">+0.17pp</div><div class="chip-t">6/1 ポイントメール</div></div>
+          <div class="chip big"><div class="chip-w">W13 5/30-6/5</div><div class="chip-d">+0.17pp</div><div class="chip-t">6/1 ポイントメール<br><span style="font-size:10px;color:var(--text3);font-weight:400">※他チーム CRM 施策</span></div></div>
           <div class="chip neg"><div class="chip-w">W3 3/21-27</div><div class="chip-d">−0.12pp</div><div class="chip-t">春休み終盤・季節性</div></div>
           <div class="chip neg"><div class="chip-w">W8 4/25-5/1</div><div class="chip-d">−0.18pp</div><div class="chip-t">GW谷・季節性</div></div>
         </div>
@@ -424,36 +430,123 @@
     <div class="slide" id="s5">
       <div class="slide-h">
         <span class="slide-num blue">05</span>
-        <h2 class="slide-hd">デバイス別</h2>
-        <div class="slide-tk blue">予約の 69% はモバイル<br>CVR推移もモバイルが主導</div>
+        <h2 class="slide-hd">デバイス別の推移</h2>
+        <div class="slide-tk blue">予約の 69% はモバイル<br>モバイル 5月ボトム→6月V字回復／デスクトップは横ばい</div>
       </div>
-      <div class="dev">
-        <svg viewBox="0 0 200 200" aria-label="デバイス別予約シェア">
-          <g transform="rotate(-90 100 100)">
-            <circle cx="100" cy="100" r="70" fill="none" stroke="#f0ede8" stroke-width="30"/>
-            <circle cx="100" cy="100" r="70" fill="none" stroke="#1a8c4e" stroke-width="30" stroke-dasharray="303.8 439.8" stroke-dashoffset="0"/>
-            <circle cx="100" cy="100" r="70" fill="none" stroke="#94a3b8" stroke-width="30" stroke-dasharray="130.6 439.8" stroke-dashoffset="-303.8"/>
-            <circle cx="100" cy="100" r="70" fill="none" stroke="#cbd5e1" stroke-width="30" stroke-dasharray="5.3 439.8" stroke-dashoffset="-434.4"/>
-          </g>
-          <text x="100" y="97" text-anchor="middle" font-family="DM Sans" font-size="22" font-weight="900" fill="#1a1a1a">176,744</text>
-          <text x="100" y="115" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#94a3b8">予約完了 (4か月計)</text>
-        </svg>
-        <div class="dev-list">
-          <div class="dev-r m"><div class="sw"></div><div class="lb">Mobile</div><div class="pc">69.1%</div></div>
-          <div class="dev-r d"><div class="sw"></div><div class="lb">Desktop</div><div class="pc">29.7%</div></div>
-          <div class="dev-r t"><div class="sw"></div><div class="lb">Tablet・その他</div><div class="pc">1.2%</div></div>
+      <div class="dev-controls">
+        <span class="dev-toggle-label">粒度</span>
+        <div class="dev-toggle" data-tg="gran">
+          <button data-v="monthly" class="active">月次</button>
+          <button data-v="weekly">週次</button>
         </div>
+        <span class="dev-toggle-label" style="margin-left:14px">bot 扱い</span>
+        <div class="dev-toggle" data-tg="bot">
+          <button data-v="real" class="active">除外</button>
+          <button data-v="raw">含む</button>
+        </div>
+      </div>
+      <div class="chart" id="dev-chart">
+        <svg id="dev-svg" viewBox="0 0 720 260" aria-label="デバイス別 CVR推移"></svg>
+        <div class="legend">
+          <span><span class="ln" style="border-top-color:#1a8c4e"></span> Mobile CVR</span>
+          <span><span class="ln" style="border-top-color:#94a3b8"></span> Desktop CVR</span>
+        </div>
+      </div>
+      <div class="dev-share">
+        <div class="dev-share-c m"><div class="dev-share-l">Mobile</div><div class="dev-share-v">69.1%</div><div class="dev-share-s">予約完了 122,189件</div></div>
+        <div class="dev-share-c d"><div class="dev-share-l">Desktop</div><div class="dev-share-v">29.7%</div><div class="dev-share-s">予約完了 52,449件</div></div>
+        <div class="dev-share-c t"><div class="dev-share-l">Tablet・他</div><div class="dev-share-v">1.2%</div><div class="dev-share-s">2,106件（グラフ省略）</div></div>
+      </div>
+      <div style="margin-top:12px;padding:10px 14px;background:#f0f7fc;border-left:3px solid #1b82c5;border-radius:4px;font-size:11.5px;color:var(--text2);line-height:1.55">
+        <strong style="color:var(--text)">bot 除外の中身</strong>：<code style="background:#fff;padding:1px 5px;border-radius:3px;font-size:11px;border:1px solid var(--border)">country = China</code> または <code style="background:#fff;padding:1px 5px;border-radius:3px;font-size:11px;border:1px solid var(--border)">country = Singapore</code> の全セッションを分母から除外。実際の bot 数とは異なるが、期間内で急増した無効トラフィックの代理指標として当プロジェクトで採用。<strong style="color:var(--text)">99% がデスクトップ経路</strong>のため、モバイルには実質影響なし。
       </div>
     </div>
   </div>
+
+  <script>
+  (function(){
+    var DEV = {
+      monthly: [
+        {l:'3月',   m:1.425, d_raw:1.598, d_real:1.928},
+        {l:'4月',   m:1.405, d_raw:0.835, d_real:1.464},
+        {l:'5月',   m:1.301, d_raw:0.646, d_real:1.415},
+        {l:'6月',   m:1.417, d_raw:0.805, d_real:1.390}
+      ],
+      weekly: [
+        {l:'2/28',  m:1.525, d_raw:1.790, d_real:1.942},
+        {l:'3/7',   m:1.526, d_raw:1.651, d_real:1.912},
+        {l:'3/14',  m:1.446, d_raw:1.584, d_real:1.949},
+        {l:'3/21',  m:1.293, d_raw:1.420, d_real:1.906},
+        {l:'3/28',  m:1.330, d_raw:1.418, d_real:1.680},
+        {l:'4/4',   m:1.406, d_raw:1.474, d_real:1.861},
+        {l:'4/11',  m:1.461, d_raw:0.487, d_real:1.529},
+        {l:'4/18',  m:1.430, d_raw:0.808, d_real:1.527},
+        {l:'4/25',  m:1.336, d_raw:0.982, d_real:1.152},
+        {l:'5/2',   m:1.289, d_raw:0.743, d_real:1.496},
+        {l:'5/9',   m:1.295, d_raw:0.849, d_real:1.300},
+        {l:'5/16',  m:1.289, d_raw:0.384, d_real:1.371},
+        {l:'5/23',  m:1.270, d_raw:0.737, d_real:1.371},
+        {l:'5/30',  m:1.490, d_raw:0.825, d_real:1.405},
+        {l:'6/6',   m:1.418, d_raw:0.907, d_real:1.544},
+        {l:'6/13',  m:1.373, d_raw:0.869, d_real:1.376},
+        {l:'6/20',  m:1.360, d_raw:0.754, d_real:1.192},
+        {l:'6/27',  m:1.485, d_raw:0.703, d_real:1.749}
+      ]
+    };
+    var state = { gran: 'monthly', bot: 'real' };
+    var svg = document.getElementById('dev-svg');
+    function render(){
+      var data = DEV[state.gran];
+      var W = 720, H = 260, padL = 50, padR = 30, padT = 20, padB = 40;
+      var innerW = W - padL - padR, innerH = H - padT - padB;
+      var minY = 0.3, maxY = 2.0;
+      function y(v){ return padT + (maxY - v)/(maxY - minY) * innerH; }
+      function x(i){ return padL + (data.length === 1 ? innerW/2 : i * innerW / (data.length - 1)); }
+      var gridLines = '';
+      [0.5, 1.0, 1.5, 2.0].forEach(function(g){
+        gridLines += '<line x1="'+padL+'" y1="'+y(g)+'" x2="'+(W-padR)+'" y2="'+y(g)+'" stroke="#eee"/>';
+        gridLines += '<text x="'+(padL-6)+'" y="'+(y(g)+3)+'" text-anchor="end" font-family="DM Sans" font-size="10" fill="#94a3b8">'+g.toFixed(1)+'%</text>';
+      });
+      var dKey = state.bot === 'real' ? 'd_real' : 'd_raw';
+      var mLine = data.map(function(d,i){ return x(i)+','+y(d.m); }).join(' ');
+      var dLine = data.map(function(d,i){ return x(i)+','+y(d[dKey]); }).join(' ');
+      var mDots = '', dDots = '', labels = '', values = '';
+      data.forEach(function(d,i){
+        mDots += '<circle cx="'+x(i)+'" cy="'+y(d.m)+'" r="4" fill="#1a8c4e"/>';
+        dDots += '<circle cx="'+x(i)+'" cy="'+y(d[dKey])+'" r="4" fill="#94a3b8"/>';
+        labels += '<text x="'+x(i)+'" y="'+(H-padB+18)+'" text-anchor="middle" font-family="DM Sans" font-size="'+(state.gran==='monthly'?12:9)+'" fill="#64748b" font-weight="'+(state.gran==='monthly'?900:400)+'">'+d.l+'</text>';
+        if(state.gran==='monthly'){
+          values += '<text x="'+x(i)+'" y="'+(y(d.m)-10)+'" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="900" fill="#0f6e3d">'+d.m.toFixed(2)+'%</text>';
+          values += '<text x="'+x(i)+'" y="'+(y(d[dKey])+18)+'" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="900" fill="#64748b">'+d[dKey].toFixed(2)+'%</text>';
+        }
+      });
+      svg.innerHTML =
+        gridLines +
+        '<polyline fill="none" stroke="#1a8c4e" stroke-width="2.5" points="'+mLine+'"/>' +
+        '<polyline fill="none" stroke="#94a3b8" stroke-width="2.5" points="'+dLine+'"'+(state.bot==='raw'?' stroke-dasharray="5 3"':'')+'/>' +
+        mDots + dDots + labels + values;
+    }
+    document.querySelectorAll('[data-tg]').forEach(function(g){
+      g.querySelectorAll('button').forEach(function(b){
+        b.addEventListener('click', function(){
+          state[g.dataset.tg] = b.dataset.v;
+          g.querySelectorAll('button').forEach(function(x){ x.classList.remove('active'); });
+          b.classList.add('active');
+          render();
+        });
+      });
+    });
+    render();
+  })();
+  </script>
 
   <!-- 06 施策振り返り -->
   <div class="card">
     <div class="slide" id="s6">
       <div class="slide-h">
         <span class="slide-num green">06</span>
-        <h2 class="slide-hd">12施策の振り返り</h2>
-        <div class="slide-tk green">CVR に直接効いたのは 2件<br>単機能のA/Bは3連敗</div>
+        <h2 class="slide-hd">当プロジェクトの11施策 振り返り</h2>
+        <div class="slide-tk green">CVR に直接効いたのは 1件<br>単機能のA/Bは3連敗</div>
       </div>
       <div class="mtx">
         <div class="h"></div>
@@ -462,8 +555,8 @@
 
         <div class="rh">効いた</div>
         <div class="cell ok">
-          <span class="n">2</span>
-          <div class="lb">・4/2 次月カレンダー <b>+0.11pp</b><br>・6/1 ポイントメール <b>+0.17pp</b></div>
+          <span class="n">1</span>
+          <div class="lb">・4/2 次月カレンダー <b>+0.11pp</b></div>
         </div>
         <div class="cell neu">
           <span class="n">7</span>
@@ -476,6 +569,9 @@
           <div class="lb">・Point訴求（4/21）<br>・Direct日付ボタン（6/1）<br>・SilverEggロジック（6/8）</div>
         </div>
         <div class="cell dim"><span class="n">—</span></div>
+      </div>
+      <div style="margin-top:12px;padding:12px 16px;background:#fffbeb;border-left:3px solid #d97706;border-radius:6px;font-size:12px;color:var(--text2);line-height:1.6">
+        <strong style="color:#92580e">参考記録：他チーム CRM 施策</strong> — 6/1 ポイントメール一斉配信で単発 <b>+0.17pp</b>（週次 W13）。<em>当プロジェクトの成果ではなく</em>、CRM チーム側の単発配信の観測値。次期に <b>この配信の型を活かした計画配信を CRM と連携して展開したい</b>（→ 次スライド 施策①）。
       </div>
     </div>
   </div>
@@ -503,8 +599,8 @@
           <g>
             <circle cx="160" cy="80" r="16" fill="#1a8c4e"/>
             <text x="160" y="86" text-anchor="middle" font-family="DM Sans" font-size="14" font-weight="900" fill="#fff">①</text>
-            <text x="188" y="76" font-family="'Noto Sans JP',sans-serif" font-size="13" font-weight="900" fill="#0f6e3d">CRM 計画配信</text>
-            <text x="188" y="92" font-family="'Noto Sans JP',sans-serif" font-size="10" fill="#374151">6/1 の型を夏商材へ／開発0</text>
+            <text x="188" y="76" font-family="'Noto Sans JP',sans-serif" font-size="13" font-weight="900" fill="#0f6e3d">CRM 計画配信 連携</text>
+            <text x="188" y="92" font-family="'Noto Sans JP',sans-serif" font-size="10" fill="#374151">CRM チームと共同で 6/1 の型を横展開／開発0</text>
           </g>
           <g>
             <circle cx="435" cy="70" r="16" fill="#d97706"/>
