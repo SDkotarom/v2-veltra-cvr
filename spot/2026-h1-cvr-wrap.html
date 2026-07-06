@@ -789,8 +789,8 @@
     <div class="slide" id="s6">
       <div class="slide-h">
         <span class="slide-num green">06</span>
-        <h2 class="slide-hd">当プロジェクトの11施策 振り返り</h2>
-        <div class="slide-tk green">CVR に直接効いたのは 1件<br>単機能のA/Bは3連敗</div>
+        <h2 class="slide-hd">当プロジェクトの 12施策 振り返り＋モニタリング中 3件</h2>
+        <div class="slide-tk green">CVR に直接効いたのは 2件<br>単機能のA/Bは3連敗</div>
       </div>
       <div class="mtx">
         <div class="h"></div>
@@ -799,8 +799,8 @@
 
         <div class="rh">効いた</div>
         <div class="cell ok">
-          <span class="n">1</span>
-          <div class="lb">・4/2 次月カレンダー <b>+0.11pp</b></div>
+          <span class="n">2</span>
+          <div class="lb">・4/2 次月カレンダー <b>+0.11pp</b><br>・Colorier 訴求強化（AC 内見せ方変更）<br>&nbsp;&nbsp;<em style="font-style:normal;color:#0f6e3d">Positive・実装済</em></div>
         </div>
         <div class="cell neu">
           <span class="n">7</span>
@@ -852,6 +852,24 @@
           </div>
         </details>
 
+        <details class="init-det ok">
+          <summary>
+            <span class="init-date">継続中</span>
+            <div><div class="init-title">Colorier 訴求強化（AC 内での見せ方変更）</div><div class="init-owner">Sachie</div></div>
+            <span class="init-status">効いた</span>
+          </summary>
+          <div class="init-body">
+            <p>Colorier（コロリエ）ガイド情報を AC ページ内で強化。Salesと連携し表示内容を調整、Shioriと連携してアイデアブレスト、訴求を強めてニーズがあるかテスト。</p>
+            <p><strong>テスト終了・Positive のため実装、セールス確認済み</strong>。対象例：<code>/jp/africa/morocco/a/159418</code>。「より詳しい情報を出す」という次テスト（下記モニタリング中の Colorier ガイドカード A/B）へ発展。</p>
+            <p><strong>効いた型</strong>：信頼シグナルの前面化。<em class="ok">「ガイドの存在感」を強めるとCVRが動く</em>という初期の仮説裏付け。</p>
+            <dl class="kv">
+              <dt>結果</dt><dd>Positive → 実装済み</dd>
+              <dt>意義</dt><dd>ガイドを差別化の柱にする構想（L1→L5）の起点。次テストへ接続</dd>
+              <dt>次の一手</dt><dd>Colorier ガイドカード A/B（モニタリング中）で「存在感↑→CVR↑」を検証</dd>
+            </dl>
+          </div>
+        </details>
+
         <details class="init-det ng">
           <summary>
             <span class="init-date">4/20-4/21</span>
@@ -872,16 +890,29 @@
         <details class="init-det ng">
           <summary>
             <span class="init-date">5/18-6/1</span>
-            <div><div class="init-title">直近日付ボタン付き カレンダーUI A/B</div><div class="init-owner">Sachie</div></div>
+            <div><div class="init-title">Quick Date Buttons + Unified Calendar A/B（CS24-5522）</div><div class="init-owner">Sachie</div></div>
             <span class="init-status">既存維持</span>
           </summary>
           <div class="init-body">
-            <p>KKday/Klook踏襲で「空きのある直近3-5日ボタンをカレンダー上部に配置」。仮説は「直近日程で申し込むユーザーが多く、目視でセルを探す認知負荷を減らせば決めやすくなる」。</p>
-            <p><strong>2週間のA/Bで有意差なく既存 UI 維持</strong>。仮説「直近ユーザーは直近ボタンがあれば早く決める」の反証。</p>
-            <p><strong>学び</strong>：直近ユーザーは日程を見に来るのではなく「空き状況」を見に来ている。ボタン導線ではなくカレンダー体験そのものが本丸。</p>
+            <p>KKday/Klook 踏襲で、AC ページのカレンダーモーダル上部に「空きのある直近日ボタン」を追加。VWO 164 で 50:50 配分、<strong>329,983 visitors</strong> の十分なサンプル。</p>
+            <table class="yoy-tbl">
+              <thead><tr><th>指標</th><th>Control</th><th>Variation</th><th>差分</th></tr></thead>
+              <tbody>
+                <tr><td>M3 予約ページ遷移</td><td>5.49%</td><td>5.54%</td><td>+0.05pt</td></tr>
+                <tr><td>M4 予約完了</td><td>3.71%</td><td>3.76%</td><td>+0.05pt</td></tr>
+                <tr><td>Quick Dates クリック率</td><td>0.00%</td><td>0.33%</td><td>—</td></tr>
+              </tbody>
+            </table>
+            <p><strong>判定：No significant winner</strong>（勝者確率 44.83%）。有意差なく既存 UI 維持。</p>
+            <p><strong>学び 3件</strong>：</p>
+            <ul>
+              <li><strong>①「日付選択の手間」はボトルネックではない</strong>。カレンダー表示後の離脱（Mobile 66% / Desktop 73%）の原因は日付選択の摩擦以外（価格・商品魅力・日程不一致・比較検討中など）</li>
+              <li><strong>② ボタン自体がほとんど使われなかった（0.33%）</strong>。「ユーザーがカレンダー操作に苦労している」という前提自体が誤り</li>
+              <li><strong>③ 競合がやっているUI ≠ 効果があるUI</strong>。KKday/Klook を参考にすること自体は良いが、自社ユーザーの行動に基づいた仮説検証が必要</li>
+            </ul>
             <dl class="kv">
-              <dt>結果</dt><dd>有意差なし（W12 5/18 開始 → W13 6/1 終了）</dd>
-              <dt>次の一手</dt><dd>次月カレンダーちら見せは効いた → モバイル固有のカレンダータップ体験を深掘り</dd>
+              <dt>結果</dt><dd>M3 +0.05pt（有意差なし）／既存 UI 維持</dd>
+              <dt>次の一手</dt><dd>カレンダーUIの改善余地は限定的と判断。今後の方向性は要チーム議論</dd>
             </dl>
           </div>
         </details>
@@ -905,17 +936,36 @@
 
         <details class="init-det neu">
           <summary>
-            <span class="init-date">3/25</span>
-            <div><div class="init-title">検索結果ページ 絞り込み追加（Category page 同等 filter）</div><div class="init-owner">Sachie</div></div>
+            <span class="init-date">3/26</span>
+            <div><div class="init-title">検索結果ページ 絞り込み追加（CS24-4867）</div><div class="init-owner">Sachie</div></div>
             <span class="init-status">副次的</span>
           </summary>
           <div class="init-body">
-            <p>検索結果に大量のAC表示時、絞込軸「出発地」しかない問題への対処。Ctg page と同じ filter を移植（工数抑制のため利用数は除く）。</p>
-            <p>CVR には見える影響なし。目的は絞込体験の一貫性。他ページからの学習コストが解消され、リストページ間の UI が揃った。</p>
+            <p>検索結果ページに「出発地」「条件」フィルターボタンを追加。Ctg page 相当の絞込機能を移植。リリース後8日間の効果検証結果：</p>
+
+            <p><strong>1. ページ全体指標（8日 vs 前週）</strong></p>
+            <table class="yoy-tbl">
+              <thead><tr><th>指標</th><th>リリース後</th><th>前週</th><th>変化</th></tr></thead>
+              <tbody>
+                <tr><td>Sessions</td><td>29,043</td><td>26,453</td><td>+9.8%</td></tr>
+                <tr><td>Bounce rate</td><td>7.2%</td><td>5.3%</td><td>+1.9pt</td></tr>
+                <tr class="hi"><td>Avg engagement time</td><td>91.0s</td><td>77.1s</td><td class="up">+18.0%</td></tr>
+              </tbody>
+            </table>
+
+            <p><strong>2. フィルター利用状況</strong>：8日間で <strong>5,899 clicks</strong>。3/27以降は click rate <strong>30%超で安定</strong>（3人に1人がフィルターを開く）。<em class="ok">departure（出発地）が7.11%と最大利用</em>で、追加した機能そのものが最も使われている＝方向性の裏付け。</p>
+
+            <p><strong>3. CVR 影響</strong>：サイト全体CVR は 1.38% vs 1.37% で<strong>横ばい（悪影響なし）</strong>。AC遷移率は −2.5% と微減だが、絶対数（45,803 到達）は +8.2% で増加。フィルター利用者は Bounce rate 3.5%（全体7.2%の半分）／ PV/session 2.66（全体2.28超）と<em class="ok">意欲の高いユーザーがフィルターを使っている</em>。</p>
+
+            <p><strong>4. 最優先課題：ファネル ドロップオフ 60.5%</strong>。フィルターボタンクリック 5,899件 → 実際にフィルター適用 2,328 sessions。読み込み速度の体感遅延がボトルネックの可能性。</p>
+
+            <p><strong>5. Ctg vs Search フィルター利用率</strong>：Ctg 5.8% ↔ Search <strong>15.5%</strong>。Search ページの方が絞込ニーズが強い（date パラメータがない分、departure/stime/inclusion の需要が集中）。</p>
+
             <dl class="kv">
-              <dt>本来の狙い</dt><dd>絞込機能の不足解消、UI 統一（学習コスト削減）</dd>
-              <dt>CVR インパクト</dt><dd>ほぼゼロ（下振れも上振れも観測できず）</dd>
-              <dt>意義</dt><dd>UX 負債の解消。次回以降 filter を追加するときの下地</dd>
+              <dt>本来の狙い</dt><dd>絞込機能の不足解消、UI 統一</dd>
+              <dt>CVR インパクト</dt><dd>横ばい（悪影響なし）。エンゲージメント時間 +18% が実質的な改善</dd>
+              <dt>意義</dt><dd>UX 負債の解消 ＋ departure フィルター需要の実証（7.11%利用）</dd>
+              <dt>次の一手</dt><dd>ドロップオフ 60.5% の改善（フィルター適用時の読み込み速度／非同期フィルタリング）</dd>
             </dl>
           </div>
         </details>
@@ -1023,12 +1073,84 @@
       </div>
 
       <div class="notes">
+        <div class="notes-h">モニタリング中／継続中の施策</div>
+
+        <details class="init-det neu">
+          <summary>
+            <span class="init-date">6/4-</span>
+            <div><div class="init-title">Colorier ガイドカード A/B（UX_DESIGN-84 / VWO 168）</div><div class="init-owner">Sachie</div></div>
+            <span class="init-status">継続中</span>
+          </summary>
+          <div class="init-body">
+            <p>AC 詳細ページに Colorier ガイドカードを表示する A/B（手動選定モバイル AC 21ページ）。<strong>Colorier 訴求強化テスト（上記 効いた 2件目）の発展形</strong>で「より詳しい情報を出す」次テスト。</p>
+            <table class="yoy-tbl">
+              <thead><tr><th>指標</th><th>Control</th><th>Variation</th><th>改善率</th><th>勝者確率</th></tr></thead>
+              <tbody>
+                <tr><td>予約フロー遷移（主指標）</td><td>11.24%</td><td>11.71%</td><td class="up">+4.21%</td><td>63.6%</td></tr>
+                <tr><td>予約完了</td><td>8.14%</td><td>8.43%</td><td class="up">+3.48%</td><td>57.5%</td></tr>
+                <tr><td>ガイドカードリンククリック</td><td>0.01%</td><td>1.47%</td><td>—</td><td>—</td></tr>
+              </tbody>
+            </table>
+            <p><strong>状況</strong>：一貫してプラス方向（+3〜4%）だが勝者確率 95% には未達。VWO 判定は「Conclusion in 30+ days」。</p>
+            <p><strong>presence 仮説</strong>：クリック 1.47% だけなのに全体CVR がプラス。効果の主因はクリック体験ではなく<em class="ok">「経験豊富なガイドが実在する」という信頼シグナルの存在</em>。クリックしていない 98.5% も含めて底上げしている可能性。</p>
+            <p><strong>次の提案（別MTG議論）</strong>：勝ち切っていないが「下げないと確認できたので前に進める」判断で、ページ遷移版のまま恒常表示で本番採用。モーダルは v2。長期的には「ガイドを差別化の柱に育てる構想」（L1→L5、Airbnb 型）へ発展。</p>
+          </div>
+        </details>
+
+        <details class="init-det ng">
+          <summary>
+            <span class="init-date">5/25-</span>
+            <div><div class="init-title">キャンセルポリシー表示 A/B（UX_DESIGN-83）</div><div class="init-owner">Sachie / YT</div></div>
+            <span class="init-status">中間 Control 優勢</span>
+          </summary>
+          <div class="init-body">
+            <p>AC ページのプランごとに「キャンセル無料期間あり／条件あり」表示を追加。Control ／ V1「無料期間あり」／ V2「条件あり（詳細）」の 3群 A/B（Mobile+PC 6カテゴリ、合計約 28,300人）。</p>
+            <table class="yoy-tbl">
+              <thead><tr><th>M1 予約ページ遷移</th><th>CVR</th><th>差分</th><th>勝率</th></tr></thead>
+              <tbody>
+                <tr class="hi"><td>Control</td><td class="up">10.26%</td><td>—</td><td>—</td></tr>
+                <tr class="lo"><td>V1（無料期間あり）</td><td class="dn">9.48%</td><td>−7.57%</td><td>22.98%</td></tr>
+                <tr class="lo"><td>V2（条件あり）</td><td class="dn">9.86%</td><td>−3.87%</td><td>33.48%</td></tr>
+              </tbody>
+            </table>
+            <p><strong>Control 優勢</strong>。M7 モーダル開封率 4.31-4.77%（20人に1人がキャンセルポリシーを気にする）。</p>
+            <p><strong>マイナスの理由（仮説）</strong>：</p>
+            <ul>
+              <li>「条件あり／期間あり」が<strong>不安を煽った</strong>可能性（キャンセルに制限がある印象）</li>
+              <li>プランごと繰り返し表示が<strong>ノイズ化</strong>し、意思決定を複雑にした</li>
+              <li>AC ページ（予約直前）でキャンセルの話題を出すこと自体が<em>予約のモメンタムを削いだ</em></li>
+              <li>Viator 等の<strong>具体的表現</strong>（「24時間前まで無料」）と比べ、当社の曖昧表現は不安感を与えた</li>
+            </ul>
+            <p><strong>再テスト検討中</strong>：配置を「プランごと → AC 全体に1箇所」、色を「ピンク → 黒」、V2 文言のみで実施予定。ただし具体的な「X営業日前まで」表現は法務制約でNG（民法140/141条との矛盾）。</p>
+            <dl class="kv">
+              <dt>状況</dt><dd>Control 優勢で 6/15 に一時停止。再テスト設計中</dd>
+              <dt>次の一手</dt><dd>案A：配置・文言変更で再テスト／案B：Ctg ページに切替（前回 DESIGN-2480 は Ctg で +5-13%）／案C：他施策にリソース</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="init-det neu">
+          <summary>
+            <span class="init-date">継続中</span>
+            <div><div class="init-title">SilverEgg レコメンドキー数 A/B</div><div class="init-owner">Sachie</div></div>
+            <span class="init-status">テスト中</span>
+          </summary>
+          <div class="init-body">
+            <p>AC ページ内のレコメンドセクションで、レコメンドキー数（レコメンド生成時に参照する商品数）を変更した A/B。既存の「SilverEgg レコメンドロジック A/B（4/19-6/8 既存維持）」とは別のパラメータ検証。</p>
+            <p><strong>状況</strong>：テスト中。結果待ち。</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="notes">
         <div class="notes-h">総括（クリックで詳細）</div>
         <details class="det">
-          <summary><strong>効いた 1件の型</strong>：ファネル中段の摩擦解消 —「先読み表示」に応用余地</summary>
+          <summary><strong>効いた 2件の型</strong>：ファネル中段の摩擦解消（次月カレ）と信頼シグナル前面化（Colorier） —「先読み表示」「存在感の可視化」に応用余地</summary>
           <div class="det-body">
-            <p>次月カレンダーちら見せが唯一 CVR を動かした。共通型は<strong>「ユーザーが次にほしい情報を、探させず先に見せる」</strong>という設計。</p>
-            <p>応用先：フォーム最終段階（税・手数料・キャンセル可否・確定 vs リクエストの区別）。次月表示と同様、決済直前に必要情報を前出しすることで離脱防止を狙える。</p>
+            <p>効いた 2件の共通型を整理する。</p>
+            <p><strong>① 次月カレンダーちら見せ = ファネル中段の摩擦解消</strong>：ユーザーが次にほしい情報（次月の空き）を、探させず先に見せる設計。応用先はフォーム最終段階（税・手数料・キャンセル可否・確定 vs リクエストの区別）。</p>
+            <p><strong>② Colorier 訴求強化 = 信頼シグナルの前面化</strong>：ガイド情報（プロ・経験）を AC 内で可視化。ユーザーがクリックしなくても「存在感」がCVR を底上げする（presence 効果）。次のガイドカード A/B でも +3-4% で継続確認中。</p>
+            <p><strong>両者に共通するのは「情報を『先に・見えるところに』置く」</strong>という設計思想。単機能変更ではなく、情報配置の再設計。</p>
           </div>
         </details>
         <details class="det">
