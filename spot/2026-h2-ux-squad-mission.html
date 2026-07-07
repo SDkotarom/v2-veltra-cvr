@@ -164,7 +164,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 .rcard{background:#fff;border-radius:12px;padding:16px 18px;border-left:4px solid}
 .rcard.a{border-color:var(--green)}
 .rcard.b{border-color:var(--amber)}
-.rcard .rh{font-size:12.5px;font-weight:800;margin-bottom:8px}
+.rcard .rh{font-size:16px;font-weight:900;margin-bottom:10px;letter-spacing:-.005em}
 .rcard.a .rh{color:var(--green-text)}
 .rcard.b .rh{color:var(--amber-text)}
 .rcard ul{margin:0 0 0 18px}
@@ -243,6 +243,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 .oqp-steps li::before{content:counter(step);position:absolute;left:0;top:4px;width:22px;height:22px;background:var(--blue);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
 .oqp-cands{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .oqp-cands li{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:12.5px;color:var(--text);line-height:1.55}
+.oqp-cands li::before{display:none !important;content:none !important}
 .oqp-cands li .ck{flex-shrink:0;font-size:10.5px;font-weight:900;color:#fff;background:var(--amber);padding:3px 8px;border-radius:5px;letter-spacing:.04em;line-height:1;margin-top:2px}
 .oqp-split{display:grid;grid-template-columns:1fr 1fr}
 .oqp-split>div{padding:14px 16px}
@@ -343,8 +344,9 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
 /* focus list table */
 .kz-table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff}
-.kz-table thead th{position:sticky;top:0;background:var(--bg);text-align:left;padding:14px 16px;font-size:12.3px;font-weight:800;color:var(--sub);border-bottom:2px solid var(--border);white-space:nowrap}
-.kz-table td{padding:15px 16px;border-bottom:1px solid var(--border);vertical-align:middle;line-height:1.65}
+.kz-table{font-size:12.5px}
+.kz-table thead th{position:sticky;top:0;background:var(--bg);text-align:left;padding:9px 14px;font-size:11.5px;font-weight:800;color:var(--sub);border-bottom:2px solid var(--border);white-space:nowrap}
+.kz-table td{padding:8px 14px;border-bottom:1px solid var(--border);vertical-align:middle;line-height:1.5}
 .kz-table tr:hover td{background:var(--veltra-soft)}
 .kz-table .id{font-family:'Noto Sans JP',monospace;font-size:12.3px;color:var(--veltra-dark);white-space:nowrap}
 .kz-table .id a{color:var(--veltra-dark);text-decoration:none}
@@ -401,6 +403,29 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
 /* 旧ルールは .wide の width 廃止に伴い不要 */
 
+/* Expandable detail row */
+.kz-table tr.has-detail{cursor:pointer;transition:background .12s}
+.kz-table tr.has-detail:hover{background:var(--veltra-soft)}
+.kz-table tr.has-detail td.id::before{content:'▸';color:var(--hint);font-size:10px;margin-right:5px;display:inline-block;transition:transform .15s}
+.kz-table tr.has-detail.open td.id::before{transform:rotate(90deg);color:var(--veltra)}
+.kz-table tr.has-detail.open{background:var(--veltra-soft)}
+.kz-detail-row td{padding:0;background:linear-gradient(180deg,#f8fafc,#fff)}
+.kz-detail-inner{padding:16px 20px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.kd-block{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px 14px 14px}
+.kd-block.issue{border-left:4px solid var(--red)}
+.kd-block.action{border-left:4px solid var(--blue)}
+.kd-block.effect{border-left:4px solid var(--green)}
+.kd-h{font-size:10.5px;font-weight:900;letter-spacing:.08em;margin-bottom:6px;text-transform:uppercase;display:flex;align-items:center;gap:5px}
+.kd-h::before{content:'';width:12px;height:2px;border-radius:1px}
+.kd-block.issue .kd-h{color:var(--red-text)}
+.kd-block.issue .kd-h::before{background:var(--red)}
+.kd-block.action .kd-h{color:var(--blue-text)}
+.kd-block.action .kd-h::before{background:var(--blue)}
+.kd-block.effect .kd-h{color:var(--green-text)}
+.kd-block.effect .kd-h::before{background:var(--green)}
+.kd-b{font-size:12px;line-height:1.65;color:var(--text)}
+@media(max-width:900px){.kz-detail-inner{grid-template-columns:1fr}}
+
 @media(max-width:820px){
   .page{padding:24px 14px 60px}
   .hero{padding:28px 24px}
@@ -436,26 +461,22 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
   <!-- preview (shown when closed): first 3 -->
   <ul class="toc-preview">
-    <li class="toc-item"><a href="#s0"><span class="toc-num">01</span><span class="toc-text"><span class="toc-title">はじめに</span><span class="toc-desc">4つの問いで構造を繋ぐ</span></span></a></li>
-    <li class="toc-item"><a href="#s1"><span class="toc-num">02</span><span class="toc-text"><span class="toc-title">ミッション構造</span><span class="toc-desc">ミッション文＋手段①②＋長期</span></span></a></li>
-    <li class="toc-item"><a href="#s2"><span class="toc-num">04</span><span class="toc-text"><span class="toc-title">対応プロジェクト</span><span class="toc-desc">eSIM・保険 / Mobility Hub</span></span></a></li>
+    <li class="toc-item"><a href="#s0"><span class="toc-num">01</span><span class="toc-text"><span class="toc-title">背景と使命</span><span class="toc-desc">3つの環境変化 → 迷わず・より多く</span></span></a></li>
+    <li class="toc-item"><a href="#s2"><span class="toc-num">02</span><span class="toc-text"><span class="toc-title">手段① 1回で複数買ってもらう</span><span class="toc-desc">eSIM・保険 / Mobility Hub</span></span></a></li>
+    <li class="toc-item"><a href="#s4"><span class="toc-num">03</span><span class="toc-text"><span class="toc-title">手段② TR側の既存UX改善</span><span class="toc-desc">3つの論点と着手可否</span></span></a></li>
   </ul>
 
   <!-- full list (shown when open) -->
   <ul class="toc-list">
-    <li class="toc-item"><a href="#s0"><span class="toc-num">01</span><span class="toc-text"><span class="toc-title">はじめに</span><span class="toc-desc">4つの問いで「なぜこの構造か」を繋ぐ</span></span></a></li>
-    <li class="toc-item"><a href="#s1"><span class="toc-num">02</span><span class="toc-text"><span class="toc-title">ミッション構造</span><span class="toc-desc">ミッション文＋注力手段①②＋長期テーマ</span></span></a></li>
-    <li class="toc-item"><a href="#s1a"><span class="toc-num">03</span><span class="toc-text"><span class="toc-title">デザインチームの役割定義</span><span class="toc-desc">使いやすさ・CVR直結の成果が役割</span></span></a></li>
-    <li class="toc-item"><a href="#s2"><span class="toc-num">04</span><span class="toc-text"><span class="toc-title">対応プロジェクト（手段①）</span><span class="toc-desc">eSIM・保険 / Mobility Hub</span></span></a></li>
-    <li class="toc-item"><a href="#s3"><span class="toc-num">05</span><span class="toc-text"><span class="toc-title">戦略3軸との対応</span><span class="toc-desc">手段①②は3軸と完全整合</span></span></a></li>
-    <li class="toc-item"><a href="#s4"><span class="toc-num">06</span><span class="toc-text"><span class="toc-title">解像度を上げるべき塊</span><span class="toc-desc">次に詰める3論点＋優先順位原則</span></span></a></li>
-    <li class="toc-item"><a href="#s5"><span class="toc-num">07</span><span class="toc-text"><span class="toc-title">背景・前提</span><span class="toc-desc">新基盤の状況・制約・戦略3軸・版数履歴</span></span></a></li>
-    <li class="toc-item"><a href="#s7"><span class="toc-num">08</span><span class="toc-text"><span class="toc-title">既存改善要望の抽出・分類・グルーピング</span><span class="toc-desc">Kaizen Request 約200件の棚卸しと手段②候補</span></span></a></li>
+    <li class="toc-item"><a href="#s0"><span class="toc-num">01</span><span class="toc-text"><span class="toc-title">背景と使命</span><span class="toc-desc">なぜ迷わず・より多く／ミッション文／2つの手段／デザインチームの役割</span></span></a></li>
+    <li class="toc-item"><a href="#s2"><span class="toc-num">02</span><span class="toc-text"><span class="toc-title">手段① 1回で複数買ってもらう</span><span class="toc-desc">eSIM・保険 / Mobility Hub。戦略3軸との対応も同時に</span></span></a></li>
+    <li class="toc-item"><a href="#s4"><span class="toc-num">03</span><span class="toc-text"><span class="toc-title">手段② TR側の既存UX改善</span><span class="toc-desc">3つの論点（Q1/Q2/Q3）と論点ごとの結論・アクション</span></span></a></li>
+    <li class="toc-item"><a href="#s7"><span class="toc-num">04</span><span class="toc-text"><span class="toc-title">既存改善要望の棚卸し（Kaizen Request）</span><span class="toc-desc">約200件の一次仕分けと手段②候補45件、詳細トグル</span></span></a></li>
   </ul>
 </details>
 
-<!-- ===================== Section 1: はじめに ===================== -->
-<h2 class="st">01. はじめに</h2>
+<!-- ===================== Section 01: 背景と使命 ===================== -->
+<h2 class="st">01. 背景と使命</h2>
 
 <!-- Slide -->
 <div class="slide hi" id="s0">
@@ -516,7 +537,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
         <div class="kpicard later">
           <div class="klabel">手段③ 視野</div>
           <div class="kvalue">2回目以降にも<br>買ってもらう</div>
-          <div class="kdesc">長期。<br>次回旅行での再購入。<br>今期は深追いしない。</div>
+          <div class="kdesc">長期。<br>次回旅行での再購入。<br>優先度は後回し。</div>
         </div>
       </div>
     </div>
@@ -549,8 +570,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 </div>
 
 
-<!-- ===================== Section 1: ミッション構造 ===================== -->
-<h2 class="st">02. ミッション構造</h2>
+<!-- ===================== Section 01 続き: ミッション構造 ===================== -->
 
 <!-- Slide: mission diagram -->
 <div class="slide hi" id="s1">
@@ -576,7 +596,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
     </div>
     <div class="md-long">
       <span class="ltg">長期テーマ</span>
-      <span class="lt">2回目以降にも買ってもらう（次回旅行での再購入）<br><span style="font-weight:400;font-size:12.1px;color:var(--hint)">今期は着手しない。UX改善の過程で自然発生的に生まれるアイデアを検討</span></span>
+      <span class="lt">2回目以降にも買ってもらう（次回旅行での再購入）<br><span style="font-weight:400;font-size:12.1px;color:var(--hint)">優先度は後回し。UX改善の過程で自然発生的に生まれるアイデアを検討</span></span>
     </div>
   </div>
 </div>
@@ -605,33 +625,30 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
   </div>
 
   <div class="card" style="border-left:4px solid var(--hint);background:#fafafa;opacity:.9">
-    <p><strong>長期テーマ 2回目以降にも買ってもらう（今期は着手しない）</strong></p>
+    <p><strong>長期テーマ 2回目以降にも買ってもらう（優先度は後回し）</strong></p>
     <p style="margin:0">パーソナライゼーション、再訪導線、アプリ的コミュニケーション。<br>今期は着手せず、UX改善の過程で自然発生的に生まれるアイデアを次期以降で検討する。</p>
   </div>
 </div>
 
 
-<!-- ===================== Section 1.5: デザインチームの役割定義 ===================== -->
-<h2 class="st" id="s1a">03. デザインチームの役割定義</h2>
+<!-- ===================== Section 01 続き: デザインチームの役割（コンパクト） ===================== -->
 
-<div class="slide hi">
-  <div class="slide-h">デザインの目的は<strong>使いやすさを高めること</strong><br>コーディングでも視覚統一でもない</div>
-  <div class="slide-sub"><p>6/30 ミーティングで確認した、デザインチームの役割の再定義。</p><p>離脱を防ぐ導線設計まで含めて「CVR・使いやすさに直結する成果」を出すのがミッション。</p></div>
-
-  <div class="reason-two" style="margin-top:16px">
+<div class="sec" id="s1a">
+  <div class="stt"><span class="n">i</span>デザインチームの役割</div>
+  <div class="lede">目的は<b>使いやすさを高めて CVR・完了率に効かせること</b>。視覚統一やコーディング単独の役割ではない。</div>
+  <div class="reason-two" style="margin-top:8px">
     <div class="rcard a">
-      <div class="rh">やる（Do）</div>
+      <div class="rh">やる</div>
       <ul>
-        <li><b>使いやすさ</b>を高める設計</li>
-        <li><b>離脱を防ぐ導線設計</b></li>
+        <li>使いやすさを高める設計</li>
+        <li>離脱を防ぐ導線設計</li>
         <li>CVR・完了率に直結する UI/UX 改善</li>
-        <li>Traveler の判断迷いを減らす情報設計</li>
       </ul>
     </div>
     <div class="rcard b">
-      <div class="rh">単独ではやらない（Not this alone）</div>
+      <div class="rh">単独ではやらない</div>
       <ul>
-        <li>視覚的な統一のみを目的とした改修</li>
+        <li>視覚統一のみを目的とした改修</li>
         <li>コーディングだけを役割としたタスク</li>
         <li>成果に繋がらない見た目調整</li>
       </ul>
@@ -640,25 +657,25 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 </div>
 
 
-<!-- ===================== Section 2: 対応プロジェクト ===================== -->
-<h2 class="st">04. 対応プロジェクト（手段①）</h2>
+<!-- ===================== Section 02: 手段① ===================== -->
+<h2 class="st">02. 手段① 1回で複数買ってもらう</h2>
 
 <!-- Slide -->
 <div class="slide hi" id="s2">
   <div class="slide-h">「1回で複数買ってもらう」に乗る<strong>2つのプロジェクト</strong></div>
-  <div class="slide-sub"><p>既に走っている／立ち上がりつつある2つ。それぞれ複数購入を誘発する「ミソ（構造的な追い風）」を持っている。</p><p>新規商材開発は現状の業務量を踏まえて優先度を下げ、UX改善の過程で自然発生的に生まれるアイデアを検討していく。</p></div>
+  <div class="slide-sub"><p>既に走っている／立ち上がりつつある2つ。それぞれ複数購入を誘発する「ポイント（構造的な追い風）」を持っている。</p><p>新規商材開発は現状の業務量を踏まえて優先度を下げ、UX改善の過程で自然発生的に生まれるアイデアを検討していく。</p></div>
 
   <div class="proj-list" style="grid-template-columns:1fr 1fr">
     <div class="pcard miso">
       <div class="pn">eSIM・キャンセル保険</div>
       <div class="po">Mav</div>
-      <div class="pm">ミソ</div>
+      <div class="pm">ポイント</div>
       <div class="pd"><b>予約時のついで買い導線ができた</b>こと。<br>主商品の予約フローで自然にカートに足せる仕組みが成立。</div>
     </div>
     <div class="pcard miso">
       <div class="pn">Mobility Hub</div>
       <div class="po">Sachie（＋ Ta-san 参画）／Kotaro → まり子さん引き継ぎ予定</div>
-      <div class="pm">ミソ</div>
+      <div class="pm">ポイント</div>
       <div class="pd"><b>空港送迎は元々複数購入されるカテゴリ</b>。<br>商品数増加と検索特化UIでニーズをさらに満たす。</div>
     </div>
   </div>
@@ -671,48 +688,20 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
 
 <!-- ===================== Section 3: 戦略3軸との対応 ===================== -->
-<h2 class="st">05. 戦略3軸との対応</h2>
-
-<!-- Slide -->
-<div class="slide hi" id="s3">
-  <div class="slide-h">今回の構造は3軸と<strong>完全整合</strong>／追加承認は不要</div>
-  <p class="slide-sub">2026-05-11 上長確認済の戦略3軸に、手段①②はそれぞれ綺麗にマッピングされる。長期テーマは3軸の外だが、今期は深追いしないため承認は不要。</p>
-
-  <table class="map-table">
-    <thead>
-      <tr><th style="width:30%">Squadの手段</th><th style="width:8%"></th><th>全社戦略3軸</th><th style="width:14%">状態</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="from">手段① 1回で複数</td>
-        <td class="arr">→</td>
-        <td class="to">③ 滞在中プラスアルファ追加購入</td>
-        <td class="stat"><span class="pill ok">整合済</span></td>
-      </tr>
-      <tr>
-        <td class="from">手段② 既存UX改善</td>
-        <td class="arr">→</td>
-        <td class="to">② 迷わず買ってもらう</td>
-        <td class="stat"><span class="pill ok">整合済</span></td>
-      </tr>
-      <tr>
-        <td class="from">長期 2回目以降</td>
-        <td class="arr">→</td>
-        <td class="to">（3軸の外／今期は視野のみ）</td>
-        <td class="stat"><span class="pill mute">保留</span></td>
-      </tr>
-    </tbody>
-  </table>
+<!-- 手段① と戦略3軸との対応（旧セクション 05 を吸収） -->
+<div class="cout blue" style="margin-top:16px" id="s3">
+  <h4>戦略3軸との対応</h4>
+  <p>手段① 1回で複数買ってもらう　→　全社戦略3軸の <b>③ 滞在中プラスアルファ追加購入</b> にそのまま乗る（2026-05-11 上長確認済の3軸のうち、追加承認は不要）。</p>
 </div>
 
 
-<!-- ===================== Section 4: 解像度を上げるべき塊 ===================== -->
-<h2 class="st">06. 解像度を上げるべき塊</h2>
+<!-- ===================== Section 03: 手段② ===================== -->
+<h2 class="st">03. 手段② TR側の既存UX改善</h2>
 
 <!-- Slide -->
 <div class="slide hi" id="s4">
   <div class="slide-h">次に詰めるべき<strong>3つの論点</strong>＋優先順位付けの原則</div>
-  <p class="slide-sub">手段②「既存UX改善」の3つの論点。<br>既存の改善要望・課題を収集してグルーピング、取り組むソリューションを検討。</p>
+  <p class="slide-sub">「既存UX改善」の3つの論点。既存の改善要望・課題を棚卸ししてグルーピング、取り組むソリューションを検討。<br>戦略3軸の <b>② 迷わず買ってもらう</b> に対応（追加承認不要）。</p>
 
   <div class="kpigrid" style="grid-template-columns:repeat(3,1fr);margin-top:8px">
     <div class="kpicard" style="background:var(--amber-bg);border:2px solid #fcd34d">
@@ -750,17 +739,17 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
       <div class="qlbl">論点</div>
       <div class="qq">「新アイデアを練る」と「既出課題に取り組む」、どちらから入るか？</div>
       <div class="qa">
-        <span class="qa-mark">結論</span>
-        <span class="qa-body">既出課題から入る</span>
-        <span class="qa-when">6/30 合意</span>
+        <span class="qa-mark">現状</span>
+        <span class="qa-body">既存課題を棚卸ししてネタになるか見る段階（着手可否は未確定）</span>
+        <span class="qa-when">6/30 確認</span>
       </div>
     </div>
     <div class="oqp-body">
       <div class="oqp-blk">
-        <div class="bh">なぜ既出課題から？</div>
+        <div class="bh">なぜまず既存課題を見る？</div>
         <ul>
           <li>GA4 ファネル分析 → ボトルネック特定 → 改善のサイクルが v2 ダッシュボードで既に回せる状態</li>
-          <li>新アイデアを先に走らせると手戻りが増え、検証コストが高くなる</li>
+          <li>既存課題が「解決策アプローチが複数見つかるもの」だけを選び、そこから優先度を判断する（6/30 の原則）</li>
         </ul>
       </div>
       <div class="oqp-blk accent">
@@ -768,7 +757,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
         <ol class="oqp-steps">
           <li>既存の改善要望・課題を収集</li>
           <li>類似課題をグルーピングして一覧化</li>
-          <li>次回MTGで各課題のソリューションを議論</li>
+          <li>次回MTGで各課題のネタ性・優先度を議論して着手可否を決める</li>
         </ol>
       </div>
     </div>
@@ -822,7 +811,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
       <div class="qq">Q1「予約までのUX」と Q3「UI改善」の境界が曖昧。並列にすると施策の重複・矛盾リスクあり。</div>
       <div class="qa">
         <span class="qa-mark">仮置き</span>
-        <span class="qa-body">フロー体験（UX）× ディテール品質（UI）で切り分け</span>
+        <span class="qa-body">「予約の流れ全体を整える」と「画面ごとの見た目・使い心地を上げる」で切り分け</span>
         <span class="qa-when">次回MTGで確認</span>
       </div>
     </div>
@@ -831,11 +820,11 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
         <div class="oqp-split">
           <div class="l">
             <div class="hh">予約までのUX</div>
-            <div class="dd">検索〜カート〜決済までの<b>フロー全体</b>の体験設計</div>
+            <div class="dd">検索〜カート〜決済まで、<b>予約の流れ全体</b>をスムーズにする</div>
           </div>
           <div>
             <div class="hh">UI改善</div>
-            <div class="dd">個別画面のディテール（コンポーネント・タイポ・余白）の品質向上</div>
+            <div class="dd"><b>画面ごとの見た目・使い心地</b>を上げる（余白・文字・配色などの調整）</div>
           </div>
         </div>
         <div class="oqp-common">両方とも「離脱を防ぐ導線設計」を含める</div>
@@ -846,71 +835,13 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 </div>
 
 
-<!-- ===================== Section 5: 背景・前提 ===================== -->
-<h2 class="st">07. 背景・前提</h2>
-
-<div class="slide" id="s5">
-  <div class="slide-h">新基盤の状況・投資制約・戦略3軸の3つが前提</div>
-
-  <div class="chips" style="margin-top:16px">
-    <div class="chip-box" style="background:var(--indigo-bg);border-color:#c7d2fe">
-      <div class="ct">新基盤の状況</div>
-      <div class="cd">構築をリスケジュール中。既存SYSで年内回収できる開発を優先する方針。</div>
-    </div>
-    <div class="chip-box" style="background:var(--indigo-bg);border-color:#c7d2fe">
-      <div class="ct">制約条件</div>
-      <div class="cd">既存SYSには投資条件 ¥70M / 29%。年内で回収できる開発を優先。</div>
-    </div>
-    <div class="chip-box" style="background:var(--indigo-bg);border-color:#c7d2fe">
-      <div class="ct">戦略3軸（既確認）</div>
-      <div class="cd">2026-05-11 上長確認済。①メインスポット取りこぼし防止／②迷わず買う／③滞在中プラスα。</div>
-    </div>
-  </div>
-</div>
-
-<div class="sec">
-  <div class="stt"><span class="n">i</span>詳細</div>
-
-  <div class="bg-h">新基盤の状況</div>
-  <ul class="bg-list">
-    <li>新基盤構築は<b>リスケジュール中</b>（構築の仕切り直し・リトライを含む）</li>
-    <li>既存SYSは「年内で回収できる開発を優先」する方針</li>
-    <li>既存SYSの投資領域：CVR対策／集客改善／リピート対策／ブランド認知</li>
-  </ul>
-
-  <div class="bg-h">制約条件</div>
-  <ul class="bg-list">
-    <li>既存SYSの投資条件：<b>¥70,000,000 / 29%</b></li>
-    <li>年内で回収できる開発を優先する</li>
-  </ul>
-
-  <div class="bg-h">戦略3軸（2026-05-11 上長確認済）</div>
-  <p style="font-size:13.4px;color:var(--sub);line-height:1.75;margin-top:8px">円安・情勢変化で海外旅行は短期化傾向。全施策は以下3軸のどれに該当するかを必ず明記する。</p>
-  <ul class="bg-list">
-    <li>① メインスポット取りこぼし防止</li>
-    <li>② 迷わず買ってもらう</li>
-    <li>③ 滞在中のプラスアルファ追加購入</li>
-  </ul>
-
-  <div class="bg-h">版数履歴</div>
-  <ul class="bg-list">
-    <li><b>v0.1</b>：主軸を「年間購入AC数 / Traveler」で組成。中期リピートを戦略3軸に追加する承認が必要という論点があった。</li>
-    <li><b>v0.2</b>：大ミッションを「CVR向上」に置き直し。手段①②の並列構造を確立。長期テーマ「2回目以降」に格下げで3軸への追加承認は不要に。</li>
-    <li><b>v0.3</b>：セクション冒頭を「スライド → 具体」の構造に統一。Q1〜Q4の問いの連鎖で俯瞰図を再構成。</li>
-    <li><b>v0.4（現版）</b>：6/30 ミーティング内容を反映。ミッション文を「Traveler が Veltra で迷わず・より多く買いやすい状態を作る」に置き直し（主指標 = CVR）。新規商材優先度下げ、リクエスト予約低減の具体化、デザインチーム役割定義、優先順位付け原則を追加。</li>
-  </ul>
-</div>
-
-
-
-
 
 <!-- ===================== Section 7: 既存改善要望の分析 (wide) ===================== -->
 
 
 <section class="wide" id="s7">
 <div class="kz-head">
-  <div class="kz-eyebrow">08. Kaizen Request 棚卸し</div>
+  <div class="kz-eyebrow">04. Kaizen Request 棚卸し</div>
   <h2>既存改善要望の抽出・分類・グルーピング</h2>
   <p><a href="https://app.clickup.com/31108037/v/l/li/901801874152" target="_blank" rel="noopener" style="color:var(--link);text-decoration:none;font-weight:700">Kaizen Request List</a>（約200件）を対象軸（誰のための要望か）× テーマで機械分類し、手段②「TR側の既存UX改善」に該当する候補を抽出した。まず全体マップで要望の偏りを掴み、その後 Traveler の予約UX に絞って深掘りする。</p>
 </div>
@@ -1014,7 +945,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
   <ol>
     <li><b>手段②候補（未完了38件）の中身を確認する。</b><span class="who">Kotaro</span><br>各タスクの description を開き、タスク名だけでは曖昧なものを精査。テーマ別グルーピングを確定させる。</li>
     <li><b>解決策アプローチが複数見える課題を先に選ぶ。</b><br>件数（ボリューム）で判断せず、まず「有効な打ち手が複数あるか」でスクリーニング。そのうえで影響度で優先度を決める。</li>
-    <li><b>「予約までのUX」と「UI改善」の境界を合意する。</b><br>フロー全体の体験設計か、個別画面のディテールか。着手前に切り分けを確定させて重複を防ぐ。</li>
+    <li><b>「予約までのUX」と「UI改善」の境界を合意する。</b><br>予約の流れ全体を整えるのか、画面ごとの見た目・使い心地を上げるのか。着手前に切り分けを確定させて重複を防ぐ。</li>
     <li><b>リクエスト予約低減の具体的ソリューションを選定する。</b><br>即時回答／AI電話確認／パートナー業務フローの段階的改善から、実現性で候補を絞る。</li>
     <li><b>手段①と②のリソース配分を決める。</b><br>両方注力としつつ、Squadメンバーをどのテーマにどれだけ割り当てるか。</li>
   </ol>
@@ -1028,36 +959,213 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
 </div>
 <script>
+// Kaizen要望の課題／打ち手／期待効果（ClickUp description を要約）。
+// 手段②の主対象＝Traveler接点の予約UX/決済系を優先。手段①候補も一部含む。
+window.KZ_DETAILS = {
+  'KZRQ-124': {
+    issue: '数量選択の段階では「即予約確定」と表示されるが、実際は 5 枠以上で RQ 扱い。Traveler は「次へ」に進んだ後で初めてリクエスト予約と気付く。',
+    action: '数量を選ぶ段階で AC 設定と在庫を判定し、RT / RQ を正確に表示する。',
+    effect: '「進む→戻る」の往復を減らし、確定条件のギャップによる離脱を防ぐ。'
+  },
+  'KZRQ-153': {
+    issue: '開始時間ごとに価格が異なる AC で、価格設定順（昇順/降順）により加算額の挙動が不整合。降順設定時にマイナス表示など、Traveler が誤解する。',
+    action: '表示価格の基準を最安値に統一し、時間切替時の加算額を正しく計算。Total price も時間切替に連動させる。',
+    effect: '価格表示の一貫性が上がり、Traveler の不信・確認のためのカスタマー問い合わせを減らす。'
+  },
+  'KZRQ-194': {
+    issue: '国内 AC は代表者携帯番号が必須運用だが、会員情報の番号を予約フォームに引き継がず、毎回入力が必要。入力ミス・設定漏れによる予約失敗が起きる。',
+    action: '会員情報の携帯番号を予約フォームに自動入力する（他社サイト同様）。編集も可能に。',
+    effect: '入力工数と入力ミスを削減し、フォーム完了率を上げる。'
+  },
+  'KZRQ-197': {
+    issue: 'VELTRA ID 刷新以降、EN サイトのアカウント作成で誤った国コードを選ぶ Traveler が増加。データ精度・入力体験の両方に影響。',
+    action: 'EN サイトの国コード ドロップダウンで United States を先頭に配置する（JP 版のように該当国優先の順序に）。',
+    effect: '誤入力を減らし、アカウント作成の途中離脱・データ品質劣化を防ぐ。'
+  },
+  'KZRQ-204': {
+    issue: 'AC ページの「お問い合わせ」導線がサポートサイトへ→サポートサイトに問い合わせボタンが無く「各ページ下部のお問い合わせから」→ AC に戻る、というループ状態で問い合わせできない。',
+    action: 'AC ページから直接お問い合わせできる導線を設置し、ループを断ち切る。',
+    effect: '疑問解消できず離脱するケースを減らし、予約直前の CVR ロスとカスタマー対応工数を同時に削減。'
+  },
+  'KZRQ-221': {
+    issue: 'ラウンジ経由で予約を促す場面で、会員登録＋クレジットカード登録の 2 段ハードルにより Traveler がその場で予約に至らない。',
+    action: 'ゲスト購入導線＋PayPay / Amazon Pay 等の連携を追加（既存 SYS では制約あり、新基盤前提の中長期案として整理）。',
+    effect: '新規 Traveler の初回予約ハードルを下げ、対面接客経由の CVR を上げる。'
+  },
+  'KZRQ-23': {
+    issue: 'AC のキャンペーン設定で「変更・キャンセル不可」を指定しても、実際は通常のキャンポリが適用され、Traveler 側でキャンセルできてしまう。',
+    action: '正しい挙動を仕様化し、実装を修正。Special Deals は Traveler 側 UI でもキャンセル不可扱いに。',
+    effect: '誤キャンセルによる収益ロス・パートナー混乱・カスタマー対応工数を同時に削減。'
+  },
+  'KZRQ-237': {
+    issue: '価格変動しない AC にも「価格が変動する商品です」と表示され、Traveler の誤解を招く（ハワイのシルクドソレイユ以降の副作用）。',
+    action: '文言を「合計金額は数量を指定すると表示されます。※商品によって時期や空き状況などで価格が変動する場合があります」に修正。',
+    effect: '価格に対する誤解を減らし、料金確認段階での離脱を防ぐ。'
+  },
+  'KZRQ-112': {
+    issue: '無料ツアーでもクレジットカード登録が必須で、CC を持たない Traveler は申込不可。「なぜ無料なのに？」という不信感にもつながる。',
+    action: '無料ツアーは CC 登録なしで申込可能に。乱用防止（No-show 対策など）はセットで設計。',
+    effect: '無料枠での CVR ロスを回避し、ブランドへの不信を減らす。'
+  },
+  'KZRQ-30': {
+    issue: '現地通貨表示がデフォルトで、日本 IP の Traveler は他 OTA（JPY 表示）との価格比較がしづらい。切替ボタンの認知率は低い可能性が高い。',
+    action: '日本 IP からのアクセスは JPY 表示をデフォルトにし、現地通貨は切替オプションとして提供。',
+    effect: '価格比較のしやすさを担保し、外資 OTA への流出を防ぐ。'
+  },
+  'KZRQ-200': {
+    issue: '既存カード選択時はオーソリが走らず、有効期限切れ等の無効カードでも申込通過。事後の CC エラーからのキャンセル・再連絡が多発。',
+    action: '既存カード選択時も新規登録と同様に 1 円オーソリを実施する。',
+    effect: '予約後の CC エラー起因の失注・カスタマー対応工数を削減。'
+  },
+  'KZRQ-234': {
+    issue: '`/tr/banktransfer/` の返金方法説明が現在の運用（Cashpost 経由・振込手数料は TR 負担なし）と乖離しており、誤字も残っている。',
+    action: '現行運用に合わせて記載を更新（Cashpost・15 日/月末払い・手数料負担なし）。誤字も同時修正。',
+    effect: '事実誤認によるクレーム・問合せ・返金遅延クレームを削減。'
+  },
+  'KZRQ-168': {
+    issue: 'マイページの領収書 DL で、宛名・但し書き空欄でも発行可能／DL 回数無制限／システム側で発行有無を把握できない。',
+    action: '宛名・但し書きを必須化。1 度発行済みなら再 DL 時にエラー表示。DL 履歴を保持し管理側で追跡可能に。',
+    effect: '会計上のトラブルリスクを下げ、経理問合せ対応工数を削減。'
+  },
+  'KZRQ-98': {
+    issue: '家族で同じ AC の異なるパッケージを申し込むと、体験談メール重複・必要情報の再入力・グループ管理不能などの負荷が Traveler にかかる。',
+    action: '同一会員×同一 AC×同一日時なら「同じグループですか？」ポップアップ→グループ化。予約毎項目は引継ぎ、参加者毎項目のみ入力。メールは代表者宛に集約。',
+    effect: '複数購入時のストレスを削減。手段①（1 回で複数買ってもらう）の追体験ハードルを下げる。'
+  },
+  'KZRQ-36': {
+    issue: 'VELTRA ポイントの 3 年有効期限が「とりあえず VELTRA で貯める」という差別化のインセンティブを弱めている。海外 OTA・直販への流出リスク。',
+    action: 'ポイントの有効期限を撤廃（永久不滅ポイント化）。',
+    effect: '再訪 Traveler の VELTRA 選好を強め、手段①（複数購入）と長期テーマ（2 回目以降）の両方に効く。'
+  }
+};
+</script>
+<script>
 (function(){
   var btns=document.querySelectorAll('.kz-fbtn');
   var openOnly=document.getElementById('kzOpenOnly');
   var table=document.getElementById('kzTable');
   if(!table) return;
-  var rows=Array.prototype.slice.call(table.querySelectorAll('tbody tr'));
+  var tbody=table.querySelector('tbody');
+  var rows=Array.prototype.slice.call(tbody.querySelectorAll('tr'));
   var empty=document.getElementById('kzEmpty');
-  var curFilter='all';
+  // 複数のフィルタを OR で扱う。初期は「全て」のみが active。
+  var activeFilters=new Set(['all']);
+  var details=window.KZ_DETAILS||{};
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});
+  }
+
+  // Mark rows that have detail summaries
+  rows.forEach(function(r){
+    var idCell=r.querySelector('td.id');
+    if(!idCell) return;
+    var id=idCell.textContent.trim();
+    if(details[id]){
+      r.classList.add('has-detail');
+      r.setAttribute('tabindex','0');
+      r.setAttribute('role','button');
+      r.setAttribute('aria-expanded','false');
+    }
+  });
+
+  function closeDetail(tr){
+    var next=tr.nextElementSibling;
+    if(next && next.classList.contains('kz-detail-row')){
+      next.parentNode.removeChild(next);
+    }
+    tr.classList.remove('open');
+    tr.setAttribute('aria-expanded','false');
+  }
+
+  function openDetail(tr){
+    var id=tr.querySelector('td.id').textContent.trim();
+    var d=details[id];
+    if(!d) return;
+    var dr=document.createElement('tr');
+    dr.className='kz-detail-row';
+    var td=document.createElement('td');
+    td.colSpan=5;
+    td.innerHTML=
+      '<div class="kz-detail-inner">'+
+        '<div class="kd-block issue"><div class="kd-h">課題</div><div class="kd-b">'+escapeHtml(d.issue)+'</div></div>'+
+        '<div class="kd-block action"><div class="kd-h">打ち手</div><div class="kd-b">'+escapeHtml(d.action)+'</div></div>'+
+        '<div class="kd-block effect"><div class="kd-h">期待効果</div><div class="kd-b">'+escapeHtml(d.effect)+'</div></div>'+
+      '</div>';
+    dr.appendChild(td);
+    tr.parentNode.insertBefore(dr,tr.nextSibling);
+    tr.classList.add('open');
+    tr.setAttribute('aria-expanded','true');
+  }
+
+  tbody.addEventListener('click',function(ev){
+    var tr=ev.target.closest('tr');
+    if(!tr || !tr.classList.contains('has-detail')) return;
+    if(tr.classList.contains('open')) closeDetail(tr);
+    else openDetail(tr);
+  });
+  tbody.addEventListener('keydown',function(ev){
+    if(ev.key!=='Enter' && ev.key!==' ') return;
+    var tr=ev.target.closest('tr');
+    if(!tr || !tr.classList.contains('has-detail')) return;
+    ev.preventDefault();
+    if(tr.classList.contains('open')) closeDetail(tr);
+    else openDetail(tr);
+  });
+
   function apply(){
     var onlyOpen=openOnly&&openOnly.checked;
     var shown=0;
+    var isAll=activeFilters.has('all');
     rows.forEach(function(r){
       var labels=(r.getAttribute('data-labels')||'').split(' ');
-      var okF=(curFilter==='all')||labels.indexOf(curFilter)>=0;
+      var okF;
+      if(isAll){
+        okF=true;
+      }else{
+        // OR: 行のラベルのいずれかが、選択中フィルタのいずれかに含まれれば表示
+        okF=false;
+        for(var i=0;i<labels.length;i++){
+          if(activeFilters.has(labels[i])){okF=true;break;}
+        }
+      }
       var okS=!onlyOpen||r.getAttribute('data-status')==='open';
       var vis=okF&&okS;
       r.style.display=vis?'':'none';
+      var next=r.nextElementSibling;
+      if(next && next.classList.contains('kz-detail-row')){
+        next.style.display=vis?'':'none';
+      }
       if(vis)shown++;
     });
     if(empty)empty.style.display=shown?'none':'block';
   }
+  function syncBtnActive(){
+    btns.forEach(function(b){
+      var f=b.getAttribute('data-f');
+      if(activeFilters.has(f)) b.classList.add('active');
+      else b.classList.remove('active');
+    });
+  }
   btns.forEach(function(b){
     b.addEventListener('click',function(){
-      btns.forEach(function(x){x.classList.remove('active');});
-      b.classList.add('active');
-      curFilter=b.getAttribute('data-f');
+      var f=b.getAttribute('data-f');
+      if(f==='all'){
+        // 「全て」を押したら他を解除して all のみに
+        activeFilters=new Set(['all']);
+      }else{
+        activeFilters.delete('all');
+        if(activeFilters.has(f)) activeFilters.delete(f);
+        else activeFilters.add(f);
+        // 何も選ばれてない状態は「全て」に戻す
+        if(activeFilters.size===0) activeFilters=new Set(['all']);
+      }
+      syncBtnActive();
       apply();
     });
   });
   if(openOnly)openOnly.addEventListener('change',apply);
+  syncBtnActive();
 })();
 </script>
 <script src="/nav.js"></script>
