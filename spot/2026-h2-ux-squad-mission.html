@@ -243,6 +243,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 .oqp-steps li::before{content:counter(step);position:absolute;left:0;top:4px;width:22px;height:22px;background:var(--blue);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
 .oqp-cands{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .oqp-cands li{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:12.5px;color:var(--text);line-height:1.55}
+.oqp-cands li::before{display:none !important;content:none !important}
 .oqp-cands li .ck{flex-shrink:0;font-size:10.5px;font-weight:900;color:#fff;background:var(--amber);padding:3px 8px;border-radius:5px;letter-spacing:.04em;line-height:1;margin-top:2px}
 .oqp-split{display:grid;grid-template-columns:1fr 1fr}
 .oqp-split>div{padding:14px 16px}
@@ -400,6 +401,29 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 .kz-next li .who{display:inline-block;font-size:11px;font-weight:800;color:var(--veltra-dark);background:var(--veltra-soft);border-radius:5px;padding:2px 8px;margin-left:6px}
 
 /* 旧ルールは .wide の width 廃止に伴い不要 */
+
+/* Expandable detail row */
+.kz-table tr.has-detail{cursor:pointer;transition:background .12s}
+.kz-table tr.has-detail:hover{background:var(--veltra-soft)}
+.kz-table tr.has-detail td.id::before{content:'▸';color:var(--hint);font-size:10px;margin-right:5px;display:inline-block;transition:transform .15s}
+.kz-table tr.has-detail.open td.id::before{transform:rotate(90deg);color:var(--veltra)}
+.kz-table tr.has-detail.open{background:var(--veltra-soft)}
+.kz-detail-row td{padding:0;background:linear-gradient(180deg,#f8fafc,#fff)}
+.kz-detail-inner{padding:16px 20px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.kd-block{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px 14px 14px}
+.kd-block.issue{border-left:4px solid var(--red)}
+.kd-block.action{border-left:4px solid var(--blue)}
+.kd-block.effect{border-left:4px solid var(--green)}
+.kd-h{font-size:10.5px;font-weight:900;letter-spacing:.08em;margin-bottom:6px;text-transform:uppercase;display:flex;align-items:center;gap:5px}
+.kd-h::before{content:'';width:12px;height:2px;border-radius:1px}
+.kd-block.issue .kd-h{color:var(--red-text)}
+.kd-block.issue .kd-h::before{background:var(--red)}
+.kd-block.action .kd-h{color:var(--blue-text)}
+.kd-block.action .kd-h::before{background:var(--blue)}
+.kd-block.effect .kd-h{color:var(--green-text)}
+.kd-block.effect .kd-h::before{background:var(--green)}
+.kd-b{font-size:12px;line-height:1.65;color:var(--text)}
+@media(max-width:900px){.kz-detail-inner{grid-template-columns:1fr}}
 
 @media(max-width:820px){
   .page{padding:24px 14px 60px}
@@ -750,17 +774,17 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
       <div class="qlbl">論点</div>
       <div class="qq">「新アイデアを練る」と「既出課題に取り組む」、どちらから入るか？</div>
       <div class="qa">
-        <span class="qa-mark">結論</span>
-        <span class="qa-body">既出課題から入る</span>
-        <span class="qa-when">6/30 合意</span>
+        <span class="qa-mark">現状</span>
+        <span class="qa-body">既存課題を棚卸ししてネタになるか見る段階（着手可否は未確定）</span>
+        <span class="qa-when">6/30 確認</span>
       </div>
     </div>
     <div class="oqp-body">
       <div class="oqp-blk">
-        <div class="bh">なぜ既出課題から？</div>
+        <div class="bh">なぜまず既存課題を見る？</div>
         <ul>
           <li>GA4 ファネル分析 → ボトルネック特定 → 改善のサイクルが v2 ダッシュボードで既に回せる状態</li>
-          <li>新アイデアを先に走らせると手戻りが増え、検証コストが高くなる</li>
+          <li>既存課題が「解決策アプローチが複数見つかるもの」だけを選び、そこから優先度を判断する（6/30 の原則）</li>
         </ul>
       </div>
       <div class="oqp-blk accent">
@@ -768,7 +792,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
         <ol class="oqp-steps">
           <li>既存の改善要望・課題を収集</li>
           <li>類似課題をグルーピングして一覧化</li>
-          <li>次回MTGで各課題のソリューションを議論</li>
+          <li>次回MTGで各課題のネタ性・優先度を議論して着手可否を決める</li>
         </ol>
       </div>
     </div>
@@ -1028,14 +1052,159 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
 </div>
 <script>
+// Kaizen要望の課題／打ち手／期待効果（ClickUp description を要約）。
+// 手段②の主対象＝Traveler接点の予約UX/決済系を優先。手段①候補も一部含む。
+window.KZ_DETAILS = {
+  'KZRQ-124': {
+    issue: '数量選択の段階では「即予約確定」と表示されるが、実際は 5 枠以上で RQ 扱い。Traveler は「次へ」に進んだ後で初めてリクエスト予約と気付く。',
+    action: '数量を選ぶ段階で AC 設定と在庫を判定し、RT / RQ を正確に表示する。',
+    effect: '「進む→戻る」の往復を減らし、確定条件のギャップによる離脱を防ぐ。'
+  },
+  'KZRQ-153': {
+    issue: '開始時間ごとに価格が異なる AC で、価格設定順（昇順/降順）により加算額の挙動が不整合。降順設定時にマイナス表示など、Traveler が誤解する。',
+    action: '表示価格の基準を最安値に統一し、時間切替時の加算額を正しく計算。Total price も時間切替に連動させる。',
+    effect: '価格表示の一貫性が上がり、Traveler の不信・確認のためのカスタマー問い合わせを減らす。'
+  },
+  'KZRQ-194': {
+    issue: '国内 AC は代表者携帯番号が必須運用だが、会員情報の番号を予約フォームに引き継がず、毎回入力が必要。入力ミス・設定漏れによる予約失敗が起きる。',
+    action: '会員情報の携帯番号を予約フォームに自動入力する（他社サイト同様）。編集も可能に。',
+    effect: '入力工数と入力ミスを削減し、フォーム完了率を上げる。'
+  },
+  'KZRQ-197': {
+    issue: 'VELTRA ID 刷新以降、EN サイトのアカウント作成で誤った国コードを選ぶ Traveler が増加。データ精度・入力体験の両方に影響。',
+    action: 'EN サイトの国コード ドロップダウンで United States を先頭に配置する（JP 版のように該当国優先の順序に）。',
+    effect: '誤入力を減らし、アカウント作成の途中離脱・データ品質劣化を防ぐ。'
+  },
+  'KZRQ-204': {
+    issue: 'AC ページの「お問い合わせ」導線がサポートサイトへ→サポートサイトに問い合わせボタンが無く「各ページ下部のお問い合わせから」→ AC に戻る、というループ状態で問い合わせできない。',
+    action: 'AC ページから直接お問い合わせできる導線を設置し、ループを断ち切る。',
+    effect: '疑問解消できず離脱するケースを減らし、予約直前の CVR ロスとカスタマー対応工数を同時に削減。'
+  },
+  'KZRQ-221': {
+    issue: 'ラウンジ経由で予約を促す場面で、会員登録＋クレジットカード登録の 2 段ハードルにより Traveler がその場で予約に至らない。',
+    action: 'ゲスト購入導線＋PayPay / Amazon Pay 等の連携を追加（既存 SYS では制約あり、新基盤前提の中長期案として整理）。',
+    effect: '新規 Traveler の初回予約ハードルを下げ、対面接客経由の CVR を上げる。'
+  },
+  'KZRQ-23': {
+    issue: 'AC のキャンペーン設定で「変更・キャンセル不可」を指定しても、実際は通常のキャンポリが適用され、Traveler 側でキャンセルできてしまう。',
+    action: '正しい挙動を仕様化し、実装を修正。Special Deals は Traveler 側 UI でもキャンセル不可扱いに。',
+    effect: '誤キャンセルによる収益ロス・パートナー混乱・カスタマー対応工数を同時に削減。'
+  },
+  'KZRQ-237': {
+    issue: '価格変動しない AC にも「価格が変動する商品です」と表示され、Traveler の誤解を招く（ハワイのシルクドソレイユ以降の副作用）。',
+    action: '文言を「合計金額は数量を指定すると表示されます。※商品によって時期や空き状況などで価格が変動する場合があります」に修正。',
+    effect: '価格に対する誤解を減らし、料金確認段階での離脱を防ぐ。'
+  },
+  'KZRQ-112': {
+    issue: '無料ツアーでもクレジットカード登録が必須で、CC を持たない Traveler は申込不可。「なぜ無料なのに？」という不信感にもつながる。',
+    action: '無料ツアーは CC 登録なしで申込可能に。乱用防止（No-show 対策など）はセットで設計。',
+    effect: '無料枠での CVR ロスを回避し、ブランドへの不信を減らす。'
+  },
+  'KZRQ-30': {
+    issue: '現地通貨表示がデフォルトで、日本 IP の Traveler は他 OTA（JPY 表示）との価格比較がしづらい。切替ボタンの認知率は低い可能性が高い。',
+    action: '日本 IP からのアクセスは JPY 表示をデフォルトにし、現地通貨は切替オプションとして提供。',
+    effect: '価格比較のしやすさを担保し、外資 OTA への流出を防ぐ。'
+  },
+  'KZRQ-200': {
+    issue: '既存カード選択時はオーソリが走らず、有効期限切れ等の無効カードでも申込通過。事後の CC エラーからのキャンセル・再連絡が多発。',
+    action: '既存カード選択時も新規登録と同様に 1 円オーソリを実施する。',
+    effect: '予約後の CC エラー起因の失注・カスタマー対応工数を削減。'
+  },
+  'KZRQ-234': {
+    issue: '`/tr/banktransfer/` の返金方法説明が現在の運用（Cashpost 経由・振込手数料は TR 負担なし）と乖離しており、誤字も残っている。',
+    action: '現行運用に合わせて記載を更新（Cashpost・15 日/月末払い・手数料負担なし）。誤字も同時修正。',
+    effect: '事実誤認によるクレーム・問合せ・返金遅延クレームを削減。'
+  },
+  'KZRQ-168': {
+    issue: 'マイページの領収書 DL で、宛名・但し書き空欄でも発行可能／DL 回数無制限／システム側で発行有無を把握できない。',
+    action: '宛名・但し書きを必須化。1 度発行済みなら再 DL 時にエラー表示。DL 履歴を保持し管理側で追跡可能に。',
+    effect: '会計上のトラブルリスクを下げ、経理問合せ対応工数を削減。'
+  },
+  'KZRQ-98': {
+    issue: '家族で同じ AC の異なるパッケージを申し込むと、体験談メール重複・必要情報の再入力・グループ管理不能などの負荷が Traveler にかかる。',
+    action: '同一会員×同一 AC×同一日時なら「同じグループですか？」ポップアップ→グループ化。予約毎項目は引継ぎ、参加者毎項目のみ入力。メールは代表者宛に集約。',
+    effect: '複数購入時のストレスを削減。手段①（1 回で複数買ってもらう）の追体験ハードルを下げる。'
+  },
+  'KZRQ-36': {
+    issue: 'VELTRA ポイントの 3 年有効期限が「とりあえず VELTRA で貯める」という差別化のインセンティブを弱めている。海外 OTA・直販への流出リスク。',
+    action: 'ポイントの有効期限を撤廃（永久不滅ポイント化）。',
+    effect: '再訪 Traveler の VELTRA 選好を強め、手段①（複数購入）と長期テーマ（2 回目以降）の両方に効く。'
+  }
+};
+</script>
+<script>
 (function(){
   var btns=document.querySelectorAll('.kz-fbtn');
   var openOnly=document.getElementById('kzOpenOnly');
   var table=document.getElementById('kzTable');
   if(!table) return;
-  var rows=Array.prototype.slice.call(table.querySelectorAll('tbody tr'));
+  var tbody=table.querySelector('tbody');
+  var rows=Array.prototype.slice.call(tbody.querySelectorAll('tr'));
   var empty=document.getElementById('kzEmpty');
   var curFilter='all';
+  var details=window.KZ_DETAILS||{};
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});
+  }
+
+  // Mark rows that have detail summaries
+  rows.forEach(function(r){
+    var idCell=r.querySelector('td.id');
+    if(!idCell) return;
+    var id=idCell.textContent.trim();
+    if(details[id]){
+      r.classList.add('has-detail');
+      r.setAttribute('tabindex','0');
+      r.setAttribute('role','button');
+      r.setAttribute('aria-expanded','false');
+    }
+  });
+
+  function closeDetail(tr){
+    var next=tr.nextElementSibling;
+    if(next && next.classList.contains('kz-detail-row')){
+      next.parentNode.removeChild(next);
+    }
+    tr.classList.remove('open');
+    tr.setAttribute('aria-expanded','false');
+  }
+
+  function openDetail(tr){
+    var id=tr.querySelector('td.id').textContent.trim();
+    var d=details[id];
+    if(!d) return;
+    var dr=document.createElement('tr');
+    dr.className='kz-detail-row';
+    var td=document.createElement('td');
+    td.colSpan=5;
+    td.innerHTML=
+      '<div class="kz-detail-inner">'+
+        '<div class="kd-block issue"><div class="kd-h">課題</div><div class="kd-b">'+escapeHtml(d.issue)+'</div></div>'+
+        '<div class="kd-block action"><div class="kd-h">打ち手</div><div class="kd-b">'+escapeHtml(d.action)+'</div></div>'+
+        '<div class="kd-block effect"><div class="kd-h">期待効果</div><div class="kd-b">'+escapeHtml(d.effect)+'</div></div>'+
+      '</div>';
+    dr.appendChild(td);
+    tr.parentNode.insertBefore(dr,tr.nextSibling);
+    tr.classList.add('open');
+    tr.setAttribute('aria-expanded','true');
+  }
+
+  tbody.addEventListener('click',function(ev){
+    var tr=ev.target.closest('tr');
+    if(!tr || !tr.classList.contains('has-detail')) return;
+    if(tr.classList.contains('open')) closeDetail(tr);
+    else openDetail(tr);
+  });
+  tbody.addEventListener('keydown',function(ev){
+    if(ev.key!=='Enter' && ev.key!==' ') return;
+    var tr=ev.target.closest('tr');
+    if(!tr || !tr.classList.contains('has-detail')) return;
+    ev.preventDefault();
+    if(tr.classList.contains('open')) closeDetail(tr);
+    else openDetail(tr);
+  });
+
   function apply(){
     var onlyOpen=openOnly&&openOnly.checked;
     var shown=0;
@@ -1045,6 +1214,11 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
       var okS=!onlyOpen||r.getAttribute('data-status')==='open';
       var vis=okF&&okS;
       r.style.display=vis?'':'none';
+      // Hide the paired detail row if the parent row is hidden
+      var next=r.nextElementSibling;
+      if(next && next.classList.contains('kz-detail-row')){
+        next.style.display=vis?'':'none';
+      }
       if(vis)shown++;
     });
     if(empty)empty.style.display=shown?'none':'block';
