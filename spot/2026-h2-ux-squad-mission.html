@@ -343,15 +343,15 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 .kz-aud .aud-themes span{display:inline-block;margin-right:10px;white-space:nowrap}
 
 /* focus list table */
-.kz-table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff}
-.kz-table{font-size:12.5px}
-.kz-table thead th{position:sticky;top:0;background:var(--bg);text-align:left;padding:9px 14px;font-size:11.5px;font-weight:800;color:var(--sub);border-bottom:2px solid var(--border);white-space:nowrap}
-.kz-table td{padding:8px 14px;border-bottom:1px solid var(--border);vertical-align:middle;line-height:1.5}
+.kz-table{width:100%;border-collapse:collapse;font-size:11.5px;background:#fff}
+.kz-table thead th{position:sticky;top:0;background:var(--bg);text-align:left;padding:7px 12px;font-size:10.5px;font-weight:800;color:var(--sub);border-bottom:2px solid var(--border);white-space:nowrap}
+.kz-table td{padding:5px 12px;border-bottom:1px solid var(--border);vertical-align:middle;line-height:1.45}
 .kz-table tr:hover td{background:var(--veltra-soft)}
-.kz-table .id{font-family:'Noto Sans JP',monospace;font-size:12.3px;color:var(--veltra-dark);white-space:nowrap}
-.kz-table .id a{color:var(--veltra-dark);text-decoration:none}
-.kz-table .id a:hover{text-decoration:underline}
-.kz-thchip{display:inline-block;font-size:11.5px;font-weight:700;border-radius:6px;padding:3px 10px;white-space:nowrap}
+.kz-table .id{font-family:'Noto Sans JP',monospace;font-size:11px;color:var(--veltra-dark);white-space:nowrap}
+.kz-table .id .kz-idtxt{color:var(--veltra-dark)}
+.kz-ext{font-size:10px;color:var(--hint);text-decoration:none;margin-left:5px;opacity:.5;transition:opacity .12s,color .12s}
+.kz-ext:hover{opacity:1;color:var(--veltra)}
+.kz-thchip{display:inline-block;font-size:10.5px;font-weight:700;border-radius:5px;padding:2px 8px;white-space:nowrap}
 .kz-thchip.flow{background:var(--green-bg);color:var(--green-text)}
 .kz-thchip.reqinfo{background:#e0f2fe;color:#075985}
 .kz-thchip.stock{background:#fef9c3;color:#854d0e}
@@ -368,22 +368,31 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 .kz-group-title:first-child{margin-top:0}
 
 /* filter UI */
-.kz-filter{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
-.kz-fbtn{font-size:11.5px;font-weight:700;border:1.5px solid var(--border);background:#fff;color:var(--sub);border-radius:999px;padding:7px 14px;cursor:pointer;transition:all .12s;display:inline-flex;align-items:center;gap:6px}
-.kz-fbtn:hover{border-color:var(--veltra);color:var(--veltra-dark)}
-.kz-fbtn .fc{font-size:11px;font-weight:800;background:var(--bg);color:var(--sub);border-radius:5px;padding:1px 6px}
+.kz-filter{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:8px}
+.kz-filter-theme{margin-bottom:14px}
+.kz-fgroup-lbl{font-size:10px;font-weight:800;color:var(--hint);letter-spacing:.06em;margin-right:4px;min-width:48px}
+.kz-fbtn,.kz-tbtn{font-size:10.5px;font-weight:700;border:1px solid var(--border);background:#fff;color:var(--sub);border-radius:999px;padding:3px 10px;cursor:pointer;transition:all .12s;display:inline-flex;align-items:center;gap:5px;line-height:1.4}
+.kz-fbtn:hover,.kz-tbtn:hover{border-color:var(--veltra);color:var(--veltra-dark)}
+.kz-fbtn .fc,.kz-tbtn .fc{font-size:9.5px;font-weight:800;background:var(--bg);color:var(--sub);border-radius:4px;padding:0 5px}
 .kz-fbtn.active{background:var(--veltra);border-color:var(--veltra);color:#fff}
-.kz-fbtn.active .fc{background:rgba(255,255,255,.25);color:#fff}
+.kz-fbtn.active .fc,.kz-tbtn.active .fc{background:rgba(255,255,255,.25);color:#fff}
 .kz-fbtn.l1.active{background:#1e40af;border-color:#1e40af}
 .kz-fbtn.l2.active{background:var(--green);border-color:var(--green)}
 .kz-fbtn.l3.active{background:var(--amber);border-color:var(--amber)}
 .kz-fbtn.l4.active{background:#7c3aed;border-color:#7c3aed}
-.kz-toggle{font-size:11.5px;font-weight:700;color:var(--sub);display:inline-flex;align-items:center;gap:6px;cursor:pointer;margin-left:6px}
-.kz-toggle input{width:16px;height:16px;cursor:pointer}
+.kz-tbtn.active{background:var(--veltra-dark);border-color:var(--veltra-dark);color:#fff}
+.kz-tbtn.th-flow.active{background:var(--green);border-color:var(--green)}
+.kz-tbtn.th-pay.active{background:#0369a1;border-color:#0369a1}
+.kz-tbtn.th-stock.active{background:var(--amber);border-color:var(--amber)}
+.kz-tbtn.th-coupon.active{background:#be185d;border-color:#be185d}
+.kz-tbtn.th-engage.active{background:#7c3aed;border-color:#7c3aed}
+.kz-tbtn.th-cxl.active{background:#475569;border-color:#475569}
+.kz-toggle{font-size:10.5px;font-weight:700;color:var(--sub);display:inline-flex;align-items:center;gap:5px;cursor:pointer;margin-left:4px}
+.kz-toggle input{width:14px;height:14px;cursor:pointer}
 .kz-empty{padding:24px;text-align:center;color:var(--hint);font-size:12.3px}
 
 /* 施策候補 label chips */
-.kz-lbl{display:inline-block;font-size:11px;font-weight:700;border-radius:6px;padding:3px 9px;margin:2px 4px 2px 0;white-space:nowrap}
+.kz-lbl{display:inline-block;font-size:10px;font-weight:700;border-radius:5px;padding:2px 7px;margin:1px 3px 1px 0;white-space:nowrap}
 .kz-lbl.l1{background:#dbeafe;color:#1e40af}
 .kz-lbl.l2{background:var(--green-bg);color:var(--green-text)}
 .kz-lbl.l3{background:var(--amber-bg);color:var(--amber-text)}
@@ -476,10 +485,10 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 </details>
 
 <!-- ===================== Section 01: 背景と使命 ===================== -->
-<h2 class="st">01. 背景と使命</h2>
+<h2 class="st" id="s0">01. 背景と使命</h2>
 
 <!-- Slide -->
-<div class="slide hi" id="s0">
+<div class="slide hi">
   <div class="slide-h">Traveler が Veltra で<br><strong>迷わず・より多く買いやすい状態</strong>を作る</div>
   <p class="slide-sub">主指標は CVR。「迷わず」= ②既存UX改善、「より多く」= ①1回で複数買ってもらう。この2つを短中期で並行注力する。</p>
 </div>
@@ -519,10 +528,10 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
     </div>
     <div class="qarrow"><span class="a">↓</span></div>
 
-    <!-- Q3 -->
+    <!-- Q3（旧 Q3+Q4 を統合） -->
     <div class="qstep q3">
-      <div class="qh"><span class="qn">Q3</span><span class="qt">その状態を作るために、どの手段を取るか？</span></div>
-      <div class="qa">短中期は①②の2つを並行注力／③は視野のみ</div>
+      <div class="qh"><span class="qn">Q3</span><span class="qt">どの手段を取るか？　なぜ①②の両方なのか？</span></div>
+      <div class="qa">①は客単価、②は完了率と、CVRへの効き方が別々。互いに邪魔せず足し算で効くので、①②を並行注力する（③は後回し）。</div>
       <div class="kpigrid" style="margin-top:12px">
         <div class="kpicard focus">
           <div class="klabel">手段① 注力 「より多く」</div>
@@ -540,16 +549,9 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
           <div class="kdesc">長期。<br>次回旅行での再購入。<br>優先度は後回し。</div>
         </div>
       </div>
-    </div>
-    <div class="qarrow"><span class="a">↓</span></div>
-
-    <!-- Q4 -->
-    <div class="qstep q4">
-      <div class="qh"><span class="qn">Q4</span><span class="qt">なぜ①と②の2つを注力するか？</span></div>
-      <div class="qa">CVRへの経路が違うので干渉しない。補完関係にある。</div>
-      <div class="reason-two">
+      <div class="reason-two" style="margin-top:14px">
         <div class="rcard a">
-          <div class="rh">① 1回で複数買ってもらう（が効く理由）</div>
+          <div class="rh">① が効く理由（客単価を上げる）</div>
           <ul>
             <li><b>予約時のついで買い導線</b>ができた（eSIM・保険）</li>
             <li><b>元々複数購入されるカテゴリ</b>の強化（Mobility Hub）</li>
@@ -557,7 +559,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
           </ul>
         </div>
         <div class="rcard b">
-          <div class="rh">② 既存UX改善（が効く理由）</div>
+          <div class="rh">② が効く理由（完了率を上げる）</div>
           <ul>
             <li>既存基盤での勝負が長引く＝<b>取りこぼしを減らす</b>のが効く</li>
             <li>GA4ファネル分析で<b>ボトルネックが特定済み</b></li>
@@ -658,10 +660,10 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
 
 <!-- ===================== Section 02: 手段① ===================== -->
-<h2 class="st">02. 手段① 1回で複数買ってもらう</h2>
+<h2 class="st" id="s2">02. 手段① 1回で複数買ってもらう</h2>
 
 <!-- Slide -->
-<div class="slide hi" id="s2">
+<div class="slide hi">
   <div class="slide-h">「1回で複数買ってもらう」に乗る<strong>2つのプロジェクト</strong></div>
   <div class="slide-sub"><p>既に走っている／立ち上がりつつある2つ。それぞれ複数購入を誘発する「ポイント（構造的な追い風）」を持っている。</p><p>新規商材開発は現状の業務量を踏まえて優先度を下げ、UX改善の過程で自然発生的に生まれるアイデアを検討していく。</p></div>
 
@@ -696,10 +698,10 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
 
 <!-- ===================== Section 03: 手段② ===================== -->
-<h2 class="st">03. 手段② TR側の既存UX改善</h2>
+<h2 class="st" id="s4">03. 手段② TR側の既存UX改善</h2>
 
 <!-- Slide -->
-<div class="slide hi" id="s4">
+<div class="slide hi">
   <div class="slide-h">次に詰めるべき<strong>3つの論点</strong>＋優先順位付けの原則</div>
   <p class="slide-sub">「既存UX改善」の3つの論点。既存の改善要望・課題を棚卸ししてグルーピング、取り組むソリューションを検討。<br>戦略3軸の <b>② 迷わず買ってもらう</b> に対応（追加承認不要）。</p>
 
@@ -781,11 +783,11 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
     </div>
     <div class="oqp-body cols1">
       <div class="oqp-blk">
-        <div class="bh">ソリューション候補（3方向）</div>
+        <div class="bh">ソリューションのアイデア（まだ検討段階・3方向）</div>
         <ul class="oqp-cands">
-          <li><span class="ck">A</span>条件によっては即時回答を可能にする</li>
-          <li><span class="ck">B</span>AI を活用した電話確認の導入</li>
-          <li><span class="ck">C</span>パートナー業務フローの段階的改善（紙/Excel/電話 → システム化）</li>
+          <li><span class="ck">案A</span>条件によっては即時回答を可能にする</li>
+          <li><span class="ck">案B</span>AI を活用した電話確認の導入</li>
+          <li><span class="ck">案C</span>パートナー業務フローの段階的改善（紙/Excel/電話 → システム化）</li>
         </ul>
       </div>
       <div class="oqp-blk accent">
@@ -881,6 +883,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
   <h3>STEP 2 ── 手段②「TR予約UX」候補の深掘り</h3>
   <p class="sub">Traveler接点 × 予約UX系テーマに該当する45件（うち未完了38件）。各要望に<strong>施策候補</strong>ラベルを付けた（複数該当あり）。上部のボタンで絞り込める。<br><span style="font-size:11.5px;color:var(--hint)">※ RQ予約 = リクエスト予約（即時確定でない予約）の低減。</span></p>
   <div class="kz-filter">
+    <span class="kz-fgroup-lbl">施策候補</span>
     <button class="kz-fbtn active" data-f="all">すべて <span class="fc">45</span></button>
     <button class="kz-fbtn l1" data-f="cross">①複数購入 <span class="fc">2</span></button>
     <button class="kz-fbtn l2" data-f="ux">②予約UX改善 <span class="fc">32</span></button>
@@ -888,54 +891,64 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
     <button class="kz-fbtn l4" data-f="ui">②UI改善 <span class="fc">23</span></button>
     <label class="kz-toggle"><input type="checkbox" id="kzOpenOnly"> 未完了のみ</label>
   </div>
+  <div class="kz-filter kz-filter-theme">
+    <span class="kz-fgroup-lbl">テーマ</span>
+    <button class="kz-tbtn active" data-t="all">すべて <span class="fc">45</span></button>
+    <button class="kz-tbtn th-flow" data-t="flow">予約フロー・入力 <span class="fc">11</span></button>
+    <button class="kz-tbtn th-pay" data-t="pay">決済・返金・バウチャー <span class="fc">16</span></button>
+    <button class="kz-tbtn th-stock" data-t="stock">在庫・カレンダー・RT <span class="fc">2</span></button>
+    <button class="kz-tbtn th-coupon" data-t="coupon">クーポン・価格・キャンペーン <span class="fc">6</span></button>
+    <button class="kz-tbtn th-engage" data-t="engage">TR回遊・エンゲージ <span class="fc">9</span></button>
+    <button class="kz-tbtn th-cxl" data-t="cxl">キャンセル・変更 <span class="fc">1</span></button>
+  </div>
   <table class="kz-table" id="kzTable">
     <thead><tr><th style="width:104px">ID</th><th style="width:150px">テーマ</th><th>要望</th><th style="width:220px">施策候補</th><th style="width:88px">状態</th></tr></thead>
     <tbody>
-      <tr data-labels="ux ui" data-status="open"><td class="id">KZRQ-124</td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>予約数量次第で即確定でないのに予約画面で即確定と表示される</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux ui" data-status="open"><td class="id">KZRQ-153</td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>開始時間ごとに価格設定があるAcの予約モーダル画面内の加算額の挙動</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux ui" data-status="open"><td class="id">KZRQ-194</td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>予約画面）Trの携帯番号を会員情報から拾ってほしい</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-197</td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>Country Code Selection</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-198</td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>予約時に入力が必要な情報(RQinfo)の回答一覧をCSVダウンロードしたい</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux ui" data-status="open"><td class="id">KZRQ-204</td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>Acページ上のお問い合わせ導線が分かりづらい</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-221</td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>会員登録なしの購入・支払い方法の追加</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux ui" data-status="open"><td class="id">KZRQ-23</td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>キャンセル・変更不可のSpecial Dealsの予約時の表示エラー</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux ui" data-status="open"><td class="id">KZRQ-237</td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>ダイナミックプライシングのACの予約遷移上の文言の変更</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="cross ux" data-status="open"><td class="id">KZRQ-98</td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>複数予約のグループ化を可能にする</td><td><span class="kz-lbl l1">①複数購入</span><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-112</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>無料ツアーでもクレジットカード登録が必須</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux ui" data-status="open"><td class="id">KZRQ-141</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>バウチャー印刷の表示について</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux ui" data-status="open"><td class="id">KZRQ-164</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>E-Payment/Payment未CFM分の記録を過去分もデフォルト表示させたい</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-168</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>マイページ領収書ダウンロードの改善</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-175</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>支払い確認画面・CSVデータにPax数を追加</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-182</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>Ptr発行バウチャーをTrマイページで確認可能にしたい</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux ui" data-status="open"><td class="id">KZRQ-19</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>ePaymentのLabelを修正 or 新たに作成して欲しい</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-200</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>マイページ登録済のクレジットカード利用時にもオーソリを導入する</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-208</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>Ptr向けの予約通知メールに事前決済であることを記載してほしい</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-21</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>マルチペイメントの支払期限が過ぎた予約CXLの通知</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-234</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>「コンビニ、ATMでのお支払い」ページの返金方法記載に相違がある</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-253</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>通貨レート上乗せ施策の見直し</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-267</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>Payment Settings for International Bank Information</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux ui" data-status="open"><td class="id">KZRQ-30</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>カレントサイト/チケットシステムの表示通貨を一律JPYにする</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ui" data-status="open"><td class="id">KZRQ-252</td><td><span class="kz-thchip stock">在庫・カレンダー・RT</span></td><td>重要なお知らせはプロモーションと異なる表示枠を確保してほしい</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-107</td><td><span class="kz-thchip coupon">クーポン・価格・キャンペーン</span></td><td>キャンペーンの単純割設定の場合タイトルの編集が出来ない</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-122</td><td><span class="kz-thchip coupon">クーポン・価格・キャンペーン</span></td><td>開始時間ごと料金異なる場合に最安値でなく高い方が表示される</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ui" data-status="open"><td class="id">KZRQ-249</td><td><span class="kz-thchip coupon">クーポン・価格・キャンペーン</span></td><td>クーポンページ 除外日設定の表示改善</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-265</td><td><span class="kz-thchip coupon">クーポン・価格・キャンペーン</span></td><td>クーポン上限額の設定</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux" data-status="open"><td class="id">KZRQ-266</td><td><span class="kz-thchip coupon">クーポン・価格・キャンペーン</span></td><td>ACページ表記の変更（❶「XX%off」の背景色を赤系に、文字色を白に変更❷単純値引きの表現を「キャンペーン」から「セール」に変更）</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ui" data-status="open"><td class="id">KZRQ-144</td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>新規ACを公開しても露出されず予約が入りにくい（Active AC KPI）</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ui" data-status="open"><td class="id">KZRQ-150</td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>ストアAcの体験談流し込み（旧サイト→カレントサイト）</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ui" data-status="open"><td class="id">KZRQ-236</td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>体験談投稿を当日から可能にしてほしい</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ui" data-status="open"><td class="id">KZRQ-250</td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>各国の渡航安全情報に関する更新</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ui" data-status="open"><td class="id">KZRQ-251</td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>Acのランキング順位表示を金額ではなく予約数にしてほしい</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ui" data-status="open"><td class="id">KZRQ-264</td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>マイページ改修（１：訪問国が見れるページ、２：利用回数による称号獲得などゲーミフィケーション）</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="cross ui" data-status="open"><td class="id">KZRQ-36</td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>VELTRAポイント有効期限の撤廃</td><td><span class="kz-lbl l1">①複数購入</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ui" data-status="open"><td class="id">KZRQ-86</td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>ベトナム モニターツアー表示順について</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
-      <tr data-labels="ux ui" data-status="done"><td class="id">KZRQ-20</td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>キャンセル・変更不可のSpecial Dealsの予約時の表示エラー</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-done">完了</span></td></tr>
-      <tr data-labels="ux ui" data-status="done"><td class="id">KZRQ-8</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>ePaymentの自動メール文言修正依頼</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-done">完了</span></td></tr>
-      <tr data-labels="ux" data-status="done"><td class="id">KZRQ-9</td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>ベストプライスの定型文に「通貨が一緒の必要あり」の文章追記</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-done">完了</span></td></tr>
-      <tr data-labels="rq" data-status="done"><td class="id">KZRQ-46</td><td><span class="kz-thchip stock">在庫・カレンダー・RT</span></td><td>催行が確定した日に予約を集めたい（催行確定表示）</td><td><span class="kz-lbl l3">②RQ予約低減</span></td><td><span class="kz-done">完了</span></td></tr>
-      <tr data-labels="rq" data-status="done"><td class="id">KZRQ-133</td><td><span class="kz-thchip cxl">キャンセル・変更</span></td><td>キャンセルポリシーのAuto設定で開始時間ちょうどが選べない</td><td><span class="kz-lbl l3">②RQ予約低減</span></td><td><span class="kz-done">完了</span></td></tr>
-      <tr data-labels="ux" data-status="done"><td class="id">KZRQ-12</td><td><span class="kz-thchip coupon">クーポン・価格・キャンペーン</span></td><td>有利誤認記載削除 - /mistype/ ページ内に「最低価格保証！」記載</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-done">完了</span></td></tr>
-      <tr data-labels="ui" data-status="done"><td class="id">KZRQ-119</td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>グローバルTOPの写真がコロナの時と変わらない</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-done">完了</span></td></tr>
+      <tr data-labels="ux ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-124</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-124" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-124 をClickUpで開く">↗</a></td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>予約数量次第で即確定でないのに予約画面で即確定と表示される</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-153</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-153" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-153 をClickUpで開く">↗</a></td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>開始時間ごとに価格設定があるAcの予約モーダル画面内の加算額の挙動</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-194</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-194" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-194 をClickUpで開く">↗</a></td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>予約画面）Trの携帯番号を会員情報から拾ってほしい</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-197</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-197" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-197 をClickUpで開く">↗</a></td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>Country Code Selection</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-198</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-198" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-198 をClickUpで開く">↗</a></td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>予約時に入力が必要な情報(RQinfo)の回答一覧をCSVダウンロードしたい</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-204</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-204" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-204 をClickUpで開く">↗</a></td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>Acページ上のお問い合わせ導線が分かりづらい</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-221</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-221" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-221 をClickUpで開く">↗</a></td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>会員登録なしの購入・支払い方法の追加</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-23</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-23" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-23 をClickUpで開く">↗</a></td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>キャンセル・変更不可のSpecial Dealsの予約時の表示エラー</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-237</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-237" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-237 をClickUpで開く">↗</a></td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>ダイナミックプライシングのACの予約遷移上の文言の変更</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="cross ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-98</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-98" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-98 をClickUpで開く">↗</a></td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>複数予約のグループ化を可能にする</td><td><span class="kz-lbl l1">①複数購入</span><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-112</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-112" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-112 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>無料ツアーでもクレジットカード登録が必須</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-141</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-141" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-141 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>バウチャー印刷の表示について</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-164</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-164" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-164 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>E-Payment/Payment未CFM分の記録を過去分もデフォルト表示させたい</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-168</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-168" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-168 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>マイページ領収書ダウンロードの改善</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-175</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-175" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-175 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>支払い確認画面・CSVデータにPax数を追加</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-182</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-182" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-182 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>Ptr発行バウチャーをTrマイページで確認可能にしたい</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-19</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-19" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-19 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>ePaymentのLabelを修正 or 新たに作成して欲しい</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-200</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-200" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-200 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>マイページ登録済のクレジットカード利用時にもオーソリを導入する</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-208</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-208" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-208 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>Ptr向けの予約通知メールに事前決済であることを記載してほしい</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-21</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-21" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-21 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>マルチペイメントの支払期限が過ぎた予約CXLの通知</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-234</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-234" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-234 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>「コンビニ、ATMでのお支払い」ページの返金方法記載に相違がある</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-253</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-253" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-253 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>通貨レート上乗せ施策の見直し</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-267</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-267" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-267 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>Payment Settings for International Bank Information</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-30</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-30" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-30 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>カレントサイト/チケットシステムの表示通貨を一律JPYにする</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-252</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-252" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-252 をClickUpで開く">↗</a></td><td><span class="kz-thchip stock">在庫・カレンダー・RT</span></td><td>重要なお知らせはプロモーションと異なる表示枠を確保してほしい</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-107</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-107" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-107 をClickUpで開く">↗</a></td><td><span class="kz-thchip coupon">クーポン・価格・キャンペーン</span></td><td>キャンペーンの単純割設定の場合タイトルの編集が出来ない</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-122</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-122" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-122 をClickUpで開く">↗</a></td><td><span class="kz-thchip coupon">クーポン・価格・キャンペーン</span></td><td>開始時間ごと料金異なる場合に最安値でなく高い方が表示される</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-249</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-249" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-249 をClickUpで開く">↗</a></td><td><span class="kz-thchip coupon">クーポン・価格・キャンペーン</span></td><td>クーポンページ 除外日設定の表示改善</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-265</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-265" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-265 をClickUpで開く">↗</a></td><td><span class="kz-thchip coupon">クーポン・価格・キャンペーン</span></td><td>クーポン上限額の設定</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-266</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-266" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-266 をClickUpで開く">↗</a></td><td><span class="kz-thchip coupon">クーポン・価格・キャンペーン</span></td><td>ACページ表記の変更（❶「XX%off」の背景色を赤系に、文字色を白に変更❷単純値引きの表現を「キャンペーン」から「セール」に変更）</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-144</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-144" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-144 をClickUpで開く">↗</a></td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>新規ACを公開しても露出されず予約が入りにくい（Active AC KPI）</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-150</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-150" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-150 をClickUpで開く">↗</a></td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>ストアAcの体験談流し込み（旧サイト→カレントサイト）</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-236</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-236" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-236 をClickUpで開く">↗</a></td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>体験談投稿を当日から可能にしてほしい</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-250</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-250" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-250 をClickUpで開く">↗</a></td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>各国の渡航安全情報に関する更新</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-251</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-251" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-251 をClickUpで開く">↗</a></td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>Acのランキング順位表示を金額ではなく予約数にしてほしい</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-264</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-264" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-264 をClickUpで開く">↗</a></td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>マイページ改修（１：訪問国が見れるページ、２：利用回数による称号獲得などゲーミフィケーション）</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="cross ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-36</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-36" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-36 をClickUpで開く">↗</a></td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>VELTRAポイント有効期限の撤廃</td><td><span class="kz-lbl l1">①複数購入</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ui" data-status="open"><td class="id"><span class="kz-idtxt">KZRQ-86</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-86" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-86 をClickUpで開く">↗</a></td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>ベトナム モニターツアー表示順について</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-open">未着手</span></td></tr>
+      <tr data-labels="ux ui" data-status="done"><td class="id"><span class="kz-idtxt">KZRQ-20</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-20" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-20 をClickUpで開く">↗</a></td><td><span class="kz-thchip flow">予約フロー・入力</span></td><td>キャンセル・変更不可のSpecial Dealsの予約時の表示エラー</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-done">完了</span></td></tr>
+      <tr data-labels="ux ui" data-status="done"><td class="id"><span class="kz-idtxt">KZRQ-8</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-8" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-8 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>ePaymentの自動メール文言修正依頼</td><td><span class="kz-lbl l2">②予約UX改善</span><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-done">完了</span></td></tr>
+      <tr data-labels="ux" data-status="done"><td class="id"><span class="kz-idtxt">KZRQ-9</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-9" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-9 をClickUpで開く">↗</a></td><td><span class="kz-thchip pay">決済・返金・バウチャー</span></td><td>ベストプライスの定型文に「通貨が一緒の必要あり」の文章追記</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-done">完了</span></td></tr>
+      <tr data-labels="rq" data-status="done"><td class="id"><span class="kz-idtxt">KZRQ-46</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-46" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-46 をClickUpで開く">↗</a></td><td><span class="kz-thchip stock">在庫・カレンダー・RT</span></td><td>催行が確定した日に予約を集めたい（催行確定表示）</td><td><span class="kz-lbl l3">②RQ予約低減</span></td><td><span class="kz-done">完了</span></td></tr>
+      <tr data-labels="rq" data-status="done"><td class="id"><span class="kz-idtxt">KZRQ-133</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-133" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-133 をClickUpで開く">↗</a></td><td><span class="kz-thchip cxl">キャンセル・変更</span></td><td>キャンセルポリシーのAuto設定で開始時間ちょうどが選べない</td><td><span class="kz-lbl l3">②RQ予約低減</span></td><td><span class="kz-done">完了</span></td></tr>
+      <tr data-labels="ux" data-status="done"><td class="id"><span class="kz-idtxt">KZRQ-12</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-12" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-12 をClickUpで開く">↗</a></td><td><span class="kz-thchip coupon">クーポン・価格・キャンペーン</span></td><td>有利誤認記載削除 - /mistype/ ページ内に「最低価格保証！」記載</td><td><span class="kz-lbl l2">②予約UX改善</span></td><td><span class="kz-done">完了</span></td></tr>
+      <tr data-labels="ui" data-status="done"><td class="id"><span class="kz-idtxt">KZRQ-119</span><a class="kz-ext" href="https://app.clickup.com/t/31108037/KZRQ-119" target="_blank" rel="noopener" title="ClickUpで開く" aria-label="KZRQ-119 をClickUpで開く">↗</a></td><td><span class="kz-thchip engage">TR回遊・エンゲージ</span></td><td>グローバルTOPの写真がコロナの時と変わらない</td><td><span class="kz-lbl l4">②UI改善</span></td><td><span class="kz-done">完了</span></td></tr>
     </tbody></table>
   <div class="kz-empty" id="kzEmpty" style="display:none">該当する要望はありません。</div>
 </div>
@@ -1042,26 +1055,43 @@ window.KZ_DETAILS = {
 <script>
 (function(){
   var btns=document.querySelectorAll('.kz-fbtn');
+  var tbtns=document.querySelectorAll('.kz-tbtn');
   var openOnly=document.getElementById('kzOpenOnly');
   var table=document.getElementById('kzTable');
   if(!table) return;
   var tbody=table.querySelector('tbody');
   var rows=Array.prototype.slice.call(tbody.querySelectorAll('tr'));
   var empty=document.getElementById('kzEmpty');
-  // 複数のフィルタを OR で扱う。初期は「全て」のみが active。
-  var activeFilters=new Set(['all']);
+  // 施策候補・テーマそれぞれ複数選択を OR で扱う。両グループ間は AND。初期は各「全て」。
+  var activeFilters=new Set(['all']);   // 施策候補
+  var activeThemes=new Set(['all']);    // テーマ
   var details=window.KZ_DETAILS||{};
+  var THEME_CLASSES=['flow','pay','stock','coupon','engage','cxl'];
+
+  function rowTheme(r){
+    var chip=r.querySelector('.kz-thchip');
+    if(!chip) return '';
+    for(var i=0;i<THEME_CLASSES.length;i++){
+      if(chip.classList.contains(THEME_CLASSES[i])) return THEME_CLASSES[i];
+    }
+    return '';
+  }
 
   function escapeHtml(s){
     return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});
   }
 
+  function rowId(r){
+    var idCell=r.querySelector('td.id');
+    if(!idCell) return '';
+    var txt=idCell.querySelector('.kz-idtxt');
+    return (txt?txt.textContent:idCell.textContent).trim();
+  }
+
   // Mark rows that have detail summaries
   rows.forEach(function(r){
-    var idCell=r.querySelector('td.id');
-    if(!idCell) return;
-    var id=idCell.textContent.trim();
-    if(details[id]){
+    var id=rowId(r);
+    if(id && details[id]){
       r.classList.add('has-detail');
       r.setAttribute('tabindex','0');
       r.setAttribute('role','button');
@@ -1079,7 +1109,7 @@ window.KZ_DETAILS = {
   }
 
   function openDetail(tr){
-    var id=tr.querySelector('td.id').textContent.trim();
+    var id=rowId(tr);
     var d=details[id];
     if(!d) return;
     var dr=document.createElement('tr');
@@ -1099,6 +1129,8 @@ window.KZ_DETAILS = {
   }
 
   tbody.addEventListener('click',function(ev){
+    // 外部リンク（ClickUp ↗）クリックはトグルさせず、そのまま遷移
+    if(ev.target.closest('.kz-ext')) return;
     var tr=ev.target.closest('tr');
     if(!tr || !tr.classList.contains('has-detail')) return;
     if(tr.classList.contains('open')) closeDetail(tr);
@@ -1116,21 +1148,21 @@ window.KZ_DETAILS = {
   function apply(){
     var onlyOpen=openOnly&&openOnly.checked;
     var shown=0;
-    var isAll=activeFilters.has('all');
+    var labelAll=activeFilters.has('all');
+    var themeAll=activeThemes.has('all');
     rows.forEach(function(r){
       var labels=(r.getAttribute('data-labels')||'').split(' ');
-      var okF;
-      if(isAll){
-        okF=true;
-      }else{
-        // OR: 行のラベルのいずれかが、選択中フィルタのいずれかに含まれれば表示
-        okF=false;
+      // 施策候補（OR）
+      var okF=labelAll;
+      if(!okF){
         for(var i=0;i<labels.length;i++){
           if(activeFilters.has(labels[i])){okF=true;break;}
         }
       }
+      // テーマ（OR）
+      var okT=themeAll || activeThemes.has(rowTheme(r));
       var okS=!onlyOpen||r.getAttribute('data-status')==='open';
-      var vis=okF&&okS;
+      var vis=okF&&okT&&okS;
       r.style.display=vis?'':'none';
       var next=r.nextElementSibling;
       if(next && next.classList.contains('kz-detail-row')){
@@ -1140,32 +1172,35 @@ window.KZ_DETAILS = {
     });
     if(empty)empty.style.display=shown?'none':'block';
   }
-  function syncBtnActive(){
-    btns.forEach(function(b){
-      var f=b.getAttribute('data-f');
-      if(activeFilters.has(f)) b.classList.add('active');
-      else b.classList.remove('active');
+  // 汎用トグル：ボタン群・active集合・データ属性名を受け取り複数選択OR＋「全て」を扱う
+  function wireGroup(buttonList,activeSet,attr){
+    function sync(){
+      buttonList.forEach(function(b){
+        var v=b.getAttribute(attr);
+        if(activeSet.has(v)) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+    }
+    buttonList.forEach(function(b){
+      b.addEventListener('click',function(){
+        var v=b.getAttribute(attr);
+        if(v==='all'){
+          activeSet.clear();activeSet.add('all');
+        }else{
+          activeSet.delete('all');
+          if(activeSet.has(v)) activeSet.delete(v);
+          else activeSet.add(v);
+          if(activeSet.size===0) activeSet.add('all');
+        }
+        sync();
+        apply();
+      });
     });
+    sync();
   }
-  btns.forEach(function(b){
-    b.addEventListener('click',function(){
-      var f=b.getAttribute('data-f');
-      if(f==='all'){
-        // 「全て」を押したら他を解除して all のみに
-        activeFilters=new Set(['all']);
-      }else{
-        activeFilters.delete('all');
-        if(activeFilters.has(f)) activeFilters.delete(f);
-        else activeFilters.add(f);
-        // 何も選ばれてない状態は「全て」に戻す
-        if(activeFilters.size===0) activeFilters=new Set(['all']);
-      }
-      syncBtnActive();
-      apply();
-    });
-  });
+  wireGroup(btns,activeFilters,'data-f');
+  wireGroup(tbtns,activeThemes,'data-t');
   if(openOnly)openOnly.addEventListener('change',apply);
-  syncBtnActive();
 })();
 </script>
 <script src="/nav.js"></script>
