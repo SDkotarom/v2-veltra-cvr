@@ -1,8 +1,17 @@
 (function () {
   var css = document.createElement('style');
   css.textContent =
-    '.site-layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:0;max-width:1500px;margin:0 auto;padding:20px 24px 24px 16px}' +
-    '.site-nav{position:sticky;top:20px;align-self:start;padding:48px 10px 16px;max-height:calc(100vh - 40px);overflow-y:auto;background:#f0ede8;border-radius:16px}' +
+    '.site-layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:0;max-width:1500px;margin:0 auto;padding:20px 24px 24px 16px;transition:grid-template-columns .18s ease}' +
+    '.site-layout.nav-collapsed{grid-template-columns:0 minmax(0,1fr)}' +
+    '.site-nav{position:sticky;top:20px;align-self:start;padding:48px 10px 16px;max-height:calc(100vh - 40px);overflow-y:auto;background:#f0ede8;border-radius:16px;transition:opacity .15s ease,visibility .15s}' +
+    '.site-layout.nav-collapsed .site-nav{opacity:0;visibility:hidden;pointer-events:none;overflow:hidden}' +
+    /* Nav collapse toggle button (inside nav) */
+    '.nav-collapse-btn{position:absolute;top:12px;right:12px;width:26px;height:26px;border:1px solid rgba(0,0,0,.1);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;color:#666;display:flex;align-items:center;justify-content:center;padding:0;line-height:1;z-index:2;transition:background .12s}' +
+    '.nav-collapse-btn:hover{background:#f5f2ec;color:#1a1a1a}' +
+    /* Floating expand button (shown when nav is collapsed) */
+    '.nav-expand-btn{position:fixed;top:24px;left:12px;width:32px;height:32px;border:1px solid rgba(0,0,0,.12);background:#fff;border-radius:10px;cursor:pointer;font-size:16px;color:#666;display:none;align-items:center;justify-content:center;padding:0;line-height:1;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.08);transition:background .12s}' +
+    '.nav-expand-btn:hover{background:#f5f2ec;color:#1a1a1a}' +
+    '.nav-expand-btn.visible{display:flex}' +
     /* Logo area */
     '.site-nav .nav-logo{padding:10px 10px 12px;display:flex;align-items:center;gap:8px}' +
     '.site-nav .nav-logo img{width:28px;height:28px;object-fit:contain}' +
@@ -98,6 +107,39 @@
   layout.appendChild(nav);
   layout.appendChild(main);
   document.body.appendChild(layout);
+
+  // ── Nav collapse toggle ──────────────────────────
+  var collapseBtn = document.createElement('button');
+  collapseBtn.className = 'nav-collapse-btn';
+  collapseBtn.type = 'button';
+  collapseBtn.setAttribute('aria-label', '左ナビをたたむ');
+  collapseBtn.textContent = '‹';
+  nav.appendChild(collapseBtn);
+
+  var expandBtn = document.createElement('button');
+  expandBtn.className = 'nav-expand-btn';
+  expandBtn.type = 'button';
+  expandBtn.setAttribute('aria-label', '左ナビを開く');
+  expandBtn.textContent = '☰';
+  document.body.appendChild(expandBtn);
+
+  function setCollapsed(collapsed) {
+    if (collapsed) {
+      layout.classList.add('nav-collapsed');
+      expandBtn.classList.add('visible');
+    } else {
+      layout.classList.remove('nav-collapsed');
+      expandBtn.classList.remove('visible');
+    }
+    try { localStorage.setItem('veltra-nav-collapsed', collapsed ? '1' : '0'); } catch (e) {}
+  }
+
+  collapseBtn.addEventListener('click', function () { setCollapsed(true); });
+  expandBtn.addEventListener('click', function () { setCollapsed(false); });
+
+  try {
+    if (localStorage.getItem('veltra-nav-collapsed') === '1') setCollapsed(true);
+  } catch (e) {}
 
   // ── Page type detection ──────────────────────────
   // (breadcrumb inserted below after detection)
