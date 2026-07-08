@@ -131,9 +131,21 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 .md-mean.a .ht{color:var(--green-text)}
 .md-mean.b .ht{color:var(--amber-text)}
 .md-mean .hd{font-size:12.5px;color:var(--sub);line-height:1.65}
-.md-long{margin-top:12px;background:#fafafa;border:1px dashed var(--border);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px}
-.md-long .ltg{font-size:11px;font-weight:800;background:#e5e7eb;color:var(--sub);padding:3px 8px;border-radius:5px;letter-spacing:.06em}
-.md-long .lt{font-size:13.4px;font-weight:700;color:var(--sub);flex:1}
+/* 各手段の中身（担当ロール・プロジェクト）を手段ボックス内に統合 */
+.md-detail{margin-top:12px;padding-top:12px;border-top:1px solid rgba(0,0,0,.08)}
+.md-detail ul{list-style:none;margin:0;padding:0}
+.md-detail li{font-size:12.5px;line-height:1.55;color:var(--text);padding-left:14px;position:relative;margin-bottom:6px}
+.md-detail li:last-child{margin-bottom:0}
+.md-detail li::before{content:'';position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%}
+.md-mean.a .md-detail li::before{background:var(--green)}
+.md-mean.b .md-detail li::before{background:var(--amber)}
+.md-detail .who{color:var(--hint);font-size:11px}
+.md-detail .note{font-size:11.5px;color:var(--sub);line-height:1.6;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(0,0,0,.08)}
+.md-long{margin-top:12px;background:#fafafa;border:1px dashed var(--border);border-radius:12px;padding:14px 18px}
+.md-long .lhead{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.md-long .ltg{font-size:11px;font-weight:800;background:#e5e7eb;color:var(--sub);padding:3px 8px;border-radius:5px;letter-spacing:.06em;flex-shrink:0}
+.md-long .lt{font-size:13.4px;font-weight:700;color:var(--sub)}
+.md-long .ld{font-size:12px;color:var(--hint);line-height:1.6}
 
 /* Q-flow (Q1 → Q4) */
 .qflow{display:flex;flex-direction:column;gap:0;margin:8px 0 4px}
@@ -487,23 +499,23 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
   <!-- preview (shown when closed): first 3 -->
   <ul class="toc-preview">
-    <li class="toc-item"><a href="#s0"><span class="toc-num">01</span><span class="toc-text"><span class="toc-title">背景と使命</span><span class="toc-desc">3つの環境変化 → 迷わず・より多く</span></span></a></li>
+    <li class="toc-item"><a href="#s0"><span class="toc-num">01</span><span class="toc-text"><span class="toc-title">取り組むミッション</span><span class="toc-desc">迷わず・より多く／2つの手段／なぜこの結論か</span></span></a></li>
     <li class="toc-item"><a href="#s2"><span class="toc-num">02</span><span class="toc-text"><span class="toc-title">手段① 1回で複数買ってもらう</span><span class="toc-desc">eSIM・保険 / Mobility Hub</span></span></a></li>
     <li class="toc-item"><a href="#s4"><span class="toc-num">03</span><span class="toc-text"><span class="toc-title">手段② TR側の既存UX改善</span><span class="toc-desc">3つの論点と着手可否</span></span></a></li>
   </ul>
 
   <!-- full list (shown when open) -->
   <ul class="toc-list">
-    <li class="toc-item"><a href="#s0"><span class="toc-num">01</span><span class="toc-text"><span class="toc-title">背景と使命</span><span class="toc-desc">なぜ迷わず・より多く／ミッション文／2つの手段／デザインチームの役割</span></span></a></li>
+    <li class="toc-item"><a href="#s0"><span class="toc-num">01</span><span class="toc-text"><span class="toc-title">取り組むミッション</span><span class="toc-desc">ミッション文／2つの手段の中身／なぜこの結論か（Q1-Q3）／デザインチーム役割</span></span></a></li>
     <li class="toc-item"><a href="#s2"><span class="toc-num">02</span><span class="toc-text"><span class="toc-title">手段① 1回で複数買ってもらう</span><span class="toc-desc">eSIM・保険 / Mobility Hub。戦略3軸との対応も同時に</span></span></a></li>
     <li class="toc-item"><a href="#s4"><span class="toc-num">03</span><span class="toc-text"><span class="toc-title">手段② TR側の既存UX改善</span><span class="toc-desc">3つの論点（Q1/Q2/Q3）と論点ごとの結論・アクション</span></span></a></li>
     <li class="toc-item"><a href="#s7"><span class="toc-num">04</span><span class="toc-text"><span class="toc-title">既存改善要望の棚卸し（Kaizen Request）</span><span class="toc-desc">約200件の一次仕分けと手段②候補45件、詳細トグル</span></span></a></li>
   </ul>
 </details>
 
-<!-- ===================== Section 01: 背景と使命 ===================== -->
+<!-- ===================== Section 01: 取り組むミッション ===================== -->
 <section class="secbox" id="s0">
-<h2 class="st">01. 背景と使命</h2>
+<h2 class="st">01. 取り組むミッション</h2>
 
 <!-- Slide: 結論 -->
 <div class="slide hi" id="s1">
@@ -511,32 +523,49 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
   <p class="slide-sub">主指標は CVR。「迷わず」= ②既存UX改善、「より多く」= ①1回で複数買ってもらう。この2つを短中期で並行注力する。</p>
 </div>
 
-<!-- Detail: 各手段の中身（具体） -->
-<div class="sec">
-  <div class="stt"><span class="n">i</span>各手段の中身</div>
-  <div class="lede">上の構造の内訳。担当ロールと主要プロジェクトを一覧化。</div>
-
-  <div class="card" style="border-left:4px solid var(--green);background:var(--green-bg)">
-    <p><strong>手段① 1回で複数買ってもらう（短中期・注力）</strong></p>
-    <ul style="margin-left:20px;color:var(--green-text)">
-      <li style="font-size:13.9px;line-height:1.85">eSIM・キャンセル保険 <span style="color:var(--hint);font-size:11.6px">— Mav</span></li>
-      <li style="font-size:13.9px;line-height:1.85">Mobility Hub <span style="color:var(--hint);font-size:11.6px">— Sachie（＋ Ta-san 参画）／Kotaro からまり子さんに引き継ぎ予定</span></li>
-    </ul>
-    <p style="font-size:12.1px;color:var(--green-text);margin-top:10px;line-height:1.7">※ 新規商材開発は現状の業務量を踏まえて<strong>優先度を下げる</strong>。<br>UX改善の過程で自然発生的に生まれるサービスアイデアを検討する方針。</p>
-  </div>
-
-  <div class="card" style="border-left:4px solid var(--amber);background:var(--amber-bg)">
-    <p><strong>手段② TR側の既存UX改善（短中期・注力）</strong></p>
-    <ul style="margin-left:20px;color:var(--amber-text)">
-      <li style="font-size:13.9px;line-height:1.85">予約までのUXをよくする（フォーム簡素化など） <span style="color:var(--hint);font-size:11.6px">— Kotaro / Sachie</span></li>
-      <li style="font-size:13.9px;line-height:1.85">リクエスト予約を低減する（即時確定化） <span style="color:var(--hint);font-size:11.6px">— Mav / Sachie</span></li>
-      <li style="font-size:13.9px;line-height:1.85">UI改善（使いやすさ・離脱防止の導線設計まで） <span style="color:var(--hint);font-size:11.6px">— Kotaro / Sachie</span></li>
-    </ul>
-  </div>
-
-  <div class="card" style="border-left:4px solid var(--hint);background:#fafafa;opacity:.9">
-    <p><strong>長期テーマ 2回目以降にも買ってもらう（優先度は後回し）</strong></p>
-    <p style="margin:0">パーソナライゼーション、再訪導線、アプリ的コミュニケーション。<br>今期は着手せず、UX改善の過程で自然発生的に生まれるアイデアを次期以降で検討する。</p>
+<!-- Slide: ミッション構造 ＋ 各手段の中身（統合） -->
+<div class="slide hi">
+  <div class="mission-diagram">
+    <div class="md-top">
+      <div class="lbl">ミッション（主指標 = CVR）</div>
+      <div class="val" style="font-size:18.5px;line-height:1.4">Traveler が Veltra で<br>迷わず・より多く買いやすい状態を作る</div>
+    </div>
+    <div class="md-arrow"><span class="a">↓</span></div>
+    <div class="md-means">
+      <div class="md-mean a">
+        <span class="htg">注力 「より多く」</span>
+        <div class="hn">手段①</div>
+        <div class="ht">1回で複数買ってもらう</div>
+        <div class="hd">同一旅行内クロスセル。すでに購入する Traveler に、その旅行中に2点目以上を買ってもらう。</div>
+        <div class="md-detail">
+          <ul>
+            <li>eSIM・キャンセル保険 <span class="who">— Mav</span></li>
+            <li>Mobility Hub <span class="who">— Sachie（＋ Ta-san 参画）／Kotaro からまり子さんに引き継ぎ予定</span></li>
+          </ul>
+          <div class="note">※ 新規商材開発は現状の業務量を踏まえて<b>優先度を下げる</b>。UX改善の過程で自然発生的に生まれるアイデアを検討する方針。</div>
+        </div>
+      </div>
+      <div class="md-mean b">
+        <span class="htg">注力 「迷わず」</span>
+        <div class="hn">手段②</div>
+        <div class="ht">TR側の既存UX改善</div>
+        <div class="hd">来た Traveler の購入完了率を引き上げる。フリクション削減と分かりやすさの両方を扱う。</div>
+        <div class="md-detail">
+          <ul>
+            <li>予約までのUXをよくする（フォーム簡素化など） <span class="who">— Kotaro / Sachie</span></li>
+            <li>リクエスト予約を低減する（即時確定化） <span class="who">— Mav / Sachie</span></li>
+            <li>UI改善（使いやすさ・離脱防止の導線設計まで） <span class="who">— Kotaro / Sachie</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="md-long">
+      <div class="lhead">
+        <span class="ltg">長期テーマ</span>
+        <span class="lt">2回目以降にも買ってもらう（次回旅行での再購入）</span>
+      </div>
+      <div class="ld">優先度は後回し。パーソナライゼーション・再訪導線・アプリ的コミュニケーションなどは、UX改善の過程で自然発生的に生まれるアイデアを次期以降で検討する。</div>
+    </div>
   </div>
 </div>
 
