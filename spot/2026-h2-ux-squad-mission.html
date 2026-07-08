@@ -854,21 +854,21 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
   <div class="kz-filter">
     <span class="kz-fgroup-lbl">施策候補</span>
     <button class="kz-fbtn active" data-f="all">すべて <span class="fc">45</span></button>
-    <button class="kz-fbtn l1" data-f="cross">①複数購入 <span class="fc">2</span></button>
-    <button class="kz-fbtn l2" data-f="ux">②予約UX改善 <span class="fc">32</span></button>
-    <button class="kz-fbtn l3" data-f="rq">②RQ予約低減 <span class="fc">2</span></button>
-    <button class="kz-fbtn l4" data-f="ui">②UI改善 <span class="fc">23</span></button>
+    <button class="kz-fbtn l1" data-f="cross">①複数購入</button>
+    <button class="kz-fbtn l2" data-f="ux">②予約UX改善</button>
+    <button class="kz-fbtn l3" data-f="rq">②RQ予約低減</button>
+    <button class="kz-fbtn l4" data-f="ui">②UI改善</button>
     <label class="kz-toggle"><input type="checkbox" id="kzOpenOnly"> 未完了のみ</label>
   </div>
   <div class="kz-filter kz-filter-theme">
     <span class="kz-fgroup-lbl">テーマ</span>
     <button class="kz-tbtn active" data-t="all">すべて <span class="fc">45</span></button>
-    <button class="kz-tbtn th-flow" data-t="flow">予約フロー・入力 <span class="fc">11</span></button>
-    <button class="kz-tbtn th-pay" data-t="pay">決済・返金・バウチャー <span class="fc">16</span></button>
-    <button class="kz-tbtn th-stock" data-t="stock">在庫・カレンダー・RT <span class="fc">2</span></button>
-    <button class="kz-tbtn th-coupon" data-t="coupon">クーポン・価格・キャンペーン <span class="fc">6</span></button>
-    <button class="kz-tbtn th-engage" data-t="engage">TR回遊・エンゲージ <span class="fc">9</span></button>
-    <button class="kz-tbtn th-cxl" data-t="cxl">キャンセル・変更 <span class="fc">1</span></button>
+    <button class="kz-tbtn th-flow" data-t="flow">予約フロー・入力</button>
+    <button class="kz-tbtn th-pay" data-t="pay">決済・返金・バウチャー</button>
+    <button class="kz-tbtn th-stock" data-t="stock">在庫・カレンダー・RT</button>
+    <button class="kz-tbtn th-coupon" data-t="coupon">クーポン・価格・キャンペーン</button>
+    <button class="kz-tbtn th-engage" data-t="engage">TR回遊・エンゲージ</button>
+    <button class="kz-tbtn th-cxl" data-t="cxl">キャンセル・変更</button>
   </div>
   <table class="kz-table" id="kzTable">
     <thead><tr><th style="width:104px">ID</th><th style="width:150px">テーマ</th><th>要望</th><th style="width:220px">施策候補</th><th style="width:88px">状態</th></tr></thead>
@@ -1018,6 +1018,156 @@ window.KZ_DETAILS = {
     issue: 'VELTRA ポイントの 3 年有効期限が「とりあえず VELTRA で貯める」という差別化のインセンティブを弱めている。海外 OTA・直販への流出リスク。',
     action: 'ポイントの有効期限を撤廃（永久不滅ポイント化）。',
     effect: '再訪 Traveler の VELTRA 選好を強め、手段①（複数購入）と長期テーマ（2 回目以降）の両方に効く。'
+  },
+  'KZRQ-107': {
+    issue: '「単純割」キャンペーンではタイトルを編集できず、曜日・時間限定などの割引条件を Traveler に伝えられない。回避策で「早割」設定を流用すると AC 上に実態と違う「早割」表記が出て矛盾する。',
+    action: '単純割キャンペーンでもタイトルを編集可能にする。',
+    effect: '割引条件が正しく伝わり、Traveler の誤解と不信を防ぐ。'
+  },
+  'KZRQ-122': {
+    issue: '開始時間ごとに料金が違う AC で、一覧は最安でなく高い方を表示。予約遷移では安い方が出て表示がちぐはぐになり不信を招く。高い時間帯は「＋」だけで金額が出ない。',
+    action: '一覧も最安値を表示し、時間帯ごとの加算額を金額で明示する。',
+    effect: '価格表示の一貫性を確保し、料金確認段階での離脱・不信を防ぐ。'
+  },
+  'KZRQ-141': {
+    issue: 'VT バウチャーと催行会社発行バウチャーで同じ注意文言が出るため、一定数の Traveler が取り違えて現地で入店・参加できず混乱が起きる。',
+    action: 'バウチャー種別で文言を出し分け、印刷必須の注意をより強調する。',
+    effect: '現地での参加トラブルとカスタマー対応工数を減らす。'
+  },
+  'KZRQ-144': {
+    issue: '新規公開 AC が露出されず予約が入りにくく、Traveler には「売れていない・体験談なし」と見られる（Active AC 稼働率 KPI にも影響）。',
+    action: '公開後一定期間「NEW」リボンを画像に自動表示（例：公開から3ヶ月）。人気設定 AC には「お早めに」表示も検討。',
+    effect: '新規 AC の視認性を上げ、初動の予約を後押しする。'
+  },
+  'KZRQ-150': {
+    issue: '旧サイト時代の体験談が現サイトに引き継がれておらず、実際は体験談があるのに「なし」と見えてしまう。',
+    action: '旧サイトの体験談データを現サイトに取り込み表示する。',
+    effect: '社会的証明を回復し、比較検討段階での離脱を防ぐ。'
+  },
+  'KZRQ-164': {
+    issue: '既定は過去2ヶ月分のみ表示のため、数年前の未 CFM Payment が放置され、自動催促メールが Partner に届き続け、精算も滞る。',
+    action: '未 CFM 記録を数年単位でデフォルト表示するよう設定を更新。',
+    effect: '未処理精算と余計な催促メールを減らし、運用負荷を下げる。'
+  },
+  'KZRQ-175': {
+    issue: '支払い確認画面・CSV に Pax 数が無く、Partner が金額と人数を照合しづらい（複数 Partner からの要望）。',
+    action: '予約番号ごとの人数（Pax）を画面と CSV に追加する。',
+    effect: 'Partner の照合工数を削減する。'
+  },
+  'KZRQ-182': {
+    issue: 'Partner 発行バウチャー提示が必要な場面で、Traveler が誤って VT バウチャーを提示し参加できないコンプレインが頻発。',
+    action: 'Partner 発行バウチャーをアップロードし Traveler マイページで表示。VT バウチャー側に「Partner バウチャー提示」注意を出す。',
+    effect: '現地での参加不可トラブルを削減する。'
+  },
+  'KZRQ-19': {
+    issue: 'Search Payment の Label 項目が実情と合わず機能しておらず、CFM 処理漏れが発生して Partner に迷惑・支払い信用が落ちる。',
+    action: 'Region ベースの Label に修正／新設する。',
+    effect: 'CFM 処理漏れを減らし、精算の信頼性を上げる。'
+  },
+  'KZRQ-198': {
+    issue: '予約時入力情報（RQinfo）の回答を CSV で一括ダウンロードできず、Partner が予約ごとに手コピペして自社システムに取り込んでいる（台湾 Comm シェア1位 Partner の要望）。',
+    action: '期間指定での RQinfo 回答の CSV 一括ダウンロードを可能にする。',
+    effect: 'Partner の手作業工数を大幅に削減する。'
+  },
+  'KZRQ-20': {
+    issue: '「変更・キャンセル不可」の Special Deals 設定が効かず、通常キャンポリが適用されて Traveler 側でキャンセルできてしまう（KZRQ-23 と同件）。',
+    action: '設定通りキャンセル不可となるよう挙動を修正する。',
+    effect: '誤キャンセルによる収益ロスと混乱を防ぐ。'
+  },
+  'KZRQ-208': {
+    issue: 'Partner 向け予約通知に事前決済である旨がなく、現地で二重請求が起きたり、事前／現地決済の問い合わせが多発。',
+    action: '予約通知に「アクティビティ代金は事前決済」である旨を明記（現地払い項目の表記には配慮）。',
+    effect: '二重払いトラブルと問い合わせを削減する。'
+  },
+  'KZRQ-21': {
+    issue: '支払期限切れの自動キャンセル時、Partner 向けメール／予約詳細の文言が「お客様がキャンセル」など実態と合わず、Partner から苦言。',
+    action: '「支払い期限超過による自動キャンセル」と分かる文言に修正する。',
+    effect: 'Partner の誤解・不信を減らす。'
+  },
+  'KZRQ-236': {
+    issue: '体験談は翌日以降しか投稿できず、施術直後にレビューを書きたい Traveler（韓国スパ等）の声を取りこぼす。',
+    action: '開始時間経過後は当日から体験談を投稿できるようにする。',
+    effect: '体験談の件数・鮮度を高め、社会的証明を強化する。'
+  },
+  'KZRQ-249': {
+    issue: 'クーポン除外日を複数設定すると各日ごとに「使えません」表示が並び、視認性が悪い。',
+    action: '除外日を範囲指定可能にする、または複数日をまとめて表示する。',
+    effect: 'クーポン条件の分かりやすさを上げる。'
+  },
+  'KZRQ-250': {
+    issue: '各国 TOP 下部の「渡航安全情報」が更新されておらず（例：カタール危険レベル3）、終了サービス「KITE」の記載も残る。',
+    action: '内容を更新する。更新できない場合は該当記載を削除する。',
+    effect: '誤情報による不信を防ぐ。'
+  },
+  'KZRQ-251': {
+    issue: 'ランキングが金額基準のため、無料 AC が上位を占め、料金発生 AC の実予約が反映されず順位がゆがむ。',
+    action: 'ランキング順位に予約数も考慮する。',
+    effect: 'ランキングの妥当性を上げ、Traveler の商品選びを助ける。'
+  },
+  'KZRQ-252': {
+    issue: '重要なお知らせ（情勢案内等）がキャンペーン販促と同じ枠のため、同時表示・優先表示ができない。',
+    action: '重要なお知らせをキャンペーンとは別枠で表示できるようにする（JTB 等参考）。',
+    effect: '重要情報を確実に届け、安心感を担保する。'
+  },
+  'KZRQ-253': {
+    issue: '現在、通貨に Rebate を上乗せし ＋5% で Traveler に決済いただいているが、CVR 低下がみられる。',
+    action: 'OS 商品について上乗せ前の Rebate 率（約 2.7%）に戻す。',
+    effect: '価格競争力を回復し、CVR 低下を抑える。'
+  },
+  'KZRQ-264': {
+    issue: 'リピート理由が薄く、再訪は「旅行予定があり商品を探す時」に限られる。',
+    action: '訪問国の可視化や利用回数に応じた称号など、マイページに再訪動機を持たせる（YAMAP 参考）。',
+    effect: '再訪理由を増やし LTV を高める（長期テーマ寄り）。'
+  },
+  'KZRQ-265': {
+    issue: 'クーポンで下限額は設定できるが値引上限を設定できず、％指定だと高額値引きが発生しうる。',
+    action: '「値引できる上限額」を設定可能にする。',
+    effect: '無駄な Comm ばら撒きを抑える。'
+  },
+  'KZRQ-266': {
+    issue: 'AC ページの「XX%off」が赤文字だけで目立たず、競合（NEWT／KLOOK／KKday）より訴求が弱い。単純値引きの表記が「キャンペーン」で、一般的な「セール」と乖離。',
+    action: '「%off」を白文字＋赤背景に変更。単純割は「セール」表記にする。',
+    effect: 'お得感の視認性を上げ、比較段階での選好を高める。'
+  },
+  'KZRQ-267': {
+    issue: '新規 Partner の銀行情報入力で、赤アスタリスクなしなのに必須扱いのフィールドや、数字のみ制限で入力できないフィールドがある。',
+    action: '該当フィールドを任意化し、文字も入力できるよう制限を緩和する。',
+    effect: 'Partner オンボーディングの詰まりを解消する。'
+  },
+  'KZRQ-46': {
+    issue: '募集型バスツアー等で催行確定日を Traveler に示せず、都度タイトルや注記を手更新している。',
+    action: 'カレンダーに催行確定・「あと何名で催行」を Partner が設定でき、Traveler に表示する。',
+    effect: '催行確定日に予約を集め、予約最大化と催行中止の削減につなげる。'
+  },
+  'KZRQ-8': {
+    issue: 'ePayment を CFM しない Partner が多く、それを追う営業工数が膨大。',
+    action: '「期限までに CFM がなければシステム金額をそのまま支払う」フローに合わせ、自動メール文言を修正する。',
+    effect: '催促工数を大幅に削減する。'
+  },
+  'KZRQ-86': {
+    issue: '2人目無料とグル割の 2 Pkg がある AC で、一覧に「2人目無料」でなく「15%Off」が優先表示され、Traveler が誤解しやすい。',
+    action: '一覧表示で「2人目無料」を優先表示できるようにする。',
+    effect: '訴求内容の誤解を防ぎ、キャンペーンの効果を最大化する。'
+  },
+  'KZRQ-9': {
+    issue: 'ベストプライス申請フォームに「同一通貨であること」の条件記載が抜け、USD 商品に他社 JPY 価格での申請が来る。',
+    action: '申請フォームの事前確認に「同一通貨であること」を追記する。',
+    effect: '無効な申請を減らし、対応工数を削減する。'
+  },
+  'KZRQ-12': {
+    issue: '/mistype/ 配下ページに旧表記「最低価格保証！」が残存。2019 年に「ベストプライス」へ変更済みで、有利誤認の法的リスク。',
+    action: '該当ページの「最低価格保証」表記を削除・修正する。',
+    effect: '景表法リスクを解消する。'
+  },
+  'KZRQ-119': {
+    issue: 'グローバル TOP の写真がコロナ期から更新されておらず、「動いていないサイト」と見られがち。',
+    action: 'TOP のメインビジュアルを刷新する。',
+    effect: 'サイトの鮮度・信頼感を上げ、第一印象での離脱を防ぐ。'
+  },
+  'KZRQ-133': {
+    issue: 'キャンセルポリシーの自動設定で「開始時間ちょうど（0 時間前）」を選べず、多くの国内バスツアー等の実態と合わない。',
+    action: '自動設定でも「0 時間前」を選択可能にする。',
+    effect: '実態に沿ったキャンポリ設定ができ、Traveler・Partner 双方の混乱を防ぐ。'
   }
 };
 </script>
