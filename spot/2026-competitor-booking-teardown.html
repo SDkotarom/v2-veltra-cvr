@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>競合予約フロー分析｜「必要情報」の見直しと後追いUX</title>
+<style>
+:root{
+  --text:#1a2433;--text2:#3f4d60;--text3:#7b8794;--border:#e2e8f0;--bg:#f6f8fb;
+  --accent:#1b82c5;--accent-bg:#e8f2fb;--green:#1a8c4e;--amber:#d97706;--red:#c2410c;
+  --green-bg:#e7f5ec;--amber-bg:#fbf0dc;--red-bg:#fbe8de;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:24px 28px 80px}
+.brand{font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+h1{font-size:27px;line-height:1.45;margin:6px 0 8px;font-weight:900}
+.lede{font-size:14.5px;color:var(--text2);margin:0 0 6px}
+.lede b{color:var(--text)}
+.src{font-size:12.5px;color:var(--text3);margin:2px 0 28px}
+.src b{color:var(--text2)}
+h2{font-size:19px;font-weight:900;margin:38px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+h3.sub{font-size:15px;font-weight:900;margin:22px 0 10px;color:var(--text)}
+.verdict{background:#fff;border:1px solid var(--border);border-left:6px solid var(--accent);border-radius:12px;padding:20px 24px;margin:0 0 8px}
+.verdict h3{font-size:16px;font-weight:900;margin:0 0 8px;color:var(--accent)}
+.verdict p{font-size:14.5px;color:var(--text2);margin:0 0 8px}
+.verdict p:last-child{margin-bottom:0}
+.verdict b{color:var(--text)}
+.note{font-size:13px;color:var(--text2);line-height:1.8;margin:8px 0}
+.note b{color:var(--text)}
+
+table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.tscroll{overflow-x:auto;border-radius:10px}
+.tscroll table{min-width:760px;border-radius:0}
+th{text-align:left;font-size:11.5px;font-weight:900;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;padding:10px 12px;background:#fbfcfe;border-bottom:2px solid var(--border);vertical-align:bottom}
+td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top}
+th[scope=row]{color:var(--text);font-weight:800;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+.self-col{background:var(--accent-bg)}
+th.self-col{color:var(--accent)}
+
+/* rating chips */
+.c{display:inline-block;font-size:12px;font-weight:900;padding:2px 8px;border-radius:6px;white-space:nowrap;line-height:1.6}
+.c.g{background:var(--green-bg);color:var(--green)}
+.c.o{background:var(--accent-bg);color:var(--accent)}
+.c.m{background:var(--amber-bg);color:var(--amber)}
+.c.b{background:var(--red-bg);color:var(--red)}
+
+/* framework matrix */
+.matrix td{text-align:center;font-size:12px}
+.matrix th[scope=row]{background:#fbfcfe}
+.matrix td.focus{background:var(--red-bg);outline:2px solid var(--red);outline-offset:-2px;color:var(--text);font-weight:800}
+.mlegend{font-size:12px;color:var(--text3);margin-top:8px}
+
+/* action steps */
+.steps{display:grid;gap:10px;margin:6px 0}
+.step{display:grid;grid-template-columns:30px 1fr;gap:14px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;border-left:5px solid var(--accent)}
+.step .n{font-weight:900;color:#fff;background:var(--accent);width:26px;height:26px;border-radius:7px;display:grid;place-items:center;font-size:13px}
+.step .t{font-size:14.5px;font-weight:900;margin-bottom:2px}
+.step .d{font-size:13px;color:var(--text2)}
+.step .d b{color:var(--text)}
+
+/* buckets */
+.buckets{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:6px 0}
+.bk{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.bk .tag{font-size:11px;font-weight:900;letter-spacing:.03em;padding:3px 8px;border-radius:6px;display:inline-block;margin-bottom:8px}
+.bk.now{border-top:4px solid var(--red)}.bk.now .tag{background:var(--red-bg);color:var(--red)}
+.bk.soon{border-top:4px solid var(--amber)}.bk.soon .tag{background:var(--amber-bg);color:var(--amber)}
+.bk.later{border-top:4px solid var(--green)}.bk.later .tag{background:var(--green-bg);color:var(--green)}
+.bk ul{margin:0;padding-left:17px;font-size:13px;color:var(--text2)}
+.bk li{margin:3px 0}
+
+/* follow-up flow */
+.flow{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch;margin:6px 0}
+.fn{flex:1 1 160px;min-width:150px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 14px;border-top:4px solid var(--accent)}
+.fn.s{border-top-color:var(--green)}.fn.e{border-top-color:var(--red)}
+.fn .t{font-size:13px;font-weight:900;margin-bottom:3px}
+.fn .d{font-size:11.5px;color:var(--text3);line-height:1.55}
+.arw{align-self:center;color:var(--accent);font-weight:900;font-size:16px}
+@media(max-width:640px){.arw{transform:rotate(90deg)}.buckets{grid-template-columns:1fr}}
+
+.cav{background:#fffdf5;border:1px solid #f0e0b8;border-radius:10px;padding:16px 20px;margin:16px 0 0;font-size:13px;color:#7a6420;line-height:1.75}
+.cav b{color:#5c4d10}
+.cav ul{margin:6px 0 0;padding-left:20px}
+code{background:#eef2f7;padding:1px 6px;border-radius:5px;font-size:12.5px;font-family:ui-monospace,Menlo,monospace}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand">Veltra · Competitor UX Teardown</div>
+  <h1>予約フロー競合分析 — 「必要情報」の見直しと後追いUX</h1>
+  <p class="lede">競合6社＋自社の予約フロー（探す→予約フォーム、支払い入力の手前まで）を実地調査し、旅行者ペインフレームワーク（8フェーズ×5ペイン）にマッピング。注力は <b>④予約する×手間</b> と <b>⑤待つ×待ち・不安</b>。主指標 CVR。</p>
+  <p class="src">出典: 各社モバイル予約フローの実地スクリーンショット（<b>2026-07-10</b>取得、GetYourGuideのみPC実地）／AC例は <b>searchActivities</b> の実在データ。定性調査であり「必要情報」の項目は仮説を含む（末尾の注意参照）。</p>
+
+  <div class="verdict">
+    <h3>結論 — 勝ち筋は活かし、負け筋は1点に集約</h3>
+    <p>① <b>唯一の構造的な負け筋＝リクエスト予約の「待ち」</b>。7フロー中、即時確定でないのは VELTRA だけ（可否連絡まで24〜48時間）。競合は即時確定に加え「後払い・価格固定で先に確保」まで進化。→ <b>B案（⑤待つ×不安）を最優先</b>。</p>
+    <p>② <b>守るべき勝ち筋＝日本語 × 代表者のみ入力</b>。ネイティブな日本語の丁寧さ（KKday＝機械翻訳／Viator＝自動翻訳より優位）。入力は代表者のみで軽い（Klook＝全員＋パスポート、asoview＝住所まで必須より良い）。摩擦は削っても安心感は削らない。</p>
+    <p>③ <b>2つの打ち手</b>。A案＝必要情報（リクワイヤードインフォ）を「予約時／後追い」に振り分け＋後追いUX整備。B案＝確定見込みの明示→先に確保→即時確約カテゴリの切り出し。ベンチマークは <b>NEWT</b>（日本語ネイティブ＋パスポート後回し＋価格固定の仮予約）。</p>
+  </div>
+
+  <h2>競合7フロー比較（予約フォームの核心）</h2>
+  <p class="note"><span class="c g">◎優秀</span> <span class="c o">○良</span> <span class="c m">△弱</span> <span class="c b">✕課題</span>　※各社モバイル（GetYourGuideのみPC）。</p>
+  <div class="tscroll">
+    <table>
+      <thead><tr>
+        <th scope="col">観点</th>
+        <th scope="col">GYG<br>PC</th><th scope="col">Klook</th><th scope="col">KKday</th>
+        <th scope="col">NEWT</th><th scope="col">Viator</th><th scope="col">asoview</th>
+        <th scope="col" class="self-col">VELTRA</th>
+      </tr></thead>
+      <tbody>
+        <tr><th scope="row">確定スピード</th>
+          <td><span class="c g">◎即時</span></td><td><span class="c g">◎即時</span></td><td><span class="c g">◎催行確約</span></td>
+          <td><span class="c g">◎即時</span></td><td><span class="c g">◎即時</span></td><td><span class="c g">◎即時中心</span></td>
+          <td class="self-col"><span class="c b">✕24-48h待ち</span></td></tr>
+        <tr><th scope="row">予約ハードル低減</th>
+          <td><span class="c g">◎24h前50%返金</span></td><td><span class="c m">△60分決済急かし</span></td><td><span class="c g">◎2日前無料</span></td>
+          <td><span class="c g">◎価格固定/後払い</span></td><td><span class="c g">◎後払い/無制限変更</span></td><td><span class="c o">○現地/後払い</span></td>
+          <td class="self-col"><span class="c b">✕見込み時刻なし</span></td></tr>
+        <tr><th scope="row">入力の重さ</th>
+          <td><span class="c g">◎メールのみ</span></td><td><span class="c b">✕全員+パスポート</span></td><td><span class="c m">△人数分</span></td>
+          <td><span class="c o">○代表者+後回し</span></td><td><span class="c g">◎代表者のみ</span></td><td><span class="c b">✕住所まで必須</span></td>
+          <td class="self-col"><span class="c o">○代表者のみ</span></td></tr>
+        <tr><th scope="row">ログイン</th>
+          <td><span class="c g">◎ゲスト可</span></td><td><span class="c m">△会員前提</span></td><td><span class="c b">✕必須ゲート</span></td>
+          <td><span class="c m">△必須</span></td><td><span class="c g">◎ゲスト可</span></td><td><span class="c o">○ゲスト可</span></td>
+          <td class="self-col"><span class="c o">○代表者入力</span></td></tr>
+        <tr><th scope="row">決済手段</th>
+          <td><span class="c g">◎各Pay</span></td><td><span class="c g">◎PayPay/各Pay</span></td><td><span class="c o">○標準</span></td>
+          <td><span class="c m">△カード/振込</span></td><td><span class="c g">◎Apple/PayPal</span></td><td><span class="c g">◎PayPay/Paidy</span></td>
+          <td class="self-col"><span class="c m">△未到達</span></td></tr>
+        <tr><th scope="row">日本語品質</th>
+          <td><span class="c m">△英語主体</span></td><td><span class="c o">○中</span></td><td><span class="c b">✕機械翻訳</span></td>
+          <td><span class="c g">◎ネイティブ</span></td><td><span class="c b">✕自動翻訳</span></td><td><span class="c g">◎ネイティブ</span></td>
+          <td class="self-col"><span class="c g">◎ネイティブ</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note"><b>ベンチマークは NEWT。</b> 同じ日本語ネイティブで、パスポートは「任意・予約後でOK」（＝必要情報の後回し）、プライスキープ＝価格固定の仮予約・後払い（＝待ちの間の離脱防止）を実装済み。VELTRAが目指す「日本語で安心 × 即時に近い体験」の最短の手本。</p>
+
+  <h2>フレームワーク上のVELTRAの位置（①〜④ × 5ペイン）</h2>
+  <div class="tscroll">
+    <table class="matrix">
+      <thead><tr><th scope="col">フェーズ ＼ ペイン</th><th scope="col">手間</th><th scope="col">不安</th><th scope="col">待ち</th><th scope="col">分からない</th><th scope="col">裏切り</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">① 探す</th><td>○ 検索導線</td><td>—</td><td>—</td><td>○</td><td>—</td></tr>
+        <tr><th scope="row">② 比べる</th><td>○</td><td>○</td><td>—</td><td>◎ 日本語で丁寧</td><td>—</td></tr>
+        <tr><th scope="row">③ 決める</th><td>△ 必要情報が多い</td><td class="focus">✕ 確定まで不安</td><td class="focus">✕ 24-48h待ち</td><td>◎ 在庫表示/条件明示</td><td>—</td></tr>
+        <tr><th scope="row">④ 予約する</th><td class="focus">△ 送迎項目が重い<br>（代表者のみは◎）</td><td class="focus">△ 見込み不明</td><td class="focus">✕ リクエスト型</td><td>◎ 日本語で丁寧</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="mlegend">赤枠＝注力2セル（④予約×手間／⑤待つ×待ち・不安）。⑤〜⑧は「予約手前まで」の範囲外のため割愛し、「待ち」は③④に現れる形で評価。</p>
+
+  <h2>B案：待ちの不安をなくす（⑤待つ×不安）— 最優先</h2>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="t">確定見込み時刻を明示する</div><div class="d">「◯時間以内に回答」＋確定/未確定ステータスと通知。今の“見込み不明”から大きく改善でき、<b>表示追加のみで既存SYSで着手可能</b>。まずここ。</div></div></div>
+    <div class="step"><div class="n">2</div><div><div class="t">「先に確保」へ発想転換（NEWT／Viator型）</div><div class="d">48時間“待たせる”のでなく、<b>仮予約・価格固定・後払いで枠を押さえる</b>体験に。コミット前の離脱を抑える。</div></div></div>
+    <div class="step"><div class="n">3</div><div><div class="t">即時確約カテゴリの切り出し・フィルタ</div><div class="d">在庫条件で即時確約できる商品を判定し、一覧で<b>「即時確定」フィルタ／上位表示</b>。待てない層を即時商品へ誘導。</div></div></div>
+  </div>
+
+  <h2>A案：必要情報（リクワイヤードインフォ）の見直し（④予約×手間）</h2>
+  <h3 class="sub">① 「いつ本当に要るか」で振り分ける</h3>
+  <div class="buckets">
+    <div class="bk now"><span class="tag">予約時に必須</span>
+      <ul><li>代表者氏名・メール・電話</li><li>人数・日付・プラン</li></ul></div>
+    <div class="bk soon"><span class="tag">手配確認に必須</span>
+      <ul><li>参加人数・大枠の条件</li><li>催行会社が可否確認に要る範囲のみ</li></ul></div>
+    <div class="bk later"><span class="tag">催行直前で十分 → 後回し</span>
+      <ul><li>フィンの足サイズ・身長・体重</li><li>お迎え場所・ホテル名・便名・到着時刻</li><li>パスポート番号・食事制限</li></ul></div>
+  </div>
+  <p class="note"><b>例：シュノーケルの「足のサイズ必須」。</b> 予約可否（在庫）の確認に足サイズは不要で、必要なのは当日の装備準備のため。同乗者の分は予約時に分からないことも多い。→ <b>後回し</b>にし、出発が近づいてから聞く。「予約可否の確認」と「装備準備」を分けて考える。</p>
+
+  <h3 class="sub">② 後追いUX（減らすなら、ここが本体）</h3>
+  <div class="flow">
+    <div class="fn s"><div class="t">予約は最小情報で確定</div><div class="d">代表者＋人数＋日付で成立。重い項目は求めない。</div></div>
+    <div class="arw">→</div>
+    <div class="fn"><div class="t">未入力を可視化</div><div class="d">予約詳細に「あと◯項目」進捗バー。締切は催行会社のリードタイムから逆算。</div></div>
+    <div class="arw">→</div>
+    <div class="fn"><div class="t">近づいたら聞く</div><div class="d">7日前/3日前/前日に自動リマインド（メール・アプリPush・LINE）。ワンタップで該当項目だけ再開。</div></div>
+    <div class="arw">→</div>
+    <div class="fn e"><div class="t">取りこぼし防止</div><div class="d">未入力は通知強化→CS／AI架電でフォロー。催行会社の管理画面にも「未確定・締切」を可視化。</div></div>
+  </div>
+  <p class="note"><b>入力自体を軽く：</b>便名・ホテルは検索/選択式・候補サジェスト・デフォルト。<code>「未定」を許容</code>（今わかる範囲でOK・後から変更可）。<b>出し分け：</b>送迎あり商品にだけ後追いフローを出す。<b>裏付け：</b>NEWTは「パスポート＝任意・予約後OK」を実装済みで、後回しは業界的に成立する。</p>
+
+  <h2>実態把握：どのACに何が必須か</h2>
+  <p class="note">まず母集団を作り、権威データ（商品マスタ）で実数を当てる。<b>コネクタの実態：</b> <code>searchActivities（ACSEARCH）</code>はカタログ検索で<b>必須入力項目は返らない</b>（タイトル/価格/評価/エリア/URLのみ）。→ 対象ACの<b>サンプル抽出</b>には使えるが、必須項目の実数は<b>商品マスタ／予約フォーム設定（Ctg管理Sys・Admin・DB）</b>のエクスポートが必要。</p>
+
+  <h3 class="sub">実態調査の対象サンプル（ACSEARCHで抽出・必須情報が重そうなカテゴリ）</h3>
+  <div class="tscroll">
+    <table>
+      <thead><tr><th scope="col">カテゴリ</th><th scope="col">代表AC（実在・ID）</th><th scope="col">後回し候補になりうる必須情報（要検証の仮説）</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">シュノーケル</th><td>八重干瀬(172409)／慶良間(154410)／青の洞窟 星砂・ウミガメ(155147)</td><td>足のサイズ・身長・年齢・持病確認</td></tr>
+        <tr><th scope="row">体験ダイビング</th><td>慶良間体験ダイビング(134472/153166)／青の洞窟(109303)</td><td>身長・体重・年齢・既往症/病歴・足サイズ</td></tr>
+        <tr><th scope="row">パラセーリング/マリン</th><td>ハワイ パラセーリング(6286)／グアム(158250)</td><td>体重（安全上限）・年齢</td></tr>
+        <tr><th scope="row">四輪バギー</th><td>クアロア・ランチ 四輪バギー(103079)</td><td>運転可否・年齢・身長</td></tr>
+        <tr><th scope="row">空港送迎/送迎付き</th><td>H.I.S. 空港送迎(14180)／各種送迎付きツアー</td><td>便名・到着/出発時刻・ホテル名/住所</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub">必要情報 棚卸しシート（列定義）</h3>
+  <div class="tscroll">
+    <table>
+      <thead><tr><th scope="col">列</th><th scope="col">内容 / 例</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">項目名 / 型</th><td>足のサイズ / 数値</td></tr>
+        <tr><th scope="row">設定AC数・分布</th><td>何件のACで予約時必須か（カテゴリ・エリア・催行会社別）</td></tr>
+        <tr><th scope="row">必要理由</th><td>手配確認 / 安全 / 法令 / 送迎手配（←パートナーヒアリング）</td></tr>
+        <tr><th scope="row">本当に要るタイミング</th><td>予約時 / 手配確認時 / 催行直前 / 当日</td></tr>
+        <tr><th scope="row">後回し可否・締切</th><td>可 / 出発72h前まで 等</td></tr>
+        <tr><th scope="row">代替</th><td>選択式・デフォルト・「未定」許容・概算可</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note"><b>優先度の当て方：</b> 件数から入らず「有効な打ち手が複数あるか」で候補化 → その中で<b>「1手で多くのACに効く項目」</b>（多くのACで共通して必須の項目）を上位に。棚卸しの「設定AC数」列がその判断材料になる。</p>
+
+  <div class="cav">
+    <b>この分析の前提と限界（解釈を誤らないために）</b>
+    <ul>
+      <li>本レポートは<b>定性調査</b>。各社1〜2商品の予約フローを実地取得したスナップショットで、全商品・全プランを網羅していない。商品カテゴリにより挙動は変わる。</li>
+      <li>「実態把握」表の<b>必須情報列は経験則に基づく仮説</b>。VELTRAの実データは商品マスタのエクスポートで確定する（<code>searchActivities</code> では取得不可）。</li>
+      <li>調査対象のタリン圏ツアーは商品固有のため、VELTRAの「リクエスト予約／送迎項目の重さ」は<b>この商品の性質による面もある</b>。即時確定商品では所見が異なりうる。</li>
+      <li>調査に使った各社スクリーンショットには<b>個人情報（氏名・住所・生年月日・電話・メール）</b>が含まれるため、原本の共有時はマスキングする。</li>
+    </ul>
+  </div>
+
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>
