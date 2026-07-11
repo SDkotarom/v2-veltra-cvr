@@ -7,6 +7,7 @@
 <title>競合予約フロー分析 — 必要情報の見直しと後追いUX</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+/* Vendored from spot/traveler-pain-framework.html + teardown additions. Do not hand-edit; regenerate via the design source. */
 
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -168,245 +169,53 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 #lb .cl{position:fixed;top:14px;right:22px;color:#fff;font-size:34px;line-height:1;cursor:pointer;font-weight:700}
 @media(max-width:560px){.shot{width:calc(50% - 6px)}.shot img{height:230px}}
 @media(prefers-reduced-motion:reduce){.shot{transition:none}}
+
+/* ---- gallery carousel (tabs + swipe lane) ---- */
+.galtabs{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 14px}
+.gtab{font-size:13.5px;font-weight:800;padding:8px 14px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--sub);cursor:pointer;white-space:nowrap}
+.gtab.on{background:var(--veltra);border-color:var(--veltra);color:#fff}
+.gtab:hover:not(.on){border-color:var(--veltra);color:var(--veltra-dark)}
+.lane{display:none}
+.lane.on{display:block}
+.lanehead{font-size:14px;color:var(--sub);margin:0 0 8px}
+.lanehead b{color:var(--text);font-size:16px}
+.lanerow{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.lanerow::-webkit-scrollbar{height:8px}
+.lanerow::-webkit-scrollbar-thumb{background:#cfd8e3;border-radius:8px}
+.lanerow .shot{flex:0 0 auto;width:232px;scroll-snap-align:start;cursor:zoom-in}
+.lanerow .shot img{height:380px}
+.lanehint{font-size:12px;color:var(--hint);margin-top:2px}
+@media(max-width:560px){.lanerow .shot{width:80vw}.lanerow .shot img{height:auto;max-height:72vh}}
 </style>
 </head>
 <body>
-
 <div class="page">
-
-<div class="hero">
-  <div class="hero-badge">競合予約フロー 実地調査 · 2026-07-10</div>
-  <h1>予約フローの競合 teardown と「必要情報」の見直し</h1>
-  <p>競合6社＋自社の予約フロー（探す→予約フォーム、支払い入力の手前まで）をモバイル実機で実地取得し、<strong>ジャーニー×ペインの5分類</strong>にマッピング。注力は <strong>④予約する×手間</strong> と <strong>⑤待つ×待ち・不安</strong>。主指標 CVR。</p>
-</div>
-
-<!-- 01 -->
+<div class="hero"><div class="hero-badge">競合予約フロー 実地調査 · 2026-07-10</div><h1>予約フローの競合 teardown と「必要情報」の見直し</h1><p>競合6社＋自社の予約フロー（探す→予約フォーム、支払い入力の手前まで）をモバイル実機で実地取得し、<strong>ジャーニー×ペインの5分類</strong>にマッピング。注力は <strong>④予約する×手間</strong> と <strong>⑤待つ×待ち・不安</strong>。主指標 CVR。</p></div>
 <h2 class="st">01. 結論 ── 勝ち筋は活かし、負け筋は1点に集約</h2>
-<div class="slide hi">
-  <div class="slide-h">唯一の構造的な負け筋は <strong>リクエスト予約の「待ち」</strong></div>
-  <div class="slide-sub">
-    <p><b>① 待ち：</b>7フロー中、即時確定でないのは Veltra だけ（可否連絡まで24〜48時間）。競合は即時確定に加え「後払い・価格固定で先に確保」まで進化。→ <b>B案（⑤待つ×不安）を最優先</b>。</p>
-    <p><b>② 勝ち筋：</b>ネイティブな日本語の丁寧さ（KKday＝機械翻訳／Viator＝自動翻訳より優位）と、入力が<b>代表者のみで軽い</b>（Klook＝全員＋パスポート、asoview＝住所まで必須より良い）。摩擦は削っても安心感は削らない。</p>
-    <p><b>③ 打ち手：</b>A案＝必要情報（Required Info）を「予約時／後追い」に振り分け＋後追いUX整備。B案＝確定見込みの明示→先に確保→即時確約カテゴリの切り出し。ベンチマークは <b>NEWT</b>（パスポート後回し＋価格固定の仮予約）。</p>
-  </div>
-</div>
-
-<!-- 02 pain lens -->
+<div class="slide hi"><div class="slide-h">唯一の構造的な負け筋は <strong>リクエスト予約の「待ち」</strong></div><div class="slide-sub"><p><b>① 待ち：</b>7フロー中、即時確定でないのは Veltra だけ（可否連絡まで24〜48時間）。競合は即時確定に加え「後払い・価格固定で先に確保」まで進化。ただし<b>これはVeltraの独自品揃えの源泉でもある</b>（即時在庫に乗らない現地の本物を扱えるのはリクエスト型だから）。→ 「やめる」のでなく<b>「待ちのペインを消す」</b>のが狙い。</p><p><b>② 勝ち筋：</b>ネイティブな日本語の丁寧さ（KKday＝機械翻訳／Viator＝自動翻訳より優位）と、入力が<b>代表者のみで軽い</b>（Klook＝全員＋パスポート、asoview＝住所まで必須より良い）。</p><p><b>③ 打ち手：</b>A案＝必要情報を「予約時／後追い」に振り分け＋後追いUX。B案＝確定見込みの明示→先に確保→即時確約カテゴリ。ベンチマークは <b>NEWT</b>。</p></div></div>
 <h2 class="st">02. 課題出しのレンズ：ペインの5分類を忘れない</h2>
-<div class="sec">
-  <div class="stt">各フェーズで「何が辛いのか」を5種類で点検する</div>
-  <div class="pains">
-    <div class="pain effort"><div class="pn">手間</div><div class="pe">Effort</div><div class="pq">入力・操作・ステップが多くないか</div></div>
-    <div class="pain anxiety"><div class="pn">不安</div><div class="pe">Anxiety</div><div class="pq">「予約できてる？」「当日どこへ？」が残らないか</div></div>
-    <div class="pain wait"><div class="pn">待ち</div><div class="pe">Waiting</div><div class="pq">回答・確定・返信を待たされないか</div></div>
-    <div class="pain confusion"><div class="pn">分からない</div><div class="pe">Confusion</div><div class="pq">情報が見つからない・意味不明がないか</div></div>
-    <div class="pain broken"><div class="pn">裏切り</div><div class="pe">Broken promise</div><div class="pq">期待と違った（在庫なし・即確定でない）がないか</div></div>
-  </div>
-  <div class="cout blue">
-    <h4>既出の課題はこの分類にきれいに乗る</h4>
-    <p>予約フォームの大変さ・Required Info の多さ → <span class="pc e">手間</span>　／　在庫のないACが検索に出る → <span class="pc b">裏切り</span>　／　リクエスト予約 → <span class="pc w">待ち</span>＋<span class="pc a">不安</span>。<br><b>課題出しのときは、必ずこの5レンズで各フェーズを点検する。</b></p>
-  </div>
-</div>
-
-<!-- 03 comparison -->
+<div class="sec"><div class="stt">各フェーズで「何が辛いのか」を5種類で点検する</div><div class="pains"><div class="pain effort"><div class="pn">手間</div><div class="pe">Effort</div><div class="pq">入力・操作・ステップが多くないか</div></div><div class="pain anxiety"><div class="pn">不安</div><div class="pe">Anxiety</div><div class="pq">「予約できてる？」「当日どこへ？」が残らないか</div></div><div class="pain wait"><div class="pn">待ち</div><div class="pe">Waiting</div><div class="pq">回答・確定・返信を待たされないか</div></div><div class="pain confusion"><div class="pn">分からない</div><div class="pe">Confusion</div><div class="pq">情報が見つからない・意味不明がないか</div></div><div class="pain broken"><div class="pn">裏切り</div><div class="pe">Broken promise</div><div class="pq">期待と違った（在庫なし・即確定でない）がないか</div></div></div><div class="cout blue"><h4>既出の課題はこの分類にきれいに乗る</h4><p>予約フォームの大変さ・Required Info の多さ → <span class="pc e">手間</span>／在庫のないACが検索に出る → <span class="pc b">裏切り</span>／リクエスト予約 → <span class="pc w">待ち</span>＋<span class="pc a">不安</span>。<br><b>課題出しのときは、必ずこの5レンズで各フェーズを点検する。</b></p></div></div>
 <h2 class="st">03. 競合7フロー比較（予約フォームの核心）</h2>
-<div class="slide">
-  <div class="cmp-wrap">
-    <table class="cmp">
-      <thead><tr>
-        <th>観点</th><th>GYG<br><small>PC</small></th><th>Klook</th><th>KKday</th><th>NEWT</th><th>Viator</th><th>asoview</th><th class="veltra-col">Veltra</th>
-      </tr></thead>
-      <tbody>
-        <tr><th>確定スピード</th>
-          <td><span class="rc g">◎即時</span></td><td><span class="rc g">◎即時</span></td><td><span class="rc g">◎催行確約</span></td>
-          <td><span class="rc g">◎即時</span></td><td><span class="rc g">◎即時</span></td><td><span class="rc g">◎即時中心</span></td>
-          <td class="veltra-col"><span class="rc b">✕24-48h待ち</span></td></tr>
-        <tr><th>予約ハードル低減</th>
-          <td><span class="rc g">◎24h前50%返金</span></td><td><span class="rc m">△60分急かし</span></td><td><span class="rc g">◎2日前無料</span></td>
-          <td><span class="rc g">◎価格固定/後払い</span></td><td><span class="rc g">◎後払い/無制限変更</span></td><td><span class="rc o">○現地/後払い</span></td>
-          <td class="veltra-col"><span class="rc b">✕見込み時刻なし</span></td></tr>
-        <tr><th>入力の重さ</th>
-          <td><span class="rc g">◎メールのみ</span></td><td><span class="rc b">✕全員+パスポート</span></td><td><span class="rc m">△人数分</span></td>
-          <td><span class="rc o">○代表者+後回し</span></td><td><span class="rc g">◎代表者のみ</span></td><td><span class="rc b">✕住所まで必須</span></td>
-          <td class="veltra-col"><span class="rc o">○代表者のみ</span></td></tr>
-        <tr><th>ログイン</th>
-          <td><span class="rc g">◎ゲスト可</span></td><td><span class="rc m">△会員前提</span></td><td><span class="rc b">✕必須ゲート</span></td>
-          <td><span class="rc m">△必須</span></td><td><span class="rc g">◎ゲスト可</span></td><td><span class="rc o">○ゲスト可</span></td>
-          <td class="veltra-col"><span class="rc o">○代表者入力</span></td></tr>
-        <tr><th>日本語品質</th>
-          <td><span class="rc m">△英語主体</span></td><td><span class="rc o">○中</span></td><td><span class="rc b">✕機械翻訳</span></td>
-          <td><span class="rc g">◎ネイティブ</span></td><td><span class="rc b">✕自動翻訳</span></td><td><span class="rc g">◎ネイティブ</span></td>
-          <td class="veltra-col"><span class="rc g">◎ネイティブ</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="cout amber">
-    <h4>ベンチマークは NEWT</h4>
-    <p>同じ日本語ネイティブで、パスポートは「任意・予約後でOK」（＝必要情報の後回し）、プライスキープ＝価格固定の仮予約・後払い（＝待ちの間の離脱防止）を実装済み。「日本語で安心 × 即時に近い体験」の最短の手本。</p>
-  </div>
-</div>
-
-<!-- 04 gallery -->
+<div class="slide"><div class="cmp-wrap"><table class="cmp"><thead><tr><th>観点</th><th>GYG<br><small>PC</small></th><th>Klook</th><th>KKday</th><th>NEWT</th><th>Viator</th><th>asoview</th><th class="veltra-col">Veltra</th></tr></thead><tbody><tr><th>確定スピード</th><td><span class="rc g">◎即時</span></td><td><span class="rc g">◎即時</span></td><td><span class="rc g">◎催行確約</span></td><td><span class="rc g">◎即時</span></td><td><span class="rc g">◎即時</span></td><td><span class="rc g">◎即時中心</span></td><td class="veltra-col"><span class="rc b">✕24-48h待ち</span></td></tr><tr><th>予約ハードル低減</th><td><span class="rc g">◎24h前50%返金</span></td><td><span class="rc m">△60分急かし</span></td><td><span class="rc g">◎2日前無料</span></td><td><span class="rc g">◎価格固定/後払い</span></td><td><span class="rc g">◎後払い/無制限変更</span></td><td><span class="rc o">○現地/後払い</span></td><td class="veltra-col"><span class="rc b">✕見込み時刻なし</span></td></tr><tr><th>入力の重さ</th><td><span class="rc g">◎メールのみ</span></td><td><span class="rc b">✕全員+パスポート</span></td><td><span class="rc m">△人数分</span></td><td><span class="rc o">○代表者+後回し</span></td><td><span class="rc g">◎代表者のみ</span></td><td><span class="rc b">✕住所まで必須</span></td><td class="veltra-col"><span class="rc o">○代表者のみ</span></td></tr><tr><th>ログイン</th><td><span class="rc g">◎ゲスト可</span></td><td><span class="rc m">△会員前提</span></td><td><span class="rc b">✕必須ゲート</span></td><td><span class="rc m">△必須</span></td><td><span class="rc g">◎ゲスト可</span></td><td><span class="rc o">○ゲスト可</span></td><td class="veltra-col"><span class="rc o">○代表者入力</span></td></tr><tr><th>日本語品質</th><td><span class="rc m">△英語主体</span></td><td><span class="rc o">○中</span></td><td><span class="rc b">✕機械翻訳</span></td><td><span class="rc g">◎ネイティブ</span></td><td><span class="rc b">✕自動翻訳</span></td><td><span class="rc g">◎ネイティブ</span></td><td class="veltra-col"><span class="rc g">◎ネイティブ</span></td></tr></tbody></table></div><div class="cout amber"><h4>ベンチマークは NEWT</h4><p>同じ日本語ネイティブで、パスポートは「任意・予約後でOK」（＝必要情報の後回し）、プライスキープ＝価格固定の仮予約・後払い（＝待ちの間の離脱防止）を実装済み。「日本語で安心 × 即時に近い体験」の最短の手本。</p></div></div>
 <h2 class="st">04. 予約フローのキャプチャ（クリックで拡大）</h2>
-<div class="sec">
-  <div class="lede">各社モバイルの実地スクリーンショット。UXの要点が出る画面を抜粋（個人情報を含む入力後・決済・確認メール画面は掲載を保留）。</div>
-
-  <div class="gsite">Klook <span class="tagm">即時予約・全員分入力</span></div>
-  <div class="gallery">
-    <figure class="shot" tabindex="0" data-src="/spot/assets/teardown/klook-date.jpg" data-cap="日付・オプション選択（即時予約・5%OFF）"><img src="/spot/assets/teardown/klook-date.jpg" alt="日付・オプション選択（即時予約・5%OFF）" loading="lazy"><figcaption class="cap">日付・オプション選択（即時予約・5%OFF）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/klook-form.jpg" data-cap="情報入力（参加者を人数分・ローマ字）"><img src="/spot/assets/teardown/klook-form.jpg" alt="情報入力（参加者を人数分・ローマ字）" loading="lazy"><figcaption class="cap">情報入力（参加者を人数分・ローマ字）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/klook-ferry-passport.jpg" data-cap="別商品では姓名＋国籍＋生年月日＋パスポート種別まで要求"><img src="/spot/assets/teardown/klook-ferry-passport.jpg" alt="別商品では姓名＋国籍＋生年月日＋パスポート種別まで要求" loading="lazy"><figcaption class="cap">別商品では姓名＋国籍＋生年月日＋パスポート種別まで要求</figcaption></figure>
-  </div>
-
-  <div class="gsite">Veltra（自社） <span class="tagm">リクエスト予約・必要情報が多い</span></div>
-  <div class="gallery">
-    <figure class="shot" tabindex="0" data-src="/spot/assets/teardown/veltra-request.jpg" data-cap="利用日・数量（リクエスト予約：24-48hでメール回答）"><img src="/spot/assets/teardown/veltra-request.jpg" alt="利用日・数量（リクエスト予約：24-48hでメール回答）" loading="lazy"><figcaption class="cap">利用日・数量（リクエスト予約：24-48hでメール回答）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/veltra-reqinfo.jpg" data-cap="必要情報：お迎え場所・ホテル・フェリー便名・時刻…（代表者のみだが項目が多い）"><img src="/spot/assets/teardown/veltra-reqinfo.jpg" alt="必要情報：お迎え場所・ホテル・フェリー便名・時刻…（代表者のみだが項目が多い）" loading="lazy"><figcaption class="cap">必要情報：お迎え場所・ホテル・フェリー便名・時刻…（代表者のみだが項目が多い）</figcaption></figure>
-  </div>
-
-  <div class="gsite">KKday <span class="tagm">催行確約・ログイン必須</span></div>
-  <div class="gallery">
-    <figure class="shot" tabindex="0" data-src="/spot/assets/teardown/kkday-product.jpg" data-cap="商品ページ（催行確約・2日前まで無料キャンセル）"><img src="/spot/assets/teardown/kkday-product.jpg" alt="商品ページ（催行確約・2日前まで無料キャンセル）" loading="lazy"><figcaption class="cap">商品ページ（催行確約・2日前まで無料キャンセル）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/kkday-plan.jpg" data-cap="お申し込み内容（日付・時間・枚数）"><img src="/spot/assets/teardown/kkday-plan.jpg" alt="お申し込み内容（日付・時間・枚数）" loading="lazy"><figcaption class="cap">お申し込み内容（日付・時間・枚数）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/kkday-login.jpg" data-cap="購入前にログイン／会員登録が必須のゲート"><img src="/spot/assets/teardown/kkday-login.jpg" alt="購入前にログイン／会員登録が必須のゲート" loading="lazy"><figcaption class="cap">購入前にログイン／会員登録が必須のゲート</figcaption></figure>
-  </div>
-
-  <div class="gsite">NEWT <span class="tagm">価格固定の仮予約・パスポート後回し</span></div>
-  <div class="gallery">
-    <figure class="shot" tabindex="0" data-src="/spot/assets/teardown/newt-pricekeep.jpg" data-cap="予約情報入力（プライスキープ＝価格固定の仮予約・後払い）"><img src="/spot/assets/teardown/newt-pricekeep.jpg" alt="予約情報入力（プライスキープ＝価格固定の仮予約・後払い）" loading="lazy"><figcaption class="cap">予約情報入力（プライスキープ＝価格固定の仮予約・後払い）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/newt-profile.jpg" data-cap="代表者プロフィール（パスポートは「任意・予約後でOK」）"><img src="/spot/assets/teardown/newt-profile.jpg" alt="代表者プロフィール（パスポートは「任意・予約後でOK」）" loading="lazy"><figcaption class="cap">代表者プロフィール（パスポートは「任意・予約後でOK」）</figcaption></figure>
-  </div>
-
-  <div class="gsite">Viator <span class="tagm">後払い・代表者のみ</span></div>
-  <div class="gallery">
-    <figure class="shot" tabindex="0" data-src="/spot/assets/teardown/viator-activity.jpg" data-cap="アクティビティ詳細（代表者のみ＋送迎情報・無制限変更可）"><img src="/spot/assets/teardown/viator-activity.jpg" alt="アクティビティ詳細（代表者のみ＋送迎情報・無制限変更可）" loading="lazy"><figcaption class="cap">アクティビティ詳細（代表者のみ＋送迎情報・無制限変更可）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/viator-paylater.jpg" data-cap="支払い：今すぐ／今すぐ予約&後で支払い（後払い）"><img src="/spot/assets/teardown/viator-paylater.jpg" alt="支払い：今すぐ／今すぐ予約&後で支払い（後払い）" loading="lazy"><figcaption class="cap">支払い：今すぐ／今すぐ予約&後で支払い（後払い）</figcaption></figure>
-  </div>
-
-  <div class="gsite">asoview! <span class="tagm">在庫可視化・住所まで必須</span></div>
-  <div class="gallery">
-    <figure class="shot" tabindex="0" data-src="/spot/assets/teardown/asoview-stock.jpg" data-cap="時間帯ごとの在庫（残り◯・リクエスト・開催なし）"><img src="/spot/assets/teardown/asoview-stock.jpg" alt="時間帯ごとの在庫（残り◯・リクエスト・開催なし）" loading="lazy"><figcaption class="cap">時間帯ごとの在庫（残り◯・リクエスト・開催なし）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/asoview-form.jpg" data-cap="情報入力：氏名/フリガナ/電話/性別/生年月日/郵便番号/住所…が全部必須"><img src="/spot/assets/teardown/asoview-form.jpg" alt="情報入力：氏名/フリガナ/電話/性別/生年月日/郵便番号/住所…が全部必須" loading="lazy"><figcaption class="cap">情報入力：氏名/フリガナ/電話/性別/生年月日/郵便番号/住所…が全部必須</figcaption></figure>
-  </div>
-
-  <div class="gsite">GetYourGuide <span class="tagm">PC実地</span></div>
-  <div class="gallery">
-    <div class="gnote">GetYourGuide は PC で実地確認（決済手前＝メールアドレスのみ／即時確定）。本ギャラリーは各社モバイル版のため画像は割愛。</div>
-  </div>
-  <div class="note">全キャプチャの原本は共有 Drive フォルダにあります（Klook / Veltra / KKday / NEWT / Viator / asoview）。外部共有時は個人情報のマスキングを行うこと。</div>
-</div>
-
-<!-- 05 matrix -->
+<div class="sec"><div class="lede">各社モバイルの実地スクリーンショット。UXの要点が出る画面を抜粋（個人情報を含む入力後・決済・確認メール画面は掲載を保留）。</div><div class="galtabs" role="tablist"><button class="gtab on" role="tab" aria-selected="true" data-i="0">Klook</button><button class="gtab" role="tab" aria-selected="false" data-i="1">Veltra（自社）</button><button class="gtab" role="tab" aria-selected="false" data-i="2">KKday</button><button class="gtab" role="tab" aria-selected="false" data-i="3">NEWT</button><button class="gtab" role="tab" aria-selected="false" data-i="4">Viator</button><button class="gtab" role="tab" aria-selected="false" data-i="5">asoview!</button><button class="gtab" role="tab" aria-selected="false" data-i="6">GetYourGuide</button></div><div class="lanes"><div class="lane on" role="tabpanel" data-i="0"><div class="lanehead"><b>Klook</b> — 即時予約・全員分入力</div><div class="lanerow"><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/klook-date.jpg" data-cap="日付・オプション選択（即時予約・5%OFF）"><img src="/spot/assets/teardown/klook-date.jpg" alt="日付・オプション選択（即時予約・5%OFF）" loading="lazy"><figcaption class="cap">日付・オプション選択（即時予約・5%OFF）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/klook-form.jpg" data-cap="情報入力（参加者を人数分・ローマ字）"><img src="/spot/assets/teardown/klook-form.jpg" alt="情報入力（参加者を人数分・ローマ字）" loading="lazy"><figcaption class="cap">情報入力（参加者を人数分・ローマ字）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/klook-ferry-passport.jpg" data-cap="別商品では姓名＋国籍＋生年月日＋パスポート種別まで要求"><img src="/spot/assets/teardown/klook-ferry-passport.jpg" alt="別商品では姓名＋国籍＋生年月日＋パスポート種別まで要求" loading="lazy"><figcaption class="cap">別商品では姓名＋国籍＋生年月日＋パスポート種別まで要求</figcaption></figure></div><div class="lanehint">← 横スワイプ / ドラッグでスクロール・クリックで拡大</div></div><div class="lane" role="tabpanel" data-i="1"><div class="lanehead"><b>Veltra（自社）</b> — リクエスト予約・必要情報が多い</div><div class="lanerow"><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/veltra-request.jpg" data-cap="利用日・数量（リクエスト予約：24-48hでメール回答）"><img src="/spot/assets/teardown/veltra-request.jpg" alt="利用日・数量（リクエスト予約：24-48hでメール回答）" loading="lazy"><figcaption class="cap">利用日・数量（リクエスト予約：24-48hでメール回答）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/veltra-reqinfo.jpg" data-cap="必要情報：お迎え場所・ホテル・フェリー便名・時刻…（代表者のみだが項目が多い）"><img src="/spot/assets/teardown/veltra-reqinfo.jpg" alt="必要情報：お迎え場所・ホテル・フェリー便名・時刻…（代表者のみだが項目が多い）" loading="lazy"><figcaption class="cap">必要情報：お迎え場所・ホテル・フェリー便名・時刻…（代表者のみだが項目が多い）</figcaption></figure></div><div class="lanehint">← 横スワイプ / ドラッグでスクロール・クリックで拡大</div></div><div class="lane" role="tabpanel" data-i="2"><div class="lanehead"><b>KKday</b> — 催行確約・ログイン必須</div><div class="lanerow"><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/kkday-product.jpg" data-cap="商品ページ（催行確約・2日前まで無料キャンセル）"><img src="/spot/assets/teardown/kkday-product.jpg" alt="商品ページ（催行確約・2日前まで無料キャンセル）" loading="lazy"><figcaption class="cap">商品ページ（催行確約・2日前まで無料キャンセル）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/kkday-plan.jpg" data-cap="お申し込み内容（日付・時間・枚数）"><img src="/spot/assets/teardown/kkday-plan.jpg" alt="お申し込み内容（日付・時間・枚数）" loading="lazy"><figcaption class="cap">お申し込み内容（日付・時間・枚数）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/kkday-login.jpg" data-cap="購入前にログイン／会員登録が必須のゲート"><img src="/spot/assets/teardown/kkday-login.jpg" alt="購入前にログイン／会員登録が必須のゲート" loading="lazy"><figcaption class="cap">購入前にログイン／会員登録が必須のゲート</figcaption></figure></div><div class="lanehint">← 横スワイプ / ドラッグでスクロール・クリックで拡大</div></div><div class="lane" role="tabpanel" data-i="3"><div class="lanehead"><b>NEWT</b> — 価格固定の仮予約・パスポート後回し</div><div class="lanerow"><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/newt-pricekeep.jpg" data-cap="予約情報入力（プライスキープ＝価格固定の仮予約・後払い）"><img src="/spot/assets/teardown/newt-pricekeep.jpg" alt="予約情報入力（プライスキープ＝価格固定の仮予約・後払い）" loading="lazy"><figcaption class="cap">予約情報入力（プライスキープ＝価格固定の仮予約・後払い）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/newt-profile.jpg" data-cap="代表者プロフィール（パスポートは「任意・予約後でOK」）"><img src="/spot/assets/teardown/newt-profile.jpg" alt="代表者プロフィール（パスポートは「任意・予約後でOK」）" loading="lazy"><figcaption class="cap">代表者プロフィール（パスポートは「任意・予約後でOK」）</figcaption></figure></div><div class="lanehint">← 横スワイプ / ドラッグでスクロール・クリックで拡大</div></div><div class="lane" role="tabpanel" data-i="4"><div class="lanehead"><b>Viator</b> — 後払い・代表者のみ</div><div class="lanerow"><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/viator-activity.jpg" data-cap="アクティビティ詳細（代表者のみ＋送迎情報・無制限変更可）"><img src="/spot/assets/teardown/viator-activity.jpg" alt="アクティビティ詳細（代表者のみ＋送迎情報・無制限変更可）" loading="lazy"><figcaption class="cap">アクティビティ詳細（代表者のみ＋送迎情報・無制限変更可）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/viator-paylater.jpg" data-cap="支払い：今すぐ／今すぐ予約&amp;後で支払い（後払い）"><img src="/spot/assets/teardown/viator-paylater.jpg" alt="支払い：今すぐ／今すぐ予約&amp;後で支払い（後払い）" loading="lazy"><figcaption class="cap">支払い：今すぐ／今すぐ予約&amp;後で支払い（後払い）</figcaption></figure></div><div class="lanehint">← 横スワイプ / ドラッグでスクロール・クリックで拡大</div></div><div class="lane" role="tabpanel" data-i="5"><div class="lanehead"><b>asoview!</b> — 在庫可視化・住所まで必須</div><div class="lanerow"><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/asoview-stock.jpg" data-cap="時間帯ごとの在庫（残り◯・リクエスト・開催なし）"><img src="/spot/assets/teardown/asoview-stock.jpg" alt="時間帯ごとの在庫（残り◯・リクエスト・開催なし）" loading="lazy"><figcaption class="cap">時間帯ごとの在庫（残り◯・リクエスト・開催なし）</figcaption></figure><figure class="shot" tabindex="0" data-src="/spot/assets/teardown/asoview-form.jpg" data-cap="情報入力：氏名/フリガナ/電話/性別/生年月日/郵便番号/住所…が全部必須"><img src="/spot/assets/teardown/asoview-form.jpg" alt="情報入力：氏名/フリガナ/電話/性別/生年月日/郵便番号/住所…が全部必須" loading="lazy"><figcaption class="cap">情報入力：氏名/フリガナ/電話/性別/生年月日/郵便番号/住所…が全部必須</figcaption></figure></div><div class="lanehint">← 横スワイプ / ドラッグでスクロール・クリックで拡大</div></div><div class="lane" role="tabpanel" data-i="6"><div class="lanehead"><b>GetYourGuide</b> — PC実地</div><div class="gnote">GetYourGuide は PC で実地確認（決済手前＝メールアドレスのみ／即時確定）。本ギャラリーは各社モバイル版のため画像は割愛。</div></div></div><div class="note">全キャプチャの原本は共有 Drive フォルダにあります。外部共有時は個人情報のマスキングを行うこと。</div></div>
 <h2 class="st">05. フレームワーク上の Veltra の位置（①〜④ × 5ペイン）</h2>
-<div class="slide">
-  <div class="mx-wrap">
-    <table class="mx">
-      <thead><tr><th>フェーズ＼ペイン</th><th>手間</th><th>不安</th><th>待ち</th><th>分からない</th><th>裏切り</th></tr></thead>
-      <tbody>
-        <tr><th>① 探す</th><td><span class="cell-note">○ 検索導線</span></td><td>—</td><td>—</td><td><span class="cell-note">○</span></td><td>—</td></tr>
-        <tr><th>② 比べる</th><td><span class="cell-note">○</span></td><td><span class="cell-note">○</span></td><td>—</td><td><span class="cell-note">◎ 日本語で丁寧</span></td><td>—</td></tr>
-        <tr><th>③ 決める</th><td><span class="cell-note">△ 必要情報が多い</span></td><td class="focus"><span class="cell-note">✕ 確定まで不安</span></td><td class="focus"><span class="cell-note">✕ 24-48h待ち</span></td><td><span class="cell-note">◎ 在庫表示/条件明示</span></td><td>—</td></tr>
-        <tr><th>④ 予約する</th><td class="focus"><span class="cell-note">△ 送迎項目が重い（代表者のみは◎）</span></td><td class="focus"><span class="cell-note">△ 見込み不明</span></td><td class="focus"><span class="cell-note">✕ リクエスト型</span></td><td><span class="cell-note">◎ 日本語で丁寧</span></td><td>—</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="note">オレンジ枠＝注力2セル（④予約×手間／⑤待つ×待ち・不安）。⑤〜⑧は「予約手前まで」の範囲外のため割愛し、「待ち」は③④に現れる形で評価。</div>
-</div>
-
-<!-- 06 B -->
-<h2 class="st">06. B案：待ちの不安をなくす（⑤待つ×不安）── 最優先</h2>
-<div class="slide">
-  <div class="steps">
-    <div class="step"><div class="sn">1</div><div class="stitle">確定見込み時刻を明示</div><div class="sdur">既存SYSで着手可</div><div class="sbody">「◯時間以内に回答」＋確定/未確定ステータスと通知。今の“見込み不明”から大きく改善でき、<b>表示追加のみ</b>で始められる。まずここ。</div></div>
-    <div class="step"><div class="sn">2</div><div class="stitle">「先に確保」へ発想転換</div><div class="sdur">NEWT / Viator 型</div><div class="sbody">48時間“待たせる”のでなく、<b>仮予約・価格固定・後払いで枠を押さえる</b>体験に。コミット前の離脱を抑える。</div></div>
-    <div class="step"><div class="sn">3</div><div class="stitle">即時確約カテゴリの切り出し</div><div class="sdur">在庫条件で判定</div><div class="sbody">即時確約できる商品を判定し、一覧で<b>「即時確定」フィルタ／上位表示</b>。待てない層を即時商品へ誘導。</div></div>
-  </div>
-</div>
-
-<!-- 07 A -->
+<div class="slide"><div class="mx-wrap"><table class="mx"><thead><tr><th>フェーズ＼ペイン</th><th>手間</th><th>不安</th><th>待ち</th><th>分からない</th><th>裏切り</th></tr></thead><tbody><tr><th>① 探す</th><td class="mxcell"><span class="cell-note">○ 検索導線</span></td><td>—</td><td>—</td><td class="mxcell"><span class="cell-note">○</span></td><td>—</td></tr><tr><th>② 比べる</th><td class="mxcell"><span class="cell-note">○</span></td><td class="mxcell"><span class="cell-note">○</span></td><td>—</td><td class="mxcell"><span class="cell-note">◎ 日本語で丁寧</span></td><td>—</td></tr><tr><th>③ 決める</th><td class="mxcell"><span class="cell-note">△ 必要情報が多い</span></td><td class="mxcell focus"><span class="cell-note">✕ 確定まで不安</span></td><td class="mxcell focus"><span class="cell-note">✕ 24-48h待ち</span></td><td class="mxcell"><span class="cell-note">◎ 在庫表示/条件明示</span></td><td>—</td></tr><tr><th>④ 予約する</th><td class="mxcell focus"><span class="cell-note">△ 送迎項目が重い（代表者のみは◎）</span></td><td class="mxcell focus"><span class="cell-note">△ 見込み不明</span></td><td class="mxcell focus"><span class="cell-note">✕ リクエスト型</span></td><td class="mxcell"><span class="cell-note">◎ 日本語で丁寧</span></td><td>—</td></tr></tbody></table></div><div class="note">オレンジ枠＝注力2セル（④予約×手間／⑤待つ×待ち・不安）。⑤〜⑧は「予約手前まで」の範囲外のため割愛し、「待ち」は③④に現れる形で評価。</div></div>
+<h2 class="st">06. 「待ち」をどう解消するか ── リクエスト予約は“強みの源泉”なので残す</h2>
+<div class="sec"><div class="cout green"><h4>リクエスト予約は「負け筋」か、「強みの源泉」か</h4><p>即時確定OTAが扱えない<b>現地の本物・専門ガイド・小規模／季節／要調整</b>の体験を扱えるのは、サプライヤー承認型（リクエスト）だからこそ。即時在庫に乗る商品だけにすると競合と同質化し、Veltraの品揃えの独自性が消える。<b>だから狙いは「リクエスト予約をやめる」ではなく「待ちのペイン（不確実性・不安・放置感）を消す」こと。</b>実際の承認時間をゼロにできなくても、"体験としての待ち"は設計で消せる。</p></div><div class="stt" style="margin-top:18px">待ちを解消する4レイヤー（実時間を削る × 体感を変える）</div><div class="steps"><div class="step"><div class="sn">1</div><div class="stitle">期待値を先に見せる（②③）</div><div class="sbody">「この体験は確約に最大◯時間」を<b>予約前に明示</b>。即時＝「即時確定」、リクエスト＝「◯時間で確約」の<b>バッジで区別</b>。予想外の"裏切り"を"仕様"に変える。</div></div><div class="step"><div class="sn">2</div><div class="stitle">先に確保（④）</div><div class="sbody">決済を確定させず<b>「仮押さえ／価格固定」で枠をコミット</b>（NEWT／Viator型）。承認待ちの間も"取れている感"を担保。</div></div><div class="step"><div class="sn">3</div><div class="stitle">承認を可視化＋通知（⑤）</div><div class="sbody">進捗ステータス＋<b>確定見込みカウントダウン</b>＋確定/不成立の即時プッシュ。放置感をゼロに。</div></div><div class="step"><div class="sn">4</div><div class="stitle">実時間を削る（裏側・運用）</div><div class="sbody">サプライヤーの<b>事前枠取り</b>・条件付き自動確約・<b>AI架電で確認高速化</b>（6/30の議論）→「即時確約比率」を継続的に上げる。</div></div></div><div class="cout amber"><h4>不成立・時間切れ時の設計</h4><p>承認が下りない／締切超過時は、<b>代替AC提案・全額即返金・近い即時確定商品への誘導</b>で「裏切り」を最小化する。</p></div><div class="note">指標：<b>即時確約比率</b>／確約までの中央時間／リクエスト承認率／確約待ち中の離脱率／リクエスト商品CVR。</div></div>
 <h2 class="st">07. A案：必要情報（Required Info）の見直し（④予約×手間）</h2>
-<div class="sec">
-  <div class="stt">① 「いつ本当に要るか」で振り分ける</div>
-  <div class="hyp">
-    <div class="hcard"><div class="cell-ref">予約時に必須</div><div class="hd"><b>代表者氏名・メール・電話／人数・日付・プラン。</b>予約の成立に不可欠なものだけ。</div></div>
-    <div class="hcard"><div class="cell-ref">手配確認に必須</div><div class="hd">参加人数・大枠の条件など、<b>催行会社が可否確認に要る範囲のみ</b>。</div></div>
-    <div class="hcard"><div class="cell-ref">催行直前で十分 → 後回し</div><div class="hd"><b>フィンの足サイズ・身長・体重／お迎え場所・ホテル名・便名・到着時刻／パスポート番号・食事制限。</b></div></div>
-    <div class="hcard"><div class="cell-ref">分類の狙い</div><div class="hd"><span class="pc e">手間</span>を減らしつつ、<span class="pc w">待ち</span>・<span class="pc a">不安</span>を増やさない。減らした分は後追いで確実に回収する。</div></div>
-  </div>
-  <div class="cout blue">
-    <h4>例：シュノーケルの「足のサイズ必須」</h4>
-    <p>予約可否（在庫）の確認に足サイズは不要で、必要なのは<b>当日の装備準備</b>のため。同乗者の分は予約時に分からないことも多い。→ <b>後回し</b>にし、出発が近づいてから聞く。「予約可否の確認」と「装備準備」を分けて考える。</p>
-  </div>
-
-  <div class="stt" style="margin-top:22px">② 後追いUX（減らすなら、ここが本体）</div>
-  <div class="steps">
-    <div class="step"><div class="sn">1</div><div class="stitle">最小情報で予約確定</div><div class="sbody">代表者＋人数＋日付で成立。重い項目は求めない。</div></div>
-    <div class="step"><div class="sn">2</div><div class="stitle">未入力を可視化＋締切逆算</div><div class="sbody">予約詳細に「あと◯項目」進捗バー。締切は催行会社のリードタイムから逆算。</div></div>
-    <div class="step"><div class="sn">3</div><div class="stitle">近づいたら聞く／取りこぼし防止</div><div class="sbody">7日前・3日前・前日に自動リマインド（メール・Push・LINE）＋ワンタップ再開。未入力は通知強化→CS／AI架電。</div></div>
-  </div>
-  <div class="note">入力自体も軽く：便名・ホテルは検索/選択式・候補サジェスト・デフォルト。<b>「未定」を許容</b>（今わかる範囲でOK・後から変更可）。送迎あり商品にだけ後追いフローを出す。NEWTは「パスポート＝任意・予約後OK」を実装済みで、後回しは業界的に成立する。</div>
-
-  <div class="stt" style="margin-top:22px">③ 「予約確定に不可欠」な必要情報が出たときのパートナー側の打ち手</div>
-  <div class="slide-sub"><p>「それがないと予約確定できない」性質の項目があったとき、旅行者に求め続けるのではなく、<b>まず本当に確定に不可欠かをパートナーと問い直し、削る／代替する／運用でカバーする</b>順に検討する。</p></div>
-  <div class="hyp">
-    <div class="hcard"><div class="ht">まず切り分ける</div><div class="hd"><b>「予約可否の判定に要る」か「催行準備に要る」か</b>を分解。多くは後者で、確定の必須ではない（＝予約フォームから外し後追いへ）。パートナーヒアリングで棚卸し。</div></div>
-    <div class="hcard"><div class="ht">削る・代替する</div><div class="hd">選択式・デフォルト・概算を許容（足サイズは「未定/概算」→当日調整）。<b>催行会社の運用側で吸収</b>：全サイズの装備を用意しサイズ収集を不要化、在庫の事前枠取りで可否確認を省略。</div></div>
-    <div class="hcard"><div class="ht">削れないなら仮押さえ＋後追い</div><div class="hd">予約は<b>「確保（仮予約）」で先に成立</b>させ、必須情報は締切付きで後追い回収→揃ったら本確定。待たせずに枠を押さえられる（NEWTのプライスキープ型）。</div></div>
-    <div class="hcard"><div class="ht">運用で担保する</div><div class="hd">催行会社の管理画面に<b>「未確定・締切・未入力項目」を可視化</b>、締切超過はアラート。回収はCS／AI架電で補完。パートナーとは回答時間・必須項目の最小化をSLAで握る。</div></div>
-  </div>
-</div>
-
-<!-- 08 実態把握 -->
+<div class="sec"><div class="stt">① 「いつ本当に要るか」で振り分ける</div><div class="hyp"><div class="hcard"><div class="cell-ref">予約時に必須</div><div class="hd"><b>代表者氏名・メール・電話／人数・日付・プラン。</b>予約の成立に不可欠なものだけ。</div></div><div class="hcard"><div class="cell-ref">手配確認に必須</div><div class="hd">参加人数・大枠の条件など、<b>催行会社が可否確認に要る範囲のみ</b>。</div></div><div class="hcard"><div class="cell-ref">催行直前で十分 → 後回し</div><div class="hd"><b>フィンの足サイズ・身長・体重／お迎え場所・ホテル名・便名・到着時刻／パスポート番号・食事制限。</b></div></div><div class="hcard"><div class="cell-ref">分類の狙い</div><div class="hd"><span class="pc e">手間</span>を減らしつつ、<span class="pc w">待ち</span>・<span class="pc a">不安</span>を増やさない。減らした分は後追いで確実に回収する。</div></div></div><div class="cout blue"><h4>例：シュノーケルの「足のサイズ必須」</h4><p>予約可否（在庫）の確認に足サイズは不要で、必要なのは<b>当日の装備準備</b>のため。同乗者の分は予約時に分からないことも多い。→ <b>後回し</b>にし、出発が近づいてから聞く。「予約可否の確認」と「装備準備」を分けて考える。</p></div><div class="stt" style="margin-top:22px">② 後追いUX（減らすなら、ここが本体）</div><div class="steps"><div class="step"><div class="sn">1</div><div class="stitle">最小情報で予約確定</div><div class="sbody">代表者＋人数＋日付で成立。重い項目は求めない。</div></div><div class="step"><div class="sn">2</div><div class="stitle">未入力を可視化＋締切逆算</div><div class="sbody">予約詳細に「あと◯項目」進捗バー。締切は催行会社のリードタイムから逆算。</div></div><div class="step"><div class="sn">3</div><div class="stitle">近づいたら聞く／取りこぼし防止</div><div class="sbody">7日前・3日前・前日に自動リマインド（メール・Push・LINE）＋ワンタップ再開。未入力は通知強化→CS／AI架電。</div></div></div><div class="note">入力自体も軽く：便名・ホテルは検索/選択式・候補サジェスト・デフォルト。<b>「未定」を許容</b>（今わかる範囲でOK・後から変更可）。送迎あり商品にだけ後追いフローを出す。</div><div class="stt" style="margin-top:22px">③ 「予約確定に不可欠」な必要情報が出たときのパートナー側の打ち手</div><div class="hyp"><div class="hcard"><div class="ht">まず切り分ける</div><div class="hd"><b>「予約可否の判定に要る」か「催行準備に要る」か</b>を分解。多くは後者で確定の必須ではない（→フォームから外し後追いへ）。</div></div><div class="hcard"><div class="ht">削る・代替する</div><div class="hd">選択式・デフォルト・概算を許容。<b>催行会社の運用側で吸収</b>：全サイズ装備を用意しサイズ収集を不要化、在庫の事前枠取りで可否確認を省略。</div></div><div class="hcard"><div class="ht">削れないなら仮押さえ＋後追い</div><div class="hd">予約は<b>「確保（仮予約）」で先に成立</b>させ、必須情報は締切付きで後追い回収→揃ったら本確定（NEWTのプライスキープ型）。</div></div><div class="hcard"><div class="ht">運用で担保する</div><div class="hd">催行会社の管理画面に<b>「未確定・締切・未入力項目」を可視化</b>、締切超過はアラート。回収はCS／AI架電で補完。パートナーとはSLAで握る。</div></div></div></div>
 <h2 class="st">08. 実態把握：どのACに何が必須か</h2>
-<div class="sec">
-  <div class="cout amber">
-    <h4>コネクタの実態</h4>
-    <p><b>searchActivities（ACSEARCH）はカタログ検索</b>で、必須入力項目（Required Info）は返らない（タイトル/価格/評価/エリア/URLのみ）。対象ACの<b>サンプル抽出</b>には使えるが、必須項目の実数は<b>商品マスタ／予約フォーム設定（Ctg管理Sys・Admin・DB）</b>のエクスポートが必要。</p>
-  </div>
-  <div class="stt" style="margin-top:18px">実態調査の対象サンプル（ACSEARCHで抽出・必須情報が重そうなカテゴリ）</div>
-  <div class="cmp-wrap">
-    <table class="cmp">
-      <thead><tr><th>カテゴリ</th><th>代表AC（実在・ID）</th><th>後回し候補になりうる必須情報（要検証の仮説）</th></tr></thead>
-      <tbody>
-        <tr><th>シュノーケル</th><td>八重干瀬(172409)／慶良間(154410)／青の洞窟 星砂・ウミガメ(155147)</td><td>足のサイズ・身長・年齢・持病確認</td></tr>
-        <tr><th>体験ダイビング</th><td>慶良間体験ダイビング(134472/153166)／青の洞窟(109303)</td><td>身長・体重・年齢・既往症/病歴・足サイズ</td></tr>
-        <tr><th>パラセーリング/マリン</th><td>ハワイ パラセーリング(6286)／グアム(158250)</td><td>体重（安全上限）・年齢</td></tr>
-        <tr><th>四輪バギー</th><td>クアロア・ランチ 四輪バギー(103079)</td><td>運転可否・年齢・身長</td></tr>
-        <tr><th>空港送迎/送迎付き</th><td>H.I.S. 空港送迎(14180)／各種送迎付きツアー</td><td>便名・到着/出発時刻・ホテル名/住所</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="stt" style="margin-top:18px">必要情報 棚卸しシート（列定義）</div>
-  <div class="dig" style="display:grid">
-    <li><b>項目名 / 型</b> — 例：足のサイズ / 数値</li>
-    <li><b>設定AC数・分布</b> — 何件のACで予約時必須か（カテゴリ・エリア・催行会社別）</li>
-    <li><b>必要理由</b> — 手配確認 / 安全 / 法令 / 送迎手配（←パートナーヒアリング）</li>
-    <li><b>本当に要るタイミング</b> — 予約時 / 手配確認時 / 催行直前 / 当日</li>
-    <li><b>後回し可否・締切</b> — 可 / 出発72h前まで 等</li>
-    <li><b>代替</b> — 選択式・デフォルト・「未定」許容・概算可</li>
-  </div>
-  <div class="cout green">
-    <h4>優先度の当て方（6/30 の原則）</h4>
-    <p>件数から入らず「有効な打ち手が複数あるか」で候補化 → その中で<b>「1手で多くのACに効く項目」</b>（多くのACで共通して必須の項目）を上位に。棚卸しの「設定AC数」列がその判断材料になる。</p>
-  </div>
-</div>
-
-<!-- 09 caveats -->
+<div class="sec"><div class="cout amber"><h4>コネクタの実態</h4><p><b>searchActivities（ACSEARCH）はカタログ検索</b>で、必須入力項目は返らない（タイトル/価格/評価/エリア/URLのみ）。対象ACの<b>サンプル抽出</b>には使えるが、必須項目の実数は<b>商品マスタ／予約フォーム設定（Ctg管理Sys・Admin・DB）</b>のエクスポートが必要。</p></div><div class="stt" style="margin-top:18px">実態調査の対象サンプル（ACSEARCHで抽出）</div><div class="cmp-wrap"><table class="cmp"><thead><tr><th>カテゴリ</th><th>代表AC（実在・ID）</th><th>後回し候補になりうる必須情報（要検証の仮説）</th></tr></thead><tbody><tr><th>シュノーケル</th><td>八重干瀬(172409)／慶良間(154410)／青の洞窟 星砂・ウミガメ(155147)</td><td>足のサイズ・身長・年齢・持病確認</td></tr><tr><th>体験ダイビング</th><td>慶良間体験ダイビング(134472/153166)／青の洞窟(109303)</td><td>身長・体重・年齢・既往症/病歴・足サイズ</td></tr><tr><th>パラセーリング/マリン</th><td>ハワイ(6286)／グアム(158250)</td><td>体重（安全上限）・年齢</td></tr><tr><th>四輪バギー</th><td>クアロア・ランチ(103079)</td><td>運転可否・年齢・身長</td></tr><tr><th>空港送迎/送迎付き</th><td>H.I.S. 空港送迎(14180)</td><td>便名・到着/出発時刻・ホテル名/住所</td></tr></tbody></table></div><div class="stt" style="margin-top:18px">必要情報 棚卸しシート（列定義）</div><ul class="dig" style="display:grid"><li><b>項目名 / 型</b> — 例：足のサイズ / 数値</li><li><b>設定AC数・分布</b> — 何件のACで予約時必須か（カテゴリ・エリア・催行会社別）</li><li><b>必要理由</b> — 手配確認 / 安全 / 法令 / 送迎手配</li><li><b>本当に要るタイミング</b> — 予約時 / 手配確認時 / 催行直前 / 当日</li><li><b>後回し可否・締切</b> — 可 / 出発72h前まで 等</li><li><b>代替</b> — 選択式・デフォルト・「未定」許容・概算可</li></ul><div class="cout green"><h4>優先度の当て方（6/30 の原則）</h4><p>件数から入らず「有効な打ち手が複数あるか」で候補化 → その中で<b>「1手で多くのACに効く項目」</b>を上位に。棚卸しの「設定AC数」列がその判断材料になる。</p></div></div>
 <h2 class="st">09. この分析の前提と限界</h2>
-<div class="sec">
-  <div class="note" style="margin-top:0">
-    ・本レポートは<b>定性調査</b>。各社1〜2商品の予約フローを実地取得したスナップショットで、全商品・全プランを網羅していない。商品カテゴリにより挙動は変わる。<br>
-    ・「実態把握」の必須情報列は<b>経験則に基づく仮説</b>。Veltra の実データは商品マスタのエクスポートで確定する（searchActivities では取得不可）。<br>
-    ・調査対象のタリン圏ツアーは商品固有のため、Veltra の「リクエスト予約／送迎項目の重さ」は<b>この商品の性質による面もある</b>。<br>
-    ・各社スクリーンショットには<b>個人情報</b>が含まれ得るため、原本の外部共有時はマスキングする。
-  </div>
+<div class="sec"><div class="note" style="margin-top:0">・本レポートは<b>定性調査</b>。各社1〜2商品のスナップショットで、全商品・全プランを網羅していない。<br>・「実態把握」の必須情報列は<b>経験則に基づく仮説</b>。Veltra の実データは商品マスタのエクスポートで確定する。<br>・調査対象のタリン圏ツアーは商品固有のため、Veltra の所見は<b>この商品の性質による面もある</b>。<br>・各社スクリーンショットには<b>個人情報</b>が含まれ得るため、原本の外部共有時はマスキングする。</div></div>
+<div class="footer">競合予約フロー teardown・必要情報の見直し / 2026-07-10<br>出典：GetYourGuide（PC実地）＋ Klook / KKday / NEWT / Viator / asoview / Veltra（モバイル実地）。AC例は searchActivities の実在データ。必須情報は仮説を含み、商品マスタで要検証。<br>関連：Traveler ペイン洗い出しフレームワーク・UX Squad ミッション・6/30 優先順位付け原則</div>
 </div>
-
-<div class="footer">
-  競合予約フロー teardown・必要情報の見直し / 2026-07-10<br>
-  出典：GetYourGuide（PC実地）＋ Klook / KKday / NEWT / Viator / asoview / Veltra（モバイル実地）。AC例は searchActivities の実在データ。必須情報は仮説を含み、商品マスタで要検証。<br>
-  関連：Traveler ペイン洗い出しフレームワーク・UX Squad ミッション・6/30 優先順位付け原則
-</div>
-
-</div>
-
 <div id="lb" role="dialog" aria-modal="true" aria-label="拡大表示"><span class="cl" aria-label="閉じる">&times;</span><img alt=""><div class="cap2"></div></div>
-
 <script>
 (function(){
-  var lb=document.getElementById('lb'),img=lb.querySelector('img'),cap=lb.querySelector('.cap2');
+  var lb=document.getElementById('lb');if(!lb)return;
+  var img=lb.querySelector('img'),cap=lb.querySelector('.cap2');
   function open(s,c){img.src=s;img.alt=c||'';cap.textContent=c||'';lb.classList.add('on');}
   function close(){lb.classList.remove('on');img.src='';}
   document.querySelectorAll('.shot').forEach(function(f){
@@ -415,6 +224,19 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
   });
   lb.addEventListener('click',close);
   document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+})();
+</script>
+
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.gtab'));
+  var lanes=[].slice.call(document.querySelectorAll('.lane'));
+  if(!tabs.length)return;
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    var i=t.getAttribute('data-i');
+    tabs.forEach(function(x){var on=x===t;x.classList.toggle('on',on);x.setAttribute('aria-selected',on?'true':'false');});
+    lanes.forEach(function(l){l.classList.toggle('on',l.getAttribute('data-i')===i);});
+  });});
 })();
 </script>
 <script src="/nav.js"></script>
