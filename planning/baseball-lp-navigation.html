@@ -233,6 +233,18 @@ ul.pts li{font-size:16.5px;line-height:1.9;margin-bottom:10px}
 .vconn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5px 0}
 .vconn .varw{font-size:20px;font-weight:800;color:var(--veltra);line-height:1}
 .vconn .vlbl{font-size:11px;font-weight:800;color:var(--veltra-dark);background:#fff;border:1px solid #cfe0f2;border-radius:6px;padding:2px 8px;margin:2px 0;white-space:nowrap}
+/* --- Braze パーソナライズ節 --- */
+.codeblk{background:#0f2b45;color:#e6edf3;border-radius:10px;padding:14px 16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;line-height:1.75;overflow-x:auto;margin:8px 0;white-space:pre;-webkit-overflow-scrolling:touch}
+.codeblk .cm{color:#8aa9c8}
+.code-cap{font-size:13px;font-weight:800;color:var(--veltra-dark);margin:14px 0 2px}
+.method{border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-top:14px;background:var(--card)}
+.method-h{font-size:17px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.method-h .mnum{width:27px;height:27px;border-radius:8px;background:var(--veltra);color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.method-h .mtag{display:inline-block;font-size:12px;font-weight:700;background:#eef2ff;color:var(--indigo);border-radius:6px;padding:2px 9px}
+.method .concl-lite{font-size:14.5px;color:var(--text);background:var(--veltra-soft);border:1px solid #cfe0f2;border-radius:9px;padding:11px 14px;line-height:1.75;margin-bottom:10px}
+.method .concl-lite b{color:var(--veltra-dark)}
+.method .msub{font-size:13.5px;font-weight:800;color:var(--text);margin:12px 0 4px}
+.steps{margin:4px 0 0 20px}.steps li{font-size:14.5px;color:var(--sub);line-height:1.85;margin-bottom:5px}.steps li b{color:var(--text)}
 /* --- 全体縮小：v1〜v3で拡大した文字・余白を一律で一段小さく --- */
 .page{zoom:.85}
 </style>
@@ -395,6 +407,265 @@ ul.pts li{font-size:16.5px;line-height:1.9;margin-bottom:10px}
   <details class="tg">
     <summary>SEOの技術チェック（詳細）</summary>
     <div class="tgbody"><p>title/h1/meta最適化、構造化データ（Product／Event／FAQ）、想定クエリ網羅（MLB観戦ツアー／ドジャース チケット／大谷 観戦／海外野球／メジャーリーグ…）、内部リンク、表示速度・モバイル。<br>カテゴリページとの重複を避け、LP＝「コンテンツ＋横断検索の特集」として独自価値を出す。</p></div>
+  </details>
+</div>
+
+<!-- ===== Braze パーソナライズ実装 ===== -->
+<div class="st">「前提：流入モデル」を Braze で実装する｜ページ別パーソナライズ 方法別まとめ</div>
+
+<!-- 結論 -->
+<div class="concl">
+  <div class="lead">結論</div>
+  <div class="issue"><b>問い：</b>流入モデルの「開催エリア／カテゴリーページから、一部の人にだけ野球LP導線を出す」を、Braze でどう実装するか？<br><b>答え：</b>まず<b>「誰に出すか」を1つの共通基盤</b>（野球意図シグナル → Braze のカスタム属性）で作り、その上に<b>面ごとのテンプレを4種</b>載せる。全画面モーダルは使わず、<b>対象は野球意図シグナルを持つ Traveler に限定</b>（スポーツ全体には出さない）。</div>
+  <div class="ans">
+    <div class="ansrow"><span class="ico">①</span><span class="pg">スリムバナー<br><span class="tag tag-purple">In-App Message</span></span><span class="act"><strong>エリア／カテゴリー／AC詳細の下部</strong>に、閲覧中その場で表示。ファーストビューを覆わず閉じられる。<strong>即効・非侵襲</strong>な受け皿。</span></div>
+    <div class="ansrow"><span class="ico">②</span><span class="pg">コンテンツカード<br><span class="tag tag-purple">Content Cards</span></span><span class="act">TOP／マイページの<strong>おすすめフィードに1枚常設</strong>。閉じても消えない永続枠で<strong>再訪 Traveler に効く</strong>。</span></div>
+    <div class="ansrow"><span class="ico">③</span><span class="pg">レコメンド枠差し込み<br><span class="tag tag-purple">Connected Content</span></span><span class="act">野球AC閲覧後の<strong>関連枠に最新の野球AC上位3件</strong>を送信時に取得して差し込む。</span></div>
+    <div class="ansrow"><span class="ico">④</span><span class="pg">メール配信<br><span class="tag tag-purple">CRM / Email</span></span><span class="act">閲覧者・購入者へ<strong>サイト外から後追い</strong>。文面は球団／選手名でパーソナライズ。</span></div>
+  </div>
+  <div class="strat">戦略軸：<b>意図ある新規の取りこぼし防止</b>（離脱させず AC 送客）。<br>共通基盤（GA4 → Braze 属性）を1回作れば、<b>面の追加・文面変更は Braze ダッシュボードのノーコード操作</b>で回せる。「誰かが手で選ぶ」運用にはしない。</div>
+</div>
+
+<!-- 概要テーブル -->
+<div class="st">概要：4つの方法の使い分け</div>
+<div class="card">
+  <p>「どこに・誰に・何のために出すか」を面ごとに整理。<b>すべて同じ1つのセグメント</b>（<code>baseball_intent = true</code>）を条件に使うので、共通基盤は1回作れば全方法で共有できる。</p>
+  <table class="dt">
+    <thead><tr><th>方法</th><th>Braze機能</th><th>出すページ</th><th>誰に</th><th>役割</th></tr></thead>
+    <tbody>
+      <tr><td><b>① スリムバナー</b></td><td>In-App Message（Web・バナー型）</td><td>開催エリア／カテゴリー／AC詳細 の下部</td><td>閲覧中に野球意図が立った Traveler</td><td>その場で野球LPへ送る（即効）</td></tr>
+      <tr><td><b>② コンテンツカード</b></td><td>Content Cards</td><td>TOP／マイページのおすすめフィード</td><td>直近14日に野球ACを見た再訪者</td><td>常設枠で再訪時に想起</td></tr>
+      <tr><td><b>③ レコメンド枠差し込み</b></td><td>Connected Content（送信時に外部API取得）</td><td>野球AC閲覧後の関連レコメンド枠</td><td>野球AC閲覧直後の Traveler</td><td>最新の野球AC上位3件を提示</td></tr>
+      <tr><td><b>④ メール配信</b></td><td>Email（イベントトリガー配信）</td><td>メール（サイト外）</td><td>野球AC/カテゴリ閲覧者・過去購入者</td><td>離脱後の引き戻し</td></tr>
+    </tbody>
+  </table>
+  <div class="ib" style="border-color:var(--veltra);background:var(--veltra-soft)"><h4 style="color:var(--veltra-dark)">読み方</h4><p>以下、<b>まず全方法の土台となる「共通基盤」</b>（誰に出すかを決める仕組み）を設計し、そのあと<b>方法①〜④それぞれで「結論 → 詳細 → 設定手順・コード」</b>の順にドリルダウンする。</p></div>
+</div>
+
+<!-- 共通基盤 -->
+<div class="sec">
+  <div class="stt"><span class="n">基</span>共通基盤：野球意図シグナル → Braze 属性（全方法の土台）</div>
+  <div class="lede"><b>結論：</b>「誰に出すか」は<b>GA4 のイベントを Braze のカスタム属性に写す</b>ことで決める。<br>鮮度が要る「直近閲覧」は<b>Web SDK でその場更新</b>（バッチを待たない）、購入履歴など重い集計は<b>日次バッチ</b>で流し込む<b>ハイブリッド</b>。データ蓄積を待たず、静的セグメントで即日スタートできる。</div>
+
+  <div class="method msub" style="border:none;padding:0;margin:6px 0 2px">1. データソース（具体名）</div>
+  <table class="dt">
+    <thead><tr><th>ソース</th><th>内容</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td>GA4 BigQuery export<br><code>analytics_347074845.events_*</code></td><td>Property ID 347074845 のイベントログ（<code>view_item</code> 等）</td><td>野球AC閲覧・検索・購入の集計</td></tr>
+      <tr><td>Veltra AC マスター<br><code>ac_master.baseball_ac</code></td><td>どの AC が野球観戦か・球団／開催エリアのタグ付け</td><td>「野球AC」の判定と球団／エリアの付与</td></tr>
+      <tr><td>Web SDK イベント（リアルタイム）</td><td>閲覧中に発火するカスタムイベント／属性</td><td>直近閲覧フラグ・球団・エリアの即時更新</td></tr>
+    </tbody>
+  </table>
+
+  <div class="msub" style="font-size:14px;font-weight:800;margin:16px 0 4px;color:var(--text)">2. カスタム属性スキーマ（Braze に持たせる）</div>
+  <table class="dt">
+    <thead><tr><th>属性名</th><th>型</th><th>例</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td><code>baseball_intent</code></td><td>Boolean</td><td>true</td><td>セグメント条件（野球意図の有無）</td></tr>
+      <tr><td><code>baseball_last_viewed_at</code></td><td>Time (ISO8601)</td><td>2026-07-14T09:00:00Z</td><td>鮮度で頻度制御・失効判定</td></tr>
+      <tr><td><code>baseball_fav_team</code></td><td>String</td><td>dodgers</td><td>文面パーソナライズ（球団名）</td></tr>
+      <tr><td><code>baseball_fav_player</code></td><td>String</td><td>ohtani</td><td>文面パーソナライズ（選手名）</td></tr>
+      <tr><td><code>baseball_viewed_area</code></td><td>String</td><td>los-angeles</td><td>LP絞り込みプリセット・エリアリンク</td></tr>
+      <tr><td><code>baseball_ac_purchased</code></td><td>Boolean</td><td>false</td><td>購入済みを配信対象から除外</td></tr>
+    </tbody>
+  </table>
+
+  <div class="msub" style="font-size:14px;font-weight:800;margin:16px 0 4px;color:var(--text)">3. カスタムイベント（Web → Braze へ送る）</div>
+  <table class="dt">
+    <thead><tr><th>イベント名</th><th>発火条件</th><th>送るプロパティ</th></tr></thead>
+    <tbody>
+      <tr><td><code>baseball_ac_view</code></td><td>野球AC詳細ページの表示</td><td>ac_id / team / area</td></tr>
+      <tr><td><code>baseball_category_view</code></td><td>エリア・カテゴリーページの野球枠表示</td><td>category_id / area</td></tr>
+      <tr><td><code>baseball_search</code></td><td>選手・球団名での検索</td><td>query / matched_team</td></tr>
+      <tr><td><code>baseball_ac_purchase</code></td><td>野球AC購入完了</td><td>ac_id / revenue</td></tr>
+    </tbody>
+  </table>
+
+  <div class="msub" style="font-size:14px;font-weight:800;margin:16px 0 4px;color:var(--text)">4. リアルタイム属性更新（Web SDK・GTM 経由）</div>
+  <p style="font-size:14px;color:var(--sub);line-height:1.75;margin-bottom:2px">SDK は GTM のカスタムHTMLタグで全ページに1回読み込む。閲覧中に意図が立った瞬間、<b>バッチを待たず</b>その場で属性を更新する。</p>
+  <div class="code-cap">① SDK 初期化（GTM カスタムHTMLタグ / 全ページ共通）</div>
+  <div class="codeblk"><span class="cm">// Web API Key は公開前提でOK。REST API Key は絶対にフロントへ置かない。</span>
+import * as braze from "@braze/web-sdk";
+braze.initialize(BRAZE_WEB_API_KEY, {
+  baseUrl: "sdk.iad-05.braze.com",   <span class="cm">// 契約クラスタに合わせる</span>
+  enableLogging: false
+});
+braze.automaticallyShowInAppMessages();  <span class="cm">// In-App を自動表示（方法①の土台）</span>
+braze.openSession();</div>
+  <div class="code-cap">② 野球AC詳細ページで発火（例：ロサンゼルス／ドジャース）</div>
+  <div class="codeblk">braze.logCustomEvent("baseball_ac_view", {
+  ac_id: "AC12345", team: "dodgers", area: "los-angeles"
+});
+<span class="cm">// 出し分け用の属性も即時更新（＝当日から効く）</span>
+const u = braze.getUser();
+u.setCustomUserAttribute("baseball_intent", true);
+u.setCustomUserAttribute("baseball_last_viewed_at", new Date().toISOString());
+u.setCustomUserAttribute("baseball_fav_team", "dodgers");
+u.setCustomUserAttribute("baseball_viewed_area", "los-angeles");
+braze.requestImmediateDataFlush();</div>
+
+  <details class="tg">
+    <summary>5. 日次バッチ（GA4 集計 → Braze 投入）のクエリと実行環境</summary>
+    <div class="tgbody">
+      <p><b>用途：</b>閲覧の鮮度は SDK が担うので、バッチは<b>購入履歴・過去の閲覧集計など重い属性</b>を担当。<b>実行環境：</b>Cloud Scheduler（毎日 05:00 JST）→ Cloud Functions（Python）→ Braze REST API。</p>
+      <div class="code-cap">BigQuery：直近30日に野球ACを見た Traveler を抽出</div>
+      <div class="codeblk"><span class="cm">-- GA4 export（Property 347074845）× 野球AC マスターで判定</span>
+SELECT
+  user_id AS external_id,
+  MAX(event_timestamp) AS last_view_ts,
+  LOGICAL_OR(m.purchased) AS purchased
+FROM `veltra.analytics_347074845.events_*` e
+JOIN UNNEST(e.event_params) p ON p.key = 'ac_id'
+JOIN `veltra.ac_master.baseball_ac` m
+  ON m.ac_id = p.value.string_value
+WHERE _TABLE_SUFFIX BETWEEN
+      FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY))
+  AND FORMAT_DATE('%Y%m%d', CURRENT_DATE())
+  AND e.event_name = 'view_item'
+GROUP BY external_id</div>
+      <div class="code-cap">Cloud Functions：Braze REST /users/track へ投入</div>
+      <div class="codeblk"><span class="cm"># REST キーは Secret Manager から取得（ハードコード禁止・最小権限）</span>
+import requests
+KEY = access_secret("BRAZE_REST_KEY")
+rows = run_bigquery(SQL)
+attrs = [{
+  "external_id": r["external_id"],
+  "baseball_intent": True,
+  "baseball_ac_purchased": r["purchased"],
+} for r in rows]
+<span class="cm"># /users/track は最大75件/リクエスト → チャンク送信</span>
+for chunk in chunked(attrs, 75):
+  requests.post(
+    "https://rest.iad-05.braze.com/users/track",
+    headers={"Authorization": f"Bearer {KEY}"},
+    json={"attributes": chunk})</div>
+      <p style="margin-top:8px"><b>Braze への投入経路（まとめ）：</b>リアルタイム属性／イベント＝Web SDK、重いバッチ属性＝REST <code>/users/track</code>、メール文面の最新AC＝Connected Content（送信時取得・方法③④）。</p>
+    </div>
+  </details>
+
+  <div class="ib" style="border-color:var(--green);background:var(--green-bg);margin-top:14px"><h4 style="color:var(--green-text)">稼働責任（仕組みで自走）</h4><p><b>初期セットアップ（1回）：</b>エンジニアが GTM で SDK 設置＋カスタムイベント計測を実装し、Cloud Functions／Scheduler を構築。<br><b>以降：</b>バッチは Cloud Scheduler で自走（マネージド）、<b>面の追加・文面変更・出し分けは Braze ダッシュボードのノーコード操作</b>で完結。セグメントは <code>baseball_intent = true</code> 等の条件で自動ターゲティングし、手で対象を選ぶ運用は発生しない。</p></div>
+
+  <div class="ib amber" style="margin-top:12px"><h4>セキュリティ・プライバシー配慮</h4><p>① REST API Key／Connected Content の認証情報は<b>コードに書かず Secret Manager</b>で管理（Web API Key のみ公開可）。<br>② BigQuery アクセス用サービスアカウントは<b>最小権限</b>（BigQuery Data Viewer）に限定。<br>③ Traveler の識別は <code>external_id</code>（メール等の PII は Braze の会員ID／ハッシュで扱い、URL パラメータに個人情報を載せない）。<br>④ バッチの成否は Slack へ通知、カスタム属性辞書は Google スプレッドシートで一元管理し、実装と運用の前提をチームで共有する。</p></div>
+</div>
+
+<!-- 方法① In-App -->
+<div class="method">
+  <div class="method-h"><span class="mnum">①</span>スリムバナー<span class="mtag">Braze In-App Message（Web・バナー型）</span></div>
+  <div class="concl-lite"><b>結論：</b>開催エリア／カテゴリー／AC詳細ページの<b>下部</b>に、野球意図が立った Traveler へその場で野球LPバナーを出す。ファーストビューを覆わず、×で閉じられる。<b>意図が最も熱いその瞬間</b>に送客できるので即効性が高い。</div>
+  <div class="msub">詳細</div>
+  <ul class="steps">
+    <li><b>発火：</b><code>baseball_ac_view</code> または <code>baseball_category_view</code> をトリガーに表示。</li>
+    <li><b>セグメント：</b><code>baseball_intent = true</code> かつ <code>baseball_last_viewed_at</code> が直近14日以内、かつ <code>baseball_ac_purchased = false</code>（購入済み除外）。</li>
+    <li><b>制約：</b>スリム型（画面下固定バナー）に限定し全画面モーダルは不可。同一 Traveler への表示は頻度制御（例：3日に1回まで）。</li>
+  </ul>
+  <details class="tg">
+    <summary>設定手順とコード</summary>
+    <div class="tgbody">
+      <ul class="steps" style="margin-bottom:6px">
+        <li><b>手順1：</b>Braze ＞ Campaigns ＞ In-App Message（Web）を新規作成し、レイアウトを「Slideup（下部バナー）」に。</li>
+        <li><b>手順2：</b>Trigger を Custom Event <code>baseball_ac_view</code> に設定。</li>
+        <li><b>手順3：</b>Target Segment に上記の属性条件を設定。</li>
+        <li><b>手順4：</b>メッセージ本文を Liquid でパーソナライズ、CTA の遷移先を野球LP（エリアプリセット＋UTM付き）に。</li>
+      </ul>
+      <div class="code-cap">本文（Liquid：球団／選手名で出し分け）</div>
+      <div class="codeblk">{% if {{custom_attribute.${baseball_fav_player}}} != blank %}
+  {{custom_attribute.${baseball_fav_player}}}を見たあなたへ — {{custom_attribute.${baseball_fav_team}}}観戦ツアー特集
+{% else %}
+  海外野球の観戦ツアーをまとめてチェック
+{% endif %}</div>
+      <div class="code-cap">CTA 遷移先（エリアをプリセット＋経路計測 UTM）</div>
+      <div class="codeblk">https://www.veltra.com/.../baseball-lp?area={{custom_attribute.${baseball_viewed_area}}}&amp;utm_source=braze&amp;utm_medium=inapp&amp;utm_campaign=baseball_lp</div>
+    </div>
+  </details>
+</div>
+
+<!-- 方法② Content Cards -->
+<div class="method">
+  <div class="method-h"><span class="mnum">②</span>コンテンツカード<span class="mtag">Braze Content Cards</span></div>
+  <div class="concl-lite"><b>結論：</b>TOP／マイページの<b>おすすめフィードに野球LPカードを1枚常設</b>する。In-App と違い閉じても消えない永続枠なので、<b>後日戻ってきた再訪 Traveler</b>に効く。既存フィードの並びに自然に差し込む。</div>
+  <div class="msub">詳細</div>
+  <ul class="steps">
+    <li><b>面：</b>既存のおすすめフィード枠を SDK で描画。Braze から配信されたカードのうち野球LP用（<code>extras.category = baseball_lp</code>）だけを差し込む。</li>
+    <li><b>セグメント：</b>共通基盤の <code>baseball_intent = true</code>（再訪でも属性が残るため常設に向く）。</li>
+    <li><b>制約：</b>フィードの一等地を占有せず1枚に留める。購入済みは <code>baseball_ac_purchased</code> で除外。</li>
+  </ul>
+  <details class="tg">
+    <summary>設定手順とコード</summary>
+    <div class="tgbody">
+      <ul class="steps" style="margin-bottom:6px">
+        <li><b>手順1：</b>Braze ＞ Content Cards を新規作成し、Key-Value ペアに <code>category = baseball_lp</code> と <code>deeplink</code> を設定。</li>
+        <li><b>手順2：</b>Target Segment を <code>baseball_intent = true</code> に。</li>
+        <li><b>手順3：</b>フロントで Content Cards を購読し、野球LP用カードだけを既存フィードに差し込む。</li>
+      </ul>
+      <div class="code-cap">フロント：おすすめフィードへ差し込み</div>
+      <div class="codeblk">braze.subscribeToContentCardsUpdates(cards =&gt; {
+  const baseball = cards.filter(c =&gt; c.extras &amp;&amp; c.extras.category === "baseball_lp");
+  renderIntoFeed(baseball);   <span class="cm">// 既存フィードに1枚だけ差し込む</span>
+});
+braze.requestContentCardsRefresh();</div>
+      <div class="code-cap">カード文言（Liquid）</div>
+      <div class="codeblk">{{custom_attribute.${baseball_fav_team}}}の観戦ツアーを見る →</div>
+    </div>
+  </details>
+</div>
+
+<!-- 方法③ Connected Content -->
+<div class="method">
+  <div class="method-h"><span class="mnum">③</span>レコメンド枠差し込み<span class="mtag">Braze Connected Content</span></div>
+  <div class="concl-lite"><b>結論：</b>野球AC閲覧後の<b>関連レコメンド枠</b>に、Braze の Connected Content で<b>Veltra 側の推薦APIから最新の野球AC上位3件を送信時に取得</b>して差し込む。在庫・価格が動いても常に最新を出せる。</div>
+  <div class="msub">詳細</div>
+  <ul class="steps">
+    <li><b>仕組み：</b>Connected Content ＝ Braze がメッセージ配信/表示の<b>その瞬間に外部URLを HTTP GET</b>して結果を本文に埋め込む機能。事前バッチ不要で最新値を出せる。</li>
+    <li><b>データソース：</b>Veltra 推薦エンドポイント（<code>external_id</code> と <code>baseball_viewed_area</code> を渡し、野球AC上位3件を返す）。</li>
+    <li><b>制約：</b>取得先は認証必須（Basic 認証等）。APIが落ちた場合のフォールバック文言を必ず用意。</li>
+  </ul>
+  <details class="tg">
+    <summary>設定手順とコード</summary>
+    <div class="tgbody">
+      <ul class="steps" style="margin-bottom:6px">
+        <li><b>手順1：</b>Veltra 側に「野球AC上位3件」を返す推薦エンドポイントを用意（認証付き）。</li>
+        <li><b>手順2：</b>Braze メッセージ本文で Connected Content を呼び、返り値をループ描画。</li>
+        <li><b>手順3：</b>取得失敗時のフォールバック（固定の人気AC）を <code>{% if %}</code> で分岐。</li>
+      </ul>
+      <div class="code-cap">本文（Liquid：送信時に推薦APIを取得して差し込み）</div>
+      <div class="codeblk">{% connected_content
+   https://api.veltra.com/reco/baseball?external_id={{${user_id}}}&amp;area={{custom_attribute.${baseball_viewed_area}}}
+   :basic_auth reco_secret :save reco %}
+{% if reco.items != blank %}
+  {% for ac in reco.items limit:3 %}
+    ・{{ac.title}}（{{ac.price}}）→ {{ac.url}}
+  {% endfor %}
+{% else %}
+  ・人気の海外野球 観戦ツアーを見る →
+{% endif %}</div>
+      <p style="margin-top:6px;font-size:13.5px"><code>reco_secret</code> は Braze の Connected Content 認証設定に登録（本文に生の認証情報を書かない）。</p>
+    </div>
+  </details>
+</div>
+
+<!-- 方法④ Email -->
+<div class="method">
+  <div class="method-h"><span class="mnum">④</span>メール配信<span class="mtag">Braze Email（イベントトリガー）</span></div>
+  <div class="concl-lite"><b>結論：</b>野球AC/カテゴリを見て離脱した Traveler・過去購入者へ、<b>サイト外から後追いメール</b>で引き戻す。件名・本文を球団／選手名でパーソナライズし、本文の AC は方法③と同じ Connected Content で最新化する。</div>
+  <div class="msub">詳細</div>
+  <ul class="steps">
+    <li><b>発火：</b><code>baseball_ac_view</code> を起点に一定時間後（例：24時間後）に配信するアクションベース配信。購入者向けは日次セグメント配信。</li>
+    <li><b>セグメント：</b><code>baseball_intent = true</code> かつメール購読オプトイン済み、<code>baseball_ac_purchased = false</code>。</li>
+    <li><b>制約：</b>メール法令・購読同意を遵守。頻度上限（例：週1）を設定。</li>
+  </ul>
+  <details class="tg">
+    <summary>設定手順とコード</summary>
+    <div class="tgbody">
+      <ul class="steps" style="margin-bottom:6px">
+        <li><b>手順1：</b>Braze ＞ Canvas でエントリーを Custom Event <code>baseball_ac_view</code> に設定し、Delay（24h）を挟む。</li>
+        <li><b>手順2：</b>Audience に上記セグメント＋オプトイン条件を設定。</li>
+        <li><b>手順3：</b>件名・本文を Liquid でパーソナライズ、本文の AC 一覧は Connected Content（方法③のコード）を再利用。</li>
+      </ul>
+      <div class="code-cap">件名（Liquid）</div>
+      <div class="codeblk">{% if {{custom_attribute.${baseball_fav_team}}} != blank %}{{custom_attribute.${baseball_fav_team}}}戦、まだ間に合います{% else %}海外野球の観戦ツアー、今チェック{% endif %}</div>
+      <div class="code-cap">CTA（野球LP・経路計測 UTM）</div>
+      <div class="codeblk">https://www.veltra.com/.../baseball-lp?area={{custom_attribute.${baseball_viewed_area}}}&amp;utm_source=braze&amp;utm_medium=email&amp;utm_campaign=baseball_lp</div>
+    </div>
   </details>
 </div>
 
