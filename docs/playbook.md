@@ -71,23 +71,29 @@ v2-veltra-cvr/
 ├── auth.js / nav.js / funnel-def.js / bottleneck.js  ← 共通JS
 ├── summary.css / summary-detail.js  ← 週次サマリーページ専用（Phase 2.9）
 ├── bottleneck.html / bottleneck.css  ← ボトルネック分析テンプレート（動的描画）
-├── report.html                       ← /report.html?week=… を /reports/{W}/ へリダイレクト（後方互換）
-├── index.html / login.html / cycle.html / analysis.html  ← ページ
-├── summary-data.json / weekly-summary.json / reports-index.json / archive-meta.json  ← データ
-└── reports/
-    ├── index.html              ← 週次アーカイブ一覧（H1 分をそのまま掲載）
-    ├── 2026-h1/                ← 上半期（W1〜W26）
-    │   └── {YYYY}-w{WW}/
-    │       ├── data.json               ← GA4実データ（ファネル・セグメント・ボトルネック）
-    │       ├── index.html              ← 週次サマリー（手書き・3セクション+詳細自動描画）
-    │       └── bottleneck-{1-10}-content.json  ← ボトルネック分析コンテンツ
-    └── 2026-h2/                ← 下半期（W27〜）※ H2 の新規週はここに生成
-        └── {YYYY}-w{WW}/ …（H1 と同じ構成）
+├── index.html                        ← Northstar 振り分けhub（H1/H2 へ）
+├── login.html                        ← 認証（ルート据え置き）
+├── auth.js / nav.js / funnel-def.js / summary-detail.js / bottleneck.js  ← 共有JS（ルート据え置き）
+├── report.css / summary.css / bottleneck.css                             ← 共有CSS（ルート据え置き）
+├── summary-data.json / weekly-summary.json / reports-index.json / archive-meta.json  ← データ（ルート据え置き）
+├── 2026h2/
+│   └── index.html              ← UX Design Squad H2 ミッション & 管理ボード
+└── 2026h1/                     ← これまでの CVR レポート・分析・施策ページ一式
+    ├── cvr.html / kpi.html / cycle.html / analysis.html / behavior-guide.html / entry-journey.html
+    ├── report.html                    ← /2026h1/report.html?week=… を週ディレクトリへリダイレクト
+    ├── bottleneck.html                ← ボトルネック詳細（動的描画）
+    ├── spot/ / planning/
+    └── reports/
+        ├── index.html          ← 週次アーカイブ一覧
+        ├── 2026-h1/            ← 上半期（W1〜W26）
+        │   └── {YYYY}-w{WW}/  （data.json / index.html / bottleneck-{1-10}-content.json）
+        └── 2026-h2/            ← 下半期（W27〜）※ H2 の新規週はここに生成
 ```
 
-> **半期フォルダ規則（2026 H2〜）**: 週ディレクトリは `reports/{YYYY}-{h1|h2}/{YYYY}-w{WW}/` に配置する（上半期 = W1〜W26 → `h1`、下半期 = W27〜 → `h2`）。
-> 以降の本書中の `reports/{YYYY}-w{WW}/` という表記はすべて半期フォルダ配下（`reports/{YYYY}-{h1|h2}/{YYYY}-w{WW}/`）を指す。
-> パス変換は `generate-week.py` / `validate-report.py` / `audit-actions.py` の `week_reldir()`、フロント側は `nav.js` / `bottleneck.html` / `report.html` の `weekDirFor()` が担う（W番号から自動判定）。
+> **サイト構成（2026 H2〜／大改編）**: トップ `index.html` は Northstar 振り分けhub。これまでの全ページは `2026h1/` 配下、H2 ミッションは `2026h2/index.html`。共有JS/CSS/JSON・`login.html`・`index.html` はルート据え置き。
+> **週ディレクトリ**: `2026h1/reports/{YYYY}-{h1|h2}/{YYYY}-w{WW}/`（上半期 = W1〜W26 → `h1`、下半期 = W27〜 → `h2`）。公開URLは `/2026h1/reports/…`。
+> 以降の本書中の `reports/{YYYY}-w{WW}/` 表記はすべて `2026h1/reports/` 配下を指す。
+> パス変換は `generate-week.py` / `validate-report.py` / `audit-actions.py` の `week_reldir()`（`REPORTS_DIR = <repo>/2026h1/reports`）、フロント側は `nav.js` / `bottleneck.html` / `report.html` の `weekDirFor()`（`/2026h1/reports/…` を返す）が担う。
 
 ---
 

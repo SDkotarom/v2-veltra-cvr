@@ -45,7 +45,8 @@ ToolSearch で "run_report" を検索 → mcp__*__run_report ツールを取得
 - **GA4 Property ID**: `347074845`
 - **Vercel URL**: https://v2-veltra-cvr.vercel.app/
 - **開発ブランチ規則**: `claude/<task>-<hash>` 形式で作業し、完了後 push
-- **週次レポートの配置（2026 H2〜）**: 週ディレクトリは半期フォルダ配下 `reports/{YYYY}-{h1|h2}/{YYYY}-w{WW}/`（上半期 W1〜W26 → `h1`、下半期 W27〜 → `h2`）。本書中の `reports/{W}/…` はすべて半期フォルダ配下を指す。W番号からのパス変換は `week_reldir()`（Python）/ `weekDirFor()`（JS）が担当。
+- **サイト構成（2026 H2〜／大改編）**: トップ `index.html` は Northstar 振り分けhub。これまでの全ページ（CVRレポート・分析・施策）は **`2026h1/` 配下**、H2 ミッションは **`2026h2/index.html`**。共有アセット（`auth.js`/`nav.js`/`funnel-def.js`/`summary-detail.js`/各CSS/各JSON）と `login.html`・`index.html` はルート据え置き。
+- **週次レポートの配置**: 週ディレクトリは **`2026h1/reports/{YYYY}-{h1|h2}/{YYYY}-w{WW}/`**（上半期 W1〜W26 → `h1`、下半期 W27〜 → `h2`）。公開URLは `/2026h1/reports/{YYYY}-{h1|h2}/{YYYY}-w{WW}/`。本書中の `reports/{W}/…` はすべて `2026h1/reports/` 配下を指す。W番号からのパス変換は `week_reldir()`（Python）/ `weekDirFor()`（JS）が担当。
 
 ---
 
