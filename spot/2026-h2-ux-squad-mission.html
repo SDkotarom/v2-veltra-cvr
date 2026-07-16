@@ -526,6 +526,14 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 .kb-modal textarea{min-height:64px;resize:vertical;line-height:1.6}
 .kb-modal .km-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
 @media(max-width:820px){.kb-col{flex-basis:224px}}
+/* ===== 02. 外部状況 タイムライン ===== */
+.ext-timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:6px 0 4px}
+.ext-step{background:#fff;border:1px solid var(--border);border-top:4px solid var(--veltra);border-radius:12px;padding:16px 18px}
+.ext-step .ext-date{font-family:'Noto Sans JP',monospace;font-size:16.6px;font-weight:800;color:var(--veltra);margin-bottom:6px}
+.ext-step .ext-t{font-size:13.5px;font-weight:800;margin-bottom:4px;line-height:1.4}
+.ext-step .ext-d{font-size:12px;color:var(--sub);line-height:1.6}
+.ext-note{font-size:11.5px;color:var(--hint);margin-top:10px}
+@media(max-width:820px){.ext-timeline{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -533,11 +541,12 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
 <!-- Hero -->
 <div class="hero">
-  <div class="hero-badge">ミッション整理メモ v0.4 · 2026-06-30</div>
-  <h1>UX Design Squad 7月以降ミッション検討</h1>
-  <p>ミッションは <strong>「Traveler が Veltra で迷わず・より多く買いやすい状態を作る」</strong>（主指標 = CVR）。<br>そのために「①1回で複数買ってもらう（＝より多く）」と「②TR側の既存UX改善（＝迷わず）」の2つを短中期で並行注力する。</p>
+  <div class="hero-badge">Squad 指針 & プロジェクト管理ボード｜2026 H2</div>
+  <h1>UX Design Squad ｜ 2026 H2 の指針とプロジェクト管理</h1>
+  <p>ミッションは <strong>「Traveler が Veltra で迷わず・より多く買いやすい状態を作る」</strong>（主指標 = CVR）。<br>「①1回で複数買ってもらう（＝より多く）」「②TR側の既存UX改善（＝迷わず）」を並行注力し、これと並列でガバナンス・コンプライアンスも扱う。<br>多数のプロジェクトが動いても<strong>いま何に注力しているか目線を合わせるための1枚</strong>であり、Squad のプロジェクト管理ボードも兼ねる。</p>
   <div class="hero-meta">
-    <span>対象期間：2026年 7月〜</span>
+    <span>対象期間：2026年 7月〜12月（H2）</span>
+    <span>外部：新基盤が多言語展開フェーズ（EN 7/21 ほか）</span>
   </div>
 </div>
 
@@ -550,24 +559,24 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
   <!-- preview (shown when closed): first 3 -->
   <ul class="toc-preview">
-    <li class="toc-item"><a href="#s0"><span class="toc-num">01</span><span class="toc-text"><span class="toc-title">取り組むミッション</span><span class="toc-desc">迷わず・より多く／2つの手段／なぜこの結論か</span></span></a></li>
-    <li class="toc-item"><a href="#s2"><span class="toc-num">02</span><span class="toc-text"><span class="toc-title">手段① 1回で複数買ってもらう</span><span class="toc-desc">eSIM・保険 / Mobility Hub</span></span></a></li>
-    <li class="toc-item"><a href="#s4"><span class="toc-num">03</span><span class="toc-text"><span class="toc-title">手段② TR側の既存UX改善</span><span class="toc-desc">3つの論点と着手可否</span></span></a></li>
+    <li class="toc-item"><a href="#s0"><span class="toc-num">01</span><span class="toc-text"><span class="toc-title">いまの注力（ミッションと現在地）</span><span class="toc-desc">迷わず・より多く／現在の最優先／なぜこの結論か</span></span></a></li>
+    <li class="toc-item"><a href="#s9"><span class="toc-num">02</span><span class="toc-text"><span class="toc-title">外部状況｜新基盤ロードマップ & 論点</span><span class="toc-desc">EN 7/21・中韓 7/28・JP国内刷新／併存の論点</span></span></a></li>
+    <li class="toc-item"><a href="#s8"><span class="toc-num">03</span><span class="toc-text"><span class="toc-title">プロジェクト看板（担当者別・管理ボード）</span><span class="toc-desc">全H2案件を担当カラムで／ドラッグ／詳細モーダル</span></span></a></li>
   </ul>
 
   <!-- full list (shown when open) -->
   <ul class="toc-list">
-    <li class="toc-item"><a href="#s0"><span class="toc-num">01</span><span class="toc-text"><span class="toc-title">取り組むミッション</span><span class="toc-desc">ミッション文／2つの手段の中身／なぜこの結論か（Q1-Q3）／デザインチーム役割</span></span></a></li>
-    <li class="toc-item"><a href="#s2"><span class="toc-num">02</span><span class="toc-text"><span class="toc-title">手段① 1回で複数買ってもらう</span><span class="toc-desc">eSIM・保険 / Mobility Hub。戦略3軸との対応も同時に</span></span></a></li>
-    <li class="toc-item"><a href="#s4"><span class="toc-num">03</span><span class="toc-text"><span class="toc-title">手段② TR側の既存UX改善</span><span class="toc-desc">3つの論点（Q1/Q2/Q3）と論点ごとの結論・アクション</span></span></a></li>
-    <li class="toc-item"><a href="#s7"><span class="toc-num">04</span><span class="toc-text"><span class="toc-title">既存改善要望の棚卸し（Kaizen Request）</span><span class="toc-desc">約200件の一次仕分けと手段②候補45件、詳細トグル</span></span></a></li>
-    <li class="toc-item"><a href="#s8"><span class="toc-num">05</span><span class="toc-text"><span class="toc-title">プロジェクト看板（担当者別）</span><span class="toc-desc">H2 全プロジェクトを担当カラムで一覧・ドラッグで担当変更・詳細モーダル</span></span></a></li>
+    <li class="toc-item"><a href="#s0"><span class="toc-num">01</span><span class="toc-text"><span class="toc-title">いまの注力（ミッションと現在地）</span><span class="toc-desc">ミッション文／2つの手段＋ガバナンス／現在の最優先／なぜこの結論か（Q1-Q3）</span></span></a></li>
+    <li class="toc-item"><a href="#s9"><span class="toc-num">02</span><span class="toc-text"><span class="toc-title">外部状況｜新基盤ロードマップ & 論点</span><span class="toc-desc">多言語展開（EN 7/21・中韓 7/28・JP国内 8月中旬）／現行サイト併存の論点（速報・現時点）</span></span></a></li>
+    <li class="toc-item"><a href="#s8"><span class="toc-num">03</span><span class="toc-text"><span class="toc-title">プロジェクト看板（担当者別・管理ボード）</span><span class="toc-desc">全H2案件を担当カラムで一覧・ドラッグで担当変更・詳細モーダル。Squad 管理シートを兼ねる</span></span></a></li>
+    <li class="toc-item"><a href="#s2"><span class="toc-num">04</span><span class="toc-text"><span class="toc-title">手段の詳細（① 複数購入 / ② TR側UX改善）</span><span class="toc-desc">eSIM・保険 / Mobility Hub、TR側UX改善の3論点</span></span></a></li>
+    <li class="toc-item"><a href="#s7"><span class="toc-num">05</span><span class="toc-text"><span class="toc-title">既存改善要望の棚卸し（Kaizen Request）</span><span class="toc-desc">約200件の一次仕分けと手段②候補45件、詳細トグル</span></span></a></li>
   </ul>
 </details>
 
 <!-- ===================== Section 01: 取り組むミッション ===================== -->
 <section class="secbox" id="s0">
-<h2 class="st">01. 取り組むミッション</h2>
+<h2 class="st">01. いまの注力（ミッションと現在地）</h2>
 
 <!-- Slide: 結論 -->
 <div class="slide hi" id="s1">
@@ -694,9 +703,50 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 </section>
 
 
-<!-- ===================== Section 02: 手段① ===================== -->
+<!-- ===================== Section 02: 外部状況（新基盤ロードマップ & 論点） ===================== -->
+<section class="wide" id="s9">
+  <div class="kz-head">
+    <div class="kz-eyebrow">02. 外部状況｜新基盤ロードマップ & 論点（速報・現時点）</div>
+    <h2>新基盤の多言語展開と、現行サイトとの併存を見据えた論点</h2>
+    <p>新基盤は<strong>多言語・多通貨のグローバル向けサイト</strong>を前提に、情報のまとめ方・データ構造を刷新して構築中。海外→日本のインバウンドや、海外→海外の利用を最適化する狙い。以下は現時点の速報であり、確定情報は随時更新する。</p>
+  </div>
+
+  <div class="ext-timeline">
+    <div class="ext-step"><div class="ext-date">7/21</div><div class="ext-t">EN サイト リリース予定</div><div class="ext-d">英語版を新基盤で公開。</div></div>
+    <div class="ext-step"><div class="ext-date">7/28</div><div class="ext-t">中国語・韓国語版</div><div class="ext-d">多言語展開を継続。</div></div>
+    <div class="ext-step"><div class="ext-date">8月中旬 めやす</div><div class="ext-t">JP 国内旅行を刷新</div><div class="ext-d">JP サイトのうち日本国内旅行（日本人→国内）を、新基盤の機構をふまえて刷新予定。</div></div>
+  </div>
+
+  <div class="cout blue" style="margin-top:16px">
+    <h4>併存で生じる論点</h4>
+    <p>刷新後は<strong>新基盤サイト</strong>と<strong>現行サイト（日本→海外＝売上の8割超を占める重要ドメイン）</strong>が併存する。既存客・新規客のいずれも、サービスによってUIが異なる状態に触れうる。<br>そのため <strong>TOPページの情報設計・動線設計、Traveler のカスタマージャーニー、コミュニケーション戦略</strong>の整理が、本Squadの検討テーマとして必要になる。</p>
+  </div>
+
+  <div class="cout amber" style="margin-top:12px">
+    <h4>検討中の論点：日本→海外の基盤方針</h4>
+    <p>日本→海外については、新基盤への移行が最適かどうかを含めて検討中。現行サイトは日本人向けに最適化されており（他言語・他通貨のノイズがない）、その使いやすさを強みとして活かす選択肢もある。<br>「現行サイトを維持する」「日本→海外向けに別の基盤を新設する」なども含め、グローバル対応に伴う調整コストとのバランスを踏まえて論点を整理する。<span class="ext-note">※現時点の論点であり、決定事項ではない。</span></p>
+  </div>
+</section>
+
+<!-- ===================== Section 03: プロジェクト看板（担当者別・管理ボード） ===================== -->
+<section class="wide" id="s8">
+  <div class="kz-head">
+    <div class="kz-eyebrow">03. プロジェクト看板（担当者別・管理ボード）</div>
+    <h2>H2 プロジェクトの担当・状況ボード</h2>
+    <p>H2 に走る全プロジェクトを担当者カラムで一覧化した、Squad の管理ボード。カードをドラッグして担当を付け替えられる（変更はこのブラウザに保存）。カードをクリックすると概要・ペイン・資料リンクを表示。担当者やプロジェクトはボタンから追加できる。</p>
+  </div>
+  <div class="kb-toolbar">
+    <button class="kb-btn primary" id="kbAddProj" type="button">＋ プロジェクト追加</button>
+    <button class="kb-btn" id="kbAddOwner" type="button">＋ 担当者を追加</button>
+    <button class="kb-btn" id="kbReset" type="button">初期状態に戻す</button>
+    <span class="kb-hint">ドラッグで担当変更（自動保存）／カードクリックで詳細</span>
+  </div>
+  <div class="kb-board" id="kbBoard"></div>
+</section>
+
+<!-- ===================== Section 04: 手段の詳細 ── ① ===================== -->
 <section class="secbox" id="s2">
-<h2 class="st">02. 手段① 1回で複数買ってもらう</h2>
+<h2 class="st">04. 手段の詳細 ── ① 1回で複数買ってもらう</h2>
 
 <!-- Slide -->
 <div class="slide hi">
@@ -735,7 +785,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
 <!-- ===================== Section 03: 手段② ===================== -->
 <section class="secbox" id="s4">
-<h2 class="st">03. 手段② TR側の既存UX改善</h2>
+<h2 class="st">04. 手段の詳細 ── ② TR側の既存UX改善</h2>
 
 <!-- Slide -->
 <div class="slide hi">
@@ -861,7 +911,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
 <section class="wide" id="s7">
 <div class="kz-head">
-  <div class="kz-eyebrow">04. Kaizen Request 棚卸し</div>
+  <div class="kz-eyebrow">05. Kaizen Request 棚卸し</div>
   <h2>既存改善要望の抽出・分類・グルーピング</h2>
   <p><a href="https://app.clickup.com/31108037/v/l/li/901801874152" target="_blank" rel="noopener" style="color:var(--link);text-decoration:none;font-weight:700">Kaizen Request List</a>（約200件）を対象軸（誰のための要望か）× テーマで機械分類し、手段②「TR側の既存UX改善」に該当する候補を抽出した。まず全体マップで要望の偏りを掴み、その後 Traveler の予約UX に絞って深掘りする。</p>
 </div>
@@ -1002,24 +1052,8 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 </div>
 </section>
 
-<!-- ===================== Section 05: プロジェクト看板（担当者別） ===================== -->
-<section class="wide" id="s8">
-  <div class="kz-head">
-    <div class="kz-eyebrow">05. プロジェクト看板（担当者別）</div>
-    <h2>H2 プロジェクトの担当・状況ボード</h2>
-    <p>H2 に走る全プロジェクトを担当者カラムで一覧化。カードをドラッグして担当を付け替えられる（変更はこのブラウザに保存）。カードをクリックすると概要・ペイン・資料リンクを表示。担当者やプロジェクトはボタンから追加できる。</p>
-  </div>
-  <div class="kb-toolbar">
-    <button class="kb-btn primary" id="kbAddProj" type="button">＋ プロジェクト追加</button>
-    <button class="kb-btn" id="kbAddOwner" type="button">＋ 担当者を追加</button>
-    <button class="kb-btn" id="kbReset" type="button">初期状態に戻す</button>
-    <span class="kb-hint">ドラッグで担当変更（自動保存）／カードクリックで詳細</span>
-  </div>
-  <div class="kb-board" id="kbBoard"></div>
-</section>
-
 <div class="footer">
-  UX Design Squad ミッション整理メモ v0.4 / 2026-06-30<br>
+  UX Design Squad｜2026 H2 指針 & プロジェクト管理ボード<br>
   関連：戦略3軸（2026-05-11 確認済）・既存SYS投資条件 ¥70M / 29%・新基盤構築リスケジュール中
 </div>
 
@@ -1484,7 +1518,7 @@ window.KZ_DETAILS = {
 <script>
 /* ===== 05. プロジェクト看板 ===== */
 (function(){
-  var LS_KEY = 'veltra_h2_kanban_v1';
+  var LS_KEY = 'veltra_h2_kanban_v2';
   var THEME = {
     '手段①': {cls:'th1', tag:'t1'},
     '手段②': {cls:'th2', tag:'t2'},
@@ -1527,13 +1561,17 @@ window.KZ_DETAILS = {
       overview:'カレントサイトの表示速度を改善する。TR側カレントサイト UX 改善の最重要テーマ。やり切る。',
       pain:'表示の遅さが Traveler の離脱・完了率に効く。',
       links:[{label:'ClickUp UX_DESIGN-167',url:'https://app.clickup.com/t/31108037/UX_DESIGN-167'}]},
-    {id:'booking', title:'予約ステップの改善', owner:'Sachie', theme:'手段②',
+    {id:'booking', title:'予約ステップの改善', owner:'Sachie', theme:'手段②', note:'新基盤後も使う',
       overview:'予約フローのフリクション削減。Required Info の棚卸し／簡易情報での一次予約／途中停止→再開／Partner 別ニーズ考慮（一次予約で Confirm ↔ Required Info 後に Confirm）。',
-      pain:'長いフォーム＋Required Info の負担で予約直前に離脱する。', collaborators:'Kotaro',
+      pain:'長いフォーム＋Required Info の負担で予約直前に離脱する。予約フローの改善資産は新基盤移行後も活きる。', collaborators:'Kotaro',
       links:[]},
     {id:'governance', title:'コンプライアンス・ガバナンス管理', owner:'Sachie', theme:'事業課題',
       overview:'法務テンプレート整備とコンプライアンス／ガバナンス管理。手段①②と並列の本質的テーマ。',
       links:[{label:'VELTRA Legal Template Suite',url:'https://docs.google.com/spreadsheets/d/1REmWCIXSTBvB5Bldr1MeyjqCdG0ziKq7roVuGqoD26s/edit'}]},
+    {id:'ci', title:'CI統一（旧ロゴ・ブランドカラー）', owner:'Sachie', theme:'事業課題',
+      overview:'CI（ロゴ・ブランドカラー）を旧ロゴ・旧ブランドカラーに統一する。既存・過去のキャンペーンページや UI のキーカラーは一旦そのまま、まずグローバルヘッダー／フッターのみ対応。今後の CI はこの旧ロゴ内容に統一していく。',
+      pain:'ブランド表現の一貫性を回復し、今後の CI の基準を定める。', collaborators:'Meiko / Yen（デザイン適用）',
+      links:[]},
     {id:'qr', title:'QR入場管理', owner:'Kotaro', theme:'事業課題',
       overview:'中規模施設向け QR 入館ソリューション（B2B）。ディレクターレベルで実装設計から試行する。',
       status:'余裕があれば着手', collaborators:'林さん（相談中）', links:[]}
@@ -1560,6 +1598,7 @@ window.KZ_DETAILS = {
     el.dataset.id = p.id;
     var meta = '<span class="kb-tag ' + t.tag + '">' + esc(p.theme) + '</span>';
     if(p.priority) meta = '<span class="kb-tag prio">最重要</span>' + meta;
+    if(p.note) meta += '<span class="kb-tag t4">' + esc(p.note) + '</span>';
     var links = (p.links && p.links.length) ? '<div class="kc-links">🔗 資料 ' + p.links.length + ' 件</div>' : '';
     el.innerHTML = '<div class="kc-title">' + esc(p.title) + '</div><div class="kc-meta">' + meta + '</div>' + links;
     el.addEventListener('dragstart', function(e){ e.dataTransfer.setData('text/plain', p.id); e.dataTransfer.effectAllowed='move'; el.classList.add('dragging'); });
@@ -1614,6 +1653,7 @@ window.KZ_DETAILS = {
     var t = THEME[p.theme] || THEME['運用'];
     var meta = '<span class="kb-tag ' + t.tag + '">' + esc(p.theme) + '</span>';
     if(p.priority) meta = '<span class="kb-tag prio">最重要</span>' + meta;
+    if(p.note) meta += '<span class="kb-tag t4">' + esc(p.note) + '</span>';
     meta += '<span class="kb-tag t4">担当：' + esc(p.owner) + '</span>';
     var h = '<button class="km-close" type="button" aria-label="閉じる">×</button>';
     h += '<h3>' + esc(p.title) + '</h3>';
