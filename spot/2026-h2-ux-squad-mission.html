@@ -4,416 +4,402 @@
 <meta charset="UTF-8">
 <script src="/auth.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UX Design Squad ｜ 2026 H2 指針 & 管理ボード</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+<title>UX Design Squad — H2 ミッション</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#f8f9fb;--card:#fff;--text:#1a1a2e;--sub:#64748b;--hint:#94a3b8;--border:#e8ecf1;
-  --veltra:#0077D9;--veltra-soft:#EFF4FA;--veltra-dark:#376DAB;
-  --amber:#d97706;--amber-bg:#fffbeb;--amber-text:#92400e;
-  --green:#059669;--green-bg:#ecfdf5;--green-text:#065f46;
-  --purple:#7c3aed;--purple-bg:#f5f3ff;--purple-text:#5b21b6;
-  --blue:#2563eb;--blue-bg:#eff6ff;--blue-text:#1e40af;
-  --red:#dc2626;
-}
-body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);font-size:14.8px;line-height:1.8;-webkit-font-smoothing:antialiased}
-.page{max-width:1120px;margin:0 auto;padding:36px 24px 80px}
+  :root{
+    --blue:#7CA0BF;
+    --blue-d:#5f86a8;
+    --green:#86BE99;
+    --red:#F38268;
+    --offwhite:#FEFCF3;
+    --dark:#2D1C21;
+    --ink:#2D1C21;
+    --muted:#6b5d61;
+    --line:#e7e0d4;
+    --card:#ffffff;
+    --shadow:0 1px 3px rgba(45,28,33,.08),0 6px 18px rgba(45,28,33,.06);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--offwhite);
+    color:var(--ink);
+    font-family:"Noto Sans JP","Montserrat",-apple-system,BlinkMacSystemFont,sans-serif;
+    font-size:15px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--blue-d)}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  h1,h2,h3,h4{font-family:"Montserrat","Noto Sans JP",sans-serif;letter-spacing:.01em}
 
-/* Hero */
-.hero{background:linear-gradient(135deg,#0f2b45,#376DAB);border-radius:18px;padding:40px 42px;margin-bottom:22px;color:#fff;position:relative;overflow:hidden}
-.hero::after{content:'';position:absolute;top:-70px;right:-50px;width:210px;height:210px;border-radius:50%;background:rgba(0,119,217,.26)}
-.hero-badge{position:relative;z-index:1;display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 15px;font-size:12px;font-weight:600;margin-bottom:14px;letter-spacing:.03em}
-.hero h1{position:relative;z-index:1;font-size:28px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
-.hero p{position:relative;z-index:1;font-size:14.5px;color:rgba(255,255,255,.86);max-width:820px}
-.hero-meta{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:18px;margin-top:16px;font-size:12px;color:rgba(255,255,255,.62)}
+  /* ===== top bar ===== */
+  .topbar{
+    position:sticky;top:0;z-index:40;
+    background:rgba(254,252,243,.9);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar .wrap{display:flex;align-items:center;gap:16px;height:56px;flex-wrap:wrap}
+  .brand{font-family:"Montserrat";font-weight:800;letter-spacing:.14em;color:var(--blue-d);font-size:18px}
+  .brand small{display:block;font-size:10px;letter-spacing:.28em;color:var(--muted);font-weight:600}
+  .nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+  .nav a{
+    font-size:12.5px;font-weight:600;color:var(--muted);text-decoration:none;
+    padding:6px 11px;border-radius:999px;
+  }
+  .nav a:hover{background:#fff;color:var(--ink)}
 
-/* Section shell */
-.sec{background:linear-gradient(180deg,#eef2f7,#f6f7f4);border:1px solid var(--border);border-top:4px solid var(--veltra);border-radius:16px;padding:22px 26px 26px;margin-bottom:20px}
-.sec-eyebrow{font-size:11px;font-weight:800;color:var(--veltra);letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}
-.sec-h2{font-size:20px;font-weight:800;margin-bottom:7px;letter-spacing:-.01em}
-.sec-lead{font-size:13.4px;color:var(--sub);max-width:900px;line-height:1.75}
-@media(max-width:820px){.sec{padding:18px 16px 22px}.hero{padding:28px 20px}.hero h1{font-size:23px}}
+  /* ===== hero / mission ===== */
+  .hero{padding:48px 0 30px;position:relative}
+  .squad-title{font-family:"Montserrat";font-weight:800;font-size:clamp(34px,6vw,56px);
+    color:var(--blue-d);margin:0 0 18px;letter-spacing:.01em;line-height:1.08}
+  .hero-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .period-tag{
+    display:inline-flex;align-items:center;gap:9px;
+    background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:10px 20px;font-size:15px;font-weight:700;color:var(--blue-d);
+    box-shadow:var(--shadow);
+  }
+  .period-tag .dot{width:9px;height:9px;border-radius:50%;background:var(--green)}
+  .kpi-chip{
+    display:inline-block;background:var(--blue);color:#fff;font-weight:800;
+    font-size:15px;letter-spacing:.05em;padding:10px 20px;border-radius:999px;
+  }
+  .mission-card{
+    margin-top:22px;background:linear-gradient(135deg,#fff 0%,#fbf7ee 100%);
+    border:1px solid var(--line);border-radius:22px;padding:36px 40px;box-shadow:var(--shadow);
+    position:relative;overflow:hidden;
+  }
+  .mission-card::after{
+    content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;
+    background:radial-gradient(circle,rgba(124,160,191,.18),transparent 70%);
+  }
+  .mission-label{font-size:12px;font-weight:700;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
+  .mission-text{
+    font-family:"Noto Sans JP";font-weight:900;font-size:clamp(26px,4vw,40px);
+    line-height:1.35;margin:12px 0 0;
+  }
+  .mission-text em{font-style:normal;color:var(--blue-d);background:linear-gradient(transparent 62%,rgba(134,190,153,.4) 62%)}
+  .mission-sub{margin-top:16px;color:var(--muted);font-size:14px;max-width:780px}
 
-/* Mission pillars */
-.mstate{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0 12px}
-.mstate .lbl{font-size:11px;font-weight:800;color:var(--hint);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
-.mstate .val{font-size:17px;font-weight:800;line-height:1.5}
-.mstate .val strong{color:var(--veltra)}
-.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.mcard{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px}
-.mcard .tg{display:inline-block;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:5px;margin-bottom:8px}
-.mcard.a .tg{background:var(--green);color:#fff}
-.mcard.b .tg{background:var(--amber);color:#fff}
-.mcard.c .tg{background:var(--purple);color:#fff}
-.mcard .h{font-size:14.5px;font-weight:800;margin-bottom:4px}
-.mcard .d{font-size:12.5px;color:var(--sub);line-height:1.65}
-@media(max-width:820px){.mgrid{grid-template-columns:1fr}}
+  /* ===== section ===== */
+  section{padding:34px 0}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+  .sec-num{font-family:"Montserrat";font-weight:800;color:var(--blue);font-size:15px;
+    border:2px solid var(--blue);border-radius:8px;padding:2px 9px}
+  .sec-head h2{font-size:22px;margin:0}
+  .sec-head p{margin:0;color:var(--muted);font-size:13px}
 
-/* Callouts */
-.cout{border-left:4px solid;border-radius:0 10px 10px 0;padding:14px 18px;margin-top:12px}
-.cout h4{font-size:13px;font-weight:800;margin-bottom:4px}
-.cout p{font-size:12.7px;line-height:1.75}
-.cout.blue{background:var(--blue-bg);border-color:var(--blue)}.cout.blue h4{color:var(--blue-text)}.cout.blue p{color:var(--blue-text)}
-.cout.amber{background:var(--amber-bg);border-color:var(--amber)}.cout.amber h4{color:var(--amber-text)}.cout.amber p{color:var(--amber-text)}
-.cout .note{color:var(--hint);font-size:11.5px}
+  /* two focus pillars */
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+  .pillar{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px 24px 20px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+  }
+  .pillar.p1{border-top:4px solid var(--green)}
+  .pillar.p2{border-top:4px solid var(--blue)}
+  .pillar.p3{border-top:4px solid var(--red)}
+  .pillar .tagline{font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--muted)}
+  .pillar h3{font-size:20px;margin:6px 0 4px}
+  .pillar .how{font-size:13px;color:var(--muted);margin:0 0 14px}
+  .pillar .badge{
+    position:absolute;top:20px;right:20px;font-family:"Montserrat";font-weight:800;
+    font-size:28px;opacity:.15;
+  }
+  .p1 .badge{color:var(--green)} .p2 .badge{color:var(--blue)} .p3 .badge{color:var(--red)}
+  .item{display:flex;gap:10px;padding:11px 0;border-top:1px dashed var(--line);align-items:flex-start}
+  .item:first-of-type{border-top:none}
+  .item .name{font-weight:700;font-size:14px}
+  .item .desc{font-size:12.5px;color:var(--muted)}
+  .owner-pills{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+  .pill{font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;background:#eef3f7;color:var(--blue-d);white-space:nowrap}
+  .pill.g{background:#ecf6ef;color:#4c8a63}
+  .pill.sub{background:#fbe9e2;color:#c0562f}
+  .note{font-size:12px;color:var(--muted);background:#faf6ec;border-left:3px solid var(--blue);padding:8px 12px;border-radius:0 8px 8px 0;margin-top:14px}
 
-/* External timeline */
-.ext-timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:6px 0 4px}
-.ext-step{background:#fff;border:1px solid var(--border);border-top:4px solid var(--veltra);border-radius:12px;padding:16px 18px}
-.ext-step .ext-date{font-family:'DM Sans',monospace;font-size:16.6px;font-weight:800;color:var(--veltra);margin-bottom:6px}
-.ext-step .ext-t{font-size:13.5px;font-weight:800;margin-bottom:4px;line-height:1.4}
-.ext-step .ext-d{font-size:12px;color:var(--sub);line-height:1.6}
-@media(max-width:820px){.ext-timeline{grid-template-columns:1fr}}
+  .flag{display:inline-block;font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;margin-left:8px;white-space:nowrap;vertical-align:middle}
+  .flag.crit{background:#fdeae4;color:#d0512f}
+  .flag.keep{background:#eef3f7;color:var(--blue-d)}
+  .flag.tbd{background:#ece5d7;color:#8a7d6b}
 
-/* Kanban */
-.kb-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0 16px}
-.kb-btn{font-size:12.5px;font-weight:700;color:var(--veltra-dark);background:#fff;border:1px solid #cfe0f2;border-radius:8px;padding:8px 13px;cursor:pointer;transition:background .12s}
-.kb-btn:hover{background:var(--veltra-soft)}
-.kb-btn.primary{background:var(--veltra);color:#fff;border-color:var(--veltra)}
-.kb-btn.primary:hover{background:var(--veltra-dark)}
-.kb-hint{font-size:12px;color:var(--hint);margin-left:auto}
-.kb-board{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 14px;align-items:flex-start}
-.kb-col{flex:0 0 262px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px;min-height:130px;transition:background .12s,border-color .12s}
-.kb-col.drag-over{background:var(--veltra-soft);border-color:var(--veltra)}
-.kb-col-head{display:flex;align-items:center;gap:8px;padding:4px 6px 10px;border-bottom:1px solid var(--border);margin-bottom:10px}
-.kb-avatar{width:27px;height:27px;border-radius:50%;background:var(--veltra);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.kb-col-name{font-size:13.5px;font-weight:800}
-.kb-col-cnt{font-size:11px;font-weight:700;color:var(--hint);background:var(--bg);border-radius:10px;padding:1px 8px;margin-left:auto}
-.kb-col-del{border:none;background:none;color:var(--hint);cursor:pointer;font-size:15px;line-height:1;padding:2px 4px;margin-left:4px}
-.kb-col-del:hover{color:var(--red)}
-.kb-card{background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--veltra);border-radius:10px;padding:11px 12px;margin-bottom:9px;cursor:grab}
-.kb-card:active{cursor:grabbing}
-.kb-card.dragging{opacity:.4}
-.kb-card .kc-title{font-size:13px;font-weight:800;line-height:1.42;margin-bottom:6px}
-.kb-card .kc-meta{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
-.kb-tag{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:5px;letter-spacing:.02em}
-.kb-tag.t1{background:var(--green-bg);color:var(--green-text)}
-.kb-tag.t2{background:var(--amber-bg);color:var(--amber-text)}
-.kb-tag.t3{background:var(--purple-bg);color:var(--purple-text)}
-.kb-tag.t4{background:#eef2f7;color:var(--sub)}
-.kb-tag.prio{background:var(--red);color:#fff}
-.kb-card.th1{border-left-color:var(--green)}
-.kb-card.th2{border-left-color:var(--amber)}
-.kb-card.th3{border-left-color:var(--purple)}
-.kb-card.th4{border-left-color:var(--hint)}
-.kb-card .kc-links{font-size:10.8px;color:var(--hint);margin-top:7px}
-.kb-modal-bg{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
-.kb-modal-bg.show{display:flex}
-.kb-modal{background:#fff;border-radius:16px;max-width:560px;width:100%;max-height:86vh;overflow-y:auto;padding:24px 26px 26px}
-.kb-modal h3{font-size:18.5px;font-weight:800;margin:2px 0 8px;line-height:1.42;padding-right:24px}
-.kb-modal .km-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
-.kb-modal .km-sec{margin-bottom:15px}
-.kb-modal .km-sec h4{font-size:11px;font-weight:800;color:var(--veltra);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
-.kb-modal .km-sec p{font-size:13px;color:var(--sub);line-height:1.72}
-.kb-modal .km-links a{display:block;font-size:12.5px;color:var(--veltra-dark);font-weight:700;text-decoration:none;padding:6px 0;border-bottom:1px solid var(--border)}
-.kb-modal .km-links a:hover{color:var(--veltra)}
-.kb-modal .km-close{float:right;border:none;background:none;font-size:23px;color:var(--hint);cursor:pointer;line-height:1;margin:-4px -4px 0 0}
-.kb-modal label{display:block;font-size:11.5px;font-weight:800;color:var(--sub);margin:12px 0 4px;letter-spacing:.04em}
-.kb-modal input,.kb-modal select,.kb-modal textarea{width:100%;font-size:13px;font-family:inherit;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:#fff}
-.kb-modal textarea{min-height:64px;resize:vertical;line-height:1.6}
-.kb-modal .km-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
-@media(max-width:820px){.kb-col{flex-basis:224px}}
+  /* governance */
+  .gov-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch}
+  .gov{background:linear-gradient(135deg,#fbf7ee,#fff);border:1px solid var(--line);border-left:5px solid var(--red);
+    border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+  .gov h3{margin:0 0 4px;font-size:17px;display:flex;align-items:center;gap:9px}
+  .gov h3 .no{flex:0 0 auto;width:24px;height:24px;border-radius:7px;background:var(--red);color:#fff;
+    font-family:"Montserrat";font-weight:800;font-size:13px;display:inline-flex;align-items:center;justify-content:center}
+  .gov .lead{font-size:12.5px;color:var(--muted);margin:0 0 6px}
+  .gov ul{margin:10px 0 0;padding-left:0;list-style:none}
+  .gov li{padding:9px 0;border-top:1px dashed var(--line);font-size:13.5px}
+  .gov li:first-child{border-top:none}
+  .gov li b{color:var(--red)}
+  .gov .k{display:inline-block;font-weight:800;color:var(--red);margin-right:6px}
+  .gov .owner-pills{margin-top:auto;padding-top:14px}
 
-.foot{font-size:12px;color:var(--hint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-top:1px solid var(--border);padding-top:16px;margin-top:8px}
-.foot a{color:inherit}
+  /* long term */
+  .longterm{background:#f6f2ea;border:1px dashed var(--line);border-radius:var(--radius);padding:20px 24px;color:var(--muted)}
+  .longterm h3{margin:0 0 4px;color:var(--ink);font-size:17px}
+  .prio{display:inline-block;font-size:11px;font-weight:800;background:#e7e0d4;color:var(--muted);padding:2px 10px;border-radius:999px;margin-left:8px}
+
+  /* external */
+  .ext-head{display:flex;align-items:center;gap:10px}
+  .live{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#d0512f;
+    background:#fdeae4;padding:3px 10px;border-radius:999px}
+  .live .blink{width:7px;height:7px;border-radius:50%;background:#d0512f;animation:blink 1.4s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+  .concept-lead{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);
+    padding:20px 24px;box-shadow:var(--shadow);margin-bottom:20px}
+  .concept-lead h3{margin:0 0 8px;font-size:18px}
+  .concept-lead p{margin:0;font-size:14px;color:var(--ink)}
+  .concept-lead .tags{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  .concept-lead .tags span{font-size:11.5px;font-weight:700;background:#eef3f7;color:var(--blue-d);padding:4px 11px;border-radius:999px}
+  .concept-lead .src-link{margin-top:12px;font-size:12.5px}
+  .concept-lead .src-link a{font-weight:700;text-decoration:none}
+
+  .ref-box{border:1.5px dashed #d8cdbb;background:#faf6ec;border-radius:18px;padding:22px}
+  .ref-box .concept-lead{margin-bottom:18px}
+  .ref-note{font-size:11.5px;font-weight:700;letter-spacing:.06em;color:#a08b6a;margin:0 0 14px;text-transform:none}
+  .ext-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:22px;align-items:start}
+
+  .timeline-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow)}
+  .timeline-card h4{margin:0 0 16px;font-size:14px;letter-spacing:.08em;color:var(--muted)}
+  .timeline{position:relative;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .tl{position:relative;padding:0 0 18px}
+  .tl:last-child{padding-bottom:0}
+  .tl::before{content:"";position:absolute;left:-24px;top:4px;width:12px;height:12px;border-radius:50%;
+    background:#fff;border:3px solid var(--blue)}
+  .tl.next::before{background:var(--red);border-color:var(--red)}
+  .tl .date{font-family:"Montserrat";font-weight:800;font-size:13px;color:var(--blue-d)}
+  .tl .t{font-weight:700;font-size:14px;margin:1px 0}
+  .tl .d{font-size:12.5px;color:var(--muted)}
+
+  .issues{display:flex;flex-direction:column;gap:16px}
+  .issue{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);position:relative}
+  .issue.i1{border-left:5px solid var(--blue)}
+  .issue.i2{border-left:5px solid var(--green)}
+  .issue-tag{display:inline-block;font-family:"Montserrat";font-weight:800;font-size:11px;letter-spacing:.1em;
+    color:#fff;padding:3px 11px;border-radius:999px;margin-bottom:8px}
+  .i1 .issue-tag{background:var(--blue)} .i2 .issue-tag{background:var(--green)}
+  .issue h4{margin:0 0 12px;font-size:16.5px}
+  .issue p{margin:0 0 10px;font-size:13.5px}
+  .issue p:last-child{margin-bottom:0}
+  .issue .k{display:inline-block;font-weight:800;font-size:11px;letter-spacing:.04em;padding:2px 9px;border-radius:6px;margin-right:6px;vertical-align:middle}
+  .k.state{background:#f1ece2;color:var(--muted)}
+  .k.must{background:#fdeae4;color:#d0512f}
+  .k.plan{background:#ecf6ef;color:#4c8a63}
+  .hl{color:var(--red);background:linear-gradient(transparent 60%,rgba(243,130,104,.28) 60%)}
+
+  footer{padding:40px 0 60px;color:var(--muted);font-size:12px;text-align:center;border-top:1px solid var(--line);margin-top:20px}
+
+  @media(max-width:860px){
+    .pillars,.gov-grid,.ext-grid{grid-template-columns:1fr}
+    .nav{display:none}
+  }
 </style>
 </head>
 <body>
-<div class="page">
 
-  <!-- Hero -->
-  <div class="hero">
-    <div class="hero-badge">UX Design Squad ｜ 指針 & 管理ボード</div>
-    <h1>2026 H2 ｜ いま何に注力しているか</h1>
-    <p>ミッションは <strong>「Traveler が Veltra で迷わず・より多く買いやすい状態を作る」</strong>（主指標 = CVR）。<br>プロジェクトが増えても目線を合わせるための1枚であり、Squad のプロジェクト管理ボードも兼ねる。</p>
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand">VELTRA<small>UX DESIGN SQUAD</small></div>
+    <nav class="nav">
+      <a href="#mission">ミッション</a>
+      <a href="#focus">UX向上</a>
+      <a href="#gov">ガバナンス</a>
+      <a href="#external">関連チームの動き</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ===== HERO / MISSION ===== -->
+  <header class="hero" id="mission">
+    <h1 class="squad-title">UX Design Squad</h1>
     <div class="hero-meta">
-      <span>対象期間：2026年 7月〜12月（H2）</span>
-      <span>現在の最優先：レイテンシー改善（表示速度）</span>
-      <span>外部：新基盤が多言語展開フェーズ（EN 7/21 ほか）</span>
+      <span class="period-tag"><span class="dot"></span>対象期間：3Q（2026年7月 〜 9月末）</span>
+      <span class="kpi-chip">主指標 = CVR</span>
     </div>
-  </div>
+    <div class="mission-card">
+      <div class="mission-label">Mission</div>
+      <p class="mission-text">Traveler が Veltra で<br><em>より多く・迷わず</em>買いやすい状態を作る</p>
+      <p class="mission-sub">
+        主指標は CVR。<br>
+        メインは <b>Traveler の UX 向上</b>。それを下支えする <b>ガバナンス（ブランド・コンプライアンス）</b> を並列で進める。<br>
+        Squad の目線を合わせるための指針ドキュメント。
+      </p>
+    </div>
+  </header>
 
-  <!-- 01 ミッション & 注力 -->
-  <section class="sec" id="s-mission">
-    <div class="sec-eyebrow">01. ミッション & いまの注力</div>
-    <div class="sec-h2">迷わず・より多く ＋ ガバナンスを並行</div>
-    <div class="sec-lead">CVR を主指標に、客単価（より多く）と完了率（迷わず）の2手段を並行注力。これと並列で、ブランド/法務のガバナンスを扱う。</div>
-
-    <div class="mstate">
-      <div class="lbl">Mission（主指標 = CVR）</div>
-      <div class="val">Traveler が Veltra で <strong>迷わず・より多く買いやすい状態</strong> を作る</div>
+  <!-- ===== FOCUS ===== -->
+  <section id="focus">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>Traveler の UX 向上</h2>
     </div>
 
-    <div class="mgrid">
-      <div class="mcard a">
-        <span class="tg">手段①</span>
-        <div class="h">1回で複数買ってもらう</div>
-        <div class="d">同一旅行内のクロスセルで客単価を上げる。eSIM・キャンセル保険・Mobility Hub。</div>
+    <div class="pillars">
+      <!-- pillar 1 -->
+      <div class="pillar p1">
+        <span class="badge">①</span>
+        <div class="tagline">注力「買い増ししやすく」</div>
+        <h3>1回で複数買ってもらう</h3>
+        <p class="how">同一旅行内クロスセル。すでに購入する Traveler に、その旅行中に2点目以上を買ってもらう。</p>
+        <div class="item"><div>
+          <div class="name">eSIM</div>
+          <div class="owner-pills"><span class="pill">Mav</span><span class="pill sub">Aki</span><span class="pill sub">choi</span></div>
+        </div></div>
+        <div class="item"><div>
+          <div class="name">キャンセル保険</div>
+          <div class="owner-pills"><span class="pill">Pitor</span><span class="pill sub">Aki</span><span class="pill sub">choi</span></div>
+        </div></div>
+        <div class="item"><div>
+          <div class="name">Mobility Hub</div>
+          <div class="owner-pills"><span class="pill">Sachie</span><span class="pill sub">Izumi</span><span class="pill sub">Jason</span></div>
+        </div></div>
+        <div class="note">※ 新規商材開発は現状の業務量を踏まえて優先度を下げる。UX 改善の過程で自然発生的に生まれるアイデアを検討する方針。</div>
       </div>
-      <div class="mcard b">
-        <span class="tg">手段②</span>
-        <div class="h">TR側の既存UX改善</div>
-        <div class="d">完了率を上げる。<b>レイテンシー改善（最重要）</b>・予約ステップ改善・UI改善。</div>
-      </div>
-      <div class="mcard c">
-        <span class="tg">並列</span>
-        <div class="h">ガバナンス・コンプライアンス</div>
-        <div class="d">CI統一（旧ロゴ・ブランドカラー）・法務テンプレート整備など、基盤の健全性を保つ。</div>
+
+      <!-- pillar 2 -->
+      <div class="pillar p2">
+        <span class="badge">②</span>
+        <div class="tagline">注力「迷わず」</div>
+        <h3>TR側の既存 UX 改善</h3>
+        <p class="how">サイトに訪問した Traveler の購入完了率を引き上げる。フリクション削減と分かりやすさの両方を扱う。</p>
+        <div class="item"><div>
+          <div class="name">GlobalTOP のレイアウト・コミュニケーション設計<span class="flag crit">最優先</span></div>
+          <div class="desc">/jp 国内旅行→新基盤、/jp 海外旅行→カレントサイトが混在する期間の、Traveler への通知などコミュニケーション設計と、極力混乱を避けて使ってもらえる動線設計など。</div>
+          <div class="owner-pills"><span class="pill">Kotaro</span><span class="pill">futagi</span></div>
+        </div></div>
+        <div class="item"><div>
+          <div class="name">レイテンシー改善（表示速度の改善をやりきる）<span class="flag crit">最優先</span></div>
+          <div class="owner-pills"><span class="pill">未アサイン</span></div>
+        </div></div>
+        <div class="item"><div>
+          <div class="name">フォームステップ改善・後追い入力 UX（予約ステップを簡単にする）</div>
+          <div class="owner-pills"><span class="pill">未アサイン</span></div>
+        </div></div>
+        <div class="item"><div>
+          <div class="name">リクエスト予約を低減する（即時確定できるケースを増やす）</div>
+          <div class="owner-pills"><span class="pill">未アサイン</span></div>
+        </div></div>
+        <div class="item"><div>
+          <div class="name">テーマ特化 LP 最適化</div>
+          <div class="desc">裏テーマ：AI 実装による高速運用の導入を含む。</div>
+          <div class="owner-pills"><span class="pill">未アサイン</span></div>
+        </div></div>
+        <div class="item"><div>
+          <div class="name">チケット利用・入場管理 UX 改善（QRコードバウチャー・管理機能？）（仮）</div>
+          <div class="desc">※ Traveler のベネフィットができるならやってもよい（目下は Traveler ＞ Partner）。他アイデア出なければやってもいいかも。優先度は低。</div>
+          <div class="owner-pills"><span class="pill">未アサイン</span></div>
+        </div></div>
       </div>
     </div>
   </section>
 
-  <!-- 02 外部状況 -->
-  <section class="sec" id="s-external">
-    <div class="sec-eyebrow">02. 外部状況｜新基盤ロードマップ & 論点（速報・現時点）</div>
-    <div class="sec-h2">新基盤の多言語展開と、現行サイトとの併存を見据えた論点</div>
-    <div class="sec-lead">新基盤は<strong>多言語・多通貨のグローバル向けサイト</strong>を前提に、情報のまとめ方・データ構造を刷新して構築中。海外→日本のインバウンドや、海外→海外の利用を最適化する狙い。以下は現時点の速報であり、確定情報は随時更新する。</div>
-
-    <div class="ext-timeline" style="margin-top:14px">
-      <div class="ext-step"><div class="ext-date">7/21</div><div class="ext-t">EN サイト リリース予定</div><div class="ext-d">英語版を新基盤で公開。</div></div>
-      <div class="ext-step"><div class="ext-date">7/28</div><div class="ext-t">中国語・韓国語版</div><div class="ext-d">多言語展開を継続。</div></div>
-      <div class="ext-step"><div class="ext-date">8月中旬 めやす</div><div class="ext-t">JP 国内旅行を刷新</div><div class="ext-d">JP サイトのうち日本国内旅行（日本人→国内）を、新基盤の機構をふまえて刷新予定。</div></div>
+  <!-- ===== GOVERNANCE ===== -->
+  <section id="gov">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>ガバナンス（ブランド・コンプライアンス）</h2>
     </div>
-
-    <div class="cout blue">
-      <h4>併存で生じる論点</h4>
-      <p>刷新後は<strong>新基盤サイト</strong>と<strong>現行サイト（日本→海外＝売上の8割超を占める重要ドメイン）</strong>が併存する。既存客・新規客のいずれも、サービスによってUIが異なる状態に触れうる。<br>そのため <strong>TOPページの情報設計・動線設計、Traveler のカスタマージャーニー、コミュニケーション戦略</strong>の整理が、本Squadの検討テーマとして必要になる。</p>
-    </div>
-    <div class="cout amber">
-      <h4>検討中の論点：日本→海外の基盤方針</h4>
-      <p>日本→海外については、新基盤への移行が最適かどうかを含めて検討中。現行サイトは日本人向けに最適化されており（他言語・他通貨のノイズがない）、その使いやすさを強みとして活かす選択肢もある。「現行サイトを維持する」「日本→海外向けに別の基盤を新設する」なども含め、グローバル対応に伴う調整コストとのバランスを踏まえて論点を整理する。<span class="note">※現時点の論点であり、決定事項ではない。</span></p>
+    <div class="gov-grid">
+      <div class="gov">
+        <h3><span class="no">1</span>CI 統一</h3>
+        <p class="lead">旧ロゴ・ブランドカラーへ回帰し、今後の CI を統一していく。</p>
+        <ul>
+          <li><span class="k">方針</span>旧ロゴ・ブランドカラーに戻す。今後の CI はこの旧ロゴ内容に統一していく。</li>
+          <li><span class="k">対象外</span>既存・過去のキャンペーンページ、UI のキーカラー等は一旦そのまま維持。</li>
+          <li><span class="k">着手範囲</span>グローバルヘッダー／フッターのみから着手。</li>
+        </ul>
+        <div class="owner-pills"><span class="pill">未アサイン</span></div>
+      </div>
+      <div class="gov">
+        <h3><span class="no">2</span>データ・リーガル対応</h3>
+        <p class="lead">計測とデータ取り扱いの健全化、法令順守。</p>
+        <ul>
+          <li><span class="k">GTM の断捨離</span>不要タグ・重複計測の整理。</li>
+          <li><span class="k">第三者提供データの管理</span>外部に渡るデータの棚卸しと管理体制。</li>
+          <li><span class="k">GDPR ほかリーガル対応</span>各国法令に沿った対応を進める。</li>
+        </ul>
+        <div class="owner-pills"><span class="pill">未アサイン</span></div>
+      </div>
     </div>
   </section>
 
-  <!-- 03 プロジェクト看板 -->
-  <section class="sec" id="s-board">
-    <div class="sec-eyebrow">03. プロジェクト看板（担当者別・管理ボード）</div>
-    <div class="sec-h2">H2 プロジェクトの担当・状況ボード</div>
-    <div class="sec-lead">H2 に走る全プロジェクトを担当者カラムで一覧化した Squad 管理ボード。カードをドラッグして担当を付け替え（このブラウザに保存）、クリックで概要・ペイン・資料リンクを表示。担当者・プロジェクトはボタンから追加できる。</div>
-
-    <div class="kb-toolbar" style="margin-top:14px">
-      <button class="kb-btn primary" id="kbAddProj" type="button">＋ プロジェクト追加</button>
-      <button class="kb-btn" id="kbAddOwner" type="button">＋ 担当者を追加</button>
-      <button class="kb-btn" id="kbReset" type="button">初期状態に戻す</button>
-      <span class="kb-hint">ドラッグで担当変更（自動保存）／カードクリックで詳細</span>
+  <!-- ===== EXTERNAL ===== -->
+  <section id="external">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2>関連チームの動き（参考）</h2>
+      <p>他チームが進める新基盤（多言語・多通貨のグローバル向けサイト）のロールアウト状況と論点。</p>
     </div>
-    <div class="kb-board" id="kbBoard"></div>
-  </section>
 
-  <div class="foot">
-    <span>UX Design Squad ｜ Northstar</span>
-    <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="text-decoration:underline">GA4: 347074845</a></span>
-  </div>
+    <div class="ref-box">
+    <p class="ref-note">※ 参考情報 ― 他チームが進める新基盤の動き。UX Design Squad の直接タスクではないが、連携・影響あり。</p>
+    <div class="concept-lead">
+      <h3>新基盤の考え方 ― AI が“今”の体験を届ける発見型プラットフォーム</h3>
+      <p>モバイル UX をコアに、検索→商品→予約のステップを最小化した高速・軽量・直感的な体験。日本の四季・季節性（＝日本の「今」）を商品とサイト UX に一体化し、グローバル OTA にできない日本発の価値を追求する。多言語・多通貨のグローバル前提で情報構造・データ構造を再設計。</p>
+      <div class="tags"><span>①AI-Centric 多言語化</span><span>②ブランドのトータル設計</span><span>③品質向上（E-E-A-T）</span></div>
+      <p class="src-link"><a href="https://docs.google.com/presentation/d/1fuAIaANd5VnxX8xAlpqq13_saq8cnVx-4aDQMs8sqG4/edit" target="_blank" rel="noopener">🔗 新基盤コンセプト資料（Google Slides）</a></p>
+    </div>
+
+    <div class="ext-grid">
+      <div class="timeline-card">
+        <h4>ROLLOUT TIMELINE</h4>
+        <div class="timeline">
+          <div class="tl next">
+            <div class="date">2026 / 07 / 21</div>
+            <div class="t">EN サイト リリース予定</div>
+            <div class="d">新基盤の最初のリリース。</div>
+          </div>
+          <div class="tl next">
+            <div class="date">2026 / 07 / 28</div>
+            <div class="t">中国語・韓国語版 リリース予定</div>
+            <div class="d">多言語展開の開始。</div>
+          </div>
+          <div class="tl">
+            <div class="date">〜 2026 / 08 中旬目標</div>
+            <div class="t">JP 国内旅行（日本人→国内）の刷新</div>
+            <div class="d">EN サイトの新基盤機構をふまえつつ、現行 JP サイトの国内旅行領域を刷新予定。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="issues">
+        <div class="issue i1">
+          <span class="issue-tag">論点 1</span>
+          <h4>新旧サイトの混在</h4>
+          <p><span class="k state">状況</span>新基盤サイトと現行サイト（日本→海外、<span class="hl">売上の大部分</span>を占める重要ドメイン）が混在する。既存・新規客で UI が異なり、Traveler が困ることになる。</p>
+          <p><span class="k must">だから必須</span>TOP ページの情報設計・動線設計、Traveler のカスタマージャーニー、コミュニケーション戦略の検討。</p>
+        </div>
+        <div class="issue i2">
+          <span class="issue-tag">論点 2</span>
+          <h4>日本→海外は乗り換えが最適とは限らない</h4>
+          <p><span class="k state">状況</span>現行サイトは日本人向けに最適化されノイズがない。ガラパゴス的に日本人が使いやすい UX の方が、良い体験を届けられる可能性がある。</p>
+          <p><span class="k plan">方針</span>新基盤への乗り換えは<b>一旦考え直し（by 二木さん）</b>。現行を持ち続ける／日本→海外用の別新基盤を作る等も選択肢。ただしグローバル化対応だと日本で不要な機能を削る手間も出て、最適でない面もある。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
 
 </div>
 
-<script>
-/* ===== プロジェクト看板 ===== */
-(function(){
-  var LS_KEY = 'veltra_h2_kanban_v3';
-  var THEME = {
-    '手段①': {cls:'th1', tag:'t1'},
-    '手段②': {cls:'th2', tag:'t2'},
-    '事業課題': {cls:'th3', tag:'t3'},
-    '運用': {cls:'th4', tag:'t4'}
-  };
-  var THEME_ORDER = ['手段①','手段②','事業課題','運用'];
-  var DEFAULT_ASSIGNEES = ['Kotaro','Sachie','Meiko','Yen','Mav','Piotr'];
-  var DEFAULT_PROJECTS = [
-    {id:'latency', title:'レイテンシー改善（表示速度）', owner:'Kotaro', theme:'手段②', priority:true,
-      overview:'カレントサイトの表示速度を改善する。TR側カレントサイト UX 改善の最重要テーマ。やり切る。',
-      pain:'表示の遅さが Traveler の離脱・完了率に効く。',
-      links:[{label:'ClickUp UX_DESIGN-167',url:'https://app.clickup.com/t/31108037/UX_DESIGN-167'}]},
-    {id:'booking', title:'予約ステップの改善', owner:'Sachie', theme:'手段②', note:'新基盤後も使う',
-      overview:'予約フローのフリクション削減。Required Info の棚卸し／簡易情報での一次予約／途中停止→再開／Partner 別ニーズ考慮（一次予約で Confirm ↔ Required Info 後に Confirm）。',
-      pain:'長いフォーム＋Required Info の負担で予約直前に離脱する。予約フローの改善資産は新基盤移行後も活きる。', collaborators:'Kotaro',
-      links:[]},
-    {id:'governance', title:'コンプライアンス・ガバナンス管理', owner:'Sachie', theme:'事業課題',
-      overview:'法務テンプレート整備とコンプライアンス／ガバナンス管理。手段①②と並列の本質的テーマ。',
-      links:[{label:'VELTRA Legal Template Suite',url:'https://docs.google.com/spreadsheets/d/1REmWCIXSTBvB5Bldr1MeyjqCdG0ziKq7roVuGqoD26s/edit'}]},
-    {id:'ci', title:'CI統一（旧ロゴ・ブランドカラー）', owner:'Sachie', theme:'事業課題',
-      overview:'CI（ロゴ・ブランドカラー）を旧ロゴ・旧ブランドカラーに統一する。既存・過去のキャンペーンページや UI のキーカラーは一旦そのまま、まずグローバルヘッダー／フッターのみ対応。今後の CI はこの旧ロゴ内容に統一していく。',
-      pain:'ブランド表現の一貫性を回復し、今後の CI の基準を定める。', collaborators:'Meiko / Yen（デザイン適用）',
-      links:[]},
-    {id:'esim', title:'eSIM 販売', owner:'Mav', theme:'手段①',
-      overview:'予約フローで eSIM（Voye）を販売。Phase2 は API 連携でカート追加まで対応する。',
-      pain:'予約時のついで買い導線をつくり、1回の予約で客単価を上げる（手段①）。',
-      status:'Phase2 進行中（〜7月末めやす）', collaborators:'Choy（開発）/ Yen（デザイン）',
-      links:[{label:'ClickUp（Phase2）',url:'https://app.clickup.com/31108037/v/g/6-901817628221-7'},{label:'仕様書ドラフト（Drive）',url:'https://drive.google.com/drive/folders/1u1qBIJ3bfpzNbWGX8Xk3_QF1dt313ep9'},{label:'Figma（Current site update）',url:'https://www.figma.com/design/P2Nr3sPssSLRnCCDU0UddD/Current-site-update?node-id=8745-193'}]},
-    {id:'insurance', title:'キャンセル保険', owner:'Piotr', theme:'手段①',
-      overview:'予約フローでキャンセル保険（海外・国内）を販売する。',
-      pain:'予約フローに保険を入れることの是非・CVR への影響を確認中（Chubb と調整）。',
-      status:'仕様作成中／7月下旬着手めやす', collaborators:'Mav（要件）/ Aki（商流）',
-      links:[{label:'フロントデザイン（Drive）',url:'https://drive.google.com/file/d/1wolGW25KTIW6M9LJUXMyg9DjBqAxtQT6/view'}]},
-    {id:'mobility', title:'Mobility Hub（空港送迎）', owner:'Sachie', theme:'手段①',
-      overview:'空港送迎（ground transfer）。元々複数購入されるカテゴリを、商品数増＋検索特化 UI で強化する。',
-      status:'ロードマップ Phase1', collaborators:'Ta-san 参画 / Kotaro→まり子 引き継ぎ予定 / Izumi（起案）',
-      links:[{label:'Mobility roadmap phase1',url:'https://docs.google.com/presentation/d/1DyvfGS4fRr8qSThD0lXEdyv6GMlF1VKzapSbBSHWyGY/edit'}]},
-    {id:'cvr', title:'CVR対策（週次レポート運用）', owner:'Kotaro', theme:'手段②',
-      overview:'GA4 ファネルのボトルネック分析 → UI 粒度の改善を週次で回す。',
-      status:'継続運用', collaborators:'Sachie / Meiko / Yen',
-      links:[{label:'KPI ダッシュボード',url:'https://v2-veltra-cvr.vercel.app/kpi.html'},{label:'週次レポート',url:'https://v2-veltra-cvr.vercel.app/reports/'},{label:'CVR施策リスト_2026',url:'https://docs.google.com/spreadsheets/d/1MMjIEdcU9Bme8WVDHLP28XEr2EsLQwG2K57ZYBdnmbM/edit'}]},
-    {id:'prwaku', title:'PR枠（Portal / HA 拡張）', owner:'Sachie', theme:'運用',
-      overview:'管理画面から Ctg ページへの PR 枠設定機能。Portal・HA へ拡張開発する。',
-      status:'HA リリース済／Portal UAT 中（〜7/22）', collaborators:'Suki（開発）',
-      links:[{label:'資産化申請（Doc）',url:'https://docs.google.com/document/d/1jxIZj6tiG-Rfv0ut1RkFnqv0lJIp0uktBEENsh0Zp9k/edit'}]},
-    {id:'sports', title:'スポーツまとめページ', owner:'Kotaro', theme:'運用',
-      overview:'スポーツ観戦系のまとめ LP。動線設計・他スポーツページ追加・アクセス計測。',
-      status:'7/14 動線設計・ページ追加', collaborators:'Meiko / Yen（デザイン）',
-      links:[{label:'野球LP 定点観測ダッシュボード',url:'https://docs.google.com/spreadsheets/d/1TJCqrFAnNRR3CBX7FdVtT6yLcxs7gwQjHiIA_K_jDbA/edit'}]},
-    {id:'seisaku', title:'制作依頼まわり・AI効率化', owner:'Meiko', theme:'運用',
-      overview:'制作タスクの受理整理と、AI 活用による制作効率化（素材リサーチ／バナーリサイズ／デザイン初稿プロンプト）。',
-      collaborators:'Kotaro / Yen', links:[]},
-    {id:'qr', title:'QR入場管理', owner:'Kotaro', theme:'事業課題',
-      overview:'中規模施設向け QR 入館ソリューション（B2B）。ディレクターレベルで実装設計から試行する。',
-      status:'余裕があれば着手', collaborators:'林さん（相談中）', links:[]}
-  ];
+<footer class="wrap">
+  VELTRA UX Design Squad ― H2 ミッション（主指標 CVR）／ 資料：
+  <a href="https://v2-veltra-cvr.vercel.app/" target="_blank" rel="noopener">ボトルネック分析</a> ・
+  <a href="https://v2-veltra-cvr.vercel.app/planning/" target="_blank" rel="noopener">施策案</a><br>
+  用語：サービス名 = Veltra ／ ユーザー主語 = Traveler
+</footer>
 
-  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-  function initials(n){n=(n||'?').trim();return n.slice(0,2);}
-  function loadState(){
-    try{var s=JSON.parse(localStorage.getItem(LS_KEY));if(s&&s.assignees&&s.projects)return s;}catch(e){}
-    return {assignees:DEFAULT_ASSIGNEES.slice(), projects:JSON.parse(JSON.stringify(DEFAULT_PROJECTS))};
-  }
-  var state = loadState();
-  function save(){try{localStorage.setItem(LS_KEY,JSON.stringify(state));}catch(e){}}
-
-  var board = document.getElementById('kbBoard');
-  if(!board) return;
-
-  function cardEl(p){
-    var t = THEME[p.theme] || THEME['運用'];
-    var el = document.createElement('div');
-    el.className = 'kb-card ' + t.cls;
-    el.draggable = true;
-    el.dataset.id = p.id;
-    var meta = '<span class="kb-tag ' + t.tag + '">' + esc(p.theme) + '</span>';
-    if(p.priority) meta = '<span class="kb-tag prio">最重要</span>' + meta;
-    if(p.note) meta += '<span class="kb-tag t4">' + esc(p.note) + '</span>';
-    var links = (p.links && p.links.length) ? '<div class="kc-links">🔗 資料 ' + p.links.length + ' 件</div>' : '';
-    el.innerHTML = '<div class="kc-title">' + esc(p.title) + '</div><div class="kc-meta">' + meta + '</div>' + links;
-    el.addEventListener('dragstart', function(e){ e.dataTransfer.setData('text/plain', p.id); e.dataTransfer.effectAllowed='move'; el.classList.add('dragging'); });
-    el.addEventListener('dragend', function(){ el.classList.remove('dragging'); });
-    el.addEventListener('click', function(){ openDetail(p); });
-    return el;
-  }
-
-  function render(){
-    board.innerHTML = '';
-    state.assignees.forEach(function(name){
-      var col = document.createElement('div');
-      col.className = 'kb-col';
-      col.dataset.owner = name;
-      var cards = state.projects.filter(function(p){ return p.owner === name; });
-      var head = '<div class="kb-col-head"><span class="kb-avatar">' + esc(initials(name)) + '</span><span class="kb-col-name">' + esc(name) + '</span><span class="kb-col-cnt">' + cards.length + '</span>';
-      if(DEFAULT_ASSIGNEES.indexOf(name) === -1) head += '<button class="kb-col-del" type="button" title="この担当者を削除" data-del="' + esc(name) + '">×</button>';
-      head += '</div>';
-      col.innerHTML = head;
-      cards.forEach(function(p){ col.appendChild(cardEl(p)); });
-      col.addEventListener('dragover', function(e){ e.preventDefault(); col.classList.add('drag-over'); });
-      col.addEventListener('dragleave', function(){ col.classList.remove('drag-over'); });
-      col.addEventListener('drop', function(e){
-        e.preventDefault(); col.classList.remove('drag-over');
-        var id = e.dataTransfer.getData('text/plain');
-        var p = state.projects.filter(function(x){ return x.id === id; })[0];
-        if(p && p.owner !== name){ p.owner = name; save(); render(); }
-      });
-      board.appendChild(col);
-    });
-    board.querySelectorAll('.kb-col-del').forEach(function(b){
-      b.addEventListener('click', function(){
-        var name = b.dataset.del;
-        if(state.projects.some(function(p){ return p.owner === name; })){ alert('この担当者にカードが残っています。先に他の担当へ移動してください。'); return; }
-        state.assignees = state.assignees.filter(function(a){ return a !== name; });
-        save(); render();
-      });
-    });
-  }
-
-  var bg = document.createElement('div');
-  bg.className = 'kb-modal-bg';
-  bg.innerHTML = '<div class="kb-modal" id="kbModal"></div>';
-  document.body.appendChild(bg);
-  var modal = bg.querySelector('#kbModal');
-  function closeModal(){ bg.classList.remove('show'); }
-  bg.addEventListener('click', function(e){ if(e.target === bg) closeModal(); });
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
-
-  function openDetail(p){
-    var t = THEME[p.theme] || THEME['運用'];
-    var meta = '<span class="kb-tag ' + t.tag + '">' + esc(p.theme) + '</span>';
-    if(p.priority) meta = '<span class="kb-tag prio">最重要</span>' + meta;
-    if(p.note) meta += '<span class="kb-tag t4">' + esc(p.note) + '</span>';
-    meta += '<span class="kb-tag t4">担当：' + esc(p.owner) + '</span>';
-    var h = '<button class="km-close" type="button" aria-label="閉じる">×</button>';
-    h += '<h3>' + esc(p.title) + '</h3>';
-    h += '<div class="km-meta">' + meta + '</div>';
-    if(p.overview) h += '<div class="km-sec"><h4>概要</h4><p>' + esc(p.overview) + '</p></div>';
-    if(p.pain) h += '<div class="km-sec"><h4>ペイン・狙い</h4><p>' + esc(p.pain) + '</p></div>';
-    if(p.status) h += '<div class="km-sec"><h4>状況</h4><p>' + esc(p.status) + '</p></div>';
-    if(p.collaborators) h += '<div class="km-sec"><h4>関係者</h4><p>' + esc(p.collaborators) + '</p></div>';
-    if(p.links && p.links.length){
-      h += '<div class="km-sec km-links"><h4>資料リンク</h4>';
-      p.links.forEach(function(l){ h += '<a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.label) + ' ↗</a>'; });
-      h += '</div>';
-    }
-    modal.innerHTML = h;
-    modal.querySelector('.km-close').addEventListener('click', closeModal);
-    bg.classList.add('show');
-  }
-
-  function openAddProject(){
-    var opts = state.assignees.map(function(a){ return '<option value="' + esc(a) + '">' + esc(a) + '</option>'; }).join('');
-    var topts = THEME_ORDER.map(function(t){ return '<option value="' + esc(t) + '">' + esc(t) + '</option>'; }).join('');
-    modal.innerHTML =
-      '<button class="km-close" type="button" aria-label="閉じる">×</button>' +
-      '<h3>プロジェクトを追加</h3>' +
-      '<label>タイトル</label><input id="npTitle" type="text" placeholder="例：Required Info 棚卸し">' +
-      '<label>担当</label><select id="npOwner">' + opts + '</select>' +
-      '<label>テーマ</label><select id="npTheme">' + topts + '</select>' +
-      '<label>概要</label><textarea id="npOverview" placeholder="何をやるか"></textarea>' +
-      '<label>資料リンク（任意・1行 = 1件、「ラベル , URL」）</label><textarea id="npLinks" placeholder="仕様書 , https://..."></textarea>' +
-      '<div class="km-actions"><button class="kb-btn" type="button" id="npCancel">キャンセル</button><button class="kb-btn primary" type="button" id="npSave">追加</button></div>';
-    modal.querySelector('.km-close').addEventListener('click', closeModal);
-    modal.querySelector('#npCancel').addEventListener('click', closeModal);
-    modal.querySelector('#npSave').addEventListener('click', function(){
-      var title = modal.querySelector('#npTitle').value.trim();
-      if(!title){ alert('タイトルを入力してください。'); return; }
-      var links = modal.querySelector('#npLinks').value.split('\n').map(function(line){
-        var i = line.indexOf(','); if(i === -1) return null;
-        var label = line.slice(0,i).trim(), url = line.slice(i+1).trim();
-        return (label && url) ? {label:label, url:url} : null;
-      }).filter(Boolean);
-      state.projects.push({
-        id: 'p' + Date.now(),
-        title: title,
-        owner: modal.querySelector('#npOwner').value,
-        theme: modal.querySelector('#npTheme').value,
-        overview: modal.querySelector('#npOverview').value.trim(),
-        links: links
-      });
-      save(); render(); closeModal();
-    });
-    bg.classList.add('show');
-  }
-
-  document.getElementById('kbAddProj').addEventListener('click', openAddProject);
-  document.getElementById('kbAddOwner').addEventListener('click', function(){
-    var name = (prompt('追加する担当者名') || '').trim();
-    if(!name) return;
-    if(state.assignees.indexOf(name) !== -1){ alert('その担当者は既にいます。'); return; }
-    state.assignees.push(name); save(); render();
-  });
-  document.getElementById('kbReset').addEventListener('click', function(){
-    if(!confirm('看板を初期状態に戻します（このブラウザの変更は消えます）。よろしいですか？')) return;
-    try{ localStorage.removeItem(LS_KEY); }catch(e){}
-    state = loadState(); render();
-  });
-
-  render();
-})();
-</script>
-<script src="/nav.js"></script>
 </body>
 </html>
