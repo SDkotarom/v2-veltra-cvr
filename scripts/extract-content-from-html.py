@@ -5,7 +5,7 @@ Outputs a minimal but valid content.json for testing the dynamic template."""
 import json, re, sys, os
 from html.parser import HTMLParser
 
-WEEK_DIR = "/home/user/v2-veltra-cvr/reports/2026-w14"
+WEEK_DIR = "/home/user/v2-veltra-cvr/reports/2026-h1/2026-w14"
 
 # Page metadata extracted from reading the HTML files
 PAGES = [

@@ -22,7 +22,10 @@
     return;
   }
 
-  var basePath = '/reports/' + week + '/';
+  // week_id を半期フォルダ込みのディレクトリに変換（2026-h1 / 2026-h2）
+  var wm = /^(\d{4})-w(\d+)$/.exec(week);
+  var basePath = wm ? '/reports/' + wm[1] + '-' + (parseInt(wm[2], 10) <= 26 ? 'h1' : 'h2') + '/' + week + '/'
+                    : '/reports/' + week + '/';
   var contentUrl = basePath + 'bottleneck-' + num + '-content.json';
   var dataUrl = basePath + 'data.json';
 

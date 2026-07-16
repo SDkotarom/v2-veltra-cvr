@@ -45,6 +45,7 @@ ToolSearch で "run_report" を検索 → mcp__*__run_report ツールを取得
 - **GA4 Property ID**: `347074845`
 - **Vercel URL**: https://v2-veltra-cvr.vercel.app/
 - **開発ブランチ規則**: `claude/<task>-<hash>` 形式で作業し、完了後 push
+- **週次レポートの配置（2026 H2〜）**: 週ディレクトリは半期フォルダ配下 `reports/{YYYY}-{h1|h2}/{YYYY}-w{WW}/`（上半期 W1〜W26 → `h1`、下半期 W27〜 → `h2`）。本書中の `reports/{W}/…` はすべて半期フォルダ配下を指す。W番号からのパス変換は `week_reldir()`（Python）/ `weekDirFor()`（JS）が担当。
 
 ---
 

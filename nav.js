@@ -144,7 +144,15 @@
   // ── Page type detection ──────────────────────────
   // (breadcrumb inserted below after detection)
   var path = location.pathname;
+  // week_id（例 2026-w15）を半期フォルダ込みのディレクトリ URL に変換する。
+  // 2026 上半期 = W1〜W26 → 2026-h1、下半期 = W27〜 → 2026-h2。
+  function weekDirFor(week) {
+    var m = /^(\d{4})-w(\d+)$/.exec(week || '');
+    if (!m) return '/reports/';
+    return '/reports/' + m[1] + '-' + (parseInt(m[2], 10) <= 26 ? 'h1' : 'h2') + '/' + week + '/';
+  }
   var isTop      = (path === '/' || path === '/index.html');
+  var isCvr      = (path === '/cvr.html');
   var isKpi      = (path === '/kpi.html');
   var isCycle    = (path === '/cycle.html');
   var isAnalysis = (path === '/analysis.html');
@@ -172,7 +180,7 @@
   var isPainFramework = /^\/spot\/traveler-pain-framework(\.html)?$/.test(path);
   var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isAcDiscovery || isSurfaceWf || isMayJunCvr || isH1Wrap || isH2UxMission || isVeltraTopSection || isTaiwanSection || isJiufenSection || isAcSection || isPainFramework;
   var isArchive = (path === '/reports/' || path === '/reports/index.html');
-  var isWeekSummary = !isArchive && (/\/reports\/\d{4}-w\d+\/$/.test(path) || /\/reports\/\d{4}-w\d+\/index\.html$/.test(path));
+  var isWeekSummary = !isArchive && /\/reports\/(?:\d{4}-h[12]\/)?\d{4}-w\d+\/(?:index\.html)?$/.test(path);
   var qp = new URLSearchParams(location.search);
   var isBottleneck  = /\/bottleneck\.html$/.test(path) && qp.has('num');
   var isReport = /\/report\.html$/.test(path) && qp.has('week');
@@ -189,11 +197,11 @@
   if (isBottleneck) {
     currentWeekId = qp.get('week') || '';
     bnNum = parseInt(qp.get('num'), 10) || 0;
-    weekDir = '/reports/' + currentWeekId + '/';
+    weekDir = weekDirFor(currentWeekId);
   }
   if (isReport) {
     currentWeekId = qp.get('week') || '';
-    weekDir = '/reports/' + currentWeekId + '/';
+    weekDir = weekDirFor(currentWeekId);
   }
 
   // ── Breadcrumb ───────────────────────────────────
@@ -282,7 +290,7 @@
     } else if (isWeekSummary || isReport) {
       append(homeA, bnA, mkCurrent(wid));
     } else if (isBottleneck) {
-      var weekHref = currentWeekId ? '/reports/' + currentWeekId + '/' : '/reports/';
+      var weekHref = currentWeekId ? weekDirFor(currentWeekId) : '/reports/';
       var bnEl = mkCurrent('#' + bnNum);
       bcLastEl = bnEl;
       append(homeA, bnA, mkA(wid, weekHref), bnEl);
@@ -551,26 +559,36 @@
     nav.innerHTML = '';
 
     // Logo
-    var logoArea = document.createElement('div');
+    var logoArea = document.createElement('a');
+    logoArea.href = '/';
+    logoArea.style.textDecoration = 'none';
     logoArea.className = 'nav-logo';
     var logoImg = document.createElement('img');
     logoImg.src = '/veltra-logo.png';
     logoImg.onerror = function() { this.style.display='none'; };
     var logoText = document.createElement('div');
     logoText.className = 'nav-logo-text';
-    logoText.innerHTML = 'VELTRA CVR REPORT<br><span class="nav-logo-sub">BOOKING BEHAVIOR ANALYSIS</span>';
+    logoText.innerHTML = 'UX Design Squad<br><span class="nav-logo-sub">Northstar</span>';
     logoArea.appendChild(logoImg);
     logoArea.appendChild(logoText);
     nav.appendChild(logoArea);
 
     nav.appendChild(makeSep());
 
-    // ■ サマリー
+    // ■ ホーム（Northstar hub）
+    var homeA = document.createElement('a');
+    homeA.href = '/';
+    homeA.className = 'nav-item' + (isTop ? ' nav-active' : '');
+    homeA.appendChild(makeIcon('summary'));
+    homeA.appendChild(document.createTextNode('ホーム（Northstar）'));
+    nav.appendChild(homeA);
+
+    // ■ CVR サマリー
     var sumA = document.createElement('a');
-    sumA.href = '/';
-    sumA.className = 'nav-item' + (isTop ? ' nav-active' : '');
+    sumA.href = '/cvr.html';
+    sumA.className = 'nav-item' + (isCvr ? ' nav-active' : '');
     sumA.appendChild(makeIcon('summary'));
-    sumA.appendChild(document.createTextNode('サマリー'));
+    sumA.appendChild(document.createTextNode('CVR サマリー'));
     nav.appendChild(sumA);
 
     // ■ KPIダッシュボード

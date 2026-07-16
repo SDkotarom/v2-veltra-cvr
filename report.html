@@ -6,11 +6,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>週次レポート（リダイレクト）</title>
 <script>
+// week_id を半期フォルダ込みのディレクトリ URL に変換（2026-h1 / 2026-h2）
+function weekDirFor(week){
+  var m = /^(\d{4})-w(\d+)$/.exec(week || '');
+  if(!m) return '/reports/';
+  return '/reports/' + m[1] + '-' + (parseInt(m[2],10) <= 26 ? 'h1' : 'h2') + '/' + week + '/';
+}
 (function(){
   var params = new URLSearchParams(location.search);
   var week = params.get('week');
   if (week && /^\d{4}-w\d+$/.test(week)) {
-    location.replace('/reports/' + week + '/');
+    location.replace(weekDirFor(week));
   } else {
     location.replace('/reports/');
   }
@@ -23,8 +29,8 @@
   var params = new URLSearchParams(location.search);
   var week = params.get('week');
   if (week && /^\d{4}-w\d+$/.test(week)) {
-    document.getElementById('fallback').href = '/reports/' + week + '/';
-    document.getElementById('fallback').textContent = '/reports/' + week + '/ へ移動';
+    document.getElementById('fallback').href = weekDirFor(week);
+    document.getElementById('fallback').textContent = weekDirFor(week) + ' へ移動';
   }
 </script>
 </body>

@@ -12,7 +12,8 @@
    - 現在URLから /reports/{YYYY-wNN}/ を抽出し、./data.json を fetch
    ───────────────────────────────────────────── */
 (function(){
-  var m = location.pathname.match(/\/reports\/([\w-]+)\//);
+  // 半期フォルダ（/reports/2026-h1/2026-w15/）でも週IDを正しく取り出す
+  var m = location.pathname.match(/(\d{4}-w\d+)/);
   if (!m) return;
   var week = m[1];
 
