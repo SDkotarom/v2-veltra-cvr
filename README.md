@@ -1,8 +1,13 @@
 # v2-veltra-cvr
 
-VELTRA CVR改善プロジェクトの週次ボトルネック分析レポート。
+**UX Design Squad ｜ Northstar** — Squad の指針・プロジェクト管理・CVR分析のポータル。
 
-- **ダッシュボード**: https://v2-veltra-cvr.vercel.app/
+- `/`（Northstar hub）から 2026 H2（Mission & 管理ボード）と 2026 H1（CVR Report 群）へ振り分け。
+- ドメイン変更（プロジェクト名／カスタムドメイン）は Vercel ダッシュボード側で実施する（リポジトリからは不可）。
+
+- **ポータル**: https://v2-veltra-cvr.vercel.app/
+- **H2 Mission & 管理ボード**: `/spot/2026-h2-ux-squad-mission.html`
+- **H1 CVR サマリー**: `/cvr.html` ／ **KPI**: `/kpi.html` ／ **週次レポート**: `/reports/`
 - **運用マニュアル**: [docs/playbook.md](docs/playbook.md) — 週次レポート生成手順・品質チェックリスト
 - **技術構成**: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — スキーマ・データフロー・デプロイ
 - **デザインルール**: [docs/veltra-design-system.md](docs/veltra-design-system.md) — VELTRAサイトのUI仕様

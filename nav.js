@@ -152,6 +152,7 @@
     return '/reports/' + m[1] + '-' + (parseInt(m[2], 10) <= 26 ? 'h1' : 'h2') + '/' + week + '/';
   }
   var isTop      = (path === '/' || path === '/index.html');
+  var isCvr      = (path === '/cvr.html');
   var isKpi      = (path === '/kpi.html');
   var isCycle    = (path === '/cycle.html');
   var isAnalysis = (path === '/analysis.html');
@@ -558,26 +559,36 @@
     nav.innerHTML = '';
 
     // Logo
-    var logoArea = document.createElement('div');
+    var logoArea = document.createElement('a');
+    logoArea.href = '/';
+    logoArea.style.textDecoration = 'none';
     logoArea.className = 'nav-logo';
     var logoImg = document.createElement('img');
     logoImg.src = '/veltra-logo.png';
     logoImg.onerror = function() { this.style.display='none'; };
     var logoText = document.createElement('div');
     logoText.className = 'nav-logo-text';
-    logoText.innerHTML = 'VELTRA CVR REPORT<br><span class="nav-logo-sub">BOOKING BEHAVIOR ANALYSIS</span>';
+    logoText.innerHTML = 'UX Design Squad<br><span class="nav-logo-sub">Northstar</span>';
     logoArea.appendChild(logoImg);
     logoArea.appendChild(logoText);
     nav.appendChild(logoArea);
 
     nav.appendChild(makeSep());
 
-    // ■ サマリー
+    // ■ ホーム（Northstar hub）
+    var homeA = document.createElement('a');
+    homeA.href = '/';
+    homeA.className = 'nav-item' + (isTop ? ' nav-active' : '');
+    homeA.appendChild(makeIcon('summary'));
+    homeA.appendChild(document.createTextNode('ホーム（Northstar）'));
+    nav.appendChild(homeA);
+
+    // ■ CVR サマリー
     var sumA = document.createElement('a');
-    sumA.href = '/';
-    sumA.className = 'nav-item' + (isTop ? ' nav-active' : '');
+    sumA.href = '/cvr.html';
+    sumA.className = 'nav-item' + (isCvr ? ' nav-active' : '');
     sumA.appendChild(makeIcon('summary'));
-    sumA.appendChild(document.createTextNode('サマリー'));
+    sumA.appendChild(document.createTextNode('CVR サマリー'));
     nav.appendChild(sumA);
 
     // ■ KPIダッシュボード
