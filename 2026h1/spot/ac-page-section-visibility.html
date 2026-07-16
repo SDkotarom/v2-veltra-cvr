@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>商品詳細（AC）ページ｜どのセクションが見られているか（GA4）</title>
+<style>
+:root{
+  --text:#1a2433;--text2:#3f4d60;--text3:#7b8794;--border:#e2e8f0;--bg:#f6f8fb;
+  --accent:#1b82c5;--accent-bg:#e8f2fb;--green:#1a8c4e;--amber:#d97706;--red:#c2410c;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:24px 28px 80px}
+.xnav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px}
+.xnav a{font-size:13px;font-weight:800;text-decoration:none;padding:8px 16px;border-radius:8px;border:1px solid var(--border);color:var(--text2);background:#fff}
+.xnav a.cur{background:var(--accent);border-color:var(--accent);color:#fff}
+.xnav a:not(.cur):hover{border-color:var(--accent);color:var(--accent)}
+.brand{font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+h1{font-size:27px;line-height:1.45;margin:6px 0 8px;font-weight:900}
+.lede{font-size:14.5px;color:var(--text2);margin:0 0 6px}
+.src{font-size:12.5px;color:var(--text3);margin:2px 0 28px}
+.src b{color:var(--text2)}
+h2{font-size:19px;font-weight:900;margin:36px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+.verdict{background:#fff;border:1px solid var(--border);border-left:6px solid var(--accent);border-radius:12px;padding:20px 24px;margin:0 0 8px}
+.verdict h3{font-size:16px;font-weight:900;margin:0 0 8px;color:var(--accent)}
+.verdict p{font-size:14.5px;color:var(--text2);margin:0 0 6px}
+.verdict b{color:var(--text)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 8px}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.kpi .v{font-size:28px;font-weight:900;line-height:1.1}
+.kpi .l{font-size:12.5px;color:var(--text3);margin-top:4px;line-height:1.45}
+.kpi .s{font-size:12px;color:var(--text2);margin-top:4px}
+.sec-list{margin:8px 0}
+.sec{display:grid;grid-template-columns:34px 1fr 132px;align-items:center;gap:0;border:1px solid var(--border);border-radius:10px;background:#fff;margin-bottom:8px;overflow:hidden}
+.sec .ord{text-align:center;font-family:"DM Sans",sans-serif;font-weight:900;font-size:15px;color:var(--text3);padding:14px 0;border-right:1px solid var(--border)}
+.sec .nm{padding:12px 16px}
+.sec .nm .t{font-size:15px;font-weight:800}
+.sec .nm .d{font-size:12.5px;color:var(--text3);margin-top:2px}
+.sec .vis{padding:12px 14px;text-align:right;border-left:1px solid var(--border)}
+.sec .vis .pct{font-size:18px;font-weight:900}
+.sec .vis .tag{font-size:11px;font-weight:900;color:#fff;border-radius:5px;padding:2px 8px;display:inline-block;margin-top:3px}
+.seen .vis .pct{color:var(--green)}     .seen .tag{background:var(--green)}     .seen{border-left:5px solid var(--green)}
+.mid  .vis .pct{color:var(--amber)}     .mid .tag{background:var(--amber)}      .mid{border-left:5px solid var(--amber)}
+.cold .vis .pct{color:var(--red)}       .cold .tag{background:var(--red)}       .cold{border-left:5px solid var(--red)}
+.book{border-left:5px solid var(--accent)!important;background:#f3f9fd}    .book .vis .pct{color:var(--accent)}     .book .tag{background:var(--accent)}
+.foot{border-left:5px solid #cbd5e1}    .foot .vis .pct{color:var(--text3)}     .foot .tag{background:#94a3b8}
+table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+th{text-align:left;font-size:11.5px;font-weight:900;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;padding:11px 14px;background:#fbfcfe;border-bottom:2px solid var(--border)}
+td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top}
+td b{color:var(--text)}
+tr:last-child td{border-bottom:none}
+.num{font-variant-numeric:tabular-nums;font-weight:800;color:var(--text)}
+.cav{background:#fffdf5;border:1px solid #f0e0b8;border-radius:10px;padding:16px 20px;margin:14px 0 0;font-size:13px;color:#7a6420;line-height:1.75}
+.cav b{color:#5c4d10}
+.cav ul{margin:6px 0 0;padding-left:20px}
+.note{font-size:13px;color:var(--text2);line-height:1.8}
+.note b{color:var(--text)}
+@media(max-width:680px){.kpis{grid-template-columns:repeat(2,1fr)}.sec{grid-template-columns:28px 1fr 96px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="xnav">
+    <a href="/2026h1/spot/veltra-top-section-visibility.html">ベルトラTOP</a>
+    <a href="/2026h1/spot/taiwan-section-visibility.html">台湾トップ</a>
+    <a href="/2026h1/spot/jiufen-category-section-visibility.html">九份カテゴリー</a>
+    <a class="cur" href="/2026h1/spot/ac-page-section-visibility.html">商品詳細(AC)</a>
+  </nav>
+
+  <div class="brand">Veltra · GA4 Spot Analysis</div>
+  <h1>商品詳細（AC）ページ — どのセクションが「見られている」か</h1>
+  <p class="lede">対象URL: <b>/jp/asia/taiwan/taipei/a/147228</b>（夜の九份＆十分・天燈上げツアー）。スクロール到達と予約ファネルのイベントから、各セクションがどこまで見られ・進まれているかを推定。</p>
+  <p class="src">出典: GA4 Property <b>347074845</b>／期間 <b>2026-05-10〜06-08（直近30日）</b>／指標は標本抽出あり（約27%サンプル）。商品評価 4.80・体験談2,049件の人気商品。</p>
+
+  <div class="verdict">
+    <h3>結論（予約直前の意思決定ページ）</h3>
+    <p>① <b>じっくり読まれている</b>。view_item が閲覧の99%、user_engagement 75%（2,450人）と関与が非常に高い。session_start 22.6%・first_visit 10.6% で、<b>多くは内部回遊（検索・一覧）から到達</b>＝買う気のある Traveler が中心。</p>
+    <p>② 予約の核心動線：<b>日付選択(select_booking_date) 12.5%・予約カレンダー表示 8.5%</b>。ページ閲覧者の約8人に1人がプラン選択まで進む。ここがこのページの最重要セクション。</p>
+    <p>③ 最下部(90%)到達は <b>7.8%</b>。下部の<b>「投稿写真・体験談・よくある質問・キャンセル情報・関連ツアー」は大半に見られていない</b>。レビューやFAQで不安を解消して背中を押す設計なら、位置が下すぎる可能性。</p>
+  </div>
+
+  <div class="devtoggle" role="tablist">
+    <button data-dev="all" class="on">全体</button>
+    <button data-dev="pc">PC</button>
+    <button data-dev="mb">モバイル</button>
+  </div>
+  <p class="dev-hint">PC / モバイルを切り替えると上部4指標がデバイス別に更新されます（GA4 deviceCategory）。下のセクションマップは全体ベースです。<br><b>モバイル優位（73%）だが、デスクトップの方が深く読む（エンゲージ89% vs 69%・最下部到達12.4% vs 6.2%）。予約日付の選択率は両者ほぼ同じ（約12%）。</b></p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="v" style="color:var(--accent)" data-all="3,283" data-pc="873" data-mb="2,535">3,283</div><div class="l">ページ閲覧 Traveler 数</div><div class="s" data-all="page_view 6,997回 / view_item 6,577回" data-pc="デスクトップ（全体の27%）" data-mb="モバイル（全体の73%）">page_view 6,997回 / view_item 6,577回</div></div>
+    <div class="kpi"><div class="v" style="color:var(--green)" data-all="75%" data-pc="89%" data-mb="69%">75%</div><div class="l">エンゲージした Traveler</div><div class="s" data-all="2,450人 / user_engagement" data-pc="780人 / 873人中" data-mb="1,760人 / 2,535人中">2,450人 / user_engagement</div></div>
+    <div class="kpi"><div class="v" style="color:var(--accent)" data-all="12.5%" data-pc="11.6%" data-mb="12.3%">12.5%</div><div class="l">予約日付を選択</div><div class="s" data-all="409人 / select_booking_date 760回" data-pc="101人" data-mb="313人">409人 / select_booking_date 760回</div></div>
+    <div class="kpi"><div class="v" style="color:var(--red)" data-all="7.8%" data-pc="12.4%" data-mb="6.2%">7.8%</div><div class="l">最下部(90%)まで到達</div><div class="s" data-all="256人 / scroll 318回" data-pc="108人" data-mb="157人">256人 / scroll 318回</div></div>
+  </div>
+
+  <h2>セクション別・推定到達度（上から下へ）</h2>
+  <p class="note">GA4標準の scroll イベントは <b>「90%到達」の1段階のみ</b>計測される。よって中間段階は到達順から推定。青＝予約の核心（実イベントあり）／緑＝ほぼ全員が視認／橙＝一部離脱／赤＝約8%しか到達せず。</p>
+  <div class="sec-list">
+    <div class="sec seen"><div class="ord">1</div><div class="nm"><div class="t">ヘッダー・ナビ</div><div class="d">ロゴ・検索・ログイン</div></div><div class="vis"><div class="pct">~100%</div><span class="tag">全員視認</span></div></div>
+    <div class="sec seen"><div class="ord">2</div><div class="nm"><div class="t">商品タイトル＆評価</div><div class="d">評価 4.80・体験談2,049件・シェアボタン</div></div><div class="vis"><div class="pct">~100%</div><span class="tag">全員視認</span></div></div>
+    <div class="sec seen"><div class="ord">3</div><div class="nm"><div class="t">写真ギャラリー</div><div class="d">商品メイン写真</div></div><div class="vis"><div class="pct">高</div><span class="tag">大半が視認</span></div></div>
+    <div class="sec seen"><div class="ord">4</div><div class="nm"><div class="t">ハイライト・おすすめポイント</div><div class="d">体験談ピックアップ・ガイド紹介</div></div><div class="vis"><div class="pct">高</div><span class="tag">大半が視認</span></div></div>
+    <div class="sec mid"><div class="ord">5</div><div class="nm"><div class="t">概要（時間・言語・送迎）</div><div class="d">所要時間・対応言語・集合解散</div></div><div class="vis"><div class="pct">中</div><span class="tag">一部離脱</span></div></div>
+    <div class="sec book"><div class="ord">6</div><div class="nm"><div class="t">プラン一覧・料金表（6プラン）＋割引</div><div class="d">予約の核心。日付選択12.5%・予約カレンダー表示8.5%・お気に入り追加2.7%</div></div><div class="vis"><div class="pct">12.5%</div><span class="tag">予約核心</span></div></div>
+    <div class="sec mid"><div class="ord">7</div><div class="nm"><div class="t">各プラン詳細・参加場所</div><div class="d">プラン別説明・集合解散地点</div></div><div class="vis"><div class="pct">中〜低</div><span class="tag">一部視認</span></div></div>
+    <div class="sec mid"><div class="ord">8</div><div class="nm"><div class="t">予約確認事項（注意事項）</div><div class="d">参加制限・服装・注意事項</div></div><div class="vis"><div class="pct">低</div><span class="tag">一部視認</span></div></div>
+    <div class="sec cold"><div class="ord">9</div><div class="nm"><div class="t">投稿写真ギャラリー</div><div class="d">Traveler 投稿写真</div></div><div class="vis"><div class="pct">~8%</div><span class="tag">ほぼ未到達</span></div></div>
+    <div class="sec cold"><div class="ord">10</div><div class="nm"><div class="t">体験談・レビュー</div><div class="d">口コミ一覧</div></div><div class="vis"><div class="pct">~8%</div><span class="tag">ほぼ未到達</span></div></div>
+    <div class="sec cold"><div class="ord">11</div><div class="nm"><div class="t">よくある質問／支払い・キャンセル情報</div><div class="d">FAQ・キャンセルポリシー</div></div><div class="vis"><div class="pct">~8%</div><span class="tag">ほぼ未到達</span></div></div>
+    <div class="sec cold"><div class="ord">12</div><div class="nm"><div class="t">関連ツアー・特集</div><div class="d">別商品への回遊（ac_page_reach 533人）</div></div><div class="vis"><div class="pct">~8%</div><span class="tag">ほぼ未到達</span></div></div>
+    <div class="sec foot"><div class="ord">13</div><div class="nm"><div class="t">フッター</div><div class="d">企業情報・法務・SNS</div></div><div class="vis"><div class="pct">最下部</div><span class="tag">最下部</span></div></div>
+  </div>
+
+  <h2>ページ内で発火したイベント（実測）</h2>
+  <table>
+    <thead><tr><th>イベント</th><th>意味</th><th style="text-align:right">回数</th><th style="text-align:right">ユーザー</th></tr></thead>
+    <tbody>
+      <tr><td><b>page_view</b></td><td>ページ表示</td><td class="num" style="text-align:right">6,997</td><td class="num" style="text-align:right">3,283</td></tr>
+      <tr><td><b>view_item</b></td><td>商品詳細の表示（EC標準）</td><td class="num" style="text-align:right">6,577</td><td class="num" style="text-align:right">3,246</td></tr>
+      <tr><td><b>user_engagement</b></td><td>能動的にページに関与</td><td class="num" style="text-align:right">4,725</td><td class="num" style="text-align:right">2,450</td></tr>
+      <tr><td><b>select_booking_date</b></td><td>予約日付の選択 ＝ 予約ファネルの核心</td><td class="num" style="text-align:right">760</td><td class="num" style="text-align:right">409</td></tr>
+      <tr><td><b>view_booking_calendar</b></td><td>予約カレンダーの表示（商品固有イベント）</td><td class="num" style="text-align:right">475</td><td class="num" style="text-align:right">278</td></tr>
+      <tr><td><b>ac_page_reach</b></td><td>別の商品ページ（関連ツアー等）へのクリック到達</td><td class="num" style="text-align:right">1,253</td><td class="num" style="text-align:right">533</td></tr>
+      <tr><td><b>scroll</b></td><td>縦90%まで到達（＝最下部視認）</td><td class="num" style="text-align:right">318</td><td class="num" style="text-align:right">256</td></tr>
+      <tr><td><b>form_submit</b></td><td>フォーム送信</td><td class="num" style="text-align:right">208</td><td class="num" style="text-align:right">135</td></tr>
+      <tr><td><b>add_wishlist</b></td><td>お気に入りに追加（商品固有イベント）</td><td class="num" style="text-align:right">113</td><td class="num" style="text-align:right">88</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cav">
+    <b>計測上の注意（解釈を誤らないために）</b>
+    <ul>
+      <li>セクション単位のビュー数は GA4 に存在しない。scroll は <b>90%到達の1段階のみ</b>のため、中間セクションの到達率は順序＋予約イベント（日付選択・カレンダー表示）からの推定。</li>
+      <li>このページの <code>ac_page_reach</code> は<b>別商品ページへの回遊</b>（関連ツアー等）を指す。商品到達の入口イベントとは意味が異なる点に注意。</li>
+      <li>「レビュー／FAQ がどれだけ予約に効くか」を厳密に出すには、各セクションに <b>到達・滞在のイベントを付与</b>する計測実装が必要（現状は90%スクロールの1点のみ）。</li>
+      <li><b>左ナビ／グローバルメニューのクリックは、このページでは計測されていない</b>。フィルタ・クリック(<code>search_filter_click</code>)が発火するのは検索結果ページ(<code>/…/search</code>)のみ。商品ページのヘッダ・パンくず等のナビは「押されたか」をボタン単位では追えない（押下＝次ページ遷移としてのみ記録）。</li>
+      <li>本レポートは<b>約27%サンプル</b>の標本抽出値。傾向把握用で、絶対値は誤差を含む。</li>
+    </ul>
+  </div>
+</div>
+</div>
+<script src="/2026h1/spot/device-toggle.js"></script>
+<script src="/nav.js"></script>
+</body>
+</html>

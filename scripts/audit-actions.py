@@ -24,7 +24,7 @@ import sys
 from typing import Optional
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-REPORTS_DIR = os.path.join(REPO_ROOT, "reports")
+REPORTS_DIR = os.path.join(REPO_ROOT, "2026h1", "reports")
 IMPLEMENTATIONS_PATH = os.path.join(REPO_ROOT, "known-implementations.json")
 
 

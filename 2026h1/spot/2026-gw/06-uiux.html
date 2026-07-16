@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/2026h1/spot/spot.css">
+<title>06 UIUX 構造課題 | 2026 GW CVR スポット分析</title>
+<style>:root{--accent:#c0392b;--accent-bg:#ffe1df}</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">スポット分析 #06<br><strong>🏗 UIUX 構造課題</strong></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sub-hero" style="background:linear-gradient(135deg,#fef2f2 0%,#fff 80%)">
+      <div class="sub-breadcrumb"><a href="/2026h1/spot/2026-gw-cvr-decline.html">← 3 年比較スポット分析</a> / <strong>06 UIUX 構造課題</strong></div>
+      <div class="sub-tag">Area 06 — UIUX structural debt</div>
+      <h1 class="sub-headline">
+        BN Top3（新規 ④→⑤ / モバイル ①→² / リピーター ①→²）が <em>W16-W19 で 4 週連続固着</em>。<br>
+        UIUX で吸収できるのは <em>-0.07pp（全体 -0.22pp の 32%）</em>に留まる。
+      </h1>
+      <div class="sub-lede">
+        本領域は UIUX Design Squad の <strong>直接の責任範囲</strong>。BN 1-10 の content.json で施策案・プロトタイプは整っているが、<strong>4 週連続で同じ場所に居続けている＝観測では動かない構造課題</strong>。
+        他 5 領域（マクロ / 競合 / 価格 / 商品 / 顧客行動）と並走実装することで初めて -0.22pp ギャップを埋められる。
+        本ページでは UIUX 単独で実行可能な施策を整理し、5/12-5/23 Sprint への投入準備を進める。
+      </div>
+
+      <div class="sub-score">
+        <div class="sub-score-card">
+          <div class="sub-score-label">BN 固着週数</div>
+          <div class="sub-score-val">4<span style="font-size:24px">週</span></div>
+          <div class="sub-score-note">W16-W19 で Top3 同顔ぶれ、観測継続では動かない</div>
+        </div>
+        <div class="sub-score-card">
+          <div class="sub-score-label">UIUX で吸収可能</div>
+          <div class="sub-score-val">+0.07pp</div>
+          <div class="sub-score-note">全体 -0.22pp の 32%、他 5 領域並走で残り 68% 吸収必須</div>
+        </div>
+        <div class="sub-score-card">
+          <div class="sub-score-label">Quick Wins</div>
+          <div class="sub-score-val">90<span style="font-size:24px">/90</span></div>
+          <div class="sub-score-note">audit 完了、effort=S かつ重複なしの実装可能施策</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data backing -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">01</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">データ裏付け</span>
+      <h2 class="sub-sec-title">BN Top3 + 全 10 件の数値スナップショット</h2>
+    </div>
+    <div class="sub-data">
+      <div class="sub-data-card alarm">
+        <div class="sub-data-num">D.01 — BN1 新規 ④→⑤</div>
+        <div class="sub-data-title">49.12% / 全体 73.43% から -24.3pp / 月 63 万人影響</div>
+        <div class="sub-data-body">
+          長いフォーム + 最終価格の不意打ちで決済直前に諦める典型。リピーター 72.09% と比べて -23.0pp の差は新規固有の摩擦。フォーム引き算（代表者 1 名のみ）で +6pp 想定。
+          <span class="sub-data-stat">月 63 万人</span>
+          <span class="sub-data-stat">想定 +0.04pp</span>
+        </div>
+      </div>
+      <div class="sub-data-card alarm">
+        <div class="sub-data-num">D.02 — BN2 モバイル ①→²</div>
+        <div class="sub-data-title">30.12% / 全体 54.80% から -24.7pp / 月 52 万人影響</div>
+        <div class="sub-data-body">
+          モバイルで「自分に合う AC」が見つけられず比較疲れで離脱。ファーストビュー 3 件主観タグ（定番/穴場/初心者）で +3pp 想定。デバイス mix の 53% を改善できる影響量大。
+          <span class="sub-data-stat">月 52 万人</span>
+          <span class="sub-data-stat">想定 +0.03pp</span>
+        </div>
+      </div>
+      <div class="sub-data-card alarm">
+        <div class="sub-data-num">D.03 — BN3 リピーター ①→²</div>
+        <div class="sub-data-title">26.20% / 全体 54.80% から -28.6pp / 月 35 万人影響</div>
+        <div class="sub-data-body">
+          リピーター層が「前回見た AC」を思い出せず探し疲れで離脱。Cookie ベースで「最近見た AC」をトップ最上部表示で +6pp 想定。05 顧客行動 CRM 強化との並走で効果増幅。
+          <span class="sub-data-stat">月 35 万人</span>
+          <span class="sub-data-stat">想定 +0.02pp</span>
+        </div>
+      </div>
+      <div class="sub-data-card info">
+        <div class="sub-data-num">D.04 — BN4-10 概要</div>
+        <div class="sub-data-title">BN4 新規 ③→⁴ / BN5 Organic ①→² / BN6 モバイル ④→⑤ ほか 4 件</div>
+        <div class="sub-data-body">
+          Top3 が解消した後の次の波。BN6 モバイル ④→⑤ で Apple Pay / Google Pay 導入は決済 UX で効くため <strong>BN1 と並走可能</strong>。月 326K〜116K の影響規模で 4-10 合計でさらに +0.05〜0.07pp 期待。
+          <span class="sub-data-stat">月 116K-326K</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Issues -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num">02</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">課題抽出</span>
+      <h2 class="sub-sec-title">UIUX 4 週固着の本質課題</h2>
+    </div>
+    <div class="sub-issues">
+      <div class="sub-issue">
+        <div class="sub-issue-rank">①</div>
+        <div class="sub-issue-body">
+          <div class="sub-issue-title">分析フェーズで終わり、実装に進めていない構造</div>
+          <div class="sub-issue-text">
+            BN 1-10 の content.json は 90 施策の audit 完了、Quick Wins effort=S が複数特定済み。<strong>意思決定 + Sprint 投入の遅れ</strong>が真の課題。
+            5/12-5/23 Sprint で BN Top3 の Quick Wins を正式投入する経営承認が必要。
+          </div>
+          <div class="sub-issue-impact">改善余地 +0.07pp</div>
+        </div>
+      </div>
+      <div class="sub-issue">
+        <div class="sub-issue-rank">②</div>
+        <div class="sub-issue-body">
+          <div class="sub-issue-title">A/B 検証基盤の運用ボトルネック</div>
+          <div class="sub-issue-text">
+            毎週新しい施策を打ち込みたいが <strong>A/B 投入リズムが鈍化</strong>している可能性。エンジニアリングリソースの優先順位 / コンテキストスイッチコストを再評価し、Sprint と A/B サイクルを揃える。
+          </div>
+          <div class="sub-issue-impact">運用改善で+効果増幅</div>
+        </div>
+      </div>
+      <div class="sub-issue">
+        <div class="sub-issue-rank">③</div>
+        <div class="sub-issue-body">
+          <div class="sub-issue-title">他チーム並走施策との統合実装の不在</div>
+          <div class="sub-issue-text">
+            02 競合 C-A1（独自価値バッジ） / 03 価格 P-A2（最終価格表示） / 05 顧客行動 B-A2 はすべて<strong>商品ページ上部の UI 改修</strong>に集中。重複作業を避け<strong>統合一括実装</strong>すべき。
+          </div>
+          <div class="sub-issue-impact">実装効率 +30%</div>
+        </div>
+      </div>
+      <div class="sub-issue">
+        <div class="sub-issue-rank">④</div>
+        <div class="sub-issue-body">
+          <div class="sub-issue-title">UIUX 単独責任の限界の認識共有不足</div>
+          <div class="sub-issue-text">
+            「CVR 落ちている = UIUX 何とかして」となりがちだが、<strong>UIUX で吸収できるのは -0.07pp（全体 -0.22pp の 32%）</strong>。残り 68% は他チーム責任である事実を経営層と共有し、UIUX が「過剰責任」を負わない構造を作る。
+          </div>
+          <div class="sub-issue-impact">説明責任の明確化</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hypotheses -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num">03</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">仮説設計</span>
+      <h2 class="sub-sec-title">UIUX 実装フェーズ 4 仮説</h2>
+    </div>
+    <div class="sub-hypo">
+      <table class="sub-hypo-table">
+        <thead><tr><th>ID</th><th>仮説</th><th>担当</th><th>想定効果</th><th>検証方法</th></tr></thead>
+        <tbody>
+          <tr><td class="id">U-H1</td><td><strong>BN1 フォーム引き算</strong> — 必須項目を代表者 1 名のみ、同行者情報は予約完了後収集、アカウント作成任意化（ゲスト予約）</td><td>UIUX + MIB</td><td class="eff">+0.04pp</td><td class="check">A/B 4 週。新規 ④→⑤ 通過率、完了率、客単価</td></tr>
+          <tr><td class="id">U-H2</td><td><strong>BN2 モバイル探索</strong> — エリアトップ上位 3 件に主観タグバッジ（定番 / 穴場 / 初心者向け）、目的別タブ（誰と？）</td><td>UIUX + MIB</td><td class="eff">+0.03pp</td><td class="check">A/B 4 週。モバイル ①→² + scroll depth + 滞在時間</td></tr>
+          <tr><td class="id">U-H3</td><td><strong>BN3 リピーター履歴</strong> — Cookie ベースで「最近見た AC」をトップ最上部表示、ウィッシュリスト復活、誕生月クーポン</td><td>UIUX + CRM</td><td class="eff">+0.02pp</td><td class="check">A/B 4 週。リピーター ①→² + 再訪離脱率</td></tr>
+          <tr><td class="id">U-H4</td><td><strong>商品ページ上部統合改修</strong> — 独自価値 4 バッジ + 最終価格透明化 + 強通貨バッジを<strong>一括で 1 つの UI</strong>に統合</td><td>UIUX + ブランド + 価格</td><td class="eff">+0.03pp</td><td class="check">A/B 4 週。Organic ④→⑤、フォーム最終離脱、他社比較離脱率</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">04</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">打ち手案</span>
+      <h2 class="sub-sec-title">UIUX 実装の 4 アクション</h2>
+    </div>
+    <div class="sub-actions">
+      <div class="sub-action p0">
+        <div class="sub-action-icon">📝</div>
+        <div class="sub-action-body">
+          <div class="sub-action-meta">P0 緊急 / 担当: UIUX + MIB / Effort: S</div>
+          <span class="sub-action-prio">U-A1</span>
+          <div class="sub-action-title">BN1 フォーム引き算を 5/12-5/23 Sprint へ正式投入</div>
+          <ul>
+            <li>必須項目: 代表者 1 名のみ（同行者は予約完了後の追加入力）</li>
+            <li>アカウント作成 → 任意化（ゲスト予約導線追加）</li>
+            <li>5/26 A/B 投入 → W23（6/1）初回検証 → W26（6/22）本格判定</li>
+            <li><a href="/2026h1/bottleneck.html?week=2026-w19&num=1" style="color:#c0392b;font-weight:700">BN1 詳細</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sub-action p0">
+        <div class="sub-action-icon">📱</div>
+        <div class="sub-action-body">
+          <div class="sub-action-meta">P0 緊急 / 担当: UIUX + MIB / Effort: S</div>
+          <span class="sub-action-prio">U-A2</span>
+          <div class="sub-action-title">BN2 モバイル探索改善を同 Sprint で並走実装</div>
+          <ul>
+            <li>エリアトップ上位 3 件に主観タグバッジ（定番 / 穴場 / 初心者向け）</li>
+            <li>目的別タブ（家族 / カップル / ひとり旅 / 友人グループ）</li>
+            <li>BN1 と同 Sprint、5/26 A/B 同時投入</li>
+            <li><a href="/2026h1/bottleneck.html?week=2026-w19&num=2" style="color:#c0392b;font-weight:700">BN2 詳細</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sub-action p1">
+        <div class="sub-action-icon">🔁</div>
+        <div class="sub-action-body">
+          <div class="sub-action-meta">P1 重要 / 担当: UIUX + CRM / Effort: M</div>
+          <span class="sub-action-prio">U-A3</span>
+          <div class="sub-action-title">BN3 リピーター履歴活用 — Cookie ベース「最近見た AC」</div>
+          <ul>
+            <li>ログイン状態に関係なく Cookie で「最近見た AC」最上部表示</li>
+            <li>ウィッシュリスト機能の再整備 + 通知強化</li>
+            <li>05 顧客行動 B-A1 リピーター CRM と統合</li>
+            <li><a href="/2026h1/bottleneck.html?week=2026-w19&num=3" style="color:#c0392b;font-weight:700">BN3 詳細</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sub-action p1">
+        <div class="sub-action-icon">🎨</div>
+        <div class="sub-action-body">
+          <div class="sub-action-meta">P1 重要 / 担当: UIUX (横断) / Effort: M</div>
+          <span class="sub-action-prio">U-A4</span>
+          <div class="sub-action-title">商品ページ上部の統合改修（4 領域並走）</div>
+          <ul>
+            <li>02 競合 C-A1（独自価値 4 バッジ）</li>
+            <li>03 価格 P-A2（最終価格上部表示）</li>
+            <li>04 商品 Pr-A2（代替商品提案）</li>
+            <li>01 マクロ M-A1（強通貨バッジ）</li>
+            <li>これらを<strong>1 つの UI 改修 PR にまとめる</strong>ことで開発工数 -30%、5/26 一括 A/B</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Roadmap -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num">05</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">ロードマップ</span>
+      <h2 class="sub-sec-title">UIUX Sprint ロードマップ（6 週）</h2>
+    </div>
+    <div class="sub-road">
+      <div class="sub-road-grid">
+        <div class="sub-road-step"><div class="sub-road-when">W20-21（5/12-5/23）</div><div class="sub-road-title">Sprint 投入 + 統合改修設計</div><div class="sub-road-body">U-A1 BN1 / U-A2 BN2 を正式 Sprint 投入。U-A4 商品ページ上部の 4 領域統合 UI を設計。BN3 設計開始。</div></div>
+        <div class="sub-road-step"><div class="sub-road-when">W22-23（5/26-6/6）</div><div class="sub-road-title">A/B 一括投入</div><div class="sub-road-body">BN1 + BN2 + 商品ページ統合改修を 5/26 同時 A/B 投入。BN3 リピーター履歴の実装着手。</div></div>
+        <div class="sub-road-step"><div class="sub-road-when">W24-25（6/9-6/20）</div><div class="sub-road-title">BN3 A/B + 中間検証</div><div class="sub-road-body">BN3 A/B 投入、BN1/BN2 の 4 週効果検証、必要なら改善イテレーション。</div></div>
+        <div class="sub-road-step"><div class="sub-road-when">W26-（6/22-）</div><div class="sub-road-title">本格判定 + 次の波の準備</div><div class="sub-road-body">BN1-3 本格効果判定、BN4-10 の次施策 Sprint 計画策定、夏需要本格化前の最終調整。</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sub-nav">
+      <div class="sub-nav-title">6 領域ナビゲーション</div>
+      <div class="sub-nav-grid">
+        <a href="/2026h1/spot/2026-gw/01-macro.html" class="sub-nav-item"><span class="sub-nav-num">🌐 01</span><span class="sub-nav-name">マクロ環境</span></a>
+        <a href="/2026h1/spot/2026-gw/02-competitive.html" class="sub-nav-item"><span class="sub-nav-num">⚔ 02</span><span class="sub-nav-name">競合シェア</span></a>
+        <a href="/2026h1/spot/2026-gw/03-pricing.html" class="sub-nav-item"><span class="sub-nav-num">💴 03</span><span class="sub-nav-name">価格戦略</span></a>
+        <a href="/2026h1/spot/2026-gw/04-product.html" class="sub-nav-item"><span class="sub-nav-num">📦 04</span><span class="sub-nav-name">商品</span></a>
+        <a href="/2026h1/spot/2026-gw/05-customer-behavior.html" class="sub-nav-item"><span class="sub-nav-num">👤 05</span><span class="sub-nav-name">顧客行動</span></a>
+        <a href="/2026h1/spot/2026-gw/06-uiux.html" class="sub-nav-item active"><span class="sub-nav-num">🏗 06</span><span class="sub-nav-name">UIUX</span></a>
+      </div>
+    </div>
+    <div class="sub-return">
+      <a href="/2026h1/spot/2026-gw-cvr-decline.html">← 親ページに戻る</a>
+      <span style="color:var(--text3)">2026-05-11 v1 / 担当: UIUX Design Squad</span>
+    </div>
+  </div>
+
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

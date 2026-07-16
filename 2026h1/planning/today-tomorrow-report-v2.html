@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<title>CVR施策｜「今日・明日OK」訴求の取り組みレポート</title>
+<style>
+  :root {
+    --ink: #0f172a;
+    --ink-2: #334155;
+    --ink-3: #64748b;
+    --ink-4: #94a3b8;
+    --bg: #f8fafc;
+    --bg-2: #f1f5f9;
+    --line: #e2e8f0;
+    --line-2: #cbd5e1;
+    --accent: #6366f1;
+    --accent-bg: #eef2ff;
+    --warn: #d97706;
+    --warn-bg: #fffbeb;
+    --good: #059669;
+    --good-bg: #ecfdf5;
+    --bad: #dc2626;
+    --bad-bg: #fef2f2;
+    --braze: #ec4899;
+    --braze-bg: #fdf2f8;
+    --data: #0891b2;
+    --data-bg: #ecfeff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+  }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
+    color: white;
+    border-radius: 16px;
+    padding: 36px 40px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(99,102,241,0.3), transparent 70%);
+  }
+  .hero h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .hero .sub {
+    font-size: 16px;
+    opacity: 0.88;
+    margin-bottom: 16px;
+    position: relative;
+    line-height: 1.7;
+  }
+  .hero .pills {
+    display: flex; gap: 10px; flex-wrap: wrap; position: relative;
+  }
+  .hero .pills span {
+    font-size: 13px;
+    padding: 5px 14px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .hero .meta {
+    font-size: 13px;
+    opacity: 0.6;
+    margin-top: 16px;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  /* TOC */
+  .toc {
+    background: white;
+    border-radius: 12px;
+    padding: 22px 28px;
+    margin-bottom: 28px;
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .toc-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+    margin-bottom: 14px;
+  }
+  .toc ol { list-style: none; counter-reset: tocnum; }
+  .toc li {
+    counter-increment: tocnum;
+    padding: 8px 0;
+    font-size: 15px;
+    color: var(--ink-2);
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    line-height: 1.6;
+  }
+  .toc li::before {
+    content: counter(tocnum, decimal-leading-zero);
+    color: var(--accent);
+    font-weight: 700;
+    font-family: ui-monospace, monospace;
+    font-size: 13px;
+    min-width: 32px;
+  }
+
+  /* Section heading */
+  h2.sec {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--ink);
+    margin: 40px 0 6px;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    line-height: 1.4;
+  }
+  h2.sec::before {
+    content: attr(data-num);
+    font-family: ui-monospace, "SF Mono", monospace;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+  .sec-sub {
+    font-size: 15px;
+    color: var(--ink-3);
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+    line-height: 1.7;
+  }
+
+  /* Main card */
+  .card {
+    background: white;
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 18px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    border: 1px solid var(--line);
+  }
+  .card h3 {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .card p {
+    font-size: 15px;
+    color: var(--ink-2);
+    line-height: 1.85;
+    margin-bottom: 12px;
+  }
+  .card p:last-child { margin-bottom: 0; }
+  .card strong { color: var(--ink); font-weight: 700; }
+
+  /* Discovery card (story) */
+  .story {
+    background: white;
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 18px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    border: 1px solid var(--line);
+    border-left: 6px solid var(--accent);
+  }
+  .story-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .story-num {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    background: var(--accent-bg);
+    padding: 5px 12px;
+    border-radius: 5px;
+  }
+  .story-title {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.5;
+  }
+
+  /* 3-step flow */
+  .flow-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin: 18px 0 8px;
+  }
+  .flow-cell {
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+  }
+  .flow-cell .h {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .flow-cell .body {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.75;
+  }
+  .flow-cell.observe {
+    background: var(--data-bg);
+    border: 1px solid #a5f3fc;
+  }
+  .flow-cell.observe .h { color: var(--data); }
+  .flow-cell.infer {
+    background: var(--warn-bg);
+    border: 1px solid #fde68a;
+  }
+  .flow-cell.infer .h { color: var(--warn); }
+  .flow-cell.design {
+    background: var(--good-bg);
+    border: 1px solid #a7f3d0;
+  }
+  .flow-cell.design .h { color: var(--good); }
+
+  /* Data block */
+  .data-block {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    font-family: ui-monospace, "SF Mono", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .data-block .label {
+    font-size: 12px;
+    color: #94a3b8;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .data-block table { width: 100%; border-collapse: collapse; }
+  .data-block th, .data-block td {
+    padding: 7px 10px;
+    text-align: left;
+    border-bottom: 1px solid #1e293b;
+  }
+  .data-block th { color: #94a3b8; font-weight: 400; font-size: 13px; }
+  .data-block td.num { text-align: right; color: white; }
+  .data-block td.hi { color: #4ade80; font-weight: 700; }
+  .data-block td.lo { color: #f87171; }
+  .data-block .note {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 12px;
+    line-height: 1.6;
+    font-family: -apple-system, "Hiragino Sans", system-ui, sans-serif;
+  }
+
+  /* Pull quote */
+  .pullquote {
+    margin: 18px 0 0;
+    padding: 18px 24px;
+    background: var(--accent-bg);
+    border-left: 5px solid var(--accent);
+    border-radius: 6px;
+    font-size: 15px;
+    color: var(--ink);
+    font-weight: 600;
+    line-height: 1.75;
+  }
+  .pullquote span { color: var(--accent); font-weight: 800; }
+
+  /* Persona */
+  .personas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 18px 0;
+  }
+  .persona {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px 24px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+  }
+  .persona .icon {
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: var(--accent-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .persona .name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .persona .desc {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.75;
+  }
+  .persona .stats {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .persona .stats span {
+    font-size: 12px;
+    padding: 3px 10px;
+    background: var(--bg);
+    border-radius: 4px;
+    color: var(--ink-3);
+    font-weight: 600;
+  }
+
+  /* Trigger card */
+  .trigger-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 14px;
+  }
+  .trigger-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .trigger-badge {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .trigger-badge.t1 { background: var(--good-bg); color: var(--good); }
+  .trigger-badge.t2 { background: var(--accent-bg); color: var(--accent); }
+  .trigger-badge.t3 { background: var(--braze-bg); color: var(--braze); }
+  .trigger-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    flex: 1;
+    min-width: 0;
+    line-height: 1.5;
+  }
+  .trigger-effort {
+    font-size: 12px;
+    padding: 3px 8px;
+    background: var(--bg);
+    color: var(--ink-3);
+    border-radius: 4px;
+  }
+  .trigger-meta {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin-bottom: 10px;
+    line-height: 1.7;
+  }
+  .trigger-flow {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .trigger-flow > div {
+    padding: 14px 16px;
+    background: var(--bg);
+    border-radius: 6px;
+    color: var(--ink-2);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .trigger-flow > div .k {
+    font-size: 12px;
+    color: var(--ink-3);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* Mockup reference */
+  .mockup-ref {
+    background: linear-gradient(135deg, #fef3c7, #fef9c3);
+    border: 1px solid #fde68a;
+    border-radius: 12px;
+    padding: 22px 28px;
+    margin: 16px 0;
+  }
+  .mockup-ref h4 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #92400e;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .mockup-ref p {
+    font-size: 14px;
+    color: #78350f;
+    line-height: 1.75;
+    margin-bottom: 0;
+  }
+  .mockup-ref code {
+    background: rgba(255,255,255,0.7);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+
+  /* Phase table */
+  .phase-summary {
+    background: linear-gradient(135deg, #eef2ff 0%, #fae8ff 100%);
+    border-radius: 14px;
+    padding: 26px 28px;
+    margin: 18px 0;
+    border: 1px solid #c7d2fe;
+  }
+  .phase-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 14px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    line-height: 1.65;
+  }
+  .phase-table th {
+    background: #1e293b;
+    color: white;
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+  .phase-table td {
+    padding: 14px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    vertical-align: top;
+  }
+  .phase-table tr:last-child td { border-bottom: none; }
+  .phase-table strong { font-weight: 700; }
+
+  /* KPI card */
+  .kpi-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .kpi-num {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+    font-family: ui-monospace, monospace;
+    min-width: 130px;
+    line-height: 1.2;
+  }
+  .kpi-num.good { color: var(--good); }
+  .kpi-text {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.75;
+  }
+  .kpi-text strong { color: var(--ink); }
+
+  /* Term explainer */
+  .term-explainer {
+    background: var(--bg-2);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .term-explainer dt {
+    font-weight: 700;
+    color: var(--ink);
+    display: inline;
+  }
+  .term-explainer dd {
+    display: inline;
+    margin-right: 12px;
+  }
+  .term-explainer dd::after {
+    content: "／";
+    color: var(--line-2);
+    margin: 0 6px;
+  }
+  .term-explainer dd:last-child::after { content: ""; }
+
+  /* Takeaway */
+  .takeaway {
+    background: linear-gradient(135deg, #ecfdf5, white);
+    border-left: 6px solid var(--good);
+  }
+  .takeaway-list {
+    list-style: none;
+    counter-reset: tlist;
+  }
+  .takeaway-list li {
+    counter-increment: tlist;
+    padding: 10px 0 10px 38px;
+    position: relative;
+    font-size: 15px;
+    color: var(--ink-2);
+    line-height: 1.85;
+  }
+  .takeaway-list li::before {
+    content: counter(tlist);
+    position: absolute;
+    left: 0; top: 12px;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--good);
+    color: white;
+    font-weight: 800;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .takeaway-list li strong { color: var(--ink); font-weight: 700; }
+
+  @media (max-width: 768px) {
+    .flow-grid, .personas, .trigger-flow { grid-template-columns: 1fr; }
+    body { font-size: 15px; }
+    .hero h1 { font-size: 24px; }
+    h2.sec { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>「今日・明日OK」訴求 — 取り組みレポート</h1>
+    <div class="sub">なぜやるのか／どう仮説を立てたか／どう打つか／具体案までを一気通貫で</div>
+    <div class="pills">
+      <span>📊 GA4の実データから設計</span>
+      <span>👥 ユーザー行動ベース</span>
+      <span>🎯 Braze配信を活用</span>
+      <span>📐 モバイル詳細モックあり</span>
+    </div>
+    <div class="meta">2026-05-11｜担当: Kotaro｜データ期間: 2026-04-13 〜 2026-05-10（直近28日）</div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">このレポートの流れ</div>
+    <ol>
+      <li>なぜ今、この取り組みをやるのか</li>
+      <li>取り組みの考え方（何を考えるべきか？）</li>
+      <li>データで見えたこと（4つの発見）</li>
+      <li>データが教えてくれるユーザーの姿（4タイプ）</li>
+      <li>だから、こう打ちたい（パーソナライズ動線4案）</li>
+      <li>具体的にはこんな見え方になる（モック参照）</li>
+      <li>どう進めるか（Phase別ロードマップ）</li>
+      <li>このレポートの3つのキー（まとめ）</li>
+    </ol>
+  </div>
+
+  <!-- ================ 01. なぜやるか ================ -->
+  <h2 class="sec" data-num="01">なぜ今、この取り組みをやるのか</h2>
+  <div class="sec-sub">CVR目標達成への貢献と、「重くせずに効かせる」というジレンマ。</div>
+
+  <div class="card">
+    <h3>背景：CVR 1.44% の目標達成に何が必要か</h3>
+    <p>
+      2026年6月末までに、VELTRA日本語サイトのCVRを<strong>1.44%</strong>まで引き上げる目標を掲げています。直近28日の実績は1.45%で目標達成中ですが、これを安定させ、さらに押し上げていく施策が必要です。
+    </p>
+    <p>
+      その文脈で「<strong>今日・明日すぐ予約できるプラン</strong>」というコンセプトが浮上しました。「急に時間ができた」「思い立って予約したい」といった即時意向のユーザーに刺さりそう、というアイデアです。
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>問題：本気でパーソナライズしようとすると重い</h3>
+    <p>
+      「今日明日のリアルタイム在庫を取得して、ユーザー一人ひとりに最適化して表示する」という設計は、システム的にも工数的にも非常に重くなります。在庫API連携・パーソナライズロジック・コンテンツ運用、どれも数ヶ月単位のプロジェクトです。
+    </p>
+    <p>
+      一方で、軽くやろうとして「全員に同じ静的バナーを出す」だけでは、効果がほとんど見込めません。<strong>「重くしすぎず、それでも効く方法はないか？」</strong>これが今回のレポートで考えるテーマです。
+    </p>
+  </div>
+
+  <!-- ================ 02. 取り組みの考え方 ================ -->
+  <h2 class="sec" data-num="02">取り組みの考え方（何を考えるべきか？）</h2>
+  <div class="sec-sub">データを見て終わり、ではなく「だからどう動くか」まで一気通貫で考える。</div>
+
+  <div class="story">
+    <h3 style="font-size:19px;margin-bottom:14px">3つのステップで考える</h3>
+    <p style="font-size:15px;color:var(--ink-2);line-height:1.85;margin-bottom:0">
+      パーソナライズと聞くと「重い個別最適化」を想像しがちですが、本質はそうではありません。<strong>ユーザーの行動が示すサインを読み取って、それに合わせた動線を出し分けるだけ</strong>でも、十分パーソナライズと呼べます。本レポートでは、この発想で施策を組み立てます。
+    </p>
+
+    <div class="flow-grid">
+      <div class="flow-cell observe">
+        <div class="h">📊 数字でわかったこと</div>
+        <div class="body">GA4などで見える、実際のユーザー行動の事実。<br>例：「リピーターのCVRは新規の約7倍」</div>
+      </div>
+      <div class="flow-cell infer">
+        <div class="h">💭 そこから読みとれること</div>
+        <div class="body">なぜそうなっている？ユーザーは何を考えてる？<br>例：「リピーターは目的を持って来ているが、決め手の一押しがない」</div>
+      </div>
+      <div class="flow-cell design">
+        <div class="h">⚡ だから、こう打つ</div>
+        <div class="body">どこに、どう動線を作るか。<br>例：「保存リストから戻ってきたリピーターに、今日明日空きを訴求」</div>
+      </div>
+    </div>
+
+    <div class="pullquote">
+      「<span>パーソナライズ」とは、全員に違うページを出すことではない。</span>「行動シグナルに合わせて動線を分岐させること」。重いロジックなしでも、Brazeのセグメント機能 ＋ ちょっとした静的コンテンツで充分実現できる。
+    </div>
+  </div>
+
+  <!-- ================ 03. データで見えたこと ================ -->
+  <h2 class="sec" data-num="03">データで見えたこと（4つの発見）</h2>
+  <div class="sec-sub">GA4の直近28日データから、訴求すべきユーザー行動パターンを4つ見つけました。</div>
+
+  <!-- Discovery 1 -->
+  <div class="story">
+    <div class="story-header">
+      <span class="story-num">発見 ①</span>
+      <span class="story-title">リピーターは新規の約7倍の購買力。誰に投資すべきかが明確。</span>
+    </div>
+
+    <div class="data-block">
+      <div class="label">GA4データ ── 直近28日 / VELTRA日本語サイト</div>
+      <table>
+        <tr><th>セグメント</th><th style="text-align:right">セッション</th><th style="text-align:right">購入数</th><th style="text-align:right">CVR</th></tr>
+        <tr><td>新規 × Desktop</td><td class="num">1,486,165</td><td class="num">2,376</td><td class="num lo">0.16%</td></tr>
+        <tr><td>新規 × Mobile</td><td class="num">1,044,203</td><td class="num">7,052</td><td class="num">0.68%</td></tr>
+        <tr><td>リピーター × Mobile</td><td class="num">887,966</td><td class="num">21,585</td><td class="num hi">2.43%</td></tr>
+        <tr><td>リピーター × Desktop</td><td class="num">304,722</td><td class="num">10,013</td><td class="num hi">3.29%</td></tr>
+        <tr style="border-top:2px solid #475569"><td><strong>新規 合計</strong></td><td class="num"><strong>2,557K</strong></td><td class="num"><strong>9,568</strong></td><td class="num"><strong>0.37%</strong></td></tr>
+        <tr><td><strong>リピーター 合計</strong></td><td class="num"><strong>1,209K</strong></td><td class="num"><strong>31,958</strong></td><td class="num hi"><strong>2.64%</strong></td></tr>
+      </table>
+    </div>
+
+    <div class="flow-grid">
+      <div class="flow-cell observe">
+        <div class="h">数字でわかったこと</div>
+        <div class="body">リピーターはセッション全体の<strong>32%</strong>しかないが、購入の<strong>77%</strong>を占めている。CVRは新規の<strong>約7倍</strong>。</div>
+      </div>
+      <div class="flow-cell infer">
+        <div class="h">そこから読みとれること</div>
+        <div class="body">リピーターはすでにVELTRAを信頼している。検討も早く、<strong>あと一押し</strong>で予約に至りやすい。新規に大量の配信をするより、リピーターに集中する方がコスパが良い。</div>
+      </div>
+      <div class="flow-cell design">
+        <div class="h">だから、こう打つ</div>
+        <div class="body">Brazeの<strong>メインターゲット＝リピーター</strong>に置く。新規には静的なUI改修（Phase 1）で対応し、Braze配信のリソースはリピーターに振り向ける。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Discovery 2 -->
+  <div class="story">
+    <div class="story-header">
+      <span class="story-num">発見 ②</span>
+      <span class="story-title">訪問エリアは上位7つに集中。Brazeの設定もシンプルに保てる。</span>
+    </div>
+
+    <div class="data-block">
+      <div class="label">GA4データ ── 主要エリアページのセッション数 / 直近28日</div>
+      <table>
+        <tr><th>エリア</th><th style="text-align:right">エリアTOPセッション</th><th>備考</th></tr>
+        <tr><td>ハワイ（オアフ + ハワイ島）</td><td class="num hi">40,092</td><td>最大トラフィック</td></tr>
+        <tr><td>沖縄（本島 + 石垣 + 八重山）</td><td class="num hi">33,157</td><td>3つのサブエリア合計</td></tr>
+        <tr><td>韓国（ソウル含む）</td><td class="num">13,462</td><td>定番人気</td></tr>
+        <tr><td>東京</td><td class="num">11,905</td><td>国内</td></tr>
+        <tr><td>富山アルペンルート</td><td class="num">10,857</td><td>春季限定</td></tr>
+        <tr><td>屋久島</td><td class="num">10,465</td><td>季節性あり</td></tr>
+        <tr><td>グアム</td><td class="num">8,915</td><td>近距離リゾート</td></tr>
+      </table>
+    </div>
+
+    <div class="flow-grid">
+      <div class="flow-cell observe">
+        <div class="h">数字でわかったこと</div>
+        <div class="body">エリアTOPを訪問するセッションは、<strong>上位7エリアに圧倒的に集中</strong>している。テール（マイナーエリア）も存在するが、ボリュームは桁違いに小さい。</div>
+      </div>
+      <div class="flow-cell infer">
+        <div class="h">そこから読みとれること</div>
+        <div class="body">「ハワイで何しよう」「沖縄行きたい」と、<strong>エリアが先に決まっている</strong>ユーザーが多数派。彼らには「今日明日」の時間軸より、「<strong>このエリアで即時確定できる商品</strong>」を見せる方が刺さる。</div>
+      </div>
+      <div class="flow-cell design">
+        <div class="h">だから、こう打つ</div>
+        <div class="body">Brazeで管理する対象を<strong>7エリアに絞る</strong>。各エリアごとに「即時確定の人気商品 上位5件」の固定リストを用意するだけで、メンテは月1回でOK。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Discovery 3 -->
+  <div class="story">
+    <div class="story-header">
+      <span class="story-num">発見 ③</span>
+      <span class="story-title">日曜の21〜22時にCVRピーク。「来週末を計画する時間帯」が見える。</span>
+    </div>
+
+    <div class="data-block">
+      <div class="label">GA4データ ── 曜日 × 時間帯のCVR / 直近28日</div>
+      <table>
+        <tr><th>軸</th><th>CVR最高</th><th>CVR最低</th><th>差</th></tr>
+        <tr>
+          <td>曜日別</td>
+          <td class="hi">日曜 1.33% / 土曜 1.23%</td>
+          <td class="lo">火曜 0.83%</td>
+          <td>1.6倍</td>
+        </tr>
+        <tr>
+          <td>時間帯別</td>
+          <td class="hi">22時 1.39% / 21時 1.35%</td>
+          <td class="lo">4時 0.25% / 5時 0.31%</td>
+          <td>5.6倍</td>
+        </tr>
+      </table>
+      <div class="note">※週末 × 夜間がCVRピーク。「のんびり旅行を計画する時間」と一致している。</div>
+    </div>
+
+    <div class="flow-grid">
+      <div class="flow-cell observe">
+        <div class="h">数字でわかったこと</div>
+        <div class="body">CVRは<strong>夜（21〜22時）と週末（土・日）に明らかに上がる</strong>。逆に平日朝・深夜は最低レベル。</div>
+      </div>
+      <div class="flow-cell infer">
+        <div class="h">そこから読みとれること</div>
+        <div class="body">夜21〜22時は「<strong>一日の終わりに次の旅を計画する時間</strong>」。日曜の夜は特に「<strong>来週末の予定を立てる時間</strong>」。「今日・明日すぐ予約」というメッセージは、むしろ金曜午後〜土曜朝の直前需要に響きそう。</div>
+      </div>
+      <div class="flow-cell design">
+        <div class="h">だから、こう打つ</div>
+        <div class="body">Braze配信時間を<strong>2系統に分ける</strong>。<br>① <strong>金曜18-20時</strong>：「今週末、急に時間できた？」直前訴求<br>② <strong>日曜20-22時</strong>：「来週末こんなのいかが？」計画訴求</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Discovery 4 -->
+  <div class="story">
+    <div class="story-header">
+      <span class="story-num">発見 ④</span>
+      <span class="story-title">Wishlistセッション月15万 ＝「保存して見るだけ」の山がある。</span>
+    </div>
+
+    <div class="data-block">
+      <div class="label">GA4データ ── マイページ・Wishlist系セッション / 直近28日</div>
+      <table>
+        <tr><th>ページ</th><th style="text-align:right">セッション</th><th>解釈</th></tr>
+        <tr><td>/jp/wishlist/</td><td class="num hi">155,052</td><td>保存リスト閲覧</td></tr>
+        <tr><td>/jp/mypage/index/</td><td class="num">52,147</td><td>マイページTOP</td></tr>
+        <tr><td>/jp/mypage/booking_list/</td><td class="num">47,638</td><td>予約履歴閲覧</td></tr>
+        <tr><td>/jp/mypage/my_coupon/</td><td class="num">9,055</td><td>クーポン確認</td></tr>
+        <tr style="border-top:2px solid #475569"><td><strong>マイページ系 合計</strong></td><td class="num hi"><strong>263,892</strong></td><td>大きな滞留層</td></tr>
+      </table>
+    </div>
+
+    <div class="flow-grid">
+      <div class="flow-cell observe">
+        <div class="h">数字でわかったこと</div>
+        <div class="body">Wishlist閲覧だけで<strong>月15万セッション超</strong>。マイページ系の合計は月26万。これらは「閲覧 → 予約」への変換が薄い（マイページ系単独では購入が発生していない）。</div>
+      </div>
+      <div class="flow-cell infer">
+        <div class="h">そこから読みとれること</div>
+        <div class="body">「<strong>気になるけどまだ決められない</strong>」中検討層が大量に滞留している。何度も保存リストを見返しているが、ACページに戻る理由がない。<strong>「保存ACに今日明日空きある」を見せれば、購入確率が上がるはず</strong>。</div>
+      </div>
+      <div class="flow-cell design">
+        <div class="h">だから、こう打つ</div>
+        <div class="body">Wishlistの商品カードに「<strong>今日OK</strong>」「<strong>残席わずか</strong>」のバッジを表示。さらにBrazeで「保存後7日経過しても未予約」のリピーターに「<strong>保存リストの商品で今日・明日OKです</strong>」とリマインド配信。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================ 04. ペルソナ ================ -->
+  <h2 class="sec" data-num="04">データが教えてくれるユーザーの姿（4タイプ）</h2>
+  <div class="sec-sub">4つの発見から浮かび上がる、訴求すべきユーザー像。それぞれに別々の動線を用意します。</div>
+
+  <div class="personas">
+    <div class="persona">
+      <div class="icon">💾</div>
+      <div>
+        <div class="name">タイプ 1 ｜ 保存して離脱するリピーター</div>
+        <div class="desc">Wishlistに何度も保存して見返すが、決断に至らない。価格・日程・天候など「あと一押し」を待っている層。</div>
+        <div class="stats">
+          <span>📊 月15万Wishlistセッション</span>
+          <span>🎯 リピーター</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="persona">
+      <div class="icon">🌺</div>
+      <div>
+        <div class="name">タイプ 2 ｜ エリア決定済みの検討者</div>
+        <div class="desc">「ハワイで何しよう」とエリアが先に決まっていて、複数のACを比較中。即時確定や残席表示で背中を押せる層。</div>
+        <div class="stats">
+          <span>📊 ハワイ/沖縄/韓国系で月90K+</span>
+          <span>🎯 新規 + リピーター両方</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="persona">
+      <div class="icon">🌙</div>
+      <div>
+        <div class="name">タイプ 3 ｜ 日曜夜の計画者</div>
+        <div class="desc">21〜22時にスマホでサイトを見る。「来週末どこ行こう」「次の連休何する」と、週末以降の予定を計画する層。</div>
+        <div class="stats">
+          <span>📊 22時のCVR 1.39%（最高）</span>
+          <span>🎯 主にリピーター</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="persona">
+      <div class="icon">⚡</div>
+      <div>
+        <div class="name">タイプ 4 ｜ 金曜・週末の直前予約者</div>
+        <div class="desc">「急に明日空いた」「天気いいから外出したい」型。即時確定 × 国内が刺さる層（少数だが高意向）。</div>
+        <div class="stats">
+          <span>📊 日曜のCVR 1.33%（平日比1.6倍）</span>
+          <span>🎯 リピーター中心</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================ 05. 打ち手 ================ -->
+  <h2 class="sec" data-num="05">だから、こう打ちたい（パーソナライズ動線4案）</h2>
+  <div class="sec-sub">4タイプそれぞれに「誰に・いつ・何を見せるか」を設計します。</div>
+
+  <div class="term-explainer">
+    <strong>用語の補足：</strong>
+    <dt>Braze</dt><dd>顧客とのコミュニケーションをパーソナライズするツール（Push通知・アプリ内メッセージ・メールを行動データで出し分けられる）</dd>
+    <dt>トリガー</dt><dd>配信を発火させる「きっかけ条件」</dd>
+    <dt>セグメント</dt><dd>配信対象となるユーザーのグループ</dd>
+  </div>
+
+  <!-- Trigger 1 -->
+  <div class="trigger-card">
+    <div class="trigger-header">
+      <span class="trigger-badge t1">打ち手 ①</span>
+      <span class="trigger-name">保存リストの滞留ユーザーに、保存商品の空き情報を送る</span>
+      <span class="trigger-effort">実装の重さ：軽</span>
+    </div>
+    <div class="trigger-meta">対象タイプ：<strong>タイプ1（保存して離脱するリピーター）</strong>　配信先：アプリ内メッセージ / Push / メール</div>
+    <div class="trigger-flow">
+      <div>
+        <span class="k">WHO</span>
+        Wishlist保存後7日経過 ＆ 該当AC未予約 ＆ リピーター
+      </div>
+      <div>
+        <span class="k">WHEN</span>
+        週末（金〜日）の朝 or 夜
+      </div>
+      <div>
+        <span class="k">WHAT</span>
+        「保存リストのAC、〇〇日空きあります」<br>「直近30日で〇人が予約しました」
+      </div>
+    </div>
+  </div>
+
+  <!-- Trigger 2 -->
+  <div class="trigger-card">
+    <div class="trigger-header">
+      <span class="trigger-badge t2">打ち手 ②</span>
+      <span class="trigger-name">特定エリアを複数閲覧したユーザーに、その場で即時確定プランを訴求</span>
+      <span class="trigger-effort">実装の重さ：軽</span>
+    </div>
+    <div class="trigger-meta">対象タイプ：<strong>タイプ2（エリア決定済みの検討者）</strong>　配信先：アプリ内メッセージ（同セッション内）</div>
+    <div class="trigger-flow">
+      <div>
+        <span class="k">WHO</span>
+        ハワイ系 or 沖縄系URL配下を3ページ以上閲覧
+      </div>
+      <div>
+        <span class="k">WHEN</span>
+        同セッション内、3ページ目スクロール時
+      </div>
+      <div>
+        <span class="k">WHAT</span>
+        「ハワイで今日明日OK、人気の即時確定プラン 3選」（エリア固定リスト）
+      </div>
+    </div>
+  </div>
+
+  <!-- Trigger 3 -->
+  <div class="trigger-card">
+    <div class="trigger-header">
+      <span class="trigger-badge t3">打ち手 ③</span>
+      <span class="trigger-name">日曜夜に訪れるリピーターに、来週末の計画提案を送る</span>
+      <span class="trigger-effort">実装の重さ：中</span>
+    </div>
+    <div class="trigger-meta">対象タイプ：<strong>タイプ3（日曜夜の計画者）</strong>　配信先：Push通知</div>
+    <div class="trigger-flow">
+      <div>
+        <span class="k">WHO</span>
+        過去90日に1回以上予約 ＆ 日曜20〜22時アクセス
+      </div>
+      <div>
+        <span class="k">WHEN</span>
+        日曜20〜22時、または日曜夜の任意タイミング
+      </div>
+      <div>
+        <span class="k">WHAT</span>
+        「来週末、どこ行く？」+ 過去予約エリアの旬商品
+      </div>
+    </div>
+  </div>
+
+  <!-- Trigger 4 -->
+  <div class="trigger-card">
+    <div class="trigger-header">
+      <span class="trigger-badge t3">打ち手 ④</span>
+      <span class="trigger-name">金曜夕方にアクセスしたユーザーに、直前予約プランを提示</span>
+      <span class="trigger-effort">実装の重さ：中</span>
+    </div>
+    <div class="trigger-meta">対象タイプ：<strong>タイプ4（金曜・週末の直前予約者）</strong>　配信先：Push通知 / アプリ内メッセージ</div>
+    <div class="trigger-flow">
+      <div>
+        <span class="k">WHO</span>
+        過去30日訪問 ＆ 金曜18〜20時アクセス
+      </div>
+      <div>
+        <span class="k">WHEN</span>
+        金曜18〜20時、サイト訪問時
+      </div>
+      <div>
+        <span class="k">WHAT</span>
+        「今週末、急に時間できた？」+ 国内即時確定プラン 上位5件
+      </div>
+    </div>
+  </div>
+
+  <!-- ================ 06. 具体案 ================ -->
+  <h2 class="sec" data-num="06">具体的にはこんな見え方になる（モック参照）</h2>
+  <div class="sec-sub">画面上にどう見えるか、別ファイルで詳細モックを作成済みです。</div>
+
+  <div class="mockup-ref">
+    <h4>📐 モバイル詳細モックアップ</h4>
+    <p>
+      実際のVELTRAスクリーンショットに基づき、Before/Afterで各ページの見え方を再現しました。<br>
+      📐 <a href="/2026h1/planning/today-tomorrow-mobile-mockups.html" style="color:#92400e;font-weight:700;text-decoration:underline">today-tomorrow-mobile-mockups.html を開く</a><br><br>
+      含まれる内容：<br>
+      ・<strong>オアフ島サブエリアTOP</strong>：「日程から探す」のファーストビュー移動 + 「今すぐ予約OK」セクション追加<br>
+      ・<strong>ハワイエリアTOP</strong>：オアフと同じパターンの横展開<br>
+      ・<strong>グローバルTOP</strong>：「会員限定クーポン」直下に最小1セクション追加<br>
+      ・<strong>Wishlistページ</strong>：商品カードに「今日OK」「残席わずか」バッジ + 集計バナー<br>
+      ・<strong>Braze配信3パターン</strong>：日曜21時Push / 金曜19時アプリ内メッセージ / 保存後7日メール
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>各タイプとモックの対応</h3>
+    <p>
+      ・<strong>タイプ1（保存して離脱）</strong>　→　Wishlistページのバッジ + Brazeメール<br>
+      ・<strong>タイプ2（エリア決定済み）</strong>　→　エリアTOPの即時確定セクション + 同セッション内アプリ内メッセージ<br>
+      ・<strong>タイプ3（日曜夜の計画者）</strong>　→　日曜21時のPush通知<br>
+      ・<strong>タイプ4（金曜直前予約者）</strong>　→　金曜19時のアプリ内メッセージ
+    </p>
+  </div>
+
+  <!-- ================ 07. ロードマップ ================ -->
+  <h2 class="sec" data-num="07">どう進めるか（Phase別ロードマップ）</h2>
+  <div class="sec-sub">軽い検証から始め、効果を見ながら投資を厚くしていきます。</div>
+
+  <div class="phase-summary">
+    <table class="phase-table">
+      <thead>
+        <tr>
+          <th style="width:13%">Phase</th>
+          <th style="width:23%">対象タイプ / 内容</th>
+          <th style="width:27%">実装内容</th>
+          <th style="width:13%">期間</th>
+          <th style="width:17%">想定CVRインパクト</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Phase 1</strong><br><span style="font-size:12px;color:var(--ink-3)">静的UI改修</span></td>
+          <td>タイプ2（エリア検討者）<br>タイプ1（Wishlist保存層）</td>
+          <td>エリアTOPに「日程から探す」上部移動 + 即時確定セクション追加<br>Wishlistに即時確定バッジ追加</td>
+          <td>2週間</td>
+          <td>+0.03〜0.05pt</td>
+        </tr>
+        <tr>
+          <td><strong>Phase 2A</strong><br><span style="font-size:12px;color:var(--ink-3)">Braze行動連動</span></td>
+          <td>タイプ2（エリア検討者）</td>
+          <td>ハワイ・沖縄など主要エリア複数閲覧 → アプリ内メッセージ配信</td>
+          <td>3〜4週間</td>
+          <td>+0.05〜0.08pt</td>
+        </tr>
+        <tr>
+          <td><strong>Phase 2B</strong><br><span style="font-size:12px;color:var(--ink-3)">Braze時間トリガー</span></td>
+          <td>タイプ3（日曜夜計画者）<br>タイプ4（直前予約者）</td>
+          <td>日曜夜・金曜夕方の時間帯トリガーでPush / メール配信</td>
+          <td>3〜4週間</td>
+          <td>+0.05〜0.10pt</td>
+        </tr>
+        <tr>
+          <td><strong>Phase 2C</strong><br><span style="font-size:12px;color:var(--ink-3)">Braze再訪リマインド</span></td>
+          <td>タイプ1（保存して離脱）</td>
+          <td>Wishlist保存後7日未予約のリピーターへメール / Push</td>
+          <td>2〜3週間</td>
+          <td>+0.05〜0.08pt</td>
+        </tr>
+        <tr style="background:#fef3c7">
+          <td><strong>Phase 3</strong><br><span style="font-size:12px;color:#92400e">在庫API連携</span></td>
+          <td>全タイプ</td>
+          <td>リアルタイム在庫API連携で、本当に「今日・明日OK」の動的表示</td>
+          <td>3ヶ月+</td>
+          <td>+0.05〜0.15pt（要検証）</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="kpi-card" style="margin-top:20px">
+      <div class="kpi-num good">+0.18〜0.31pt</div>
+      <div class="kpi-text">Phase 1〜2C を全部実施した場合の<strong>CVR押し上げ予測（合計）</strong>。各施策の独立効果ではなく、重複を考慮した保守的レンジ。目標CVR 1.44% への貢献は十分なサイズ感。</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">2〜3ヶ月</div>
+      <div class="kpi-text"><strong>Phase 1〜2C 完了想定期間</strong>。Phase 1終了時点での効果検証次第で、Phase 2A / B / C の優先順位を入れ替えることもできる。</div>
+    </div>
+  </div>
+
+  <!-- ================ 08. まとめ ================ -->
+  <h2 class="sec" data-num="08">このレポートの3つのキー</h2>
+  <div class="sec-sub">チームレビューで覚えて帰ってほしいポイント。</div>
+
+  <div class="story takeaway">
+    <div class="story-header">
+      <span class="story-num" style="background:var(--good-bg);color:var(--good)">✓ TAKEAWAY</span>
+      <span class="story-title">この取り組みの本質的なポイント</span>
+    </div>
+    <ol class="takeaway-list">
+      <li><strong>「今日・明日」一本ではなく、「リピーター × エリア × 時間帯」の3軸で動線設計する。</strong>単発のコンセプトではなく、ユーザー行動に合わせた複数の打ち手を組み合わせることでインパクトを最大化する。</li>
+      <li><strong>リアルタイム在庫を見ない。</strong>「即時確定フラグ × エリア固定リスト」で90%のニーズはカバーできる。実装は軽くて済むし、運用も月1更新で十分。</li>
+      <li><strong>Brazeは「動線分岐ツール」として使う。</strong>重いパーソナライズロジックを組まなくても、行動シグナルに合わせて出し分けるだけで十分パーソナライズになる。</li>
+    </ol>
+  </div>
+
+  <div style="text-align:center; font-size:12px; color:var(--ink-4); margin-top:32px; line-height:1.7;">
+    VELTRA CVR向上プロジェクト ｜ 2026-05-11 ｜ 担当 Kotaro<br>
+    GA4データ出典: Property 347074845 / 2026-04-13〜2026-05-10
+  </div>
+
+</div>
+
+<script src="/2026h1/planning/back-nav.js"></script>
+</body>
+</html>

@@ -41,7 +41,7 @@ JST = timezone(timedelta(hours=9))
 REPORTS_INDEX_PATH = os.path.join(REPO_ROOT, "reports-index.json")
 ARCHIVE_META_PATH = os.path.join(REPO_ROOT, "archive-meta.json")
 WEEKLY_SUMMARY_PATH = os.path.join(REPO_ROOT, "weekly-summary.json")
-REPORTS_DIR = os.path.join(REPO_ROOT, "reports")
+REPORTS_DIR = os.path.join(REPO_ROOT, "2026h1", "reports")
 
 
 def week_reldir(week_id: str) -> str:
@@ -783,8 +783,8 @@ def step_update_reports_index(meta: dict, dry_run: bool) -> None:
         "week_label": meta["week_label"],
         "date_start": meta["date_start"],
         "date_end": meta["date_end"],
-        "path": f"/reports/{week_reldir(meta['week_id'])}/",
-        "data_path": f"/reports/{week_reldir(meta['week_id'])}/data.json",
+        "path": f"/2026h1/reports/{week_reldir(meta['week_id'])}/",
+        "data_path": f"/2026h1/reports/{week_reldir(meta['week_id'])}/data.json",
     }
     index["weeks"].append(new_entry)
     # 常に時系列順にソート（古い順 → 最新が末尾）

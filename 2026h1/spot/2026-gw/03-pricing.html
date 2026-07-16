@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/2026h1/spot/spot.css">
+<title>03 価格戦略 | 2026 GW CVR スポット分析</title>
+<style>:root{--accent:#1b82c5;--accent-bg:#dbeafe}</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">スポット分析 #03<br><strong>💴 価格戦略</strong></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sub-hero" style="background:linear-gradient(135deg,#eff6ff 0%,#fff 80%)">
+      <div class="sub-breadcrumb"><a href="/2026h1/spot/2026-gw-cvr-decline.html">← 3 年比較スポット分析</a> / <strong>03 価格戦略</strong></div>
+      <div class="sub-tag">Area 03 — Pricing strategy</div>
+      <h1 class="sub-headline">
+        4/20 為替マージン変更の<em>純効果が未検証</em>のまま GW を迎え、競合との価格優位が崩れた可能性。<br>
+        円安局面で<em>「実効値上げ」の連鎖</em>が CVR を引き下げている。
+      </h1>
+      <div class="sub-lede">
+        4/20 に実施した為替マージン変更（<strong>EU +3.9% / TWD・SGD・MYR 0% / その他 +2.9%</strong>）は方向としては「アジア値下げ＋他値上げ」のバランス調整だったが、
+        <strong>W17 サイト障害 + bot 影響と重なって純効果が測定できなかった</strong>。さらに円安進行で USD/EUR 建ての海外パートナー仕入れ価格が自動的に上昇し、ベルトラの表示価格が競合との比較で見劣りする状態が長期化している可能性。
+        通貨×エリア別 CVR の細分析と、競合価格モニタリングが急務。
+      </div>
+
+      <div class="sub-score">
+        <div class="sub-score-card">
+          <div class="sub-score-label">マージン変更（4/20）</div>
+          <div class="sub-score-val" style="font-size:24px">EU +3.9%<br>アジア 0%</div>
+          <div class="sub-score-note">純効果は W17 障害 + bot で測定不能、W20 以降で再測定必要</div>
+        </div>
+        <div class="sub-score-card">
+          <div class="sub-score-label">推定 CVR 寄与</div>
+          <div class="sub-score-val">-0.06pp</div>
+          <div class="sub-score-note">bot 除外後 -0.22pp の約 27%、競合と複合要因</div>
+        </div>
+        <div class="sub-score-card">
+          <div class="sub-score-label">担当部門</div>
+          <div class="sub-score-val" style="font-size:18px">価格戦略 / RM</div>
+          <div class="sub-score-note">通貨別効果検証 + 競合価格モニタリング</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data backing -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">01</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">データ裏付け</span>
+      <h2 class="sub-sec-title">価格変動と CVR 影響の 4 観点</h2>
+    </div>
+    <div class="sub-data">
+      <div class="sub-data-card alarm">
+        <div class="sub-data-num">D.01 — マージン変更詳細</div>
+        <div class="sub-data-title">4/20 適用 — 通貨別マージン率の構造変更</div>
+        <div class="sub-data-body">
+          <strong>EU 圏 +3.9%</strong>（値上げ） / <strong>TWD・SGD・MYR 0%</strong>（実質値下げ・円安緩衝） / <strong>その他通貨 +2.9%</strong>。
+          意図は「円安局面でアジア商品で集客＋それ以外で利益確保」だが、検証データなし。
+          <span class="sub-data-stat">4 通貨グループ別変更</span>
+        </div>
+      </div>
+      <div class="sub-data-card warn">
+        <div class="sub-data-num">D.02 — 平均客単価</div>
+        <div class="sub-data-title">W19 28d AOV ¥6,325（推定 前年比 +5〜10%）</div>
+        <div class="sub-data-body">
+          客単価上昇 = 商品単価上昇 = 価格弾性で買い控え。円安 + マージン変更 + パートナー価格改定の合算で、実効的に商品が高くなっている。
+          <span class="sub-data-stat">AOV ¥6,325</span>
+        </div>
+      </div>
+      <div class="sub-data-card warn">
+        <div class="sub-data-num">D.03 — 通貨別 CVR（要計測）</div>
+        <div class="sub-data-title">エリア別 CVR を通貨グループで再集計が必要</div>
+        <div class="sub-data-body">
+          現状の data.json には通貨別 CVR がない。<strong>SQL 抽出で「EU 圏 / アジア / その他」別の W17-W19 CVR トレンドを取り出し、4/20 前後で差分検証する必要がある</strong>。Analytics 緊急依頼項目。
+          <span class="sub-data-stat">SQL 抽出待ち</span>
+        </div>
+      </div>
+      <div class="sub-data-card info">
+        <div class="sub-data-num">D.04 — 競合価格</div>
+        <div class="sub-data-title">主要 100 商品で Klook/KKday との価格差は未計測</div>
+        <div class="sub-data-body">
+          競合価格モニタリングの基盤がなく、ベルトラ価格が高いか安いか判断できない状態。<strong>週次クロール基盤の構築</strong>が必要。
+          <span class="sub-data-stat">基盤未構築</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Issues -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num">02</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">課題抽出</span>
+      <h2 class="sub-sec-title">価格戦略の 3 つの構造課題</h2>
+    </div>
+    <div class="sub-issues">
+      <div class="sub-issue">
+        <div class="sub-issue-rank">①</div>
+        <div class="sub-issue-body">
+          <div class="sub-issue-title">4/20 マージン変更の純効果が未検証のまま GW 突入</div>
+          <div class="sub-issue-text">
+            W17 障害（4/24-25）と bot 急増（W16-）が同時発生したため、4/20 変更の純効果が GA4 上で交絡している。<strong>「値上げ EU が悪化要因か、アジア値下げが救済になったか」が判断不能</strong>。W20 以降の通常週で再測定が必要。
+          </div>
+          <div class="sub-issue-impact">推定影響 -0.02〜-0.03pp</div>
+        </div>
+      </div>
+      <div class="sub-issue">
+        <div class="sub-issue-rank">②</div>
+        <div class="sub-issue-body">
+          <div class="sub-issue-title">最終価格の不意打ち（税・手数料の後出し）</div>
+          <div class="sub-issue-text">
+            BN1 行動仮説でも指摘された通り、商品ページ表示価格と決済直前の最終価格の乖離で離脱が発生。<strong>新規 ④→⑤ -24.3pp の主因の一つ</strong>。価格表示の透明化（税込最終価格を商品ページ上部に表示）で吸収可能。
+          </div>
+          <div class="sub-issue-impact">推定影響 -0.02pp</div>
+        </div>
+      </div>
+      <div class="sub-issue">
+        <div class="sub-issue-rank">③</div>
+        <div class="sub-issue-body">
+          <div class="sub-issue-title">競合価格との実効差が拡大している可能性</div>
+          <div class="sub-issue-text">
+            Klook/KKday は USD ベースで仕入れて自国通貨で表示するためベルトラと同様の円ベース上昇影響を受けるが、<strong>クーポンとキャンペーン強度</strong>でベルトラより常に「お得感」を作っている。価格モニタリング基盤がないため自社が高いか安いか把握できない。
+          </div>
+          <div class="sub-issue-impact">推定影響 -0.02pp</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hypotheses -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num">03</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">仮説設計</span>
+      <h2 class="sub-sec-title">価格戦略の 4 仮説</h2>
+    </div>
+    <div class="sub-hypo">
+      <table class="sub-hypo-table">
+        <thead><tr><th>ID</th><th>仮説</th><th>担当</th><th>想定効果</th><th>検証方法</th></tr></thead>
+        <tbody>
+          <tr><td class="id">P-H1</td><td><strong>マージン変更純効果検証</strong> — W20-21 通常週で通貨グループ別 CVR を測定。EU 値上げの影響が大きければ部分巻き戻し</td><td>RM + Analytics</td><td class="eff">+0.02pp</td><td class="check">通貨グループ別 CVR の前後差分 + 商品別購入量変動</td></tr>
+          <tr><td class="id">P-H2</td><td><strong>最終価格の前倒し表示</strong> — 商品ページ上部に「税込・手数料込み」の最終価格を最初から表示、フォームでの不意打ち排除</td><td>UIUX + 価格</td><td class="eff">+0.02pp</td><td class="check">A/B 4 週。新規 ④→⑤ 改善、フォーム最終ステップ離脱率</td></tr>
+          <tr><td class="id">P-H3</td><td><strong>競合価格モニタリング基盤</strong> — 主要 100 商品で Klook/KKday/じゃらん遊び を週次クロール。価格差 ±5% 以内なら独自価値訴求、競合より高い場合は要因分析</td><td>価格戦略 + Data</td><td class="eff">+0.02pp</td><td class="check">価格差分布、ベルトラ高商品の対応策実装</td></tr>
+          <tr><td class="id">P-H4</td><td><strong>ダイナミックプライシング試行</strong> — 高需要日（週末・連休）に直前割引、低需要日に通常価格。在庫消化と CVR を両立</td><td>RM + パートナー</td><td class="eff">+0.01pp</td><td class="check">特定エリアでパイロット、需要日別 CVR 推移</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">04</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">打ち手案</span>
+      <h2 class="sub-sec-title">価格戦略の 4 アクション</h2>
+    </div>
+    <div class="sub-actions">
+      <div class="sub-action p0">
+        <div class="sub-action-icon">🔬</div>
+        <div class="sub-action-body">
+          <div class="sub-action-meta">P0 緊急 / 担当: RM + Analytics / Effort: S</div>
+          <span class="sub-action-prio">P-A1</span>
+          <div class="sub-action-title">4/20 マージン変更純効果の SQL 検証（W20-21 通常週）</div>
+          <ul>
+            <li>通貨グループ別（EU / アジア無料 / その他）の CVR を W17-W21 で週次トレンド抽出</li>
+            <li>4/20 前後の差分を W17（障害）と W18-W19（GW + bot）を分離して読み取る</li>
+            <li>EU 値上げの影響が大きい場合は <strong>5/19 までに部分巻き戻し意思決定</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sub-action p0">
+        <div class="sub-action-icon">💲</div>
+        <div class="sub-action-body">
+          <div class="sub-action-meta">P0 緊急 / 担当: UIUX + 価格 / Effort: M</div>
+          <span class="sub-action-prio">P-A2</span>
+          <div class="sub-action-title">最終価格の前倒し表示 — 商品ページ上部に税込・手数料込み</div>
+          <ul>
+            <li>商品ページ ファーストビューに「税込最終価格」を最初から表示</li>
+            <li>「過去 90 日最低価格」「他社最安値」も併記（マクロ M-A2 と統合）</li>
+            <li>BN1 フォーム引き算と並走、5/26 週 A/B 投入</li>
+          </ul>
+        </div>
+      </div>
+      <div class="sub-action p1">
+        <div class="sub-action-icon">🔍</div>
+        <div class="sub-action-body">
+          <div class="sub-action-meta">P1 重要 / 担当: 価格戦略 + Data / Effort: L</div>
+          <span class="sub-action-prio">P-A3</span>
+          <div class="sub-action-title">競合価格モニタリング基盤の構築</div>
+          <ul>
+            <li>主要 100 商品の Klook/KKday/じゃらん遊び 価格を週次クロール</li>
+            <li>ダッシュボードに「価格差 ±5% / ±10% 超」アラート機能</li>
+            <li>競合 02 (C-A2) と統合実装で重複削減</li>
+          </ul>
+        </div>
+      </div>
+      <div class="sub-action p2">
+        <div class="sub-action-icon">📊</div>
+        <div class="sub-action-body">
+          <div class="sub-action-meta">P2 中期 / 担当: RM + パートナー / Effort: L</div>
+          <span class="sub-action-prio">P-A4</span>
+          <div class="sub-action-title">ダイナミックプライシング パイロット（沖縄から開始）</div>
+          <ul>
+            <li>沖縄エリアの主力 20 商品で時期別動的価格を試行</li>
+            <li>連休直前の値上げ / 平日の値下げで需要平準化と CVR 改善</li>
+            <li>パートナーとの料金体系合意が前提、Q3 試行を目標</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Roadmap -->
+  <div class="card">
+    <div class="sub-sec">
+      <span class="sub-sec-num">05</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">ロードマップ</span>
+      <h2 class="sub-sec-title">価格戦略の段階的実行（6 週）</h2>
+    </div>
+    <div class="sub-road">
+      <div class="sub-road-grid">
+        <div class="sub-road-step"><div class="sub-road-when">W20-21</div><div class="sub-road-title">マージン変更純効果検証</div><div class="sub-road-body">P-A1 SQL 抽出、通貨グループ別 CVR の差分検証、5/19 意思決定会議で部分巻き戻しの要否判断。</div></div>
+        <div class="sub-road-step"><div class="sub-road-when">W22-23</div><div class="sub-road-title">最終価格表示 A/B 開始</div><div class="sub-road-body">P-A2 UIUX 実装 + A/B 投入、BN1 フォーム引き算と統合測定。</div></div>
+        <div class="sub-road-step"><div class="sub-road-when">W24-25</div><div class="sub-road-title">競合価格モニタリング基盤</div><div class="sub-road-body">P-A3 クロール基盤構築、競合 02 (C-A2) と統合実装、価格差アラート機能稼働開始。</div></div>
+        <div class="sub-road-step"><div class="sub-road-when">W26-</div><div class="sub-road-title">ダイナミックプライシング企画</div><div class="sub-road-body">P-A4 沖縄パイロット計画策定、パートナー合意取得、Q3 試行を目指す。</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sub-nav">
+      <div class="sub-nav-title">6 領域ナビゲーション</div>
+      <div class="sub-nav-grid">
+        <a href="/2026h1/spot/2026-gw/01-macro.html" class="sub-nav-item"><span class="sub-nav-num">🌐 01</span><span class="sub-nav-name">マクロ環境</span></a>
+        <a href="/2026h1/spot/2026-gw/02-competitive.html" class="sub-nav-item"><span class="sub-nav-num">⚔ 02</span><span class="sub-nav-name">競合シェア</span></a>
+        <a href="/2026h1/spot/2026-gw/03-pricing.html" class="sub-nav-item active"><span class="sub-nav-num">💴 03</span><span class="sub-nav-name">価格戦略</span></a>
+        <a href="/2026h1/spot/2026-gw/04-product.html" class="sub-nav-item"><span class="sub-nav-num">📦 04</span><span class="sub-nav-name">商品</span></a>
+        <a href="/2026h1/spot/2026-gw/05-customer-behavior.html" class="sub-nav-item"><span class="sub-nav-num">👤 05</span><span class="sub-nav-name">顧客行動</span></a>
+        <a href="/2026h1/spot/2026-gw/06-uiux.html" class="sub-nav-item"><span class="sub-nav-num">🏗 06</span><span class="sub-nav-name">UIUX</span></a>
+      </div>
+    </div>
+    <div class="sub-return">
+      <a href="/2026h1/spot/2026-gw-cvr-decline.html">← 親ページに戻る</a>
+      <span style="color:var(--text3)">2026-05-11 v1 / 担当: 価格戦略 / RM</span>
+    </div>
+  </div>
+
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

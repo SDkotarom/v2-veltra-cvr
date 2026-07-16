@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>週次レポート（リダイレクト）</title>
+<script>
+// week_id を半期フォルダ込みのディレクトリ URL に変換（2026-h1 / 2026-h2）
+function weekDirFor(week){
+  var m = /^(\d{4})-w(\d+)$/.exec(week || '');
+  if(!m) return '/2026h1/reports/';
+  return '/2026h1/reports/' + m[1] + '-' + (parseInt(m[2],10) <= 26 ? 'h1' : 'h2') + '/' + week + '/';
+}
+(function(){
+  var params = new URLSearchParams(location.search);
+  var week = params.get('week');
+  if (week && /^\d{4}-w\d+$/.test(week)) {
+    location.replace(weekDirFor(week));
+  } else {
+    location.replace('/2026h1/reports/');
+  }
+})();
+</script>
+</head>
+<body>
+<p style="font-family:sans-serif;padding:40px">週次サマリーに移動しています…<br><a id="fallback" href="/2026h1/reports/">/reports/ へ移動</a></p>
+<script>
+  var params = new URLSearchParams(location.search);
+  var week = params.get('week');
+  if (week && /^\d{4}-w\d+$/.test(week)) {
+    document.getElementById('fallback').href = weekDirFor(week);
+    document.getElementById('fallback').textContent = weekDirFor(week) + ' へ移動';
+  }
+</script>
+</body>
+</html>

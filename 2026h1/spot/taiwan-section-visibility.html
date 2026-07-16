@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台湾トップページ｜どのセクションが見られているか（GA4）</title>
+<style>
+:root{
+  --text:#1a2433;--text2:#3f4d60;--text3:#7b8794;--border:#e2e8f0;--bg:#f6f8fb;
+  --accent:#1b82c5;--accent-bg:#e8f2fb;--green:#1a8c4e;--amber:#d97706;--red:#c2410c;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:24px 28px 80px}
+/* cross-link nav */
+.xnav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px}
+.xnav a{font-size:13px;font-weight:800;text-decoration:none;padding:8px 16px;border-radius:8px;border:1px solid var(--border);color:var(--text2);background:#fff}
+.xnav a.cur{background:var(--accent);border-color:var(--accent);color:#fff}
+.xnav a:not(.cur):hover{border-color:var(--accent);color:var(--accent)}
+.brand{font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+h1{font-size:27px;line-height:1.45;margin:6px 0 8px;font-weight:900}
+.lede{font-size:14.5px;color:var(--text2);margin:0 0 6px}
+.src{font-size:12.5px;color:var(--text3);margin:2px 0 28px}
+.src b{color:var(--text2)}
+h2{font-size:19px;font-weight:900;margin:36px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+/* verdict */
+.verdict{background:#fff;border:1px solid var(--border);border-left:6px solid var(--accent);border-radius:12px;padding:20px 24px;margin:0 0 8px}
+.verdict h3{font-size:16px;font-weight:900;margin:0 0 8px;color:var(--accent)}
+.verdict p{font-size:14.5px;color:var(--text2);margin:0 0 6px}
+.verdict b{color:var(--text)}
+/* metric strip */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 8px}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.kpi .v{font-size:28px;font-weight:900;line-height:1.1}
+.kpi .l{font-size:12.5px;color:var(--text3);margin-top:4px;line-height:1.45}
+.kpi .s{font-size:12px;color:var(--text2);margin-top:4px}
+/* funnel sections */
+.sec-list{margin:8px 0}
+.sec{display:grid;grid-template-columns:34px 1fr 132px;align-items:center;gap:0;border:1px solid var(--border);border-radius:10px;background:#fff;margin-bottom:8px;overflow:hidden}
+.sec .ord{text-align:center;font-family:"DM Sans",sans-serif;font-weight:900;font-size:15px;color:var(--text3);padding:14px 0;border-right:1px solid var(--border)}
+.sec .nm{padding:12px 16px}
+.sec .nm .t{font-size:15px;font-weight:800}
+.sec .nm .d{font-size:12.5px;color:var(--text3);margin-top:2px}
+.sec .vis{padding:12px 14px;text-align:right;border-left:1px solid var(--border)}
+.sec .vis .pct{font-size:18px;font-weight:900}
+.sec .vis .tag{font-size:11px;font-weight:900;color:#fff;border-radius:5px;padding:2px 8px;display:inline-block;margin-top:3px}
+.seen .vis .pct{color:var(--green)}     .seen .tag{background:var(--green)}     .seen{border-left:5px solid var(--green)}
+.mid  .vis .pct{color:var(--amber)}     .mid .tag{background:var(--amber)}      .mid{border-left:5px solid var(--amber)}
+.cold .vis .pct{color:var(--red)}       .cold .tag{background:var(--red)}       .cold{border-left:5px solid var(--red)}
+.foot{border-left:5px solid #cbd5e1}    .foot .vis .pct{color:var(--text3)}     .foot .tag{background:#94a3b8}
+/* engagement table */
+table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+th{text-align:left;font-size:11.5px;font-weight:900;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;padding:11px 14px;background:#fbfcfe;border-bottom:2px solid var(--border)}
+td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top}
+td b{color:var(--text)}
+tr:last-child td{border-bottom:none}
+.num{font-variant-numeric:tabular-nums;font-weight:800;color:var(--text)}
+/* caveat */
+.cav{background:#fffdf5;border:1px solid #f0e0b8;border-radius:10px;padding:16px 20px;margin:14px 0 0;font-size:13px;color:#7a6420;line-height:1.75}
+.cav b{color:#5c4d10}
+.cav ul{margin:6px 0 0;padding-left:20px}
+.note{font-size:13px;color:var(--text2);line-height:1.8}
+.note b{color:var(--text)}
+@media(max-width:680px){.kpis{grid-template-columns:repeat(2,1fr)}.sec{grid-template-columns:28px 1fr 96px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="xnav">
+    <a href="/2026h1/spot/veltra-top-section-visibility.html">ベルトラTOP</a>
+    <a class="cur" href="/2026h1/spot/taiwan-section-visibility.html">台湾トップ</a>
+    <a href="/2026h1/spot/jiufen-category-section-visibility.html">九份カテゴリー</a>
+    <a href="/2026h1/spot/ac-page-section-visibility.html">商品詳細(AC)</a>
+  </nav>
+
+  <div class="brand">Veltra · GA4 Spot Analysis</div>
+  <h1>台湾トップページ — どのセクションが「見られている」か</h1>
+  <p class="lede">対象URL: <b>/jp/asia/taiwan/</b>（台湾エリアトップ）。スクロール到達と商品ページ（AC）へのクリック到達から、各セクションがどこまで見られているかを推定。</p>
+  <p class="src">出典: GA4 Property <b>347074845</b>／期間 <b>2026-05-10〜06-08（直近30日）</b>／指標は標本抽出あり（約27%サンプル）。Traveler の行動はセッション単位で集計。</p>
+
+  <div class="verdict">
+    <h3>結論</h3>
+    <p>① ページ上部（<b>出発地選択 → 台湾でやりたいこと → ランキング → 台北おすすめ</b>）はほぼ全 Traveler に到達。</p>
+    <p>② <b>下半分（限定キャンペーン・注目特集・5つ星体験談・全カテゴリー）は約1割しか到達していない</b>。90%スクロール到達が <b>610人 / 5,598人＝10.9%</b> しかないため、最下部のレビューや特集は事実上ほとんど見られていない。</p>
+    <p>③ <b>27.5%</b> の Traveler が商品ページ（AC＝ツアー詳細ページ）へクリック到達。ただし<b>どのセクションのカード経由かは GA4 にタグ付けされていない</b>（<code>click_id</code> が全件空）ため、セクション別の貢献は現状の計測では特定できない。</p>
+  </div>
+
+  <div class="devtoggle" role="tablist">
+    <button data-dev="all" class="on">全体</button>
+    <button data-dev="pc">PC</button>
+    <button data-dev="mb">モバイル</button>
+  </div>
+  <p class="dev-hint">PC / モバイルを切り替えると上部4指標がデバイス別に更新されます（GA4 deviceCategory）。下のセクションマップは全体ベースです。<br><b>モバイル優位（68%）。モバイルは商品カードを猛烈に押す（AC到達33.4%）一方、デスクトップは9.9%どまり。スクロールはデスクトップがやや深い。</b></p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="v" style="color:var(--accent)" data-all="5,598" data-pc="1,755" data-mb="3,943">5,598</div><div class="l">ページ閲覧 Traveler 数</div><div class="s" data-all="page_view 10,170回" data-pc="デスクトップ（全体の30%）" data-mb="モバイル（全体の68%）">page_view 10,170回</div></div>
+    <div class="kpi"><div class="v" style="color:var(--red)" data-all="10.9%" data-pc="11.6%" data-mb="9.4%">10.9%</div><div class="l">最下部(90%)まで到達</div><div class="s" data-all="610人 / scroll 705回" data-pc="203人" data-mb="371人">610人 / scroll 705回</div></div>
+    <div class="kpi"><div class="v" style="color:var(--green)" data-all="27.5%" data-pc="9.9%" data-mb="33.4%">27.5%</div><div class="l">商品ページ（AC）へクリック到達</div><div class="s" data-all="1,537人 / ac_page_reach 3,911回" data-pc="174人" data-mb="1,319人">1,537人 / ac_page_reach 3,911回</div></div>
+    <div class="kpi"><div class="v" style="color:var(--accent)" data-all="6.6%" data-pc="4.2%" data-mb="7.1%">6.6%</div><div class="l">ページ内検索を開始</div><div class="s" data-all="372人 / form_start 453回" data-pc="73人" data-mb="281人">372人 / form_start 453回</div></div>
+  </div>
+
+  <h2>セクション別・推定到達度（上から下へ）</h2>
+  <p class="note">GA4標準の scroll イベントは <b>「90%到達」の1段階のみ</b>計測される。よって中間段階は到達順から推定。緑＝ほぼ全員が視認／橙＝一部離脱しつつ視認／赤＝約1割しか到達せず。</p>
+  <div class="sec-list">
+    <div class="sec seen"><div class="ord">1</div><div class="nm"><div class="t">ヘッダー・ナビ／検索</div><div class="d">ロゴ・検索窓・ログイン・保存リスト</div></div><div class="vis"><div class="pct">~100%</div><span class="tag">全員視認</span></div></div>
+    <div class="sec seen"><div class="ord">2</div><div class="nm"><div class="t">出発地選択</div><div class="d">台北・高雄・台中・台南・台東・地方都市</div></div><div class="vis"><div class="pct">~100%</div><span class="tag">全員視認</span></div></div>
+    <div class="sec seen"><div class="ord">3</div><div class="nm"><div class="t">台湾でやりたいことを探す</div><div class="d">エリア／テーマ導線</div></div><div class="vis"><div class="pct">高</div><span class="tag">大半が視認</span></div></div>
+    <div class="sec seen"><div class="ord">4</div><div class="nm"><div class="t">台湾のランキング（売れ筋／満足度）</div><div class="d">上位18ツアー。商品ページへのクリック到達の主動線</div></div><div class="vis"><div class="pct">高</div><span class="tag">大半が視認</span></div></div>
+    <div class="sec mid"><div class="ord">5</div><div class="nm"><div class="t">台北のおすすめアクティビティ</div><div class="d">季節限定・九份・貸切チャーター等</div></div><div class="vis"><div class="pct">中</div><span class="tag">一部離脱</span></div></div>
+    <div class="sec mid"><div class="ord">6</div><div class="nm"><div class="t">台北発おすすめ郊外観光ツアー</div><div class="d">野柳・基隆・台中・高雄など</div></div><div class="vis"><div class="pct">中</div><span class="tag">一部離脱</span></div></div>
+    <div class="sec cold"><div class="ord">7</div><div class="nm"><div class="t">すべてのカテゴリーを見る</div><div class="d">観光・グルメ・文化体験ほか多数</div></div><div class="vis"><div class="pct">~11%</div><span class="tag">ほぼ未到達</span></div></div>
+    <div class="sec cold"><div class="ord">8</div><div class="nm"><div class="t">限定キャンペーン</div><div class="d">割引キャンペーン6件</div></div><div class="vis"><div class="pct">~11%</div><span class="tag">ほぼ未到達</span></div></div>
+    <div class="sec cold"><div class="ord">9</div><div class="nm"><div class="t">台湾注目の特集</div><div class="d">野球観戦・フルーツ体験・鉄道旅など12件</div></div><div class="vis"><div class="pct">~11%</div><span class="tag">ほぼ未到達</span></div></div>
+    <div class="sec cold"><div class="ord">10</div><div class="nm"><div class="t">最新5つ星体験談（レビュー）</div><div class="d">ユーザーレビュー5件</div></div><div class="vis"><div class="pct">~11%</div><span class="tag">ほぼ未到達</span></div></div>
+    <div class="sec foot"><div class="ord">11</div><div class="nm"><div class="t">フッター</div><div class="d">リンク集・企業情報・法務</div></div><div class="vis"><div class="pct">&lt;11%</div><span class="tag">最下部</span></div></div>
+  </div>
+
+  <h2>ページ内で発火したイベント（実測）</h2>
+  <table>
+    <thead><tr><th>イベント</th><th>意味</th><th style="text-align:right">回数</th><th style="text-align:right">ユーザー</th></tr></thead>
+    <tbody>
+      <tr><td><b>page_view</b></td><td>ページ表示</td><td class="num" style="text-align:right">10,170</td><td class="num" style="text-align:right">5,598</td></tr>
+      <tr><td><b>ac_page_reach</b></td><td>商品ページ（AC＝ツアー詳細ページ）へのクリック到達 ＝ カード操作の主指標</td><td class="num" style="text-align:right">3,911</td><td class="num" style="text-align:right">1,537</td></tr>
+      <tr><td><b>scroll</b></td><td>縦90%まで到達（＝最下部視認）</td><td class="num" style="text-align:right">705</td><td class="num" style="text-align:right">610</td></tr>
+      <tr><td><b>form_submit</b></td><td>ページ内検索の実行</td><td class="num" style="text-align:right">650</td><td class="num" style="text-align:right">329</td></tr>
+      <tr><td><b>form_start</b></td><td>検索窓への入力開始</td><td class="num" style="text-align:right">453</td><td class="num" style="text-align:right">372</td></tr>
+      <tr><td><b>suggest_clicked</b></td><td>検索サジェストのクリック</td><td class="num" style="text-align:right">44</td><td class="num" style="text-align:right">33</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cav">
+    <b>計測上の注意（解釈を誤らないために）</b>
+    <ul>
+      <li>セクション単位のビュー数は GA4 に存在しない。scroll は <b>90%到達の1段階のみ</b>のため、中間セクション（5〜6）の到達率は順序からの推定。</li>
+      <li><code>ac_page_reach</code>（商品ページ＝ACへの到達）の <code>click_id</code> はこのページで<b>全件空</b> → どのセクションのカードがクリックされたか特定不能。「どのセクションが売れているか」を出すには、各カードに <b>section名＋position をパラメータ付与</b>する計測実装が必要。</li>
+      <li><b>左ナビ（絞り込み）のクリックは、このページでは計測されていない</b>。フィルタ・クリック(<code>search_filter_click</code>)が発火するのは検索結果ページ(<code>/…/search</code>)のみ。エリアトップの左側リンクは「押されたか」をボタン単位では追えない（押下＝次ページ遷移としてのみ記録）。</li>
+      <li>本レポートは<b>約27%サンプル</b>の標本抽出値。傾向把握用で、絶対値は誤差を含む。</li>
+    </ul>
+  </div>
+</div>
+<script src="/2026h1/spot/device-toggle.js"></script>
+<script src="/nav.js"></script>
+</body>
+</html>

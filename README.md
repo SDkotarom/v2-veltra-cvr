@@ -6,8 +6,9 @@
 - ドメイン変更（プロジェクト名／カスタムドメイン）は Vercel ダッシュボード側で実施する（リポジトリからは不可）。
 
 - **ポータル**: https://v2-veltra-cvr.vercel.app/
-- **H2 Mission & 管理ボード**: `/spot/2026-h2-ux-squad-mission.html`
-- **H1 CVR サマリー**: `/cvr.html` ／ **KPI**: `/kpi.html` ／ **週次レポート**: `/reports/`
+- **H2 Mission & 管理ボード**: `/2026h2/`（ファイル実体は `2026h2/index.html`）
+- **H1 CVR サマリー**: `/2026h1/cvr.html` ／ **KPI**: `/2026h1/kpi.html` ／ **週次レポート**: `/2026h1/reports/`
+- H1（これまでの CVR レポート・分析・施策ページ）は `2026h1/` 配下、H2 は `2026h2/` 配下。振り分けは `/`（index.html）。
 - **運用マニュアル**: [docs/playbook.md](docs/playbook.md) — 週次レポート生成手順・品質チェックリスト
 - **技術構成**: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — スキーマ・データフロー・デプロイ
 - **デザインルール**: [docs/veltra-design-system.md](docs/veltra-design-system.md) — VELTRAサイトのUI仕様
