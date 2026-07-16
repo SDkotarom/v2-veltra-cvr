@@ -74,11 +74,20 @@ v2-veltra-cvr/
 ├── report.html                       ← /report.html?week=… を /reports/{W}/ へリダイレクト（後方互換）
 ├── index.html / login.html / cycle.html / analysis.html  ← ページ
 ├── summary-data.json / weekly-summary.json / reports-index.json / archive-meta.json  ← データ
-└── reports/{YYYY}-w{WW}/
-    ├── data.json               ← GA4実データ（ファネル・セグメント・ボトルネック）
-    ├── index.html              ← 週次サマリー（手書き・3セクション+詳細自動描画）
-    └── bottleneck-{1-10}-content.json  ← ボトルネック分析コンテンツ
+└── reports/
+    ├── index.html              ← 週次アーカイブ一覧（H1 分をそのまま掲載）
+    ├── 2026-h1/                ← 上半期（W1〜W26）
+    │   └── {YYYY}-w{WW}/
+    │       ├── data.json               ← GA4実データ（ファネル・セグメント・ボトルネック）
+    │       ├── index.html              ← 週次サマリー（手書き・3セクション+詳細自動描画）
+    │       └── bottleneck-{1-10}-content.json  ← ボトルネック分析コンテンツ
+    └── 2026-h2/                ← 下半期（W27〜）※ H2 の新規週はここに生成
+        └── {YYYY}-w{WW}/ …（H1 と同じ構成）
 ```
+
+> **半期フォルダ規則（2026 H2〜）**: 週ディレクトリは `reports/{YYYY}-{h1|h2}/{YYYY}-w{WW}/` に配置する（上半期 = W1〜W26 → `h1`、下半期 = W27〜 → `h2`）。
+> 以降の本書中の `reports/{YYYY}-w{WW}/` という表記はすべて半期フォルダ配下（`reports/{YYYY}-{h1|h2}/{YYYY}-w{WW}/`）を指す。
+> パス変換は `generate-week.py` / `validate-report.py` / `audit-actions.py` の `week_reldir()`、フロント側は `nav.js` / `bottleneck.html` / `report.html` の `weekDirFor()` が担う（W番号から自動判定）。
 
 ---
 

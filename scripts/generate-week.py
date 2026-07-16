@@ -18,6 +18,7 @@ generate-week.py
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -41,6 +42,19 @@ REPORTS_INDEX_PATH = os.path.join(REPO_ROOT, "reports-index.json")
 ARCHIVE_META_PATH = os.path.join(REPO_ROOT, "archive-meta.json")
 WEEKLY_SUMMARY_PATH = os.path.join(REPO_ROOT, "weekly-summary.json")
 REPORTS_DIR = os.path.join(REPO_ROOT, "reports")
+
+
+def week_reldir(week_id: str) -> str:
+    """
+    week_id（例 "2026-w15"）を半期フォルダ込みの相対パスに変換する。
+    上半期 = W1〜W26 → {year}-h1、下半期 = W27〜 → {year}-h2。
+    例: "2026-w15" → "2026-h1/2026-w15"、"2026-w30" → "2026-h2/2026-w30"
+    """
+    m = re.match(r"^(\d{4})-w(\d+)$", week_id)
+    if not m:
+        return week_id
+    half = "h1" if int(m.group(2)) <= 26 else "h2"
+    return f"{m.group(1)}-{half}/{week_id}"
 
 
 # ============================================================
@@ -593,9 +607,9 @@ def read_json(path: str) -> dict:
 def step_create_directory(week_id: str, dry_run: bool) -> str:
     """
     ステップ1: レポートディレクトリを作成する。
-    例: reports/2026-w15/
+    例: reports/2026-h1/2026-w15/（半期フォルダ配下）
     """
-    week_dir = os.path.join(REPORTS_DIR, week_id)
+    week_dir = os.path.join(REPORTS_DIR, week_reldir(week_id))
     print(f"\n[1] ディレクトリ作成: {week_dir}")
     if dry_run:
         print(f"  [DRY-RUN] mkdir -p {week_dir}")
@@ -769,8 +783,8 @@ def step_update_reports_index(meta: dict, dry_run: bool) -> None:
         "week_label": meta["week_label"],
         "date_start": meta["date_start"],
         "date_end": meta["date_end"],
-        "path": f"/reports/{meta['week_id']}/",
-        "data_path": f"/reports/{meta['week_id']}/data.json",
+        "path": f"/reports/{week_reldir(meta['week_id'])}/",
+        "data_path": f"/reports/{week_reldir(meta['week_id'])}/data.json",
     }
     index["weeks"].append(new_entry)
     # 常に時系列順にソート（古い順 → 最新が末尾）
@@ -890,7 +904,7 @@ def main() -> None:
     # --skeleton モード: content.json スケルトン生成のみ
     # --------------------------------------------------------
     if args.skeleton:
-        week_dir = os.path.join(REPORTS_DIR, meta["week_id"])
+        week_dir = os.path.join(REPORTS_DIR, week_reldir(meta["week_id"]))
         step_generate_skeletons(week_dir, args.dry_run)
 
         # スケルトン生成後に audit-actions.py を自動実行

@@ -19,6 +19,15 @@ ROOT = Path(__file__).resolve().parent.parent
 ERRORS = []
 WARNINGS = []
 
+
+def week_reldir(week_id):
+    """week_id（例 2026-w15）を半期フォルダ込みの相対パスに変換。例: 2026-h1/2026-w15"""
+    m = re.match(r"^(\d{4})-w(\d+)$", week_id)
+    if not m:
+        return week_id
+    half = "h1" if int(m.group(2)) <= 26 else "h2"
+    return f"{m.group(1)}-{half}/{week_id}"
+
 def error(msg):
     ERRORS.append(msg)
     print(f"  ❌ {msg}")
@@ -40,7 +49,7 @@ def detect_latest_week():
     return weeks[-1]["week_id"] if weeks else None
 
 def load_data_json(week_id):
-    path = ROOT / "reports" / week_id / "data.json"
+    path = ROOT / "reports" / week_reldir(week_id) / "data.json"
     if not path.exists():
         error(f"data.json が見つかりません: {path}")
         return None
@@ -97,7 +106,7 @@ def check_reports_index(week_id, data):
 #       → 28日ベースライン数値を index.html 内に直接書く必要はない。
 def check_summary_page(week_id, data):
     print(f"\n[2] reports/{week_id}/index.html 構造 + data.json 整合")
-    html = read_html(ROOT / "reports" / week_id / "index.html")
+    html = read_html(ROOT / "reports" / week_reldir(week_id) / "index.html")
     if not html:
         return
 
@@ -133,7 +142,7 @@ def check_summary_page(week_id, data):
 # ── 検証3: 用語統一 ──────────────────────────────
 def check_terminology(week_id):
     print(f"\n[3] 用語統一チェック")
-    report_dir = ROOT / "reports" / week_id
+    report_dir = ROOT / "reports" / week_reldir(week_id)
     bad_terms = {
         "回遊段階": "①→② 流入→AC到達",
         "検討段階": "②→③ AC到達→検討",
@@ -157,7 +166,7 @@ def check_terminology(week_id):
 #       静的な bottleneck-N.html は存在せず、content.json が描画ソース。
 def check_bottleneck_pages(week_id):
     print(f"\n[4] ボトルネック content.json")
-    report_dir = ROOT / "reports" / week_id
+    report_dir = ROOT / "reports" / week_reldir(week_id)
 
     for i in range(1, 11):
         path = report_dir / f"bottleneck-{i}-content.json"
@@ -212,7 +221,7 @@ def check_favicons(week_id):
         "Viator": "cache.vtrcdn.com",
         "アソビュー": "asoview-media.com",
     }
-    report_dir = ROOT / "reports" / week_id
+    report_dir = ROOT / "reports" / week_reldir(week_id)
     
     for html_file in sorted(report_dir.glob("bottleneck-*.html")):
         content = html_file.read_text()
@@ -225,7 +234,7 @@ def check_favicons(week_id):
 # ── 検証7: behavior_context フィールド ──────────────
 def check_behavior_context(week_id):
     print(f"\n[7] behavior_context フィールド")
-    report_dir = ROOT / "reports" / week_id
+    report_dir = ROOT / "reports" / week_reldir(week_id)
     content_files = sorted(report_dir.glob("bottleneck-*-content.json"))
     if not content_files:
         warn("content.json ファイルが見つかりません（スキップ）")
@@ -262,7 +271,7 @@ VALID_EFFORT_LEVELS = {"S", "M", "L", "XL"}
 
 def check_action_review_fields(week_id):
     print(f"\n[8] implementation_check / feasibility フィールド")
-    report_dir = ROOT / "reports" / week_id
+    report_dir = ROOT / "reports" / week_reldir(week_id)
     content_files = sorted(report_dir.glob("bottleneck-*-content.json"))
     if not content_files:
         warn("content.json ファイルが見つかりません（スキップ）")

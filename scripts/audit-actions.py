@@ -19,12 +19,22 @@ audit-actions.py
 import argparse
 import json
 import os
+import re
 import sys
 from typing import Optional
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REPORTS_DIR = os.path.join(REPO_ROOT, "reports")
 IMPLEMENTATIONS_PATH = os.path.join(REPO_ROOT, "known-implementations.json")
+
+
+def week_reldir(week_id: str) -> str:
+    """week_id（例 2026-w15）を半期フォルダ込みの相対パスに変換。例: 2026-h1/2026-w15"""
+    m = re.match(r"^(\d{4})-w(\d+)$", week_id)
+    if not m:
+        return week_id
+    half = "h1" if int(m.group(2)) <= 26 else "h2"
+    return os.path.join(f"{m.group(1)}-{half}", week_id)
 CONSTRAINTS_PATH = os.path.join(REPO_ROOT, "feasibility-constraints.json")
 
 
@@ -143,7 +153,7 @@ def estimate_effort(action_spec: str, constraints: list[dict]) -> str:
 
 def audit_week(week_id: str, auto_fill: bool = False, report_only: bool = False) -> int:
     """指定週のボトルネック分析を監査"""
-    week_dir = os.path.join(REPORTS_DIR, week_id)
+    week_dir = os.path.join(REPORTS_DIR, week_reldir(week_id))
     if not os.path.isdir(week_dir):
         print(f"エラー: {week_dir} が見つかりません", file=sys.stderr)
         return 1
