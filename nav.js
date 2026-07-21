@@ -152,7 +152,7 @@
     return '/2026h1/reports/' + m[1] + '-' + (parseInt(m[2], 10) <= 26 ? 'h1' : 'h2') + '/' + week + '/';
   }
   var isTop      = (path === '/' || path === '/index.html');
-  var isCvr      = (path === '/2026h1/cvr.html');
+  var isCvr      = (path === '/2026h1/' || path === '/2026h1/index.html' || path === '/2026h1/cvr.html');
   var isKpi      = (path === '/2026h1/kpi.html');
   var isCycle    = (path === '/2026h1/cycle.html');
   var isAnalysis = (path === '/2026h1/analysis.html');
@@ -585,7 +585,7 @@
 
     // ■ CVR サマリー
     var sumA = document.createElement('a');
-    sumA.href = '/2026h1/cvr.html';
+    sumA.href = '/2026h1/';
     sumA.className = 'nav-item' + (isCvr ? ' nav-active' : '');
     sumA.appendChild(makeIcon('summary'));
     sumA.appendChild(document.createTextNode('CVR サマリー'));
