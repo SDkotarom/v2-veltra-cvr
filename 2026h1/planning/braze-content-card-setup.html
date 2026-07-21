@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Braze Content Card 実装手順｜CVR施策</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=DM+Mono:wght@400;500&family=Bricolage+Grotesque:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f8fa;
+  --white: #ffffff;
+  --surface: #f0f2f6;
+  --border: #e2e6ed;
+  --border2: #cbd2dd;
+  --text: #0f1623;
+  --text2: #3a4456;
+  --muted: #7a8698;
+  --accent: #1c5fdf;
+  --accent-bg: #eef3fd;
+  --accent-border: #c4d5f8;
+  --red: #d93535;
+  --red-bg: #fef2f2;
+  --red-border: #fccfcf;
+  --green: #0f9a6b;
+  --green-bg: #f0faf6;
+  --green-border: #a8e4ce;
+  --orange: #c9610e;
+  --orange-bg: #fff7ed;
+  --orange-border: #fdd9a8;
+  --purple: #6b33c5;
+  --purple-bg: #f3eefe;
+  --purple-border: #d1b8f5;
+  --p1: #1c5fdf;
+  --p2: #6b33c5;
+  --p3: #0f9a6b;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+/* HEADER */
+.doc-header {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 40px 32px;
+}
+.doc-header-inner { max-width: 1000px; margin: 0 auto; }
+.doc-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--accent-bg); border: 1px solid var(--accent-border);
+  color: var(--accent); font-size: 13px; font-weight: 700;
+  padding: 4px 14px; border-radius: 100px; margin-bottom: 16px; letter-spacing: 0.04em;
+}
+.doc-header h1 {
+  font-family: 'Bricolage Grotesque', 'Noto Sans JP', sans-serif;
+  font-size: 30px; font-weight: 800; color: var(--text);
+  line-height: 1.35; margin-bottom: 12px;
+}
+.doc-header-sub { color: var(--text2); font-size: 15px; max-width: 760px; line-height: 1.7; }
+.doc-meta { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.doc-meta-chip {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 14px; font-size: 14px;
+}
+.doc-meta-chip span { color: var(--muted); margin-right: 6px; }
+.doc-meta-chip strong { color: var(--text); }
+
+/* TOC */
+.toc-bar {
+  background: var(--white); border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+}
+.toc-inner {
+  max-width: 1000px; margin: 0 auto;
+  display: flex; overflow-x: auto;
+}
+.toc-item {
+  padding: 14px 20px; font-size: 14px; font-weight: 600; color: var(--muted);
+  white-space: nowrap; cursor: pointer;
+  border-bottom: 2px solid transparent; transition: all 0.15s;
+}
+.toc-item:hover { color: var(--accent); }
+.toc-item.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* LAYOUT */
+.container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+section { padding: 48px 0; }
+.section-header { margin-bottom: 28px; }
+.section-num {
+  font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted);
+  letter-spacing: 0.07em; margin-bottom: 6px;
+}
+.section-title {
+  font-family: 'Bricolage Grotesque', 'Noto Sans JP', sans-serif;
+  font-size: 24px; font-weight: 800; color: var(--text); margin-bottom: 6px;
+}
+.section-desc { color: var(--text2); font-size: 15px; max-width: 760px; line-height: 1.7; }
+.divider { height: 1px; background: var(--border); }
+
+/* SUB SECTION */
+.subsec { margin-bottom: 36px; }
+.subsec-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--muted); letter-spacing: 0.12em; margin-bottom: 4px; text-transform: uppercase;
+}
+.subsec-title {
+  font-size: 18px; font-weight: 800; color: var(--text);
+  margin-bottom: 14px; padding-bottom: 10px;
+  border-bottom: 2px solid var(--text);
+}
+
+/* BULLET LIST */
+.bullet-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.bullet-list li {
+  font-size: 15px; line-height: 1.7; color: var(--text);
+  padding-left: 22px; position: relative;
+}
+.bullet-list li::before {
+  content: '●'; position: absolute; left: 0; top: 0;
+  color: var(--accent); font-size: 10px; line-height: 2.55;
+}
+.bullet-list li strong { color: var(--text); font-weight: 700; }
+
+/* CALLOUT */
+.callout {
+  border-radius: 10px; padding: 18px 22px; margin-bottom: 20px;
+  display: flex; gap: 14px; align-items: flex-start; border: 1px solid;
+}
+.callout.blue { background: var(--accent-bg); border-color: var(--accent-border); }
+.callout.red { background: var(--red-bg); border-color: var(--red-border); }
+.callout.green { background: var(--green-bg); border-color: var(--green-border); }
+.callout.orange { background: var(--orange-bg); border-color: var(--orange-border); }
+.callout.purple { background: var(--purple-bg); border-color: var(--purple-border); }
+.callout-tag {
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.1em; padding: 4px 10px; border-radius: 4px;
+  border: 1px solid; background: #fff; flex-shrink: 0; line-height: 1.4;
+}
+.callout.blue .callout-tag { color: var(--accent); border-color: var(--accent-border); }
+.callout.red .callout-tag { color: var(--red); border-color: var(--red-border); }
+.callout.green .callout-tag { color: var(--green); border-color: var(--green-border); }
+.callout.orange .callout-tag { color: var(--orange); border-color: var(--orange-border); }
+.callout.purple .callout-tag { color: var(--purple); border-color: var(--purple-border); }
+.callout-body { font-size: 15px; line-height: 1.75; color: var(--text); }
+.callout-body strong { color: var(--text); }
+
+/* CODE INLINE & BLOCK */
+code.inline {
+  font-family: 'DM Mono', monospace; font-size: 13px;
+  background: var(--surface); padding: 2px 7px; border-radius: 4px;
+  color: var(--text); border: 1px solid var(--border);
+}
+.code-block {
+  background: #0f1623; color: #e3e8f0; padding: 16px 20px; border-radius: 8px;
+  font-family: 'DM Mono', monospace; font-size: 13px; line-height: 1.7;
+  overflow-x: auto; margin: 12px 0; border: 1px solid #1a2538;
+}
+.code-block .k { color: #ff7ab2; }
+.code-block .s { color: #f8d57e; }
+.code-block .c { color: #6b7a93; }
+.code-block .f { color: #7fd1b1; }
+
+/* BIG CTA BUTTONS */
+.cta-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  margin-top: 24px;
+}
+.cta-grid.single { grid-template-columns: 1fr; }
+.cta-btn {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 24px 28px; background: var(--accent); color: #fff;
+  text-decoration: none; border-radius: 12px;
+  transition: transform .15s, box-shadow .15s, background .15s;
+  box-shadow: 0 4px 16px rgba(28, 95, 223, 0.18);
+  min-height: 88px;
+}
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(28, 95, 223, 0.28); background: #154eb8; }
+.cta-btn.alt {
+  background: var(--white); color: var(--accent);
+  border: 1.5px solid var(--accent-border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.cta-btn.alt:hover { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); }
+.cta-btn .cta-l { flex: 1; min-width: 0; }
+.cta-btn .cta-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em;
+  opacity: 0.85; margin-bottom: 6px; text-transform: uppercase;
+}
+.cta-btn .cta-label {
+  font-family: 'Bricolage Grotesque', 'Noto Sans JP', sans-serif;
+  font-size: 20px; font-weight: 800; line-height: 1.35;
+}
+.cta-btn .cta-sub { font-size: 12px; opacity: 0.78; margin-top: 6px; font-weight: 400; }
+.cta-btn .cta-arrow {
+  font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 30px; line-height: 1;
+  flex-shrink: 0; opacity: 0.9;
+}
+
+/* PHASE STAT ROW */
+.stat-row {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 24px;
+}
+.stat-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px 16px; position: relative; overflow: hidden;
+}
+.stat-card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  border-radius: 12px 12px 0 0;
+}
+.stat-card.blue::after { background: var(--accent); }
+.stat-card.purple::after { background: var(--purple); }
+.stat-card.green::after { background: var(--green); }
+.stat-card.orange::after { background: var(--orange); }
+.stat-card.red::after { background: var(--red); }
+.stat-num {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 32px; font-weight: 800; line-height: 1; margin-bottom: 8px;
+}
+.stat-card.blue .stat-num { color: var(--accent); }
+.stat-card.purple .stat-num { color: var(--purple); }
+.stat-card.green .stat-num { color: var(--green); }
+.stat-card.orange .stat-num { color: var(--orange); }
+.stat-card.red .stat-num { color: var(--red); }
+.stat-label { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.stat-detail { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+/* LOGIC CARD (= Phase block) */
+.logic-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; margin-bottom: 16px;
+}
+.logic-card-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 20px; border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.logic-card-badge {
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.05em; padding: 4px 10px; border-radius: 4px; color: #fff;
+}
+.logic-card-badge.b1 { background: var(--accent); }
+.logic-card-badge.b2 { background: var(--purple); }
+.logic-card-badge.b3 { background: var(--orange); }
+.logic-card-badge.b4 { background: var(--green); }
+.logic-card-badge.b5 { background: var(--red); }
+.logic-card-title { font-size: 16px; font-weight: 800; flex: 1; line-height: 1.4; }
+.logic-card-owner {
+  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted);
+  padding: 3px 9px; border: 1px solid var(--border); border-radius: 4px; background: #fff;
+}
+.logic-card-owner strong { color: var(--text); }
+.logic-card-body { padding: 18px 20px; }
+.logic-row {
+  display: grid; grid-template-columns: 130px 1fr; gap: 16px;
+  padding: 9px 0; border-bottom: 1px solid #f4f6f9; font-size: 14px;
+  align-items: start;
+}
+.logic-row:last-child { border-bottom: none; }
+.logic-row-label {
+  color: var(--muted); font-weight: 700; font-size: 12px; padding-top: 2px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.logic-row-value { color: var(--text); line-height: 1.7; }
+.logic-row-value code {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  background: var(--surface); padding: 1px 6px; border-radius: 3px;
+}
+
+/* Check list */
+.check-list { list-style: none; padding: 0; margin: 0; }
+.check-list li {
+  position: relative; padding: 7px 0 7px 26px;
+  font-size: 14px; line-height: 1.7;
+  border-bottom: 1px dashed var(--border);
+}
+.check-list li:last-child { border-bottom: none; }
+.check-list li::before {
+  content: ''; position: absolute; left: 0; top: 12px;
+  width: 14px; height: 14px; border: 1.5px solid var(--border2);
+  border-radius: 3px; background: #fff;
+}
+.check-list li.opt::before {
+  border-color: var(--orange); background: var(--orange-bg);
+}
+.check-list li.req::before {
+  border-color: var(--accent); background: var(--accent);
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+/* FLOW STEP grid */
+.flow-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
+.flow-step {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px 18px;
+}
+.flow-step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--text); color: #fff;
+  font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 700;
+  margin-bottom: 10px;
+}
+.flow-step-title { font-size: 14px; font-weight: 800; margin-bottom: 6px; }
+.flow-step-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.flow-step-code {
+  margin-top: 10px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 9px 11px;
+  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text);
+  line-height: 1.6; word-break: break-all;
+}
+
+/* SCENARIO / SEQUENCE */
+.scenario {
+  background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+  padding: 22px 24px; margin-top: 16px;
+}
+.scenario-head {
+  font-size: 15px; font-weight: 800; margin-bottom: 14px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+.scenario-timeline { display: flex; flex-direction: column; gap: 8px; }
+.scenario-event {
+  display: flex; gap: 12px; font-size: 13px; line-height: 1.7;
+  padding: 6px 0; border-bottom: 1px dashed var(--border);
+}
+.scenario-event:last-child { border-bottom: none; }
+.scenario-time {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--muted); min-width: 110px; padding-top: 2px;
+  text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700;
+}
+.scenario-action { color: var(--text); flex: 1; }
+
+/* TABLE */
+.kpi-table {
+  width: 100%; border-collapse: collapse; font-size: 14px;
+  background: var(--white); border-radius: 10px; border: 1px solid var(--border);
+  overflow: hidden; margin-top: 16px;
+}
+.kpi-table th {
+  background: var(--surface); padding: 11px 14px; text-align: left;
+  color: var(--muted); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.06em; border-bottom: 1px solid var(--border);
+}
+.kpi-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.kpi-table tr:last-child td { border-bottom: none; }
+.tag {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 12px; font-weight: 700; line-height: 1.5;
+}
+.tag.green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.tag.orange { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-border); }
+.tag.red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+.tag.blue { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-border); }
+.tag.purple { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
+.tag.solid { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* DECISION */
+.decision-grid { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+.decision-row {
+  display: grid; grid-template-columns: 60px 1fr 110px; gap: 18px;
+  background: var(--white); border: 1px solid var(--border); border-radius: 10px;
+  padding: 18px 22px; align-items: center;
+}
+.decision-row.recommend {
+  border-color: var(--accent); background: var(--accent-bg);
+}
+.decision-letter {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 28px; font-weight: 800; color: var(--muted); text-align: center;
+}
+.decision-row.recommend .decision-letter { color: var(--accent); }
+.decision-body .decision-h { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+.decision-body .decision-d { font-size: 13px; color: var(--text2); line-height: 1.7; }
+.decision-body .decision-d code { font-family: 'DM Mono', monospace; font-size: 12px; background: #fff; padding: 1px 5px; border-radius: 3px; border: 1px solid var(--border); }
+.decision-pick { text-align: right; }
+
+/* GLOSSARY */
+.gl-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px;
+}
+.gl-item {
+  background: var(--white); border: 1px solid var(--border); border-radius: 10px;
+  padding: 14px 18px;
+}
+.gl-term {
+  font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 700;
+  color: var(--accent); margin-bottom: 4px; word-break: break-all;
+}
+.gl-def { font-size: 13px; color: var(--text2); line-height: 1.65; }
+
+/* FOOTER */
+.doc-footer {
+  text-align: center; padding: 32px; color: var(--muted); font-size: 13px;
+  border-top: 1px solid var(--border); background: var(--white);
+}
+.doc-footer strong { color: var(--text); }
+
+@media (max-width: 740px) {
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .flow-grid { grid-template-columns: 1fr; }
+  .logic-row { grid-template-columns: 1fr; gap: 4px; }
+  .doc-header { padding: 28px 22px; }
+  .container { padding: 0 18px; }
+  .cta-grid { grid-template-columns: 1fr; }
+  .cta-btn { padding: 20px 22px; min-height: 76px; }
+  .cta-btn .cta-label { font-size: 17px; }
+  .decision-row { grid-template-columns: 48px 1fr; }
+  .decision-pick { display: none; }
+  .gl-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="doc-header">
+  <div class="doc-header-inner">
+    <div class="doc-badge">DEV / PROD ROADMAP — Braze Content Card 配信テスト</div>
+    <h1>Braze Content Card 実装手順<br>dev環境で配信テスト基盤を立ち上げる</h1>
+    <div class="doc-header-sub">
+      来期、veltra.com サイト内 / App で Braze Content Card を本格導入するために、まずは dev 環境に GTM 経由の Braze SDK を組み込み、特定 traveler ID 限定の企画テストページを設置して配信動作を実機検証する。マーケと開発が同じ前提に立てるよう、全ステップを 5 フェーズに分解した。
+    </div>
+    <div class="doc-meta">
+      <div class="doc-meta-chip"><span>関連企画</span><strong>Personalized Header Menu</strong></div>
+      <div class="doc-meta-chip"><span>対象環境</span><strong>dev → prod</strong></div>
+      <div class="doc-meta-chip"><span>所要</span><strong>約 1〜2 週間</strong></div>
+      <div class="doc-meta-chip"><span>依頼先</span><strong>開発 / マーケ</strong></div>
+    </div>
+
+    <div class="cta-grid">
+      <a class="cta-btn" href="/2026h1/planning/personalized-header-menu.html">
+        <div class="cta-l">
+          <div class="cta-eyebrow">関連企画</div>
+          <div class="cta-label">Personalized Header Menu を開く</div>
+          <div class="cta-sub">本手順で dev 環境に設置する企画ページ本体</div>
+        </div>
+        <div class="cta-arrow">&gt;</div>
+      </a>
+      <a class="cta-btn alt" href="#sec1">
+        <div class="cta-l">
+          <div class="cta-eyebrow">手順</div>
+          <div class="cta-label">Phase 1 から読み進める</div>
+          <div class="cta-sub">準備 → 開発依頼 → Braze 設定 → 検証</div>
+        </div>
+        <div class="cta-arrow">&gt;</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc-bar">
+  <div class="toc-inner">
+    <div class="toc-item active" onclick="scrollToSection('sec1')">① 全体像</div>
+    <div class="toc-item" onclick="scrollToSection('sec2')">② 準備（自分側）</div>
+    <div class="toc-item" onclick="scrollToSection('sec3')">③ 開発依頼</div>
+    <div class="toc-item" onclick="scrollToSection('sec4')">④ Braze 設定</div>
+    <div class="toc-item" onclick="scrollToSection('sec5')">⑤ 疎通テスト</div>
+    <div class="toc-item" onclick="scrollToSection('sec6')">⑥ 参考資料</div>
+  </div>
+</div>
+
+<!-- ① 全体像 -->
+<div class="container">
+<section id="sec1">
+  <div class="section-header">
+    <div class="section-num">SECTION 01</div>
+    <div class="section-title">全体像 — 5フェーズで進める</div>
+    <div class="section-desc">準備（自分） → 開発依頼① GTM導入 → 開発依頼② 企画ページ → マーケのキャンペーン設定 → 全員で検証、の順で進む。①〜③は順序依存あり、Brazeキャンペーン作成（④）は③と並走可能。</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card blue">
+      <div class="stat-num">01</div>
+      <div class="stat-label">準備・前提確認</div>
+      <div class="stat-detail">自分側<br>GTMコンテナ発行・traveler_id送信状況確認</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-num">02</div>
+      <div class="stat-label">依頼① GTM導入</div>
+      <div class="stat-detail">エンジニア<br>dev環境にタグ設置＋dataLayer連携</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-num">03</div>
+      <div class="stat-label">依頼② 企画ページ</div>
+      <div class="stat-detail">エンジニア<br>ID制御＋Cardコンテナ＋メニュー導線</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-num">04</div>
+      <div class="stat-label">Brazeキャンペーン</div>
+      <div class="stat-detail">マーケ<br>セグメント・KVP・有効期限</div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-num">05</div>
+      <div class="stat-label">疎通テスト</div>
+      <div class="stat-detail">全員<br>Currents 4イベント記録の確認</div>
+    </div>
+  </div>
+
+  <div class="callout blue" style="margin-top: 24px;">
+    <div class="callout-tag">START HERE</div>
+    <div class="callout-body">
+      <strong>「特定traveler IDだけにカードを見せる」をどこで担保するか</strong>を最初に決めるのが事故防止のコツ。Brazeセグメントで完結させるのが第一候補で、開発工数ほぼゼロ。詳細は <a href="#sec2" style="color: var(--accent); text-decoration: underline;">SECTION 02</a> の方式A/B/C比較を参照。
+    </div>
+  </div>
+</section>
+</div>
+<div class="divider"></div>
+
+<!-- ② 準備 -->
+<div class="container">
+<section id="sec2">
+  <div class="section-header">
+    <div class="section-num">SECTION 02</div>
+    <div class="section-title">準備・前提確認（自分側）</div>
+    <div class="section-desc">開発依頼を出す前にこちらで終わらせるべき 3 ステップ。GTM コンテナ発行・Braze 連携状況の確認・ID 制御方式の決定。</div>
+  </div>
+
+  <!-- Phase 1.1 -->
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge b1">STEP 01</span>
+      <div class="logic-card-title">dev環境用のGTMコンテナを発行</div>
+      <div class="logic-card-owner"><strong>自分</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">目的</div>
+        <div class="logic-row-value">prod 用と分離した GTM コンテナを用意する。dev で誤って prod タグを発火させないため。</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">手順</div>
+        <div class="logic-row-value">
+          <ul class="check-list">
+            <li class="req">GTM 管理画面で「新しいコンテナ」→ ターゲットプラットフォーム: Web</li>
+            <li class="req">コンテナID（<code>GTM-XXXXXXX</code>）を控える</li>
+            <li class="opt">代替: 既存 prod コンテナに Look-up Variable で dev/prod 切替も可（要相談）</li>
+          </ul>
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">完了条件</div>
+        <div class="logic-row-value">コンテナ ID が手元にある／コンテナのワークスペースがアクセス可能</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 1.2 -->
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge b1">STEP 02</span>
+      <div class="logic-card-title">Brazeに traveler_id が届いているか確認</div>
+      <div class="logic-card-owner"><strong>自分</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">なぜ確認するか</div>
+        <div class="logic-row-value">「特定 traveler ID だけにカード表示」を <strong>Braze セグメント</strong>で完結させるには、traveler_id が custom attribute or external ID として Braze に送信されている必要がある。</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">確認ポイント</div>
+        <div class="logic-row-value">
+          <ul class="check-list">
+            <li class="req">Braze Dashboard → User Search で対象 traveler_id でユーザーが見つかるか</li>
+            <li class="req"><code>traveler_id</code> が custom attribute に入っているか</li>
+            <li class="opt">入っていない場合 → アプリ側で <code class="inline">braze.getUser().setCustomUserAttribute('traveler_id', xxx)</code> 連携を追加依頼に</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 1.3 -->
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge b1">STEP 03</span>
+      <div class="logic-card-title">ID制御の方式を決める</div>
+      <div class="logic-card-owner"><strong>自分</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">3つの案</div>
+        <div class="logic-row-value">「特定 traveler ID のみコンテンツカードを見せる」をどこで担保するか。後の手戻りを防ぐため<strong>ここで確定</strong>させてから依頼を出す。</div>
+      </div>
+    </div>
+
+    <div style="padding: 0 20px 20px;">
+      <div class="decision-grid">
+        <div class="decision-row recommend">
+          <div class="decision-letter">A</div>
+          <div class="decision-body">
+            <div class="decision-h">Braze セグメントで対象を絞る</div>
+            <div class="decision-d">対象 traveler_id でセグメント作成。マーケが Dashboard で完結。<strong>フロント実装ゼロ</strong>。前提: traveler_id が Braze に送られていること（STEP 02 の確認結果次第）。</div>
+          </div>
+          <div class="decision-pick"><span class="tag solid">第一候補</span></div>
+        </div>
+        <div class="decision-row">
+          <div class="decision-letter">B</div>
+          <div class="decision-body">
+            <div class="decision-h">ページ側で ID 判定 → 呼ぶ/呼ばない</div>
+            <div class="decision-d"><code>toggleContentCards()</code> 自体を条件付きで実行。シンプルだが、ID 変更ごとに開発デプロイが必要で運用負荷が高い。</div>
+          </div>
+          <div class="decision-pick"><span class="tag orange">A が無理ならコレ</span></div>
+        </div>
+        <div class="decision-row">
+          <div class="decision-letter">C</div>
+          <div class="decision-body">
+            <div class="decision-h">filterFunction で extras と照合</div>
+            <div class="decision-d">カードの KVP <code>target_traveler_id</code> とログイン中 ID 一致時のみ表示。複雑で運用が事故りやすい。</div>
+          </div>
+          <div class="decision-pick"><span class="tag red">非推奨</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<div class="divider"></div>
+
+<!-- ③ 開発依頼 -->
+<div class="container">
+<section id="sec3">
+  <div class="section-header">
+    <div class="section-num">SECTION 03</div>
+    <div class="section-title">開発依頼 — GTM導入と企画ページ設置</div>
+    <div class="section-desc">エンジニアに渡す 2 件のチケット。STEP 04・05 は GTM 導入、STEP 06〜08 は企画ページ＋メニュー導線。</div>
+  </div>
+
+  <!-- Phase 2 - STEP 04 -->
+  <div class="subsec">
+    <div class="subsec-eyebrow">REQUEST 01 — GTM INTEGRATION</div>
+    <div class="subsec-title">依頼① dev環境にGTMを組み込む</div>
+  </div>
+
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge b2">STEP 04</span>
+      <div class="logic-card-title">dev環境の全ページにGTMタグを設置</div>
+      <div class="logic-card-owner"><strong>エンジニア</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">依頼内容</div>
+        <div class="logic-row-value">
+          <ul class="check-list">
+            <li class="req">スニペット1: <code>&lt;head&gt;</code> できるだけ上部</li>
+            <li class="req">スニペット2: <code>&lt;body&gt;</code> 開始直後</li>
+            <li class="req">prod用GTMタグがdevで発火しないこと（環境分離）</li>
+          </ul>
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">渡す情報</div>
+        <div class="logic-row-value">dev用コンテナID（<code>GTM-XXXXXXX</code>）。Google公式どおりの2スニペット方式。prodと同じテンプレ位置に入れるのがベスト。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge b2">STEP 05</span>
+      <div class="logic-card-title">dataLayer に必要変数を積む</div>
+      <div class="logic-card-owner"><strong>エンジニア</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">なぜ必要か</div>
+        <div class="logic-row-value">GTM ロード前に Push してもらえば、Braze SDK 初期化に <code>traveler_id</code> を渡せる。これが無いと方式 A（セグメント制御）が動かない。</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">実装例</div>
+        <div class="logic-row-value">
+<div class="code-block"><span class="c">// ログイン後ページのGTMより上で実行</span>
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.<span class="f">push</span>({
+  user_id: <span class="s">"&lt;internal user id&gt;"</span>,
+  traveler_id: <span class="s">"&lt;traveler id or undefined&gt;"</span>,
+  login_status: <span class="s">"logged_in"</span> <span class="c">// or "guest"</span>
+});</div>
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">完了確認</div>
+        <div class="logic-row-value">
+          <ul class="check-list">
+            <li class="req">GTM Preview / Tag Assistant が dev 環境で接続できる</li>
+            <li class="req"><code>window.dataLayer</code> が初期化されている</li>
+            <li class="req">ログイン後ページで <code>traveler_id</code> が積まれている</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 3 - STEP 06-08 -->
+  <div class="subsec" style="margin-top: 40px;">
+    <div class="subsec-eyebrow">REQUEST 02 — PLANNING PAGE & MENU LINK</div>
+    <div class="subsec-title">依頼② 企画ページとメニュー導線を設置</div>
+  </div>
+
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge b3">STEP 06</span>
+      <div class="logic-card-title">dev環境に企画ページ本体を配置</div>
+      <div class="logic-card-owner"><strong>エンジニア</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">参考レイアウト</div>
+        <div class="logic-row-value"><a href="/2026h1/planning/personalized-header-menu.html" style="color: var(--accent); text-decoration: underline;">personalized-header-menu.html</a> 相当。ページ内に Content Card 描画用コンテナ <code>#braze-content-cards</code> を用意する（Silver Egg レコメンドの直前に配置）。</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">HTML</div>
+        <div class="logic-row-value">
+<div class="code-block"><span class="k">&lt;section</span> <span class="f">class</span>=<span class="s">"braze-test-section"</span><span class="k">&gt;</span>
+  <span class="k">&lt;div</span> <span class="f">id</span>=<span class="s">"braze-content-cards"</span><span class="k">&gt;&lt;/div&gt;</span>
+  <span class="c">&lt;!-- Silver Eggレコメンドの直前に配置 --&gt;</span>
+<span class="k">&lt;/section&gt;</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge b3">STEP 07</span>
+      <div class="logic-card-title">GTMカスタムHTMLタグでContent Cards発火</div>
+      <div class="logic-card-owner"><strong>エンジニア</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">方針</div>
+        <div class="logic-row-value">企画ページのURLパスで発火するトリガーを設定し、以下のスニペットを実行。<strong>Default UI をそのまま使用</strong>することで Analytics は自動取得（手動 log 実装ゼロ）。</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">実装例</div>
+        <div class="logic-row-value">
+<div class="code-block"><span class="c">// GTM Custom HTML Tag</span>
+window.<span class="f">addEventListener</span>(<span class="s">'load'</span>, <span class="k">function</span>() {
+  <span class="k">if</span> (!window.braze) <span class="k">return</span>;
+  <span class="c">// 初回訪問でも即同期したいので明示リフレッシュ</span>
+  braze.<span class="f">requestImmediateDataFlush</span>();
+  braze.<span class="f">requestContentCardsRefresh</span>();
+  <span class="c">// 指定DOMにContent Cardsを描画</span>
+  <span class="k">var</span> mount = document.<span class="f">getElementById</span>(<span class="s">'braze-content-cards'</span>);
+  <span class="k">if</span> (mount) braze.<span class="f">toggleContentCards</span>(mount);
+});</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge b3">STEP 08</span>
+      <div class="logic-card-title">ヘッダーメニューに導線を追加（表示制御込み）</div>
+      <div class="logic-card-owner"><strong>エンジニア</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">依頼内容</div>
+        <div class="logic-row-value">ログイン後ヘッダー（またはマイページ）に新規リンクを追加。方式 A 採用時はリンク自体は全ユーザーに見せて OK（Braze 側で配信制御）。完全に隠したい場合は許可リスト判定。</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">パラメータ</div>
+        <div class="logic-row-value">
+          <ul class="check-list">
+            <li class="req">表示文言: <strong>{{要相談・例: "会員特典テスト"}}</strong></li>
+            <li class="req">リンク先: STEP 06 のページ URL</li>
+            <li class="req">表示条件: ログイン済み</li>
+            <li class="opt">追加条件（方式 B 採用時）: <code>traveler_id ∈ 許可リスト</code></li>
+          </ul>
+        </div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">完了確認</div>
+        <div class="logic-row-value">
+          <ul class="check-list">
+            <li class="req">許可ユーザーでログイン → 新規リンク表示 → 遷移 → <code>#braze-content-cards</code> 内にカード描画</li>
+            <li class="req"><code>window.braze</code> が初期化済み</li>
+            <li class="req">非該当ユーザーにはカード非表示（リンク自体の出し分けは方式による）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<div class="divider"></div>
+
+<!-- ④ Braze 設定 -->
+<div class="container">
+<section id="sec4">
+  <div class="section-header">
+    <div class="section-num">SECTION 04</div>
+    <div class="section-title">Brazeキャンペーン設定（マーケ）</div>
+    <div class="section-desc">開発依頼と並走可能。Content Card キャンペーンを作成し、セグメント・KVP・有効期限を仕込む。</div>
+  </div>
+
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge b4">STEP 09</span>
+      <div class="logic-card-title">Content Cardキャンペーン作成</div>
+      <div class="logic-card-owner"><strong>マーケ</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">手順</div>
+        <div class="logic-row-value">
+          <ul class="check-list">
+            <li class="req">Messaging → Content Cards → New Campaign</li>
+            <li class="req">Card Type: Classic / Captioned / Banner（テストは Classic が楽）</li>
+            <li class="req">セグメント: <strong>traveler_id = 許可リスト</strong>（方式 A）</li>
+            <li class="req">Trigger: Start Session In Any App</li>
+            <li class="req"><strong>"no re-eligibility"</strong> にチェック（初回訪問でも確実に表示）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge b4">STEP 10</span>
+      <div class="logic-card-title">有効期限（Expiration）を必ず設定</div>
+      <div class="logic-card-owner"><strong>マーケ</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">注意</div>
+        <div class="logic-row-value">キャンペーン終了日とカード有効期限日は<strong>別物</strong>。両方設定する。</div>
+      </div>
+      <div class="logic-row">
+        <div class="logic-row-label">設定項目</div>
+        <div class="logic-row-value">
+          <ul class="check-list">
+            <li class="req">Campaign Duration: Start / End Time（配信ウィンドウ）</li>
+            <li class="req">Removal Conditions → <strong>Expiration (Time in Feed)</strong>: 最大 30 日</li>
+            <li class="req">1 カードあたり 2KB 制限・Feed 内 100 件上限を意識</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout red">
+    <div class="callout-tag">CAUTION</div>
+    <div class="callout-body">
+      <strong>キャンペーン終了日 ≠ カード有効期限日。</strong>キャンペーンが終了しても、すでに配信されたカードは Feed 内に Expiration 設定の日数だけ残り続ける。両方を意識的に設定しないと「終了したはずなのにカードが消えない」「終了前に消えた」が起こる。
+    </div>
+  </div>
+</section>
+</div>
+<div class="divider"></div>
+
+<!-- ⑤ 疎通テスト -->
+<div class="container">
+<section id="sec5">
+  <div class="section-header">
+    <div class="section-num">SECTION 05</div>
+    <div class="section-title">疎通テスト・Currents記録の確認</div>
+    <div class="section-desc">Default UI 採用のため Impression / Click / Dismiss は SDK が自動 log する。手動実装は不要。</div>
+  </div>
+
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge b5">STEP 11</span>
+      <div class="logic-card-title">許可ユーザーで端末から実機検証</div>
+      <div class="logic-card-owner"><strong>検証</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">チェック項目</div>
+        <div class="logic-row-value">
+          <ul class="check-list">
+            <li class="req">許可 traveler_id でログイン → 企画ページにアクセス</li>
+            <li class="req">Content Card が描画される / クリックで url 遷移する / Dismiss で消える</li>
+            <li class="req">DevTools で <code>braze.getCachedContentCards()</code> がカード配列を返す</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="logic-card">
+    <div class="logic-card-head">
+      <span class="logic-card-badge b5">STEP 12</span>
+      <div class="logic-card-title">Braze Currentsで4イベント記録を確認</div>
+      <div class="logic-card-owner"><strong>検証</strong></div>
+    </div>
+    <div class="logic-card-body">
+      <div class="logic-row">
+        <div class="logic-row-label">確認対象</div>
+        <div class="logic-row-value">
+          <ul class="check-list">
+            <li class="req"><code>users.messages.contentcard.Send</code></li>
+            <li class="req"><code>users.messages.contentcard.Impression</code></li>
+            <li class="req"><code>users.messages.contentcard.Click</code></li>
+            <li class="req"><code>users.messages.contentcard.Dismiss</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<div class="divider"></div>
+
+<!-- ⑥ 参考資料 -->
+<div class="container">
+<section id="sec6">
+  <div class="section-header">
+    <div class="section-num">SECTION 06</div>
+    <div class="section-title">参考資料</div>
+    <div class="section-desc">配信シーケンス・カスタマイズ 3 レベル・用語集。チケット起票時の補助資料として。</div>
+  </div>
+
+  <!-- Sequence -->
+  <div class="subsec">
+    <div class="subsec-eyebrow">A. DELIVERY SEQUENCE</div>
+    <div class="subsec-title">配信・記録のシーケンス</div>
+    <div class="scenario">
+      <div class="scenario-head">Braze Content Card がクライアントに届いて Currents に記録されるまで</div>
+      <div class="scenario-timeline">
+        <div class="scenario-event"><div class="scenario-time">01 Braze Server</div><div class="scenario-action">キャンペーン配信日時が到来</div></div>
+        <div class="scenario-event"><div class="scenario-time">02 Braze Server</div><div class="scenario-action">Content Card を作成</div></div>
+        <div class="scenario-event"><div class="scenario-time">03 Braze Server</div><div class="scenario-action"><strong>Send</strong> イベントをログ</div></div>
+        <div class="scenario-event"><div class="scenario-time">04 App / Web</div><div class="scenario-action">セッション開始 or <code>requestContentCardsRefresh()</code> でカードを同期取得</div></div>
+        <div class="scenario-event"><div class="scenario-time">05 App / Web</div><div class="scenario-action">カードがクライアントに配信される</div></div>
+        <div class="scenario-event"><div class="scenario-time">06 User</div><div class="scenario-action">カードを閲覧</div></div>
+        <div class="scenario-event"><div class="scenario-time">07 Braze SDK</div><div class="scenario-action"><strong>Impression</strong> を自動ログ（Default UI 時）</div></div>
+        <div class="scenario-event"><div class="scenario-time">08 User</div><div class="scenario-action">クリック / Dismiss</div></div>
+        <div class="scenario-event"><div class="scenario-time">09 Braze SDK</div><div class="scenario-action"><strong>Click</strong> / <strong>Dismiss</strong> を自動ログ</div></div>
+      </div>
+    </div>
+    <div class="callout blue" style="margin-top: 16px;">
+      <div class="callout-tag">NOTE</div>
+      <div class="callout-body">
+        <strong>データ送信間隔。</strong>Web SDK は <strong>10 秒間隔</strong>＋セッション終了(30 分経過時)。即時に送りたい場合は <code class="inline">requestImmediateDataFlush()</code> を呼ぶ。
+      </div>
+    </div>
+  </div>
+
+  <!-- Customization Levels -->
+  <div class="subsec">
+    <div class="subsec-eyebrow">B. CUSTOMIZATION LEVELS</div>
+    <div class="subsec-title">カスタマイズ3レベル比較</div>
+    <table class="kpi-table">
+      <thead>
+        <tr>
+          <th style="width:14%;">レベル</th>
+          <th style="width:32%;">やること</th>
+          <th style="width:14%;">開発工数</th>
+          <th style="width:25%;">Analytics</th>
+          <th>今回のテスト</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Default</strong></td>
+          <td>そのまま <code class="inline">toggleContentCards()</code> 呼ぶだけ</td>
+          <td><span class="tag green">最低</span></td>
+          <td>自動</td>
+          <td><span class="tag solid">採用</span></td>
+        </tr>
+        <tr>
+          <td><strong>Style</strong></td>
+          <td>色/フォントなど CSS のみ上書き</td>
+          <td><span class="tag green">小</span></td>
+          <td>自動</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>UI</strong></td>
+          <td>カードの HTML/セルを差し替え</td>
+          <td><span class="tag orange">中</span></td>
+          <td>自動</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>UX</strong></td>
+          <td>SDK UI を使わず payload だけ受けて自社UI</td>
+          <td><span class="tag red">大</span></td>
+          <td><strong>手動実装必須</strong>（Impression / Click / Dismiss）</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout red" style="margin-top: 16px;">
+      <div class="callout-tag">CAUTION</div>
+      <div class="callout-body">
+        <strong>UXカスタマイズの罠。</strong>Braze の用意した UI を使わない場合、<code class="inline">logContentCardImpression</code> / <code class="inline">logContentCardClicked</code> / <code class="inline">logContentCardDismissed</code> / <code class="inline">logContentCardsDisplayed</code> を自前で呼ばないと <strong>Currents 記録がゼロになる</strong>。本格導入時の罠。
+      </div>
+    </div>
+  </div>
+
+  <!-- Glossary -->
+  <div class="subsec" style="margin-bottom: 0;">
+    <div class="subsec-eyebrow">C. GLOSSARY</div>
+    <div class="subsec-title">用語集</div>
+    <div class="gl-grid">
+      <div class="gl-item">
+        <div class="gl-term">braze.toggleContentCards(parentNode, filterFn)</div>
+        <div class="gl-def">指定DOMにContent Cardsフィードを描画/破棄するWeb SDKメソッド。parentNode省略時は右サイドバー。</div>
+      </div>
+      <div class="gl-item">
+        <div class="gl-term">braze.requestContentCardsRefresh()</div>
+        <div class="gl-def">任意のタイミングでサーバから最新カードを再取得する明示同期。</div>
+      </div>
+      <div class="gl-item">
+        <div class="gl-term">braze.requestImmediateDataFlush()</div>
+        <div class="gl-def">10秒バッチを待たず、即時にイベントをBrazeへ送信する。</div>
+      </div>
+      <div class="gl-item">
+        <div class="gl-term">extras (KVP)</div>
+        <div class="gl-def">Dashboardで設定するKey-Value Pair。カード分類・遷移先制御・複数フィード分割などに使う。</div>
+      </div>
+      <div class="gl-item">
+        <div class="gl-term">no re-eligibility</div>
+        <div class="gl-def">同一ユーザーへの再配信抑止オプション。初回セッションでカード重複表示を避ける。</div>
+      </div>
+      <div class="gl-item">
+        <div class="gl-term">Send / Impression / Click / Dismiss</div>
+        <div class="gl-def">Currentsで取得できる4イベント。Default UIは自動、カスタムUIは手動log必須。</div>
+      </div>
+      <div class="gl-item">
+        <div class="gl-term">Expiration (Time in Feed)</div>
+        <div class="gl-def">配信後カードがFeedに残る期間。最大30日。キャンペーン終了日とは別軸。</div>
+      </div>
+      <div class="gl-item">
+        <div class="gl-term">Card Properties</div>
+        <div class="gl-def"><code>idString / url / imageURL / title / cardDescription / extras / viewed / pinned</code> ほか。<code>extras</code>でKVPアクセス。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom CTAs -->
+  <div class="cta-grid" style="margin-top: 36px;">
+    <a class="cta-btn" href="/2026h1/planning/personalized-header-menu.html">
+      <div class="cta-l">
+        <div class="cta-eyebrow">関連企画</div>
+        <div class="cta-label">Personalized Header Menu</div>
+        <div class="cta-sub">本手順で dev環境に設置する企画ページ本体</div>
+      </div>
+      <div class="cta-arrow">&gt;</div>
+    </a>
+    <a class="cta-btn alt" href="/">
+      <div class="cta-l">
+        <div class="cta-eyebrow">Home</div>
+        <div class="cta-label">Northstar（ホーム）</div>
+        <div class="cta-sub">レポートサイトのトップへ戻る</div>
+      </div>
+      <div class="cta-arrow">&gt;</div>
+    </a>
+  </div>
+</section>
+</div>
+
+<div class="doc-footer">
+  <strong>VELTRA CVR向上チーム｜Braze Content Card 実装手順 v1.0｜2026-05-21</strong><br>
+  Source: Braze × VELTRA Onboarding (Content Cards 実装編) / Braze Docs<br>
+  次のアクション：開発チケット起票（依頼① GTM導入・依頼② 企画ページ）→ Brazeキャンペーン作成
+</div>
+
+<script>
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+const tocs = document.querySelectorAll('.toc-item');
+const secs = ['sec1','sec2','sec3','sec4','sec5','sec6'];
+window.addEventListener('scroll', () => {
+  let cur = 0;
+  secs.forEach((s, i) => {
+    const el = document.getElementById(s);
+    if (el && el.getBoundingClientRect().top < 140) cur = i;
+  });
+  tocs.forEach((t, i) => t.classList.toggle('active', i === cur));
+});
+</script>
+<script src="/2026h1/planning/back-nav.js"></script>
+</body>
+</html>

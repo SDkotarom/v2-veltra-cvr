@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/summary.css">
+<title>スポット分析: 繁忙期前なのに先週比でCVR反落 — 何が伸びなかったか</title>
+<style>
+.spot-hero{padding:36px 44px 28px;background:linear-gradient(135deg,#fff7ed 0%,#fff 80%);border-bottom:3px solid #d97706}
+.spot-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:.14em;color:#fff;background:#d97706;padding:6px 14px;border-radius:4px;margin-bottom:14px;text-transform:uppercase}
+.spot-tag::before{content:'⚠️';font-size:14px}
+.spot-headline{font-size:29px;font-weight:900;line-height:1.45;letter-spacing:-.01em;margin-bottom:14px;color:#1a1a1a}
+.spot-headline em{font-style:normal;color:#c0392b;background:linear-gradient(transparent 60%,#ffe1df 60%);padding:0 2px}
+.spot-headline em.ok{color:#1a8c4e;background:linear-gradient(transparent 60%,#bbf7d0 60%)}
+.spot-lede{font-size:14px;color:var(--text2);line-height:1.9}
+.spot-lede strong{color:var(--text)}
+.spot-lede em{font-style:normal;color:#c0392b;font-weight:700}
+
+.spot-toc{padding:18px 44px;background:#f5f4f0;border-bottom:1px solid var(--border);font-size:12px}
+.spot-toc-title{font-size:10px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase;margin-bottom:10px}
+.spot-toc-list{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}
+.spot-toc-list li a{padding:5px 12px;background:#fff;border:1px solid var(--border);border-radius:16px;color:var(--text2);text-decoration:none;font-weight:700;font-size:11px}
+.spot-toc-list li a:hover{background:#d97706;color:#fff;border-color:#d97706}
+
+.spot-sec-head{padding:24px 44px 0}
+.spot-sec-num{display:inline-block;font-family:'DM Sans';font-size:11px;font-weight:900;letter-spacing:.1em;padding:4px 10px;background:#1f2937;color:#fff;border-radius:4px;margin-right:8px}
+.spot-sec-num.red{background:#c0392b}
+.spot-sec-num.amber{background:#d97706}
+.spot-sec-title{display:inline;font-size:18px;font-weight:900;letter-spacing:-.01em}
+.spot-sec-sub{font-size:13px;color:var(--text2);line-height:1.8;padding:10px 44px 0}
+.spot-sec-sub strong{color:var(--text)}
+.spot-body{padding:14px 44px 8px}
+
+.spot-mg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:18px 44px 24px}
+.spot-mc{background:#faf8f5;border:1px solid var(--border);border-radius:10px;padding:14px 16px 16px}
+.spot-mc.ok{border-color:#1a8c4e;background:#f0fdf4}
+.spot-mc.warn{border-color:#c0392b;background:#fff5f5}
+.spot-ml{font-size:10px;font-weight:900;letter-spacing:.04em;color:var(--text3);text-transform:uppercase;margin-bottom:6px;line-height:1.45}
+.spot-mv{font-family:'DM Sans';font-size:24px;font-weight:900;letter-spacing:-.02em;line-height:1.05;color:#1a1a1a}
+.spot-mc.ok .spot-mv{color:#1a8c4e}.spot-mc.warn .spot-mv{color:#c0392b}
+.spot-ms{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.5}
+
+.spot-chart-wrap{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;margin-top:4px}
+.spot-chart-wrap svg{width:100%;height:auto;display:block}
+.spot-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--text2);margin-top:10px}
+.spot-legend span{display:flex;align-items:center;gap:6px}
+.spot-legend .ln{width:18px;height:0;border-top-width:3px;border-top-style:solid;flex-shrink:0}
+.spot-legend .dash{border-top-style:dashed}
+
+/* grew/fell two-column */
+.gf{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+.gf-card{border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.gf-card.up{border-left:4px solid #1a8c4e;background:#f0fdf4}
+.gf-card.down{border-left:4px solid #c0392b;background:#fff5f5}
+.gf-h{font-size:13px;font-weight:900;margin-bottom:8px}
+.gf-card.up .gf-h{color:#0f6e3d}.gf-card.down .gf-h{color:#991b1b}
+.gf-row{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;padding:4px 0;border-top:1px dashed var(--border);line-height:1.5}
+.gf-row:first-of-type{border-top:none}
+.gf-row b{font-family:'DM Sans';font-weight:900}
+.gf-row .d-up{color:#1a8c4e}.gf-row .d-down{color:#c0392b}
+.gf-tag{font-size:10px;color:var(--text3);font-weight:700}
+
+.spot-tbl{width:100%;border-collapse:collapse;font-size:12.5px;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:4px}
+.spot-tbl th{background:#1f2937;color:#fff;padding:9px 11px;font-size:10px;letter-spacing:.04em;text-align:right;font-weight:900;text-transform:uppercase}
+.spot-tbl th:first-child{text-align:left}
+.spot-tbl td{padding:8px 11px;border-bottom:1px solid var(--border);text-align:right;font-family:'DM Sans';font-variant-numeric:tabular-nums;color:var(--text2)}
+.spot-tbl td:first-child{text-align:left;font-weight:900;color:var(--text);font-family:inherit}
+.spot-tbl tr:last-child td{border-bottom:none}
+.spot-tbl .yoy-up{color:#1a8c4e;font-weight:900}
+.spot-tbl .yoy-down{color:#c0392b;font-weight:900}
+.spot-tbl tr.hot{background:#fff5f5}
+
+/* heatmap matrix */
+.spot-tbl.heat td{font-size:11.5px;padding:7px 8px}
+.spot-tbl.heat td.trough{background:#fde2e0;color:#c0392b;font-weight:900;border-radius:3px}
+.spot-tbl.heat tr.axhead td{background:#f0ede8;color:var(--text3);font-weight:900;font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;font-family:inherit}
+.spot-tbl.heat td.drop{color:#c0392b;font-weight:700}
+.spot-tbl.heat td.rec{color:#1a8c4e;font-weight:700}
+.spot-tbl.heat td.rec.flatx{color:#d97706}
+
+/* verdict callout */
+.spot-ib{border-left:4px solid;border-radius:0 10px 10px 0;padding:15px 20px 18px;margin:14px 44px 26px;font-size:13px;line-height:1.75}
+.spot-ib>*:last-child,.spot-ib li:last-child{margin-bottom:0}
+.spot-ib h4{font-size:14px;font-weight:900;margin-bottom:6px}
+.spot-ib.green{border-color:#1a8c4e;background:#f0fdf4}.spot-ib.green h4{color:#0f6e3d}
+.spot-ib.blue{border-color:#1b82c5;background:#f0f7fc}.spot-ib.blue h4{color:#1b5a8c}
+.spot-ib.red{border-color:#c0392b;background:#fff5f5}.spot-ib.red h4{color:#991b1b}
+.spot-ib.amber{border-color:#d97706;background:#fffbeb}.spot-ib.amber h4{color:#92580e}
+.spot-ib strong{color:var(--text)}
+.spot-ib ol,.spot-ib ul{margin:6px 0 0 18px}
+.spot-ib li{margin-bottom:6px}
+.spot-foot{font-size:11px;color:var(--text3);line-height:1.7;padding:6px 44px 22px}
+.spot-foot code{background:#f1f1ec;padding:1px 5px;border-radius:4px;font-size:10.5px}
+
+/* action plan cards */
+.act-grid{display:grid;grid-template-columns:1fr;gap:14px;padding:14px 44px 4px}
+.act{border:1px solid var(--border);border-radius:12px;padding:18px 22px 20px;border-left:6px solid}
+.act.s1{border-left-color:#1b82c5}.act.s2{border-left-color:#d97706}.act.s3{border-left-color:#1a8c4e}
+.act-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.act-no{font-family:'DM Sans';font-weight:900;font-size:11px;color:#fff;padding:3px 10px;border-radius:5px;letter-spacing:.04em}
+.act.s1 .act-no{background:#1b82c5}.act.s2 .act-no{background:#d97706}.act.s3 .act-no{background:#1a8c4e}
+.act-title{font-size:16px;font-weight:900;color:var(--text)}
+.act-when{font-size:11px;font-weight:700;color:var(--text3);margin-left:auto;white-space:nowrap}
+.act-kpi{font-size:12.5px;color:var(--text2);margin:2px 0 12px;line-height:1.6}
+.act-kpi b{color:var(--text);font-family:'DM Sans';font-weight:900}
+.act-rows{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.act-box{background:#faf8f5;border-radius:8px;padding:12px 15px 15px;font-size:13px;line-height:1.7;color:var(--text2)}
+.act-box>*:last-child{margin-bottom:0}
+.act-box h5{font-size:10.5px;font-weight:900;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.act-box strong{color:var(--text)}
+.act-box.mob{background:#eef5fb;border:1px solid #d6e6f2}
+.act-box.mob h5{color:#1b5a8c}
+
+/* in/out two-column spec */
+.io2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 44px 4px}
+.io-card{border-radius:10px;padding:14px 16px 16px}
+.io-card.in{background:#f0fdf4;border:1px solid #bbf0cf}
+.io-card.out{background:#fff5f5;border:1px solid #f0c8c4}
+.io-h{font-size:13.5px;font-weight:900;color:var(--text)}
+.io-h span{display:block;font-size:10.5px;font-weight:700;color:var(--text3);margin-top:2px}
+.io-card ul{margin:8px 0 0;padding-left:16px}
+.io-card li{font-size:12.5px;line-height:1.6;margin-bottom:5px;color:var(--text2)}
+.io-card li:last-child{margin-bottom:0}
+
+/* mobile vs desktop funnel comparison */
+.fnl{display:grid;gap:9px;margin-top:4px}
+.fnl-row{display:grid;grid-template-columns:140px 1fr 1fr;gap:10px;align-items:center;font-size:12px}
+.fnl-row.head{font-weight:900;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.04em}
+.fnl-step{font-weight:700;color:var(--text)}
+.fnl-bar{position:relative;height:22px;background:#f0ede8;border-radius:4px;overflow:hidden}
+.fnl-bar i{position:absolute;left:0;top:0;height:100%;border-radius:4px}
+.fnl-bar.m i{background:#d97706}.fnl-bar.m.weak i{background:#c0392b}.fnl-bar.m.win i{background:#1a8c4e}
+.fnl-bar.d i{background:#b4b2a9}
+.fnl-bar b{position:absolute;right:7px;top:50%;transform:translateY(-50%);font-family:'DM Sans';font-weight:900;font-size:11px;color:#1a1a1a}
+.fnl-gap{font-family:'DM Sans';font-weight:900;font-size:11px}
+
+@media(max-width:768px){
+  .act-grid{padding-left:22px;padding-right:22px}
+  .act-rows{grid-template-columns:1fr}
+  .spot-hero{padding:24px 22px}
+  .spot-headline{font-size:21px}
+  .spot-toc,.spot-sec-head,.spot-sec-sub,.spot-body,.spot-foot{padding-left:22px;padding-right:22px}
+  .spot-mg{grid-template-columns:repeat(2,1fr);padding-left:22px;padding-right:22px}
+  .gf,.spot-ib{margin-left:0;grid-template-columns:1fr}
+  .io2{grid-template-columns:1fr;margin-left:22px;margin-right:22px}
+  .spot-ib{margin-left:22px;margin-right:22px}
+  .spot-tbl{font-size:11px}
+  .spot-tbl th,.spot-tbl td{padding:6px 6px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- Hero -->
+  <div class="card">
+    <div class="spot-hero">
+      <div class="spot-tag">spot analysis — 繁忙期前のCVR反落</div>
+      <div class="spot-headline">
+        繁忙期へ自然に右肩上がりになるべき時期に、<em>W24は先週比でCVR反落</em>。<br>
+        ただし下げの主因は <em>先週(W23)が高かった反動</em>（6/1配信も一因）で需要は <em class="ok">5月平常を上回って健在</em>。恒常的に伸びていない弱点は <em>前年割れのモバイル</em>。
+      </div>
+      <div class="spot-lede">
+        7-8月の大繁忙期へ需要が立ち上がる時期で、本来CVRは右肩上がりになるのが自然。<strong>W24（6/7-13）は実質CVR 1.48% → 1.43%（−0.05pp・小幅）、予約完了 10,056 → 9,890件（−166）と先週比で下げた</strong>（bot除外後も残る実在の下げ）。<br>
+        ただし「何が伸びなかったか」を多週で見ると、<strong>先週比でマイナスのリピーター・モバイル・Direct も、W24は5月平常(W20-22)を上回っており（＝恒常需要は健在）、下げの主因は W23 が高かった週からの反動</strong>。Emailだけ平常へ戻った（6/1配信の上積みが剥落）。<strong>恒常的に前年を下回っているのは購入の約7割を占めるモバイル（YoY −2.9%）</strong>——これが繁忙期に向けた本当の弱点。取込側（新規・Paid Search）は伸長中。
+      </div>
+    </div>
+    <div class="spot-toc">
+      <div class="spot-toc-title">このページの構成</div>
+      <ul class="spot-toc-list">
+        <li><a href="#s1">01 事実：繁忙期前に先週比で反落</a></li>
+        <li><a href="#s2">02 反落は実在か（bot確認）</a></li>
+        <li><a href="#s3">03 何が伸びなかったか（先週比分解）</a></li>
+        <li><a href="#s4">04 前年比（YoY）— モバイルが前年割れ</a></li>
+        <li><a href="#s5">05 4軸スキャン（背景の季節性）</a></li>
+        <li><a href="#s6">06 結論 — 繁忙期へ向けて伸ばす3点</a></li>
+        <li><a href="#s7">07 具体施策（送客 × CRM × 新規完了）</a></li>
+        <li><a href="#s8">08 深掘り：モバイルの何が悪いか</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="card">
+    <div class="spot-mg">
+      <div class="spot-mc warn"><div class="spot-ml">実質CVR W24（先週比）</div><div class="spot-mv">1.43%</div><div class="spot-ms">W23 1.48% から反落・目標1.515%未達</div></div>
+      <div class="spot-mc warn"><div class="spot-ml">予約完了 先週比</div><div class="spot-mv">−166</div><div class="spot-ms">10,056 → 9,890 件</div></div>
+      <div class="spot-mc warn"><div class="spot-ml">モバイル購入 前年同週比</div><div class="spot-mv">−2.9%</div><div class="spot-ms">7,049 → 6,844（主力が前年割れ）</div></div>
+      <div class="spot-mc ok"><div class="spot-ml">新規ユーザー購入 先週比</div><div class="spot-mv">+45</div><div class="spot-ms">2,328 → 2,373（取込は伸長）</div></div>
+    </div>
+  </div>
+
+  <!-- 01 fact -->
+  <div class="card" id="s1" style="scroll-margin-top:16px">
+    <div class="spot-sec-head"><span class="spot-sec-num amber">01</span><h2 class="spot-sec-title">事実 — 右肩上がりであるべき時期に、W24で反落</h2></div>
+    <div class="spot-sec-sub">繁忙期（7-8月、過去2年のCVR 1.48〜1.54%帯）へ向けて June は需要が立ち上がる時期。実質CVR（bot除外）は5月の谷から6月に持ち直したが、<strong>W23 1.48% をピークに W24 は 1.43% へ反落</strong>し、<strong>主目標 1.515% にも、繁忙期水準にも届いていない</strong>。</div>
+    <div class="spot-body">
+      <div class="spot-chart-wrap">
+        <svg viewBox="0 0 720 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="週次CVR推移">
+          <g font-family="DM Sans, sans-serif" font-size="10" fill="#94a3b8">
+            <line x1="60" y1="20"  x2="690" y2="20"  stroke="#eee"/>
+            <line x1="60" y1="75"  x2="690" y2="75"  stroke="#eee"/>
+            <line x1="60" y1="130" x2="690" y2="130" stroke="#eee"/>
+            <line x1="60" y1="185" x2="690" y2="185" stroke="#eee"/>
+            <line x1="60" y1="240" x2="690" y2="240" stroke="#ddd"/>
+            <text x="52" y="24"  text-anchor="end">1.6%</text>
+            <text x="52" y="79"  text-anchor="end">1.35%</text>
+            <text x="52" y="134" text-anchor="end">1.1%</text>
+            <text x="52" y="189" text-anchor="end">0.85%</text>
+            <text x="52" y="244" text-anchor="end">0.6%</text>
+          </g>
+          <line x1="60" y1="38.7" x2="690" y2="38.7" stroke="#1b82c5" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <text x="686" y="34" text-anchor="end" font-family="DM Sans, sans-serif" font-size="10" font-weight="700" fill="#1b82c5">主目標 1.515%</text>
+          <!-- raw (gray) -->
+          <polyline fill="none" stroke="#cfcdc6" stroke-width="2" stroke-dasharray="5 3"
+            points="60,95.5 165,146.1 270,118.3 375,210.5 480,144.1 585,104.7 690,106.7"/>
+          <!-- real (dark) with W24 down emphasis -->
+          <polyline fill="none" stroke="#1f2937" stroke-width="3"
+            points="60,79.8 165,81.4 270,82.1 375,83.1 480,88.9 585,45.5 690,57.2"/>
+          <g fill="#1f2937">
+            <circle cx="60" cy="79.8" r="3.5"/><circle cx="165" cy="81.4" r="3.5"/><circle cx="270" cy="82.1" r="3.5"/>
+            <circle cx="375" cy="83.1" r="3.5"/><circle cx="480" cy="88.9" r="3.5"/><circle cx="585" cy="45.5" r="4.5" fill="#1a8c4e"/><circle cx="690" cy="57.2" r="5" fill="#c0392b"/>
+          </g>
+          <text x="585" y="38" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="10" font-weight="900" fill="#1a8c4e">1.48%</text>
+          <text x="690" y="50" text-anchor="end" font-family="DM Sans, sans-serif" font-size="11" font-weight="900" fill="#c0392b">1.43% ↓</text>
+          <g font-family="DM Sans, sans-serif" font-size="11" font-weight="700" fill="#64748b" text-anchor="middle">
+            <text x="60" y="258">W18</text><text x="165" y="258">W19</text><text x="270" y="258">W20</text>
+            <text x="375" y="258">W21</text><text x="480" y="258">W22</text><text x="585" y="258">W23</text><text x="690" y="258">W24</text>
+          </g>
+        </svg>
+        <div class="spot-legend">
+          <span><span class="ln" style="border-top-color:#1f2937"></span> 実質CVR（bot除外）</span>
+          <span><span class="ln dash" style="border-top-color:#cfcdc6"></span> raw CVR（bot込み・参考）</span>
+          <span><span class="ln dash" style="border-top-color:#1b82c5"></span> 主目標 1.515%</span>
+        </div>
+      </div>
+    </div>
+    <div class="spot-ib amber">
+      <h4>論点：下げ幅は小幅。ただし加速すべき局面での減速・目標未達は看過しない</h4>
+      実質CVRは W23 1.48% → W24 1.43%（<strong>−0.05pp、単独では週次の揺れの範囲</strong>）、予約完了 10,056 → 9,890件（−166）。W24は<strong>5月平常(~1.30%)より上</strong>だが、<strong>先週比は下げ・目標1.515%・繁忙期帯1.48-1.54%には未達</strong>。<strong>夏繁忙期はCVRが最も伸びるべき時期</strong>なので、小幅でも「加速できていない」方向は看過しない。「どこが伸びなかったのか」を以下で特定する。
+    </div>
+  </div>
+
+  <!-- 02 bot real? -->
+  <div class="card" id="s2" style="scroll-margin-top:16px">
+    <div class="spot-sec-head"><span class="spot-sec-num">02</span><h2 class="spot-sec-title">反落は実在か — bot を除いても下げている</h2></div>
+    <div class="spot-sec-sub">raw CVR は bot 混入率（5-6月で 5%→44%）に振られるため週次比較に向かない。そこで bot 代理（China+Singapore）を除いた実質CVRで確認する。</div>
+    <div class="spot-body">
+      <table class="spot-tbl">
+        <thead><tr><th>週</th><th>bot率</th><th>raw CVR</th><th>実質CVR</th><th>実質WoW</th></tr></thead>
+        <tbody>
+          <tr><td>W22 5/24-30</td><td>19.5%</td><td>1.036%</td><td>1.287%</td><td>—</td></tr>
+          <tr><td>W23 5/31-6/6</td><td>18.2%</td><td>1.215%</td><td>1.484%</td><td class="yoy-up">+0.20pp</td></tr>
+          <tr class="hot"><td>W24 6/7-13</td><td>15.7%</td><td>1.206%</td><td>1.431%</td><td class="yoy-down">−0.05pp</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="spot-ib blue">
+      <h4>判定：bot 由来の見かけではなく、実需ベースの反落</h4>
+      bot を除いた実質CVRでも <strong>W24 は −0.05pp の反落</strong>、予約完了も bot 無関係で −166件。<strong>反落は実在する</strong>。一部は 6/1 のポイントメール配信で W23 が一時的に押し上がった反動だが、それを差し引いても「繁忙期へ向けて加速できていない」事実は変わらない。
+    </div>
+  </div>
+
+  <!-- 03 what didn't grow -->
+  <div class="card" id="s3" style="scroll-margin-top:16px">
+    <div class="spot-sec-head"><span class="spot-sec-num red">03</span><h2 class="spot-sec-title">何が伸び、何が伸びなかったか（先週比 W23→W24）</h2></div>
+    <div class="spot-sec-sub">予約完了の先週比増減を見る。ただし<strong>先週(W23)は6/1ポイントメール等で高かった週</strong>なので、「先週比」だけだと反動を下落と取り違える。そこで<strong>「5月平常(W20-22平均)比」も併記</strong>して、恒常需要が減ったのか・先週が高かっただけかを切り分ける。</div>
+    <div class="spot-body" style="overflow-x:auto">
+      <table class="spot-tbl">
+        <thead><tr><th>セグメント</th><th>5月平常</th><th>W23 先週</th><th>W24</th><th>先週比</th><th>5月平常比</th></tr></thead>
+        <tbody>
+          <tr><td>リピーター</td><td>6,636</td><td>7,728</td><td>7,517</td><td class="yoy-down">−211</td><td class="yoy-up">+881</td></tr>
+          <tr><td>モバイル</td><td>5,874</td><td>6,961</td><td>6,844</td><td class="yoy-down">−117</td><td class="yoy-up">+970</td></tr>
+          <tr><td>Direct</td><td>1,655</td><td>1,939</td><td>1,825</td><td class="yoy-down">−114</td><td class="yoy-up">+170</td></tr>
+          <tr class="hot"><td>Email</td><td>546</td><td>746</td><td>530</td><td class="yoy-down">−216</td><td>−16</td></tr>
+          <tr><td>新規</td><td>1,986</td><td>2,328</td><td>2,373</td><td class="yoy-up">+45</td><td class="yoy-up">+387</td></tr>
+        </tbody>
+      </table>
+      <div class="spot-foot" style="padding-left:0;padding-right:0">
+        <strong>「先週比」はマイナスでも「5月平常比」はプラス</strong>＝恒常需要は減っていない。下げの主因は「先週(W23)が高かった反動」。Emailだけ平常に戻った（6/1配信の一時的な上積みが剥落）。取込側（新規 +45・Paid Search +137）は先週比・5月比とも伸長。<br>
+        ※ <strong>チャネル別</strong>（Email −216・Direct −114…全チャネル計 −166）と <strong>ユーザー別</strong>（リピーター −211・新規 +45＝計 −166）は<strong>別の切り口で、足し算の親子ではない</strong>（Email −216 のうちリピーター分は約 −155）。
+      </div>
+    </div>
+    <div class="spot-ib amber">
+      <h4>判定：先週比の下げは「W23が高かった反動」。恒常需要は健在で、真の弱点は前年割れのモバイル</h4>
+      先週比でマイナスの<strong>リピーター・モバイル・Direct も、W24は5月平常を上回る</strong>＝毎週あった需要が消えたのではなく、<strong>W23が高かった週からの反動</strong>。Emailのみ平常へ戻った。<br>なお Email減 −216 のうち、6/1配信（point_mail）で説明できるのは <strong>約 −52（54件→2件）だけ</strong>。残りと Direct・リピーターの下げは特定の単一配信に紐づかず、「W23が全般に高かった反動」。<strong>恒常的に伸びていない構造的な弱点は、前年を下回るモバイル（→04）</strong>。
+    </div>
+  </div>
+
+  <!-- 04 YoY -->
+  <div class="card" id="s4" style="scroll-margin-top:16px">
+    <div class="spot-sec-head"><span class="spot-sec-num red">04</span><h2 class="spot-sec-title">前年比（YoY）— 主力モバイルが前年を下回る</h2></div>
+    <div class="spot-sec-sub">「本来の右肩上がり」に乗れているかを前年同週（2025/6/7-13）と比較。<strong>数値はすべて「予約完了（purchase）の件数」</strong>で、CVRや流入(セッション)ではない——<strong>デバイス別セッションは2026がbotで水増し・2025側も不安定</strong>で、CVR/流入のYoYは信頼できないため、bot無関係の<strong>件数</strong>で比較する（チャネル/新規リピーターの2025内訳も欠損が多く比較不可）。</div>
+    <div class="spot-body">
+      <div style="font-size:12px;font-weight:900;color:var(--text);margin:0 0 6px">予約完了 件数 ・ デバイス別（YoY）</div>
+      <table class="spot-tbl">
+        <thead><tr><th>区分</th><th>2025 W24<br><small>予約完了(件)</small></th><th>2026 W24<br><small>予約完了(件)</small></th><th>前年比</th></tr></thead>
+        <tbody>
+          <tr><td>予約完了 計</td><td>9,536</td><td>9,890</td><td class="yoy-up">+3.7%</td></tr>
+          <tr class="hot"><td>モバイル</td><td>7,049</td><td>6,844</td><td class="yoy-down">−2.9%</td></tr>
+          <tr><td>desktop</td><td>2,363</td><td>2,936</td><td class="yoy-up">+24.2%</td></tr>
+          <tr><td>tablet</td><td>124</td><td>110</td><td class="yoy-down">−11.3%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="spot-ib red">
+      <h4>判定：成長は desktop 頼み、主力モバイルは前年割れ</h4>
+      総予約は前年比 +3.7% と微増だが、中身は <strong>desktop（+24%）が牽引し、購入の約7割を占めるモバイルは −2.9% と前年を下回る</strong>。繁忙期はモバイル比率がさらに上がる時期で、<strong>主力が前年割れのまま入るのは繁忙期前に正したい弱点</strong>。先週比（03）の下げは「W23の反動」で恒常需要は健在だったが、<strong>前年比で見るとモバイルの予約完了件数は構造的に前年を下回っている</strong>＝こちらが追うべき本当の弱点。なおこれは<strong>件数ベース</strong>で、前年割れが「モバイル流入の減少」か「モバイル転換の低下」かは、デバイス別のクリーンなセッションが要り<strong>未分離</strong>。代わりに<strong>ファネルのどこで漏れるか</strong>を構造で見たのが <a href="#s8" style="color:#c0392b;font-weight:700">08</a>（モバイルの何が悪いか）。
+    </div>
+  </div>
+
+  <!-- 05 trough scan (context) -->
+  <div class="card" id="s5" style="scroll-margin-top:16px">
+    <div class="spot-sec-head"><span class="spot-sec-num">05</span><h2 class="spot-sec-title">背景：5月の谷は全軸一斉＝季節性。問題はその後の「伸び切らなさ」</h2></div>
+    <div class="spot-sec-sub">4軸を同一週次で並べた購入数（bot無関係）。GW(W18)→5月中旬の谷→6月回復は<strong>全セグメント一斉＝GW後の季節需要</strong>。ただし回復はしたものの、上述の通り <strong>W24でモバイル・既存客が再び下げ、繁忙期へ加速し切れていない</strong>。</div>
+    <div class="spot-body" style="overflow-x:auto">
+      <table class="spot-tbl heat">
+        <thead>
+          <tr><th>セグメント</th><th>W18<br><small>GW</small></th><th>W19</th><th>W20</th><th>W21</th><th>W22</th><th>W23</th><th>W24</th><th>谷→W24</th></tr>
+        </thead>
+        <tbody>
+          <tr class="axhead"><td colspan="9">チャネル別</td></tr>
+          <tr><td>Organic Search</td><td>2,929</td><td>2,510</td><td>2,050</td><td>2,010</td><td class="trough">1,930</td><td>2,216</td><td>2,204</td><td class="rec">+14%</td></tr>
+          <tr><td>Paid Search</td><td>2,494</td><td>2,134</td><td class="trough">1,844</td><td>2,029</td><td>1,912</td><td>2,152</td><td>2,289</td><td class="rec">+24%</td></tr>
+          <tr><td>Direct</td><td>2,079</td><td>1,835</td><td>1,716</td><td class="trough">1,593</td><td>1,655</td><td>1,939</td><td>1,825</td><td class="rec">+15%</td></tr>
+          <tr><td>Email</td><td>920</td><td>692</td><td>557</td><td class="trough">528</td><td>552</td><td>746</td><td>530</td><td class="rec flatx">±0%</td></tr>
+          <tr class="axhead"><td colspan="9">デバイス別</td></tr>
+          <tr><td>Mobile</td><td>8,235</td><td>7,187</td><td>5,939</td><td>5,926</td><td class="trough">5,756</td><td>6,961</td><td>6,844</td><td class="rec">+19%</td></tr>
+          <tr><td>Desktop</td><td>3,619</td><td>2,878</td><td>2,638</td><td>2,684</td><td class="trough">2,623</td><td>2,975</td><td>2,936</td><td class="rec">+12%</td></tr>
+          <tr class="axhead"><td colspan="9">新規 / リピーター別</td></tr>
+          <tr><td>リピーター</td><td>9,197</td><td>7,791</td><td>6,682</td><td>6,728</td><td class="trough">6,497</td><td>7,728</td><td>7,517</td><td class="rec">+16%</td></tr>
+          <tr><td>新規</td><td>2,806</td><td>2,384</td><td>1,993</td><td class="trough">1,967</td><td>1,997</td><td>2,328</td><td>2,373</td><td class="rec">+21%</td></tr>
+        </tbody>
+      </table>
+      <div class="spot-foot" style="padding-left:0;padding-right:0">赤セル＝そのセグメントの谷（最小週）。5月中旬〜下旬(W20-22)に全軸一斉で谷→6月回復。エリア別（landingPage・W18/W22/W24サンプル）も同形で、北海道/札幌のみ逆行上昇（夏需要の立ち上がり）。</div>
+    </div>
+    <div class="spot-ib blue">
+      <h4>次の一手：モバイルの深掘りを最優先に</h4>
+      5月の谷は全軸一斉＝GW後の季節需要なので、個別の穴つぶしは不要。<strong>追うべきは、前年割れしているモバイル（→04）</strong>。具体的な次の深掘りは「<strong>モバイルの予約完了が、前年に対し流入で落ちたのか・転換（CVR）で落ちたのか</strong>」をデバイス別に分解すること。あわせて、新規の本丸である<strong>AC到達→検討（比較中層）</strong>に探索軸で効かせ、会員には<strong>夏商材の計画配信</strong>で再来購入を押し上げる（既存客は弱点ではなく攻めのレバー）。
+    </div>
+  </div>
+
+  <!-- 06 conclusion -->
+  <div class="card" id="s6" style="scroll-margin-top:16px">
+    <div class="spot-sec-head"><span class="spot-sec-num amber">06</span><h2 class="spot-sec-title">結論 — 繁忙期へ向けて伸ばす3点</h2></div>
+    <div class="spot-ib red">
+      <h4>① モバイルを上げる（前年割れ＝構造的な弱点）</h4>
+      購入の約7割を占めるモバイルが <strong>前年比 −2.9% と前年割れ</strong>（先週比 −117 はW23の反動）。繁忙期はモバイル比率がさらに上がるため、ここが前年を超えないと全体が伸びない。<strong>モバイルの予約完了（フォーム・決済・速度）を最優先で深掘り</strong>。
+    </div>
+    <div class="spot-ib amber">
+      <h4>② 会員への計画配信で再来購入を押し上げる（攻めのレバー）</h4>
+      6/1のポイントメールは単発で約54件の購入を生んだ＝<strong>会員配信は需要を動かせる</strong>。繁忙期に向け、<strong>過去予約エリア・直近閲覧destinationの会員に夏商材のポイント／特集メールを計画配信</strong>。頻度を闇雲に増やすと解除を招くので、対象と内容を絞る（配信頻度・解除率は既存CRMデータで確認）。
+    </div>
+    <div class="spot-ib green">
+      <h4>③ 新規の本丸は「AC到達→検討」（ac-discovery準拠）</h4>
+      新規の流入は伸びている。だが最大ギャップは<strong>AC到達→検討（②→③）9.0% ↔ リピーター22.8%</strong>、対象は<strong>比較中層 約528,900人/28日</strong>と最大級。<strong>探索軸（スポット／やりたいこと／出発地／タイミング）を増やして有効AC到達を上げる</strong>のが第一手で、フォーム最終段階（④→⑤・BN1）は① 指名買い層の二次レバー。
+    </div>
+    <div class="spot-foot" style="padding-top:14px">
+      出典：GA4 <code>347074845</code>。先週比＝W24(6/7-13) vs W23(5/31-6/6)、前年比＝2026 W24 vs 2025(6/7-13)。予約完了＝<code>eventName=purchase</code>。実質CVR＝purchase ÷（セッション − CN/SG）。<strong>注</strong>：2025のチャネル/新規リピーター内訳は属性欠損（(not set)）が多く、YoYはデバイスと総数のみ採用。週バケットは日〜土。関連：<a href="/2026h1/spot/2026-gw-cvr-decline.html" style="color:#d97706;font-weight:700">GW CVR 構造低下（YoY視点）</a> ／ <a href="/2026h1/reports/2026-h1/2026-w24/" style="color:#d97706;font-weight:700">W24 週次サマリー</a>
+    </div>
+  </div>
+
+  <!-- 07 action plan -->
+  <div class="card" id="s7" style="scroll-margin-top:16px">
+    <div class="spot-sec-head"><span class="spot-sec-num amber">07</span><h2 class="spot-sec-title">具体施策 — 繁忙期へ向けてCVRを押し上げる（送客 × CRM × 新規のAC到達→検討）</h2></div>
+    <div class="spot-sec-sub">構造的な弱点（<strong>前年割れのモバイル</strong>）と、伸びている強み（<strong>新規の流入</strong>）を踏まえて3レバーを具体化する。共通テコは<strong>モバイル</strong>（購入の約7割・前年割れ）で、各施策をモバイル起点で設計する。</div>
+    <div class="act-grid">
+
+      <!-- 送客 -->
+      <div class="act s1">
+        <div class="act-head"><span class="act-no">送客</span><span class="act-title">夏需要の先行destinationを送客面に前出し＋伸びている流入をスケール</span><span class="act-when">即〜7月頭</span></div>
+        <div class="act-kpi">狙う指標：<b>来訪 × 有効AC到達</b>（分子の母数）。シグナル：北海道/札幌が逆行で上昇（50→65→91）＝夏アクティビティ需要が先行で立ち上がっている。Paid Searchは先週比 +137 で伸長中。</div>
+        <div class="act-rows">
+          <div class="act-box">
+            <h5>具体アクション</h5>
+            ① TOP・主要エリア面の上部に<strong>夏アクティビティ特集枠</strong>（海・離島・花火・避暑＝北海道）を期間出し。<br>② Paid Searchの<strong>夏KW群（destination×季節語）を増額・拡張</strong>し、伸びている流入を取りこぼさない。
+          </div>
+          <div class="act-box mob">
+            <h5>モバイル観点</h5>
+            モバイルTOPの<strong>ファーストビューに夏特集</strong>を固定。スクロール前に「今行ける夏体験」を見せ、有効AC到達率を上げる。
+          </div>
+        </div>
+        <div class="act-box" style="margin-top:10px">
+          <h5>データ／仕組み</h5>
+          GA4 <code>347074845</code> で <code>landingPage</code> 別の前年比・前週比成長を月次抽出 → 伸長destinationを送客面に自動反映（手選定ではなくルール抽出）。効果は <code>sessionDefaultChannelGroup</code> × destination で週次トラッキング。
+        </div>
+      </div>
+
+      <!-- CRM -->
+      <div class="act s2">
+        <div class="act-head"><span class="act-no">CRM</span><span class="act-title">会員へ夏商材のポイント／特集メールを計画配信（6/1で効いた型を展開）</span><span class="act-when">繁忙期前〜繁忙期中</span></div>
+        <div class="act-kpi">狙う指標：<b>会員（リピーター）の再来・再購入</b>。根拠：6/1のポイントメールは単発で約54件の購入を生んだ＝<b>会員配信は需要を動かせる（攻めのレバー）</b>。ただし頻度を増やすと解除を招くので、対象と内容を絞る。</div>
+        <div class="act-rows">
+          <div class="act-box">
+            <h5>具体アクション</h5>
+            ① <strong>過去予約エリア・直近閲覧destination の会員に、夏destinationのポイント／特集メールを配信</strong>（6/1で効いた型を夏商材へ展開）。<br>② 配信数を増やすのではなく<strong>対象セグメントと内容の関連性を上げる</strong>。現行の配信頻度・解除率を確認した上で、過剰配信を避ける。<br>③ 効果は <code>sessionCampaignName</code> 単位で配信→購入を追い、A/Bで内容を検証してから広げる。
+          </div>
+          <div class="act-box mob">
+            <h5>モバイル観点</h5>
+            メール開封はモバイルが大半。<strong>タップ→カレンダー→決済までモバイルで完結</strong>する着地に統一し、PC前提の導線をやめる。
+          </div>
+        </div>
+        <div class="act-box" style="margin-top:10px">
+          <h5>前提（施策ではなく準備）</h5>
+          配信頻度・送信数・開封・解除率は <strong>CRMツール側のデータ</strong>で確認（GA4の購入データには無い）。トリガー配信（<code>cart_2hr</code>・<code>4008_booking_detail</code> 等）は週次で安定しているのでそのまま、追加するのは上の一斉/特集配信。
+        </div>
+      </div>
+
+      <!-- 新規：AC到達→検討 -->
+      <div class="act s3">
+        <div class="act-head"><span class="act-no">新規</span><span class="act-title">新規の本丸「AC到達→検討」を上げる — 探索軸を増やす</span><span class="act-when">Brazeで需要プローブ→プロダクト化</span></div>
+        <div class="act-kpi">狙う指標：<b>新規の有効AC到達／AC到達→検討（②→③）</b>。背景：新規 <b>9.0%</b> ↔ リピーター <b>22.8%</b>（同UXでの実測＝当面の目標）、対象は「AC到達済・未検討の比較中層」<b>約528,900人/28日</b>＝最大級（<a href="/2026h1/spot/2026-ac-discovery.html" style="color:#1a8c4e;font-weight:700">AC discovery</a> の最優先）。</div>
+        <div class="act-rows">
+          <div class="act-box">
+            <h5>具体アクション</h5>
+            <strong>スポット／やりたいこと／出発地／タイミング の探索軸を増やし、新規が"自分に合うAC"へ到達できるようにする</strong>。Braze の In-app/配信で需要をプローブ → 勝った軸をプロダクト化（開発0で先行検証）。フォーム最終段階（④→⑤・<a href="/2026h1/bottleneck.html?week=2026-w24&num=1" style="color:#1a8c4e;font-weight:700">BN1</a>）は <strong>① 指名買い層の二次レバー</strong>で、本丸ではない。
+          </div>
+          <div class="act-box mob">
+            <h5>モバイル観点</h5>
+            モバイルは探索が深くなりやすい。<strong>上部に探索軸（スポット/やりたいこと/直前）を提示</strong>し、AC到達までのタップ数を減らす。
+          </div>
+        </div>
+        <div class="act-box" style="margin-top:10px">
+          <h5>データ／仕組み</h5>
+          出典・打ち手の詳細は <a href="/2026h1/spot/2026-ac-discovery.html" style="color:#1a8c4e;font-weight:700">AC discovery</a>（28日・bot除外）。判定はA/B＝<strong>有効AC到達率／AC到達→検討率</strong>。
+        </div>
+      </div>
+
+    </div>
+    <div class="spot-ib amber">
+      <h4>優先順位と時期</h4>
+      <ol>
+        <li><strong>新規の AC到達→検討（Braze・開発0）</strong>：母数が最大（比較中層 約528,900）で、リピーター22.8%という実証済みの目標がある。探索軸を増やして検証＝最優先。</li>
+        <li><strong>CRM 計画配信（即・低コスト・開発0）</strong>：6/1で効いた型を夏商材へ展開。過剰配信を避け、対象と内容を絞ってA/B。</li>
+        <li><strong>モバイル深掘り＋送客（並行・構造）</strong>：前年割れのモバイル予約完了を「流入か転換か」に分解してから改修。夏destination送客で母数を作る。</li>
+      </ol>
+      共通テコは<strong>モバイル</strong>（購入の約7割・前年割れ）。各施策とも「モバイルで完結するか」を設計の起点にする。
+    </div>
+  </div>
+
+  <!-- 08 mobile deep dive -->
+  <div class="card" id="s8" style="scroll-margin-top:16px">
+    <div class="spot-sec-head"><span class="spot-sec-num red">08</span><h2 class="spot-sec-title">深掘り：モバイルの「何が」悪いか — 入口（AC到達）と完了（決済）</h2></div>
+    <div class="spot-sec-sub">モバイル購入は前年比 −2.9%。ただし「流入が減った」のか「転換が落ちた」のかは、セッションが両年とも不安定（2025は計測が薄い・2026はbot混在）で断定できない。そこで<strong>モバイルのファネルがどこで漏れるかを desktop と比較</strong>（28日・通過率）して、構造で答える。</div>
+    <div class="spot-body">
+      <div class="fnl">
+        <div class="fnl-row head"><span>ファネル段階</span><span>モバイル</span><span>desktop</span></div>
+        <div class="fnl-row"><span class="fnl-step">①→② 入口（AC到達）</span><span class="fnl-bar m weak"><i style="width:33%"></i><b>32.7%</b></span><span class="fnl-bar d"><i style="width:39%"></i><b>38.8%</b></span></div>
+        <div class="fnl-row"><span class="fnl-step">②→③ 検討（カレンダー）</span><span class="fnl-bar m win"><i style="width:15%"></i><b>14.5%</b></span><span class="fnl-bar d"><i style="width:5%"></i><b>4.2%</b></span></div>
+        <div class="fnl-row"><span class="fnl-step">③→④ 意向（フォーム）</span><span class="fnl-bar m"><i style="width:44%"></i><b>43.5%</b></span><span class="fnl-bar d"><i style="width:48%"></i><b>47.5%</b></span></div>
+        <div class="fnl-row"><span class="fnl-step">④→⑤ 完了（決済）</span><span class="fnl-bar m weak"><i style="width:66%"></i><b>65.9%</b></span><span class="fnl-bar d"><i style="width:81%"></i><b>80.5%</b></span></div>
+      </div>
+      <div class="spot-foot" style="padding-left:0;padding-right:0">赤＝モバイルが desktop に負ける段、緑＝モバイルが勝つ段。差（モバイル−desktop）：①→② <strong>−6.1pp</strong>／②→③ +10.3pp／③→④ −4.0pp／④→⑤ <strong>−14.6pp</strong>。④→⑤ は決済段で bot の影響を受けにくくクリーン。</div>
+    </div>
+    <div class="spot-ib red">
+      <h4>判定：弱点は「入口（AC到達）」と「完了（決済）」。"探して比較する"はむしろ強い</h4>
+      モバイルは ②→③（検討）<strong>14.5% で desktop 4.2% に圧勝</strong>＝探して比較するのは得意。落ちるのは2か所だけ：<strong>① 入口＝AC到達（32.7%・最も低い段、desktop比 −6.1pp）</strong>と <strong>④→⑤ 完了＝決済（65.9% ↔ desktop 80.5%／−14.6pp）</strong>。前者は小さい画面で"自分に合うAC"へ辿り着けない、後者はフォーム・決済の摩擦。
+    </div>
+    <div class="io2">
+      <div class="io-card in">
+        <div class="io-h">入口（①→② AC到達）<span>まずここ・レバレッジ最大</span></div>
+        <ul>
+          <li>上部に探索軸タブ：スポット／やりたいこと／出発地／今日明日OK</li>
+          <li>1タップでAC一覧へ（階層を浅く）</li>
+          <li>ファーストビューに季節・人気ACを数枚</li>
+        </ul>
+      </div>
+      <div class="io-card out">
+        <div class="io-h">出口（④→⑤ 完了）<span>単段の差 −14.6pp</span></div>
+        <ul>
+          <li>最終総額（税・手数料込）を入力前に表示</li>
+          <li>フォーム段階を圧縮（入力・画面数を減らす）</li>
+          <li>決済直前に安心要素（無料キャンセル・即時確定）</li>
+          <li>モバイル決済を最適化（Apple/Google Pay 等）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="spot-foot" style="padding-top:8px">出典：GA4 <code>347074845</code>。通過率は 28日・デバイス別（data.json）。前年比はW24購入の device YoY（モバイル 7,049 → 6,844）。流入／転換の厳密な分解はセッション計測の整備が前提。</div>
+  </div>
+
+  <!-- Footer -->
+  <div class="card">
+    <div class="footer">
+      <span>VELTRA CVR改善チーム — UIUX Design Squad</span>
+      <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+      <span>2026-06-19</span>
+    </div>
+  </div>
+
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/2026h1/spot/spot.css">
+<title>画面別 改修ワイヤー（要件定義ドラフト） | スポット分析</title>
+<style>
+:root{--accent:#1b82c5;--accent-bg:#e8f2fb}
+#app .sub-headline{font-size:23px;line-height:1.55}
+#app .sub-lede{font-size:14.5px;line-height:1.8}
+#app .sub-sec-title{font-size:19px}
+.sw-stage{padding:0 44px 16px}
+/* TOC */
+.dx-toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.dx-toc a{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;color:var(--text2);background:#fff;border:1px solid var(--border);border-radius:20px;padding:7px 15px;text-decoration:none;line-height:1.3;transition:border-color .12s,color .12s}
+.dx-toc a:hover{border-color:#1b82c5;color:#1b82c5}
+.dx-toc .n{font-family:'DM Sans';font-size:11px;font-weight:900;color:#1b82c5}
+html{scroll-behavior:smooth}
+/* 凡例 */
+.sw-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--text2);background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 16px;margin:6px 0 14px;line-height:1.6}
+.sw-legend .sq{display:inline-block;width:13px;height:13px;border-radius:3px;vertical-align:-2px;margin-right:5px}
+.sw-legend .sq.prod{border:2px solid #1b82c5;background:#eef6fd}
+.sw-legend .sq.braze{border:2px dashed #1a8c4e;background:#f2fcf5}
+.sw-legend .sq.dim{background:#e8edf2;border:1px solid #d8dee5}
+/* ワイヤー＋吹き出しレイアウト */
+.wf-duo{position:relative;display:grid;grid-template-columns:340px minmax(0,1fr);gap:36px;align-items:start;margin:4px 0 18px}
+.co-lines{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.co-rail{position:relative;min-width:0}
+.co{position:absolute;left:0;right:0;background:#fff;border:1.5px solid #1b82c5;border-radius:10px;padding:10px 13px;font-size:13px;line-height:1.65;color:var(--text2);box-shadow:0 2px 10px rgba(20,40,60,.07)}
+.co.braze{border-color:#1a8c4e;border-style:dashed}
+.co b{color:var(--text)}
+.co-head{font-weight:900;color:#155e8f;font-size:13px;margin-bottom:3px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.co.braze .co-head{color:#1a6e42}
+.co-pin{background:#1b82c5;color:#fff;border-radius:9px;padding:1px 9px;font-family:'DM Sans';font-size:11px;font-weight:900}
+.co.braze .co-pin{background:#1a8c4e}
+/* phone（モック内部UIは13px未満可・実UIの内容のみ） */
+.wf-phone{width:100%;max-width:340px;border:1.5px solid #d5dbe2;border-radius:22px;background:#fff;padding:8px;box-shadow:0 6px 24px rgba(20,40,60,.08)}
+.wf-screen{background:#f4f6f9;border-radius:15px;overflow:hidden;color:#333}
+.wf-hd{background:#fff;display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid #e8ecf0;font-weight:900;color:#1B82C5;font-size:11px}
+.wf-sec{padding:8px 10px}
+.wf-sec .sec-cap{font-size:9.5px;font-weight:900;color:#52606f}
+.wf-dim{opacity:.5}
+.wf-ph{background:#dde6ee;border-radius:6px}
+.wf-line{height:7px;background:#e2e8ef;border-radius:3px;margin:5px 0}
+.wf-line.s{width:55%}.wf-line.m{width:75%}
+.wf-price{font-size:11px;font-weight:900;color:#1B82C5}
+.wf-cta{background:#1B82C5;color:#fff;text-align:center;font-weight:800;padding:8px;border-radius:7px;font-size:11px;margin:6px 10px}
+.wf-cards{display:flex;gap:5px}
+.wf-mini{flex:1;background:#fff;border:1px solid #e2e8ef;border-radius:6px;padding:5px;min-width:0}
+.wf-mini .t{font-size:8.5px;line-height:1.35;color:#333;font-weight:700}
+.wf-mini .st{font-size:8px;color:#777}
+.wf-badge{display:inline-block;font-size:8.5px;font-weight:900;color:#1a8c4e;background:#e6f7ee;border-radius:3px;padding:1px 5px;margin:2px 3px 0 0;white-space:nowrap}
+.wf-badge.amber{color:#b45309;background:#fdf2dd}
+.wf-badge.blue{color:#1b6ea5;background:#e3f0fb}
+/* 追加・改修ブロック（枠色のみ。中身は実UI） */
+.wf-add{position:relative;margin:10px 8px;border:2px solid #1b82c5;background:#eef6fd;border-radius:9px;padding:8px}
+.wf-add.braze{border:2px dashed #1a8c4e;background:#f2fcf5}
+.wf-pin{position:absolute;top:-11px;right:-7px;min-width:26px;height:20px;padding:0 5px;border-radius:10px;background:#1b82c5;color:#fff;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.2);z-index:2}
+.wf-add.braze .wf-pin{background:#1a8c4e}
+.ui-h{font-size:10px;font-weight:900;color:#1a1a1a;margin-bottom:4px}
+.ui-link{font-size:8.5px;font-weight:700;color:#1B82C5}
+.chiprow{display:flex;flex-wrap:wrap;gap:4px}
+.chip{font-size:8.5px;font-weight:900;color:#155e8f;background:#fff;border:1px solid #bcd8ef;border-radius:10px;padding:2px 7px;white-space:nowrap}
+.facet{font-size:8.5px;font-weight:900;color:#155e8f;background:#fff;border:1px solid #bcd8ef;border-radius:4px;padding:2px 6px;white-space:nowrap}
+.facet.off{opacity:.55}
+.gbtns{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:4px}
+.gbtn{border:1px solid #dbe7f0;border-radius:8px;background:#fff;text-align:center;padding:7px 3px;font-size:8.5px;font-weight:800;color:#334;line-height:1.4}
+.gbtn .ic{font-size:15px;display:block;margin-bottom:2px}
+.tabrow{display:flex;gap:3px;flex-wrap:wrap}
+.tab{font-size:8.5px;font-weight:900;color:#555;background:#fff;border:1px solid #dfe5ea;border-radius:4px;padding:2px 7px;white-space:nowrap}
+.tab.on{color:#fff;background:#1B82C5;border-color:#1B82C5}
+.tab[data-tab]{cursor:pointer}
+.tp[hidden]{display:none}
+/* AC比較表（モック内部） */
+.cmp{width:100%;border-collapse:collapse;font-size:8px;margin-top:2px;table-layout:fixed}
+.cmp th,.cmp td{border:1px solid #dfe8ef;padding:3px 3px;text-align:center;background:#fff;color:#333;overflow:hidden;line-height:1.35}
+.cmp th{font-weight:900;font-size:8px;vertical-align:top}
+.cmp .lab{background:#f2f6f9;font-weight:900;color:#556;width:25px;text-align:left;padding-left:4px}
+.cmp .cur{background:#eef6fd}
+.cmp th.cur{border-top:2px solid #1b82c5}
+.cmp .you{display:inline-block;background:#1b82c5;color:#fff;border-radius:3px;font-size:7px;font-weight:900;padding:0 4px;margin-bottom:2px}
+.cmp .mini-cta{display:inline-block;background:#1B82C5;color:#fff;border-radius:4px;padding:2px 6px;font-size:7.5px;font-weight:900}
+/* 要件表 */
+.rq{width:100%;border-collapse:collapse;font-size:13px;margin:0 0 6px}
+.rq th{text-align:left;font-size:11.5px;font-weight:900;color:var(--text3);text-transform:uppercase;padding:8px 9px;border-bottom:2px solid var(--border);vertical-align:bottom;white-space:nowrap}
+.rq td{padding:10px 9px;border-bottom:1px solid var(--border);line-height:1.65;color:var(--text2);vertical-align:top}
+.rq td b{color:var(--text)}
+.rq .no{font-family:'DM Sans';font-weight:900;color:#1b82c5;white-space:nowrap}
+.rq .no.braze{color:#1a8c4e}
+.rq code{font-size:12px;background:#f1f4f7;border-radius:4px;padding:1px 5px;color:#334}
+.rq .pain{color:#b3422f}
+.rq .eff{display:block;margin-top:6px;color:#14683e;font-size:12.5px;line-height:1.6}
+.rq .eff b{color:#14683e}
+.sw-note{font-size:13px;color:var(--text3);line-height:1.8;margin:2px 0 8px}
+.sw-note b{color:var(--text2)}
+.sw-ins{background:#eef6fc;border:1px solid #cfe3f5;border-radius:10px;padding:13px 18px;font-size:14px;line-height:1.8;color:var(--text2);margin:6px 0 14px}
+.sw-ins b{color:#1b6ea5}
+.sw-ins .bul{margin:6px 0 0;padding-left:20px}
+.sw-ins .bul li{margin-bottom:5px}
+.lbl{display:inline-block;font-size:11px;font-weight:900;border-radius:5px;padding:2px 9px;margin-right:7px;letter-spacing:.02em;white-space:nowrap}
+.lbl.fact{background:#e3f0fb;color:#155e8f}
+.lbl.org{background:#e7f4ec;color:#1a7a44}
+.lbl.hyp{background:#fdf2dd;color:#9a5a00}
+.lbl.pain{background:#fde7e3;color:#b3422f}
+.kbox{background:#fff;border:1px solid var(--border);border-radius:10px;margin:8px 0 16px;overflow:hidden}
+.kbox .kbox-h{background:#f3f6f9;font-size:13.5px;font-weight:900;color:var(--text);padding:9px 14px;border-bottom:1px solid var(--border)}
+.kbox .krow{padding:11px 14px;border-bottom:1px solid #eef1f4;font-size:13.5px;line-height:1.75;color:var(--text2)}
+.kbox .krow:last-child{border-bottom:none}
+.kbox .krow b{color:var(--text)}
+.kbox .krow ul{margin:6px 0 0;padding-left:20px}
+.kbox .krow li{margin-bottom:5px}
+.sw-foot{padding:16px 44px 10px;font-size:13.5px;color:var(--text3);line-height:1.8}
+@media(max-width:980px){.wf-duo{grid-template-columns:1fr}.co-lines{display:none}.co{position:static !important;margin:0 0 10px}.co-rail{min-height:0 !important}.wf-phone{margin:0 auto}}
+@media(max-width:768px){.sw-stage,.sw-foot{padding-left:22px;padding-right:22px}.rq{font-size:12.5px}.rq th,.rq td{padding:7px 6px}}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">スポット分析<br><strong>新規ユーザーの「探す→候補に出会う」を増やす画面改修</strong></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sub-hero" style="background:linear-gradient(135deg,#eef6fc 0%,#fff 80%)">
+      <div class="sub-breadcrumb"><a href="/2026h1/spot/2026-ac-discovery.html">← 新規ユーザー転換｜探索分解と施策</a> / <strong>画面別 改修ワイヤー</strong></div>
+      <div class="sub-tag">画面改修ワイヤー＋要件ドラフト</div>
+      <h1 class="sub-headline">
+        新規ユーザーが「自分で探して候補に出会える」ように、<br>
+        TOP・エリア・カテゴリ・AC の4画面を改修する案（ワイヤー＋要件）。
+      </h1>
+      <div class="sub-lede">
+        <strong>ねらい：</strong>新規ユーザーは発見・比較の導線が弱く、AC（商品）に辿り着けず離脱している。各画面で「探す→候補に出会う」を太くし、<strong>有効AC到達率・比較継続率・検討→完了率</strong>を上げる。<br>
+        各画面で「いまの課題（ペイン）→ 何を・どこに足すか → 要件（条件・データ・計測）」を、<a href="/2026h1/spot/2026-ac-discovery.html" style="color:#1b82c5;font-weight:700">親ページのペイン仮説</a>に紐づけて記載。ワイヤーの中は<strong>実際にデザインに入るUIのみ</strong>、仕様・変更点は<strong>引き出し線つきの吹き出し</strong>で外側に。
+      </div>
+      <nav class="dx-toc" aria-label="ページ内リンク">
+        <a href="#wf-top"><span class="n">T</span>TOP</a>
+        <a href="#wf-area"><span class="n">A</span>エリアページ</a>
+        <a href="#wf-category"><span class="n">C</span>カテゴリページ</a>
+        <a href="#wf-ac"><span class="n">P</span>ACページ（商品詳細）</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sw-stage" style="padding-top:18px">
+      <div class="sw-legend">
+        <span><span class="sq prod"></span><b>実線・青</b>＝プロダクト改修（本命）</span>
+        <span><span class="sq braze"></span><b>点線・緑</b>＝Braze-now（オーバーレイで先行検証可）</span>
+        <span><span class="sq dim"></span>グレー＝既存モジュール（変更なし）</span>
+        <span>吹き出し＝仕様・変更点（デザインには入らない）</span>
+      </div>
+      <div class="sw-note">・計測イベント名は仮称。実装時は既存規約（<code style="font-size:12px">GA4_vtjp_ex_yokka_*</code>）に合わせる。<br>・データ要件の前提：AC属性（spot_id・category・duration・pickup・price・stock）と観光スポットマスター（spot_id×名称×画像×紐づくAC）。spot_id が未整備の場合はその整備が先行タスク。<br>・ワイヤー内の商品・価格・件数は実ページの実在データ（2026-06時点・オアフ島）。</div>
+      <div class="kbox" style="margin-top:6px">
+        <div class="kbox-h">全体の流れと前提の整理</div>
+        <div class="krow"><span class="lbl fact">事実</span>着手するページ順＝<a href="/2026h1/entry-journey.html" style="color:#1b82c5;font-weight:700">エントリー別CVRジャーニー</a> のCVR(session)順<br><b style="font-size:15px">GlobalTOP 2.28% ＞ エリア 1.21% ＞ カテゴリ 1.07%</b></div>
+        <div class="krow"><span class="lbl fact">事実</span>TOPが強いのではなく<b>TOP着地はリピーターが多い</b>のが実体（TOP：リピーターCVR 4.81%／新規CVR 0.62%）。対象は<b>新規</b>なので、TOPの伸びしろは"購入"ではなく<b>意向形成（探し始めの起点づくり）</b></div>
+        <div class="krow"><span class="lbl org">整理</span>2つの順序は<b>別軸で両立</b><ul><li><b>(a) 改修の着手順</b>＝TOP→エリア→カテゴリ→AC（ファネル上流・CVR順）</li><li><b>(b) KPIの主眼</b>＝新規の最大ギャップ「②比較継続・③有効AC到達」</li><li>各画面が層KPIに紐づく：TOP＝③/④起点／エリア＝③／カテゴリ＝③→②／AC＝②→①</li></ul></div>
+        <div class="krow"><span class="lbl hyp">仮説・代理 / 要BQ</span>②「即離脱 約41%」と③「非直帰 約59%」は<b>同一データ（AC着地の直帰）の裏返し</b>（41%＋59%＝100%）。BQで<b>エントリー経路別（LP経由→AC ／ 検索から直着地）に分離</b>して精緻化。現時点は代理値</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- T: TOP -->
+  <div class="card" id="wf-top">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">T</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Top</span>
+      <h2 class="sub-sec-title">TOPページ｜「どこから探すか」を選べず離脱 → 探し始めの起点を用意して一覧到達を増やす</h2>
+    </div>
+    <div class="sw-stage">
+      <div class="sw-ins"><span class="lbl pain">ペイン</span><ul class="bul"><li>既存の検索は<b>行き先・やりたいこと前提</b>。<b>「今すぐ・今日明日できる」起点が無い</b>（現地・直前ニーズを拾えない）</li><li>おすすめが<b>1種類（人気順）しか出ず</b>、自分に合うか判断できない</li></ul></div>
+      <div class="wf-duo">
+        <svg class="co-lines"></svg>
+        <div class="wf-phone"><div class="wf-screen">
+          <div class="wf-hd"><span style="color:#888;font-weight:400">☰</span><span>VELTRA</span><span style="color:#888;font-weight:400">🔍 ♡ ≡</span></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">ベルトラの会員特典（バナー）</div><div class="wf-line m"></div></div>
+          <div class="wf-sec wf-dim" style="position:relative">
+            <div class="sec-cap">検索（既存・変更なし）</div>
+            <div style="font-size:8px;color:#777;margin-top:3px">世界中のツアー・アクティビティ｜アクティビティ 24,065／体験談 618,952</div>
+            <div style="background:#fff;border:1px solid #dbe7f0;border-radius:14px;padding:6px 10px;font-size:8.5px;color:#999;margin-top:4px">🔍 行き先、やりたいことから探す</div>
+            <div class="chiprow" style="margin-top:5px"><span class="tab">📍 エリアから探す ▾</span></div>
+            <div class="tabrow" style="margin-top:5px"><span class="tab on">海外の人気エリア</span><span class="tab">日本の人気エリア</span></div>
+            <div class="chiprow" style="margin-top:4px"><span class="chip">オアフ島</span><span class="chip">オーストラリア</span><span class="chip">タイ</span><span class="chip">グアム</span><span class="chip">ラスベガス</span><span class="chip">フランス</span><span class="chip">ベトナム</span><span class="chip">ロサンゼルス</span><span class="chip">イギリス</span><span class="chip">ドバイ</span></div>
+            <span class="wf-pin" data-co="t1b" style="background:#8a97a5">既存</span>
+          </div>
+          <div class="wf-add"><span class="wf-pin" data-co="t1">T-1</span>
+            <div class="ui-h">今すぐ・日付から探す（追加）</div>
+            <div style="background:#fff;border:1px solid #dbe7f0;border-radius:7px;padding:6px 7px">
+              <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:9px;font-weight:800;color:#333">📍 ホノルル（現在地／前回の行き先）</span><span class="ui-link">変更</span></div>
+              <div class="chiprow" style="margin-top:4px"><span class="facet">今日</span><span class="facet off">明日</span><span class="facet off">日付を選ぶ</span></div>
+              <div style="background:#1B82C5;color:#fff;text-align:center;font-weight:800;padding:5px;border-radius:5px;font-size:9px;margin-top:5px">ホノルルで今日できる体験 132件を見る</div>
+            </div>
+          </div>
+          <div class="wf-sec wf-dim">
+            <div class="sec-cap">あなたの保存リスト</div>
+            <div class="wf-cards" style="margin-top:4px"><div class="wf-mini"><div class="wf-ph" style="height:20px"></div><div class="t">サンセット・ディナークルーズ</div></div><div class="wf-mini"><div class="wf-ph" style="height:20px"></div><div class="t">スターオブホノルル号</div></div></div>
+          </div>
+          <div class="wf-sec wf-dim">
+            <div class="sec-cap">最近チェックしたアクティビティ</div>
+            <div class="wf-cards" style="margin-top:4px"><div class="wf-mini"><div class="wf-ph" style="height:20px"></div></div><div class="wf-mini"><div class="wf-ph" style="height:20px"></div></div></div>
+          </div>
+          <div class="wf-add"><span class="wf-pin" data-co="t2">T-2</span>
+            <div class="ui-h">あなたにおすすめのアクティビティ</div>
+            <div class="tabrow" data-tabgroup="t2" style="margin-bottom:3px"><span class="tab on" data-tab="t2:pop">人気</span><span class="tab" data-tab="t2:rise">急上昇</span><span class="tab" data-tab="t2:rate">高評価</span></div>
+            <div class="tp" data-tp="t2:pop" style="font-size:8.5px;color:#1b6ea5;font-weight:700;margin-bottom:4px">いちばん予約されています</div>
+            <div class="tp" data-tp="t2:rise" style="font-size:8.5px;color:#1b6ea5;font-weight:700;margin-bottom:4px" hidden>予約が急に伸びています</div>
+            <div class="tp" data-tp="t2:rate" style="font-size:8.5px;color:#1b6ea5;font-weight:700;margin-bottom:4px" hidden>クチコミ★4.5以上</div>
+            <div class="wf-cards">
+              <div class="wf-mini"><div class="wf-ph" style="height:26px"></div><div class="t">サンセット・ディナークルーズ スターオブホノルル号</div><div class="wf-price">¥14,683〜</div><div class="st">★4.22（3,022）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:26px"></div><div class="t">ハワイでパラセーリング 高さ120m／150m</div><div class="wf-price">¥13,944〜</div><div class="st">★4.71（2,286）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:26px"></div><div class="t">クアロア・ランチ 四輪バギー体験</div><div class="wf-price">¥10,390〜</div><div class="st">★4.27（336）</div></div>
+            </div>
+          </div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">特集・キャンペーン</div><div class="wf-line"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">海外の人気アクティビティ</div><div class="wf-line m"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">国内の人気アクティビティ</div><div class="wf-line m"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">世界のグルメをお取り寄せ</div><div class="wf-line"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">旅行ガイド</div><div class="wf-line"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">旅のアイデアと現地情報</div><div class="wf-line"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">最新5つ星体験談（写真つきレビューを優先表示＝AC P-5と同方針）</div><div class="wf-cards" style="margin-top:3px"><div class="wf-mini"><div class="wf-ph" style="height:14px"></div></div><div class="wf-mini"><div class="wf-ph" style="height:14px"></div></div><div class="wf-mini"><div class="wf-ph" style="height:14px"></div></div></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">ベルトラで取り扱いのエリア</div><div class="wf-line"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">世界のキーワード一覧</div><div class="wf-line s"></div></div>
+        </div></div>
+        <div class="co-rail">
+          <div class="co" data-co-id="t1b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>検索hero（変更なし）</div>件数＋検索窓「行き先、やりたいことから探す」＋「エリアから探す」＋海外/日本の人気エリアタブ＋エリアチップ。<b>このブロックは触らない</b></div>
+          <div class="co" data-co-id="t1"><div class="co-head"><span class="co-pin">T-1</span>追加（「今すぐ・日付」の起点）</div>既存検索は<b>行き先・やりたいこと前提</b>なので、<b>「今日／明日／日付」で今すぐ参加できる</b>起点を検索heroの直下に1つ足すだけ（既存heroは変更なし）。<br>・場所＝初回は現在地（許諾時）か前回の行き先、<b>以降はキャッシュ保持</b>。「変更」でエリア選択<br>・着地＝既存の日付フィルタ付き一覧（新規画面なし）<br>計測：<b>now_search_submit</b>（date, area）</div>
+          <div class="co" data-co-id="t2"><div class="co-head"><span class="co-pin">T-2</span>改修（おすすめの面化・3タブ）</div>・タブ名は説明不要の言葉に：<b>人気</b>（直近30日の予約数上位）／<b>急上昇</b>（予約数の前週比伸長上位）／<b>高評価</b>（★4.5以上×件数50件以上）。初期＝人気<br>・タブ直下に一言キャッチを表示：人気「いちばん予約されています」／急上昇「予約が急に伸びています」／高評価「クチコミ★4.5以上」<br>計測：<b>reco_tab_switch</b>(tab)</div>
+        </div>
+      </div>
+      <table class="rq">
+        <thead><tr><th>#</th><th>要素・解くペイン</th><th>配置・表示条件</th><th>データ・ロジック</th><th>計測</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="no">T-1</td>
+            <td><b>探し方タブつき検索ユニット</b><br><span class="pain">ペイン：どこから探し始めればいいか分からない。「いまの場所」「日付」起点は通常検索と入力が違うのに入口が1つ</span><span class="eff"><b>行動変化：</b>探し方が分からず直帰／検索放置 → 自分のモードを選んで一歩目を踏む<br><b>動く数値：</b>TOP直帰率↓・TOP→一覧遷移率↑（とくに現地・直前型の回収）</span></td>
+            <td>TOP最上部の検索エリアを<b>2タブに置換</b>。<br>・タブ1「行き先から」＝既存の検索窓・エリア候補（変更なし・初期表示）<br>・タブ2「日付・いますぐ」＝今日/明日/日付指定＋場所で「今すぐ参加できる」を探す（旧「いまの場所から」「日付から」を統合）</td>
+            <td>・場所は初回＝現在地（許諾時）or 行き先で選んだエリア、<b>以降はキャッシュ保持</b>。許諾無し・未選択なら直近閲覧エリアで代替<br>・件数は当日〜翌日在庫から算出<br>・遷移先は既存一覧＋クエリパラメータ（新規画面なし）</td>
+            <td><code>search_mode_switch</code>(tab)<br><code>nearby_search_submit</code></td>
+          </tr>
+          <tr>
+            <td class="no">T-2</td>
+            <td><b>おすすめの面化（3タブ）</b><br><span class="pain">ペイン：おすすめが1種類（人気順）しか出ず、自分に合うか判断できない</span><span class="eff"><b>行動変化：</b>おすすめ1列を素通り → タブを替えて見比べる<br><b>動く数値：</b>おすすめ枠CTR↑・TOP→AC到達↑</span></td>
+            <td>既存「あなたへのおすすめ」枠を置換。タブ＝<b>人気／急上昇／高評価</b>、初期＝人気。タブ直下に一言キャッチ（人気「いちばん予約されています」等）</td>
+            <td>人気＝直近30日予約数上位／急上昇＝予約数の前週比伸長上位／高評価＝★4.5以上×件数50件以上</td>
+            <td><code>reco_tab_switch</code>(tab)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- A: エリア -->
+  <div class="card" id="wf-area">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">A</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Area</span>
+      <h2 class="sub-sec-title">エリアページ｜ベルトラ発のおすすめ偏重で探しにくい → 「自分で探す」を1箇所に集約＋「おすすめ」でACを多彩に並べ、有効AC到達率を上げる</h2>
+    </div>
+    <div class="sw-stage">
+      <div class="kbox">
+        <div class="kbox-h"><span class="lbl pain">ペイン</span>おすすめが受け身で自分の軸で探しにくい／探す機能はあるが入口が散在</div>
+        <div class="krow"><b>方針＝エリアページを大きく2つに分ける</b><ul>
+          <li>① <b>自分で探す</b>＝最上部に検索（行き先・キーワード＋サジェスト／日付・いますぐ）＋<b>ジャンル常時ボタン（5〜7・KKday型）</b>＝<b>遷移型</b></li>
+          <li>② <b>エリアのおすすめ</b>＝ACカルーセルを積む（Klook型）＝<b>インライン型</b>、1クリックでAC到達</li>
+          <li>③ 索引・計画情報</li>
+        </ul><div style="font-size:12.5px;color:var(--text3);margin-top:6px">競合（Klook/KKday）も「上部に薄い探す導線 → その下にACを多数」という構成</div></div>
+      </div>
+
+      <div style="font-size:15px;font-weight:900;color:var(--text);margin:16px 0 6px">おすすめゾーンの棲み分け — 何がそれぞれ並ぶか（運用イメージ）</div>
+      <table class="rq">
+        <thead><tr><th style="width:140px">ブロック</th><th>並ぶ単位</th><th>軸</th><th>例（オアフ島）</th><th>タップ先</th></tr></thead>
+        <tbody>
+          <tr class="s-area">
+            <td class="no">人気カテゴリ<br><span style="font-size:11px;color:var(--text3)">既存・変更なし</span></td>
+            <td><b>カテゴリ／スポットのタイル</b>（画像＋名称）<br><span style="font-size:12px;color:var(--text3)">＝入口。<b>スポットも内包</b>（新規の人気スポット枠は追加しない）</span></td>
+            <td><b>体験のタイプ＋観光スポット</b></td>
+            <td>マリンスポーツ／サンセット・ナイトクルーズ／野生のイルカ／（定番スポット）ダイヤモンドヘッド・ハナウマ湾・クアロア</td>
+            <td>そのカテゴリ／スポットの<b>AC一覧</b></td>
+          </tr>
+          <tr>
+            <td class="no">ジャンル別<br>おすすめ（A-7）</td>
+            <td><b>実ACカード</b>（写真＋名称＋価格＋評価）を<b>横1列 × 複数ジャンル</b><br><span style="font-size:12px;color:var(--text3)">＝中身。商品そのものを見せる</span></td>
+            <td>カテゴリ別の<b>中身プレビュー</b></td>
+            <td>「半日・1日ツアー」の行＝四輪バギー¥10,390／ノースショア半日¥9,800…／「チケット」の行＝水族館¥3,200…</td>
+            <td>各<b>AC詳細</b>（行右「すべて見る」でカテゴリ一覧）</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sw-ins" style="margin-top:6px">
+        ひとことで：<b>人気カテゴリ＝「体験の種類／スポット」の入口</b>（タイル＝一覧へ）。<b>人気スポットは既存の人気カテゴリ内に動線があるため、新規追加はしない＝重複回避</b>。<b>ジャンル別おすすめ＝そのカテゴリの"実際のAC"をその場で数件見せる</b>（入口でなく中身）。<br>
+        ＝ 人気カテゴリは「どこへ送るか（入口）」、ジャンル別おすすめは「ACを多彩に見せて回遊・AC到達を増やす」役割。重複しない。
+      </div>
+
+      <table class="rq">
+        <thead><tr><th style="width:120px">グループ</th><th>含むもの</th><th style="width:120px">表示形式</th><th>ねらい</th></tr></thead>
+        <tbody>
+          <tr><td><b>① 自分で探す</b><br><span style="font-size:11.5px;color:var(--text3)">最上部・1箇所</span></td><td>探す：行き先・キーワード＋検索サジェスト（A-2／A-8）／日付・いますぐ（A-6）＋ ジャンル常時ボタン（A-5）<br><span style="font-size:11.5px;color:var(--text3)">※条件(A-4)はカテゴリへ</span></td><td><b>遷移型</b><br>薄いタブ切替→一覧/検索結果</td><td>能動的に探したい人の入口を1箇所に集約。<b>表示は常に1タブ分だけ＝薄く</b>、画面を占有しない</td></tr>
+          <tr><td><b>② エリアのおすすめ</b><br><span style="font-size:11.5px;color:var(--text3)">ACを積む</span></td><td>ランキング（A-3）／人気カテゴリ（スポット内包・既存）／あなたにおすすめ／ジャンル別おすすめ（A-7）／特集・キャンペーン／体験談</td><td><b>インライン型</b><br>AC10件カルーセル＋すべて見る</td><td>受け身でもACが次々目に入る（Klook型）。<b>その場のタップ＝AC到達</b>＝KPI直結・SEO</td></tr>
+          <tr><td><b>③ 索引・計画</b></td><td>観光地TOP20／エリアから探す／天気・FAQ（第2弾）</td><td>遷移／情報</td><td>SEO・回遊・検討段階の情報</td></tr>
+        </tbody>
+      </table>
+      <div class="kbox" style="margin-top:10px">
+        <div class="kbox-h">既存「おすすめカテゴリーから探す」（子連れ／コスパ／所要3h…）の整理</div>
+        <div class="krow"><span class="lbl fact">事実</span>このチップ群のクリックは<b>現状未計測</b>（チップ/左ナビは計装なし）。「押されていない」も計測で要確認</div>
+        <div class="krow"><span class="lbl hyp">仮説</span>中身が<b>「目的」と「条件」の混在</b>で役割が中途半端：<ul><li><b>目的</b>（子連れ・季節イベント等）＝ランキングの可変タブ(A-3)で出せる（実績データ準拠で当たりやすい）</li><li><b>条件</b>（コスパ・所要等）＝カテゴリページのファセット(C-1)・人気の絞り込み(C-4)が担当</li></ul></div>
+        <div class="krow"><span class="lbl org">整理案</span><ul><li>① まず<b>クリック計測を入れる</b>（最小工数）</li><li>② 効く<b>目的だけ A-3 の可変タブに昇格</b>、条件系は<b>カテゴリへ寄せる</b></li><li>③ このチップ群は<b>縮小／廃止</b>（②③おすすめのACを優先）</li></ul></div>
+      </div>
+
+      <div class="wf-duo">
+        <svg class="co-lines"></svg>
+        <div class="wf-phone"><div class="wf-screen">
+          <div class="wf-hd"><span>VELTRA</span><span style="color:#888;font-weight:400">検索</span></div>
+          <div class="wf-sec wf-dim" style="padding-bottom:4px">
+            <div style="font-size:11px;font-weight:900;color:#222">オアフ島（ホノルル）</div>
+            <div class="chiprow" style="margin-top:3px"><span class="tab">ハワイ島</span><span class="tab">マウイ島</span><span class="tab">カウアイ島</span></div>
+          </div>
+          <div class="wf-add"><span class="wf-pin" data-co="find">探す</span>
+            <div class="tabrow" data-tabgroup="find" style="margin-bottom:5px"><span class="tab on" data-tab="find:kw">🔍 行き先・キーワード</span><span class="tab" data-tab="find:date">📅 日付・いますぐ</span></div>
+            <div class="tp" data-tp="find:kw">
+              <div style="background:#fff;border:1px solid #1b82c5;border-radius:14px;padding:6px 10px;font-size:8.5px;color:#333">🔍 オアフ島で やりたいこと・ACを入力 <span style="color:#999">｜タップで↓を表示</span></div>
+              <div style="font-size:8px;color:#7d8da0;margin:5px 0 2px">検索履歴</div>
+              <div class="chiprow"><span class="chip">シュノーケリング</span><span class="chip">ダイヤモンドヘッド</span></div>
+              <div style="font-size:8px;color:#7d8da0;margin:5px 0 2px">人気の検索ワード</div>
+              <div class="chiprow"><span class="chip">天国の海</span><span class="chip">ディナークルーズ</span><span class="chip">ウミガメ</span><span class="chip">ノースショア</span></div>
+              <div style="font-size:8px;color:#7d8da0;margin:5px 0 2px">人気スポット</div>
+              <div class="chiprow"><span class="chip">ダイヤモンドヘッド</span><span class="chip">ハナウマ湾</span><span class="chip">クアロア・ランチ</span></div>
+            </div>
+            <div class="tp" data-tp="find:date" hidden>
+              <div style="font-size:8.5px;color:#555;margin-bottom:4px">このエリアで参加できる日から探す</div>
+              <div class="chiprow"><span class="facet">今日</span><span class="facet off">明日</span><span class="facet off">日付を選ぶ</span></div>
+            </div>
+          </div>
+          <div class="wf-add"><span class="wf-pin" data-co="a5">A-5</span>
+            <div class="ui-h">ジャンルから探す</div>
+            <div class="gbtns">
+              <div class="gbtn"><span class="ic">🚌</span>観光ツアー</div>
+              <div class="gbtn"><span class="ic">🤿</span>アクティビティ</div>
+              <div class="gbtn"><span class="ic">🎫</span>チケット</div>
+              <div class="gbtn"><span class="ic">🚐</span>交通・移動</div>
+              <div class="gbtn"><span class="ic">🍴</span>グルメ</div>
+              <div class="gbtn"><span class="ic">📶</span>eSIM・WiFi</div>
+            </div>
+          </div>
+          <div style="font-size:10px;font-weight:900;color:#1a1a1a;margin:12px 8px 4px">エリアのおすすめ</div>
+          <div class="wf-add"><span class="wf-pin" data-co="a3">A-3</span>
+            <div class="ui-h">オアフ島（ホノルル）のランキング</div>
+            <div class="tabrow" data-tabgroup="a3" style="margin-bottom:4px"><span class="tab on" data-tab="a3:sell">売れ筋</span><span class="tab" data-tab="a3:sat">満足度</span><span class="tab" data-tab="a3:rise">急上昇</span><span class="tab" data-tab="a3:kids">子連れ</span><span class="tab" data-tab="a3:last">直前OK</span></div>
+            <div class="tp" data-tp="a3:sell"><div style="font-size:8px;color:#1b6ea5;font-weight:700;margin-bottom:3px">いちばん予約されています</div><div class="wf-cards">
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">1位 サンセット・ディナークルーズ スターオブホノルル号</div><div class="wf-price">¥14,683〜</div><div class="st">★4.22（3,022）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">2位 ハワイでパラセーリング 高さ120m／150m</div><div class="wf-price">¥13,944〜</div><div class="st">★4.71（2,286）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">3位 クアロア・ランチ 四輪バギー体験</div><div class="wf-price">¥10,390〜</div><div class="st">★4.27（336）</div></div>
+            </div></div>
+            <div class="tp" data-tp="a3:sat" hidden><div style="font-size:8px;color:#1b6ea5;font-weight:700;margin-bottom:3px">クチコミ評価が高い順</div><div class="wf-cards">
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">1位 ハワイでパラセーリング 高さ120m／150m</div><div class="wf-price">¥13,944〜</div><div class="st">★4.71（2,286）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">2位 サンドバー シュノーケリング 天国の海</div><div class="wf-price">¥20,040〜</div><div class="st">★4.68（1,082）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">3位 クアロア・ランチ ジップライン</div><div class="wf-price">¥32,057〜</div><div class="st">★4.50（210）</div></div>
+            </div></div>
+            <div class="tp" data-tp="a3:rise" hidden><div style="font-size:8px;color:#1b6ea5;font-weight:700;margin-bottom:3px">予約が急に伸びています</div><div class="wf-cards">
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">1位 サンドバー シュノーケリング 天国の海</div><div class="wf-price">¥20,040〜</div><div class="st">★4.68（1,082）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">2位 野生のイルカと泳ぐツアー</div><div class="wf-price">¥18,500〜</div><div class="st">★4.55（420）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">3位 ノースショア 半日ツアー</div><div class="wf-price">¥9,800〜</div><div class="st">★4.58（260）</div></div>
+            </div></div>
+            <div class="tp" data-tp="a3:kids" hidden><div style="font-size:8px;color:#1b6ea5;font-weight:700;margin-bottom:3px">お子さま連れに人気<span style="color:#b45309">・このエリアは家族予約が多いため表示</span></div><div class="wf-cards">
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">1位 ホノルル動物園／水族館チケット</div><div class="wf-price">¥3,200〜</div><div class="st">★4.60（740）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">2位 野生のイルカと泳ぐツアー</div><div class="wf-price">¥18,500〜</div><div class="st">★4.55（420）</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">3位 クアロア・ランチ 牧場ツアー</div><div class="wf-price">¥10,390〜</div><div class="st">★4.27（336）</div></div>
+            </div></div>
+            <div class="tp" data-tp="a3:last" hidden><div style="font-size:8px;color:#1b6ea5;font-weight:700;margin-bottom:3px">今日・明日に参加できる<span style="color:#b45309">・直前在庫があるエリアのみ表示</span></div><div class="wf-cards">
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">パラセーリング（明日 空きあり）</div><div class="wf-price">¥13,944〜</div><div class="st">★4.71 ・残5</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">サンセットクルーズ（明日 空きあり）</div><div class="wf-price">¥14,683〜</div><div class="st">★4.22 ・残8</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:24px"></div><div class="t">市内半日観光（今日 空きあり）</div><div class="wf-price">¥4,800〜</div><div class="st">★4.30 ・残3</div></div>
+            </div></div>
+          </div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">人気カテゴリ（体験タイプ＋人気スポットのタイル・既存／変更なし）</div><div class="wf-cards" style="margin-top:3px"><div class="wf-mini"><div class="wf-ph" style="height:16px"></div></div><div class="wf-mini"><div class="wf-ph" style="height:16px"></div></div><div class="wf-mini"><div class="wf-ph" style="height:16px"></div></div></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">あなたにおすすめのアクティビティ（ACカルーセル）</div><div class="wf-cards" style="margin-top:3px"><div class="wf-mini"><div class="wf-ph" style="height:18px"></div></div><div class="wf-mini"><div class="wf-ph" style="height:18px"></div></div><div class="wf-mini"><div class="wf-ph" style="height:18px"></div></div></div></div>
+          <div class="wf-add"><span class="wf-pin" data-co="a7">A-7</span>
+            <div class="ui-h">ジャンル別おすすめ</div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:9px;font-weight:800;color:#333">半日・1日ツアー</div><span class="ui-link">すべて見る ▸</span></div>
+            <div class="wf-cards" style="margin-bottom:6px">
+              <div class="wf-mini"><div class="wf-ph" style="height:22px"></div><div class="t">クアロア・ランチ 四輪バギー</div><div class="wf-price">¥10,390〜</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:22px"></div><div class="t">ノースショア 半日ツアー</div><div class="wf-price">¥9,800〜</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:22px"></div><div class="t">天国の海 サンドバー</div><div class="wf-price">¥20,040〜</div></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:9px;font-weight:800;color:#333">チケット・入場券</div><span class="ui-link">すべて見る ▸</span></div>
+            <div class="wf-cards" style="margin-bottom:6px">
+              <div class="wf-mini"><div class="wf-ph" style="height:22px"></div><div class="t">ホノルル動物園／水族館</div><div class="wf-price">¥3,200〜</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:22px"></div><div class="t">ダイヤモンドヘッド入場</div><div class="wf-price">¥1,500〜</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:22px"></div><div class="t">ポリネシア文化センター</div><div class="wf-price">¥9,900〜</div></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:9px;font-weight:800;color:#333">交通・移動</div><span class="ui-link">すべて見る ▸</span></div>
+            <div class="wf-cards">
+              <div class="wf-mini"><div class="wf-ph" style="height:22px"></div><div class="t">空港送迎 ⇄ ワイキキ</div><div class="wf-price">¥3,795〜</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:22px"></div><div class="t">レンタカー</div><div class="wf-price">¥6,800〜</div></div>
+              <div class="wf-mini"><div class="wf-ph" style="height:22px"></div><div class="t">トロリー1日券</div><div class="wf-price">¥2,400〜</div></div>
+            </div>
+          </div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">限定キャンペーン ／ 注目の特集</div><div class="wf-line"></div></div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">最新5つ星体験談（写真つきレビューを優先表示＝AC P-5と同方針）</div><div class="wf-cards" style="margin-top:3px"><div class="wf-mini"><div class="wf-ph" style="height:14px"></div></div><div class="wf-mini"><div class="wf-ph" style="height:14px"></div></div><div class="wf-mini"><div class="wf-ph" style="height:14px"></div></div></div></div>
+          <div class="wf-sec wf-dim" style="position:relative">
+            <div class="sec-cap">観光地から探す — 人気観光地TOP20（テキスト索引）</div>
+            <div style="font-size:8px;color:#1b6ea5;margin-top:3px;line-height:1.6">ダイヤモンドヘッド ／ ワイキキビーチ ／ ハナウマ湾 …</div>
+            <span class="wf-pin" data-co="a5b" style="background:#8a97a5">既存</span>
+          </div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">エリアから探す（ハワイ島・マウイ島・カウアイ島）</div><div class="wf-line s"></div></div>
+        </div></div>
+        <div class="co-rail">
+          <div class="co" data-co-id="find"><div class="co-head"><span class="co-pin">探す</span>① 自分で探す（薄いタブ・遷移型）</div>最上部に薄いタブ（常に1タブ分だけ表示）。<br>・<b>行き先・キーワード</b>：エリア内検索。<b>タップで「検索履歴＋人気の検索ワード＋人気スポット」のサジェスト</b>を展開（Klook/KKday型。本文と重複可）＝A-8<br>・<b>日付・いますぐ</b>：このエリアで<b>今日／明日／日付</b>に参加できるものを探す（<b>エリア変更は無し＝このエリア固定</b>）＝A-6<br>・<b>「条件」タブは不採用</b>：エリア×条件（コスパ等）だけでは検索範囲が広く需要が薄い。ジャンル×条件は<b>カテゴリページ（C-1/C-4）</b>で<br>計測：<b>find_tab_switch</b>／各 *_click</div>
+          <div class="co" data-co-id="a5"><div class="co-head"><span class="co-pin">A-5</span>ジャンル（常時ボタン・KKday型）</div><b>表示形式＝遷移型</b>。タブの中に隠さず、<b>探すの直下に5〜7個のアイコンボタンで常時表示</b>（KKday/Klookと同型）。<br>・並べる種別は<b>エリアごとに需要の大きい順</b>（リゾート＝アクティビティ/チケット上位、都市＝グルメ/交通上位 等）。月次見直し<br>・既存グローバルナビのカテゴリ体系を流用、着地＝エリア×ジャンル一覧（既存ページ・新規開発なし）<br>計測：<b>genre_btn_click</b>(genre, position)</div>
+          <div class="co" data-co-id="a3"><div class="co-head"><span class="co-pin">A-3</span>② ランキング（インライン・切り口タブ）</div><b>表示形式＝インライン</b>（AC10件＋すべて見る、タップ＝AC到達）。<br>・<b>全エリア共通の3本</b>＝売れ筋／満足度／<b>急上昇</b>（キャッチ＝予約が急に伸びています）<br>・<b>エリアにより可変の切り口</b>＝子連れ・直前OK 等は、そのエリアに十分なデータがある時だけ自動で追加（下表）。<b>共通3＋可変N</b>の構成<br>計測：<b>ranking_tab_switch</b>(tab)</div>
+          <div class="co" data-co-id="a7"><div class="co-head"><span class="co-pin">A-7</span>② ジャンル別おすすめ（KKday型）</div><b>表示形式＝インライン</b>。カテゴリごとに人気AC3〜5件を<b>横1列ずつ複数行</b>で積む（半日・1日ツアー／チケット／交通／グルメ…）。各行右に「すべて見る」→そのカテゴリ一覧へ。<br>・<b>束ねる軸＝既存のカテゴリ分類をそのまま流用</b>（新規タグ付け不要）<br>・<b>どのジャンル（行）を出すか＝そのエリアで予約が多いカテゴリ順</b>に上位6（月次。在庫ACが5件以上のカテゴリのみ）。リゾートと都市で並ぶカテゴリが変わる<br>・<b>各行のAC＝そのカテゴリの既存の並び順（売れ筋）の上位5件</b>をそのまま使う＝新規の並び替えロジック不要<br>計測：<b>genre_row_card_click</b>(category_id,position)／<b>genre_row_seeall_click</b>(category_id)</div>
+          <div class="co" data-co-id="a5b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>観光地TOP20（索引）</div>全量テキスト索引（SEO・回遊）。既存「人気カテゴリ＞人気スポット」の「すべて見る」の着地。機能変更なし</div>
+        </div>
+      </div>
+
+      <table class="rq">
+        <thead><tr><th>#</th><th>要素・解くペイン</th><th>配置・表示条件</th><th>データ・ロジック</th><th>計測</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="no">A-6</td>
+            <td><b>日付・いますぐ（探すタブ）</b><br><span style="font-size:12px;color:#14683e;font-weight:800">表示形式：遷移型</span><br><span class="pain">ペイン：日付・現地ですぐ参加したいニーズの入口が無い／埋もれる</span><span class="eff"><b>行動変化：</b>中盤まで探し回る → 最上部で日付から直行<br><b>動く数値：</b>日程経由の一覧到達↑・直前型の予約↑</span></td>
+            <td>探すユニットのタブ。<b>このエリア固定</b>で 今日／明日／日付指定（エリア変更は無し＝エリアページなので当該エリア）</td>
+            <td>既存の日付フィルタ（today/tomorrow/指定）へ。新規画面なし</td>
+            <td><code>find_tab_switch</code>(date)<br><code>date_search_submit</code></td>
+          </tr>
+          <tr>
+            <td class="no">A-2</td>
+            <td><b>人気の検索ワード（検索サジェスト内）</b><br><span style="font-size:12px;color:#14683e;font-weight:800">表示形式：遷移型</span><br><span class="pain">ペイン：何で検索すればいいか分からない人が素通り</span><span class="eff"><b>行動変化：</b>入力をやめて離脱 → ワードを1タップで結果へ<br><b>動く数値：</b>検索開始↑（6.6%の裾野回収）・LP→AC到達↑</span></td>
+            <td><b>検索サジェスト（A-8）の中</b>に表示。スポット名は既存の人気スポット（カテゴリ内）に任せ、ここは体験・条件語に限定</td>
+            <td>エリア×<b>直近90日</b>のサイト内検索 上位5語（季節性×安定性の折衷・月次）。リンク先＝サイト内検索結果（エリア絞込済）</td>
+            <td><code>suggest_chip_click</code>(keyword)</td>
+          </tr>
+          <tr>
+            <td class="no">A-8</td>
+            <td><b>検索サジェスト（検索窓タップ時）</b><br><span style="font-size:12px;color:#14683e;font-weight:800">表示形式：遷移型（オーバーレイ）</span><br><span class="pain">ペイン：検索窓は入力前提で、空欄のままだと何も起きず素通り</span><span class="eff"><b>行動変化：</b>空欄タップでも候補が出る → 1タップで遷移<br><b>動く数値：</b>検索開始↑・検索経由のAC到達↑</span></td>
+            <td>検索窓タップで<b>サジェストを展開</b>：①検索履歴 ②人気の検索ワード(A-2) ③人気スポット（既存の人気カテゴリ由来）。<b>本文と重複してよい</b>（Klook/KKday型）</td>
+            <td>履歴＝端末保持／人気ワード＝エリア×90日検索上位／人気スポット＝既存の人気カテゴリのスポット</td>
+            <td><code>search_focus_open</code><br><code>suggest_chip_click</code>(type)</td>
+          </tr>
+          <tr>
+            <td class="no" style="color:#999">A-4</td>
+            <td><b>条件でしぼる</b><br><span style="font-size:12px;color:#b3422f;font-weight:800">この画面では不採用 → カテゴリへ</span><br>エリア×条件（例：ホノルル×¥1万以内）<b>だけ</b>は検索範囲が広く、「なんでもいいから安いもの」になりがちで需要が薄い。<b>ジャンル×条件の絞り込みはカテゴリページ（C-1 ファセット／C-4 人気の絞り込み）で実施</b></td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td class="no">A-5</td>
+            <td><b>ジャンルから探す（常時ボタン・KKday型）</b><br><span style="font-size:12px;color:#14683e;font-weight:800">表示形式：遷移型（常時5〜7ボタン）</span><br><span class="pain">ペイン：種別（観光ツアー/交通/チケット…）起点の入口が無い／タブに隠れると気づかれない</span><span class="eff"><b>行動変化：</b>受け身に眺める → ジャンルを選んで能動的に探索<br><b>動く数値：</b>ジャンルボタンCTR・一覧到達↑</span></td>
+            <td>探すの<b>直下に5〜7個のアイコンボタンで常時表示</b>（タブに隠さない）。着地＝エリア×ジャンル一覧（既存ページ）</td>
+            <td>並べる種別は<b>エリアごとに需要の大きい順</b>（既存予約データ・月次）。既存グローバルナビのカテゴリ体系を流用＝新規開発なし</td>
+            <td><code>genre_btn_click</code>(genre, position)
+          </tr>
+          <tr>
+            <td class="no" style="color:#999">A-1</td>
+            <td><b>人気スポット ＝ 新規追加しない</b><br><span style="font-size:12px;color:#b3422f;font-weight:800">不採用（重複）</span><br>既存「人気カテゴリ」にスポットのタイル動線が既にあり、別ブロックを足すと重複。<b>人気カテゴリ（既存）にスポットを内包</b>させる方針で対応</td>
+            <td>—</td><td>—</td><td>—</td>
+          </tr>
+          <tr>
+            <td class="no">A-3</td>
+            <td><b>ランキング（おすすめ・切り口タブ）</b><br><span style="font-size:12px;color:#14683e;font-weight:800">表示形式：インライン（AC10件＋すべて見る）</span><br><span class="pain">ペイン：売れ筋・満足度が固定で、時期や自分に合うか分からない</span><span class="eff"><b>行動変化：</b>固定ランキングを素通り → 切り口を替えて新候補に出会う<br><b>動く数値：</b>ランキングCTR↑・Top外のAC到達比率↑・有効AC到達率</span></td>
+            <td>おすすめゾーン先頭（ファーストビュー近く）。<b>共通3タブ＋可変Nタブ</b>。各タブにキャッチ1行</td>
+            <td>下表「切り口」参照。<b>共通3（売れ筋/満足度/急上昇）は全エリア</b>、可変（子連れ/直前OK等）は<b>そのエリアにデータが十分な時だけ自動表示</b></td>
+            <td><code>ranking_tab_switch</code>(tab)</td>
+          </tr>
+          <tr>
+            <td class="no">A-7</td>
+            <td><b>ジャンル別おすすめ（カテゴリ別の人気AC行）</b><br><span style="font-size:12px;color:#14683e;font-weight:800">表示形式：インライン（カテゴリ別ロー×複数）</span><br><span class="pain">ペイン：ランキング/おすすめだけだと自分の興味カテゴリのACに辿り着きにくく、エリアの多彩さが見えない</span><span class="eff"><b>行動変化：</b>1本のランキングを見て離脱 → 興味カテゴリの行でACに出会う<br><b>動く数値：</b>おすすめ経由のAC到達↑・回遊（行間の横移動）↑</span></td>
+            <td>おすすめゾーン。カテゴリごとに横1列（3〜5件）＋「すべて見る」を複数行で積む</td>
+            <td>・<b>既存のカテゴリ分類で束ねる</b>＝新規タグ不要<br>・<b>行（ジャンル）の選定＝そのエリアで予約が多いカテゴリ順 上位6</b>（在庫AC≥5のカテゴリのみ・月次更新）<br>・<b>各行のAC＝そのカテゴリの既存の並び順（売れ筋）上位5件</b>をそのまま使う（新規の並び替え不要）</td>
+            <td><code>genre_row_card_click</code><br><code>genre_row_seeall_click</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="font-size:15px;font-weight:900;color:var(--text);margin:16px 0 6px">A-3 ランキングの切り口 — 共通 ＋ エリア可変</div>
+      <table class="rq">
+        <thead><tr><th>切り口</th><th>キャッチ</th><th>適用</th><th>出す条件・データ</th></tr></thead>
+        <tbody>
+          <tr><td><b>売れ筋</b></td><td>いちばん予約されています</td><td><b>全エリア共通</b></td><td>直近30日の予約数（既存）</td></tr>
+          <tr><td><b>満足度</b></td><td>クチコミ評価が高い順</td><td><b>全エリア共通</b></td><td>体験談の評価（既存）</td></tr>
+          <tr><td><b>急上昇</b></td><td>予約が急に伸びています</td><td><b>全エリア共通</b></td><td>予約数の前週/前月比の伸長（季節ものを拾う）</td></tr>
+          <tr><td>子連れに人気</td><td>お子さま連れに人気</td><td><b>エリア可変</b></td><td>家族予約比率・体験談「子ども」言及が一定以上のエリアのみ。都市・大人向けが中心のエリアでは非表示</td></tr>
+          <tr><td>直前でも取れる</td><td>今日・明日に参加できる</td><td><b>エリア可変</b></td><td>当日〜翌日在庫があるACが一定数あるエリアのみ。予約リードタイムが長いエリアでは非表示</td></tr>
+          <tr><td>テーマ（海/自然/文化…）</td><td>—</td><td><b>エリア可変</b></td><td>そのエリアの主力テーマに応じて1〜2本（ハワイ=海、京都=文化 等）</td></tr>
+        </tbody>
+      </table>
+      <div class="sw-note"><b>考察：</b>売れ筋・満足度・急上昇は「実績データ×普遍的な切り口」なので<b>どのエリアでも成立</b>。一方 子連れ・直前OK・テーマは<b>エリアの在庫構成や客層に依存</b>し、合わないエリアでは0件や的外れになる → <b>固定で全部出さず、データ充足を条件に自動で出し分け</b>る。これにより「クアラルンプール（都市）」と「オアフ（リゾート）」で違うタブ構成になる。</div>
+
+      <div class="kbox" style="margin-top:14px">
+        <div class="kbox-h">A-2 の設計考察 — 既存軸の昇格ではなく「検索実需」を採る理由</div>
+        <div class="krow"><ul style="margin-top:0">
+          <li>既存軸の昇格（子供と・半日で）＝「条件」(A-4)と語彙が重複し<b>価値が薄い</b></li>
+          <li><b>検索実需チップ（採用）</b>：① Travelerの言葉（「天国の海」等はVeltra分類に無い）／② 実需準拠で当たりやすい／③ 時期で自動入替／④ 検索開始6.6%（モバイル7.1%）の入力負荷を肩代わり</li>
+          <li><b>検索ボックスの隣に置く</b>のが要点（キーワードだけ離して置いても見られない）。行動ベース（よく押される絞り込み）は左ナビ未計測のため第2弾</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C: カテゴリ -->
+  <div class="card" id="wf-category">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">C</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Category</span>
+      <h2 class="sub-sec-title">カテゴリページ｜絞り込みに気づかず往復 → 条件を常時見せて一覧→AC到達と比較継続を上げる</h2>
+    </div>
+    <div class="sw-stage">
+      <div class="kbox">
+        <div class="kbox-h">前提：絞り込みは<b style="color:#1a7a44">既にある</b>（「条件」モーダル＝開始時間・所要・言語・送迎・食事・キャンペーン＋参加日・人数）</div>
+        <div class="krow"><span class="lbl pain">ペイン</span>「絞れない」ではない<ul>
+          <li><b>絞れることに気づきにくい</b>（「条件」ボタン1つで、中の軸が画面に見えない）</li>
+          <li>モーダル往復が必要で、<b>結果を見ながらの調整がしづらい</b></li>
+          <li><b>無い軸がある</b>：今日明日・価格帯・対象年齢・難易度</li>
+          <li><b>固定の軸でしか絞れない</b>：ウミガメ・天国の海・初心者向け 等の具体ニーズがファセットに無い → フリーワードは候補がぐちゃつくので採らず<b>人気の検索ワードを「おすすめ絞り込み」に</b>（C-4）</li>
+          <li>並び順（人気順）の<b>根拠が見えない</b></li>
+        </ul></div>
+      </div>
+      <div class="wf-duo">
+        <svg class="co-lines"></svg>
+        <div class="wf-phone"><div class="wf-screen">
+          <div class="wf-hd"><span>VELTRA</span><span style="color:#888;font-weight:400">検索</span></div>
+          <div class="wf-sec wf-dim"><div style="font-size:11px;font-weight:900;color:#222">マリンスポーツ</div><div class="st" style="font-size:8.5px;color:#777">77件のアクティビティ</div></div>
+          <div class="wf-sec wf-dim" style="position:relative">
+            <div class="sec-cap">旅のご予定はお決まりですか？</div>
+            <div class="chiprow" style="margin-top:4px"><span class="tab">📅 参加日</span><span class="tab">👤 利用数</span><span class="tab">⚙ 条件</span></div>
+            <span class="wf-pin" data-co="c1b" style="background:#8a97a5">既存</span>
+          </div>
+          <div class="wf-add"><span class="wf-pin" data-co="c1">C-1</span>
+            <div class="chiprow"><span class="facet off">開始時間 ▾</span><span class="facet off">所要時間 ▾</span><span class="facet off">送迎あり</span><span class="facet off">日本語対応</span><span class="facet">⚡ 今日・明日</span><span class="facet">¥ 価格帯 ▾</span><span class="facet">対象年齢 ▾</span></div>
+            <div style="font-size:8.5px;color:#555;margin-top:4px">77件のアクティビティ</div>
+          </div>
+          <div class="wf-add"><span class="wf-pin" data-co="c4">C-4</span>
+            <div class="ui-h">人気の絞り込み</div>
+            <div class="chiprow"><span class="chip">ウミガメと泳ぐ</span><span class="chip">天国の海</span><span class="chip">初心者向け</span><span class="chip">イルカ</span><span class="chip">ナイト</span></div>
+          </div>
+          <div class="wf-add"><span class="wf-pin" data-co="c2">C-2</span>
+            <div style="font-size:9px;font-weight:800;color:#333">並び：人気順（直近30日の予約数）▾</div>
+          </div>
+          <div class="wf-sec">
+            <div class="wf-add" style="margin:0 0 6px;position:relative">
+              <span class="wf-pin" data-co="c3">C-3</span>
+              <div style="display:flex;gap:6px"><div class="wf-ph" style="width:54px;height:40px;flex-shrink:0"></div><div style="min-width:0"><div class="t" style="font-size:9.5px;font-weight:700">ハワイでパラセーリング 高さ120m／150mの上空からワイキキの絶景を堪能</div><div class="wf-price">¥13,944〜</div></div></div>
+              <div class="chiprow" style="margin-top:4px"><span class="wf-badge blue">⏱ 1時間</span><span class="wf-badge blue">🚐 送迎あり</span><span class="wf-badge">★4.71（2,286）</span><span class="wf-badge amber">残5</span></div>
+            </div>
+            <div style="background:#fff;border:1px solid #e2e8ef;border-radius:7px;padding:6px" class="wf-dim">
+              <div style="display:flex;gap:6px"><div class="wf-ph" style="width:54px;height:40px;flex-shrink:0"></div><div style="min-width:0"><div class="t" style="font-size:9.5px">サンドバー シュノーケリングクルーズ 天国の海</div><div class="wf-price">¥20,040〜</div><div class="st">★4.68（1,082）・直近で22件の予約が入りました</div></div></div>
+            </div>
+          </div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">オアフ島（ホノルル）人気アクティビティランキング ／ あなたにおすすめ ／ 投稿写真 ／ 体験談</div><div class="wf-line"></div></div>
+        </div></div>
+        <div class="co-rail">
+          <div class="co" data-co-id="c1b" style="border-color:#aab6c2"><div class="co-head" style="color:#52606f"><span class="co-pin" style="background:#8a97a5">既存</span>「条件」モーダル（C-1の元データ）</div>開始時間・所要・言語・送迎・食事・キャンペーンのモーダル絞り込み。C-1 リリース後はチップと重複するため統合</div>
+          <div class="co" data-co-id="c1"><div class="co-head"><span class="co-pin">C-1</span>改修（常時チップ化＋ライブ反映）</div>既存「条件」モーダルの軸を常時チップで露出（薄色）＋<b>追加軸</b>（濃色）＝今日・明日、価格帯、対象年齢。<br>タップで即時絞り込み、件数をライブ更新（77→23件）。スクロールで上部固定。<br><b>Braze-now</b>：既存「条件」ボタンを指すIn-appハイライトで「視認性が制約か」を改修前に検証。計測：<b>facet_apply</b>(facet,value)</div>
+          <div class="co" data-co-id="c4"><div class="co-head"><span class="co-pin">C-4</span>追加（人気の絞り込み＝検索ワード）</div>固定ファセット(C-1)では拾えない具体ニーズを、<b>カテゴリ×直近90日の人気検索ワード</b>でチップ化（フリーワード入力はしない＝候補がぐちゃつくのを回避）。<br>・タップ＝そのワードでカテゴリ内を絞り込み（または同カテゴリ内の検索結果へ）<br>・A-2（エリアの検索実需チップ）と同ロジック・データを<b>カテゴリスコープで流用</b>＝大改修なし。初期は静的チップで先行A/B可<br>計測：<b>cat_demand_chip_click</b>(keyword)</div>
+          <div class="co" data-co-id="c2"><div class="co-head"><span class="co-pin">C-2</span>追加（並び順の明示）</div>人気順の根拠（直近30日の予約数）を常時明示。タップで切替＝評価が高い・価格が安い・出発が早い。計測：<b>sort_change</b>(sort)</div>
+          <div class="co" data-co-id="c3"><div class="co-head"><span class="co-pin">C-3</span>追加（決め手バッジ）</div>各ACカードの価格下に4バッジ：所要・送迎・評価・残席。残席＝当日〜翌日の最小値。属性欠損時は非表示（ダミー禁止）。既存「直近◯件の予約」は維持。バッジ有無でカードCTRをA/B</div>
+        </div>
+      </div>
+      <table class="rq">
+        <thead><tr><th>#</th><th>要素・解くペイン</th><th>配置・表示条件</th><th>データ・ロジック</th><th>計測</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="no">C-1</td>
+            <td><b>既存「条件」絞り込みの常時チップ化＋ライブ反映</b><br><span class="pain">ペイン：絞れることに気づきにくい・モーダル往復で調整しづらい・無い軸（今日明日/価格帯/対象年齢）</span><span class="eff"><b>行動変化：</b>絞らず上から開いて戻る往復 → 先に絞ってから開く<br><b>動く数値：</b>絞り込み利用率↑・一覧→AC到達↑・AC即離脱（直帰41%）↓</span></td>
+            <td>既存「参加日・利用数・条件」バーを拡張し、モーダル内の軸（開始時間・所要・言語・送迎・食事・キャンペーン）を<b>常時チップで露出</b>。スクロールで上部固定。<br>タップで即時反映（既存モーダルの件数カウントを流用したライブ更新）。<b>追加軸</b>＝今日明日・価格帯・対象年齢</td>
+            <td>・既存ファセットのデータをそのまま流用＋AC属性（価格帯・対象年齢・当日翌日在庫）を追加<br>・<b>Braze-now（先行検証）</b>：既存「条件」ボタンを指す In-app ハイライトを出し、絞り込み利用率と有効AC到達が上がるか＝<b>視認性が制約か</b>を改修前に確認</td>
+            <td>既存絞り込みの利用率（現状未計測→要計装）<br><code>facet_apply</code> (facet, value)<br><code>facet_zero_hit</code></td>
+          </tr>
+          <tr>
+            <td class="no">C-4</td>
+            <td><b>人気の絞り込み（検索ワードのおすすめ）</b><br><span class="pain">ペイン：用意された固定ファセットでしか絞れず、具体ニーズ（ウミガメ・天国の海・初心者向け等）に当てられない</span><span class="eff"><b>行動変化：</b>軸が無く一覧を上から総当たり → 自分のニーズ語で一発で絞る<br><b>動く数値：</b>絞り込み利用率↑・一覧→AC到達↑（フリーワード入力の手間なし）</span></td>
+            <td>C-1ファセットの直下。カテゴリ×直近90日の人気検索ワードを<b>チップで提示</b>（フリーワード入力はしない）。タップ＝そのワードで絞り込み</td>
+            <td>・A-2（エリアの検索実需チップ）と同ロジック・データを<b>カテゴリスコープで流用</b>（GA4 search_term をカテゴリ別集計）＝大改修なし<br>・初期は静的チップで先行A/B可</td>
+            <td><code>cat_demand_chip_click</code><br>param: keyword</td>
+          </tr>
+          <tr>
+            <td class="no">C-2</td>
+            <td><b>並び順の理由表示＋並べ替え</b><br><span class="pain">ペイン：並び順（人気順）の根拠が見えない</span><span class="eff"><b>行動変化：</b>並びを疑って総当たり → 根拠を信頼して上位から比較<br><b>動く数値：</b>一覧CTR↑・並べ替え利用率</span></td>
+            <td>絞り込みチップ直下に「並び：人気順（直近30日の予約数）」を常時明示。タップで切替＝評価・価格昇順・出発時刻</td>
+            <td>・人気順＝直近30日予約数（現行ロジックの明文化）</td>
+            <td><code>sort_change</code><br>param: sort</td>
+          </tr>
+          <tr>
+            <td class="no">C-3</td>
+            <td><b>一覧カードに「決め手の軸」</b><br><span class="pain">ペイン：開かないと違いが分からない（所要・送迎が一覧に無い）</span><span class="eff"><b>行動変化：</b>開いては戻るの繰り返し → 一覧で候補を絞ってから開く<br><b>動く数値：</b>開いた後の直帰↓＝比較継続率↑</span></td>
+            <td>各ACカードの価格下に4バッジ：所要・送迎・評価・残席。既存「直近◯件の予約」表示は維持</td>
+            <td>・AC属性から生成。残席は当日〜翌日の最小値<br>・属性欠損時はバッジ非表示（ダミー禁止）</td>
+            <td>カードCTRをバッジ有無でA/B<br><code>list_card_click</code> に has_badges を付与</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- P: AC詳細 -->
+  <div class="card" id="wf-ac">
+    <div class="sub-sec">
+      <span class="sub-sec-num accent">P</span>
+      <span style="font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase">Product (AC)</span>
+      <h2 class="sub-sec-title">ACページ（商品詳細）｜比較・安心材料が届かず離脱 → 比べて決め切れるようにして 比較継続率（即離脱↓）と検討→完了率を上げる</h2>
+    </div>
+    <div class="sw-stage">
+      <div class="sw-ins"><span class="lbl pain">ペイン</span><ul class="bul"><li><b>似た体験（半日版・送迎付き等）と比べたいのに代替に出会えない</b></li><li><b>安心材料が深部に散在</b></li><li>送迎・wifiなど<b>一緒に要るものをまとめて手配できない</b></li></ul></div>
+      <div class="wf-duo">
+        <svg class="co-lines"></svg>
+        <div class="wf-phone"><div class="wf-screen">
+          <div class="wf-hd"><span>VELTRA</span><span style="color:#888;font-weight:400">♡ 保存</span></div>
+          <div class="wf-sec wf-dim">
+            <div class="wf-ph" style="height:54px"></div>
+            <div class="t" style="font-size:9.5px;font-weight:700;margin-top:4px">クアロア・ランチ 四輪バギー体験（1時間）映画ロケ地のジュラシックバレーを走る</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:3px"><span class="wf-price">¥10,390〜</span><span style="font-size:8.5px;color:#888">★4.27（336）</span></div>
+          </div>
+          <div class="wf-add braze"><span class="wf-pin" data-co="p2">P-2</span>
+            <div class="chiprow"><span class="wf-badge">✓ 無料キャンセル（3日前まで）</span><span class="wf-badge">✓ 即時予約確定</span><span class="wf-badge">✓ 日本語ガイド</span></div>
+          </div>
+          <div class="wf-sec wf-dim" style="padding-top:2px;padding-bottom:2px"><div class="wf-cta" style="margin:4px 0">空き状況を見る・予約へ</div></div>
+          <div class="wf-add"><span class="wf-pin" data-co="p1">P-1</span>
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><div class="ui-h">クアロア・ランチの ほかの体験と比べる</div><span class="ui-link">すべて見る ▸</span></div>
+            <table class="cmp">
+              <tr>
+                <th class="lab"></th>
+                <th class="cur"><span class="you">いま見ている</span><br><div class="wf-ph" style="height:18px;margin:2px 0"></div>四輪バギー体験</th>
+                <th><div class="wf-ph" style="height:18px;margin:2px 0 2px"></div>乗馬体験</th>
+                <th><div class="wf-ph" style="height:18px;margin:2px 0 2px"></div>ジップライン体験</th>
+              </tr>
+              <tr><td class="lab">料金</td><td class="cur"><b>¥10,390〜</b></td><td>¥20,991〜</td><td>¥32,057〜</td></tr>
+              <tr><td class="lab">所要</td><td class="cur">1時間</td><td>2時間</td><td>3時間</td></tr>
+              <tr><td class="lab">送迎</td><td class="cur">なし</td><td>なし</td><td>なし</td></tr>
+              <tr><td class="lab">形式</td><td class="cur">混載</td><td>混載</td><td>混載</td></tr>
+              <tr><td class="lab">対象</td><td class="cur">16歳〜</td><td>10歳〜</td><td>7歳〜</td></tr>
+              <tr><td class="lab">評価</td><td class="cur">★4.27（336）</td><td>★4.41（519）</td><td>★4.50（210）</td></tr>
+              <tr><td class="lab">空き</td><td class="cur">明日OK</td><td>明日OK</td><td><span style="color:#b45309;font-weight:900">残3</span></td></tr>
+              <tr><td class="lab"></td><td class="cur"></td><td><span class="mini-cta">この体験を見る</span></td><td><span class="mini-cta">この体験を見る</span></td></tr>
+            </table>
+          </div>
+          <div class="wf-add"><span class="wf-pin" data-co="p3">P-3</span>
+            <div class="ui-h">この旅程に、あわせて</div>
+            <div style="background:#fff;border:1px solid #dbe7f0;border-radius:6px;padding:5px 7px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center"><span class="t" style="font-size:9px">🚐 空港送迎：ダニエル・K・イノウエ空港 ⇄ ワイキキ</span><span class="wf-price" style="font-size:9px">¥3,795〜</span></div>
+            <div style="background:#fff;border:1px solid #dbe7f0;border-radius:6px;padding:5px 7px;display:flex;justify-content:space-between;align-items:center"><span class="t" style="font-size:9px">📶 ハワイで使える eSIM（5日間）</span><span class="wf-price" style="font-size:9px">¥1,180〜</span></div>
+          </div>
+          <div class="wf-add braze"><span class="wf-pin" data-co="p4">P-4</span>
+            <div style="display:flex;align-items:center;gap:6px">
+              <div style="display:flex;gap:3px;flex-shrink:0"><div class="wf-ph" style="width:18px;height:18px"></div><div class="wf-ph" style="width:18px;height:18px"></div><div class="wf-ph" style="width:18px;height:18px"></div></div>
+              <div style="font-size:9px;font-weight:800;color:#333">最近見た3件を比較 ▸</div>
+            </div>
+          </div>
+          <div class="wf-sec wf-dim"><div class="sec-cap">スケジュール ／ 集合場所 ／ よくある質問</div><div class="wf-line"></div><div class="wf-line m"></div></div>
+          <div class="wf-add"><span class="wf-pin" data-co="p5">P-5</span>
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><div class="ui-h">体験談（336件）★4.27</div><span class="ui-link">写真あり ／ すべて ▸</span></div>
+            <div style="background:#fff;border:1px solid #e2e8ef;border-radius:6px;padding:6px;margin-bottom:5px">
+              <div style="font-size:8.5px;font-weight:700;color:#333">★★★★★ 大満足でした！<span style="color:#999;font-weight:400">・2026/06 ・30代女性</span></div>
+              <div style="font-size:8.5px;color:#777;line-height:1.5;margin:2px 0">ガイドさんが親切で、バギーは爽快。子どもも大喜びでした…</div>
+              <div style="display:flex;gap:3px"><div class="wf-ph" style="width:30px;height:30px"></div><div class="wf-ph" style="width:30px;height:30px"></div><div class="wf-ph" style="width:30px;height:30px"></div></div>
+            </div>
+            <div style="background:#fff;border:1px solid #e2e8ef;border-radius:6px;padding:6px">
+              <div style="font-size:8.5px;font-weight:700;color:#333">★★★★★ 景色が最高<span style="color:#999;font-weight:400">・2026/06 ・40代男性</span></div>
+              <div style="font-size:8.5px;color:#777;line-height:1.5;margin-top:2px">映画のロケ地を巡れて感動。送迎なしでもアクセスは問題なし…</div>
+            </div>
+          </div>
+        </div></div>
+        <div class="co-rail">
+          <div class="co braze" data-co-id="p2"><div class="co-head"><span class="co-pin">P-2</span>Braze先行可（安心バッジ凝縮）</div>CTA直上に最大3バッジ。<b>該当する保証のみ</b>表示（AC属性：cancel_policy・instant_confirm・jp_support）。Braze In-appで先行A/B → 検証後にネイティブ化。計測：<b>assurance_impression</b>、CTA到達率</div>
+          <div class="co" data-co-id="p1"><div class="co-head"><span class="co-pin">P-1</span>追加（同じ場所の別AC比較）</div>・比べるのは「プラン」ではなく<b>別AC（体験）</b>。同一AC内のプラン選択は既存のまま。UIラベルも「ほかの体験」を使用<br>・左列＝<b>いま見ているAC</b>を固定（比較の基準）。候補＝同spot_idの別ACを「差分が出る軸」順（体験タイプ→所要→送迎→形式）で2件、在庫あり優先<br>・<b>列の要素（最大セット）</b>＝写真／AC名／料金（大人1名〜）／所要／送迎／形式（貸切・混載）／対象年齢／評価（★・件数）／直近の空き／CTA「この体験を見る」<br>・欠損は「—」（ダミー禁止）。候補2件未満→同テーマで補完、ゼロ→モジュール非表示<br>計測：<b>alt_plan_click</b>(from_ac, to_ac, diff_axis)</div>
+          <div class="co" data-co-id="p3"><div class="co-head"><span class="co-pin">P-3</span>追加（補完アップセル）</div>同エリアの「交通・移動」「旅行サービス」から各1件（在庫あり×人気順）。種別マスターでACを分類。計測：<b>bundle_click</b>(bundle_type)</div>
+          <div class="co braze" data-co-id="p4"><div class="co-head"><span class="co-pin">P-4</span>Braze先行可（比較トレイ）</div>同セッション3AC以上閲覧で出現する折りたたみバー（閲覧履歴はlocalStorage）。展開で価格・所要・評価の比較表。Braze Content Cardで先行検証可。計測：<b>compare_tray_open</b>／<b>compare_tray_item_click</b></div>
+          <div class="co" data-co-id="p5"><div class="co-head"><span class="co-pin">P-5</span>改修（体験談に写真を出す）</div>・狙いは「文字ばかりで内容が伝わらない」の解消。<b>写真つきは投稿サムネを表示</b>、<b>写真なしは文字のまま表示（足切りしない）</b><br>・AC詳細の表示順＝<b>新しい × 高評価（★5優先）</b>を担保しつつ、写真つきを軽く優先（写真なしも必ず混在）。★5の新着は写真有無で消さない<br>・<b>写真有無での絞り込みは体験談一覧側</b>に「写真あり」フィルタとして持つ（AC詳細では足切りせず代表数件のみ）<br>計測：<b>review_photo_click</b>／<b>review_filter</b>(has_photo)</div>
+        </div>
+      </div>
+      <table class="rq">
+        <thead><tr><th>#</th><th>要素・解くペイン</th><th>配置・表示条件</th><th>データ・ロジック</th><th>計測</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="no">P-1</td>
+            <td><b>形態ちがい比較モジュール</b><br><span class="pain">ペイン：似た体験（半日版・送迎付き等）と比べたいのに、関連が汎用で代替に出会えない</span><span class="eff"><b>行動変化：</b>検索へ戻ってやり直し → 表の中で代替ACへ横移動<br><b>動く数値：</b>AC間回遊↑・AC直帰（41%）↓・AC到達→検討（9.0%）↑</span></td>
+            <td>価格・プラン選択の直下に<b>7軸の比較表</b>（料金・所要・送迎・形式・対象・評価・空き）。<br>左列＝いま見ているACを「いま見ている」バッジつきで固定、候補2〜3列。<br>同スポット代替が2件未満なら同テーマ（カテゴリ×エリア）で補完、それも無ければモジュール非表示</td>
+            <td>・同spot_id×別ACを「差分が出る軸」順（体験タイプ→所要→送迎→形式）で選定、在庫あり優先<br>・<b>列要素の最大セット</b>＝写真／AC名／料金（大人1名〜）／所要／送迎／形式／対象年齢／評価（★・件数）／直近の空き（今日明日OK・残N）／CTA。欠損は「—」表示（ダミー禁止）<br>・「プラン」の語は同一AC内のプラン選択と衝突するため使わない（UIラベル＝「ほかの体験」）</td>
+            <td><code>alt_plan_click</code><br>param: from_ac, to_ac, diff_axis</td>
+          </tr>
+          <tr>
+            <td class="no braze">P-2</td>
+            <td><b>安心バッジ凝縮</b><br><span class="pain">ペイン：キャンセル可否・確定スピードを予約直前に確かめたいが、深部に散在</span><span class="eff"><b>行動変化：</b>FAQ往復や不安離脱 → その場で安心してCTAへ<br><b>動く数値：</b>CTA到達率↑・検討→完了（15%）↑</span></td>
+            <td>CTA（空き状況を見る）の直上に最大3バッジ。該当しない保証は出さない</td>
+            <td>・AC属性：cancel_policy・instant_confirm・jp_support<br>・<b>Braze In-appで先行A/B可</b>（検証後にネイティブ化）</td>
+            <td><code>assurance_impression</code><br>CTA到達率をA/B</td>
+          </tr>
+          <tr>
+            <td class="no">P-3</td>
+            <td><b>種別補完アップセル</b><br><span class="pain">ペイン：送迎・wifiなど一緒に要るものをまとめて手配しづらい</span><span class="eff"><b>行動変化：</b>単品で予約完了 → 送迎・eSIMを同時に手配<br><b>動く数値：</b>クロスセル率（bundle_click→購入）・客単価↑</span></td>
+            <td>形態ちがい比較の直下。当該エリアの「交通・移動」「旅行サービス」から各1件</td>
+            <td>・種別マスター（観光ツアー・単発AC・交通移動・旅行サービス）でACを分類<br>・同エリア×在庫あり×人気順で選定</td>
+            <td><code>bundle_click</code><br>param: bundle_type</td>
+          </tr>
+          <tr>
+            <td class="no braze">P-4</td>
+            <td><b>比較トレイ（見た候補）</b><br><span class="pain">ペイン：見た候補を後から並べて見返せない</span><span class="eff"><b>行動変化：</b>見た候補を思い出せず離脱 → トレイで見比べて決める<br><b>動く数値：</b>AC到達→検討（9.0%）↑・比較完了までの時間↓</span></td>
+            <td>画面下部に折りたたみバー。同セッション3AC以上閲覧で出現</td>
+            <td>・セッション内の閲覧AC履歴（localStorage）<br>・<b>BrazeのContent Cardで先行検証可</b>。展開で価格・所要・評価の比較表</td>
+            <td><code>compare_tray_open</code><br><code>compare_tray_item_click</code></td>
+          </tr>
+          <tr>
+            <td class="no">P-5</td>
+            <td><b>体験談に写真を出す（写真つき優先・写真なしも表示）</b><br><span class="pain">ペイン：体験談が文字ばかりで、実際の様子・雰囲気が掴めず信頼や期待が高まらない</span><span class="eff"><b>行動変化：</b>文字レビューを読み飛ばし → 写真で雰囲気を掴んで予約を後押し<br><b>動く数値：</b>体験談エリアの滞在・スクロール↑・検討→完了↑</span></td>
+            <td>AC詳細の体験談ブロックで代表数件を表示。<b>写真つきは投稿サムネを併記、写真なしは文字のまま（足切りしない）</b>。並び＝新しい×高評価（★5優先）を担保しつつ写真つきを軽く優先。「写真あり／すべて」の切替と「すべて見る」（一覧へ）</td>
+            <td>・投稿写真（UGC）×レビュー本文・評価・投稿日<br>・★5の新着は写真有無に関わらず残す（消さない）<br>・写真有無の本格的な絞り込みは<b>体験談一覧画面</b>の「写真あり」フィルタが担当（AC詳細は代表数件のみ）</td>
+            <td><code>review_photo_click</code><br><code>review_filter</code>(has_photo)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sw-foot">
+      ※ 要件定義ドラフト。ペイン仮説と裏付けデータは <a href="/2026h1/spot/2026-ac-discovery.html" style="color:#1b82c5;font-weight:700">新規ユーザー転換｜探索分解と施策</a>（GA4 Property 347074845・日本・28日・bot除外）。意向ステージ別の Braze 施策ワイヤーも同ページ。戦略3軸では「迷わず買う」「メインスポット取りこぼし防止」に該当。
+    </div>
+  </div>
+
+</div>
+<script src="/nav.js"></script>
+<script>
+(function () {
+  function draw() {
+    document.querySelectorAll('.wf-duo').forEach(function (duo) {
+      var svg = duo.querySelector('.co-lines');
+      var rail = duo.querySelector('.co-rail');
+      if (!svg || !rail) return;
+      var mobile = window.getComputedStyle(duo).gridTemplateColumns.split(' ').length === 1;
+      svg.innerHTML = '';
+      if (mobile) {
+        rail.style.minHeight = '';
+        duo.querySelectorAll('.co').forEach(function (co) { co.style.top = ''; });
+        return;
+      }
+      var dr = duo.getBoundingClientRect();
+      var rr = rail.getBoundingClientRect();
+      var prevBottom = 0;
+      duo.querySelectorAll('[data-co]').forEach(function (pin) {
+        var co = duo.querySelector('[data-co-id="' + pin.getAttribute('data-co') + '"]');
+        if (!co) return;
+        co.style.position = 'absolute';
+        var pr = pin.getBoundingClientRect();
+        var y = pr.top - dr.top + pr.height / 2;
+        var top = Math.max(y - 16, prevBottom + 12);
+        co.style.top = top + 'px';
+        prevBottom = top + co.offsetHeight;
+        var x1 = pr.right - dr.left + 2;
+        var y1 = y;
+        var x2 = rr.left - dr.left - 2;
+        var y2 = top + 18;
+        var midX = x1 + (x2 - x1) * 0.45;
+        var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        p.setAttribute('d', 'M' + x1 + ' ' + y1 + ' H' + midX + ' V' + y2 + ' H' + x2);
+        p.setAttribute('fill', 'none');
+        var green = co.classList.contains('braze');
+        var gray = (co.style.borderColor || '').indexOf('170') >= 0 || co.getAttribute('style') && co.getAttribute('style').indexOf('#aab6c2') >= 0;
+        p.setAttribute('stroke', green ? '#1a8c4e' : (gray ? '#9aa7b3' : '#1b82c5'));
+        p.setAttribute('stroke-width', '1.5');
+        if (green || gray) p.setAttribute('stroke-dasharray', '4 3');
+        svg.appendChild(p);
+      });
+      rail.style.minHeight = prevBottom + 'px';
+      var h = Math.max(duo.scrollHeight, prevBottom);
+      svg.setAttribute('width', dr.width);
+      svg.setAttribute('height', h);
+    });
+  }
+  window.addEventListener('load', function () { draw(); setTimeout(draw, 250); });
+  window.addEventListener('resize', draw);
+  // 汎用タブ：クリックで .on 切替＋対応パネル表示
+  document.querySelectorAll('.tab[data-tab]').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var v = tab.getAttribute('data-tab');
+      var g = v.split(':')[0];
+      document.querySelectorAll('.tab[data-tab^="' + g + ':"]').forEach(function (t) {
+        t.classList.toggle('on', t.getAttribute('data-tab') === v);
+      });
+      document.querySelectorAll('.tp[data-tp^="' + g + ':"]').forEach(function (p) {
+        p.hidden = (p.getAttribute('data-tp') !== v);
+      });
+      if (typeof draw === 'function') draw();
+    });
+  });
+  if (document.readyState === 'complete') { draw(); setTimeout(draw, 250); }
+})();
+</script>
+</body>
+</html>

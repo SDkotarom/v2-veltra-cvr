@@ -147,7 +147,7 @@
     bns.forEach(function(bn){
       var stageLabel = STAGE_LABELS[bn.stage] || bn.stage;
       var gapPct = Math.round(Math.abs(bn.gap) * 100);
-      var link = '/bottleneck.html?week=' + week + '&num=' + bn.rank;
+      var link = '/2026h1/bottleneck.html?week=' + week + '&num=' + bn.rank;
 
       var bnProg = progStatusMap[bn.rank] || { status: 'pending', proto_done: 0, proto_total: 9 };
       var sm = STATUS_META[bnProg.status] || STATUS_META.pending;

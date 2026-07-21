@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/summary.css">
+<title>スポット分析: 2026 GW CVR 構造低下 — 3 年比較</title>
+<style>
+.spot-hero{padding:36px 44px 28px;background:linear-gradient(135deg,#fef2f2 0%,#fff 80%);border-bottom:3px solid #c0392b}
+.spot-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:.14em;color:#fff;background:#c0392b;padding:6px 14px;border-radius:4px;margin-bottom:14px;text-transform:uppercase}
+.spot-tag::before{content:'📊';font-size:14px}
+.spot-headline{font-size:32px;font-weight:900;line-height:1.4;letter-spacing:-.01em;margin-bottom:14px;color:#1a1a1a}
+.spot-headline em{font-style:normal;color:#c0392b;background:linear-gradient(transparent 60%,#ffe1df 60%);padding:0 2px}
+.spot-lede{font-size:14px;color:var(--text2);line-height:1.85}
+.spot-lede strong{color:#c0392b}
+
+/* TOC */
+.spot-toc{padding:18px 44px;background:#f5f4f0;border-bottom:1px solid var(--border);font-size:12px}
+.spot-toc-title{font-size:10px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase;margin-bottom:10px}
+.spot-toc-list{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}
+.spot-toc-list li a{padding:5px 12px;background:#fff;border:1px solid var(--border);border-radius:16px;color:var(--text2);text-decoration:none;font-weight:700;font-size:11px}
+.spot-toc-list li a:hover{background:#c0392b;color:#fff;border-color:#c0392b}
+
+/* KPI dashboard 3 axis */
+.spot-3card{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:24px 44px}
+.spot-card{background:#fff;border:2px solid var(--border);border-radius:12px;padding:18px 20px}
+.spot-card.b2025{border-color:#1a8c4e;background:#f0fdf4}
+.spot-card.b2024{border-color:#aaa;background:#fafafa}
+.spot-card.b2026{border-color:#c0392b;background:#fff5f5}
+.spot-card-yr{font-family:'DM Sans';font-size:11px;font-weight:900;letter-spacing:.1em;color:var(--text3);text-transform:uppercase;margin-bottom:6px}
+.spot-card-cvr{font-family:'DM Sans';font-size:42px;font-weight:900;line-height:1;letter-spacing:-.02em;margin-bottom:8px}
+.spot-card.b2025 .spot-card-cvr{color:#1a8c4e}
+.spot-card.b2024 .spot-card-cvr{color:#666}
+.spot-card.b2026 .spot-card-cvr{color:#c0392b}
+.spot-card-context{font-size:12px;color:var(--text2);line-height:1.6}
+.spot-card-context strong{color:var(--text)}
+
+/* monthly trend chart - SVG-like CSS bar */
+.spot-monthly{padding:18px 44px 8px}
+.spot-monthly-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;align-items:flex-end;height:200px;margin-bottom:8px;padding-top:18px}
+.spot-mcol{display:flex;flex-direction:column-reverse;height:100%;position:relative}
+.spot-mbar{width:100%;border-radius:2px 2px 0 0;position:relative;display:flex;align-items:flex-end;justify-content:center}
+.spot-mbar.y24{background:#bbb}
+.spot-mbar.y25{background:#86efac}
+.spot-mbar.y26{background:#fca5a5}
+.spot-mbar.y26.bot{background:repeating-linear-gradient(45deg,#fca5a5,#fca5a5 4px,#fee2e2 4px,#fee2e2 8px)}
+.spot-mlabel{font-size:9px;color:var(--text3);text-align:center;font-weight:700;margin-top:6px}
+.spot-mlegend{display:flex;gap:14px;font-size:11px;margin:8px 0 4px;color:var(--text2);flex-wrap:wrap}
+.spot-mlegend-sw{display:inline-block;width:14px;height:10px;margin-right:5px;vertical-align:middle;border-radius:2px}
+
+/* GW comparison table */
+.spot-gw-table{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:6px}
+.spot-gw-table th{background:#1f2937;color:#fff;padding:10px;font-size:10px;letter-spacing:.06em;text-align:left;font-weight:900;text-transform:uppercase}
+.spot-gw-table td{padding:10px;border-bottom:1px solid var(--border);font-family:'DM Sans'}
+.spot-gw-table td:first-child{font-weight:900;color:var(--text)}
+.spot-gw-table td.cvr{font-weight:900;font-family:'DM Sans'}
+.spot-gw-table td.cvr.peak{color:#1a8c4e;background:#f0fdf4}
+.spot-gw-table td.cvr.real{color:#c0392b;background:#fff5f5}
+.spot-gw-table td.cvr.flat{color:#666;background:#fafafa}
+.spot-gw-table td.delta{font-weight:900}
+.spot-gw-table td.delta.down{color:#c0392b}
+.spot-gw-table td.delta.flat{color:#666}
+
+/* Key findings cards */
+.spot-findings{padding:8px 44px 24px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.spot-finding{border:1px solid var(--border);border-radius:10px;padding:18px 20px;background:#fff;border-left:5px solid var(--red)}
+.spot-finding.alarm{border-left-color:#c0392b;background:#fff5f5}
+.spot-finding.warn{border-left-color:#d97706;background:#fff7ed}
+.spot-finding.info{border-left-color:#1b82c5;background:#eff6ff}
+.spot-finding-num{font-family:'DM Sans';font-size:11px;font-weight:900;letter-spacing:.1em;color:var(--text3);margin-bottom:6px}
+.spot-finding-title{font-size:15px;font-weight:800;line-height:1.45;margin-bottom:8px}
+.spot-finding-body{font-size:12px;color:var(--text2);line-height:1.7}
+.spot-finding-body strong{color:var(--text)}
+.spot-finding-stat{display:inline-block;padding:3px 8px;background:#fff;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans';font-weight:900;font-size:12px;margin-top:6px;margin-right:6px}
+
+/* causes - 6 columns */
+.spot-causes{padding:8px 44px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.spot-cause{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;border-top:4px solid var(--red)}
+.spot-cause.macro{border-top-color:#7c3aed}
+.spot-cause.compete{border-top-color:#666}
+.spot-cause.price{border-top-color:#1b82c5}
+.spot-cause.product{border-top-color:#d97706}
+.spot-cause.behavior{border-top-color:#2dae6c}
+.spot-cause.uiux{border-top-color:#c0392b}
+.spot-cause-head{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.spot-cause-icon{font-size:20px}
+.spot-cause-name{font-size:12px;font-weight:900;letter-spacing:.04em}
+.spot-cause-body{font-size:12px;color:var(--text2);line-height:1.65}
+
+/* Roadmap */
+.spot-road{padding:8px 44px 24px}
+.spot-road-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.spot-road-step{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;position:relative}
+.spot-road-step::before{content:'';position:absolute;top:30px;right:-8px;width:0;height:0;border-style:solid;border-width:6px 0 6px 8px;border-color:transparent transparent transparent var(--border);z-index:2}
+.spot-road-step:last-child::before{display:none}
+.spot-road-when{font-family:'DM Sans';font-size:11px;font-weight:900;letter-spacing:.06em;color:#c0392b;margin-bottom:4px}
+.spot-road-title{font-size:13px;font-weight:800;line-height:1.45;margin-bottom:6px}
+.spot-road-body{font-size:11px;color:var(--text3);line-height:1.6}
+
+/* Actions */
+.spot-actions{padding:8px 44px 24px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.spot-action{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 18px;border-left:5px solid var(--red);display:flex;gap:14px}
+.spot-action.p0{border-left-color:#c0392b}
+.spot-action.p1{border-left-color:#d97706}
+.spot-action.p2{border-left-color:#1b82c5}
+.spot-action.p3{border-left-color:#2dae6c}
+.spot-action-icon{font-size:24px;flex-shrink:0;line-height:1}
+.spot-action-body{flex:1;min-width:0}
+.spot-action-prio{font-family:'DM Sans';font-size:10px;font-weight:900;padding:2px 7px;color:#fff;border-radius:3px;letter-spacing:.05em;display:inline-block;margin-bottom:6px}
+.spot-action.p0 .spot-action-prio{background:#c0392b}
+.spot-action.p1 .spot-action-prio{background:#d97706}
+.spot-action.p2 .spot-action-prio{background:#1b82c5}
+.spot-action.p3 .spot-action-prio{background:#2dae6c}
+.spot-action-title{font-size:13px;font-weight:800;line-height:1.45;margin-bottom:6px}
+.spot-action-body ul{margin:0;padding:0;list-style:none}
+.spot-action-body ul li{font-size:11px;color:var(--text2);line-height:1.6;padding-left:12px;position:relative;margin-bottom:2px}
+.spot-action-body ul li::before{content:'▸';position:absolute;left:0;font-weight:900}
+
+/* section header */
+.spot-sec{padding:24px 44px 4px}
+.spot-sec-num{display:inline-block;font-family:'DM Sans';font-size:11px;font-weight:900;letter-spacing:.1em;padding:4px 10px;background:#1f2937;color:#fff;border-radius:4px;margin-right:8px}
+.spot-sec-num.red{background:#c0392b}
+.spot-sec-title{font-size:22px;font-weight:900;line-height:1.4;margin:8px 0 0}
+.spot-sec-sub{font-size:13px;color:var(--text3);padding:6px 44px 4px;line-height:1.6}
+
+/* footer return link */
+.spot-return{padding:18px 44px;background:#f5f4f0;border-top:1px solid var(--border);font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.spot-return a{color:var(--red);font-weight:700;text-decoration:none}
+
+@media(max-width:768px){
+  .spot-hero{padding:24px 22px 22px}
+  .spot-headline{font-size:22px}
+  .spot-3card,.spot-findings,.spot-causes,.spot-road-grid,.spot-actions{grid-template-columns:1fr}
+  .spot-causes{grid-template-columns:repeat(2,1fr)}
+  .spot-toc,.spot-monthly,.spot-sec,.spot-sec-sub,.spot-return{padding-left:22px;padding-right:22px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- Header -->
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">スポット分析<br><strong>2026 GW CVR 構造低下 — 3 年比較</strong></div>
+    </div>
+    <div style="padding:18px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:12px;line-height:1.7;color:var(--text2)">
+      <div><span style="color:var(--text3);font-weight:700">分析範囲</span><br>2024-04 〜 2026-05（Q2 GW 期間中心、3 年比較）</div>
+      <div><span style="color:var(--text3);font-weight:700">起点</span><br>W19 サマリーでの「GW 期間 -0.33pp YoY」を深掘り</div>
+      <div><span style="color:var(--text3);font-weight:700">発行</span><br>2026-05-11 / UIUX チーム + クロスチームに escalation 用</div>
+      <div><span style="color:var(--text3);font-weight:700">想定読者</span><br>CMO / PdM / マーケ / 商品 / 価格 / SRE / Analytics</div>
+    </div>
+  </div>
+
+  <!-- 01 Hero -->
+  <div class="card">
+    <div class="spot-hero">
+      <div class="spot-tag">SPOT ANALYSIS — Cross-team escalation</div>
+      <h1 class="spot-headline">
+        2025 → 2026 で <em>matched Jan-May は実質 -0.12pp</em>、<br>
+        繁忙期 <em>12-1月 年末年始は既に -0.15pp 崩壊</em>済み。<br>
+        真の test は <em>7-8月 お盆</em>。5月中の対策着手で運命が決まる。
+      </h1>
+      <div class="spot-lede">
+        評価軸は <strong>matched 同期比較</strong>（2026 は Jan-May の 5 ヶ月分のみで、CVR が高い 7-8月夏休み・お盆を含まないため、通年平均同士で比較すると機械的に低く出てしまうため）:<br><br>
+        • <strong>2025 Jan-May 1.542%</strong>（公平なベンチマーク）<br>
+        • <strong>2026 Jan-May raw 1.331% / 実質 ~1.42%</strong> → <strong>raw -0.21pp / 実質 -0.12pp</strong><br><br>
+        さらに重要な発見: <strong>繁忙期 CVR は既に 2025 末から崩壊している</strong>。
+        2024末→25始 1.527% → 2025末→26始 1.379% で <strong>-0.15pp の繁忙期崩壊が既発</strong>、それが 2026 全月に継続している。
+        <br><br>
+        次の真の test は <strong>2026 7-8月（夏休み・お盆）</strong>。<strong>5月中（残り 3 週）に他チーム並走の対策が走らないと、夏需要で再び -0.15〜-0.20pp の崩れが発生</strong>し、年間 CVR 目標が達成不能になる。
+      </div>
+    </div>
+
+    <!-- TOC -->
+    <div class="spot-toc">
+      <div class="spot-toc-title">本書の構成</div>
+      <ul class="spot-toc-list">
+        <li><a href="#sec01">01 公平 matched 比較</a></li>
+        <li><a href="#sec01b">01.5 繁忙期推移（7-8月 / 12-1月）</a></li>
+        <li><a href="#sec02">02 月次トレンド</a></li>
+        <li><a href="#sec03">03 GW 期間特化比較</a></li>
+        <li><a href="#sec04">04 5 つの発見</a></li>
+        <li><a href="#sec05">05 構造的要因（6 領域）</a></li>
+        <li><a href="#sec06">06 打ち手とロードマップ</a></li>
+        <li><a href="#sec07">07 至急アクション</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 01 — Matched Jan-May (fair YoY) -->
+  <div class="card" id="sec01">
+    <div class="spot-sec">
+      <span class="spot-sec-num red">01</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">公平 matched 比較</span>
+      <h2 class="spot-sec-title">同期 Jan-May で見れば 2025→2026 で 実質 -0.12pp</h2>
+    </div>
+    <div class="spot-sec-sub">2026 は 5 ヶ月分しか確定していないため「通年平均」比較は CVR 高月（7-8月）を含まず<strong>過小評価</strong>になる。<strong>matched 同期（Jan-May）</strong>で見直すのが正しい。</div>
+
+    <div class="spot-3card">
+      <div class="spot-card b2025" style="border-color:#1a8c4e">
+        <div class="spot-card-yr">2025 Jan-May 同期</div>
+        <div class="spot-card-cvr" style="color:#1a8c4e">1.542<span style="font-size:24px">%</span></div>
+        <div class="spot-card-context">
+          5 ヶ月 volume-weighted（sess 14.7M / purch 227K）。Q1（1.45〜1.62%）と Apr-May（1.40〜1.64%）で堅調。<strong>公平なベンチマーク</strong>。
+        </div>
+      </div>
+      <div class="spot-card b2026" style="border-color:#c0392b">
+        <div class="spot-card-yr">2026 Jan-May 実績</div>
+        <div class="spot-card-cvr" style="color:#c0392b">1.331<span style="font-size:24px">%</span></div>
+        <div class="spot-card-context">
+          同期 raw（sess 14.3M / purch 191K）。bot 除外 <strong>実質 ~1.42%</strong>、前年同期比 <strong>raw -0.21pp / 実質 -0.12pp</strong>。月 ¥40〜70M 規模の機会損失。
+        </div>
+      </div>
+      <div class="spot-card b2024" style="border-color:#d97706;background:#fff7ed">
+        <div class="spot-card-yr">⚠ 真の test: 2026 7-8月</div>
+        <div class="spot-card-cvr" style="color:#9a3412">未到来</div>
+        <div class="spot-card-context">
+          2024 7-8月 1.476% → 2025 7-8月 1.517%（+0.04pp）→ 2026 ?。<strong>5月中の対策着手</strong>で運命が決まる、お盆繁忙期の取りこぼしリスク最大。
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:8px 44px 24px;font-size:13px;color:var(--text2);line-height:1.8;background:#fef9e7;border-top:1px solid #fcd34d;border-bottom:1px solid #fcd34d">
+      <strong style="color:#9a3412">含意</strong>:
+      <strong>(1)</strong> 「通年平均で比べる」は 7-8月（高 CVR月）が抜けるため過小評価のリスク。<strong>matched 同期比較が公平</strong>。
+      <strong>(2)</strong> 実質 -0.12pp（matched Jan-May）でも前年同期から確実に後退している事実は変わらない、機会損失は月 ¥40M 規模。
+      <strong>(3)</strong> 本当の分岐点は <strong>2026 7-8月（お盆繁忙期）</strong>。残り 3 週で他チーム並走の対策が走らなければ夏需要も -0.15pp 程度の崩れが起きる。
+    </div>
+  </div>
+
+  <!-- 01b — Peak season trend (NEW) -->
+  <div class="card" id="sec01b">
+    <div class="spot-sec">
+      <span class="spot-sec-num">01.5</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">繁忙期推移</span>
+      <h2 class="spot-sec-title">繁忙期 CVR は 2025 末から既に崩壊 — 比較軸は通年平均ではなく繁忙期</h2>
+    </div>
+    <div class="spot-sec-sub">ベルトラの本当のピーク月は <strong>7-8月（夏休み・お盆）</strong> と <strong>12-1月（年末年始）</strong>。CVR 評価は通年平均ではなく繁忙期で比較するのが本質。</div>
+
+    <div style="padding:8px 44px 24px">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:14px">
+
+        <!-- Summer (7-8月) -->
+        <div style="background:#fff;border:2px solid #2dae6c;border-radius:12px;padding:18px 20px">
+          <div style="font-size:11px;font-weight:900;color:#1a8c4e;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">🌻 夏休み・お盆（7-8月）</div>
+          <div style="font-family:'DM Sans';font-size:14px;line-height:1.9">
+            <div style="display:flex;justify-content:space-between"><span>2024 7-8月（volume-weighted）</span><strong>1.476%</strong></div>
+            <div style="display:flex;justify-content:space-between;color:#1a8c4e"><span>2025 7-8月</span><strong>1.517% (+0.04pp)</strong></div>
+            <div style="display:flex;justify-content:space-between;color:#d97706;border-top:1px dashed #ccc;padding-top:6px;margin-top:6px"><span>2026 7-8月</span><strong>未到来 ⚠</strong></div>
+          </div>
+          <div style="margin-top:10px;padding:10px 12px;background:#fff7ed;border-radius:6px;font-size:11px;line-height:1.6;color:#9a3412">
+            <strong>リスク</strong>: 2026 Jan-May が前年同期 -0.12pp 実質後退。同パターンが続けば 2026 7-8月は 1.40% 程度に沈み、年間目標達成不能に。<br>
+            お盆ピーク（8月中旬）に効く施策は <strong>6 月中投入が現実的タイムライン</strong>、5月中の意思決定必須。
+          </div>
+        </div>
+
+        <!-- Winter (12-1月) -->
+        <div style="background:#fff;border:2px solid #c0392b;border-radius:12px;padding:18px 20px">
+          <div style="font-size:11px;font-weight:900;color:#c0392b;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">❄ 年末年始（12-1月）</div>
+          <div style="font-family:'DM Sans';font-size:14px;line-height:1.9">
+            <div style="display:flex;justify-content:space-between"><span>2024-12 + 2025-01</span><strong>1.527%</strong></div>
+            <div style="display:flex;justify-content:space-between;color:#c0392b;border-top:1px dashed #ccc;padding-top:6px;margin-top:6px"><span>2025-12 + 2026-01</span><strong>1.379% (-0.15pp)</strong></div>
+          </div>
+          <div style="margin-top:10px;padding:10px 12px;background:#fff5f5;border-radius:6px;font-size:11px;line-height:1.6;color:#991b1b">
+            <strong>既発</strong>: 2024-12 1.614%（年間最高）→ 2025-12 1.410%（-0.20pp）で年末需要が崩れ、2026-01 1.352% でさらに継続。<strong>繁忙期 CVR は 2025 末から構造的に低下しており、2026 全月への継続が現状</strong>。
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Monthly peak table -->
+      <table style="width:100%;border-collapse:collapse;font-size:12px;background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden">
+        <thead><tr style="background:#1f2937;color:#fff">
+          <th style="padding:9px 10px;font-size:10px;letter-spacing:.06em;font-weight:900;text-align:left">月（区分）</th>
+          <th style="padding:9px 10px;text-align:right;font-size:10px;letter-spacing:.06em;font-weight:900">2024 CVR</th>
+          <th style="padding:9px 10px;text-align:right;font-size:10px;letter-spacing:.06em;font-weight:900">2025 CVR</th>
+          <th style="padding:9px 10px;text-align:right;font-size:10px;letter-spacing:.06em;font-weight:900">2026 CVR</th>
+          <th style="padding:9px 10px;text-align:right;font-size:10px;letter-spacing:.06em;font-weight:900">25vs24</th>
+          <th style="padding:9px 10px;text-align:right;font-size:10px;letter-spacing:.06em;font-weight:900">26vs25</th>
+        </tr></thead>
+        <tbody style="font-family:'DM Sans'">
+          <tr style="background:#fff7ed"><td style="padding:7px 10px"><strong>7月（夏休み開始）</strong></td><td style="padding:7px 10px;text-align:right">1.474%</td><td style="padding:7px 10px;text-align:right;color:#1a8c4e">1.492%</td><td style="padding:7px 10px;text-align:right;color:#aaa">— 未到来</td><td style="padding:7px 10px;text-align:right;color:#1a8c4e">+0.02pp</td><td style="padding:7px 10px;text-align:right;color:#d97706">⚠ test 待ち</td></tr>
+          <tr style="background:#fff7ed"><td style="padding:7px 10px"><strong>8月（お盆 ピーク）</strong></td><td style="padding:7px 10px;text-align:right">1.479%</td><td style="padding:7px 10px;text-align:right;color:#1a8c4e">1.541%</td><td style="padding:7px 10px;text-align:right;color:#aaa">— 未到来</td><td style="padding:7px 10px;text-align:right;color:#1a8c4e">+0.06pp</td><td style="padding:7px 10px;text-align:right;color:#d97706">⚠ 最重要 test</td></tr>
+          <tr style="background:#fff5f5"><td style="padding:7px 10px"><strong>12月（年末）</strong></td><td style="padding:7px 10px;text-align:right;color:#1a8c4e">1.614%</td><td style="padding:7px 10px;text-align:right;color:#c0392b">1.410%</td><td style="padding:7px 10px;text-align:right;color:#aaa">— 未到来</td><td style="padding:7px 10px;text-align:right;color:#c0392b"><strong>-0.20pp</strong></td><td style="padding:7px 10px;text-align:right;color:#aaa">—</td></tr>
+          <tr style="background:#fff5f5"><td style="padding:7px 10px"><strong>1月（年始）</strong></td><td style="padding:7px 10px;text-align:right;color:#aaa">—</td><td style="padding:7px 10px;text-align:right">1.450%</td><td style="padding:7px 10px;text-align:right;color:#c0392b">1.352%</td><td style="padding:7px 10px;text-align:right;color:#aaa">—</td><td style="padding:7px 10px;text-align:right;color:#c0392b"><strong>-0.10pp</strong></td></tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top:14px;padding:14px 18px;background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;font-size:13px;line-height:1.75">
+        <strong style="color:#991b1b">本質的含意</strong>:
+        <ul style="margin:8px 0 0 18px;padding:0">
+          <li>繁忙期 CVR は <strong>2025-12 で前年 -0.20pp 崩壊済み</strong>、それが 2026 全月に継続している</li>
+          <li>2026 1-5月の -0.12pp 実質後退は <strong>2025 末からの構造低下の延長</strong>であり、突然始まった話ではない</li>
+          <li>最も重要な変数は <strong>2026 7-8月（お盆）</strong>。ここで前年 1.49〜1.54% を維持できるか、それとも -0.15pp 崩れて 1.30%台に沈むかが年間 KPI 達成の分岐点</li>
+          <li>お盆の打ち手は <strong>6 月中投入が現実的タイムライン</strong> → 仕様確定は <strong>5 月中（残り 3 週）必須</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 — Monthly trend chart -->
+  <div class="card" id="sec02">
+    <div class="spot-sec">
+      <span class="spot-sec-num">02</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">月次トレンド</span>
+      <h2 class="spot-sec-title">2026 年は全月 2025 を下回り、Q1 ですら構造的劣化</h2>
+    </div>
+    <div class="spot-sec-sub">月次 CVR を 3 年並べて可視化。bot のなかった Q1（1-3月）でも 2025 から -0.10〜-0.20pp。</div>
+
+    <div class="spot-monthly">
+      <!-- Chart: 12 months × 3 years bars -->
+      <div class="spot-mlegend">
+        <span><span class="spot-mlegend-sw" style="background:#bbb"></span>2024</span>
+        <span><span class="spot-mlegend-sw" style="background:#86efac"></span>2025</span>
+        <span><span class="spot-mlegend-sw" style="background:#fca5a5"></span>2026 raw</span>
+        <span><span class="spot-mlegend-sw" style="background:repeating-linear-gradient(45deg,#fca5a5,#fca5a5 4px,#fee2e2 4px,#fee2e2 8px)"></span>2026 bot 含む（4-5月）</span>
+      </div>
+
+      <table style="width:100%;border-collapse:collapse;font-size:11px;margin-top:10px">
+        <thead><tr style="border-bottom:2px solid var(--border)">
+          <th style="padding:8px;text-align:left;font-weight:900;letter-spacing:.06em;color:var(--text3);text-transform:uppercase">月</th>
+          <th style="padding:8px;text-align:right;font-weight:900;color:#666">2024</th>
+          <th style="padding:8px;text-align:right;font-weight:900;color:#1a8c4e">2025</th>
+          <th style="padding:8px;text-align:right;font-weight:900;color:#c0392b">2026</th>
+          <th style="padding:8px;text-align:right;font-weight:900">YoY (vs2025)</th>
+          <th style="padding:8px;text-align:left;color:var(--text3);font-weight:700">注記</th>
+        </tr></thead>
+        <tbody style="font-family:'DM Sans'">
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px"><strong>1月</strong></td><td style="padding:6px 8px;text-align:right;color:#666">—</td><td style="padding:6px 8px;text-align:right;color:#1a8c4e">1.450%</td><td style="padding:6px 8px;text-align:right;color:#c0392b">1.352%</td><td style="padding:6px 8px;text-align:right;color:#c0392b;font-weight:900">-0.10pp</td><td style="padding:6px 8px;color:var(--text3);font-family:'Inter'">bot なし純構造</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px"><strong>2月</strong></td><td style="padding:6px 8px;text-align:right;color:#666">—</td><td style="padding:6px 8px;text-align:right;color:#1a8c4e">1.616%</td><td style="padding:6px 8px;text-align:right;color:#c0392b">1.412%</td><td style="padding:6px 8px;text-align:right;color:#c0392b;font-weight:900">-0.20pp</td><td style="padding:6px 8px;color:var(--text3);font-family:'Inter'">bot なし純構造</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px"><strong>3月</strong></td><td style="padding:6px 8px;text-align:right;color:#666">—</td><td style="padding:6px 8px;text-align:right;color:#1a8c4e">1.604%</td><td style="padding:6px 8px;text-align:right;color:#c0392b">1.479%</td><td style="padding:6px 8px;text-align:right;color:#c0392b;font-weight:900">-0.13pp</td><td style="padding:6px 8px;color:var(--text3);font-family:'Inter'">bot なし純構造</td></tr>
+          <tr style="border-bottom:1px solid var(--border);background:#fff5f5"><td style="padding:6px 8px"><strong>4月</strong></td><td style="padding:6px 8px;text-align:right;color:#666">1.419%</td><td style="padding:6px 8px;text-align:right;color:#1a8c4e">1.636%</td><td style="padding:6px 8px;text-align:right;color:#c0392b">1.199%</td><td style="padding:6px 8px;text-align:right;color:#c0392b;font-weight:900">-0.44pp</td><td style="padding:6px 8px;color:var(--text3);font-family:'Inter'">4/14- bot 流入</td></tr>
+          <tr style="border-bottom:1px solid var(--border);background:#fff5f5"><td style="padding:6px 8px"><strong>5月（途中）</strong></td><td style="padding:6px 8px;text-align:right;color:#666">1.177%</td><td style="padding:6px 8px;text-align:right;color:#1a8c4e">1.404%</td><td style="padding:6px 8px;text-align:right;color:#c0392b">1.090%</td><td style="padding:6px 8px;text-align:right;color:#c0392b;font-weight:900">-0.31pp</td><td style="padding:6px 8px;color:var(--text3);font-family:'Inter'">bot 継続中</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px"><strong>6月</strong></td><td style="padding:6px 8px;text-align:right;color:#666">1.398%</td><td style="padding:6px 8px;text-align:right;color:#1a8c4e">1.677%</td><td style="padding:6px 8px;text-align:right;color:#aaa">—</td><td style="padding:6px 8px;text-align:right;color:#aaa">—</td><td style="padding:6px 8px;color:var(--text3);font-family:'Inter'">未到来</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px"><strong>7月</strong></td><td style="padding:6px 8px;text-align:right;color:#666">1.474%</td><td style="padding:6px 8px;text-align:right;color:#1a8c4e">1.492%</td><td style="padding:6px 8px;text-align:right;color:#aaa">—</td><td style="padding:6px 8px;text-align:right;color:#aaa">—</td><td style="padding:6px 8px;color:var(--text3);font-family:'Inter'">未到来</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px"><strong>8月</strong></td><td style="padding:6px 8px;text-align:right;color:#666">1.479%</td><td style="padding:6px 8px;text-align:right;color:#1a8c4e">1.541%</td><td style="padding:6px 8px;text-align:right;color:#aaa">—</td><td style="padding:6px 8px;text-align:right;color:#aaa">—</td><td style="padding:6px 8px;color:var(--text3);font-family:'Inter'">未到来</td></tr>
+          <tr><td style="padding:6px 8px"><strong>通年平均</strong></td><td style="padding:6px 8px;text-align:right;color:#666;font-weight:900">1.43%</td><td style="padding:6px 8px;text-align:right;color:#1a8c4e;font-weight:900">1.50%</td><td style="padding:6px 8px;text-align:right;color:#c0392b;font-weight:900">1.27% (途中)</td><td style="padding:6px 8px;text-align:right;color:#c0392b;font-weight:900">-0.23pp</td><td style="padding:6px 8px;color:var(--text3);font-family:'Inter'">5 ヶ月平均</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="padding:8px 44px 22px;font-size:13px;color:var(--text2);line-height:1.8">
+      <strong style="color:var(--text)">読み方:</strong>
+      <ul style="margin:6px 0 0 20px;padding:0">
+        <li><strong>1-3 月（bot なし）の -0.10〜-0.20pp</strong> — bot とは無関係、<strong>純粋に構造的劣化</strong>。年初からの傾向シグナル</li>
+        <li><strong>4-5 月の -0.31〜-0.44pp</strong> — Q1 構造劣化（-0.15pp 程度）+ bot 希釈（-0.20〜-0.30pp）の合成</li>
+        <li><strong>2024-05 → 2026-05</strong> — 1.177% → 1.090% raw（実質約 1.30% 推定）で <strong>2 年経過後ほぼ横ばい〜微減</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 03 — GW comparison -->
+  <div class="card" id="sec03">
+    <div class="spot-sec">
+      <span class="spot-sec-num">03</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">GW 期間特化比較</span>
+      <h2 class="spot-sec-title">GW W17-W19 で 2025 → 2026 がほぼ均一に -0.30pp 後退</h2>
+    </div>
+    <div class="spot-sec-sub">観光予約のピーク期である GW 連続 3 週で、2025 の堅調水準から大幅に乖離。</div>
+
+    <div style="padding:8px 44px 22px">
+      <table class="spot-gw-table">
+        <thead>
+          <tr>
+            <th>週</th>
+            <th style="text-align:right">2024 W?? 月次推計</th>
+            <th style="text-align:right">2025 raw</th>
+            <th style="text-align:right">2026 raw</th>
+            <th style="text-align:right">2026 実質 (推定)</th>
+            <th style="text-align:right">YoY vs 2025</th>
+            <th>含意</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>W17（4/19-4/25）</td>
+            <td class="cvr flat" style="text-align:right">≈1.18%</td>
+            <td class="cvr peak" style="text-align:right">1.59%</td>
+            <td class="cvr real" style="text-align:right">1.10%</td>
+            <td class="cvr real" style="text-align:right">≈1.25%</td>
+            <td class="delta down" style="text-align:right">-0.34pp</td>
+            <td>サイト障害 4/24-25 影響</td>
+          </tr>
+          <tr>
+            <td>W18（4/26-5/2）</td>
+            <td class="cvr flat" style="text-align:right">≈1.18%</td>
+            <td class="cvr peak" style="text-align:right">1.58%</td>
+            <td class="cvr real" style="text-align:right">1.23%</td>
+            <td class="cvr real" style="text-align:right">≈1.39%</td>
+            <td class="delta down" style="text-align:right">-0.19pp</td>
+            <td>障害復帰 + GW 立ち上がり</td>
+          </tr>
+          <tr style="background:#fff5f5">
+            <td><strong>W19（5/3-5/9）</strong></td>
+            <td class="cvr flat" style="text-align:right">≈1.18%</td>
+            <td class="cvr peak" style="text-align:right">1.49%</td>
+            <td class="cvr real" style="text-align:right">1.03%</td>
+            <td class="cvr real" style="text-align:right"><strong>≈1.16%</strong></td>
+            <td class="delta down" style="text-align:right"><strong>-0.33pp</strong></td>
+            <td><strong>GW 重心日含む、最重要週</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top:14px;padding:12px 16px;background:#fff5f5;border:1px solid #fca5a5;border-radius:8px;font-size:12px;line-height:1.7">
+        <strong style="color:#991b1b">注目点:</strong>
+        <ul style="margin:6px 0 0 18px;padding:0">
+          <li>2026 W19 実質 1.16% は <strong>2024 W19 推定 1.18%</strong>とほぼ同じ — <strong>2 年で進歩ゼロ</strong></li>
+          <li>2025 W19 1.49% から見ると <strong>-0.33pp</strong>、これは月 ¥75M の機会損失</li>
+          <li>2024 5月通月が他月より低い構造傾向あり（夏前のオフピーク感）→ GW 効果は 2025 のみ強かった可能性</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 — Key findings -->
+  <div class="card" id="sec04">
+    <div class="spot-sec">
+      <span class="spot-sec-num">04</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">5 つの発見</span>
+      <h2 class="spot-sec-title">3 年データから浮かび上がった 5 つの本質課題</h2>
+    </div>
+
+    <div class="spot-findings">
+
+      <div class="spot-finding alarm">
+        <div class="spot-finding-num">F.01 — 構造的劣化</div>
+        <div class="spot-finding-title">bot とは無関係に 2026 年は始まりから 2025 を下回っている</div>
+        <div class="spot-finding-body">
+          <strong>1-3 月の bot 無関係期間でも -0.10〜-0.20pp</strong>。bot は 4-5 月の見かけ悪化を増幅しているだけで、構造劣化そのものは年初から存在。
+          <span class="spot-finding-stat">Q1 平均 -0.15pp</span>
+        </div>
+      </div>
+
+      <div class="spot-finding alarm">
+        <div class="spot-finding-num">F.02 — 繁忙期は既に崩壊（2025-12 から）</div>
+        <div class="spot-finding-title">12-1月 年末年始は 2024→2025 で既に -0.15pp 崩れている</div>
+        <div class="spot-finding-body">
+          2024-12（1.614% 年間最高）→ 2025-12（1.410%）で <strong>-0.20pp 大崩れ</strong>、2026-01 でも継続。
+          繁忙期 CVR は <strong>2025 末から構造的に低下しており、2026 全月に継続している</strong>。次は 2026 7-8月 お盆で同パターンが起きるリスク。
+          <span class="spot-finding-stat">年末 -0.20pp</span>
+          <span class="spot-finding-stat">年始 -0.10pp</span>
+        </div>
+      </div>
+
+      <div class="spot-finding warn">
+        <div class="spot-finding-num">F.03 — 集客と転換の乖離</div>
+        <div class="spot-finding-title">2025 W19 → 2026 W19 で集客 +51%、購入 +3.7%</div>
+        <div class="spot-finding-body">
+          セッション 657K → 993K に +336K 増えたのに、購入は 9,814 → 10,175 で +361 件しか伸びていない。<strong>「広告で集めた → 買わない」の典型構造</strong>。bot 除外しても +34% sess vs +3.7% purch で乖離は埋まらない。
+          <span class="spot-finding-stat">乖離率 14:1</span>
+        </div>
+      </div>
+
+      <div class="spot-finding warn">
+        <div class="spot-finding-num">F.04 — GW 特需の喪失</div>
+        <div class="spot-finding-title">GW 連休による CVR 押し上げ効果が 2026 では発現していない</div>
+        <div class="spot-finding-body">
+          2025 W17-W19 は 1.5%超を維持し GW 特需が効いていた。2026 同期は実質 1.16〜1.39% で <strong>GW 特需が完全に消失</strong>。需要そのものが Klook/KKday/直予約に流れた可能性が高い。
+          <span class="spot-finding-stat">GW lift -0.33pp 消失</span>
+        </div>
+      </div>
+
+      <div class="spot-finding info" style="grid-column:1 / -1">
+        <div class="spot-finding-num">F.05 — bot は問題の主因ではない、ノイズ増幅器</div>
+        <div class="spot-finding-title">bot を完璧に除外しても 2026 → 2025 ギャップは消えず -0.15〜-0.22pp 残る</div>
+        <div class="spot-finding-body">
+          bot 影響（推定 -0.10〜-0.25pp）を完全除去しても、Q1 構造劣化 -0.15pp + GW 特需消失 が残る。<strong>「bot を駆除すれば改善」という単純な構図ではない</strong>。WAF 対応は必須だが、それだけでは 2025 水準に戻らない。
+          <span class="spot-finding-stat">bot 除外後 -0.15〜-0.22pp 残存</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 05 — Structural causes -->
+  <div class="card" id="sec05">
+    <div class="spot-sec">
+      <span class="spot-sec-num">05</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">構造的要因（6 領域）</span>
+      <h2 class="spot-sec-title">なぜ 2025 → 2026 で構造劣化が起きたか — 6 つの仮説領域</h2>
+    </div>
+    <div class="spot-sec-sub">UIUX 単独では 1/6 領域しか担当できない。マクロ / 競合 / 価格 / 商品 / 顧客行動の 5 領域はクロスチーム協議が必須。</div>
+
+    <div class="spot-causes">
+
+      <div class="spot-cause macro">
+        <div class="spot-cause-head">
+          <span class="spot-cause-icon">🌐</span>
+          <span class="spot-cause-name">マクロ環境</span>
+        </div>
+        <div class="spot-cause-body">
+          <strong>円安進行</strong>で海外旅行の実効価格上昇。USD/JPY が 2024 平均 ¥150 台 → 2026 で ¥160 超圏。顧客側の心理ハードル上昇、決済直前で躊躇する層が増加した可能性。
+        </div>
+      </div>
+
+      <div class="spot-cause compete">
+        <div class="spot-cause-head">
+          <span class="spot-cause-icon">⚔</span>
+          <span class="spot-cause-name">競合シェア拡大</span>
+        </div>
+        <div class="spot-cause-body">
+          <strong>Klook / KKday / じゃらん遊び</strong>の日本市場攻勢継続。SEO / SEM / アプリで露出増、価格優位＋多言語対応で「比較すると安い」状態を作っている。Organic Search ④→⑤ 流出が示唆。
+        </div>
+      </div>
+
+      <div class="spot-cause price">
+        <div class="spot-cause-head">
+          <span class="spot-cause-icon">💴</span>
+          <span class="spot-cause-name">価格戦略</span>
+        </div>
+        <div class="spot-cause-body">
+          パートナー価格上昇 + ベルトラのマージン分が積み上がり、表示価格が競合に対して高く見えるケース増加。4/20 為替マージン変更（EU +3.9% / アジア 0% / 他 +2.9%）の純効果も未検証。
+        </div>
+      </div>
+
+      <div class="spot-cause product">
+        <div class="spot-cause-head">
+          <span class="spot-cause-icon">📦</span>
+          <span class="spot-cause-name">商品ポートフォリオ</span>
+        </div>
+        <div class="spot-cause-body">
+          GW 向け人気エリアでの<strong>欠品・在庫不足・新商品開発停滞</strong>の疑い。来訪したが「ピッタリの商品がない」体験で離脱。パートナー新規開拓と差別化商品の投入リズムが鈍化していないか要検証。
+        </div>
+      </div>
+
+      <div class="spot-cause behavior">
+        <div class="spot-cause-head">
+          <span class="spot-cause-icon">👤</span>
+          <span class="spot-cause-name">顧客行動シフト</span>
+        </div>
+        <div class="spot-cause-body">
+          <strong>比較検討回数の増加</strong>（複数サイトを行き来）と<strong>直前予約化</strong>。AI チャットボット・口コミ集約サイトの台頭で「ベルトラに来た時点で他社も見ている」前提に。リピーター比率 30.7%（前年比減）も顧客ロイヤルティ低下シグナル。
+        </div>
+      </div>
+
+      <div class="spot-cause uiux">
+        <div class="spot-cause-head">
+          <span class="spot-cause-icon">🏗</span>
+          <span class="spot-cause-name">UIUX 構造課題</span>
+        </div>
+        <div class="spot-cause-body">
+          BN Top3 が <strong>4 週連続固着</strong>（新規 ④→⑤ / モバイル ①→² / リピーター ①→²）。これは 2025 → 2026 で「悪化」ではなく「同じまま放置」だが、競合の進化に追いつかず<strong>相対的劣位が拡大</strong>している。
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 6 領域別の下層ページリンク -->
+    <div style="padding:8px 44px 24px">
+      <div style="font-size:11px;color:var(--text3);font-weight:900;letter-spacing:.06em;margin-bottom:10px;text-transform:uppercase">↓ 各領域の深掘り（データ裏付け / 課題抽出 / 仮説設計 / 打ち手 / ロードマップ）</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+        <a href="/2026h1/spot/2026-gw/01-macro.html" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#fff;border:1px solid #c4b5fd;border-left:4px solid #7c3aed;border-radius:8px;text-decoration:none;color:#1a1a1a">
+          <span style="font-size:22px">🌐</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:10px;font-weight:900;color:#7c3aed;letter-spacing:.08em">AREA 01</div>
+            <div style="font-size:13px;font-weight:800;line-height:1.4">マクロ環境</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px">円安 + 物価高、推定 -0.06pp</div>
+          </div>
+          <span style="color:#7c3aed;font-weight:900">→</span>
+        </a>
+        <a href="/2026h1/spot/2026-gw/02-competitive.html" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#fff;border:1px solid #d1d5db;border-left:4px solid #4b5563;border-radius:8px;text-decoration:none;color:#1a1a1a">
+          <span style="font-size:22px">⚔</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:10px;font-weight:900;color:#4b5563;letter-spacing:.08em">AREA 02</div>
+            <div style="font-size:13px;font-weight:800;line-height:1.4">競合シェア拡大</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px">Klook/KKday、推定 -0.05pp</div>
+          </div>
+          <span style="color:#4b5563;font-weight:900">→</span>
+        </a>
+        <a href="/2026h1/spot/2026-gw/03-pricing.html" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#fff;border:1px solid #93c5fd;border-left:4px solid #1b82c5;border-radius:8px;text-decoration:none;color:#1a1a1a">
+          <span style="font-size:22px">💴</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:10px;font-weight:900;color:#1b82c5;letter-spacing:.08em">AREA 03</div>
+            <div style="font-size:13px;font-weight:800;line-height:1.4">価格戦略</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px">為替マージン未検証、推定 -0.06pp</div>
+          </div>
+          <span style="color:#1b82c5;font-weight:900">→</span>
+        </a>
+        <a href="/2026h1/spot/2026-gw/04-product.html" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#fff;border:1px solid #fdba74;border-left:4px solid #d97706;border-radius:8px;text-decoration:none;color:#1a1a1a">
+          <span style="font-size:22px">📦</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:10px;font-weight:900;color:#d97706;letter-spacing:.08em">AREA 04</div>
+            <div style="font-size:13px;font-weight:800;line-height:1.4">商品ポートフォリオ</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px">欠品 / 新商品鈍化、推定 -0.05pp</div>
+          </div>
+          <span style="color:#d97706;font-weight:900">→</span>
+        </a>
+        <a href="/2026h1/spot/2026-gw/05-customer-behavior.html" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#fff;border:1px solid #86efac;border-left:4px solid #2dae6c;border-radius:8px;text-decoration:none;color:#1a1a1a">
+          <span style="font-size:22px">👤</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:10px;font-weight:900;color:#2dae6c;letter-spacing:.08em">AREA 05</div>
+            <div style="font-size:13px;font-weight:800;line-height:1.4">顧客行動シフト</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px">リピーター層薄まり、推定 -0.04pp</div>
+          </div>
+          <span style="color:#2dae6c;font-weight:900">→</span>
+        </a>
+        <a href="/2026h1/spot/2026-gw/06-uiux.html" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#fff;border:1px solid #fca5a5;border-left:4px solid #c0392b;border-radius:8px;text-decoration:none;color:#1a1a1a">
+          <span style="font-size:22px">🏗</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:10px;font-weight:900;color:#c0392b;letter-spacing:.08em">AREA 06</div>
+            <div style="font-size:13px;font-weight:800;line-height:1.4">UIUX 構造課題</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px">BN Top3 4 週固着、推定 -0.07pp</div>
+          </div>
+          <span style="color:#c0392b;font-weight:900">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div style="padding:14px 44px 24px">
+      <div style="padding:14px 18px;background:#fef9e7;border-left:4px solid #d97706;border-radius:8px;font-size:13px;line-height:1.75">
+        <strong style="color:#9a3412">6 領域の責任分担</strong>: マクロ環境（CMO 戦略判断）／ 競合シェア（マーケ・ブランド）／ 価格戦略（Revenue Mgmt）／ 商品ポートフォリオ（商品企画・パートナー）／ 顧客行動（CRM・Analytics）／ UIUX 構造（UIUX Design Squad）。
+        <strong>5/6 領域は UIUX チームの範疇外</strong> — 経営層と他チームとの議論が必須。
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 — Roadmap -->
+  <div class="card" id="sec06">
+    <div class="spot-sec">
+      <span class="spot-sec-num">06</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">打ち手とロードマップ</span>
+      <h2 class="spot-sec-title">2026-Q2 リカバリーロードマップ（6 週で構造課題に着手）</h2>
+    </div>
+
+    <div class="spot-road">
+      <div class="spot-road-grid">
+        <div class="spot-road-step">
+          <div class="spot-road-when">Week 1 — 5/12</div>
+          <div class="spot-road-title">クロスチーム緊急ミーティング</div>
+          <div class="spot-road-body">マーケ / 価格 / 商品 / 競合 / SRE / Analytics + 経営層で本書を叩き台に議論。各チーム 7 日以内の初期データ持ち寄り合意。</div>
+        </div>
+        <div class="spot-road-step">
+          <div class="spot-road-when">Week 2-3 — 5/19-5/30</div>
+          <div class="spot-road-title">仮説検証データ集約</div>
+          <div class="spot-road-body">各チームから 6 領域それぞれの仮説検証結果（マーケ ROAS、価格弾性、欠品ログ、競合キャンペーン、bot 高度化、コホート分析）を共有。優先 3 施策を選定。</div>
+        </div>
+        <div class="spot-road-step">
+          <div class="spot-road-when">Week 4-5 — 6/2-6/13</div>
+          <div class="spot-road-title">並走実装フェーズ</div>
+          <div class="spot-road-body">UIUX BN Top3 Sprint 並行で、マーケ広告再配分・価格テスト・商品供給強化・WAF 高度化を実施。A/B 開始。</div>
+        </div>
+        <div class="spot-road-step">
+          <div class="spot-road-when">Week 6 — 6/16-6/22</div>
+          <div class="spot-road-title">効果検証 / 中間レビュー</div>
+          <div class="spot-road-body">夏需要本格化前に効果検証。実質 CVR が 2025 水準（1.50%）に戻る軌道か判定。届かない場合は次の四半期で追加投資を経営層判断。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 — Urgent actions -->
+  <div class="card" id="sec07">
+    <div class="spot-sec">
+      <span class="spot-sec-num red">07</span>
+      <span style="font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--text3);text-transform:uppercase">至急アクション</span>
+      <h2 class="spot-sec-title">本書を提示すべき 5 つの場面と、7 日以内の TODO</h2>
+    </div>
+
+    <div class="spot-actions">
+
+      <div class="spot-action p0">
+        <div class="spot-action-icon">🌻</div>
+        <div class="spot-action-body">
+          <span class="spot-action-prio">P0 最緊急</span>
+          <div class="spot-action-title">夏需要（7-8月 お盆）対策の 5月中意思決定 — 6月中投入が必須タイムライン</div>
+          <ul>
+            <li><strong>2026 7-8月で前年水準（1.49〜1.54%）を維持できるかが年間 KPI 達成の分岐点</strong></li>
+            <li>お盆繁忙期に効く施策は <strong>6 月中投入が現実的タイムライン</strong>、5 月中（残り 3 週）に仕様確定必須</li>
+            <li>UIUX BN Top3 / 価格戦略 / 商品在庫 / マーケ流入質の <strong>4 領域並走必須</strong></li>
+            <li>残り 3 週で意思決定が走らない場合、夏需要も -0.15〜-0.20pp の崩れが起き、年間 KPI 達成不能化</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="spot-action p0">
+        <div class="spot-action-icon">🚨</div>
+        <div class="spot-action-body">
+          <span class="spot-action-prio">P0 緊急</span>
+          <div class="spot-action-title">経営会議への escalation（5/12 週）</div>
+          <ul>
+            <li>本書を CMO / 事業責任者へ提示</li>
+            <li>「UIUX 単独では 1/6 領域しか担当できない」を明示</li>
+            <li>クロスチーム緊急 MTG の予算・人員配分を意思決定</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="spot-action p0">
+        <div class="spot-action-icon">📞</div>
+        <div class="spot-action-body">
+          <span class="spot-action-prio">P0 緊急</span>
+          <div class="spot-action-title">6 チームへの個別 brief（5/12-5/14）</div>
+          <ul>
+            <li>マーケ・価格・商品・競合・SRE・Analytics へ本書共有</li>
+            <li>各 7 日以内に「持ち寄りデータ」項目を合意</li>
+            <li>5/12 週 cross-team MTG アジェンダ確定</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="spot-action p1">
+        <div class="spot-action-icon">📊</div>
+        <div class="spot-action-body">
+          <span class="spot-action-prio">P1 重要</span>
+          <div class="spot-action-title">3 年データの公開ダッシュボード化</div>
+          <ul>
+            <li>kpi.html に 3 年 月次比較ビュー追加</li>
+            <li>raw / 実質（bot 除外）/ 前年同期 の 3 軸併記運用</li>
+            <li>意思決定の共通基盤として全社展開</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="spot-action p2">
+        <div class="spot-action-icon">🔬</div>
+        <div class="spot-action-body">
+          <span class="spot-action-prio">P2 並走</span>
+          <div class="spot-action-title">2025 → 2026 構造劣化の因数分解 SQL</div>
+          <ul>
+            <li>BigQuery で Q1 -0.15pp の内訳を SQL 抽出</li>
+            <li>セグメント × エリア × チャネル別 YoY 比較</li>
+            <li>5/16 までに結果共有、5/19 MTG の議論素材に</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Return / related -->
+  <div class="card">
+    <div class="spot-return">
+      <div style="font-size:13px;color:var(--text2);line-height:1.7">
+        <strong style="color:var(--text)">関連ドキュメント</strong><br>
+        <a href="/2026h1/reports/2026-h1/2026-w19/">W19 サマリー（緊急クロスチーム版）</a> ／
+        <a href="/2026h1/kpi.html">KPI ダッシュボード</a> ／
+        <a href="/index.html">トップ</a>
+      </div>
+      <div style="font-size:11px;color:var(--text3);text-align:right">
+        2026-05-11 v1 / UIUX Design Squad<br>
+        次回更新: 6/16 中間レビュー後
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="/nav.js"></script>
+</body>
+</html>

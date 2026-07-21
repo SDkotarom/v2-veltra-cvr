@@ -148,42 +148,42 @@
   // 2026 上半期 = W1〜W26 → 2026-h1、下半期 = W27〜 → 2026-h2。
   function weekDirFor(week) {
     var m = /^(\d{4})-w(\d+)$/.exec(week || '');
-    if (!m) return '/reports/';
-    return '/reports/' + m[1] + '-' + (parseInt(m[2], 10) <= 26 ? 'h1' : 'h2') + '/' + week + '/';
+    if (!m) return '/2026h1/reports/';
+    return '/2026h1/reports/' + m[1] + '-' + (parseInt(m[2], 10) <= 26 ? 'h1' : 'h2') + '/' + week + '/';
   }
   var isTop      = (path === '/' || path === '/index.html');
-  var isCvr      = (path === '/cvr.html');
-  var isKpi      = (path === '/kpi.html');
-  var isCycle    = (path === '/cycle.html');
-  var isAnalysis = (path === '/analysis.html');
-  var isBehaviorGuide = (path === '/behavior-guide.html');
-  var isEntryJourney = (path === '/entry-journey.html');
-  var isPlanning = (path === '/planning/' || path === '/planning/index.html');
-  var isPlanningItem = /^\/planning\/.+\.html$/.test(path) && !isPlanning;
-  var isGwDecline = (path === '/spot/2026-gw-cvr-decline.html');
-  var isGwMacro = (path === '/spot/2026-gw/01-macro.html');
-  var isGwCompetitive = (path === '/spot/2026-gw/02-competitive.html');
-  var isGwPricing = (path === '/spot/2026-gw/03-pricing.html');
-  var isGwProduct = (path === '/spot/2026-gw/04-product.html');
-  var isGwBehavior = (path === '/spot/2026-gw/05-customer-behavior.html');
-  var isGwUiux = (path === '/spot/2026-gw/06-uiux.html');
+  var isCvr      = (path === '/2026h1/cvr.html');
+  var isKpi      = (path === '/2026h1/kpi.html');
+  var isCycle    = (path === '/2026h1/cycle.html');
+  var isAnalysis = (path === '/2026h1/analysis.html');
+  var isBehaviorGuide = (path === '/2026h1/behavior-guide.html');
+  var isEntryJourney = (path === '/2026h1/entry-journey.html');
+  var isPlanning = (path === '/2026h1/planning/' || path === '/2026h1/planning/index.html');
+  var isPlanningItem = /^\/2026h1\/planning\/.+\.html$/.test(path) && !isPlanning;
+  var isGwDecline = (path === '/2026h1/spot/2026-gw-cvr-decline.html');
+  var isGwMacro = (path === '/2026h1/spot/2026-gw/01-macro.html');
+  var isGwCompetitive = (path === '/2026h1/spot/2026-gw/02-competitive.html');
+  var isGwPricing = (path === '/2026h1/spot/2026-gw/03-pricing.html');
+  var isGwProduct = (path === '/2026h1/spot/2026-gw/04-product.html');
+  var isGwBehavior = (path === '/2026h1/spot/2026-gw/05-customer-behavior.html');
+  var isGwUiux = (path === '/2026h1/spot/2026-gw/06-uiux.html');
   var isGwSub = isGwMacro || isGwCompetitive || isGwPricing || isGwProduct || isGwBehavior || isGwUiux;
-  var isAcDiscovery = (path === '/spot/2026-ac-discovery.html');
-  var isSurfaceWf = (path === '/spot/2026-surface-wireframes.html');
-  var isMayJunCvr = /^\/spot\/2026-may-jun-cvr-trend(\.html)?$/.test(path);
-  var isH1Wrap = /^\/spot\/2026-h1-cvr-wrap(\.html)?$/.test(path);
-  var isH2UxMission = /^\/spot\/2026-h2-ux-squad-mission(\.html)?$/.test(path);
-  var isVeltraTopSection = /^\/spot\/veltra-top-section-visibility(\.html)?$/.test(path);
-  var isTaiwanSection = /^\/spot\/taiwan-section-visibility(\.html)?$/.test(path);
-  var isJiufenSection = /^\/spot\/jiufen-category-section-visibility(\.html)?$/.test(path);
-  var isAcSection = /^\/spot\/ac-page-section-visibility(\.html)?$/.test(path);
-  var isPainFramework = /^\/spot\/traveler-pain-framework(\.html)?$/.test(path);
+  var isAcDiscovery = (path === '/2026h1/spot/2026-ac-discovery.html');
+  var isSurfaceWf = (path === '/2026h1/spot/2026-surface-wireframes.html');
+  var isMayJunCvr = /^\/2026h1\/spot\/2026-may-jun-cvr-trend(\.html)?$/.test(path);
+  var isH1Wrap = /^\/2026h1\/spot\/2026-h1-cvr-wrap(\.html)?$/.test(path);
+  var isH2UxMission = /^\/2026h2\/(index\.html)?$/.test(path);
+  var isVeltraTopSection = /^\/2026h1\/spot\/veltra-top-section-visibility(\.html)?$/.test(path);
+  var isTaiwanSection = /^\/2026h1\/spot\/taiwan-section-visibility(\.html)?$/.test(path);
+  var isJiufenSection = /^\/2026h1\/spot\/jiufen-category-section-visibility(\.html)?$/.test(path);
+  var isAcSection = /^\/2026h1\/spot\/ac-page-section-visibility(\.html)?$/.test(path);
+  var isPainFramework = /^\/2026h1\/spot\/traveler-pain-framework(\.html)?$/.test(path);
   var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isAcDiscovery || isSurfaceWf || isMayJunCvr || isH1Wrap || isH2UxMission || isVeltraTopSection || isTaiwanSection || isJiufenSection || isAcSection || isPainFramework;
-  var isArchive = (path === '/reports/' || path === '/reports/index.html');
-  var isWeekSummary = !isArchive && /\/reports\/(?:\d{4}-h[12]\/)?\d{4}-w\d+\/(?:index\.html)?$/.test(path);
+  var isArchive = (path === '/2026h1/reports/' || path === '/2026h1/reports/index.html');
+  var isWeekSummary = !isArchive && /\/2026h1\/reports\/(?:\d{4}-h[12]\/)?\d{4}-w\d+\/(?:index\.html)?$/.test(path);
   var qp = new URLSearchParams(location.search);
-  var isBottleneck  = /\/bottleneck\.html$/.test(path) && qp.has('num');
-  var isReport = /\/report\.html$/.test(path) && qp.has('week');
+  var isBottleneck  = /\/2026h1\/bottleneck\.html$/.test(path) && qp.has('num');
+  var isReport = /\/2026h1\/report\.html$/.test(path) && qp.has('week');
 
   var weekDir = '';
   var bnNum   = 0;
@@ -238,7 +238,7 @@
 
     var wid = currentWeekId ? currentWeekId.replace('2026-', '').toUpperCase() : '';
     var homeA = mkA('ホーム', '/');
-    var bnA   = mkA('ボトルネック分析', '/reports/');
+    var bnA   = mkA('ボトルネック分析', '/2026h1/reports/');
 
     if (isArchive) {
       append(homeA, mkCurrent('ボトルネック分析'));
@@ -255,7 +255,7 @@
     } else if (isAcDiscovery) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('新規ユーザー転換｜探索分解と施策'));
     } else if (isSurfaceWf) {
-      append(homeA, mkCurrent('スポット分析'), mkA('新規ユーザー転換｜探索分解と施策', '/spot/2026-ac-discovery.html'), mkCurrent('画面別 改修ワイヤー'));
+      append(homeA, mkCurrent('スポット分析'), mkA('新規ユーザー転換｜探索分解と施策', '/2026h1/spot/2026-ac-discovery.html'), mkCurrent('画面別 改修ワイヤー'));
     } else if (isVeltraTopSection) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('セクション閲覧｜ベルトラTOPページ'));
     } else if (isTaiwanSection) {
@@ -275,7 +275,7 @@
     } else if (isPlanning) {
       append(homeA, mkCurrent('施策案'));
     } else if (isPlanningItem) {
-      append(homeA, mkA('施策案', '/planning/'), mkCurrent('ドキュメント'));
+      append(homeA, mkA('施策案', '/2026h1/planning/'), mkCurrent('ドキュメント'));
     } else if (isGwDecline) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('2026 GW CVR 構造低下'));
     } else if (isGwSub) {
@@ -286,11 +286,11 @@
         : isGwBehavior ? '05 顧客行動'
         : isGwUiux ? '06 UIUX 構造課題'
         : '';
-      append(homeA, mkCurrent('スポット分析'), mkA('2026 GW CVR 構造低下', '/spot/2026-gw-cvr-decline.html'), mkCurrent(subLabel));
+      append(homeA, mkCurrent('スポット分析'), mkA('2026 GW CVR 構造低下', '/2026h1/spot/2026-gw-cvr-decline.html'), mkCurrent(subLabel));
     } else if (isWeekSummary || isReport) {
       append(homeA, bnA, mkCurrent(wid));
     } else if (isBottleneck) {
-      var weekHref = currentWeekId ? weekDirFor(currentWeekId) : '/reports/';
+      var weekHref = currentWeekId ? weekDirFor(currentWeekId) : '/2026h1/reports/';
       var bnEl = mkCurrent('#' + bnNum);
       bcLastEl = bnEl;
       append(homeA, bnA, mkA(wid, weekHref), bnEl);
@@ -309,40 +309,40 @@
   // Hierarchical: items may have a `children` array for sub-pages.
   // 新しい順（新しいものが上 = 大きい番号）。番号は描画時に position から自動採番。
   var SPOT_ITEMS = [
-    { id: 'pain-framework', href: '/spot/traveler-pain-framework.html', label: 'Traveler ペイン洗い出しフレームワーク', match: function(){ return isPainFramework; } },
-    { id: 'h2-ux-mission', href: '/spot/2026-h2-ux-squad-mission.html', label: 'UX Design Squad｜2026 H2 ミッション', match: function(){ return isH2UxMission; } },
-    { id: 'h1-wrap', href: '/spot/2026-h1-cvr-wrap.html', label: '3-6月 CVR改善プロジェクト 振り返り', match: function(){ return isH1Wrap; } },
-    { id: 'mayjun-cvr', href: '/spot/2026-may-jun-cvr-trend.html', label: '繁忙期前のCVR反落｜何が伸びなかったか', match: function(){ return isMayJunCvr; } },
+    { id: 'pain-framework', href: '/2026h1/spot/traveler-pain-framework.html', label: 'Traveler ペイン洗い出しフレームワーク', match: function(){ return isPainFramework; } },
+    { id: 'h2-ux-mission', href: '/2026h2/', label: 'UX Design Squad｜2026 H2 ミッション', match: function(){ return isH2UxMission; } },
+    { id: 'h1-wrap', href: '/2026h1/spot/2026-h1-cvr-wrap.html', label: '3-6月 CVR改善プロジェクト 振り返り', match: function(){ return isH1Wrap; } },
+    { id: 'mayjun-cvr', href: '/2026h1/spot/2026-may-jun-cvr-trend.html', label: '繁忙期前のCVR反落｜何が伸びなかったか', match: function(){ return isMayJunCvr; } },
     {
       id: 'ac-discovery',
-      href: '/spot/2026-ac-discovery.html',
+      href: '/2026h1/spot/2026-ac-discovery.html',
       label: '新規ユーザー転換｜探索分解と施策',
       match: function(){ return isAcDiscovery; },
       hasActiveChild: function(){ return isSurfaceWf; },
       children: [
-        { id: 'surface-wf', href: '/spot/2026-surface-wireframes.html', label: '画面別 改修ワイヤー', match: function(){ return isSurfaceWf; } }
+        { id: 'surface-wf', href: '/2026h1/spot/2026-surface-wireframes.html', label: '画面別 改修ワイヤー', match: function(){ return isSurfaceWf; } }
       ]
     },
-    { id: 'sec-veltra-top', href: '/spot/veltra-top-section-visibility.html', label: 'セクション閲覧｜ベルトラTOPページ', match: function(){ return isVeltraTopSection; } },
-    { id: 'sec-taiwan', href: '/spot/taiwan-section-visibility.html', label: 'セクション閲覧｜台湾トップページ', match: function(){ return isTaiwanSection; } },
-    { id: 'sec-jiufen', href: '/spot/jiufen-category-section-visibility.html', label: 'セクション閲覧｜九份カテゴリーページ', match: function(){ return isJiufenSection; } },
-    { id: 'sec-ac', href: '/spot/ac-page-section-visibility.html', label: 'セクション閲覧｜商品詳細(AC)ページ', match: function(){ return isAcSection; } },
+    { id: 'sec-veltra-top', href: '/2026h1/spot/veltra-top-section-visibility.html', label: 'セクション閲覧｜ベルトラTOPページ', match: function(){ return isVeltraTopSection; } },
+    { id: 'sec-taiwan', href: '/2026h1/spot/taiwan-section-visibility.html', label: 'セクション閲覧｜台湾トップページ', match: function(){ return isTaiwanSection; } },
+    { id: 'sec-jiufen', href: '/2026h1/spot/jiufen-category-section-visibility.html', label: 'セクション閲覧｜九份カテゴリーページ', match: function(){ return isJiufenSection; } },
+    { id: 'sec-ac', href: '/2026h1/spot/ac-page-section-visibility.html', label: 'セクション閲覧｜商品詳細(AC)ページ', match: function(){ return isAcSection; } },
     {
       id: 'gw-decline',
-      href: '/spot/2026-gw-cvr-decline.html',
+      href: '/2026h1/spot/2026-gw-cvr-decline.html',
       label: '2026 GW CVR 構造低下',
       match: function(){ return isGwDecline; },
       hasActiveChild: function(){ return isGwSub; },
       children: [
-        { id: 'gw-01', href: '/spot/2026-gw/01-macro.html',             label: '01 マクロ環境',    match: function(){ return isGwMacro; } },
-        { id: 'gw-02', href: '/spot/2026-gw/02-competitive.html',       label: '02 競合シェア',    match: function(){ return isGwCompetitive; } },
-        { id: 'gw-03', href: '/spot/2026-gw/03-pricing.html',           label: '03 価格戦略',      match: function(){ return isGwPricing; } },
-        { id: 'gw-04', href: '/spot/2026-gw/04-product.html',           label: '04 商品',          match: function(){ return isGwProduct; } },
-        { id: 'gw-05', href: '/spot/2026-gw/05-customer-behavior.html', label: '05 顧客行動',      match: function(){ return isGwBehavior; } },
-        { id: 'gw-06', href: '/spot/2026-gw/06-uiux.html',              label: '06 UIUX 構造課題', match: function(){ return isGwUiux; } }
+        { id: 'gw-01', href: '/2026h1/spot/2026-gw/01-macro.html',             label: '01 マクロ環境',    match: function(){ return isGwMacro; } },
+        { id: 'gw-02', href: '/2026h1/spot/2026-gw/02-competitive.html',       label: '02 競合シェア',    match: function(){ return isGwCompetitive; } },
+        { id: 'gw-03', href: '/2026h1/spot/2026-gw/03-pricing.html',           label: '03 価格戦略',      match: function(){ return isGwPricing; } },
+        { id: 'gw-04', href: '/2026h1/spot/2026-gw/04-product.html',           label: '04 商品',          match: function(){ return isGwProduct; } },
+        { id: 'gw-05', href: '/2026h1/spot/2026-gw/05-customer-behavior.html', label: '05 顧客行動',      match: function(){ return isGwBehavior; } },
+        { id: 'gw-06', href: '/2026h1/spot/2026-gw/06-uiux.html',              label: '06 UIUX 構造課題', match: function(){ return isGwUiux; } }
       ]
     },
-    { id: 'entry-journey', href: '/entry-journey.html', label: 'エントリー別CVRジャーニー', match: function(){ return isEntryJourney; } }
+    { id: 'entry-journey', href: '/2026h1/entry-journey.html', label: 'エントリー別CVRジャーニー', match: function(){ return isEntryJourney; } }
   ];
 
   // ── SVG icons ────────────────────────────────────
@@ -439,7 +439,7 @@
 
   // ── Render helpers ───────────────────────────────
   function bnLinkHref(w, n) {
-    return '/bottleneck.html?week=' + w.week_id + '&num=' + n;
+    return '/2026h1/bottleneck.html?week=' + w.week_id + '&num=' + n;
   }
 
   function renderWeekBlock(w, bns, isLatest) {
@@ -585,7 +585,7 @@
 
     // ■ CVR サマリー
     var sumA = document.createElement('a');
-    sumA.href = '/cvr.html';
+    sumA.href = '/2026h1/cvr.html';
     sumA.className = 'nav-item' + (isCvr ? ' nav-active' : '');
     sumA.appendChild(makeIcon('summary'));
     sumA.appendChild(document.createTextNode('CVR サマリー'));
@@ -593,7 +593,7 @@
 
     // ■ KPIダッシュボード
     var kpiA = document.createElement('a');
-    kpiA.href = '/kpi.html';
+    kpiA.href = '/2026h1/kpi.html';
     kpiA.className = 'nav-item' + (isKpi ? ' nav-active' : '');
     kpiA.appendChild(makeIcon('kpi'));
     kpiA.appendChild(document.createTextNode('KPIダッシュボード'));
@@ -605,7 +605,7 @@
     planRow.className = 'nav-spot-row' + (isPlanning || isPlanningItem ? ' has-active' : '');
     planRow.appendChild(makeIcon('planning'));
     var planLabelWrap = document.createElement('a');
-    planLabelWrap.href = '/planning/';
+    planLabelWrap.href = '/2026h1/planning/';
     planLabelWrap.className = 'nav-spot-label';
     planLabelWrap.style.cssText = 'color:inherit;text-decoration:none;display:block';
     planLabelWrap.textContent = '施策案';
@@ -638,7 +638,7 @@
     nav.appendChild(planList);
 
     // Populate planning sub-items async from manifest.json
-    fetch('/planning/manifest.json', { cache: 'no-store' })
+    fetch('/2026h1/planning/manifest.json', { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
         var items = (data && data.items) || [];
@@ -652,10 +652,10 @@
         }
         items.forEach(function (it) {
           var hasChildren = it.children && it.children.length > 0;
-          var itemHref = '/planning/' + it.file;
+          var itemHref = '/2026h1/planning/' + it.file;
           var isItemActive = (path === itemHref);
           var hasActiveChild = hasChildren && it.children.some(function (c) {
-            return path === '/planning/' + c.file;
+            return path === '/2026h1/planning/' + c.file;
           });
 
           if (hasChildren) {
@@ -688,8 +688,8 @@
               var ci = document.createElement('div');
               ci.className = 'nav-spot-child';
               var ca = document.createElement('a');
-              ca.href = '/planning/' + c.file;
-              if (path === '/planning/' + c.file) ca.className = 'nav-active';
+              ca.href = '/2026h1/planning/' + c.file;
+              if (path === '/2026h1/planning/' + c.file) ca.className = 'nav-active';
               var cdot = document.createElement('span');
               cdot.className = 'child-dot';
               cdot.textContent = '●';
@@ -837,7 +837,7 @@
 
     // ■ ボトルネック分析
     var bnA = document.createElement('a');
-    bnA.href = '/reports/';
+    bnA.href = '/2026h1/reports/';
     bnA.className = 'nav-item' + (isArchive || isWeekSummary || isBottleneck ? ' nav-active' : '');
     bnA.appendChild(makeIcon('bottleneck'));
     bnA.appendChild(document.createTextNode('ボトルネック分析'));
@@ -856,7 +856,7 @@
 
     // ■ CVR改善サイクル
     var cycleA = document.createElement('a');
-    cycleA.href = '/cycle.html';
+    cycleA.href = '/2026h1/cycle.html';
     cycleA.className = 'nav-item' + (isCycle ? ' nav-active' : '');
     cycleA.appendChild(makeIcon('cycle'));
     cycleA.appendChild(document.createTextNode('CVR改善サイクル'));
@@ -864,7 +864,7 @@
 
     // ■ 分析ガイド
     var analysisA = document.createElement('a');
-    analysisA.href = '/analysis.html';
+    analysisA.href = '/2026h1/analysis.html';
     analysisA.className = 'nav-item' + (isAnalysis ? ' nav-active' : '');
     analysisA.appendChild(makeIcon('analysis'));
     analysisA.appendChild(document.createTextNode('分析ガイド'));
@@ -872,7 +872,7 @@
 
     // ■ 行動仮説ガイド
     var behaviorA = document.createElement('a');
-    behaviorA.href = '/behavior-guide.html';
+    behaviorA.href = '/2026h1/behavior-guide.html';
     behaviorA.className = 'nav-item' + (isBehaviorGuide ? ' nav-active' : '');
     behaviorA.appendChild(makeIcon('analysis'));
     behaviorA.appendChild(document.createTextNode('行動仮説ガイド'));
@@ -910,7 +910,7 @@
       var item = document.createElement('div');
       item.className = 'nav-bn-item';
       var a = document.createElement('a');
-      a.href = '/bottleneck.html?week=' + weekId + '&num=' + bn.rank;
+      a.href = '/2026h1/bottleneck.html?week=' + weekId + '&num=' + bn.rank;
       if (currentWeekId === weekId && bn.rank === bnNum) a.className = 'nav-active';
       var num = document.createElement('span');
       num.className = 'bn-num';

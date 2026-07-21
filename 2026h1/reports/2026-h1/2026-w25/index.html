@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/summary.css">
+<title>W25（6/14〜6/20）サマリー | ほぼ横ばい週。繁忙期入り直前、残る本丸は「新規の完了」と「モバイル完了」</title>
+<style>
+/* ───── W25 flat-week infographic ───── */
+.rec-hero{padding:32px 44px 28px;background:linear-gradient(135deg,#fffaf3 0%,#fff 70%);border-bottom:3px solid #d97706}
+.rec-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:.14em;color:#fff;background:#d97706;padding:6px 14px;border-radius:4px;margin-bottom:18px;text-transform:uppercase}
+.rec-tag::before{content:'➖';font-size:14px}
+.rec-headline{font-size:28px;font-weight:900;line-height:1.45;margin-bottom:16px;letter-spacing:-.01em;color:#1a1a1a}
+.rec-headline em{font-style:normal;color:#c0392b;background:linear-gradient(transparent 60%,#ffe1df 60%);padding:0 2px}
+.rec-headline em.ok{color:#1a8c4e;background:linear-gradient(transparent 60%,#bbf7d0 60%)}
+.rec-sub{font-size:14px;color:var(--text2);line-height:1.85;margin-bottom:20px}
+.rec-sub p{margin:0 0 13px}
+.rec-sub p:last-child{margin-bottom:0}
+.rec-sub strong{color:#1a1a1a}
+
+/* KPI strip */
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0 8px}
+.kpi-card{background:#fff;border:2px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left}
+.kpi-card.up{border-color:#1a8c4e;background:#f0fbf4}
+.kpi-card.gap{border-color:#c0392b;background:#fff5f5}
+.kpi-card.struct{border-color:#d97706;background:#fffbeb}
+.kpi-card.clock{border-color:#1b82c5;background:#f0f7fc}
+.kpi-label{font-size:10px;font-weight:900;letter-spacing:.1em;color:var(--text3);margin-bottom:6px;text-transform:uppercase}
+.kpi-val{font-family:'DM Sans';font-size:28px;font-weight:900;line-height:1;letter-spacing:-.02em}
+.kpi-card.up .kpi-val{color:#1a8c4e}
+.kpi-card.gap .kpi-val{color:#c0392b}
+.kpi-card.struct .kpi-val{color:#d97706}
+.kpi-card.clock .kpi-val{color:#1b82c5}
+.kpi-delta{font-size:11px;font-weight:700;color:var(--text3);margin-top:6px;line-height:1.55}
+.kpi-delta.up{color:#1a8c4e}
+.kpi-delta.down{color:#c0392b}
+.kpi-delta.warn{color:#d97706}
+
+/* Evidence cards */
+.evidence-block{padding:8px 44px 28px}
+.evidence-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.evidence-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:#fff;border-left:4px solid #1b82c5}
+.evidence-card.up{border-left-color:#1a8c4e;background:#f0fbf4}
+.evidence-card.down{border-left-color:#c0392b;background:#fff5f5}
+.evidence-card.struct{border-left-color:#d97706;background:#fffbeb}
+.evidence-card.peak{border-left-color:#1b82c5;background:#f0f7fc}
+.ev-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ev-icon{font-size:20px;line-height:1}
+.ev-title{font-size:13px;font-weight:900;letter-spacing:.02em;line-height:1.4}
+.ev-body{font-size:12px;color:var(--text2);line-height:1.7}
+.ev-body strong{color:var(--text)}
+.ev-bar{display:flex;align-items:center;gap:8px;font-family:'DM Sans';font-size:13px;font-weight:900;margin:8px 0;color:#1a1a1a}
+.ev-bar-bg{flex:1;height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden}
+.ev-bar-fill{height:100%;background:#1b82c5;border-radius:4px}
+.evidence-card.up .ev-bar-fill{background:#1a8c4e}
+.evidence-card.down .ev-bar-fill{background:#c0392b}
+.evidence-card.struct .ev-bar-fill{background:#d97706}
+.evidence-card.peak .ev-bar-fill{background:#1b82c5}
+
+/* 10-week sparkline */
+.flat-spark{display:flex;align-items:flex-end;gap:5px;height:60px;margin:10px 0 4px;border-bottom:1px solid var(--border);padding-bottom:4px}
+.fs-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.fs-bar{width:100%;background:#94a3b8;border-radius:2px 2px 0 0;min-height:2px;opacity:.85}
+.fs-bar.peak{background:#1a8c4e;opacity:1}
+.fs-bar.now{background:#d97706;opacity:1}
+.fs-label{font-size:8.5px;color:var(--text3);font-weight:700}
+.fs-label.now{color:#d97706;font-weight:900}
+
+/* 4-layer ladder */
+.lyr-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0 4px}
+.lyr-card{border:1px solid var(--border);border-radius:8px;padding:12px;background:#fff;position:relative}
+.lyr-card.l1{border-top:4px solid #64748b}
+.lyr-card.l2{border-top:4px solid #1a8c4e}
+.lyr-card.l3{border-top:4px solid #1b82c5}
+.lyr-card.l4{border-top:4px solid #d97706}
+.lyr-no{font-family:'DM Sans';font-weight:900;font-size:12px;letter-spacing:.04em;margin-bottom:4px}
+.lyr-card.l1 .lyr-no{color:#64748b}.lyr-card.l2 .lyr-no{color:#1a8c4e}.lyr-card.l3 .lyr-no{color:#1b82c5}.lyr-card.l4 .lyr-no{color:#d97706}
+.lyr-name{font-size:12.5px;font-weight:900;color:var(--text);margin-bottom:6px}
+.lyr-kpi{font-size:10.5px;color:var(--text3);font-weight:700;line-height:1.5}
+.lyr-up{font-size:10.5px;color:var(--text2);line-height:1.55;margin-top:6px;border-top:1px dashed var(--border);padding-top:6px}
+.lyr-up b{color:var(--text)}
+
+/* Action cards */
+.action-block{padding:8px 44px 28px}
+.action-list{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+.action-item{display:flex;gap:18px;padding:18px 22px;background:#fff;border:1px solid var(--border);border-radius:12px;border-left:6px solid var(--red)}
+.action-item.p1{border-left-color:#c0392b}
+.action-item.p2{border-left-color:#1b82c5}
+.action-item.p3{border-left-color:#d97706}
+.action-icon{font-size:30px;line-height:1;flex-shrink:0}
+.action-body{flex:1;min-width:0}
+.action-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.action-prio{font-family:'DM Sans';font-size:11px;font-weight:900;padding:3px 8px;color:#fff;border-radius:4px;letter-spacing:.05em;white-space:nowrap}
+.action-item.p1 .action-prio{background:#c0392b}
+.action-item.p2 .action-prio{background:#1b82c5}
+.action-item.p3 .action-prio{background:#d97706}
+.action-when{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.04em;white-space:nowrap}
+.action-title{font-size:16px;font-weight:800;line-height:1.45;margin-bottom:8px}
+.action-bullets{margin:0;padding:0;list-style:none}
+.action-bullets li{font-size:12.5px;color:var(--text2);line-height:1.7;padding-left:14px;position:relative;margin-bottom:4px}
+.action-bullets li::before{content:'▸';position:absolute;left:0;font-weight:900;color:var(--red)}
+.action-item.p1 .action-bullets li::before{color:#c0392b}
+.action-item.p2 .action-bullets li::before{color:#1b82c5}
+.action-item.p3 .action-bullets li::before{color:#d97706}
+.action-bullets li strong{color:var(--text)}
+.action-bullets li a{color:#1b82c5;font-weight:700;text-decoration:underline}
+
+/* Top3 BN list inside action */
+.asl-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 4px}
+.asl-card{background:#f5f4f0;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.55;color:var(--text2);text-decoration:none;display:block;transition:background .15s}
+.asl-card:hover{background:#fff}
+.asl-rank{font-family:'DM Sans';font-weight:900;font-size:11px;color:#c0392b;letter-spacing:.05em;margin-bottom:4px}
+.asl-title{font-weight:800;color:var(--text);font-size:12px;line-height:1.5;margin-bottom:4px}
+.asl-meta{font-size:10px;color:var(--text3);font-family:'DM Sans';font-weight:700}
+
+/* timeline plan */
+.plan-row{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:8px 0;border-top:1px dashed var(--border);font-size:12.5px;line-height:1.6}
+.plan-wk{font-family:'DM Sans';font-weight:900;color:#1b82c5;font-size:12px}
+.plan-row strong{color:var(--text)}
+
+/* bot footnote */
+.bot-note{margin:6px 44px 0;padding:10px 14px;background:#faf8f5;border:1px dashed var(--border);border-radius:8px;font-size:11.5px;color:var(--text3);line-height:1.7}
+.bot-note strong{color:var(--text2)}
+
+@media(max-width:768px){
+  .rec-hero{padding:24px 22px 22px}
+  .rec-headline{font-size:22px}
+  .kpi-strip,.evidence-grid,.asl-list,.lyr-wrap{grid-template-columns:1fr}
+  .evidence-block,.action-block{padding-left:22px;padding-right:22px}
+  .plan-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- ── Header ─────────────────────────────── -->
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">週次サマリー<br><strong>W25（6/14〜6/20）ほぼ横ばい週。繁忙期入り直前、残る本丸は「新規の完了」と「モバイル完了」</strong></div>
+    </div>
+    <div style="padding:18px 44px;display:flex;gap:32px;flex-wrap:wrap;font-size:12px;line-height:1.7;color:var(--text2)">
+      <div><span style="color:var(--text3);font-weight:700">分析対象</span><br>W25 単週 + W16〜W25 の構造トレンド</div>
+      <div><span style="color:var(--text3);font-weight:700">比較基準</span><br>実質 CVR（bot 除外）/ 主目標 1.515% / 前年6月 1.677%</div>
+      <div><span style="color:var(--text3);font-weight:700">発行</span><br>2026-06-30 / 繁忙期（7-8月）まで残り約1週</div>
+      <div><span style="color:var(--text3);font-weight:700">GA4</span><br>347074845</div>
+    </div>
+  </div>
+
+  <!-- ─────────── 01 結論 ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">01</span><span class="sec-main">結論 — ほぼ横ばい週。来訪も予約も微増だが実質CVRは小幅に低下。繁忙期入り直前、構造課題は前週から動かず</span></div>
+
+    <div class="rec-hero">
+      <div class="rec-tag">ほぼ横ばい</div>
+      <div class="rec-headline">
+        W25は来訪・予約とも微増、実質CVRは <em>1.42% → 1.35%</em> と小幅に低下。<br>
+        「②→③ AC到達→検討」の<em class="ok">比率は改善方向</em>だが、AC到達の母数が縮小しており<em>絶対数では喜べない</em>。<br>
+        繁忙期入り直前、本丸は依然 <em>新規のフォーム完了</em> と <em>モバイルの完了</em>。
+      </div>
+      <div class="rec-sub">
+        <p>来訪 843,365（前週比 +1.9%）に対し、予約完了 9,890 → 9,972 件（+0.8%）。来訪の伸びが予約の伸びをわずかに上回り、実質 CVR は 1.42% → 1.35%（−0.07pp）。<strong>需要は維持されているが、転換は加速できていない</strong>横ばい週。</p>
+        <p>明るい材料は、前週まで最大の壁だった <strong>②→③（AC到達→検討）が28dで 9.1% → 11.6%</strong>（新規も 5.0% → 6.6%）と改善方向に動いたこと。ただし同期間で <strong>AC到達の母数自体が 130万 → 106万へ縮小</strong>しており、比率上昇の一部は分母の縮小によるもの。<strong>検討到達の絶対数で効果を確認</strong>してから施策化を判断する。</p>
+        <p>論点は「繁忙期（7-8月）へ向けて伸ばせているか」。実質CVRは<strong>目標1.515%・繁忙期帯1.48〜1.54%に未達</strong>。残り約1週、火力は最大インパクトの <strong>新規の意向→完了（BN1）</strong>と、繁忙期に比率が上がる <strong>モバイルの完了</strong>に寄せる。</p>
+      </div>
+
+      <!-- KPI strip 4-cell -->
+      <div class="kpi-strip">
+        <div class="kpi-card gap">
+          <div class="kpi-label">実質 CVR（W25 7d・bot除外）</div>
+          <div class="kpi-val">1.35%</div>
+          <div class="kpi-delta down">W24 1.42% から −0.07pp<br>目標1.515%・繁忙期帯1.48〜1.54%に未達</div>
+        </div>
+        <div class="kpi-card up">
+          <div class="kpi-label">AC到達→検討（②→③・28d）</div>
+          <div class="kpi-val">11.6%</div>
+          <div class="kpi-delta up">前週28d 9.1% から +2.5pp（改善方向）<br>※母数縮小の影響あり・絶対数で要確認</div>
+        </div>
+        <div class="kpi-card struct">
+          <div class="kpi-label">新規 意向→完了（④→⑤・28d）</div>
+          <div class="kpi-val">50.5%</div>
+          <div class="kpi-delta warn">全体 75.0% に対し −24.5pp<br>最大インパクト 約504,400（BN1）</div>
+        </div>
+        <div class="kpi-card clock">
+          <div class="kpi-label">繁忙期まで</div>
+          <div class="kpi-val">約1週</div>
+          <div class="kpi-delta">7-8月（過去2年 1.48〜1.54%）<br>新規×モバイルが急増する局面</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bot-note">
+      <strong>※ bot について（本レポートの主題ではない）：</strong>W16から続く Chromium Headless 系 bot は W25 も継続。今週は <strong>China 106,728 セッション（週内 12.7%／activeUsers÷sessions ≈ 1.04 ＝ セッション再利用ゼロの機械指紋・購入わずか12件）</strong>が主因で、前週まで併発していた Singapore スパイクは 8,043 まで沈静化。新規インシデントではなく慢性ノイズのため、議論の主軸は実質 CVR（bot 除外 1.35%）に置く。WAF 恒久化と日次再来アラートは SRE 側で並行。raw 7d CVR 1.18% は分母希釈後の見かけ値。
+    </div>
+  </div>
+
+  <!-- ─────────── 02 論拠 ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">事実 — 横ばいの中身。①需要は維持 ②②→③は改善方向（要・絶対数確認） ③本丸は新規完了とモバイル</span></div>
+    <div class="sec-sub" style="padding-top:6px">来訪も予約も微増の横ばい週。繁忙期へ向け、注視すべきは次の3点。</div>
+
+    <div class="evidence-block">
+      <div class="evidence-grid">
+
+        <!-- Evidence 1: flat week, demand held -->
+        <div class="evidence-card down">
+          <div class="ev-head">
+            <span class="ev-icon">➖</span>
+            <span class="ev-title">① 需要は維持、転換は加速できず</span>
+          </div>
+          <div class="ev-body">
+            実質CVRは W23 <strong>1.51%</strong> → W24 <strong>1.42%</strong> → W25 <strong>1.35%</strong>。来訪 +1.9%・予約 +0.8% と<strong>需要は維持</strong>するも、来訪の伸びが予約をわずかに上回り CVR は小幅低下。崩落ではなく<strong>足踏み</strong>。
+          </div>
+          <div class="flat-spark">
+            <div class="fs-col"><div class="fs-bar" style="height:80%"></div><div class="fs-label">W16</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:81%"></div><div class="fs-label">W17</div></div>
+            <div class="fs-col"><div class="fs-bar peak" style="height:96%"></div><div class="fs-label">W18</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:80%"></div><div class="fs-label">W19</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:85%"></div><div class="fs-label">W20</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:80%"></div><div class="fs-label">W21</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:84%"></div><div class="fs-label">W22</div></div>
+            <div class="fs-col"><div class="fs-bar peak" style="height:100%"></div><div class="fs-label">W23</div></div>
+            <div class="fs-col"><div class="fs-bar" style="height:94%"></div><div class="fs-label">W24</div></div>
+            <div class="fs-col"><div class="fs-bar now" style="height:89%"></div><div class="fs-label now">W25</div></div>
+          </div>
+          <div class="ev-body" style="font-size:11px;color:var(--text3)">
+            <strong style="color:var(--text)">→ やること：</strong>単週の上下に振り回されない。繁忙期へ向けた「伸び」を主指標にする。
+          </div>
+        </div>
+
+        <!-- Evidence 2: 2->3 improving but denominator caveat -->
+        <div class="evidence-card up">
+          <div class="ev-head">
+            <span class="ev-icon">🧭</span>
+            <span class="ev-title">② ②→③は改善方向（ただし母数縮小に注意）</span>
+          </div>
+          <div class="ev-body">
+            AC到達→検討は 28d で <strong>9.1% → 11.6%</strong>（新規 5.0% → 6.6%）。前週の探索軸（AC discovery）の方向と整合的だが、同期間で <strong>AC到達の母数が 130万 → 106万へ縮小</strong>しており、比率上昇の一部は分母縮小由来。
+          </div>
+          <div class="ev-bar">
+            <span>②→③（28d）</span>
+            <span class="ev-bar-bg"><span class="ev-bar-fill" style="width:48%"></span></span>
+            <span style="color:#1a8c4e">11.6%</span>
+          </div>
+          <div class="ev-body" style="font-size:11px;color:var(--text3)">
+            <strong style="color:var(--text)">→ やること：</strong>「検討到達の<strong>絶対数</strong>」が増えているかを確認してから施策化を判断（比率だけで勝ち判定しない）。
+          </div>
+        </div>
+
+        <!-- Evidence 3: remaining core = new completion + mobile -->
+        <div class="evidence-card struct">
+          <div class="ev-head">
+            <span class="ev-icon">📱</span>
+            <span class="ev-title">③ 残る本丸は「新規の完了」と「モバイル完了」</span>
+          </div>
+          <div class="ev-body">
+            新規の意向→完了は <strong>50.5%</strong>（全体 75.0%）で最大インパクト（BN1・約504,400）。モバイルは購入の約66%・<strong>来訪シェア58%</strong>と主力だが、完了 <strong>65.5%</strong> で PC 80.2% に劣後。繁忙期はこの2層が急増する。
+          </div>
+          <div class="ev-bar">
+            <span>モバイル 意向→完了</span>
+            <span class="ev-bar-bg"><span class="ev-bar-fill" style="width:65%"></span></span>
+            <span style="color:#d97706">65.5%</span>
+          </div>
+          <div class="ev-body" style="font-size:11px;color:var(--text3)">
+            <strong style="color:var(--text)">→ やること：</strong>最終価格の前出し・安心バッジ凝縮・入力簡略をモバイル優先で。繁忙期前に ship。
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── 03 やるべきこと ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">やるべきこと — 繁忙期に効く2点に絞る：②→③の改善を「本物」にする と モバイル完了の立て直し</span></div>
+    <div class="sec-sub" style="padding-top:6px">
+      新規を <strong>意欲 × AC確定度</strong> で4層に分けると（下図）、繁忙期にいちばん効くのは<strong>母数が最大の ② 比較中＝AC到達→検討</strong>の改善を本物にすること。あわせて、繁忙期に比率が上がる <strong>モバイルの完了</strong>を立て直す。最大インパクトのフォーム完了（④→⑤・BN1）は ① 指名・高意向層の二次レバーとして繁忙期入り後に効かせる。
+    </div>
+
+    <div class="action-block">
+
+      <!-- 4-layer ladder reference -->
+      <div class="lyr-wrap">
+        <div class="lyr-card l4">
+          <div class="lyr-no">④ 探索</div>
+          <div class="lyr-name">まだ買う気はない／探し中</div>
+          <div class="lyr-kpi">KPI：再訪率・再訪間隔</div>
+          <div class="lyr-up"><b>↑ ③へ：</b>保存ACの値下げ・残枠を通知して戻る理由をつくる</div>
+        </div>
+        <div class="lyr-card l3">
+          <div class="lyr-no">③ 方向だけ</div>
+          <div class="lyr-name">エリア等の方向のみ／AC未定</div>
+          <div class="lyr-kpi">KPI：有効AC到達率</div>
+          <div class="lyr-up"><b>↑ ②へ：</b>スポット／やりたいこと／今日明日OK の探索軸を増やす</div>
+        </div>
+        <div class="lyr-card l2">
+          <div class="lyr-no">② 比較中 <span style="font-size:9px;background:#1a8c4e;color:#fff;padding:1px 5px;border-radius:3px">最優先</span></div>
+          <div class="lyr-name">方向は固まるが複数を比較中</div>
+          <div class="lyr-kpi">KPI：検討到達の絶対数（比率だけで見ない）</div>
+          <div class="lyr-up"><b>↑ ①へ：</b>同じ体験の形態ちがいを並べ、選ぶ軸を与える</div>
+        </div>
+        <div class="lyr-card l1">
+          <div class="lyr-no">① 指名買い</div>
+          <div class="lyr-name">今すぐ／AC決定済</div>
+          <div class="lyr-kpi">KPI：検討→予約完了率</div>
+          <div class="lyr-up"><b>↑ 完了へ：</b>安心バッジ凝縮・最終価格前出し・空き枠リマインド</div>
+        </div>
+      </div>
+
+      <div class="action-list">
+
+        <!-- Action 1: make 2->3 improvement real -->
+        <div class="action-item p1">
+          <div class="action-icon">🧭</div>
+          <div class="action-body">
+            <div class="action-head">
+              <span class="action-prio">最優先</span>
+              <span class="action-when">絶対数で検証 → プロダクト化</span>
+            </div>
+            <div class="action-title">第1の矢：②→③（AC到達→検討）の改善を「本物」にする</div>
+            <ul class="action-bullets">
+              <li><strong>なぜ最優先か</strong>：②→③は 28d で 9.1% → 11.6%（新規 5.0% → 6.6%）と改善方向。母数最大の比較中層が動けば繁忙期の増分CVに直結する。一方で <strong>AC到達の母数が縮小</strong>しているため、比率の良化が「検討到達の絶対数の増加」を伴っているかを<strong>先に確認</strong>する。</li>
+              <li><strong>打ち手</strong>：スポット／やりたいこと／出発地／タイミング の<strong>探索軸を Braze の In-app／配信で先行検証</strong>（開発0）→ 検討到達の絶対数で勝った軸のみプロダクト化。詳細は <a href="/2026h1/spot/2026-ac-discovery.html" style="color:#1b82c5;font-weight:700">AC discovery</a>。</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Action 2: mobile completion -->
+        <div class="action-item p2">
+          <div class="action-icon">📱</div>
+          <div class="action-body">
+            <div class="action-head">
+              <span class="action-prio">第2の矢</span>
+              <span class="action-when">繁忙期前に ship</span>
+            </div>
+            <div class="action-title">第2の矢：モバイルの完了（④→⑤）を立て直す</div>
+            <ul class="action-bullets">
+              <li><strong>なぜ</strong>：モバイルは来訪シェア <strong>58%</strong>・購入の約66%で主力だが、意向→完了 <strong>65.5%</strong> と PC 80.2% に大きく劣後（BN7）。繁忙期はモバイル比率がさらに上がるため、ここが伸びないと全体が伸びない。</li>
+              <li><strong>進め方</strong>：<strong>最終価格の前出し・安心バッジの凝縮・入力項目の簡略化</strong>をモバイル優先で改修。フォーム・決済・速度のどの段で落ちているかを分解し、繁忙期入り前に ship する。</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Action 3: schedule + deprioritize + bot + Top3 BN -->
+        <div class="action-item p3">
+          <div class="action-icon">🗓</div>
+          <div class="action-body">
+            <div class="action-head">
+              <span class="action-prio">実行計画 / やらない判断</span>
+              <span class="action-when">繁忙期入りまで残り約1週</span>
+            </div>
+            <div class="action-title">段取りと「今はやらない」／今週のボトルネック Top3</div>
+            <div style="margin:6px 0 10px">
+              <div class="plan-row"><span class="plan-wk">W26</span><span>②→③の探索軸を「検討到達の絶対数」で検証し、勝ち軸をプロダクト化。モバイル完了の改修を ship。SRE は China bot 向け WAF を並行</span></div>
+              <div class="plan-row"><span class="plan-wk">7月〜 繁忙期</span><span>急増する新規×モバイルを、AC到達→検討の改善とモバイル完了改修で増分CVに変える。BN1（新規の完了）を二次レバーとして投入</span></div>
+            </div>
+            <div class="asl-list">
+              <a class="asl-card" href="/2026h1/bottleneck.html?id=1&week=2026-w25">
+                <div class="asl-rank">BN1 ④→⑤ / new</div>
+                <div class="asl-title">新規ユーザーが予約フォーム最終段階で『この価格・条件で確定してよいか』を決めきれず離脱している</div>
+                <div class="asl-meta">影響 約504,400 / 50.5% vs 75.0%</div>
+              </a>
+              <a class="asl-card" href="/2026h1/bottleneck.html?id=2&week=2026-w25">
+                <div class="asl-rank">BN2 ①→② / mobile</div>
+                <div class="asl-title">スマホ来訪者が『自分の条件に合うアクティビティ』へたどり着けず入口で離脱している</div>
+                <div class="asl-meta">影響 約281,100 / 32.6% vs 47.3%</div>
+              </a>
+              <a class="asl-card" href="/2026h1/bottleneck.html?id=3&week=2026-w25">
+                <div class="asl-rank">BN3 ③→④ / new</div>
+                <div class="asl-title">初訪問者がカレンダーまで見ても『今ここで予約する』決断に至らず比較で止まっている</div>
+                <div class="asl-meta">影響 約225,200 / 30.9% vs 41.9%</div>
+              </a>
+            </div>
+            <ul class="action-bullets" style="margin-top:10px">
+              <li><strong>今はやらない</strong>：Organic Search 系（SEO・LP 起点で1週では動かない）は繁忙期明けに。フォーム完了（④→⑤・BN1）は本丸ではなく ① 指名・高意向層の二次レバーとして繁忙期入り後に。</li>
+              <li><strong>bot（補足・小）</strong>：主因が Singapore → China へ移行。WAF 恒久化と日次再来アラートは SRE 側で並行。レポートは raw／実質／前年の 3軸併記を継続。</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── 詳細セクション ─────────── -->
+  <div id="summary-detail" style="scroll-margin-top:24px"></div>
+
+  <!-- ─────────── 28日参照 ─────────── -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">参照</span><span class="sec-main">28日 raw ベースライン（5/24〜6/20・bot 含む）</span></div>
+    <div style="padding:14px 44px;font-size:12px;line-height:1.8;color:var(--text2)">
+      セッション <strong>3,285,281</strong> / 予約完了 <strong>38,412</strong> / raw CVR <strong>1.17%</strong>。
+      ファネル: ①→② <strong>47.3%</strong> ／ ②→③ <strong>11.6%</strong> ／ ③→④ <strong>41.9%</strong> ／ ④→⑤ <strong>75.0%</strong>。
+      <span style="color:var(--text3)">※ 議論主軸は実質 CVR（7d bot除外 1.35%）。28d raw は参照値で、4-5月の bot 残存と W21-W25 の慢性 bot（週内 ≈13〜19%）を含むため希釈方向に偏る。クリーンな読みは 7d 実質。</span>
+    </div>
+  </div>
+
+  <!-- ── Footer ─────────────────────────────── -->
+  <div class="card">
+    <div class="footer">
+      <span>VELTRA CVR改善チーム — UIUX Design Squad</span>
+      <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">GA4: 347074845</a></span>
+      <span>2026-06-30</span>
+    </div>
+  </div>
+</div>
+
+<script src="/nav.js"></script>
+<script src="/summary-detail.js"></script>
+</body>
+</html>

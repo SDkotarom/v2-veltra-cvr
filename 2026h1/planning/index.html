@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>施策案 — UX Design Squad ｜ Northstar</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#E8423F;--red-light:#FFF5F5;--bg:#f5f4f0;--card:#fff;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;--border:#e8e6e1}
+body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.7}
+
+.page-header{background:var(--card);border-radius:16px;margin-bottom:24px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.header-band{background:var(--red);padding:20px 36px;display:flex;justify-content:space-between;align-items:center}
+.header-band .logo{font-family:'DM Sans';font-weight:900;font-size:22px;color:#fff;letter-spacing:.04em;border:2px solid rgba(255,255,255,.6);padding:4px 14px;border-radius:5px}
+.header-band .title{font-family:'DM Sans';font-size:18px;font-weight:500;color:rgba(255,255,255,.9)}
+.intro{padding:24px 36px 28px}
+.intro h1{font-size:24px;font-weight:900;margin-bottom:8px;letter-spacing:-.01em}
+.intro .desc{font-size:14px;color:var(--text2);line-height:1.8}
+.intro .meta{font-size:12px;color:var(--text3);margin-top:10px;font-family:ui-monospace,monospace}
+
+.list{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media (max-width:1100px){.list{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:820px){.list{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.list{grid-template-columns:1fr}}
+.item{background:var(--card);border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.04);border:1px solid var(--border);transition:box-shadow .15s,transform .15s;text-decoration:none;color:inherit;display:flex;flex-direction:column;overflow:hidden}
+.item:hover{box-shadow:0 4px 14px rgba(0,0,0,.08);transform:translateY(-1px)}
+.item .thumb{aspect-ratio:16/9;background:linear-gradient(135deg,#fef2f2 0%,#fde2e1 100%);display:flex;align-items:flex-end;padding:10px 12px;position:relative;border-bottom:1px solid var(--border)}
+.item .thumb .ph{font-family:'DM Sans';font-size:11px;font-weight:900;color:var(--red);letter-spacing:.12em;opacity:.55;position:absolute;top:10px;right:12px}
+.item .thumb .ph-title{font-size:13px;font-weight:700;color:#7c1d1c;line-height:1.4;max-height:2.8em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.item .body{padding:14px 16px 16px;display:flex;flex-direction:column;flex:1}
+.item .topline{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.item .date{font-family:ui-monospace,monospace;font-size:11px;color:var(--text3);font-weight:700;letter-spacing:.04em}
+.item .source{font-size:10px;padding:2px 7px;background:var(--red-light);color:var(--red);border-radius:4px;font-weight:700;letter-spacing:.02em}
+.item .author{font-size:11px;color:var(--text3)}
+.item h3{font-size:14px;font-weight:800;margin-bottom:8px;line-height:1.5;color:var(--text);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.item .summary{font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.item .tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:auto}
+.item .tag{font-size:10px;padding:2px 7px;background:#f0ede8;color:var(--text2);border-radius:999px;font-weight:600}
+
+.empty{padding:48px 32px;text-align:center;color:var(--text3);background:var(--card);border-radius:14px;border:1px dashed var(--border);grid-column:1/-1}
+
+.note-card{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:18px 24px;margin-top:24px;font-size:13px;color:#78350f;line-height:1.8}
+.note-card strong{color:#92400e;font-weight:700}
+.note-card code{background:rgba(255,255,255,.7);padding:1px 6px;border-radius:4px;font-family:ui-monospace,monospace;font-size:12px}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="header-band">
+    <span class="logo">VELTRA</span>
+    <span class="title">PLANNING</span>
+  </div>
+  <div class="intro">
+    <h1>施策案</h1>
+    <div class="desc">ボトルネック分析から派生した個別施策の具体化レポートを格納しています。Google スプレッドシートの施策リストに紐づく深掘りドキュメントの社内共有用です。</div>
+    <div class="meta" id="meta-line">—</div>
+  </div>
+</div>
+
+<div class="list" id="list">
+  <div class="empty">読み込み中…</div>
+</div>
+
+<div class="note-card">
+  <strong>📝 ファイルを追加するには</strong><br>
+  HTMLファイルを <code>planning/</code> 配下に配置し、<code>planning/manifest.json</code> の <code>items</code> 先頭に1エントリ追加 → コミット＆プッシュで自動的にこの一覧に表示されます。
+</div>
+
+<script>
+(function(){
+  var listEl = document.getElementById('list');
+  var metaEl = document.getElementById('meta-line');
+
+  fetch('/2026h1/planning/manifest.json', {cache: 'no-store'})
+    .then(function(r){ if(!r.ok) throw new Error('manifest load failed'); return r.json(); })
+    .then(function(data){
+      var items = (data && data.items) || [];
+      if (!items.length) {
+        listEl.innerHTML = '<div class="empty">まだ施策案ドキュメントはありません。</div>';
+        metaEl.textContent = '0 件';
+        return;
+      }
+      metaEl.textContent = items.length + ' 件のドキュメント';
+      listEl.innerHTML = '';
+      items.forEach(function(it){
+        var a = document.createElement('a');
+        a.href = '/2026h1/planning/' + it.file;
+        a.className = 'item';
+        a.target = '_blank';
+        a.rel = 'noopener';
+
+        var thumb = document.createElement('div');
+        thumb.className = 'thumb';
+        var ph = document.createElement('span'); ph.className = 'ph'; ph.textContent = 'PLAN';
+        thumb.appendChild(ph);
+        var phTitle = document.createElement('div'); phTitle.className = 'ph-title';
+        phTitle.textContent = it.title || it.file;
+        thumb.appendChild(phTitle);
+        a.appendChild(thumb);
+
+        var body = document.createElement('div');
+        body.className = 'body';
+
+        var top = document.createElement('div');
+        top.className = 'topline';
+        if (it.date) {
+          var d = document.createElement('span'); d.className = 'date'; d.textContent = it.date;
+          top.appendChild(d);
+        }
+        if (it.source) {
+          var s = document.createElement('span'); s.className = 'source'; s.textContent = it.source;
+          top.appendChild(s);
+        }
+        if (it.author) {
+          var au = document.createElement('span'); au.className = 'author'; au.textContent = it.author;
+          top.appendChild(au);
+        }
+        body.appendChild(top);
+
+        var h = document.createElement('h3');
+        h.textContent = it.title || it.file;
+        body.appendChild(h);
+
+        if (it.summary) {
+          var sm = document.createElement('div'); sm.className = 'summary'; sm.textContent = it.summary;
+          body.appendChild(sm);
+        }
+
+        if (it.tags && it.tags.length) {
+          var tg = document.createElement('div'); tg.className = 'tags';
+          it.tags.slice(0, 4).forEach(function(t){
+            var sp = document.createElement('span'); sp.className = 'tag'; sp.textContent = '#' + t;
+            tg.appendChild(sp);
+          });
+          body.appendChild(tg);
+        }
+
+        a.appendChild(body);
+        listEl.appendChild(a);
+      });
+    })
+    .catch(function(e){
+      listEl.innerHTML = '<div class="empty">一覧の読み込みに失敗しました: ' + (e && e.message ? e.message : '不明なエラー') + '</div>';
+    });
+})();
+</script>
+<script src="/nav.js"></script>
+</body>
+</html>
