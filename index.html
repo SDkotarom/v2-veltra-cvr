@@ -5,126 +5,78 @@
 <script src="/auth.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UX Design Squad ｜ Northstar</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800;900&family=DM+Sans:wght@500;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#f8f9fb;--card:#fff;--text:#1a1a2e;--sub:#64748b;--hint:#94a3b8;--border:#e8ecf1;
-  --veltra:#0077D9;--veltra-soft:#EFF4FA;--veltra-dark:#376DAB;
-  --amber:#d97706;--amber-bg:#fffbeb;--green:#059669;--green-bg:#ecfdf5;
+  --ink:#0f2b45;--sub:#5b6b7b;--line:#e3e8ee;
+  --h1:#0077D9;--h1-soft:#eaf3fb;
+  --h2:#0e9f6e;--h2-soft:#e9f8f1;
 }
-body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
-.hubwrap{max-width:1040px;margin:0 auto;padding:36px 24px 72px}
+body{font-family:'Noto Sans JP',sans-serif;background:#f6f8fb;color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:56px 24px 64px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
 
-/* Hero */
-.hub-hero{background:linear-gradient(135deg,#0f2b45,#376DAB);border-radius:18px;padding:40px 40px;color:#fff;position:relative;overflow:hidden;margin-bottom:14px}
-.hub-hero::after{content:'';position:absolute;top:-70px;right:-50px;width:220px;height:220px;border-radius:50%;background:rgba(0,119,217,.28)}
-.hub-brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;position:relative;z-index:1}
-.hub-brand .sq{font-size:15px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.8)}
-.hub-brand .ns{font-family:'DM Sans',sans-serif;font-size:40px;font-weight:900;letter-spacing:-.01em}
-.hub-hero p{position:relative;z-index:1;margin-top:12px;font-size:14.5px;color:rgba(255,255,255,.85);max-width:760px}
-.hub-hero .meta{position:relative;z-index:1;margin-top:14px;font-size:12px;color:rgba(255,255,255,.6)}
+.brand{text-align:center;margin-bottom:40px}
+.brand .sq{font-size:13px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--sub)}
+.brand .ns{font-family:'DM Sans',sans-serif;font-size:44px;font-weight:900;letter-spacing:-.01em;color:var(--ink);line-height:1.05;margin-top:6px}
+.brand .tag{font-size:13.5px;color:var(--sub);margin-top:12px}
 
-/* Section label */
-.hub-sec{margin:30px 0 12px;display:flex;align-items:baseline;gap:12px}
-.hub-sec .n{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:900;color:var(--veltra);background:var(--veltra-soft);border-radius:6px;padding:3px 10px;letter-spacing:.04em}
-.hub-sec .t{font-size:17px;font-weight:800}
-.hub-sec .d{font-size:12.5px;color:var(--hint)}
+.gates{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.gate{position:relative;display:block;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:20px;padding:34px 32px 30px;overflow:hidden;transition:transform .14s,box-shadow .16s,border-color .16s}
+.gate:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(15,43,69,.13)}
+.gate::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px}
+.gate.h1::before{background:var(--h1)} .gate.h2::before{background:var(--h2)}
+.gate.h1:hover{border-color:var(--h1)} .gate.h2:hover{border-color:var(--h2)}
+.gate .ey{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.06em;padding:5px 12px;border-radius:999px;margin-bottom:18px}
+.gate.h1 .ey{background:var(--h1-soft);color:var(--h1)} .gate.h2 .ey{background:var(--h2-soft);color:var(--h2)}
+.gate .big{font-family:'DM Sans',sans-serif;font-size:40px;font-weight:900;letter-spacing:-.01em;line-height:1}
+.gate .mission{font-size:16px;font-weight:800;margin-top:6px}
+.gate .period{font-size:13px;color:var(--sub);margin-top:10px}
+.gate .desc{font-size:12.8px;color:var(--sub);line-height:1.65;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.gate .go{position:absolute;right:26px;bottom:26px;font-size:20px;color:var(--sub);transition:transform .14s,color .14s}
+.gate:hover .go{transform:translateX(4px)}
+.gate.h1:hover .go{color:var(--h1)} .gate.h2:hover .go{color:var(--h2)}
+.now{position:absolute;top:22px;right:24px;font-size:11px;font-weight:800;color:#fff;background:var(--h2);padding:3px 10px;border-radius:999px}
 
-/* Cards */
-.hub-grid{display:grid;gap:14px}
-.hub-grid.cols3{grid-template-columns:repeat(3,1fr)}
-.hub-card{display:block;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px;text-decoration:none;color:var(--text);transition:box-shadow .15s,border-color .15s,transform .12s}
-.hub-card:hover{box-shadow:0 8px 26px rgba(15,43,69,.10);border-color:var(--veltra);transform:translateY(-2px)}
-.hub-card .ic{font-size:22px;margin-bottom:10px;display:block}
-.hub-card .h{font-size:16px;font-weight:800;margin-bottom:5px;display:flex;align-items:center;gap:8px}
-.hub-card .h .arrow{color:var(--hint);font-weight:700;transition:transform .12s}
-.hub-card:hover .h .arrow{transform:translateX(3px);color:var(--veltra)}
-.hub-card .s{font-size:12.8px;color:var(--sub);line-height:1.6}
-.hub-card .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.04em;padding:2px 8px;border-radius:5px;margin-bottom:10px}
-.hub-card.primary{border:2px solid var(--veltra);background:linear-gradient(180deg,#ffffff,#f4f9ff)}
-.hub-card.primary .tag{background:var(--veltra);color:#fff}
-.hub-card .tag.h1tag{background:#eef2f7;color:var(--sub)}
-
-/* Utility row */
-.hub-util{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.hub-util a{font-size:12.8px;font-weight:700;color:var(--veltra-dark);background:#fff;border:1px solid var(--border);border-radius:9px;padding:9px 14px;text-decoration:none;transition:background .12s}
-.hub-util a:hover{background:var(--veltra-soft);border-color:var(--veltra)}
-
-.hub-foot{margin-top:34px;font-size:12px;color:var(--hint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-top:1px solid var(--border);padding-top:16px}
-.hub-foot a{color:inherit}
-@media(max-width:820px){.hub-grid.cols3{grid-template-columns:1fr}.hub-hero{padding:28px 22px}.hub-brand .ns{font-size:32px}}
+.foot{text-align:center;font-size:11.5px;color:#9aa7b4;margin-top:40px}
+.foot a{color:inherit}
+@media(max-width:720px){.gates{grid-template-columns:1fr}.brand .ns{font-size:36px}.gate .big{font-size:34px}}
 </style>
 </head>
 <body>
-<div class="hubwrap">
+<div class="wrap">
 
-  <div class="hub-hero">
-    <div class="hub-brand">
-      <span class="sq">UX Design Squad</span>
-      <span class="ns">Northstar</span>
-    </div>
-    <p>この Squad の指針・プロジェクト・CVR 分析への入り口。いま何に注力しているかの目線合わせと、日々の管理・レポートをここから辿る。</p>
-    <div class="meta">主指標 = CVR ／ 対象：2026年（H1 = 1〜6月・H2 = 7〜12月）</div>
+  <div class="brand">
+    <div class="sq">UX Design Squad</div>
+    <div class="ns">Northstar</div>
+    <div class="tag">主指標 = CVR ／ 期ごとのミッションから入る</div>
   </div>
 
-  <!-- 2026 H2 -->
-  <div class="hub-sec">
-    <span class="n">2026 H2</span><span class="t">いま注力</span><span class="d">7〜12月の指針とプロジェクト管理</span>
-  </div>
-  <div class="hub-grid">
-    <a class="hub-card primary" href="/2026h2/">
-      <span class="tag">現在地</span>
-      <span class="ic">🎯</span>
-      <span class="h">Mission & 管理ボード <span class="arrow">→</span></span>
-      <span class="s">Squad の指針ドキュメント兼・プロジェクト管理ボード。ミッション、外部状況（新基盤ロードマップ）、担当者別のプロジェクト看板（ドラッグで担当変更・詳細モーダル）。</span>
+  <div class="gates">
+
+    <a class="gate h1" href="/2026h1/">
+      <span class="ey">H1 · 2Q</span>
+      <div class="big">H1</div>
+      <div class="mission">2Q Mission</div>
+      <div class="period">2026年 4〜6月</div>
+      <div class="desc">CVR 改善プロジェクト。ボトルネック分析・週次レポート・KPI・施策一式。</div>
+      <span class="go">→</span>
     </a>
+
+    <a class="gate h2" href="/2026h2/">
+      <span class="now">現在</span>
+      <span class="ey">H2 · 3Q</span>
+      <div class="big">H2</div>
+      <div class="mission">3Q Mission</div>
+      <div class="period">2026年 7〜9月</div>
+      <div class="desc">UX Design Squad の指針＆管理ボード。ミッション・外部状況・担当者別プロジェクト。</div>
+      <span class="go">→</span>
+    </a>
+
   </div>
 
-  <!-- 2026 H1 -->
-  <div class="hub-sec">
-    <span class="n">2026 H1</span><span class="t">CVR Report 群</span><span class="d">CVR 分析・ダッシュボード・週次レポート</span>
-  </div>
-  <div class="hub-grid cols3">
-    <a class="hub-card" href="/2026h1/cvr.html">
-      <span class="tag h1tag">ライブ</span>
-      <span class="ic">📊</span>
-      <span class="h">CVR サマリー <span class="arrow">→</span></span>
-      <span class="s">月次 CVR・セッション・売上のライブ状況と推移。</span>
-    </a>
-    <a class="hub-card" href="/2026h1/kpi.html">
-      <span class="tag h1tag">目標</span>
-      <span class="ic">📈</span>
-      <span class="h">KPI ダッシュボード <span class="arrow">→</span></span>
-      <span class="s">CVR 目標・進捗・ストレッチの管理。</span>
-    </a>
-    <a class="hub-card" href="/2026h1/reports/">
-      <span class="tag h1tag">アーカイブ</span>
-      <span class="ic">🗂️</span>
-      <span class="h">週次レポート <span class="arrow">→</span></span>
-      <span class="s">週次ボトルネック分析（H1 の 13 週）。新規週は H2 フォルダへ。</span>
-    </a>
-  </div>
-
-  <!-- その他 -->
-  <div class="hub-sec">
-    <span class="n">共通</span><span class="t">分析ガイド・施策・スポット</span>
-  </div>
-  <div class="hub-util">
-    <a href="/2026h1/planning/">施策案</a>
-    <a href="/2026h1/cycle.html">CVR改善サイクル</a>
-    <a href="/2026h1/analysis.html">分析ガイド</a>
-    <a href="/2026h1/behavior-guide.html">行動仮説ガイド</a>
-    <a href="/2026h1/entry-journey.html">エントリー別CVRジャーニー</a>
-    <a href="/2026h1/spot/2026-h1-cvr-wrap.html">3-6月 CVR振り返り</a>
-  </div>
-
-  <div class="hub-foot">
-    <span>UX Design Squad ｜ Northstar</span>
-    <span><a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener" style="text-decoration:underline">GA4: 347074845</a></span>
-  </div>
+  <div class="foot">UX Design Squad ｜ Northstar ・ <a href="https://analytics.google.com/analytics/web/#/p347074845/reports/reportinghub" target="_blank" rel="noopener">GA4: 347074845</a></div>
 
 </div>
-<script src="/nav.js"></script>
 </body>
 </html>
