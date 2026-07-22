@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="/auth.js"></script>
+<title>TR側 既存UX改善｜担当引き継ぎブリーフィング（2026 H2）</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f8f9fb;--card:#fff;--text:#1a1a2e;--sub:#556070;--hint:#94a3b8;--border:#e8ecf1;
+  --blue:#2563eb;--blue-bg:#eff6ff;--blue-text:#1e40af;
+  --red:#dc2626;--red-bg:#fef2f2;--red-text:#991b1b;
+  --green:#059669;--green-bg:#ecfdf5;--green-text:#065f46;
+  --amber:#d97706;--amber-bg:#fffbeb;--amber-text:#92400e;
+  --veltra:#0077D9;--veltra-soft:#EFF4FA;--veltra-dark:#376DAB;
+}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);font-size:14.8px;line-height:1.8;-webkit-font-smoothing:antialiased}
+.page{max-width:1040px;margin:0 auto;padding:40px 24px 90px}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,#0f2b45,#376DAB);border-radius:16px;padding:42px 42px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(0,119,217,.25)}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:5px 15px;font-size:13px;font-weight:500;margin-bottom:14px}
+.hero h1{font-size:28px;font-weight:800;letter-spacing:-.02em;margin-bottom:10px;line-height:1.3}
+.hero p{font-size:15px;color:rgba(255,255,255,.88);max-width:800px;line-height:1.75}
+.hero-meta{display:flex;flex-wrap:wrap;gap:18px;margin-top:18px;font-size:13px;color:rgba(255,255,255,.62)}
+.hero-meta a{color:rgba(255,255,255,.85)}
+
+/* Section headline */
+.st{font-size:20px;font-weight:800;margin:38px 0 8px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.st .n{width:28px;height:28px;border-radius:8px;background:var(--veltra);color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lede{font-size:13.8px;color:var(--sub);margin:0 0 18px;line-height:1.75}
+
+/* Verdict box */
+.verdict{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--veltra);border-radius:16px;padding:26px 30px;margin-bottom:8px}
+.verdict .vtag{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--veltra)}
+.verdict .vhead{font-size:21px;font-weight:800;line-height:1.5;margin:8px 0 6px;letter-spacing:-.01em}
+.verdict .vhead b{color:var(--veltra);border-bottom:3px solid #bfe0ff}
+.verdict p{font-size:14px;color:var(--sub);line-height:1.8;margin:10px 0 0}
+.verdict .vsplit{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.vcol{border-radius:12px;padding:16px 18px}
+.vcol.yes{background:var(--green-bg);border:1px solid #a7f3d0}
+.vcol.no{background:var(--amber-bg);border:1px solid #fde68a}
+.vcol h4{font-size:14px;font-weight:800;margin-bottom:6px}
+.vcol.yes h4{color:var(--green-text)}
+.vcol.no h4{color:var(--amber-text)}
+.vcol p{font-size:13.2px;line-height:1.7;color:var(--text);margin:0}
+@media(max-width:760px){.verdict .vsplit{grid-template-columns:1fr}}
+
+/* At a glance grid */
+.glance{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+.gcard{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative}
+.gcard.p1{border-left:4px solid var(--red)}
+.gcard.p2{border-left:4px solid var(--veltra)}
+.gcard.p3{border-left:4px solid var(--hint)}
+.gcard .gtop{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.gcard .gnum{font-size:12px;font-weight:800;color:#fff;background:var(--veltra-dark);width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.gcard h3{font-size:14.5px;font-weight:800;line-height:1.4}
+.gcard p{font-size:13px;color:var(--sub);line-height:1.65;margin-top:2px}
+@media(max-width:760px){.glance{grid-template-columns:1fr}}
+
+/* pill badges */
+.pill{display:inline-block;font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:20px;line-height:1.2;white-space:nowrap}
+.pill.top{background:var(--red-bg);color:var(--red-text);border:1px solid #fecaca}
+.pill.normal{background:var(--veltra-soft);color:var(--veltra-dark);border:1px solid #cfe0f2}
+.pill.axis{background:#f5f3ff;color:#5b21b6;border:1px solid #ddd6fe}
+.pill.owner{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;font-weight:700}
+
+/* Timeline (gantt) */
+.tl{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px 18px;margin-top:6px;overflow-x:auto}
+.tl-grid{display:grid;grid-template-columns:180px repeat(6,1fr);align-items:center;min-width:640px}
+.tl-mhead{grid-column:2 / span 6;display:grid;grid-template-columns:repeat(3,1fr);margin-bottom:10px}
+.tl-mhead span{font-size:12.5px;font-weight:800;color:var(--veltra-dark);text-align:center;border-left:1px dashed #dbe4ee;padding-bottom:4px}
+.tl-row{display:contents}
+.tl-name{font-size:13px;font-weight:700;padding:7px 12px 7px 0;line-height:1.35}
+.tl-track{grid-column:2 / span 6;position:relative;height:34px;display:grid;grid-template-columns:repeat(6,1fr);align-items:center}
+.tl-track::before,.tl-track::after,.tl-cell{border-left:1px dashed #eef2f6;height:100%}
+.tl-bar{position:absolute;height:22px;border-radius:6px;display:flex;align-items:center;padding:0 10px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden}
+.tl-bar.w1{background:var(--red)}
+.tl-bar.w1b{background:#e05252}
+.tl-bar.par{background:var(--veltra)}
+.tl-bar.w2{background:#b0873a}
+.tl-bar.w2b{background:#c8a15a}
+.tl-marker{font-size:11.5px;color:var(--sub);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:16px}
+.tl-marker b{color:var(--red-text)}
+.tl-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:12px;color:var(--sub)}
+.tl-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+
+/* Accordion */
+.acc{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.acc[open]{border-color:#cfe0f2;box-shadow:0 4px 20px rgba(0,119,217,.06)}
+.acc>summary{cursor:pointer;list-style:none;padding:18px 22px;display:flex;align-items:center;gap:12px}
+.acc>summary::-webkit-details-marker{display:none}
+.acc-num{font-size:14px;font-weight:800;color:#fff;background:var(--veltra);width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.acc-tt{flex:1;min-width:0}
+.acc-tt .h{font-size:16px;font-weight:800;line-height:1.4}
+.acc-tt .badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.acc-caret{font-size:13px;color:var(--veltra-dark);background:var(--veltra-soft);border-radius:6px;padding:3px 10px;font-weight:700;white-space:nowrap}
+.acc>summary .acc-caret::after{content:'開く ▾'}
+.acc[open]>summary .acc-caret::after{content:'閉じる ▴'}
+.acc-body{padding:2px 22px 22px;border-top:1px solid var(--border)}
+.acc-body>.intro{font-size:13.6px;color:var(--sub);background:#fbfcfe;border:1px solid var(--border);border-left:3px solid var(--veltra);border-radius:8px;padding:12px 14px;margin:16px 0 4px;line-height:1.7}
+.acc-body>.intro b{color:var(--text)}
+
+.blk{margin-top:16px}
+.blk .bh{font-size:12.5px;font-weight:800;letter-spacing:.04em;color:var(--veltra-dark);display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.blk .bh::before{content:'';width:14px;height:2px;background:var(--veltra);display:inline-block}
+.blk ul{list-style:none;margin:0;padding:0}
+.blk li{font-size:13.6px;line-height:1.72;color:var(--text);padding:3px 0 3px 18px;position:relative}
+.blk li::before{content:'';position:absolute;left:2px;top:12px;width:5px;height:5px;border-radius:50%;background:var(--veltra)}
+.goal{background:var(--green-bg);border:1px solid #a7f3d0;border-radius:10px;padding:13px 16px;margin-top:16px}
+.goal .bh{color:var(--green-text)}
+.goal .bh::before{background:var(--green)}
+.goal p{font-size:13.8px;line-height:1.72;color:var(--text)}
+.meta-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.meta-box{background:#fafbfc;border:1px solid var(--border);border-radius:10px;padding:13px 15px}
+.meta-box .bh{margin-bottom:5px}
+.meta-box p{font-size:13.2px;line-height:1.65;color:var(--text)}
+@media(max-width:760px){.meta-row{grid-template-columns:1fr}}
+
+/* Next actions */
+.next{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 26px;margin-top:6px}
+.next ol{margin:6px 0 0;padding-left:20px}
+.next li{font-size:13.8px;line-height:1.75;margin-bottom:10px}
+.next li b{color:var(--text)}
+
+.note{font-size:12.5px;color:var(--hint);line-height:1.6;margin-top:8px}
+.footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);font-size:12.5px;color:var(--hint);line-height:1.7}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero">
+    <div class="hero-badge">UX Design Squad ／ 2026 H2 ・ 引き継ぎブリーフィング</div>
+    <h1>TR側 既存UX改善｜担当引き継ぎブリーフィング</h1>
+    <p>Traveler が Veltra で迷わず買える状態を作るための「TR側 既存UX改善」5本について、<strong>何をやるか・どこまで目指すか・いつ着手するか</strong>を担当者向けに整理する。すべて主指標は CVR、戦略3軸の「② 迷わず買ってもらう」に対応する（追加承認は不要）。</p>
+    <div class="hero-meta">
+      <span>出典：<a href="/2026h2/" target="_blank" rel="noopener">/2026h2/ ミッションページ</a></span>
+      <span>対象期間：2026 H2（7〜9月）</span>
+      <span>主指標：CVR</span>
+    </div>
+  </div>
+
+  <!-- ===== 結論 ===== -->
+  <h2 class="st"><span class="n">Q</span>5本まとめて進められるか？</h2>
+  <p class="lede">担当から最初に聞かれる問いに、先に答える。</p>
+
+  <div class="verdict">
+    <div class="vtag">結論</div>
+    <div class="vhead"><b>並行は可能</b>。ただし「H2 で 5 本すべて完了」は狙わず、時期と依存で波を分ける。</div>
+    <p>5 本はそれぞれ担当と必要スキルが別々（レイアウト設計／表示速度／フォームUX／即時確定＋パートナー運用／LP＋AI運用）なので、<b>同じ人の取り合いにはならず、同時並行で動かせる</b>。一方で、時間拘束のある最優先2本と、パートナー運用やAI基盤に依存する2本を横並びで「全部を7〜9月で完了」とするのは無理がある。<b>最優先2本を先行、依存の軽い1本を並走、依存の重い2本を段階化</b>する。</p>
+    <div class="vsplit">
+      <div class="vcol yes">
+        <h4>並行できる理由</h4>
+        <p>担当・スキル領域が5本で分かれており、リソースの奪い合いが起きない。レイテンシー改善は裏側の改善で他4本と干渉しない。フォームステップ改善は Traveler フロントで完結し、GA4 ファネルで効果を測りながら独立して回せる。</p>
+      </div>
+      <div class="vcol no">
+        <h4>波を分ける理由</h4>
+        <p>GlobalTOP は新旧サイト混在期（7/21 EN リリース〜8月中旬 JP国内旅行刷新）という時間拘束があり先行必須。リクエスト予約低減はパートナー業務（紙・Excel・電話）とバックエンド、テーマ特化LPは AI 運用基盤に依存するため、H2 内は第一歩までとして段階化する。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 5本 一覧 ===== -->
+  <h2 class="st"><span class="n">1</span>5本の施策（優先度つき）</h2>
+  <p class="lede">下の詳細トグルと対応。番号は下のトグルと共通。</p>
+  <div class="glance">
+    <div class="gcard p1">
+      <div class="gtop"><span class="gnum">1</span><span class="pill top">最優先</span></div>
+      <h3>GlobalTOP レイアウト・コミュニケーション設計</h3>
+      <p>新旧サイト混在期に、Traveler がどちらに来ても迷わず目的の予約へ着けるTOPと通知・動線を設計する。</p>
+    </div>
+    <div class="gcard p1">
+      <div class="gtop"><span class="gnum">2</span><span class="pill top">最優先</span></div>
+      <h3>レイテンシー改善（表示速度）</h3>
+      <p>表示の遅さを理由にした離脱をなくす。開く前に去られない速度までやりきる。</p>
+    </div>
+    <div class="gcard p2">
+      <div class="gtop"><span class="gnum">3</span><span class="pill normal">通常・並走推奨</span></div>
+      <h3>フォームステップ改善・後追い入力</h3>
+      <p>予約ステップを簡素にし、今すぐ要らない入力は後回しにして、決済直前の脱落を減らす。</p>
+    </div>
+    <div class="gcard p2">
+      <div class="gtop"><span class="gnum">4</span><span class="pill normal">通常・段階化</span></div>
+      <h3>リクエスト予約の低減（即時確定化）</h3>
+      <p>「押しても返事待ち」を減らし、Traveler が今すぐ確定できるケースを増やす。</p>
+    </div>
+    <div class="gcard p3">
+      <div class="gtop"><span class="gnum">5</span><span class="pill normal">通常・後半</span></div>
+      <h3>テーマ特化 LP 最適化</h3>
+      <p>スポーツ・演劇など目的が決まった Traveler を、目的に合った商品へまっすぐ導く。</p>
+    </div>
+    <div class="gcard p3" style="border-left-color:#e2e8f0;background:#fbfcfe">
+      <div class="gtop"><span class="pill axis">戦略3軸</span></div>
+      <h3>5本すべて「② 迷わず買ってもらう」</h3>
+      <p>集客・獲得単価は他チームの担当。本Squadは「流入後の Traveler の行動改善」に集中する。</p>
+    </div>
+  </div>
+
+  <!-- ===== 推奨シーケンス ===== -->
+  <h2 class="st"><span class="n">2</span>推奨シーケンス（提案）</h2>
+  <p class="lede">出典ページにある確定情報は「優先度」と「7/21 EN リリース／8月中旬 JP国内旅行刷新」の2日付のみ。以下の時期割りは、その2日付＋優先度＋依存関係から組んだ<b>提案（要合意）</b>。</p>
+  <div class="tl">
+    <div class="tl-grid">
+      <div class="tl-mhead"><span>7月</span><span>8月</span><span>9月</span></div>
+
+      <div class="tl-row">
+        <div class="tl-name">① GlobalTOP</div>
+        <div class="tl-track"><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span>
+          <div class="tl-bar w1" style="left:16.6%;width:50%">混在期に間に合わせる（先行必須）</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-name">② レイテンシー改善</div>
+        <div class="tl-track"><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span>
+          <div class="tl-bar w1b" style="left:0;width:100%">通期で継続改善</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-name">③ フォームステップ</div>
+        <div class="tl-track"><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span>
+          <div class="tl-bar par" style="left:8%;width:84%">並走・GA4で効果検証しながら回す</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-name">④ リクエスト予約低減</div>
+        <div class="tl-track"><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span>
+          <div class="tl-bar w2" style="left:41.6%;width:58%">即時確定できるケース拡大の第一歩</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-name">⑤ テーマ特化LP</div>
+        <div class="tl-track"><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span><span class="tl-cell"></span>
+          <div class="tl-bar w2b" style="left:50%;width:50%">静的で先行→AI運用は後半</div></div>
+      </div>
+    </div>
+    <div class="tl-marker">
+      <span><b>7/21</b>：EN サイトリリース</span>
+      <span><b>8月中旬</b>：JP 国内旅行 刷新（目標）</span>
+      <span>= この混在期が①の時間拘束</span>
+    </div>
+    <div class="tl-legend">
+      <span><i style="background:var(--red)"></i>第1波・最優先（時間拘束）</span>
+      <span><i style="background:var(--veltra)"></i>並走（依存が軽い）</span>
+      <span><i style="background:#b0873a"></i>第2波・段階化（依存が重い）</span>
+    </div>
+  </div>
+
+  <!-- ===== 各施策 詳細トグル ===== -->
+  <h2 class="st"><span class="n">3</span>各施策の詳細（トグルで開く）</h2>
+  <p class="lede">「やること・目指す状態（Traveler視点）・時期・想定担当・前提」を1本ずつ。1本目のみ最初から開いている。</p>
+
+  <!-- 1 -->
+  <details class="acc" open>
+    <summary>
+      <span class="acc-num">1</span>
+      <span class="acc-tt">
+        <span class="h">GlobalTOP レイアウト・コミュニケーション設計</span>
+        <span class="badges"><span class="pill top">最優先</span><span class="pill owner">想定担当：Kotaro / Futagi</span><span class="pill axis">② 迷わず</span></span>
+      </span>
+      <span class="acc-caret"></span>
+    </summary>
+    <div class="acc-body">
+      <div class="intro"><b>Traveler に起きていること：</b>同じ「Veltra」に来たのに、国内旅行は新基盤、海外旅行はカレントサイトに分かれる期間が生まれる。どちらに着地したか分からず、探している商品にたどり着けずに離脱する。</div>
+      <div class="blk">
+        <div class="bh">やること</div>
+        <ul>
+          <li>新旧サイトが混在する期間、Traveler がどちらに来ても目的の予約へ最短で着けるTOPのレイアウトを設計する。</li>
+          <li>「今どちらのサイトにいるか／目的の商品はどちらにあるか」を伝える通知・導線（コミュニケーション）を用意する。</li>
+          <li>混在によって生まれる往復・迷子を減らす動線に整える。</li>
+        </ul>
+      </div>
+      <div class="goal">
+        <div class="bh">目指す状態（Traveler視点）</div>
+        <p>Traveler が「新旧どちらのサイトに来たか」を意識せずに、探している旅行商品へまっすぐたどり着ける。混在期であることが離脱・取りこぼしの理由にならない。</p>
+      </div>
+      <div class="meta-row">
+        <div class="meta-box"><div class="bh">時期</div><p>混在期（7/21 EN リリース〜8月中旬 JP国内旅行刷新）に間に合わせる。時間拘束があるため先行必須。</p></div>
+        <div class="meta-box"><div class="bh">前提・依存</div><p>新基盤リリースと JP国内旅行刷新のスケジュールに従属。刷新側の日程が動けば本件の締切も動く。</p></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 2 -->
+  <details class="acc">
+    <summary>
+      <span class="acc-num">2</span>
+      <span class="acc-tt">
+        <span class="h">レイテンシー改善（表示速度）</span>
+        <span class="badges"><span class="pill top">最優先</span><span class="pill owner">想定担当：エンジニア（表示速度）</span><span class="pill axis">② 迷わず</span></span>
+      </span>
+      <span class="acc-caret"></span>
+    </summary>
+    <div class="acc-body">
+      <div class="intro"><b>Traveler に起きていること：</b>ページ表示が遅いと、中身を見る前に去る。とくにモバイルや回遊中は、待たされた時点で他社に流れる。</div>
+      <div class="blk">
+        <div class="bh">やること</div>
+        <ul>
+          <li>サイトの表示速度改善を、途中で止めず最後までやりきる。</li>
+          <li>ページ遷移・検索・予約フローの各ステップで、待ち時間による離脱が起きる箇所を潰す。</li>
+        </ul>
+      </div>
+      <div class="goal">
+        <div class="bh">目指す状態（Traveler視点）</div>
+        <p>Traveler がページ遷移・検索・予約フローで待たされず、「遅い」を理由に離脱しない。</p>
+      </div>
+      <div class="meta-row">
+        <div class="meta-box"><div class="bh">時期</div><p>最優先。日付の明示はないため、H2 通期で継続改善する提案。他4本と完全に並行できる。</p></div>
+        <div class="meta-box"><div class="bh">前提・依存</div><p>Traveler 接点の裏側（性能）改善で、他施策への依存が最も軽い。独立して先行・並走できる。</p></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 3 -->
+  <details class="acc">
+    <summary>
+      <span class="acc-num">3</span>
+      <span class="acc-tt">
+        <span class="h">フォームステップ改善・後追い入力</span>
+        <span class="badges"><span class="pill normal">通常・並走推奨</span><span class="pill owner">想定担当：Sachie</span><span class="pill axis">② 迷わず</span></span>
+      </span>
+      <span class="acc-caret"></span>
+    </summary>
+    <div class="acc-body">
+      <div class="intro"><b>Traveler に起きていること：</b>予約直前に長い入力フォームが立ちはだかる。今すぐ全部答えられない情報（参加者の詳細など）で手が止まり、決済まで進めずに離脱する。</div>
+      <div class="blk">
+        <div class="bh">やること</div>
+        <ul>
+          <li>予約ステップを簡素にし、決済までの手数を減らす。</li>
+          <li>今すぐ要らない入力は「後追い入力」に回し、確定を先にできるようにする。</li>
+        </ul>
+      </div>
+      <div class="goal">
+        <div class="bh">目指す状態（Traveler視点）</div>
+        <p>Traveler が最小の入力で予約を確定でき、詳細情報は後から落ち着いて入れられる。決済直前の脱落が減る。</p>
+      </div>
+      <div class="meta-row">
+        <div class="meta-box"><div class="bh">時期</div><p>7月から最優先2本と並行で着手する提案。Traveler フロント完結で早く動かせる。</p></div>
+        <div class="meta-box"><div class="bh">前提・依存</div><p>依存が軽く、GA4 ファネル（フォーム到達→完了）で効果を測りながら回せる。効果検証を伴う先行トラックに向く。</p></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 4 -->
+  <details class="acc">
+    <summary>
+      <span class="acc-num">4</span>
+      <span class="acc-tt">
+        <span class="h">リクエスト予約の低減（即時確定化）</span>
+        <span class="badges"><span class="pill normal">通常・段階化</span><span class="pill owner">想定担当：Mav</span><span class="pill axis">② 迷わず</span></span>
+      </span>
+      <span class="acc-caret"></span>
+    </summary>
+    <div class="acc-body">
+      <div class="intro"><b>Traveler に起きていること：</b>「予約」を押しても即確定ではなく、返事待ちになる。海外OTAは即時確定が当たり前なので、待たされる時点で他社に流れる。</div>
+      <div class="blk">
+        <div class="bh">やること</div>
+        <ul>
+          <li>即時確定できるケースを増やす。条件によっては即時回答を返せるようにする。</li>
+          <li>在庫・催行の状況を正確に表示し、Traveler が「今すぐ確定か／待ちか」を予約前に判断できるようにする。</li>
+          <li>パートナー側の確認業務（紙・Excel・電話）の段階的なシステム化を進める。</li>
+        </ul>
+      </div>
+      <div class="goal">
+        <div class="bh">目指す状態（Traveler視点）</div>
+        <p>Traveler が予約時に「今すぐ決まるか／待ちか」を迷わず判断でき、確定までの不確実な待ち時間が減る。</p>
+      </div>
+      <div class="meta-row">
+        <div class="meta-box"><div class="bh">時期</div><p>H2 内は「即時確定できるケース拡大の第一歩」まで（8〜9月）。フル解決は次期へフェーズ分けする提案。</p></div>
+        <div class="meta-box"><div class="bh">前提・依存</div><p>パートナー業務フローとバックエンドへの依存が重い。ここが段階化の理由。まず解決策の選定（即時回答／AI電話確認／業務システム化）から。</p></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 5 -->
+  <details class="acc">
+    <summary>
+      <span class="acc-num">5</span>
+      <span class="acc-tt">
+        <span class="h">テーマ特化 LP 最適化</span>
+        <span class="badges"><span class="pill normal">通常・後半</span><span class="pill owner">想定担当：Kotaro / Megumi / Izumi</span><span class="pill axis">② 迷わず</span></span>
+      </span>
+      <span class="acc-caret"></span>
+    </summary>
+    <div class="acc-body">
+      <div class="intro"><b>Traveler に起きていること：</b>「スポーツ観戦」「演劇」など目的が決まっている Traveler に、汎用の一覧では刺さらない。目的に合った入口が見つけにくく、たどり着く前に離れる。</div>
+      <div class="blk">
+        <div class="bh">やること</div>
+        <ul>
+          <li>スポーツ・演劇などテーマ別のLPを、そのテーマで来た Traveler が迷わず選べる形に最適化する。</li>
+          <li>裏側では、AI を活用した高速運用（LPの量産・更新）の導入を検討する。</li>
+        </ul>
+      </div>
+      <div class="goal">
+        <div class="bh">目指す状態（Traveler視点）</div>
+        <p>特定テーマで来た Traveler が、自分の目的に合った商品へ LP 経由でまっすぐ到達できる。</p>
+      </div>
+      <div class="meta-row">
+        <div class="meta-box"><div class="bh">時期</div><p>静的な先行版で着手し、AI 運用の本格化は H2 後半（9月〜）の提案。データ蓄積待ちは静的フォールバックで先行し、待ち時間をなくす。</p></div>
+        <div class="meta-box"><div class="bh">前提・依存</div><p>AI 高速運用の仕組みに依存。仕組みが整う前でも、まず手作業ベースのLP最適化で先行できる。</p></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- ===== 引き継ぎ時に合意したいこと ===== -->
+  <h2 class="st"><span class="n">4</span>引き継ぎ時に合意したいこと</h2>
+  <p class="lede">この5本を渡す時に、担当と最初に握っておく点。</p>
+  <div class="next">
+    <ol>
+      <li><b>推奨シーケンス（第1波2本・並走1本・第2波2本）で進めてよいか。</b><br>とくに GlobalTOP の締切が混在期のスケジュール（7/21・8月中旬）に連動する点を共有する。</li>
+      <li><b>各施策の「目指す状態」への合意と、測る指標の決定。</b><br>本ブリーフィングは Traveler 視点の定性ゴールまで。数値目標と計測方法（GA4 のどのファネル指標で見るか）は担当と別途決める。</li>
+      <li><b>想定担当の最終アサイン確認。</b><br>担当名は現行ミッションページ（/2026h2）の記載を転記したもの。正式アサインは要確認。</li>
+      <li><b>リクエスト予約低減の解決策の選定。</b><br>即時回答／AI電話確認／パートナー業務のシステム化から、実現性で候補を絞る。ここが H2 で「どこまで」の分岐点。</li>
+      <li><b>手段①（1回で複数買ってもらう）とのリソース配分。</b><br>本ブリーフィングは手段②のみ。Squad 全体のリソースをどう割るかは併せて確認する。</li>
+    </ol>
+    <p class="note">※ 集客（流入）と獲得単価の最適化は他チームの担当。本Squadは「流入後の Traveler の行動改善」に集中する（棲み分け）。</p>
+  </div>
+
+  <div class="footer">
+    TR側 既存UX改善 引き継ぎブリーフィング（2026 H2）<br>
+    出典：<a href="/2026h2/">/2026h2/ UX Design Squad ミッションページ</a>（5本の施策・優先度・担当・2つの日付は同ページ準拠）<br>
+    推奨シーケンスと各施策の「目指す状態」は、出典の優先度・日付・依存関係から本ブリーフィングで整理した提案（要合意）。数値目標は含めない。
+  </div>
+
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>
