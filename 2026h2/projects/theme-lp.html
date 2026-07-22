@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --blue:#7CA0BF;--blue-d:#5f86a8;--green:#86BE99;--green-d:#4c8a63;--red:#F38268;--red-d:#c0442a;
+    --blue:#7CA0BF;--blue-d:#5f86a8;--green:#86BE99;--green-d:#4c8a63;--red:#F38268;--red-d:#c0442a;--amber:#e6a15a;
     --offwhite:#FEFCF3;--dark:#2D1C21;--ink:#2D1C21;--muted:#6b5d61;
     --line:#e7e0d4;--card:#ffffff;
     --shadow:0 1px 3px rgba(45,28,33,.08),0 6px 18px rgba(45,28,33,.06);
@@ -46,30 +46,40 @@
   .flag{display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;white-space:nowrap;vertical-align:middle}
   .flag.crit{background:#fdeae4;color:#d0512f}
 
-  .flow{display:flex;flex-direction:column;gap:14px;margin:26px 0 18px}
+  .bg{background:#faf6ec;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);
+    padding:16px 20px;margin:24px 0 6px;box-shadow:var(--shadow)}
+  .bg .lbl{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--blue-d);text-transform:uppercase}
+  .bg ul{margin:9px 0 0;padding-left:0;list-style:none}
+  .bg li{position:relative;padding:5px 0 5px 18px;font-size:13.5px;line-height:1.65}
+  .bg li::before{content:"";position:absolute;left:2px;top:13px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
+  .bg li b{color:var(--ink)}
+
+  .flow{display:flex;flex-direction:column;gap:14px;margin:14px 0 6px}
   .pstep{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--blue);
     border-radius:var(--radius);padding:16px 20px 17px;box-shadow:var(--shadow)}
   .pstep.q1{border-left-color:var(--red)}
   .pstep.q2{border-left-color:var(--blue)}
   .pstep.q3{border-left-color:var(--green)}
   .pstep .k{display:inline-flex;align-items:center;gap:9px;font-family:"Montserrat","Noto Sans JP";
-    font-weight:800;font-size:13.5px;letter-spacing:.06em;margin-bottom:9px}
+    font-weight:800;font-size:13.5px;letter-spacing:.06em;margin-bottom:6px}
   .pstep .k .no{width:23px;height:23px;border-radius:7px;color:#fff;display:inline-flex;
     align-items:center;justify-content:center;font-size:13px;font-weight:900}
   .q1 .k{color:var(--red-d)} .q1 .k .no{background:var(--red)}
   .q2 .k{color:var(--blue-d)} .q2 .k .no{background:var(--blue)}
   .q3 .k{color:var(--green-d)} .q3 .k .no{background:var(--green)}
-  .pstep p{margin:0;font-size:14.5px;line-height:1.7}
-  .pstep p b{color:var(--ink)}
-  .pstep .sub{margin-top:7px;font-size:12.5px;color:var(--muted)}
-  .pstep ul{margin:0;padding:0;list-style:none}
+  .pstep ul{margin:6px 0 0;padding:0;list-style:none}
   .pstep li{position:relative;padding:8px 0 8px 20px;font-size:14px;line-height:1.6;border-top:1px dashed var(--line)}
   .pstep li:first-child{border-top:none;padding-top:2px}
   .pstep li::before{content:"";position:absolute;left:3px;top:15px;width:6px;height:6px;border-radius:50%;background:var(--green)}
   .pstep li:first-child::before{top:9px}
   .pstep li b{color:var(--ink);font-weight:700}
+  .pstep li .s{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
 
-  .refs{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);padding:14px 20px;margin:18px 0;box-shadow:var(--shadow)}
+  .fig{margin:13px 0 2px}
+  .fig svg{width:100%;height:auto;max-width:430px;display:block}
+  .figcap{font-size:11px;color:var(--muted);margin-top:3px}
+
+  .refs{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);padding:14px 20px;margin:22px 0 18px;box-shadow:var(--shadow)}
   .refs .lbl{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--blue-d);text-transform:uppercase}
   .refs ul{margin:7px 0 0;padding-left:18px}
   .refs li{font-size:13px;line-height:1.7}
@@ -102,26 +112,98 @@
     </div>
   </header>
 
+  <!-- 背景 -->
+  <div class="bg">
+    <div class="lbl">背景（なぜ今か）</div>
+    <ul>
+      <li>スポーツ観戦・演劇のように<b>目的がはっきりしたテーマ</b>で探す Traveler には、汎用ページより、テーマの意思決定に効く情報を絞った LP のほうが響く。</li>
+      <li>テーマや旬（開催時期・シーズン）は動く。<b>作って終わりではなく、速く作り・速く更新できる運用</b>そのものが価値になる。</li>
+      <li>その運用を成立させる裏テーマとして、<b>AI を使った高速な LP 制作・運用</b>の導入を検討する。</li>
+    </ul>
+  </div>
+
   <div class="flow">
 
+    <!-- 課題 -->
     <div class="pstep q1">
       <div class="k"><span class="no">問</span>課題</div>
-      <p>スポーツ・演劇など<b>目的が明確なテーマ</b>で探す Traveler に、汎用ページでは意思決定に効く情報が届かない。テーマや旬は動くのに、<b>手数がかかり数と鮮度を保てない</b>。</p>
+      <ul>
+        <li><b>汎用ページでは情報が足りない。</b>テーマ特有の意思決定要因（開催日程・観戦/座席の位置・移動や前後泊・関連手配）を出しきれず、Traveler が決めきれない。</li>
+        <li><b>制作コストで数と鮮度が保てない。</b>LP を人手で作ると、旬に間に合わず本数も増やせない。</li>
+        <li><b>更新が回らない。</b>一度作った LP が古くなる（終了イベント・過去シーズン）。更新の仕組みがない。</li>
+        <li><b>動線の重複。</b>テーマ LP と既存の一覧・商品ページの役割が重なり、動線が二重になりやすい。</li>
+      </ul>
+      <div class="fig">
+        <svg viewBox="0 0 430 112" role="img" aria-label="テーマ意図と汎用ページのミスマッチ／制作が追いつかない">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">現状：テーマ意図に汎用ページが応えきれない</text>
+          <circle cx="52" cy="52" r="20" fill="#fdeae4" stroke="#F38268"/>
+          <text x="52" y="49" font-size="9" text-anchor="middle" fill="#c0442a">スポーツで</text>
+          <text x="52" y="60" font-size="9" text-anchor="middle" fill="#c0442a">探す</text>
+          <path d="M74 52 H150" stroke="#b9a98f" stroke-width="1.5" fill="none" marker-end="url(#ta)"/>
+          <rect x="154" y="36" width="150" height="32" rx="8" fill="#f2ede4" stroke="#c9bfae"/>
+          <text x="229" y="50" font-size="10.5" font-weight="700" text-anchor="middle" fill="#8a7d6b">汎用ページ</text>
+          <text x="229" y="62" font-size="9" text-anchor="middle" fill="#8a7d6b">意思決定要因が薄い</text>
+          <text x="330" y="48" font-size="20" fill="#c0442a">⚠</text>
+          <text x="380" y="52" font-size="10" fill="#c0442a">決めきれない</text>
+          <text x="0" y="100" font-size="10" fill="#8a7d6b">＋ 人手制作では旬に間に合わず、本数・鮮度が保てない</text>
+          <defs><marker id="ta" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#b9a98f"/></marker></defs>
+        </svg>
+      </div>
     </div>
 
+    <!-- 打ち手方針 -->
     <div class="pstep q2">
       <div class="k"><span class="no">方</span>打ち手方針</div>
-      <p>テーマに最適化した LP で<b>迷わず予約へ</b>。さらに裏で<b>AI による高速な制作・更新</b>の運用を立て、旬に合わせて機動的に出せる状態にする。</p>
+      <ul>
+        <li><b>① どのテーマから始めるか</b>
+          <span class="s">需要 × 季節性で優先順位。スポーツ・演劇を入口に、効くテーマから。</span></li>
+        <li><b>② テーマ特化の情報設計</b>
+          <span class="s">そのテーマで予約を決める要因を載せ、汎用ページと明確に差別化する。</span></li>
+        <li><b>③ AI で高速に作り・更新する</b>
+          <span class="s">生成・更新を自動化しつつ品質を担保。速さと質を両立し、旬に合わせて出す。</span></li>
+        <li><b>④ 汎用ページとの役割分担</b>
+          <span class="s">テーマ LP と既存の一覧・商品ページを棲み分け、動線の二重化を防ぐ。</span></li>
+      </ul>
+      <div class="fig">
+        <svg viewBox="0 0 430 92" role="img" aria-label="テーマ×データからAIで生成・更新するループ">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">テーマ → AI 生成 → LP → 更新ループ</text>
+          <g font-size="10.5" font-weight="700" text-anchor="middle">
+            <rect x="0" y="30" width="96" height="30" rx="8" fill="#eef3f7" stroke="#7CA0BF"/><text x="48" y="49" fill="#5f86a8">テーマ選定</text>
+            <rect x="122" y="30" width="96" height="30" rx="8" fill="#ecf6ef" stroke="#86BE99"/><text x="170" y="45" fill="#4c8a63">AI 生成</text><text x="170" y="56" font-size="8.5" fill="#4c8a63">＋品質チェック</text>
+            <rect x="244" y="30" width="80" height="30" rx="8" fill="#fff" stroke="#e7e0d4"/><text x="284" y="49" fill="#2d1c21">テーマ LP</text>
+            <rect x="350" y="30" width="80" height="30" rx="8" fill="#fbf3e6" stroke="#e6a15a"/><text x="390" y="49" fill="#a9711f">更新</text>
+          </g>
+          <g stroke="#b9a98f" stroke-width="1.5" fill="none" marker-end="url(#tb)">
+            <path d="M96 45 H120"/><path d="M218 45 H242"/><path d="M324 45 H348"/>
+            <path d="M390 30 C390 16 48 16 48 28"/>
+          </g>
+          <defs><marker id="tb" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#b9a98f"/></marker></defs>
+        </svg>
+      </div>
     </div>
 
+    <!-- 具体案 -->
     <div class="pstep q3">
-      <div class="k"><span class="no">具</span>具体</div>
+      <div class="k"><span class="no">具</span>具体案</div>
       <ul>
-        <li><b>テーマ選定</b>／需要と季節性で優先順位。スポーツ・演劇を入口に</li>
-        <li><b>テーマ特化の情報設計</b>／そのテーマで予約を決める要因を載せ、汎用と差別化</li>
-        <li><b>AI 高速運用</b>／生成・更新を自動化しつつ品質を担保。速さと質を両立</li>
-        <li><b>役割分担</b>／テーマ LP と既存の一覧・商品ページを棲み分け、動線の二重化を防ぐ</li>
+        <li><b>対象テーマの選定</b>／需要・季節性の基準で最初のテーマを決める（スポーツ・演劇から）。</li>
+        <li><b>テーマ別の情報テンプレ</b>／そのテーマの意思決定要因（日程・座席/位置・移動・関連手配）を定義し、載せる型を作る。</li>
+        <li><b>AI 生成・更新パイプライン</b>／データソース → 生成 → 品質チェック → 公開 の流れを組む。データ蓄積待ちは静的フォールバックで先行スタートし、待ち時間ゼロに。</li>
+        <li><b>棲み分けの内部リンク設計</b>／テーマ LP から既存の一覧・商品ページへ、動線が二重にならないよう接続する。</li>
+        <li><b>鮮度の担保</b>／終了イベント・過去シーズンの自動的な出し分け・退役ルール。</li>
       </ul>
+      <div class="fig">
+        <svg viewBox="0 0 430 66" role="img" aria-label="AIパイプラインで数と鮮度を増やす（概念図）">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">人手 → AI 運用で本数・鮮度を増やす（概念図）</text>
+          <text x="0" y="34" font-size="11" fill="#2D1C21">人手</text>
+          <g fill="#c9bfae"><rect x="52" y="24" width="14" height="14" rx="3"/><rect x="70" y="24" width="14" height="14" rx="3"/></g>
+          <text x="96" y="35" font-size="10" fill="#8a7d6b">少・古くなる</text>
+          <text x="0" y="60" font-size="11" fill="#2D1C21">AI 運用</text>
+          <g fill="#86BE99"><rect x="52" y="50" width="14" height="12" rx="3"/><rect x="70" y="50" width="14" height="12" rx="3"/><rect x="88" y="50" width="14" height="12" rx="3"/><rect x="106" y="50" width="14" height="12" rx="3"/><rect x="124" y="50" width="14" height="12" rx="3"/><rect x="142" y="50" width="14" height="12" rx="3"/></g>
+          <text x="168" y="60" font-size="10" fill="#4c8a63">多・旬に合わせて更新</text>
+        </svg>
+        <div class="figcap">まず1テーマで型を作り、AI パイプラインに載せて横展開する。</div>
+      </div>
     </div>
 
   </div>
