@@ -173,13 +173,12 @@
   var isMayJunCvr = /^\/2026h1\/spot\/2026-may-jun-cvr-trend(\.html)?$/.test(path);
   var isH1Wrap = /^\/2026h1\/spot\/2026-h1-cvr-wrap(\.html)?$/.test(path);
   var isH2UxMission = /^\/2026h2\/(index\.html)?$/.test(path);
-  var isH2TrUxBriefing = /^\/2026h1\/spot\/2026-h2-tr-ux-briefing(\.html)?$/.test(path);
   var isVeltraTopSection = /^\/2026h1\/spot\/veltra-top-section-visibility(\.html)?$/.test(path);
   var isTaiwanSection = /^\/2026h1\/spot\/taiwan-section-visibility(\.html)?$/.test(path);
   var isJiufenSection = /^\/2026h1\/spot\/jiufen-category-section-visibility(\.html)?$/.test(path);
   var isAcSection = /^\/2026h1\/spot\/ac-page-section-visibility(\.html)?$/.test(path);
   var isPainFramework = /^\/2026h1\/spot\/traveler-pain-framework(\.html)?$/.test(path);
-  var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isAcDiscovery || isSurfaceWf || isMayJunCvr || isH1Wrap || isH2UxMission || isVeltraTopSection || isTaiwanSection || isJiufenSection || isAcSection || isPainFramework || isH2TrUxBriefing;
+  var isAnySpot = isEntryJourney || isGwDecline || isGwSub || isAcDiscovery || isSurfaceWf || isMayJunCvr || isH1Wrap || isH2UxMission || isVeltraTopSection || isTaiwanSection || isJiufenSection || isAcSection || isPainFramework;
   var isArchive = (path === '/2026h1/reports/' || path === '/2026h1/reports/index.html');
   var isWeekSummary = !isArchive && /\/2026h1\/reports\/(?:\d{4}-h[12]\/)?\d{4}-w\d+\/(?:index\.html)?$/.test(path);
   var qp = new URLSearchParams(location.search);
@@ -273,8 +272,6 @@
       append(homeA, mkCurrent('スポット分析'), mkCurrent('Traveler ペイン洗い出しフレームワーク'));
     } else if (isH2UxMission) {
       append(homeA, mkCurrent('スポット分析'), mkCurrent('UX Design Squad｜2026 H2 ミッション'));
-    } else if (isH2TrUxBriefing) {
-      append(homeA, mkCurrent('スポット分析'), mkCurrent('TR側 既存UX改善｜引き継ぎブリーフィング'));
     } else if (isPlanning) {
       append(homeA, mkCurrent('施策案'));
     } else if (isPlanningItem) {
@@ -312,7 +309,6 @@
   // Hierarchical: items may have a `children` array for sub-pages.
   // 新しい順（新しいものが上 = 大きい番号）。番号は描画時に position から自動採番。
   var SPOT_ITEMS = [
-    { id: 'h2-tr-ux-briefing', href: '/2026h1/spot/2026-h2-tr-ux-briefing.html', label: 'TR側 既存UX改善｜引き継ぎブリーフィング', match: function(){ return isH2TrUxBriefing; } },
     { id: 'pain-framework', href: '/2026h1/spot/traveler-pain-framework.html', label: 'Traveler ペイン洗い出しフレームワーク', match: function(){ return isPainFramework; } },
     { id: 'h2-ux-mission', href: '/2026h2/', label: 'UX Design Squad｜2026 H2 ミッション', match: function(){ return isH2UxMission; } },
     { id: 'h1-wrap', href: '/2026h1/spot/2026-h1-cvr-wrap.html', label: '3-6月 CVR改善プロジェクト 振り返り', match: function(){ return isH1Wrap; } },

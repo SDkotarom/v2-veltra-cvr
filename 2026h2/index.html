@@ -198,6 +198,41 @@
   .k.plan{background:#ecf6ef;color:#4c8a63}
   .hl{color:var(--red);background:linear-gradient(transparent 60%,rgba(243,130,104,.28) 60%)}
 
+  /* ===== project briefings (accordion) ===== */
+  .briefs{margin-top:28px}
+  .briefs-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:2px}
+  .briefs-head h3{font-size:18px;margin:0}
+  .briefs-head .sub{font-size:12.5px;color:var(--muted)}
+  .brief{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-top:12px;overflow:hidden}
+  .brief[open]{border-color:#cddbe6}
+  .brief>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:13px;padding:16px 20px}
+  .brief>summary::-webkit-details-marker{display:none}
+  .brief .bnum{flex:0 0 auto;width:27px;height:27px;border-radius:8px;background:var(--blue);color:#fff;
+    font-family:"Montserrat";font-weight:800;font-size:13px;display:inline-flex;align-items:center;justify-content:center}
+  .brief[open] .bnum{background:var(--blue-d)}
+  .brief .btitle{flex:1;min-width:0}
+  .brief .btitle .bn{font-weight:700;font-size:15px}
+  .brief .btitle .bowners{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+  .brief .bcaret{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--blue-d);background:#eef3f7;border-radius:999px;padding:5px 13px;white-space:nowrap}
+  .brief>summary .bcaret::after{content:"開く ▾"}
+  .brief[open]>summary .bcaret::after{content:"閉じる ▴"}
+  .bbody{padding:2px 20px 22px;border-top:1px solid var(--line)}
+  .bgoal{background:#ecf6ef;border:1px solid #cfe6d7;border-radius:12px;padding:14px 16px;margin-top:16px}
+  .bgoal .lbl{font-size:11px;font-weight:800;letter-spacing:.1em;color:#4c8a63;text-transform:uppercase}
+  .bgoal p{margin:6px 0 0;font-size:14px;line-height:1.7}
+  .bblock{margin-top:18px}
+  .bblock>.lbl{font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--blue-d);display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .bblock>.lbl::before{content:"";width:15px;height:2px;background:var(--blue);display:inline-block}
+  .bblock ul{margin:0;padding-left:0;list-style:none}
+  .bblock li{position:relative;padding:5px 0 5px 18px;font-size:13.7px;line-height:1.7}
+  .bblock li::before{content:"";position:absolute;left:2px;top:13px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
+  .bblock li b{color:var(--ink)}
+  .bmeta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+  .bmeta .cell{background:#faf6ec;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .bmeta .cell .lbl{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+  .bmeta .cell p{margin:5px 0 0;font-size:13px;line-height:1.65}
+  .brief-todo{margin-top:12px;font-size:12.5px;color:var(--muted);background:#faf6ec;border:1px dashed var(--line);border-radius:12px;padding:12px 16px}
+
   footer{padding:40px 0 60px;color:var(--muted);font-size:12px;text-align:center;border-top:1px solid var(--line);margin-top:20px}
 
   @media(max-width:860px){
@@ -314,6 +349,54 @@
           <div class="owner-pills"><span class="pill">Kotaro</span><span class="pill sub">Megumi</span><span class="pill sub">Izumi</span></div>
         </div></div>
       </div>
+    </div>
+
+    <!-- ===== PROJECT BRIEFINGS (② TR側の既存UX改善) ===== -->
+    <div class="briefs">
+      <div class="briefs-head">
+        <h3>② TR側の既存 UX 改善 ― プロジェクト別ブリーフィング</h3>
+        <span class="sub">各プロジェクトの「めざす状態」と「考えどころ」。担当が自走で始められる方向性。上から順に整備中。</span>
+      </div>
+
+      <!-- 1. GlobalTOP -->
+      <details class="brief" open>
+        <summary>
+          <span class="bnum">1</span>
+          <span class="btitle">
+            <span class="bn">GlobalTOP のレイアウト・コミュニケーション設計 <span class="flag crit">最優先</span></span>
+            <span class="bowners"><span class="pill">Kotaro</span><span class="pill sub">futagi</span></span>
+          </span>
+          <span class="bcaret"></span>
+        </summary>
+        <div class="bbody">
+          <div class="bgoal">
+            <span class="lbl">めざす状態</span>
+            <p>新旧サイトが混在する期間、Traveler がどちらに来ても「どこで・何が買えるか」で迷わず、目的の予約に最短でたどり着ける。混在していること自体が離脱・取りこぼしの理由にならない。</p>
+          </div>
+          <div class="bblock">
+            <span class="lbl">背景（なぜ今か）</span>
+            <ul>
+              <li>7/21 EN リリース → 7/28 中韓 → 8月中旬 JP国内旅行の刷新で、<b>/jp 国内旅行＝新基盤／jp 海外旅行＝現行サイト</b> が同時に走る期間が生まれる。</li>
+              <li>現行（日本→海外）は<b>売上の大部分</b>を占める。既存客と新規客で UI が変わり、Traveler が戸惑う（→ 下部「関連チームの動き｜論点1」）。</li>
+            </ul>
+          </div>
+          <div class="bblock">
+            <span class="lbl">考えどころ（方向性）</span>
+            <ul>
+              <li><b>入口の情報設計・動線</b>：GlobalTOP で「国内旅行（新基盤）」と「海外旅行（現行）」をどう振り分けて見せるか。</li>
+              <li><b>コミュニケーション設計</b>：切り替わり・混在を Traveler にどう伝えるか（通知・ラベル・導線）。混乱を最小にする。</li>
+              <li><b>カスタマージャーニー</b>：既存客と新規客で入口・体験が異なる前提で組む。</li>
+              <li><b>現行の使いやすさを壊さない</b>：「新基盤への乗り換えが最適とは限らない」（→ 下部「論点2」）を前提に置く。</li>
+            </ul>
+          </div>
+          <div class="bmeta">
+            <div class="cell"><span class="lbl">スコープの目安</span><p>まず GlobalTOP（入口）の情報設計・動線・通知に集中。個別商品ページや決済フローは別プロジェクト。</p></div>
+            <div class="cell"><span class="lbl">時期・入口</span><p>混在期（7/21〜8月中旬）に間に合わせる。参考：本ページ「関連チームの動き」の論点1／2・ロールアウト timeline。</p></div>
+          </div>
+        </div>
+      </details>
+
+      <p class="brief-todo">② レイテンシー改善 ／ ③ フォームステップ改善 ／ ④ リクエスト予約の低減 ／ ⑤ テーマ特化 LP 最適化 のブリーフィングは上から順に追加予定。</p>
     </div>
   </section>
 
