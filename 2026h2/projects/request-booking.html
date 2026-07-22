@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --blue:#7CA0BF;--blue-d:#5f86a8;--green:#86BE99;--green-d:#4c8a63;--red:#F38268;--red-d:#c0442a;
+    --blue:#7CA0BF;--blue-d:#5f86a8;--green:#86BE99;--green-d:#4c8a63;--red:#F38268;--red-d:#c0442a;--amber:#e6a15a;
     --offwhite:#FEFCF3;--dark:#2D1C21;--ink:#2D1C21;--muted:#6b5d61;
     --line:#e7e0d4;--card:#ffffff;
     --shadow:0 1px 3px rgba(45,28,33,.08),0 6px 18px rgba(45,28,33,.06);
@@ -46,30 +46,40 @@
   .flag{display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;white-space:nowrap;vertical-align:middle}
   .flag.crit{background:#fdeae4;color:#d0512f}
 
-  .flow{display:flex;flex-direction:column;gap:14px;margin:26px 0 18px}
+  .bg{background:#faf6ec;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);
+    padding:16px 20px;margin:24px 0 6px;box-shadow:var(--shadow)}
+  .bg .lbl{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--blue-d);text-transform:uppercase}
+  .bg ul{margin:9px 0 0;padding-left:0;list-style:none}
+  .bg li{position:relative;padding:5px 0 5px 18px;font-size:13.5px;line-height:1.65}
+  .bg li::before{content:"";position:absolute;left:2px;top:13px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
+  .bg li b{color:var(--ink)}
+
+  .flow{display:flex;flex-direction:column;gap:14px;margin:14px 0 6px}
   .pstep{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--blue);
     border-radius:var(--radius);padding:16px 20px 17px;box-shadow:var(--shadow)}
   .pstep.q1{border-left-color:var(--red)}
   .pstep.q2{border-left-color:var(--blue)}
   .pstep.q3{border-left-color:var(--green)}
   .pstep .k{display:inline-flex;align-items:center;gap:9px;font-family:"Montserrat","Noto Sans JP";
-    font-weight:800;font-size:13.5px;letter-spacing:.06em;margin-bottom:9px}
+    font-weight:800;font-size:13.5px;letter-spacing:.06em;margin-bottom:6px}
   .pstep .k .no{width:23px;height:23px;border-radius:7px;color:#fff;display:inline-flex;
     align-items:center;justify-content:center;font-size:13px;font-weight:900}
   .q1 .k{color:var(--red-d)} .q1 .k .no{background:var(--red)}
   .q2 .k{color:var(--blue-d)} .q2 .k .no{background:var(--blue)}
   .q3 .k{color:var(--green-d)} .q3 .k .no{background:var(--green)}
-  .pstep p{margin:0;font-size:14.5px;line-height:1.7}
-  .pstep p b{color:var(--ink)}
-  .pstep .sub{margin-top:7px;font-size:12.5px;color:var(--muted)}
-  .pstep ul{margin:0;padding:0;list-style:none}
+  .pstep ul{margin:6px 0 0;padding:0;list-style:none}
   .pstep li{position:relative;padding:8px 0 8px 20px;font-size:14px;line-height:1.6;border-top:1px dashed var(--line)}
   .pstep li:first-child{border-top:none;padding-top:2px}
   .pstep li::before{content:"";position:absolute;left:3px;top:15px;width:6px;height:6px;border-radius:50%;background:var(--green)}
   .pstep li:first-child::before{top:9px}
   .pstep li b{color:var(--ink);font-weight:700}
+  .pstep li .s{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
 
-  .refs{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);padding:14px 20px;margin:18px 0;box-shadow:var(--shadow)}
+  .fig{margin:13px 0 2px}
+  .fig svg{width:100%;height:auto;max-width:430px;display:block}
+  .figcap{font-size:11px;color:var(--muted);margin-top:3px}
+
+  .refs{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);padding:14px 20px;margin:22px 0 18px;box-shadow:var(--shadow)}
   .refs .lbl{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--blue-d);text-transform:uppercase}
   .refs ul{margin:7px 0 0;padding-left:18px}
   .refs li{font-size:13px;line-height:1.7}
@@ -102,26 +112,111 @@
     </div>
   </header>
 
+  <!-- 背景 -->
+  <div class="bg">
+    <div class="lbl">背景（なぜ今か）</div>
+    <ul>
+      <li>リクエスト予約（RQ）は「申し込んでも確定は後日」。<b>確定待ちが Traveler の不安・離脱を生み</b>、decline は満足度を下げ、CS フォローの手間も発生する。</li>
+      <li>その場で確定できるツアーが増えるほど「今買えた」の安心につながり、<b>CVR と満足度の両方</b>に効く。</li>
+      <li>RQ が起きる構造は Veltra 単独では閉じない。在庫・催行判定を握る <b>Supplier 側の運用に依存</b>する。</li>
+    </ul>
+  </div>
+
   <div class="flow">
 
+    <!-- 課題 -->
     <div class="pstep q1">
       <div class="k"><span class="no">問</span>課題</div>
-      <p>「申し込んでも確定は後日」の<b>リクエスト予約</b>が、確定待ちの不安・心変わり・キャンセルを生み、取りこぼしにつながる。</p>
+      <ul>
+        <li><b>Traveler：</b>予約確定まで待たされる／返信がいつ来るか不安で旅行計画が立てづらい。</li>
+        <li><b>Veltra（OTA）：</b>確定待ちで離脱リスク／decline による満足度低下／CS フォローの手間。</li>
+        <li><b>Supplier：</b>在庫を持ちづらい（持ちたくない）／手配先への確認・返信が人手／システム操作・慣れが要る。</li>
+        <li><b>本質：</b>RQ の根本解決は「いかに Supplier に<b>行動変容</b>してもらうか」。Traveler 側の見せ方だけでは解けない。</li>
+      </ul>
+      <div class="fig">
+        <svg viewBox="0 0 430 158" role="img" aria-label="三者（Traveler / Veltra / Supplier）の課題分解">
+          <g font-size="11.5" font-weight="800" text-anchor="middle">
+            <rect x="0" y="6" width="136" height="26" rx="7" fill="#fdeae4"/><text x="68" y="23" fill="#c0442a">Traveler</text>
+            <rect x="147" y="6" width="136" height="26" rx="7" fill="#eef3f7"/><text x="215" y="23" fill="#5f86a8">Veltra (OTA)</text>
+            <rect x="294" y="6" width="136" height="26" rx="7" fill="#fbf3e6"/><text x="362" y="23" fill="#a9711f">Supplier</text>
+          </g>
+          <g font-size="10.5" fill="#2d1c21">
+            <text x="6" y="52">・確定まで待つ</text>
+            <text x="6" y="70">・いつ来るか不安</text>
+            <text x="6" y="88">・計画が立てづらい</text>
+            <text x="153" y="52">・待ちで離脱</text>
+            <text x="153" y="70">・decline で不満</text>
+            <text x="153" y="88">・CS 対応の手間</text>
+            <text x="300" y="52">・在庫を持てない</text>
+            <text x="300" y="70">・確認/返信が人手</text>
+            <text x="300" y="88">・操作の慣れ要</text>
+          </g>
+          <rect x="0" y="108" width="430" height="42" rx="9" fill="#2D1C21"/>
+          <text x="215" y="126" font-size="11" font-weight="800" fill="#fff" text-anchor="middle">本質＝Supplier の行動変容</text>
+          <text x="215" y="141" font-size="10" fill="#e7e0d4" text-anchor="middle">Traveler 側の見せ方だけでは根本解決にならない</text>
+        </svg>
+        <div class="figcap">出典：ZEROWAIT 検討資料（RQ 予約の構造的課題）の三者分解。</div>
+      </div>
     </div>
 
+    <!-- 打ち手方針 -->
     <div class="pstep q2">
       <div class="k"><span class="no">方</span>打ち手方針</div>
-      <p><b>その場で確定できるケースを増やし</b>「今買えた」の安心を届ける。避けられない場合は、いつ・どう確定するかの期待値を正しく伝える。在庫・催行判定は Partner 連携が前提。</p>
+      <ul>
+        <li><b>① まず Traveler の「待たされ感」を下げる（OTA 側で完結・着手しやすい）</b>
+          <span class="s">待ち時間の目安を見せる／RQ 予約自体を簡単に／確定通知を見やすく。対症療法だが即着手できる。</span></li>
+        <li><b>② 情報と確認をシンプルに（Supplier が返しやすい状態に）</b>
+          <span class="s">渡す情報を絞り整然と伝える／複雑なものは非扱い／関係先と確認しやすい環境・心理をつくる。</span></li>
+        <li><b>③ 本丸＝Supplier の行動変容（中期・スキームから）</b>
+          <span class="s">即時確定ツアーが流通する仕組み＋Supplier 負荷軽減（自動化・半自動化）。Reward／OTA 上の Advantage／業務効率／評価 のどれで動いてもらうかを設計する。</span></li>
+      </ul>
+      <div class="fig">
+        <svg viewBox="0 0 430 92" role="img" aria-label="対症療法から本質解決への着手順">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">着手しやすさ ↔ 根本解決度</text>
+          <line x1="10" y1="66" x2="420" y2="66" stroke="#e7e0d4" stroke-width="2" marker-end="url(#axr)"/>
+          <text x="10" y="84" font-size="10" fill="#6b5d61">対症（易・OTA 側）</text>
+          <text x="420" y="84" font-size="10" fill="#6b5d61" text-anchor="end">本質（難・Sup 行動変容）</text>
+          <g font-size="10.5" font-weight="700" text-anchor="middle">
+            <circle cx="70" cy="46" r="15" fill="#fdeae4" stroke="#F38268"/><text x="70" y="50" fill="#c0442a">①</text>
+            <circle cx="215" cy="46" r="15" fill="#eef3f7" stroke="#7CA0BF"/><text x="215" y="50" fill="#5f86a8">②</text>
+            <circle cx="360" cy="46" r="15" fill="#fbf3e6" stroke="#e6a15a"/><text x="360" y="50" fill="#a9711f">③</text>
+          </g>
+          <defs><marker id="axr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L7 4 L0 8 z" fill="#e7e0d4"/></marker></defs>
+        </svg>
+        <div class="figcap">①②で取りこぼしを減らしつつ、③（本丸）を中期 Try として並走させる。</div>
+      </div>
     </div>
 
+    <!-- 具体案 -->
     <div class="pstep q3">
-      <div class="k"><span class="no">具</span>具体</div>
+      <div class="k"><span class="no">具</span>具体案</div>
       <ul>
-        <li><b>可視化</b>／どの商品・条件でリクエストになるかを把握し、効果の大きい所から</li>
-        <li><b>即時確定化</b>／確認が要るケースと自動確定できるケースを切り分ける</li>
-        <li><b>Partner・関連チーム連携</b>／確定方式は運用に関わる。組む先を早期に把握</li>
-        <li><b>期待値コミュニケーション</b>／即時化できない時も、いつ・どう確定するか明示</li>
+        <li><b>待ち時間の目安を提示</b>／RQ 後に「いつ頃確定するか」の期待値を表示（実績リードタイムから）。</li>
+        <li><b>RQ 予約を極力簡単に</b>／申込フォーム・確認ステップを削る。</li>
+        <li><b>確定通知をいつでも見やすく</b>／確定・decline の通知動線を分かりやすくする。</li>
+        <li><b>Supplier に渡す情報を整理</b>／絞る・整然と伝える・複雑な条件は非扱いにする。</li>
+        <li><b>Supplier が回答しやすい環境</b>／いつでも簡単に確認・回答できる導線と心理的ハードルの低減。</li>
+        <li><b>後続工程を簡単に</b>／確定後の決済など後工程をスムーズに。</li>
+        <li><b>（本丸）即時確定ツアーの流通＋負荷軽減の自動化</b>／Reward・Advantage・効率・評価で Supplier の行動変容を促す仕組み。<span class="s">スキーム検討が要る中期施策。</span></li>
       </ul>
+      <div class="fig">
+        <svg viewBox="0 0 430 96" role="img" aria-label="RQ予約のジャーニーと打ち手の位置">
+          <g font-size="10.5" text-anchor="middle">
+            <rect x="0" y="30" width="86" height="30" rx="8" fill="#fff" stroke="#e7e0d4"/><text x="43" y="49" fill="#2d1c21">RQ 申込</text>
+            <rect x="118" y="30" width="120" height="30" rx="8" fill="#fdeae4" stroke="#F38268"/>
+            <text x="178" y="45" fill="#c0442a" font-weight="700">確定待ち</text>
+            <text x="178" y="56" fill="#c0442a" font-size="9">目安表示・通知</text>
+            <rect x="270" y="30" width="70" height="30" rx="8" fill="#ecf6ef" stroke="#86BE99"/><text x="305" y="49" fill="#4c8a63" font-weight="700">確定</text>
+            <rect x="372" y="30" width="58" height="30" rx="8" fill="#fff" stroke="#e7e0d4"/><text x="401" y="49" fill="#2d1c21">決済</text>
+          </g>
+          <g stroke="#b9a98f" stroke-width="1.5" fill="none" marker-end="url(#arb)">
+            <path d="M86 45 H116"/><path d="M238 45 H268"/><path d="M340 45 H370"/>
+          </g>
+          <text x="178" y="82" font-size="10" fill="#a9711f" text-anchor="middle">Supplier の行動変容で「待ち」を短く・確定を増やす</text>
+          <defs><marker id="arb" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#b9a98f"/></marker></defs>
+        </svg>
+        <div class="figcap">①②はこのジャーニー上の対症、③は「待ち」そのものを縮める本丸。</div>
+      </div>
     </div>
 
   </div>
@@ -129,6 +224,7 @@
   <div class="refs">
     <div class="lbl">入口・参考</div>
     <ul>
+      <li><a href="https://docs.google.com/presentation/d/1UHUxFG2iKBQ81s5ffhBfXzgAT6MeISaXT-W5Hc8GFzc/edit" target="_blank" rel="noopener">ZEROWAIT アイデア検討資料</a>（RQ 予約の構造的課題・三者分解・施策アイデアの切り口）</li>
       <li><a href="/2026h2/cvr.html">CVR サマリー</a>（予約完了までの現状）</li>
       <li><a href="/2026h2/#external">H2 ミッション「関連チームの動き」</a>（Partner・他チーム連携の前提）</li>
     </ul>
