@@ -22,7 +22,7 @@
     font-family:"Noto Sans JP","Montserrat",-apple-system,BlinkMacSystemFont,sans-serif;
     font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
   a{color:var(--blue-d)}
-  .wrap{max-width:820px;margin:0 auto;padding:0 24px}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
   h1,h2,h3,h4{font-family:"Montserrat","Noto Sans JP",sans-serif;letter-spacing:.01em}
 
   .topbar{position:sticky;top:0;z-index:40;background:rgba(254,252,243,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
@@ -46,7 +46,6 @@
   .flag{display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;white-space:nowrap;vertical-align:middle}
   .flag.crit{background:#fdeae4;color:#d0512f}
 
-  /* 背景 */
   .bg{background:#faf6ec;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);
     padding:16px 20px;margin:24px 0 6px;box-shadow:var(--shadow)}
   .bg .lbl{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--blue-d);text-transform:uppercase}
@@ -55,9 +54,16 @@
   .bg li::before{content:"";position:absolute;left:2px;top:13px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
   .bg li b{color:var(--ink)}
 
-  /* 3-step flow */
-  .flow{display:flex;flex-direction:column;gap:14px;margin:14px 0 6px}
-  .pstep{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--blue);
+  /* ===== carousel（課題 / 打ち手方針 / 進め方案）===== */
+  .swipe-hint{font-size:11.5px;font-weight:700;color:var(--muted);margin:18px 0 8px;display:flex;align-items:center;gap:8px}
+  .swipe-hint::before,.swipe-hint::after{content:"";height:1px;background:var(--line);flex:1}
+  .flow{display:flex;flex-direction:row;flex-wrap:nowrap;gap:14px;margin:0 0 6px;
+    overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:12px}
+  .flow::-webkit-scrollbar{height:8px}
+  .flow::-webkit-scrollbar-thumb{background:#e0d8c8;border-radius:8px}
+  .flow::-webkit-scrollbar-track{background:transparent}
+  .pstep{flex:0 0 88%;max-width:600px;scroll-snap-align:start;
+    background:var(--card);border:1px solid var(--line);border-left:5px solid var(--blue);
     border-radius:var(--radius);padding:16px 20px 17px;box-shadow:var(--shadow)}
   .pstep.q1{border-left-color:var(--red)}
   .pstep.q2{border-left-color:var(--blue)}
@@ -69,6 +75,7 @@
   .q1 .k{color:var(--red-d)} .q1 .k .no{background:var(--red)}
   .q2 .k{color:var(--blue-d)} .q2 .k .no{background:var(--blue)}
   .q3 .k{color:var(--green-d)} .q3 .k .no{background:var(--green)}
+  .pstep .ksub{font-size:12.5px;color:var(--muted);margin:0 0 6px}
   .pstep ul{margin:6px 0 0;padding:0;list-style:none}
   .pstep li{position:relative;padding:8px 0 8px 20px;font-size:14px;line-height:1.6;border-top:1px dashed var(--line)}
   .pstep li:first-child{border-top:none;padding-top:2px}
@@ -76,22 +83,30 @@
   .pstep li:first-child::before{top:9px}
   .pstep li b{color:var(--ink);font-weight:700}
   .pstep li .s{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+  @media(min-width:820px){.pstep{flex-basis:60%}}
 
-  /* diagrams */
   .fig{margin:13px 0 2px}
   .fig svg{width:100%;height:auto;max-width:430px;display:block}
   .figcap{font-size:11px;color:var(--muted);margin-top:3px}
 
-  /* 具体案 table */
-  .tblwrap{overflow-x:auto;margin-top:10px}
+  .sec{margin:30px 0 6px}
+  .sec > h2{font-size:17px;margin:0 0 3px;display:flex;align-items:center;gap:10px}
+  .sec > h2 .no{width:24px;height:24px;border-radius:7px;background:var(--blue);color:#fff;font-size:12px;
+    font-weight:900;display:inline-flex;align-items:center;justify-content:center;font-family:"Montserrat","Noto Sans JP"}
+  .sec .lead{font-size:13px;color:var(--muted);margin:2px 0 12px}
+
+  .tblwrap{overflow-x:auto;margin-top:6px}
   .ctbl{width:100%;border-collapse:collapse;font-size:12.5px;min-width:460px}
   .ctbl th,.ctbl td{text-align:left;padding:9px 10px;border-top:1px solid var(--line);vertical-align:top;line-height:1.55}
   .ctbl th{background:#faf6ec;font-size:11px;color:var(--muted);font-weight:800;letter-spacing:.04em}
   .ctbl td b{color:var(--ink)}
   .ctbl code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;background:#f3ede2;padding:1px 5px;border-radius:4px;color:#7a4a2f}
+  .lv{display:inline-block;font-size:11px;font-weight:800;padding:1px 8px;border-radius:5px;white-space:nowrap}
+  .lv.a{background:#eef3f7;color:var(--blue-d)} .lv.b{background:#ecf6ef;color:var(--green-d)} .lv.c{background:#fbf3e6;color:#a9711f}
   .eff{display:inline-block;font-size:11px;font-weight:800;padding:1px 7px;border-radius:5px;background:#ecf6ef;color:var(--green-d);white-space:nowrap}
   .eff.m{background:#fff3e8;color:#b3701f}
-  .note{font-size:12.5px;color:var(--muted);background:#faf6ec;border-left:3px solid var(--blue);padding:9px 12px;border-radius:0 8px 8px 0;margin-top:12px}
+  .note{font-size:12.5px;color:var(--muted);background:#faf6ec;border-left:3px solid var(--amber);padding:9px 12px;border-radius:0 8px 8px 0;margin:6px 0 10px}
+  .note b{color:#a9711f}
 
   .refs{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);padding:14px 20px;margin:22px 0 18px;box-shadow:var(--shadow)}
   .refs .lbl{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--blue-d);text-transform:uppercase}
@@ -116,7 +131,7 @@
 
 <div class="wrap">
 
-  <div class="crumb"><a href="/2026h2/">← H2 ミッション</a> ／ ② TR側の既存 UX 改善 ／ プロジェクト 2</div>
+  <div class="crumb"><a href="/2026h2/">← H2 ミッション</a> ／ ② TR側の既存 UX 改善  / プロジェクト 2</div>
 
   <header class="phero">
     <div class="eyebrow">プロジェクトブリーフィング</div>
@@ -137,129 +152,133 @@
     </ul>
   </div>
 
+  <div class="swipe-hint">← スワイプ：課題 → 打ち手方針 → 進め方案 →</div>
   <div class="flow">
 
     <!-- 課題 -->
     <div class="pstep q1">
       <div class="k"><span class="no">問</span>課題</div>
       <ul>
-        <li><b>カテゴリページ：開くたびにスピナー。</b>表示処理 ≈1.5s の大半が「表示する20件ぶんの後処理」で、検索（Elasticsearch）自体は速い（≈0.17s）。
-          <span class="s">・<code>isDynamicPrice</code> が 20 件×フルデータ取得で ≈0.85s（実際に要るのは4フラグだけ）／・<code>getApplicableCoupon</code> を20件ぶん SQL 実行するが、結果はフロントで別 API に上書きされ捨てられている。</span></li>
-        <li><b>予約モーダル：日程・人数・開始時間を変えるたびに再読込（≈0.77s）。</b><code>getActivityInfo()</code> が1リクエストで9回走る。日程は何度も切り替える前提なので累積でストレスになる。</li>
-        <li><b>転送量：重い画像・タグが残っている。</b>853KB の AppsFlyer バナー等。サードパーティタグにも整理余地。</li>
+        <li><b>表示・操作の遅さがそのまま離脱に。</b>特にモバイルで、読み込みや反応の遅れが取りこぼしになる。</li>
+        <li><b>遅さは1箇所にない。</b><b>サイト全体共通</b>（重い共通スクリプト・画像・計測タグ）／<b>ページ種類ごと</b>（重い一覧生成・データ取得）／<b>個別の操作ごと</b>（変更のたびの再読込）の各レベルに散在する。</li>
+        <li><b>どこから効くかを決め打ちできない。</b>まず計測して、どのレベル・どの処理で時間が溶けているかを切り分ける必要がある。</li>
       </ul>
       <div class="fig">
-        <svg viewBox="0 0 430 150" role="img" aria-label="カテゴリページと予約モーダルの所要時間内訳（実測）">
-          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">実測：1リクエストの時間内訳</text>
-          <!-- category -->
-          <text x="0" y="34" font-size="12" fill="#2D1C21">カテゴリ表示 <tspan font-weight="700">≈1.5s</tspan></text>
-          <g>
-            <rect x="0" y="40" width="34" height="16" rx="3" fill="#86BE99"/>
-            <rect x="34" y="40" width="170" height="16" rx="0" fill="#F38268"/>
-            <rect x="204" y="40" width="96" height="16" rx="0" fill="#e6a15a"/>
-            <rect x="0" y="40" width="300" height="16" rx="3" fill="none" stroke="#e7e0d4"/>
+        <svg viewBox="0 0 430 108" role="img" aria-label="遅さは全体共通・ページ種類・操作の3レベルに散在する">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">遅さは3つのレベルに散在する</text>
+          <g font-size="11" font-weight="700">
+            <text x="0" y="34" fill="#5f86a8">全体共通</text>
+            <rect x="96" y="22" width="334" height="18" rx="4" fill="#eef3f7" stroke="#7CA0BF"/>
+            <rect x="96" y="22" width="150" height="18" rx="4" fill="#F38268"/>
+            <text x="0" y="64" fill="#4c8a63">ページ種類</text>
+            <rect x="96" y="52" width="334" height="18" rx="4" fill="#ecf6ef" stroke="#86BE99"/>
+            <rect x="96" y="52" width="210" height="18" rx="4" fill="#F38268"/>
+            <text x="0" y="94" fill="#a9711f">操作ごと</text>
+            <rect x="96" y="82" width="334" height="18" rx="4" fill="#fbf3e6" stroke="#e6a15a"/>
+            <rect x="96" y="82" width="110" height="18" rx="4" fill="#F38268"/>
           </g>
-          <text x="119" y="52" font-size="9.5" font-weight="700" fill="#fff" text-anchor="middle">isDynamicPrice 0.85s</text>
-          <!-- modal -->
-          <text x="0" y="84" font-size="12" fill="#2D1C21">予約モーダル <tspan font-weight="700">≈0.77s</tspan></text>
-          <g>
-            <rect x="0" y="90" width="100" height="16" rx="3" fill="#F38268"/>
-            <rect x="100" y="90" width="54" height="16" rx="0" fill="#e6a15a"/>
-            <rect x="0" y="90" width="154" height="16" rx="3" fill="none" stroke="#e7e0d4"/>
-          </g>
-          <text x="50" y="102" font-size="9.5" font-weight="700" fill="#fff" text-anchor="middle">getActivityInfo×9</text>
-          <!-- legend -->
-          <g font-size="10.5" fill="#6b5d61">
-            <rect x="0" y="126" width="11" height="11" rx="2" fill="#86BE99"/><text x="16" y="135">検索(ES)</text>
-            <rect x="88" y="126" width="11" height="11" rx="2" fill="#F38268"/><text x="104" y="135">重い処理</text>
-            <rect x="188" y="126" width="11" height="11" rx="2" fill="#e6a15a"/><text x="204" y="135">その他の後処理</text>
-          </g>
+          <text x="424" y="16" font-size="9.5" fill="#c0442a" text-anchor="end">■＝遅さ</text>
         </svg>
-        <div class="figcap">出典：ClickUp UX_DESIGN-167 の実測（起点 URL の1リクエスト）。</div>
       </div>
     </div>
 
     <!-- 打ち手方針 -->
     <div class="pstep q2">
-      <div class="k"><span class="no">方</span>打ち手方針</div>
+      <div class="k"><span class="no">方</span>打ち手方針（どう考えるか）</div>
       <ul>
-        <li><b>① 後処理の重さを削る（最大要因・最優先）</b>
-          <span class="s">必要なデータだけ取る／重複・無駄な呼び出しをやめる／同一リクエスト内の再取得をメモ化する。</span></li>
-        <li><b>② 転送量を減らす</b>
-          <span class="s">不要なサードパーティタグを減らす・defer する／重い画像を圧縮する。</span></li>
-        <li><b>③ 効果 × 低工数の高いものから着手</b>
-          <span class="s">S〜M 工数で効くものは即着手。大きいものは効果見積もりを添えて別チケット化。</span></li>
-        <li><b>④ キャッシュ戦略は後段</b>
-          <span class="s">同一条件の再取得回避は精度とのトレードオフ。上記を実装してから検討する。</span></li>
+        <li><b>① サイト全体共通で効くもの</b>
+          <span class="s">全ページに波及。共通スクリプト・計測タグ（GTM 断捨離）・共通画像/フォント・キャッシュ/CDN 方針。効けば一気に全体が速くなる。</span></li>
+        <li><b>② ページ種類ごと</b>
+          <span class="s">カテゴリページ／AC 詳細／予約フォーム等、種類特有の重い処理（一覧生成・データ取得）を潰す。</span></li>
+        <li><b>③ 個別の操作ごと</b>
+          <span class="s">日程変更・絞り込み等、操作のたびに走る処理を デバウンス／オプティミスティック UI／キャッシュ で軽くする。</span></li>
+        <li><b>各レベル共通の原則</b>
+          <span class="s">計測して<b>重い原因の順に潰す</b>。低工数 × 高効果から着手し、速い状態を測って保つ。</span></li>
       </ul>
       <div class="fig">
-        <svg viewBox="0 0 430 128" role="img" aria-label="重い原因順に着手する優先順位">
-          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">重い原因順に着手する</text>
-          <g font-size="12" font-weight="700">
-            <rect x="0" y="20" width="330" height="22" rx="6" fill="#fdeae4" stroke="#F38268"/>
-            <text x="12" y="35" fill="#c0442a">① 後処理の重さを削る（最大要因）</text>
-            <rect x="0" y="48" width="250" height="22" rx="6" fill="#eef3f7" stroke="#7CA0BF"/>
-            <text x="12" y="63" fill="#5f86a8">② 画像・3rd タグを軽くする</text>
-            <rect x="0" y="76" width="180" height="22" rx="6" fill="#fbf3e6" stroke="#e6a15a"/>
-            <text x="12" y="91" fill="#a9711f">③ 低工数から着手</text>
-            <rect x="0" y="104" width="130" height="22" rx="6" fill="#f2ede4" stroke="#c9bfae"/>
-            <text x="12" y="119" fill="#8a7d6b">④ キャッシュは後で</text>
+        <svg viewBox="0 0 430 104" role="img" aria-label="全体共通ほど波及が大きい">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">波及範囲：全体共通ほど一度で効く</text>
+          <g font-size="11" font-weight="700" text-anchor="middle">
+            <rect x="65" y="22" width="300" height="22" rx="6" fill="#eef3f7" stroke="#7CA0BF"/>
+            <text x="215" y="37" fill="#5f86a8">① 全体共通（全ページに波及）</text>
+            <rect x="115" y="48" width="200" height="22" rx="6" fill="#ecf6ef" stroke="#86BE99"/>
+            <text x="215" y="63" fill="#4c8a63">② ページ種類ごと</text>
+            <rect x="155" y="74" width="120" height="22" rx="6" fill="#fbf3e6" stroke="#e6a15a"/>
+            <text x="215" y="89" fill="#a9711f">③ 操作ごと</text>
           </g>
         </svg>
-        <div class="figcap">バーの長さ＝インパクトの大きさ／着手の優先度。</div>
       </div>
     </div>
 
-    <!-- 具体案 -->
+    <!-- 進め方案 -->
     <div class="pstep q3">
-      <div class="k"><span class="no">具</span>具体案</div>
+      <div class="k"><span class="no">進</span>進め方案（個別の1例）</div>
+      <p class="ksub">「計測 → 重い原因順に潰す」を1画面・1操作でやってみた例。指示ではなく、他のページ種類・操作・全体共通にも同じ型を当てるための見本。</p>
+      <div class="note"><b>これは全てではない。</b>カテゴリページ表示・予約モーダル操作という特定ページ・特定操作の1例。詳細な実態は下段の「実態分析」。</div>
       <div class="tblwrap">
         <table class="ctbl">
-          <tr><th>対象</th><th>アクション</th><th>工数 / 効果</th></tr>
-          <tr>
-            <td>カテゴリ</td>
-            <td><b>isDynamicPrice を必要フラグだけバッチ取得</b>／memcache 呼び出しを削減</td>
-            <td><span class="eff m">M・約2人日</span><br>≈0.2〜0.5s</td>
-          </tr>
-          <tr>
-            <td>カテゴリ</td>
-            <td><b><code>filter()</code> 内の getApplicableCoupon を削除</b>（フロントは別 API で上書きするため UI は不変）</td>
-            <td><span class="eff">S・0.5〜1人日</span><br>≈0.1〜0.2s</td>
-          </tr>
-          <tr>
-            <td>モーダル</td>
-            <td><b>getActivityInfo() を activity_id 単位でメモ化</b>（最大の勝ち筋）</td>
-            <td><span class="eff">S・0.5〜1人日</span><br>≈0.1〜0.2s</td>
-          </tr>
-          <tr>
-            <td>モーダル</td>
-            <td><b>不要な取得を削る</b>：ログ専用 getActivityInfo 削除／直前取得データの使い回し／不要 DB 取得の drop</td>
-            <td><span class="eff">XS〜S・各&lt;0.5〜1人日</span><br>合計 ≈0.05〜0.1s</td>
-          </tr>
-          <tr>
-            <td>横断</td>
-            <td><b>853KB の AppsFlyer バナー等を圧縮</b>・画像監査／サードパーティタグの defer・削減</td>
-            <td><span class="eff">S</span><br>転送量削減</td>
-          </tr>
+          <tr><th>対象</th><th>やってみる一手</th><th>工数/効果（見積り）</th></tr>
+          <tr><td><span class="lv b">カテゴリ</span></td><td><b>isDynamicPrice を必要フラグだけバッチ取得</b>／memcache 呼び出し削減</td><td><span class="eff m">M・約2人日</span><br>≈0.2〜0.5s</td></tr>
+          <tr><td><span class="lv b">カテゴリ</span></td><td><b><code>filter()</code> 内の getApplicableCoupon 削除</b>（フロントが別 API で上書き→UI 不変）</td><td><span class="eff">S・0.5〜1人日</span><br>≈0.1〜0.2s</td></tr>
+          <tr><td><span class="lv c">操作</span></td><td><b>getActivityInfo() を activity_id 単位でメモ化</b>（最大の勝ち筋）</td><td><span class="eff">S・0.5〜1人日</span><br>≈0.1〜0.2s</td></tr>
+          <tr><td><span class="lv c">操作</span></td><td><b>不要な取得を削る</b>（ログ専用呼び出し削除／取得済み使い回し／不要 DB drop）</td><td><span class="eff">XS〜S</span><br>≈0.05〜0.1s</td></tr>
+          <tr><td><span class="lv a">全体共通</span></td><td><b>853KB の AppsFlyer バナー等を圧縮</b>・画像監査／タグの defer</td><td><span class="eff">S</span><br>転送量削減</td></tr>
         </table>
-      </div>
-      <div class="fig">
-        <svg viewBox="0 0 430 74" role="img" aria-label="低工数の積み上げによる短縮の見込み（概念図）">
-          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">低工数の積み上げで（概念図）</text>
-          <text x="0" y="34" font-size="11" fill="#2D1C21">現状</text>
-          <rect x="52" y="23" width="300" height="15" rx="4" fill="#F38268"/>
-          <text x="358" y="35" font-size="10.5" font-weight="700" fill="#c0442a">≈1.5s</text>
-          <text x="0" y="62" font-size="11" fill="#2D1C21">見込み</text>
-          <rect x="52" y="51" width="200" height="15" rx="4" fill="#86BE99"/>
-          <text x="258" y="63" font-size="10.5" font-weight="700" fill="#4c8a63">短縮</text>
-        </svg>
-        <div class="figcap">数値は UX_DESIGN-167 の見積もりに基づく概算。まず即着手分の積み上げから。</div>
-      </div>
-      <div class="note">
-        出典：ClickUp <b>UX_DESIGN-167</b>（調査：Suki／速度改善リード：Pitor）。同じ「計測→重い順に潰す」の型を、他の遅い画面にも当てていく。
       </div>
     </div>
 
+  </div>
+
+  <!-- 実態分析 -->
+  <div class="sec">
+    <h2><span class="no">実</span>実態分析（3レベルで整理）</h2>
+    <p class="lead">上の3レベルで「いま分かっていること」と「これから見るところ」を並べる。調査は各レベルとも計測から。</p>
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>レベル</th><th>いまの実態・実測</th><th>これから見るところ</th></tr>
+        <tr>
+          <td><span class="lv a">全体共通</span></td>
+          <td>GTM・サードパーティタグは既に非同期（影響小）。<b>853KB の AppsFlyer バナー</b>等、重い画像が残る。</td>
+          <td>共通スクリプト／フォント、CDN・キャッシュ方針、全ページ共通の重い要素。</td>
+        </tr>
+        <tr>
+          <td><span class="lv b">ページ種類ごと</span></td>
+          <td><b>カテゴリページ：一覧生成が重い</b>（<code>filter()</code> ≈1.5s。個別例 UX_DESIGN-167 で実測）。</td>
+          <td>AC 詳細／予約フォーム／マイページ 等、他のページ種類の重い処理。</td>
+        </tr>
+        <tr>
+          <td><span class="lv c">操作ごと</span></td>
+          <td><b>予約モーダル：日程/人数/開始時間の変更で再読込</b>（<code>formData()</code> ≈0.77s。個別例で実測）。</td>
+          <td>絞り込み・ソート・ページング等、頻出操作のたびの処理。</td>
+        </tr>
+      </table>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 430 150" role="img" aria-label="カテゴリページと予約モーダルの所要時間内訳（実測）">
+        <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">実測（個別例）：1リクエストの時間内訳</text>
+        <text x="0" y="34" font-size="12" fill="#2D1C21">カテゴリ表示 <tspan font-weight="700">≈1.5s</tspan></text>
+        <g>
+          <rect x="0" y="40" width="34" height="16" rx="3" fill="#86BE99"/>
+          <rect x="34" y="40" width="170" height="16" fill="#F38268"/>
+          <rect x="204" y="40" width="96" height="16" fill="#e6a15a"/>
+          <rect x="0" y="40" width="300" height="16" rx="3" fill="none" stroke="#e7e0d4"/>
+        </g>
+        <text x="119" y="52" font-size="9.5" font-weight="700" fill="#fff" text-anchor="middle">isDynamicPrice 0.85s</text>
+        <text x="0" y="84" font-size="12" fill="#2D1C21">予約モーダル <tspan font-weight="700">≈0.77s</tspan></text>
+        <g>
+          <rect x="0" y="90" width="100" height="16" rx="3" fill="#F38268"/>
+          <rect x="100" y="90" width="54" height="16" fill="#e6a15a"/>
+          <rect x="0" y="90" width="154" height="16" rx="3" fill="none" stroke="#e7e0d4"/>
+        </g>
+        <text x="50" y="102" font-size="9.5" font-weight="700" fill="#fff" text-anchor="middle">getActivityInfo×9</text>
+        <g font-size="10.5" fill="#6b5d61">
+          <rect x="0" y="126" width="11" height="11" rx="2" fill="#86BE99"/><text x="16" y="135">検索(ES)</text>
+          <rect x="88" y="126" width="11" height="11" rx="2" fill="#F38268"/><text x="104" y="135">重い処理</text>
+          <rect x="188" y="126" width="11" height="11" rx="2" fill="#e6a15a"/><text x="204" y="135">その他の後処理</text>
+        </g>
+      </svg>
+      <div class="figcap">出典：ClickUp UX_DESIGN-167 の実測（カテゴリページ表示・予約モーダル操作）。後回し：同一日程の再選択キャッシュ（速度×精度のトレードオフ）は上記の後に検討。</div>
+    </div>
   </div>
 
   <div class="refs">

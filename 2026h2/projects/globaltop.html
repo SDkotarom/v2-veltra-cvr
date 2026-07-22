@@ -22,7 +22,7 @@
     font-family:"Noto Sans JP","Montserrat",-apple-system,BlinkMacSystemFont,sans-serif;
     font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
   a{color:var(--blue-d)}
-  .wrap{max-width:820px;margin:0 auto;padding:0 24px}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
   h1,h2,h3,h4{font-family:"Montserrat","Noto Sans JP",sans-serif;letter-spacing:.01em}
 
   .topbar{position:sticky;top:0;z-index:40;background:rgba(254,252,243,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
@@ -54,8 +54,15 @@
   .bg li::before{content:"";position:absolute;left:2px;top:13px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
   .bg li b{color:var(--ink)}
 
-  .flow{display:flex;flex-direction:column;gap:14px;margin:14px 0 6px}
-  .pstep{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--blue);
+  .swipe-hint{font-size:11.5px;font-weight:700;color:var(--muted);margin:18px 0 8px;display:flex;align-items:center;gap:8px}
+  .swipe-hint::before,.swipe-hint::after{content:"";height:1px;background:var(--line);flex:1}
+  .flow{display:flex;flex-direction:row;flex-wrap:nowrap;gap:14px;margin:0 0 6px;
+    overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:12px}
+  .flow::-webkit-scrollbar{height:8px}
+  .flow::-webkit-scrollbar-thumb{background:#e0d8c8;border-radius:8px}
+  .flow::-webkit-scrollbar-track{background:transparent}
+  .pstep{flex:0 0 88%;max-width:600px;scroll-snap-align:start;
+    background:var(--card);border:1px solid var(--line);border-left:5px solid var(--blue);
     border-radius:var(--radius);padding:16px 20px 17px;box-shadow:var(--shadow)}
   .pstep.q1{border-left-color:var(--red)}
   .pstep.q2{border-left-color:var(--blue)}
@@ -87,6 +94,7 @@
   footer{padding:32px 0 60px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:22px}
   footer .back{font-weight:700;text-decoration:none}
 
+  @media(min-width:820px){.pstep{flex-basis:60%}}
   @media(max-width:720px){.nav{display:none}}
 </style>
 </head>
@@ -123,6 +131,7 @@
     </ul>
   </div>
 
+  <div class="swipe-hint">← スワイプ：課題 → 打ち手方針 → 進め方案 →</div>
   <div class="flow">
 
     <!-- 課題 -->
@@ -189,9 +198,10 @@
       </div>
     </div>
 
-    <!-- 具体案 -->
+    <!-- 進め方案 -->
     <div class="pstep q3">
-      <div class="k"><span class="no">具</span>具体案</div>
+      <div class="k"><span class="no">進</span>進め方案（進め方の一例）</div>
+      <p style="font-size:12.5px;color:var(--muted);margin:2px 0 4px">進め方の一例。ベスト・全てではなく、初手のイメージ用。実際の進め方は担当が決める。</p>
       <ul>
         <li><b>行き先で選ぶ入口</b>／GlobalTOP で「国内旅行（新基盤エリア）」「海外旅行（現行エリア）」を明示的に振り分ける UI。</li>
         <li><b>エリア間の一貫性・橋渡し</b>／国内（新基盤）⇔海外（現行）をまたぐ箇所に、共通のヘッダー・導線・言葉づかいや移動時の案内を置き、別サイト感を消す。</li>
