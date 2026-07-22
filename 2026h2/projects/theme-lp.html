@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>テーマ特化 LP 最適化（スポーツ・演劇…） — プロジェクトブリーフィング</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#7CA0BF;--blue-d:#5f86a8;--green:#86BE99;--red:#F38268;
+    --offwhite:#FEFCF3;--dark:#2D1C21;--ink:#2D1C21;--muted:#6b5d61;
+    --line:#e7e0d4;--card:#ffffff;
+    --shadow:0 1px 3px rgba(45,28,33,.08),0 6px 18px rgba(45,28,33,.06);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--offwhite);color:var(--ink);
+    font-family:"Noto Sans JP","Montserrat",-apple-system,BlinkMacSystemFont,sans-serif;
+    font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  a{color:var(--blue-d)}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+  h1,h2,h3,h4{font-family:"Montserrat","Noto Sans JP",sans-serif;letter-spacing:.01em}
+
+  /* topbar */
+  .topbar{position:sticky;top:0;z-index:40;background:rgba(254,252,243,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .topbar .wrap{max-width:1120px;display:flex;align-items:center;gap:16px;height:56px;flex-wrap:wrap}
+  .brand{font-family:"Montserrat";font-weight:800;letter-spacing:.14em;color:var(--blue-d);font-size:18px}
+  .brand small{display:block;font-size:10px;letter-spacing:.28em;color:var(--muted);font-weight:600}
+  .nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+  .nav a{font-size:12.5px;font-weight:600;color:var(--muted);text-decoration:none;padding:6px 11px;border-radius:999px}
+  .nav a:hover{background:#fff;color:var(--ink)}
+  .nav a.on{background:var(--blue);color:#fff}
+
+  /* breadcrumb / back */
+  .crumb{padding:20px 0 0;font-size:12.5px;color:var(--muted)}
+  .crumb a{text-decoration:none;font-weight:600}
+  .crumb a:hover{text-decoration:underline}
+
+  /* hero */
+  .phero{padding:16px 0 8px}
+  .eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+  .phero h1{font-family:"Noto Sans JP";font-weight:900;font-size:clamp(24px,4vw,34px);line-height:1.3;margin:10px 0 0}
+  .phero .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:14px}
+  .pill{font-size:11.5px;font-weight:700;padding:3px 11px;border-radius:999px;background:#eef3f7;color:var(--blue-d);white-space:nowrap}
+  .pill.sub{background:#fbe9e2;color:#c0562f}
+  .flag{display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;white-space:nowrap;vertical-align:middle}
+  .flag.crit{background:#fdeae4;color:#d0512f}
+  .lead{margin-top:16px;font-size:15px;color:var(--ink)}
+
+  /* article blocks */
+  article{padding:8px 0 10px}
+  .goal{background:#ecf6ef;border:1px solid #cfe6d7;border-radius:var(--radius);padding:20px 22px;margin:22px 0;box-shadow:var(--shadow)}
+  .goal .lbl{font-size:11px;font-weight:800;letter-spacing:.1em;color:#4c8a63;text-transform:uppercase}
+  .goal p{margin:8px 0 0;font-size:16px;line-height:1.75;font-weight:500}
+
+  .block{margin:26px 0}
+  .block > h2{font-size:18px;margin:0 0 12px;display:flex;align-items:center;gap:10px}
+  .block > h2::before{content:"";width:18px;height:3px;border-radius:2px;background:var(--blue);display:inline-block}
+  .block ul{margin:0;padding-left:0;list-style:none}
+  .block li{position:relative;padding:7px 0 7px 20px;font-size:14.5px;line-height:1.75;border-top:1px dashed var(--line)}
+  .block li:first-child{border-top:none}
+  .block li::before{content:"";position:absolute;left:3px;top:16px;width:6px;height:6px;border-radius:50%;background:var(--blue)}
+  .block li b{color:var(--ink)}
+  .block li .q{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+
+  .cards2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0}
+  .cardx{background:#faf6ec;border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+  .cardx .lbl{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+  .cardx p{margin:8px 0 0;font-size:13.5px;line-height:1.7}
+  .cardx a{font-weight:700}
+
+  .refs{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);padding:16px 20px;margin:22px 0;box-shadow:var(--shadow)}
+  .refs .lbl{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--blue-d);text-transform:uppercase}
+  .refs ul{margin:8px 0 0;padding-left:18px}
+  .refs li{font-size:13.5px;line-height:1.8}
+
+  footer{padding:36px 0 60px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:24px}
+  footer .back{font-weight:700;text-decoration:none}
+
+  @media(max-width:720px){.cards2{grid-template-columns:1fr}.nav{display:none}}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <div class="brand">VELTRA<small>UX DESIGN SQUAD</small></div>
+  <nav class="nav">
+    <a href="/2026h2/">H2 ミッション</a>
+    <a href="/2026h2/cvr.html">CVR サマリー</a>
+  </nav>
+</div></div>
+
+<div class="wrap">
+
+  <div class="crumb"><a href="/2026h2/">← H2 ミッション</a> ／ ② TR側の既存 UX 改善 ／ プロジェクト 5</div>
+
+  <header class="phero">
+    <div class="eyebrow">プロジェクトブリーフィング</div>
+    <h1>テーマ特化 LP 最適化（スポーツ・演劇…）</h1>
+    <div class="meta">
+      <span class="pill">Kotaro</span><span class="pill sub">Megumi</span><span class="pill sub">Izumi</span>
+    </div>
+    <p class="lead">担当が自走で始めるための方向性メモ。「めざす状態」と「考えどころ」を示す。個別の実装指示ではなく、どこを目指し・どこを考えるかの叩き台。</p>
+  </header>
+
+  <article>
+
+    <div class="goal">
+      <div class="lbl">めざす状態</div>
+      <p>スポーツ観戦・演劇などテーマで探している Traveler が、そのテーマに合った LP で「これだ」と思える情報にすぐ出会い、迷わず予約まで進める。さらに、LP を素早く作り・更新し続けられる運用が回り、テーマや旬に合わせて機動的に出せる。</p>
+    </div>
+
+    <div class="block">
+      <h2>背景（なぜ今か）</h2>
+      <ul>
+        <li>スポーツ・演劇のように<b>目的がはっきりしたテーマ</b>で探す Traveler には、汎用ページより、テーマの意思決定に効く情報を絞った LP のほうが響く。</li>
+        <li>テーマや旬（開催時期・シーズン）は動くので、LP を作って終わりではなく、<b>速く作り・速く更新できる運用</b>そのものが価値になる。</li>
+        <li>その運用を成立させる裏テーマとして、<b>AI を使った高速な LP 制作・運用</b>の導入を検討する。手数をかけずに数と鮮度を保つのが狙い。</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <h2>考えどころ（方向性）</h2>
+      <ul>
+        <li><b>どのテーマから始めるか</b>
+          <span class="q">需要と季節性で優先順位をつける。スポーツ・演劇を入口に、効くテーマを見極める。</span></li>
+        <li><b>テーマ特有の意思決定要因を LP に載せる</b>
+          <span class="q">そのテーマで Traveler が「予約を決める」ために要る情報は何か。汎用ページと何を変えるか。</span></li>
+        <li><b>AI による高速運用の仕組み</b>
+          <span class="q">生成・更新をどこまで自動化し、品質をどう担保するか。速さと質を両立させる作り方。手が空くほど数と鮮度を増やせる状態を目指す。</span></li>
+        <li><b>汎用ページとの役割分担</b>
+          <span class="q">テーマ LP と既存の一覧・商品ページの棲み分け。動線が二重にならないようにする。</span></li>
+      </ul>
+    </div>
+
+    <div class="cards2">
+      <div class="cardx">
+        <div class="lbl">スコープの目安</div>
+        <p>テーマ単位の LP と、その制作・更新運用に集中する。裏で AI 高速運用の仕組みを検討する。入力や決済のフローは他プロジェクト（フォームステップ・リクエスト予約）に切り分ける。</p>
+      </div>
+      <div class="cardx">
+        <div class="lbl">時期</div>
+        <p>3Q（2026年7〜9月）の UX 向上テーマとして進める。テーマの旬に合わせて機動的に出せる状態を目指す。</p>
+      </div>
+    </div>
+
+    <div class="refs">
+      <div class="lbl">入口・参考</div>
+      <ul>
+        <li><a href="/2026h1/planning/" target="_blank" rel="noopener">これまでの施策案・モック</a>（テーマ特化 LP まわりの既存の検討）</li>
+        <li><a href="/2026h2/#focus">H2 ミッション「Traveler の UX 向上」</a>（②の全体像と他プロジェクトとの位置づけ）</li>
+      </ul>
+    </div>
+
+  </article>
+</div>
+
+<footer class="wrap">
+  <a class="back" href="/2026h2/">← H2 ミッションへ戻る</a><br>
+  VELTRA UX Design Squad ― ② TR側の既存 UX 改善 ／ プロジェクトブリーフィング
+</footer>
+
+</body>
+</html>
