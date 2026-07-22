@@ -45,6 +45,7 @@
   .pill.sub{background:#fbe9e2;color:#c0562f}
   .flag{display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;white-space:nowrap;vertical-align:middle}
   .flag.crit{background:#fdeae4;color:#d0512f}
+  .flag.live{background:#ecf6ef;color:#4c8a63}
 
   .bg{background:#faf6ec;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);
     padding:16px 20px;margin:24px 0 6px;box-shadow:var(--shadow)}
@@ -106,7 +107,7 @@
 
   <header class="phero">
     <div class="eyebrow">プロジェクトブリーフィング</div>
-    <h1>テーマ特化 LP 最適化（スポーツ・演劇…）</h1>
+    <h1>テーマ特化 LP 最適化（スポーツ・演劇…） <span class="flag live">一部リリース済み</span></h1>
     <div class="meta">
       <span class="pill">Kotaro</span><span class="pill sub">Megumi</span><span class="pill sub">Izumi</span>
     </div>
@@ -116,9 +117,9 @@
   <div class="bg">
     <div class="lbl">背景（なぜ今か）</div>
     <ul>
-      <li>スポーツ観戦・演劇のように<b>目的がはっきりしたテーマ</b>で探す Traveler には、汎用ページより、テーマの意思決定に効く情報を絞った LP のほうが響く。</li>
-      <li>テーマや旬（開催時期・シーズン）は動く。<b>作って終わりではなく、速く作り・速く更新できる運用</b>そのものが価値になる。</li>
-      <li>その運用を成立させる裏テーマとして、<b>AI を使った高速な LP 制作・運用</b>の導入を検討する。</li>
+      <li>スポーツ（野球）テーマ LP は<b>すでにリリース済み</b>。「MLB 等（海外野球）の観戦ツアー・チケットを<b>横断で探せるハブ</b>」として、検索・広告で来る<b>意図を持つ新規</b>を受け止め、最適な AC へ送客する。</li>
+      <li>役割は「意図ある新規の取りこぼし防止」。<b>主 KPI＝AC 送客数（ac_click）</b>。深いコンテンツは SEO 資産と割り切り、送客の下に置く。</li>
+      <li>次の焦点は <b>SEO 強化・横展開・動線設計</b>。裏テーマとして、野球で作った型を他テーマへ広げる <b>AI 高速運用</b>を検討する。</li>
     </ul>
   </div>
 
@@ -128,26 +129,32 @@
     <div class="pstep q1">
       <div class="k"><span class="no">問</span>課題</div>
       <ul>
-        <li><b>汎用ページでは情報が足りない。</b>テーマ特有の意思決定要因（開催日程・観戦/座席の位置・移動や前後泊・関連手配）を出しきれず、Traveler が決めきれない。</li>
-        <li><b>制作コストで数と鮮度が保てない。</b>LP を人手で作ると、旬に間に合わず本数も増やせない。</li>
-        <li><b>更新が回らない。</b>一度作った LP が古くなる（終了イベント・過去シーズン）。更新の仕組みがない。</li>
-        <li><b>動線の重複。</b>テーマ LP と既存の一覧・商品ページの役割が重なり、動線が二重になりやすい。</li>
+        <li><b>LP 内で送客を取りこぼしている。</b>一覧（list）への到達が激減（実測 list 到達 4 ≪ pickup 22）。AC 送客ブロックが上部に集約されておらず、来た新規を AC まで運びきれていない。</li>
+        <li><b>離脱の受け皿が弱い。</b>欲しい観戦 AC が無かった時に、同エリアの他アクティビティへ逃がす横展開の導線が足りない。</li>
+        <li><b>検索流入依存＋カテゴリ重複。</b>流入の主軸は SEO＋広告。野球カテゴリと内容が重複し、独自価値（コンテンツ＋横断検索）を出さないと差別化されない。</li>
+        <li><b>横展開が人手だと回らない。</b>野球で作った型を他テーマ（他球団・選手／演劇／他スポーツ）に広げる際、手作業では数と鮮度が保てない。</li>
       </ul>
       <div class="fig">
-        <svg viewBox="0 0 430 112" role="img" aria-label="テーマ意図と汎用ページのミスマッチ／制作が追いつかない">
-          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">現状：テーマ意図に汎用ページが応えきれない</text>
-          <circle cx="52" cy="52" r="20" fill="#fdeae4" stroke="#F38268"/>
-          <text x="52" y="49" font-size="9" text-anchor="middle" fill="#c0442a">スポーツで</text>
-          <text x="52" y="60" font-size="9" text-anchor="middle" fill="#c0442a">探す</text>
-          <path d="M74 52 H150" stroke="#b9a98f" stroke-width="1.5" fill="none" marker-end="url(#ta)"/>
-          <rect x="154" y="36" width="150" height="32" rx="8" fill="#f2ede4" stroke="#c9bfae"/>
-          <text x="229" y="50" font-size="10.5" font-weight="700" text-anchor="middle" fill="#8a7d6b">汎用ページ</text>
-          <text x="229" y="62" font-size="9" text-anchor="middle" fill="#8a7d6b">意思決定要因が薄い</text>
-          <text x="330" y="48" font-size="20" fill="#c0442a">⚠</text>
-          <text x="380" y="52" font-size="10" fill="#c0442a">決めきれない</text>
-          <text x="0" y="100" font-size="10" fill="#8a7d6b">＋ 人手制作では旬に間に合わず、本数・鮮度が保てない</text>
-          <defs><marker id="ta" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#b9a98f"/></marker></defs>
+        <svg viewBox="0 0 430 108" role="img" aria-label="流入からAC送客までの取りこぼし">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">流入 → LP → AC 送客（主KPI: ac_click）</text>
+          <g font-size="10.5" text-anchor="middle">
+            <rect x="0" y="34" width="104" height="32" rx="8" fill="#eef3f7" stroke="#7CA0BF"/>
+            <text x="52" y="48" fill="#5f86a8" font-weight="700">検索・広告</text>
+            <text x="52" y="60" fill="#5f86a8" font-size="9">意図ある新規</text>
+            <rect x="150" y="34" width="104" height="32" rx="8" fill="#ecf6ef" stroke="#86BE99"/>
+            <text x="202" y="48" fill="#4c8a63" font-weight="700">野球 LP</text>
+            <text x="202" y="60" fill="#4c8a63" font-size="9">横断検索ハブ</text>
+            <rect x="326" y="34" width="104" height="32" rx="8" fill="#fdeae4" stroke="#F38268"/>
+            <text x="378" y="48" fill="#c0442a" font-weight="700">AC 送客</text>
+            <text x="378" y="60" fill="#c0442a" font-size="9">list 到達 4 ≪ pickup 22</text>
+          </g>
+          <g stroke="#b9a98f" stroke-width="1.5" fill="none" marker-end="url(#la)">
+            <path d="M104 50 H148"/><path d="M254 50 H324"/>
+          </g>
+          <text x="289" y="86" font-size="10" fill="#c0442a" text-anchor="middle">⚠ 上部に送客が集約されず取りこぼし</text>
+          <defs><marker id="la" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#b9a98f"/></marker></defs>
         </svg>
+        <div class="figcap">出典：野球LP送客動線 設計提案（実測 list 到達 4 / pickup 22）。</div>
       </div>
     </div>
 
@@ -155,30 +162,26 @@
     <div class="pstep q2">
       <div class="k"><span class="no">方</span>打ち手方針</div>
       <ul>
-        <li><b>① どのテーマから始めるか</b>
-          <span class="s">需要 × 季節性で優先順位。スポーツ・演劇を入口に、効くテーマから。</span></li>
-        <li><b>② テーマ特化の情報設計</b>
-          <span class="s">そのテーマで予約を決める要因を載せ、汎用ページと明確に差別化する。</span></li>
-        <li><b>③ AI で高速に作り・更新する</b>
-          <span class="s">生成・更新を自動化しつつ品質を担保。速さと質を両立し、旬に合わせて出す。</span></li>
-        <li><b>④ 汎用ページとの役割分担</b>
-          <span class="s">テーマ LP と既存の一覧・商品ページを棲み分け、動線の二重化を防ぐ。</span></li>
+        <li><b>① LP 内動線を強化（最優先・自チームで可）</b>
+          <span class="s">AC 送客ブロックを上部に集約、離脱防止、下部に「開催エリアの他のアクティビティも見る」を置く。</span></li>
+        <li><b>② 検索流入を伸ばす（SEO＋コンテンツ）</b>
+          <span class="s">コンテンツ拡充で検索を伸ばし、カテゴリページと差別化。送客の"下"に置いて上部を圧迫しない。</span></li>
+        <li><b>③ 内部送客はパーソナライズ／CRM（Braze）に絞る（実施中）</b>
+          <span class="s">カテゴリ重複は現状維持。野球意図の人にだけ LP 導線を出す（全員向け TOP・広域カテゴリには出さない）。</span></li>
+        <li><b>④ 横展開は AI 高速運用で</b>
+          <span class="s">野球の型（情報テンプレ＋SEO 構造＋Braze 基盤）を他テーマへ複製・更新自動化する。</span></li>
       </ul>
       <div class="fig">
-        <svg viewBox="0 0 430 92" role="img" aria-label="テーマ×データからAIで生成・更新するループ">
-          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">テーマ → AI 生成 → LP → 更新ループ</text>
-          <g font-size="10.5" font-weight="700" text-anchor="middle">
-            <rect x="0" y="30" width="96" height="30" rx="8" fill="#eef3f7" stroke="#7CA0BF"/><text x="48" y="49" fill="#5f86a8">テーマ選定</text>
-            <rect x="122" y="30" width="96" height="30" rx="8" fill="#ecf6ef" stroke="#86BE99"/><text x="170" y="45" fill="#4c8a63">AI 生成</text><text x="170" y="56" font-size="8.5" fill="#4c8a63">＋品質チェック</text>
-            <rect x="244" y="30" width="80" height="30" rx="8" fill="#fff" stroke="#e7e0d4"/><text x="284" y="49" fill="#2d1c21">テーマ LP</text>
-            <rect x="350" y="30" width="80" height="30" rx="8" fill="#fbf3e6" stroke="#e6a15a"/><text x="390" y="49" fill="#a9711f">更新</text>
-          </g>
-          <g stroke="#b9a98f" stroke-width="1.5" fill="none" marker-end="url(#tb)">
-            <path d="M96 45 H120"/><path d="M218 45 H242"/><path d="M324 45 H348"/>
-            <path d="M390 30 C390 16 48 16 48 28"/>
-          </g>
-          <defs><marker id="tb" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#b9a98f"/></marker></defs>
+        <svg viewBox="0 0 430 116" role="img" aria-label="LPの構成：上部にAC送客、下にSEOと横展開">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">LP の構成：上に送客、下に SEO・横展開</text>
+          <rect x="70" y="20" width="290" height="26" rx="7" fill="#ecf6ef" stroke="#86BE99"/>
+          <text x="215" y="37" font-size="11" font-weight="800" text-anchor="middle" fill="#4c8a63">① AC 送客ブロック（上部・主役）</text>
+          <rect x="70" y="50" width="290" height="24" rx="7" fill="#fbf3e6" stroke="#e6a15a"/>
+          <text x="215" y="66" font-size="10.5" font-weight="700" text-anchor="middle" fill="#a9711f">開催エリアの他 AC も見る（離脱の受け皿）</text>
+          <rect x="70" y="78" width="290" height="24" rx="7" fill="#eef3f7" stroke="#7CA0BF"/>
+          <text x="215" y="94" font-size="10.5" font-weight="700" text-anchor="middle" fill="#5f86a8">② SEO コンテンツ（球団別・ガイド・FAQ）</text>
         </svg>
+        <div class="figcap">③ Braze は外部から一部の人だけを LP に呼ぶ（実施中）。</div>
       </div>
     </div>
 
@@ -186,23 +189,34 @@
     <div class="pstep q3">
       <div class="k"><span class="no">具</span>具体案</div>
       <ul>
-        <li><b>対象テーマの選定</b>／需要・季節性の基準で最初のテーマを決める（スポーツ・演劇から）。</li>
-        <li><b>テーマ別の情報テンプレ</b>／そのテーマの意思決定要因（日程・座席/位置・移動・関連手配）を定義し、載せる型を作る。</li>
-        <li><b>AI 生成・更新パイプライン</b>／データソース → 生成 → 品質チェック → 公開 の流れを組む。データ蓄積待ちは静的フォールバックで先行スタートし、待ち時間ゼロに。</li>
-        <li><b>棲み分けの内部リンク設計</b>／テーマ LP から既存の一覧・商品ページへ、動線が二重にならないよう接続する。</li>
-        <li><b>鮮度の担保</b>／終了イベント・過去シーズンの自動的な出し分け・退役ルール。</li>
+        <li><b>AC 送客を上部集約</b>／Pickup・絞り込み結果・一覧を上部へ、明確な CTA とモバイル最適化（list 到達の改善が最重要）。</li>
+        <li><b>「開催エリアの他のアクティビティも見る」</b>／AC がある開催地への横リンクを送客ブロックの下に。離脱セーフティネット＋同エリア横展開。</li>
+        <li><b>SEO コンテンツ拡充</b>／title/h1/導入文、球団別・選手別の見出し、観戦ガイド、FAQ を送客の下に。構造化データ・想定クエリ網羅。自チームが Claude Code で実施。</li>
+        <li><b>Braze ページ別パーソナライズ（実施中）</b>／エリア・カテゴリ・AC 詳細の下部にスリムバナー等で、<code>baseball_intent</code> の人にだけ LP 導線。</li>
+        <li><b>他テーマへの横展開（AI）</b>／野球の型を演劇・他スポーツ・他球団に複製し、生成・更新を自動化。データ蓄積待ちは静的フォールバックで先行。</li>
       </ul>
       <div class="fig">
-        <svg viewBox="0 0 430 66" role="img" aria-label="AIパイプラインで数と鮮度を増やす（概念図）">
-          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">人手 → AI 運用で本数・鮮度を増やす（概念図）</text>
-          <text x="0" y="34" font-size="11" fill="#2D1C21">人手</text>
-          <g fill="#c9bfae"><rect x="52" y="24" width="14" height="14" rx="3"/><rect x="70" y="24" width="14" height="14" rx="3"/></g>
-          <text x="96" y="35" font-size="10" fill="#8a7d6b">少・古くなる</text>
-          <text x="0" y="60" font-size="11" fill="#2D1C21">AI 運用</text>
-          <g fill="#86BE99"><rect x="52" y="50" width="14" height="12" rx="3"/><rect x="70" y="50" width="14" height="12" rx="3"/><rect x="88" y="50" width="14" height="12" rx="3"/><rect x="106" y="50" width="14" height="12" rx="3"/><rect x="124" y="50" width="14" height="12" rx="3"/><rect x="142" y="50" width="14" height="12" rx="3"/></g>
-          <text x="168" y="60" font-size="10" fill="#4c8a63">多・旬に合わせて更新</text>
+        <svg viewBox="0 0 430 100" role="img" aria-label="野球の型をAIで他テーマへ横展開">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">野球の型 → AI で他テーマへ横展開</text>
+          <rect x="0" y="34" width="120" height="34" rx="9" fill="#ecf6ef" stroke="#86BE99"/>
+          <text x="60" y="49" font-size="11" font-weight="800" text-anchor="middle" fill="#4c8a63">野球 LP</text>
+          <text x="60" y="61" font-size="8.5" text-anchor="middle" fill="#4c8a63">型＝動線＋SEO＋Braze</text>
+          <rect x="150" y="40" width="70" height="22" rx="7" fill="#eef3f7" stroke="#7CA0BF"/>
+          <text x="185" y="55" font-size="10.5" font-weight="700" text-anchor="middle" fill="#5f86a8">AI 運用</text>
+          <path d="M120 51 H148" stroke="#b9a98f" stroke-width="1.5" fill="none" marker-end="url(#tc)"/>
+          <g font-size="10" font-weight="700" text-anchor="middle" fill="#8a7d6b">
+            <rect x="250" y="20" width="180" height="20" rx="6" fill="#fff" stroke="#e7e0d4"/><text x="340" y="34">演劇・ミュージカル</text>
+            <rect x="250" y="45" width="180" height="20" rx="6" fill="#fff" stroke="#e7e0d4"/><text x="340" y="59">他スポーツ（サッカー等）</text>
+            <rect x="250" y="70" width="180" height="20" rx="6" fill="#fff" stroke="#e7e0d4"/><text x="340" y="84">他球団・選手</text>
+          </g>
+          <g stroke="#b9a98f" stroke-width="1.3" fill="none" marker-end="url(#tc)">
+            <path d="M220 51 C236 51 236 30 248 30"/>
+            <path d="M220 51 H248"/>
+            <path d="M220 51 C236 51 236 80 248 80"/>
+          </g>
+          <defs><marker id="tc" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#b9a98f"/></marker></defs>
         </svg>
-        <div class="figcap">まず1テーマで型を作り、AI パイプラインに載せて横展開する。</div>
+        <div class="figcap">まず野球で型を固め、AI 運用に載せて他テーマへ広げる。</div>
       </div>
     </div>
 
@@ -211,8 +225,9 @@
   <div class="refs">
     <div class="lbl">入口・参考</div>
     <ul>
-      <li><a href="/2026h1/planning/" target="_blank" rel="noopener">これまでの施策案・モック</a>（テーマ特化 LP まわりの検討）</li>
-      <li><a href="/2026h2/#focus">H2 ミッション「Traveler の UX 向上」</a>（②の全体像と位置づけ）</li>
+      <li><a href="https://www.veltra.com/jp/lp/sports/baseball/" target="_blank" rel="noopener">野球 LP（リリース済み・本番）</a></li>
+      <li><a href="/2026h1/planning/baseball-lp-navigation.html" target="_blank" rel="noopener">野球LPへの送客動線 設計提案</a>（LP内動線・他ページ→LP・SEO の方針）</li>
+      <li><a href="/2026h1/planning/baseball-lp-braze-setup.html" target="_blank" rel="noopener">野球LP × Braze ページ別パーソナライズ</a>（③の実装・実施中）</li>
     </ul>
   </div>
 
