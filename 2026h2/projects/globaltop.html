@@ -118,8 +118,8 @@
     <ul>
       <li><b>グローバル向けの新基盤サイトが第1弾リリース済み</b>（EN・多言語）。インバウンド・海外顧客が 海外／日本国内 を予約する想定の基盤。</li>
       <li>展開順：まずグローバル → 次に<b>日本人→日本国内も新基盤へ</b> → <b>日本人→海外は新基盤にするか未定</b>（グローバルモデルを日本ローカルに落とすと、データの持ち方等が最適でないことがあるため）。</li>
-      <li>現行 /jp は日本人向けに<b>国内旅行と海外旅行の動線が混在</b>。サイト全部が変わるわけではなく、<b>国内＝新基盤／海外＝現行</b>で UI/UX がガラッと変わる。</li>
-      <li>さらに<b>変わるのは「検索→AC 詳細」だけ</b>。予約フォーム・マイページは一旦現行のまま（今後きれいに揃えていく予定）。</li>
+      <li>いま <b>同じ veltra.com/jp/ の中で</b>、国内エリアのページは新基盤、海外エリアのページは現行（カレントサイト）に分かれ始めている。サイト全部が置き換わるわけではない。</li>
+      <li>なお新基盤が担うのは<b>エリアトップ〜AC 詳細（検索まわり）まで</b>で、予約フォーム・マイページは一旦現行のまま（今後きれいに揃えていく予定）。</li>
     </ul>
   </div>
 
@@ -129,30 +129,30 @@
     <div class="pstep q1">
       <div class="k"><span class="no">問</span>課題</div>
       <ul>
-        <li><b>行き先で体験が別物になる。</b>国内（新基盤）と海外（現行）で UI/UX がガラッと変わり、同じ Traveler が行き先によって違うサイトに出る。境界が見えず戸惑う。</li>
-        <li><b>旅程の途中で基盤が切り替わる。</b>変わるのは「検索→AC 詳細」だけで、予約フォーム・マイページは現行のまま。AC 詳細まで新基盤で来て予約に進むと<b>現行 UI に切り替わる継ぎ目</b>があり、不信・離脱を生む。</li>
+        <li><b>同じ入口から、行き先で遷移先の基盤が変わる。</b>GlobalTOP の「なにする旅する？」の同じエリア選択でも、<b>日本の人気エリア（例：沖縄）は新基盤</b>、<b>海外の人気エリア（例：オアフ島）は現行（カレント）</b>。同じ入口なのに、遷移先の画面デザインがガラッと変わる。</li>
+        <li><b>境界が Traveler に見えない。</b>同じ veltra.com/jp/ の同じ入口を使っているつもりで、押した行き先によって突然別物のサイトに感じ、戸惑い・不信が生まれる。</li>
         <li><b>現行（日本→海外）を巻き込むリスク。</b>売上の大半を占める現行は据え置きが前提だが、混在対応や動線整理の巻き添えで体験を劣化させてしまう恐れがある。</li>
       </ul>
       <div class="fig">
-        <svg viewBox="0 0 430 118" role="img" aria-label="旅程の途中で新基盤から現行へUIが切り替わる継ぎ目">
-          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">国内旅行の旅程：途中で基盤が切り替わる</text>
-          <g font-size="10.5" text-anchor="middle" font-weight="700">
-            <rect x="0" y="30" width="100" height="34" rx="8" fill="#eef3f7" stroke="#7CA0BF"/>
-            <text x="50" y="45" fill="#5f86a8">検索</text><text x="50" y="57" font-size="8.5" font-weight="400" fill="#5f86a8">新基盤</text>
-            <rect x="110" y="30" width="100" height="34" rx="8" fill="#eef3f7" stroke="#7CA0BF"/>
-            <text x="160" y="45" fill="#5f86a8">AC 詳細</text><text x="160" y="57" font-size="8.5" font-weight="400" fill="#5f86a8">新基盤</text>
-            <rect x="220" y="30" width="100" height="34" rx="8" fill="#f2ede4" stroke="#c9bfae"/>
-            <text x="270" y="45" fill="#8a7d6b">予約フォーム</text><text x="270" y="57" font-size="8.5" font-weight="400" fill="#8a7d6b">現行のまま</text>
-            <rect x="330" y="30" width="100" height="34" rx="8" fill="#f2ede4" stroke="#c9bfae"/>
-            <text x="380" y="45" fill="#8a7d6b">マイページ</text><text x="380" y="57" font-size="8.5" font-weight="400" fill="#8a7d6b">現行のまま</text>
+        <svg viewBox="0 0 430 158" role="img" aria-label="なにする旅する？の同じ入口から、日本エリアは新基盤・海外エリアは現行に分かれる">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">GlobalTOP「なにする旅する？」— 同じ入口から遷移先が分かれる</text>
+          <rect x="140" y="22" width="150" height="34" rx="9" fill="#ecf6ef" stroke="#86BE99"/>
+          <text x="215" y="38" font-size="11" font-weight="800" text-anchor="middle" fill="#4c8a63">なにする旅する？</text>
+          <text x="215" y="50" font-size="9" text-anchor="middle" fill="#4c8a63">同じ入口・同じエリア選択</text>
+          <g stroke="#b9a98f" stroke-width="1.6" fill="none" marker-end="url(#gd)">
+            <path d="M182 56 C150 68 122 74 100 84"/>
+            <path d="M248 56 C280 68 308 74 330 84"/>
           </g>
-          <g stroke="#b9a98f" stroke-width="1.5" fill="none" marker-end="url(#ga)">
-            <path d="M100 47 H108"/><path d="M320 47 H328"/>
-          </g>
-          <line x1="215" y1="24" x2="215" y2="70" stroke="#F38268" stroke-width="2" stroke-dasharray="4 3"/>
-          <text x="215" y="88" font-size="10.5" font-weight="800" fill="#c0442a" text-anchor="middle">⚠ ここで UI が切り替わる</text>
-          <text x="215" y="103" font-size="9.5" fill="#c0442a" text-anchor="middle">継ぎ目の戸惑い・不信</text>
-          <defs><marker id="ga" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#b9a98f"/></marker></defs>
+          <rect x="0" y="86" width="200" height="50" rx="9" fill="#eef3f7" stroke="#7CA0BF"/>
+          <text x="100" y="104" font-size="11" font-weight="800" text-anchor="middle" fill="#5f86a8">日本の人気エリア</text>
+          <text x="100" y="118" font-size="9.5" text-anchor="middle" fill="#5f86a8">例：沖縄 をクリック</text>
+          <text x="100" y="131" font-size="10.5" font-weight="800" text-anchor="middle" fill="#5f86a8">→ 新基盤デザイン</text>
+          <rect x="230" y="86" width="200" height="50" rx="9" fill="#f2ede4" stroke="#c9bfae"/>
+          <text x="330" y="104" font-size="11" font-weight="800" text-anchor="middle" fill="#8a7d6b">海外の人気エリア</text>
+          <text x="330" y="118" font-size="9.5" text-anchor="middle" fill="#8a7d6b">例：オアフ島 をクリック</text>
+          <text x="330" y="131" font-size="10.5" font-weight="800" text-anchor="middle" fill="#8a7d6b">→ 現行デザイン</text>
+          <text x="215" y="152" font-size="10.5" font-weight="800" text-anchor="middle" fill="#c0442a">⚠ 同じ入口なのに遷移先の画面がガラッと変わる</text>
+          <defs><marker id="gd" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#b9a98f"/></marker></defs>
         </svg>
       </div>
     </div>
@@ -162,16 +162,16 @@
       <div class="k"><span class="no">方</span>打ち手方針</div>
       <ul>
         <li><b>① 行き先での振り分けを明快に</b>
-          <span class="s">国内＝新基盤／海外＝現行を、Traveler が行き先で迷わず選べる入口にする。</span></li>
-        <li><b>② 基盤の"継ぎ目"を滑らかに繋ぐ</b>
-          <span class="s">検索→AC 詳細（新基盤）→予約フォーム（現行）で UI が変わる箇所を、驚かせず橋渡しする。</span></li>
+          <span class="s">国内（新基盤エリア）／海外（現行エリア）を、Traveler が行き先で迷わず選べる入口にする。</span></li>
+        <li><b>② エリアをまたぐ時の一貫性・橋渡し</b>
+          <span class="s">同じサイト内で国内（新基盤）⇔海外（現行）を行き来しても「別サイトに飛ばされた」と感じさせない。共通の枠・導線・言葉づかいでつなぐ。</span></li>
         <li><b>③ 事前・切替時のコミュニケーション設計</b>
-          <span class="s">これから変わる／今切り替わったことを、ラベル・注意書き・通知で丁寧に伝える。</span></li>
+          <span class="s">エリアで基盤が違うこと・切り替わることを、ラベルや案内で丁寧に伝える。</span></li>
         <li><b>④ 現行の非劣化を制約に置く</b>
           <span class="s">売上の大半＝現行（日本→海外）の体験を、動線整理のために落とさない。</span></li>
       </ul>
       <div class="fig">
-        <svg viewBox="0 0 430 96" role="img" aria-label="行き先で振り分け、継ぎ目を橋渡しする">
+        <svg viewBox="0 0 430 96" role="img" aria-label="行き先で振り分け、エリア間は一貫性でつなぐ">
           <rect x="150" y="34" width="130" height="34" rx="9" fill="#ecf6ef" stroke="#86BE99"/>
           <text x="215" y="48" font-size="11" font-weight="800" text-anchor="middle" fill="#4c8a63">GlobalTOP</text>
           <text x="215" y="61" font-size="9" text-anchor="middle" fill="#4c8a63">行き先で振り分け＋告知</text>
@@ -183,7 +183,7 @@
             <rect x="0" y="18" width="120" height="26" rx="8" fill="#eef3f7" stroke="#7CA0BF"/><text x="60" y="35" fill="#5f86a8">国内 → 新基盤</text>
             <rect x="310" y="62" width="120" height="26" rx="8" fill="#f2ede4" stroke="#c9bfae"/><text x="370" y="79" fill="#8a7d6b">海外 → 現行</text>
           </g>
-          <text x="215" y="88" font-size="9.5" text-anchor="middle" fill="#6b5d61">＋ 新基盤→現行の継ぎ目は橋渡し・告知でケア</text>
+          <text x="215" y="88" font-size="9.5" text-anchor="middle" fill="#6b5d61">＋ エリアをまたぐ時は一貫した枠・案内でつなぐ</text>
           <defs><marker id="gb" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#86BE99"/></marker></defs>
         </svg>
       </div>
@@ -193,25 +193,26 @@
     <div class="pstep q3">
       <div class="k"><span class="no">具</span>具体案</div>
       <ul>
-        <li><b>行き先で選ぶ入口</b>／GlobalTOP で「国内旅行（新基盤）」「海外旅行（現行）」を明示的に振り分ける UI。</li>
-        <li><b>継ぎ目の橋渡し</b>／AC 詳細（新基盤）→予約フォーム（現行）で UI が変わる箇所に、一貫したロゴ・導線・文言や「予約手続きに進みます」の橋渡しを置く。</li>
-        <li><b>事前・切替時の告知</b>／別サイト・別デザインへ移ることをラベル・注意書き・通知で伝える（必要なら中間の説明）。</li>
-        <li><b>現行導線の保全</b>／予約フォーム・マイページは現行のまま。据え置き前提を踏まえ、劣化させない（今後きれいに揃える前提）。</li>
+        <li><b>行き先で選ぶ入口</b>／GlobalTOP で「国内旅行（新基盤エリア）」「海外旅行（現行エリア）」を明示的に振り分ける UI。</li>
+        <li><b>エリア間の一貫性・橋渡し</b>／国内（新基盤）⇔海外（現行）をまたぐ箇所に、共通のヘッダー・導線・言葉づかいや移動時の案内を置き、別サイト感を消す。</li>
+        <li><b>事前・切替時の告知</b>／エリアで基盤が違う／切り替わることをラベル・注意書き・通知で伝える。</li>
+        <li><b>現行の保全</b>／海外エリア（現行）・予約フォーム・マイページ（現行のまま）を劣化させない（今後きれいに揃える前提）。</li>
         <li><b>新基盤との整合</b>／新基盤コンセプト資料と情報構造・言葉づかいを揃える。</li>
       </ul>
       <div class="fig">
-        <svg viewBox="0 0 430 84" role="img" aria-label="継ぎ目を橋渡しして予約完了まで運ぶ">
+        <svg viewBox="0 0 430 84" role="img" aria-label="国内(新基盤)と海外(現行)を同じサイトとして一貫させる">
           <g font-size="10.5" text-anchor="middle" font-weight="700">
-            <rect x="0" y="26" width="118" height="30" rx="8" fill="#eef3f7" stroke="#7CA0BF"/><text x="59" y="45" fill="#5f86a8">検索〜AC詳細（新基盤）</text>
-            <rect x="156" y="26" width="88" height="30" rx="8" fill="#ecf6ef" stroke="#86BE99"/><text x="200" y="41" fill="#4c8a63">橋渡し</text><text x="200" y="52" font-size="8" font-weight="400" fill="#4c8a63">告知・一貫性</text>
-            <rect x="282" y="26" width="148" height="30" rx="8" fill="#f2ede4" stroke="#c9bfae"/><text x="356" y="45" fill="#8a7d6b">予約フォーム〜完了（現行）</text>
+            <rect x="0" y="26" width="150" height="32" rx="8" fill="#eef3f7" stroke="#7CA0BF"/><text x="75" y="46" fill="#5f86a8">国内エリア（新基盤）</text>
+            <rect x="164" y="26" width="102" height="32" rx="8" fill="#ecf6ef" stroke="#86BE99"/><text x="215" y="42" fill="#4c8a63">一貫の枠・案内</text><text x="215" y="53" font-size="8" font-weight="400" fill="#4c8a63">共通ヘッダー/導線</text>
+            <rect x="280" y="26" width="150" height="32" rx="8" fill="#f2ede4" stroke="#c9bfae"/><text x="355" y="46" fill="#8a7d6b">海外エリア（現行）</text>
           </g>
-          <g stroke="#86BE99" stroke-width="1.8" fill="none" marker-end="url(#gc)">
-            <path d="M118 41 H154"/><path d="M244 41 H280"/>
+          <g stroke="#86BE99" stroke-width="1.6" fill="none">
+            <path d="M150 42 H162" marker-end="url(#gc)"/><path d="M164 50 H152" marker-end="url(#gc)"/>
+            <path d="M266 42 H278" marker-end="url(#gc)"/><path d="M280 50 H268" marker-end="url(#gc)"/>
           </g>
+          <text x="215" y="76" font-size="10" text-anchor="middle" fill="#6b5d61">同じサイトとして一貫させ、別サイト感を消す</text>
           <defs><marker id="gc" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#86BE99"/></marker></defs>
         </svg>
-        <div class="figcap">継ぎ目でつまずかせず、予約完了まで運ぶ。</div>
       </div>
     </div>
 
