@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --blue:#7CA0BF;--blue-d:#5f86a8;--green:#86BE99;--green-d:#4c8a63;--red:#F38268;--red-d:#c0442a;
+    --blue:#7CA0BF;--blue-d:#5f86a8;--green:#86BE99;--green-d:#4c8a63;--red:#F38268;--red-d:#c0442a;--amber:#e6a15a;
     --offwhite:#FEFCF3;--dark:#2D1C21;--ink:#2D1C21;--muted:#6b5d61;
     --line:#e7e0d4;--card:#ffffff;
     --shadow:0 1px 3px rgba(45,28,33,.08),0 6px 18px rgba(45,28,33,.06);
@@ -46,30 +46,40 @@
   .flag{display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;white-space:nowrap;vertical-align:middle}
   .flag.crit{background:#fdeae4;color:#d0512f}
 
-  .flow{display:flex;flex-direction:column;gap:14px;margin:26px 0 18px}
+  .bg{background:#faf6ec;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);
+    padding:16px 20px;margin:24px 0 6px;box-shadow:var(--shadow)}
+  .bg .lbl{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--blue-d);text-transform:uppercase}
+  .bg ul{margin:9px 0 0;padding-left:0;list-style:none}
+  .bg li{position:relative;padding:5px 0 5px 18px;font-size:13.5px;line-height:1.65}
+  .bg li::before{content:"";position:absolute;left:2px;top:13px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
+  .bg li b{color:var(--ink)}
+
+  .flow{display:flex;flex-direction:column;gap:14px;margin:14px 0 6px}
   .pstep{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--blue);
     border-radius:var(--radius);padding:16px 20px 17px;box-shadow:var(--shadow)}
   .pstep.q1{border-left-color:var(--red)}
   .pstep.q2{border-left-color:var(--blue)}
   .pstep.q3{border-left-color:var(--green)}
   .pstep .k{display:inline-flex;align-items:center;gap:9px;font-family:"Montserrat","Noto Sans JP";
-    font-weight:800;font-size:13.5px;letter-spacing:.06em;margin-bottom:9px}
+    font-weight:800;font-size:13.5px;letter-spacing:.06em;margin-bottom:6px}
   .pstep .k .no{width:23px;height:23px;border-radius:7px;color:#fff;display:inline-flex;
     align-items:center;justify-content:center;font-size:13px;font-weight:900}
   .q1 .k{color:var(--red-d)} .q1 .k .no{background:var(--red)}
   .q2 .k{color:var(--blue-d)} .q2 .k .no{background:var(--blue)}
   .q3 .k{color:var(--green-d)} .q3 .k .no{background:var(--green)}
-  .pstep p{margin:0;font-size:14.5px;line-height:1.7}
-  .pstep p b{color:var(--ink)}
-  .pstep .sub{margin-top:7px;font-size:12.5px;color:var(--muted)}
-  .pstep ul{margin:0;padding:0;list-style:none}
+  .pstep ul{margin:6px 0 0;padding:0;list-style:none}
   .pstep li{position:relative;padding:8px 0 8px 20px;font-size:14px;line-height:1.6;border-top:1px dashed var(--line)}
   .pstep li:first-child{border-top:none;padding-top:2px}
   .pstep li::before{content:"";position:absolute;left:3px;top:15px;width:6px;height:6px;border-radius:50%;background:var(--green)}
   .pstep li:first-child::before{top:9px}
   .pstep li b{color:var(--ink);font-weight:700}
+  .pstep li .s{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
 
-  .refs{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);padding:14px 20px;margin:18px 0;box-shadow:var(--shadow)}
+  .fig{margin:13px 0 2px}
+  .fig svg{width:100%;height:auto;max-width:430px;display:block}
+  .figcap{font-size:11px;color:var(--muted);margin-top:3px}
+
+  .refs{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);padding:14px 20px;margin:22px 0 18px;box-shadow:var(--shadow)}
   .refs .lbl{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--blue-d);text-transform:uppercase}
   .refs ul{margin:7px 0 0;padding-left:18px}
   .refs li{font-size:13px;line-height:1.7}
@@ -102,26 +112,105 @@
     </div>
   </header>
 
+  <!-- 背景 -->
+  <div class="bg">
+    <div class="lbl">背景（なぜ今か）</div>
+    <ul>
+      <li>予約フォーム・決済ステップは、購入を決めた Traveler が最後に通る関門。ここでの入力負荷は<b>「買う気があるのに離脱」という最も惜しい取りこぼし</b>になる。</li>
+      <li>予約に必要な情報には、その場では答えづらいもの（同行者情報・詳細要望・利用者情報など）がある。全部を確定前に求めると、そこで手が止まる。</li>
+      <li>「予約を先に確定し、細部は後から」という後追い入力で、止まる箇所を減らせる余地がある。</li>
+    </ul>
+  </div>
+
   <div class="flow">
 
+    <!-- 課題 -->
     <div class="pstep q1">
       <div class="k"><span class="no">問</span>課題</div>
-      <p>長い入力フォームで、<b>買う気のある Traveler が決済直前に諦める</b>。その場では答えづらい情報まで入口で求めるため、そこで手が止まる。</p>
+      <ul>
+        <li><b>入力量が多い／長い。</b>確定前に求める項目が多く、必須と任意の切り分けも弱い。フォームの長さ自体が離脱要因になる。</li>
+        <li><b>タイミングのミスマッチ。</b>今すぐ答えづらい情報（同行者の詳細等）まで確定前に要求し、そこで停止する。</li>
+        <li><b>中断すると戻れない。</b>入力途中で離脱すると、最初からやり直しになりやすい。</li>
+        <li><b>価格の不意打ち。</b>手数料等を含む最終価格が最後に出ると、決済直前で気持ちが折れる（既知のボトルネック観点）。</li>
+        <li><b>分かりにくさ。</b>必須・エラー・次に何を入れるかが一目で分からない。特にモバイル。</li>
+      </ul>
+      <div class="fig">
+        <svg viewBox="0 0 430 128" role="img" aria-label="長い入力フォームで決済直前に離脱">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">現状：長い入力で決済直前に落ちる</text>
+          <g font-size="10.5">
+            <rect x="0" y="24" width="150" height="18" rx="4" fill="#eef3f7"/><text x="8" y="37" fill="#5f86a8">氏名・連絡先</text>
+            <rect x="0" y="46" width="150" height="18" rx="4" fill="#eef3f7"/><text x="8" y="59" fill="#5f86a8">同行者の詳細</text>
+            <rect x="0" y="68" width="150" height="18" rx="4" fill="#eef3f7"/><text x="8" y="81" fill="#5f86a8">要望・オプション</text>
+            <rect x="0" y="90" width="150" height="18" rx="4" fill="#fdeae4"/><text x="8" y="103" fill="#c0442a">最終価格（不意打ち）</text>
+          </g>
+          <path d="M160 60 H250" stroke="#b9a98f" stroke-width="1.5" fill="none" marker-end="url(#fa)"/>
+          <g>
+            <rect x="256" y="44" width="120" height="34" rx="9" fill="#fdeae4" stroke="#F38268"/>
+            <text x="316" y="59" font-size="11" font-weight="800" text-anchor="middle" fill="#c0442a">決済直前で</text>
+            <text x="316" y="72" font-size="11" font-weight="800" text-anchor="middle" fill="#c0442a">離脱</text>
+          </g>
+          <text x="316" y="98" font-size="10" text-anchor="middle" fill="#c0442a">買う気はあるのに手が止まる</text>
+          <defs><marker id="fa" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#b9a98f"/></marker></defs>
+        </svg>
+      </div>
     </div>
 
+    <!-- 打ち手方針 -->
     <div class="pstep q2">
       <div class="k"><span class="no">方</span>打ち手方針</div>
-      <p>決済前に本当に要る入力だけに絞る。残りは<b>「後追い入力」で予約確定を先に通す</b>。途中で止めても戻れるようにする。</p>
+      <ul>
+        <li><b>① 確定前の入力を最小化（最優先）</b>
+          <span class="s">本当に決済前に要る項目だけに絞る。任意・後回し可能なものを切り分ける。</span></li>
+        <li><b>② 後追い入力にまわす</b>
+          <span class="s">詳細情報は確定後に。予約そのものを先に通す。</span></li>
+        <li><b>③ 価格を早期に見せる</b>
+          <span class="s">最終価格の不意打ちをなくし、決済前に総額の見通しを立てられるようにする。</span></li>
+        <li><b>④ 中断復帰と分かりやすさ</b>
+          <span class="s">途中保存・再開／必須・エラー・進捗の明示／モバイル入力の最適化。</span></li>
+      </ul>
+      <div class="fig">
+        <svg viewBox="0 0 430 96" role="img" aria-label="確定を先に、詳細は後追いに分ける">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">確定を先に、詳細は後から</text>
+          <g font-size="10.5" font-weight="700" text-anchor="middle">
+            <rect x="0" y="30" width="150" height="34" rx="9" fill="#ecf6ef" stroke="#86BE99"/>
+            <text x="75" y="45" fill="#4c8a63">必須だけで</text>
+            <text x="75" y="58" fill="#4c8a63">予約確定</text>
+            <rect x="280" y="30" width="150" height="34" rx="9" fill="#eef3f7" stroke="#7CA0BF"/>
+            <text x="355" y="45" fill="#5f86a8">詳細は後追い入力</text>
+            <text x="355" y="58" fill="#5f86a8" font-size="9" font-weight="400">リマインドで回収</text>
+          </g>
+          <path d="M150 47 H278" stroke="#86BE99" stroke-width="1.8" fill="none" marker-end="url(#fb)"/>
+          <text x="214" y="42" font-size="9.5" text-anchor="middle" fill="#4c8a63">先に通す</text>
+          <text x="214" y="82" font-size="10" text-anchor="middle" fill="#6b5d61">離脱を決済前で止めない</text>
+          <defs><marker id="fb" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#86BE99"/></marker></defs>
+        </svg>
+      </div>
     </div>
 
+    <!-- 具体案 -->
     <div class="pstep q3">
-      <div class="k"><span class="no">具</span>具体</div>
+      <div class="k"><span class="no">具</span>具体案</div>
       <ul>
-        <li><b>入力の削減</b>／決済前に必須の項目だけ残し、まとめる・後回しにする</li>
-        <li><b>後追い入力</b>／予約確定を先に、詳細は後から。入れ忘れない導線もセット</li>
-        <li><b>途中保存・再開</b>／離脱してもゼロからやり直しにしない</li>
-        <li><b>迷わせない UI</b>／必須・エラー・次の入力が一目で分かる（特にモバイル）</li>
+        <li><b>入力項目の棚卸し</b>／決済前の必須項目を洗い出し、削減・統合。任意項目は後追いへ回す。</li>
+        <li><b>後追い入力フロー</b>／「予約確定を先に、詳細は後から」の導線＋入れ忘れを防ぐリマインド。</li>
+        <li><b>価格の早期提示</b>／手数料込みの総額を、決済前の早い段階で表示。</li>
+        <li><b>途中保存・再開</b>／離脱してもゼロからやり直しにならない仕組み。</li>
+        <li><b>入力 UI の改善</b>／ステップ表示・必須マーク・インラインエラー・モバイル入力最適化（オートフィル、適切なキーボード等）。</li>
       </ul>
+      <div class="fig">
+        <svg viewBox="0 0 430 74" role="img" aria-label="入力項目を減らし完了率を上げる（概念図）">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">確定前の入力を絞る（概念図）</text>
+          <text x="0" y="34" font-size="11" fill="#2D1C21">現状</text>
+          <rect x="52" y="23" width="300" height="15" rx="4" fill="#F38268"/>
+          <text x="358" y="35" font-size="10.5" font-weight="700" fill="#c0442a">入力多</text>
+          <text x="0" y="62" font-size="11" fill="#2D1C21">改善</text>
+          <rect x="52" y="51" width="130" height="15" rx="4" fill="#86BE99"/>
+          <rect x="186" y="51" width="120" height="15" rx="4" fill="#e7e0d4"/>
+          <text x="126" y="63" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">確定に必須</text>
+          <text x="246" y="63" font-size="9" fill="#8a7d6b" text-anchor="middle">後追い</text>
+        </svg>
+        <div class="figcap">まず「確定に必須」を最小化。残りは後追いに逃がす。</div>
+      </div>
     </div>
 
   </div>
@@ -130,7 +219,7 @@
     <div class="lbl">入口・参考</div>
     <ul>
       <li><a href="/2026h2/cvr.html">CVR サマリー</a>（購入完了までどこで落ちているか）</li>
-      <li><a href="/2026h1/planning/" target="_blank" rel="noopener">これまでの施策案・ボトルネック分析</a>（決済直前離脱まわり）</li>
+      <li><a href="/2026h1/planning/" target="_blank" rel="noopener">これまでの施策案・ボトルネック分析</a>（決済直前離脱・最終価格の不意打ちまわり）</li>
     </ul>
   </div>
 
