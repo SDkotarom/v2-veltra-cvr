@@ -306,6 +306,29 @@
     </div>
   </div>
 
+  <!-- 現状調査の方法 -->
+  <div class="sec">
+    <h2><span class="no">査</span>現状調査の方法（何に時間がかかっているか）</h2>
+    <p class="lead">PageSpeed Insights は入口の1つ。「①どこ・どの操作が遅いか（実ユーザー）→ ②なぜ遅いか（合成計測で内訳を割る）→ ③TTFB が犯人ならサーバ側」の順で掘ると、当てずっぽうにならない。</p>
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>層</th><th>手法</th><th>分かること（＝何に時間がかかっているか）</th></tr>
+        <tr><td><span class="lv a">合成</span></td><td><b>PageSpeed Insights</b>（利用中）</td><td>Lighthouse スコア＋診断＋一部フィールド(CrUX)。1 URL の総合評価と改善候補の入口。</td></tr>
+        <tr><td><span class="lv a">合成</span></td><td><b>Chrome DevTools</b>（＝検証モード）</td><td><b>Network</b>＝ウォーターフォールで TTFB／ダウンロード／待ち時間、どのリクエストが待たせているか・総数・転送量。<b>Performance</b>＝メインスレッド・Long Task・重い JS 関数。<b>Coverage</b>＝未使用 JS/CSS の割合。<b>「何に時間がかかっているか」を割るのはここが本命。</b></td></tr>
+        <tr><td><span class="lv a">合成</span></td><td><b>Lighthouse CI / CLI</b></td><td>PSI と同じ監査を<b>全ページ一括・定点観測</b>。JSON で保存して差分（回帰）を検知。サイト全体を測るならこれ。</td></tr>
+        <tr><td><span class="lv a">合成</span></td><td><b>WebPageTest</b></td><td>実回線・地域・実機を指定。フィルムストリップで「見えるまで」を可視化。<b>モバイル×海外回線の再現</b>に最適（本 PJ のモバイル最重視に直結）。</td></tr>
+        <tr><td><span class="lv b">実測</span></td><td><b>CrUX（Chrome UX Report）</b></td><td>実ユーザーの Core Web Vitals。CrUX API／BigQuery／Looker Studio ダッシュボード。端末・URL 群別で「実際に遅いページ」を特定。</td></tr>
+        <tr><td><span class="lv b">実測</span></td><td><b>Search Console の CWV レポート</b></td><td>フィールドデータで不良 URL 群を抽出（既存の課題資料でも使用）。</td></tr>
+        <tr><td><span class="lv b">実測</span></td><td><b>GA4</b>（MCP 接続可）</td><td>ページ別の離脱・エンゲージメントと突き合わせて「遅い×離脱」を可視化。<b>※注意：</b>旧「サイトの速度」レポートは廃止。CWV は <code>web-vitals.js</code> を送っていなければ取れない → まず速度系イベントが飛んでいるか確認から。</td></tr>
+        <tr><td><span class="lv b">実測</span></td><td><b>RUM</b>（New Relic Browser／Datadog RUM／Sentry）</td><td>実ユーザーの LCP/INP/TTFB を継続監視。New Relic APM・Datadog は社内導入済みで活用余地あり。</td></tr>
+        <tr><td><span class="lv c">サーバ</span></td><td><b>APM / CloudWatch</b></td><td>サーバ処理時間・遅いトランザクション・どの API が遅いか。TTFB の中身を割る。</td></tr>
+        <tr><td><span class="lv c">サーバ</span></td><td><b>CloudFront ログ／ES slow query log</b></td><td>キャッシュヒット率（miss 多発＝TTFB 悪化）、検索・一覧生成の遅延クエリ。</td></tr>
+        <tr><td><span class="lv c">サーバ</span></td><td><b>サーバサイドのタイミング実測</b></td><td>UX_DESIGN-167 でやった <code>isDynamicPrice 0.85s</code> のような<b>処理内訳の計測</b>＝原因特定の核心。</td></tr>
+      </table>
+    </div>
+    <div class="note"><b>次の一手：</b>PSI の次は <b>Chrome DevTools（Network/Performance）＋ WebPageTest でモバイル回線を再現</b>して内訳を割るのが最短。全ページを継続で見るなら <b>Lighthouse CI</b>、実ユーザーの体感は <b>CrUX／Search Console</b> で裏取り。TTFB が支配的なら <b>APM／CloudFront ログ</b>へ。</div>
+  </div>
+
   <!-- ネクストアクション -->
   <div class="sec">
     <h2><span class="no">次</span>ネクストアクション</h2>
