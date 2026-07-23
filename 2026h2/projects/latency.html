@@ -104,6 +104,31 @@
   .refs ul{margin:7px 0 0;padding-left:18px}
   .refs li{font-size:13px;line-height:1.7}
 
+  /* 参考資料アーカイブ（トグル） */
+  .arch{margin-top:8px;display:flex;flex-direction:column;gap:18px}
+  .archgrp .gh{font-family:"Montserrat","Noto Sans JP",sans-serif;font-size:12.5px;font-weight:800;
+    color:var(--muted);letter-spacing:.06em;margin:0 0 4px;display:flex;align-items:center;gap:8px}
+  .archgrp .gh .gn{font-size:11px;color:#a89a8c;font-weight:700}
+  details.ri{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:6px 0;
+    box-shadow:0 1px 2px rgba(45,28,33,.05);overflow:hidden}
+  details.ri[open]{border-color:var(--blue);box-shadow:var(--shadow)}
+  details.ri>summary{list-style:none;cursor:pointer;padding:11px 14px;display:flex;align-items:center;gap:9px;
+    font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.5}
+  details.ri>summary::-webkit-details-marker{display:none}
+  .ri>summary .ttl{flex:1;min-width:0}
+  .ri>summary .src{font-size:10px;font-weight:800;padding:2px 8px;border-radius:5px;white-space:nowrap;flex:none;letter-spacing:.03em}
+  .ri>summary .src.ck{background:#f0ecf8;color:#7a5aa8}
+  .ri>summary .src.dr{background:#ecf6ef;color:var(--green-d)}
+  .ri>summary .chev{flex:none;color:var(--muted);transition:transform .2s;font-size:15px;line-height:1}
+  .ri[open]>summary .chev{transform:rotate(90deg)}
+  .ri[open]>summary{border-bottom:1px solid var(--line)}
+  .ri .rbody{padding:12px 14px 14px;font-size:12.8px;line-height:1.75;color:var(--muted)}
+  .ri .rbody b{color:var(--ink)}
+  .ri .rbody .meta{display:block;font-size:11px;color:#a89a8c;margin-bottom:6px}
+  .ri .rbody a.go{display:inline-block;margin-top:9px;font-size:12px;font-weight:700;text-decoration:none;
+    background:#eef3f7;color:var(--blue-d);padding:5px 13px;border-radius:999px}
+  .ri .rbody a.go:hover{background:#e2edf4}
+
   footer{padding:32px 0 60px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:22px}
   footer .back{font-weight:700;text-decoration:none}
 
@@ -285,6 +310,125 @@
         <tr><td>継続</td><td>Squad</td><td>新規開発時のパフォーマンス基準を策定し、他チームへ共有（長期で速度を維持）</td></tr>
       </table>
     </div>
+  </div>
+
+  <!-- 参考資料アーカイブ -->
+  <div class="sec">
+    <h2><span class="no">資</span>参考資料アーカイブ</h2>
+    <p class="lead">過去プロジェクトの ClickUp チケット・Google Drive 資料を AI で横断検索して収集。テーマ別にタイトル＋リンク＋概要（トグルで展開）で整理。バックログ化の素材。</p>
+
+    <div class="arch">
+
+      <div class="archgrp">
+        <div class="gh">A. プロジェクトの起点・方針（会議メモ）</div>
+        <details class="ri"><summary><span class="ttl">議事録：レイテンシー改善（表示速度の改善）ご相談</span><span class="src dr">Doc</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">2026-07-23 ／ UX Design Squad</span>本プロジェクトの起点。<b>8月から Pitor がリソース 20% を投入</b>、CVR の高いページから優先着手、<b>モバイル最重視</b>、AI で過去チケット/資料を掘り起こし、完了定義＝読込秒数の削減目標、新機能リリース時のパフォーマンス基準策定、で合意。<a class="go" href="https://docs.google.com/document/d/1Qe6HSwE-lwlqwnXt8eYF-bE0f3VzoloG42-Sc7EVHrs/edit" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Weekly UIUX Squad 2026/07/21</span><span class="src dr">Doc</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">2026-07-21</span>「表示速度改善」をグループ全体の優先課題として定義。予約フォーム最適化と並ぶミッションとして分析・仮説検証・実装を進める方針。<a class="go" href="https://docs.google.com/document/d/1Wddpojcys2umC4FGR5joJ2_lSuWa2vPuS5KNGKVPhX4/edit" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">トップUX・コミュニケーション設計（Wataru / Kotaro）</span><span class="src dr">Doc</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">2026-07-16</span>不要な広告スクリプト（過去の AdSense 等の残存コード）削除で表示速度を改善、<b>GTM V3 移行＋AI 検証体制</b>。タグ整理による軽量化の具体方針。<a class="go" href="https://docs.google.com/document/d/1rxp59KUsjt2l_V8eh00hoUKDW_CrkdWzqDssJYhHfps/edit" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">CVR改善：基本方針と実行戦略案</span><span class="src dr">Doc</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">2026-03 ／ Sachie</span>S-2「<b>TTFB 改善（CDN・サーバーキャッシュ）</b>」を含む。CrUX で <b>TTFB 2.6s</b>、直帰率には効くが CVR 直接効果は限定的、という速度施策の位置づけ・学びを記載。<a class="go" href="https://docs.google.com/document/d/1hd5oVXSGvVoar6-gbZDVvKkizFQNx1bHaB6-_bzJBzE/edit" target="_blank" rel="noopener">開く ↗</a></div></details>
+      </div>
+
+      <div class="archgrp">
+        <div class="gh">B. 現状把握・計測・ベンチマーク</div>
+        <details class="ri"><summary><span class="ttl">AEVIC_SEO改善 TASK管理</span><span class="src dr">Sheet</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">2026-06 更新 ／ jo.murata</span>Core Web Vitals（CLS/LCP/INP）と画像最適化（WebP 変換・srcset・lazy loading）の実装タスク台帳。<b>進行状況・リリース日・ClickUp チケット付き</b>で最も現況が分かる。<a class="go" href="https://docs.google.com/spreadsheets/d/1lJdQ_iSnoZPffXAK3IXI4P75jH87uuIdtiVZfyzYIfE/edit" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">SEO改善 TASK（施策定義の原典）</span><span class="src dr">Sheet</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">2026-07 更新</span>CLS/LCP/INP・画像最適化・構造化データの施策を範囲/確度/工数でスコアリング（例：CLS 全 img に width/height＝スコア100）。要件が詳細。<a class="go" href="https://docs.google.com/spreadsheets/d/1KyqjSfqVQ79PSqcLw_wH07eHa2mZm6Fn8UmfkJb7HXA/edit" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Core Web Vital Snapshot - Dec 2023</span><span class="src dr">Slide</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">yeowthiong.low</span>CWV の推移＋<b>実施済み改善策の効果実績</b>。hero 画像優先読込で AC List LCP 65%改善／AC Detail 30%改善、CLS 対策で EN Top 97%改善など、何が効いたかの数値根拠。<a class="go" href="https://docs.google.com/presentation/d/1f74BIf0Ex1YYeJnGXl8wL9YkhDz7csNU8EwjE5IMkTY/edit" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">パフォーマンス課題まとめ（GSC 計測）</span><span class="src dr">Slide</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">2024-07 ／ Kotaro</span>GSC Core Web Vitals 計測結果。<b>モバイルに課題集中</b>（Poor CLS 560／Poor LCP 374／要改善 INP 27,499）。CLS はチケットサイト、LCP は Hawaii AC・検索結果が代表 URL。<a class="go" href="https://docs.google.com/presentation/d/1vyb3OXsm_aPmHbtPAPiPH_uCHtOA55ps0YZJA04a3l4/edit" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">パフォーマンス課題（不良 URL 一覧）</span><span class="src dr">Sheet</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">2024-04 ／ Kotaro</span>GSC/PageSpeed で不良判定された具体 URL 一覧（モバイル CLS 668件＝チケットページ、LCP＝各エリア top_sellers、PC LCP＝EN top 画像 4.1秒）。着手対象の特定に有用。<a class="go" href="https://docs.google.com/spreadsheets/d/1fLfjhnsrunOncaSQQYgpHhS-6RKRApkZKd-NpHYNeVI/edit" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Page Performance Benchmark（競合比較）</span><span class="src dr">Sheet</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">2024-09 ／ Kotaro</span>Lighthouse（モバイル）で VELTRA と競合8社（Klook/KKday/asoview 等）を比較。VELTRA は Performance 63 で競合最高だが <b>LCP 4.9s / TBT 440ms / Speed Index 7.2s</b>。目標値設定の根拠。<a class="go" href="https://docs.google.com/spreadsheets/d/1m9uDU-gRImj-t82ApzyqLv_nXzYaCnANZ584x_6kP5A/edit" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">veltra.com のパフォーマンス監視（運用設計）</span><span class="src dr">Slide</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">2024-04 ／ Kotaro</span>監視 PDCA の運用設計。GSC（LCP/FID/CLS）＋CloudWatch／New Relic（APM）での監視項目・対応フロー・担当役割。長期で速度を維持する体制の参考。<a class="go" href="https://docs.google.com/presentation/d/1gIOzt1GJxDpkDG4iVC9nxttMKCQTehR99jL-gY42Mnw/edit" target="_blank" rel="noopener">開く ↗</a></div></details>
+      </div>
+
+      <div class="archgrp">
+        <div class="gh">C. 画像最適化・LCP</div>
+        <details class="ri"><summary><span class="ttl">SEO改善No3_LCP改善：ファーストビュー画像の preload 実装</span><span class="src ck">MKT-94</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">in progress ／ Jo Murata</span>TOP/エリア/商品/カテゴリの各 LCP 画像に <code>&lt;link rel=preload as=image fetchpriority=high&gt;</code> をサーバサイド出力。GitHub PR #9405/#9379 あり。<a class="go" href="https://app.clickup.com/t/86ex2kqvu" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Avoid Lazyload On LCP Element - Portal</span><span class="src ck">DESIGN-2230</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">Closed ／ Nico・Yeow</span>Portal の LCP 要素の遅延読込を回避して LCP を改善。<a class="go" href="https://app.clickup.com/t/86erb7n1y" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Image delivery WebP/AVIF support（LCP / CWV）</span><span class="src ck">New Platform P6</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">to do ／ New Platform Backlog</span>画像配信の WebP/AVIF 対応で LCP・Core Web Vitals を改善。<a class="go" href="https://app.clickup.com/t/86ey58x0u" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">[AC Detail Page] Performance Improvement</span><span class="src dr">Slide</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">2024-08 ／ Kotaro</span>2024/07 リリースの AC 詳細改善。モバイル TOP 画像最適化、オフスクリーン画像の遅延読込。リリース後の再ベンチマーク前提。<a class="go" href="https://docs.google.com/presentation/d/17FNLZU-c0_8aC9L_QVzZdf5IDhUVKTsjFp3YDgpLwzs/edit" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Cloudinary PoC ソリューション（画像 CDN）</span><span class="src dr">PDF</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">2019 ／ classmethod 提供</span>画像 CDN（Cloudinary）による最適化 PoC。エッジ（Lambda@Edge）でアプリ改修せず配信最適化、PoC で画像サイズ約75%削減、PSI 合格に改善。<a class="go" href="https://drive.google.com/file/d/10om80whWG-ObcjNnlm1hJyr1AZeewAg6/view" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">技術共有会：フロントエンド速度改善（手法カタログ）</span><span class="src dr">Slide</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">2019</span>モバイル×JP×AC 詳細の速度改善実績（Speed Index 8.7→8.2, TTI 17.2→13.4）。遅延ロード・defer・minify・CDN 化・preload/preconnect の手法カタログ。<a class="go" href="https://docs.google.com/presentation/d/1q1zZSxQXkdc2zJ0AVAVrYL5S0T8r_GBsYG7PwMASqN0/edit" target="_blank" rel="noopener">開く ↗</a></div></details>
+      </div>
+
+      <div class="archgrp">
+        <div class="gh">D. キャッシュ・CDN・TTFB</div>
+        <details class="ri"><summary><span class="ttl">CDN improvement（WebP・キャッシュキー・Cache-Control）</span><span class="src ck">FS-320</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">in progress ／ Foundation Squad</span>Kingfisher 画像の WebP 化（egress -25〜35%）、CloudFront キャッシュキーを whitelist 化しトラッキングパラメータ除去でヒット率向上、S3 Gateway VPC Endpoint、1年 immutable Cache-Control。<b>手順が具体化済み</b>。<a class="go" href="https://app.clickup.com/t/86exzzrvp" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Page cache improvement (Phase 2)</span><span class="src ck">CS24-4217</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">backlog ／ CurrentSite FY25</span>Global/Region/Area Top・AC 詳細＋サブページ（画像・レビュー）に ETag 実装（Phase1＝CS24-3885 の続き）。ハードコードロジック除去のリファクタも。<a class="go" href="https://app.clickup.com/t/86etf2baz" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Improve Currentsite Latency（sticky session 除去）</span><span class="src ck">SRE-2184</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">done ／ SRE</span>Current Site からスティッキーセッションを除去してレイテンシー改善（inquiry/ptr 系）。<a class="go" href="https://app.clickup.com/t/86eqxypet" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">CDN migration / 画像 CDN 移行</span><span class="src ck">SRE-2202 / VT-219</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">done/released</span>画像 CDN 移行・画像配信基盤（Kingfisher Image CDN）。表示速度に直結する土台。<a class="go" href="https://app.clickup.com/t/86erzm438" target="_blank" rel="noopener">開く ↗</a></div></details>
+      </div>
+
+      <div class="archgrp">
+        <div class="gh">E. 不要スクリプト削減（軽量化）</div>
+        <details class="ri"><summary><span class="ttl">SEO-14：AC List で読み込む JS/タグ全列挙</span><span class="src dr">Sheet</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">2026-02 ／ yeowthiong.low</span>AC リストで読み込まれる JS/タグを全列挙し、PageSpeed 情報から未使用の可能性がある GTM/タグ（Braze/Yahoo/Criteo 等）を洗い出し。<b>不要スクリプト削除の直接材料</b>。<a class="go" href="https://docs.google.com/spreadsheets/d/1d4EP_qsH5tU3kyAv35tHjNSx5NXDlHxb-6gbFqWf8xI/edit" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Investigation: combine GTM scripts to one file</span><span class="src ck">SEO-178</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">Closed ／ Maverick</span>GTM スクリプト統合で応答時間短縮を狙う調査。<a class="go" href="https://app.clickup.com/t/86erae2hu" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Remove Clarity and see if there is improvement</span><span class="src ck">SEO-177</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">Closed ／ Kotaro</span>MS Clarity タグ除去で応答時間が改善するか検証。<a class="go" href="https://app.clickup.com/t/86eraa3rf" target="_blank" rel="noopener">開く ↗</a></div></details>
+      </div>
+
+      <div class="archgrp">
+        <div class="gh">F. カテゴリ／検索／予約モーダルの体感速度</div>
+        <details class="ri"><summary><span class="ttl">Reduce Loading Time on Category Pages and Booking Modal</span><span class="src ck">UX_DESIGN-167</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">in progress ／ Suki Diong</span>本ページの実測の出典。CVR ボトルネック BN3（月 2,076K セッション）起点。原因切り分け（API/再レンダー/キャッシュ/重複コール）と低工数改善を洗い出し、実装は別チケット化。<a class="go" href="https://app.clickup.com/t/86exabgp7" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Filter modal condition selection speed improvement</span><span class="src ck">UX_DESIGN-85</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">complete ／ Sachie・Suki</span>絞り込みモーダルの条件選択の速度改善。<a class="go" href="https://app.clickup.com/t/86ex94rpk" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Silver Egg：レコメンド API をモーダル開くまで遅延</span><span class="src ck">UX_DESIGN-145</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">complete ／ Sachie</span>レコメンド API リクエストをモーダルを開くまで遅延させ、初期ロードを軽量化。<a class="go" href="https://app.clickup.com/t/86exrz6qd" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">debug slowness in price api</span><span class="src ck">INB-140</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">complete ／ Inbound</span>料金 API の遅延をデバッグ。<a class="go" href="https://app.clickup.com/t/86exwe2bz" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">TOPページのコンテンツカード読み込み改善</span><span class="src ck">CS24-4759</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">done ／ CurrentSite FY25</span>Vtr TOP の Braze Content Card が「全表示後に遅れて表示・切替に時間」問題の改善調査。<a class="go" href="https://app.clickup.com/t/86euxfhde" target="_blank" rel="noopener">開く ↗</a></div></details>
+      </div>
+
+      <div class="archgrp">
+        <div class="gh">G. 計測・監視・SLA・上流レイテンシー</div>
+        <details class="ri"><summary><span class="ttl">Page load performance／画面表示速度の改善（SLA の設定）</span><span class="src ck">INB-101</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">pending ／ Suki Diong</span>UAT で数秒の遅延。ページ表示速度の <b>SLA（例：LCP&lt;2.5s）</b>を定義し、SEO 評価で NG にならない水準を要求。<a class="go" href="https://app.clickup.com/t/86exr9kxd" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Booking quote &lt;1s + availability check ≤500ms（上流レイテンシー）</span><span class="src ck">New Platform P2</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">to do ／ New Platform Backlog</span>商品ページ中核（日付選択→価格）が<b>常時約3s</b>。Compass 側の並列化・キャッシュは限界、残りは Alliance/VDS の純粋な上流レイテンシー。全社インパクト大。<a class="go" href="https://app.clickup.com/t/86ey58wrx" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Improving Page Speed Insights Score - Performance</span><span class="src ck">SEO-14</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">Closed ／ PJ SEO</span>カテゴリページの PageSpeed Performance を 30→40 目標。SI/FCP/LCP/TBT を改善対象に特定（子タスク SEO-36＝LCP 要素）。<a class="go" href="https://app.clickup.com/t/86eq5qt7x" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Improve the Average response time</span><span class="src ck">SEO-156</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">Closed ／ Kotaro</span>GSC crawl-stats で<b>平均応答 1352ms→1000ms 未満</b>を目標（子：SEO-157 要因調査、SEO-177 Clarity 除去検証）。<a class="go" href="https://app.clickup.com/t/86er2b6hj" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Core Web Vitals エラー対応（Epic）</span><span class="src ck">CS24-1839</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">done ／ CurrentSite</span>CWV エラー対応の Epic。子に LCP before/after 性能テスト（CS24-2331/2123）、CWV 見積（CS24-1915）等。<a class="go" href="https://app.clickup.com/t/86ench0d3" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Latency Monitoring</span><span class="src ck">SRE-1420</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">to do（archived）／ SAR</span>レイテンシー監視の整備。<a class="go" href="https://app.clickup.com/t/860rzpta0" target="_blank" rel="noopener">開く ↗</a></div></details>
+      </div>
+
+      <div class="archgrp">
+        <div class="gh">H. バックエンド／検索エンジン（間接的に効く）</div>
+        <details class="ri"><summary><span class="ttl">Elasticsearch response slow during midnight reindex</span><span class="src ck">PORTAL-1188</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">Closed ／ PJ Portal</span>夜間 reindex 中の ES 応答低下（関連：PORTAL-379 エリア/AC 一覧生成の遅延、PORTAL-1204 reindex 速度改善）。<a class="go" href="https://app.clickup.com/t/86epa6vnp" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">Slow query Optimization（index 調整）</span><span class="src ck">RVW-1405 系</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">Closed ／ PJ Review Service</span>レビュー DB の遅延クエリ最適化。関連で Redis キャッシュ（RVW-1403/1534）、遅い API 応答の可観測性（RVW-1435）。レビュー表示の応答に効く。<a class="go" href="https://app.clickup.com/t/86eqx3cbm" target="_blank" rel="noopener">開く ↗</a></div></details>
+        <details class="ri"><summary><span class="ttl">EFS latency investigation</span><span class="src ck">SYS-1154</span><span class="chev">›</span></summary>
+          <div class="rbody"><span class="meta">complete ／ Sys</span>ストレージ（EFS）レイテンシー調査。<a class="go" href="https://app.clickup.com/t/86ench2g1" target="_blank" rel="noopener">開く ↗</a></div></details>
+      </div>
+
+    </div>
+    <p class="note" style="margin-top:14px"><b>補足：</b>これは AI 横断検索で回収した主要分のみ。ClickUp では関連チケット計 約85件（直接関連 約40件）、Drive では速度関連資料 約22件を確認済み。全件の一覧・除外ノイズの整理はバックログ表側に集約予定。</p>
   </div>
 
   <div class="refs">
