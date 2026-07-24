@@ -112,6 +112,18 @@
   .loglist .t a:hover{text-decoration:underline}
   .loglist .m{font-size:11.5px;color:var(--muted)}
 
+  .sec h3{font-size:14px;margin:16px 0 4px;color:var(--ink)}
+  .impl{border:1px solid var(--line);border-radius:12px;background:#faf6ec;overflow:hidden;margin-top:6px}
+  .impl>summary{cursor:pointer;padding:12px 15px;font-size:13px;font-weight:800;color:var(--blue-d);list-style:none}
+  .impl>summary::-webkit-details-marker{display:none}
+  .impl>summary::before{content:"＋ ";font-weight:800}
+  .impl[open]>summary::before{content:"− "}
+  .ibody{padding:0 16px 14px;font-size:13px;line-height:1.7;color:var(--ink)}
+  .ibody ul{margin:6px 0 0;padding-left:18px}
+  .ibody li{font-size:12.5px;margin-bottom:5px}
+  .ibody code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;background:#f3ede2;padding:1px 5px;border-radius:4px;color:#7a4a2f}
+  .ibody .warn{margin-top:10px;color:#a2432c;font-size:12px}
+
   .refs{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);padding:14px 20px;margin:22px 0 18px;box-shadow:var(--shadow)}
   .refs .lbl{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--blue-d);text-transform:uppercase}
   .refs ul{margin:7px 0 0;padding-left:18px}
@@ -163,6 +175,7 @@
       <ul>
         <li><b>原因不明のまま離脱する。</b>エラー時に「なぜ進めないか／次に何をすればいいか」が Traveler に伝わっていない。</li>
         <li><b>エラーは2タイプで効く手が違う。</b>①満席・締切＝理由を伝えれば別日程・別時間に自分で切り替えられる（表示で戻せる）／②それ以外（電話番号・設定不備・接続断 等）＝表示だけでは直せず、発生を止める対応が要る。</li>
+        <li><b>失敗理由を活かせていない。</b>API は失敗理由を返しているのに、現行は取得後に<b>破棄</b>し（メール送信のみ）、Traveler には汎用の「日付・人数を変更」しか出ていない。</li>
         <li><b>「表示」が弱く「次の動線」が無い。</b>3層で見ると Detect（済）・Display（不親切）・Remediate（欠け）。文言と、その先の探し直し／代替の動線が足りない。</li>
       </ul>
       <div class="fig">
@@ -227,6 +240,48 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- 設計案（Mav） -->
+  <div class="sec">
+    <h2><span class="no">設</span>設計案：エラー種別 → メッセージ・導線</h2>
+    <p class="lead">Mav 作成の設計案より。要は「API が返す失敗理由を今は破棄している」のを、<b>保持して画面まで渡し</b>、種別ごとに適切なメッセージと次の導線を出す。</p>
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>観点</th><th>現行</th><th>改善案</th></tr>
+        <tr><td>失敗理由</td><td>取得後に<b>破棄</b>（メールのみ）</td><td><b>保持して画面まで渡す</b></td></tr>
+        <tr><td>メッセージ選択</td><td>カレンダーから推測</td><td>実際の理由（種別）から選択</td></tr>
+        <tr><td>メッセージ数</td><td>実質2種（満席前提）</td><td>5種（満席／設定不備／接続断／電話／不明）</td></tr>
+        <tr><td>導線</td><td>行き止まり→再試行ループ→離脱</td><td>商品ページ／サポートへ直結</td></tr>
+        <tr><td>測定</td><td>不可</td><td>種別ごとに記録・定量化</td></tr>
+      </table>
+    </div>
+    <h3>エラー種別ごとの対応（例）</h3>
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>種別</th><th>メッセージ例</th><th>次の導線</th></tr>
+        <tr><td><b>満席・締切</b></td><td>別日程を提案／リクエスト予約に自動切替</td><td>商品ページへ</td></tr>
+        <tr><td><b>設定不備</b></td><td>サポートへご連絡ください</td><td>サポート直結</td></tr>
+        <tr><td><b>接続断</b></td><td>時間をおいて再度お試しください</td><td>再試行を促す</td></tr>
+        <tr><td><b>電話番号</b></td><td>電話番号をご確認ください</td><td>修正 → 再送</td></tr>
+        <tr><td><b>不明</b></td><td>安全なデフォルト＋サポート導線</td><td>サポート</td></tr>
+      </table>
+    </div>
+    <details class="impl">
+      <summary>実装メモ（対象ファイル・FR・フェーズ）— Mav 設計案</summary>
+      <div class="ibody">
+        <p><b>核心の変更：</b>理由を破棄せず保持する。<code>ac_api_adaptor.php:368–376</code> を「空 ID ＋メール」から「構造化エラー（種別＋API メッセージ）」へ。メッセージ選択は <code>checkout_realtime_api.php:269 getErrorMessage()</code> をカレンダー依存 → 種別分岐に置換。</p>
+        <ul>
+          <li><b>FR1 / FR10 分類</b>：API エラー文字列を種別へ。信頼できる信号 → テキストルール →（任意）AI 分類（<code>dify_api.php</code>）→ 不確実は安全デフォルト。</li>
+          <li><b>FR4 / FR5 文言追加</b>：<code>define_message.php</code> にサポート連絡／一時エラー＋再試行（JP・EN）。既存の満席・リクエスト系は再利用。</li>
+          <li><b>FR6 導線</b>：<code>redirectToStepOne()</code>（296行）＋ポップアップを「商品ページ」「サポート」リンクへ。</li>
+          <li><b>Phase②・FR8b</b>：電話番号の E.164 整形は「無効ではなく書式違い」と実証できた場合のみ（まずは文言表示を優先）。</li>
+          <li><b>Phase②・FR9</b>：リクエスト予約フォールバック（<code>changeToRequestBooking()</code> 309行）を API 接続の種別でもトリガー。</li>
+          <li><b>NFR5 測定</b>：種別ごとに失敗を記録し、回復額を定量化。</li>
+        </ul>
+        <p class="warn">※ 稼働前に、JP / EN の現行 API 予約フローがどの経路を使っているか要確認（"no longer using" の記載あり：<code>booking_controller.php</code> / <code>checkout_realtime_api.php</code>）。</p>
+      </div>
+    </details>
   </div>
 
   <!-- ネクストアクション -->
