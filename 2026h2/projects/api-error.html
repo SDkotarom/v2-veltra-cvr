@@ -107,7 +107,10 @@
   .loglist li{padding:10px 0;border-top:1px solid var(--line);font-size:13.5px;display:flex;gap:12px;flex-wrap:wrap;align-items:baseline}
   .loglist li:first-child{border-top:none;padding-top:2px}
   .loglist .d{font-family:"Montserrat","Noto Sans JP";font-weight:800;color:var(--blue-d);font-size:12.5px;white-space:nowrap}
-  .loglist .m{font-size:12.5px;color:var(--muted)}
+  .loglist .t{font-weight:700}
+  .loglist .t a{text-decoration:none}
+  .loglist .t a:hover{text-decoration:underline}
+  .loglist .m{font-size:11.5px;color:var(--muted)}
 
   .refs{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);padding:14px 20px;margin:22px 0 18px;box-shadow:var(--shadow)}
   .refs .lbl{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--blue-d);text-transform:uppercase}
@@ -217,7 +220,7 @@
       <div class="k"><span class="no">進</span>進め方案（進め方の一例）</div>
       <p class="s" style="margin:0 0 4px">ベスト・全てではなく初手のイメージ用。現状把握 → よい UX を検討し直す → 段階で改善。</p>
       <div class="ph">
-        <div class="phrow nx"><span class="tag">NA</span><span class="pt">現状の収集・整理</span><div class="pd">現行 API（GROBIC 等）／API ごとのエラーメッセージ・タイプ／実際に TR に表示中のメッセージ を集めて整理する。</div></div>
+        <div class="phrow nx"><span class="tag">NA</span><span class="pt">現状の収集・整理</span><div class="pd">まず主要2 API（<b>Glovic・FareHarbor</b>）を対象に、API ごとのエラーメッセージ・タイプ／実際に TR に表示中のメッセージ を集めて整理する（全 API は 40 以上）。</div></div>
         <div class="phrow nx"><span class="tag">次</span><span class="pt">よい UX を検討し直す</span><div class="pd">集めた実態をもとに、エラー時にあるべき体験を考え直す。</div></div>
         <div class="phrow min"><span class="tag">Phase①</span><span class="pt">文言を親切・丁寧・適切に（最小限）</span><div class="pd">現行のエラータイプに対し、原因と次の行動が伝わる文言へ。まず着手する最小限。※ 8月ピーク前に効かせたい満席型から。</div></div>
         <div class="phrow"><span class="tag" style="background:#ecf6ef;color:#4c8a63">Phase②</span><span class="pt">UX・動線を改善</span><div class="pd">別の探し直し動線を出す・提案する等、離脱／停止させず次のアクションを促すメッセージや挙動に。</div></div>
@@ -229,16 +232,17 @@
   <!-- ネクストアクション -->
   <div class="sec">
     <h2><span class="no">次</span>ネクストアクション</h2>
-    <p class="lead">まず現状把握（NA）から。集めて整理する対象は以下。</p>
+    <p class="lead">2026-07-24 ヒアリングより。まず主要2 API（Glovic・FareHarbor）を対象に、現状整理と文言改善から。</p>
     <div class="tblwrap">
       <table class="ctbl">
-        <tr><th>対象</th><th>集める・整理するもの</th></tr>
-        <tr><td><b>現行 API</b></td><td>GROBIC 等、接続している API の一覧と特性</td></tr>
-        <tr><td><b>エラータイプ</b></td><td>API ごとのエラーメッセージ・エラータイプの種類</td></tr>
-        <tr><td><b>実表示メッセージ</b></td><td>実際に TR に表示しているエラーメッセージの文言</td></tr>
+        <tr><th>担当</th><th>アクション</th></tr>
+        <tr><td><b>Mav</b></td><td>全体の仕切り／ClickUp チケット発行／エラーマッピング（種類分類＋メッセージパターン）／表示メッセージ文言の定義</td></tr>
+        <tr><td><b>Mikiko</b></td><td>現状整理（情報収集）と各エラーメッセージの文言を検討・決定</td></tr>
+        <tr><td><b>Kotaro</b></td><td>Jeff にリソース相談（開発規模：初期 3〜5日／リリース含め 6〜10日 の想定）</td></tr>
+        <tr><td><b>チーム</b></td><td>たたきの文言をレビュー（Haru も文言ヘルプ可）</td></tr>
       </table>
     </div>
-    <div class="note">整理を踏まえて「よい UX」を検討し直し、<b>Phase①（文言改善・最小限）→ Phase②（動線・UX 改善）</b>へ進める。</div>
+    <div class="note">現行の表示文言（例：「Quick confirmation for this booking is no longer available」等）が不明瞭。まず <b>Phase①＝文言を分かりやすく（最小限）</b>、次に <b>Phase②＝次アクションへの動線</b>。新規予約から着手。</div>
   </div>
 
   <!-- 議事録 -->
@@ -246,7 +250,11 @@
     <h2><span class="no">録</span>議事録</h2>
     <p class="lead">打ち合わせログ。新しいものを上に追記していく。</p>
     <ul class="loglist">
-      <li><span class="m">リンク受領後に追記予定。</span></li>
+      <li>
+        <span class="d">2026-07-24</span>
+        <span class="t"><a href="https://docs.google.com/document/d/1_Gt5OFVQDe-7xNEKX1nMqTU4LkSOlw6YYZOTVB-9Yyk/edit" target="_blank" rel="noopener">APIエラーの件 ヒアリング</a></span>
+        <span class="m">Mav / Haru / Mikiko / Kotaro｜主要2API（Glovic・FareHarbor）に注力、まず文言改善から。担当分担を決定</span>
+      </li>
     </ul>
   </div>
 
