@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APIエラーメッセージの UX 改善 — プロジェクトブリーフィング</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#7CA0BF;--blue-d:#5f86a8;--green:#86BE99;--green-d:#4c8a63;--red:#F38268;--red-d:#c0442a;--amber:#e6a15a;
+    --offwhite:#FEFCF3;--dark:#2D1C21;--ink:#2D1C21;--muted:#6b5d61;
+    --line:#e7e0d4;--card:#ffffff;
+    --shadow:0 1px 3px rgba(45,28,33,.08),0 6px 18px rgba(45,28,33,.06);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--offwhite);color:var(--ink);
+    font-family:"Noto Sans JP","Montserrat",-apple-system,BlinkMacSystemFont,sans-serif;
+    font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+  a{color:var(--blue-d)}
+  .wrap{max-width:820px;margin:0 auto;padding:0 24px}
+  h1,h2,h3,h4{font-family:"Montserrat","Noto Sans JP",sans-serif;letter-spacing:.01em}
+
+  .topbar{position:sticky;top:0;z-index:40;background:rgba(254,252,243,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .topbar .wrap{max-width:1120px;display:flex;align-items:center;gap:16px;height:56px;flex-wrap:wrap}
+  .brand{font-family:"Montserrat";font-weight:800;letter-spacing:.14em;color:var(--blue-d);font-size:18px}
+  .brand small{display:block;font-size:10px;letter-spacing:.28em;color:var(--muted);font-weight:600}
+  .nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+  .nav a{font-size:12.5px;font-weight:600;color:var(--muted);text-decoration:none;padding:6px 11px;border-radius:999px}
+  .nav a:hover{background:#fff;color:var(--ink)}
+
+  .crumb{padding:20px 0 0;font-size:12.5px;color:var(--muted)}
+  .crumb a{text-decoration:none;font-weight:600}
+  .crumb a:hover{text-decoration:underline}
+
+  .phero{padding:16px 0 4px}
+  .eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+  .phero h1{font-family:"Noto Sans JP";font-weight:900;font-size:clamp(23px,3.6vw,31px);line-height:1.3;margin:10px 0 0}
+  .phero .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:13px}
+  .pill{font-size:11.5px;font-weight:700;padding:3px 11px;border-radius:999px;background:#eef3f7;color:var(--blue-d);white-space:nowrap}
+  .pill.sub{background:#fbe9e2;color:#c0562f}
+  .flag{display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;white-space:nowrap;vertical-align:middle}
+  .flag.crit{background:#fdeae4;color:#d0512f}
+
+  .bg{background:#faf6ec;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);
+    padding:16px 20px;margin:24px 0 6px;box-shadow:var(--shadow)}
+  .bg .lbl{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--blue-d);text-transform:uppercase}
+  .bg ul{margin:9px 0 0;padding-left:0;list-style:none}
+  .bg li{position:relative;padding:5px 0 5px 18px;font-size:13.5px;line-height:1.65}
+  .bg li::before{content:"";position:absolute;left:2px;top:13px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
+  .bg li b{color:var(--ink)}
+
+  .flow{display:flex;flex-direction:column;gap:14px;margin:14px 0 6px}
+  .pstep{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--blue);
+    border-radius:var(--radius);padding:16px 20px 17px;box-shadow:var(--shadow)}
+  .pstep.q1{border-left-color:var(--red)}
+  .pstep.q2{border-left-color:var(--blue)}
+  .pstep.q3{border-left-color:var(--green)}
+  .pstep .k{display:inline-flex;align-items:center;gap:9px;font-family:"Montserrat","Noto Sans JP";
+    font-weight:800;font-size:13.5px;letter-spacing:.06em;margin-bottom:6px}
+  .pstep .k .no{width:23px;height:23px;border-radius:7px;color:#fff;display:inline-flex;
+    align-items:center;justify-content:center;font-size:13px;font-weight:900}
+  .q1 .k{color:var(--red-d)} .q1 .k .no{background:var(--red)}
+  .q2 .k{color:var(--blue-d)} .q2 .k .no{background:var(--blue)}
+  .q3 .k{color:var(--green-d)} .q3 .k .no{background:var(--green)}
+  .pstep ul{margin:6px 0 0;padding:0;list-style:none}
+  .pstep li{position:relative;padding:8px 0 8px 20px;font-size:14px;line-height:1.6;border-top:1px dashed var(--line)}
+  .pstep li:first-child{border-top:none;padding-top:2px}
+  .pstep li::before{content:"";position:absolute;left:3px;top:15px;width:6px;height:6px;border-radius:50%;background:var(--green)}
+  .pstep li:first-child::before{top:9px}
+  .pstep li b{color:var(--ink);font-weight:700}
+  .pstep li .s{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+
+  .fig{margin:13px 0 2px}
+  .fig svg{width:100%;height:auto;max-width:430px;display:block}
+  .figcap{font-size:11px;color:var(--muted);margin-top:3px}
+
+  .sec{margin:30px 0 6px}
+  .sec > h2{font-size:17px;margin:0 0 3px;display:flex;align-items:center;gap:10px}
+  .sec > h2 .no{width:24px;height:24px;border-radius:7px;background:var(--blue);color:#fff;font-size:12px;
+    font-weight:900;display:inline-flex;align-items:center;justify-content:center;font-family:"Montserrat","Noto Sans JP"}
+  .sec .lead{font-size:13px;color:var(--muted);margin:2px 0 12px}
+
+  .tblwrap{overflow-x:auto;margin-top:6px}
+  .ctbl{width:100%;border-collapse:collapse;font-size:12.5px;min-width:440px}
+  .ctbl th,.ctbl td{text-align:left;padding:9px 10px;border-top:1px solid var(--line);vertical-align:top;line-height:1.55}
+  .ctbl th{background:#faf6ec;font-size:11px;color:var(--muted);font-weight:800;letter-spacing:.04em}
+  .ctbl td b{color:var(--ink)}
+  .note{font-size:12.5px;color:var(--muted);background:#faf6ec;border-left:3px solid var(--amber);padding:9px 12px;border-radius:0 8px 8px 0;margin:6px 0 10px}
+  .note b{color:#a9711f}
+
+  .ph{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+  .phrow{position:relative;padding:11px 14px 11px 16px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--green);border-radius:12px;box-shadow:var(--shadow)}
+  .phrow .pt{font-weight:800;font-size:13.5px;color:var(--ink)}
+  .phrow .pd{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .phrow.min{border-left-color:var(--amber)}
+  .phrow .tag{display:inline-block;font-size:10.5px;font-weight:800;padding:1px 8px;border-radius:5px;margin-left:6px;vertical-align:middle}
+  .phrow.min .tag{background:#fff3e8;color:#b3701f}
+  .phrow.nx .tag{background:#eef3f7;color:var(--blue-d)}
+
+  /* 議事録ログ（増えていく） */
+  .loglist{margin:6px 0 0;padding:0;list-style:none}
+  .loglist li{padding:10px 0;border-top:1px solid var(--line);font-size:13.5px;display:flex;gap:12px;flex-wrap:wrap;align-items:baseline}
+  .loglist li:first-child{border-top:none;padding-top:2px}
+  .loglist .d{font-family:"Montserrat","Noto Sans JP";font-weight:800;color:var(--blue-d);font-size:12.5px;white-space:nowrap}
+  .loglist .m{font-size:12.5px;color:var(--muted)}
+
+  .refs{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);padding:14px 20px;margin:22px 0 18px;box-shadow:var(--shadow)}
+  .refs .lbl{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--blue-d);text-transform:uppercase}
+  .refs ul{margin:7px 0 0;padding-left:18px}
+  .refs li{font-size:13px;line-height:1.7}
+
+  footer{padding:32px 0 60px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:22px}
+  footer .back{font-weight:700;text-decoration:none}
+
+  @media(max-width:720px){.nav{display:none}}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <div class="brand">VELTRA<small>UX DESIGN SQUAD</small></div>
+  <nav class="nav">
+    <a href="/2026h2/">H2 ミッション</a>
+    <a href="/2026h2/cvr.html">CVR サマリー</a>
+  </nav>
+</div></div>
+
+<div class="wrap">
+
+  <div class="crumb"><a href="/2026h2/">← H2 ミッション</a> ／ ② TR側の既存 UX 改善 ／ プロジェクト 3</div>
+
+  <header class="phero">
+    <div class="eyebrow">プロジェクトブリーフィング</div>
+    <h1>APIエラーメッセージの UX 改善</h1>
+    <div class="meta">
+      <span class="pill">Mav</span><span class="pill sub">Haru</span><span class="pill sub">Mikiko</span>
+    </div>
+  </header>
+
+  <!-- 背景 -->
+  <div class="bg">
+    <div class="lbl">背景（なぜやるか？）</div>
+    <ul>
+      <li>API 予約でエラーが出ると、<b>原因が Traveler に伝わらないまま決済直前で失注</b>している。現場（Sales/CS）発の恒常的な課題。</li>
+      <li>単発ではなく通年。<b>1〜7月で約 957 件・約 860 万円</b>の機会損失（Comm＝API1予約 平均 9,000円換算）。API 接続 AC の増加で今後さらに増える。</li>
+      <li>検知・分類は 2025 年に実装済み（Detect）。だが Traveler への<b>伝え方（表示）とその先の動線が弱く</b>、失注が止まっていない。</li>
+    </ul>
+  </div>
+
+  <div class="flow">
+
+    <!-- 課題 -->
+    <div class="pstep q1">
+      <div class="k"><span class="no">問</span>課題</div>
+      <ul>
+        <li><b>原因不明のまま離脱する。</b>エラー時に「なぜ進めないか／次に何をすればいいか」が Traveler に伝わっていない。</li>
+        <li><b>エラーは2タイプで効く手が違う。</b>①満席・締切＝理由を伝えれば別日程・別時間に自分で切り替えられる（表示で戻せる）／②それ以外（電話番号・設定不備・接続断 等）＝表示だけでは直せず、発生を止める対応が要る。</li>
+        <li><b>「表示」が弱く「次の動線」が無い。</b>3層で見ると Detect（済）・Display（不親切）・Remediate（欠け）。文言と、その先の探し直し／代替の動線が足りない。</li>
+      </ul>
+      <div class="fig">
+        <svg viewBox="0 0 430 116" role="img" aria-label="エラーは2タイプ、効く手が違う">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">エラーは2タイプ、効く手が違う</text>
+          <rect x="0" y="22" width="205" height="82" rx="10" fill="#ecf6ef" stroke="#86BE99"/>
+          <text x="14" y="42" font-size="11.5" font-weight="800" fill="#4c8a63">① 満席・締切</text>
+          <text x="14" y="60" font-size="10.5" fill="#4c8a63">表示で戻せる</text>
+          <text x="14" y="76" font-size="10.5" fill="#4c8a63">＝理由を伝え別日程へ</text>
+          <text x="14" y="95" font-size="10" fill="#6b5d61">1〜7月 約273万円</text>
+          <rect x="225" y="22" width="205" height="82" rx="10" fill="#fdeae4" stroke="#F38268"/>
+          <text x="239" y="42" font-size="11.5" font-weight="800" fill="#c0442a">② それ以外</text>
+          <text x="239" y="60" font-size="10.5" fill="#c0442a">表示では直せない</text>
+          <text x="239" y="76" font-size="10.5" fill="#c0442a">電話番号・設定・接続 等</text>
+          <text x="239" y="95" font-size="10" fill="#6b5d61">1〜7月 約611万円</text>
+        </svg>
+        <div class="figcap">出典：API Booking Error Problem Map（チケット SYS 関連・1〜7月 distinct・9,000円換算）。</div>
+      </div>
+    </div>
+
+    <!-- 打ち手方針 -->
+    <div class="pstep q2">
+      <div class="k"><span class="no">方</span>打ち手方針</div>
+      <ul>
+        <li><b>まず現状を把握する</b>
+          <span class="s">現行 API・エラータイプ・実際に TR に出しているメッセージを棚卸し（下段 ネクストアクション）。</span></li>
+        <li><b>①表示で戻る：文言を「原因＋次の行動」に</b>
+          <span class="s">満席なら「満席が理由」＋「別日程を選ぶ」を明確に。まずここを最小限で。</span></li>
+        <li><b>②表示では直せない：次の動線を出す／発生を止める</b>
+          <span class="s">探し直し・代替の動線で離脱させない。直せない発生要因は Remediate（別トラック・他チーム連携の可能性）。</span></li>
+        <li><b>判断軸は Traveler</b>
+          <span class="s">エラーで止めない・迷わせない・次の一手を出す。</span></li>
+      </ul>
+      <div class="fig">
+        <svg viewBox="0 0 430 88" role="img" aria-label="Detect済・Display改善・Remediate欠けの3層">
+          <text x="0" y="12" font-size="11" font-weight="700" fill="#6b5d61">3層：Detect（済）→ Display（改善）→ Remediate（欠け）</text>
+          <g font-size="10.5" font-weight="700" text-anchor="middle">
+            <rect x="0" y="26" width="128" height="40" rx="9" fill="#f2ede4" stroke="#c9bfae"/>
+            <text x="64" y="44" fill="#8a7d6b">Detect 検知</text><text x="64" y="58" font-size="9" font-weight="400" fill="#8a7d6b">2025 実装済</text>
+            <rect x="151" y="26" width="128" height="40" rx="9" fill="#eef3f7" stroke="#7CA0BF"/>
+            <text x="215" y="44" fill="#5f86a8">Display 表示</text><text x="215" y="58" font-size="9" font-weight="400" fill="#5f86a8">本施策で改善</text>
+            <rect x="302" y="26" width="128" height="40" rx="9" fill="#fdeae4" stroke="#F38268"/>
+            <text x="366" y="44" fill="#c0442a">Remediate</text><text x="366" y="58" font-size="9" font-weight="400" fill="#c0442a">欠け＝②の発生減</text>
+          </g>
+          <g stroke="#b9a98f" stroke-width="1.5" fill="none" marker-end="url(#ar)">
+            <path d="M128 46 H149"/><path d="M279 46 H300"/>
+          </g>
+          <defs><marker id="ar" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#b9a98f"/></marker></defs>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 進め方案 -->
+    <div class="pstep q3">
+      <div class="k"><span class="no">進</span>進め方案（進め方の一例）</div>
+      <p class="s" style="margin:0 0 4px">ベスト・全てではなく初手のイメージ用。現状把握 → よい UX を検討し直す → 段階で改善。</p>
+      <div class="ph">
+        <div class="phrow nx"><span class="tag">NA</span><span class="pt">現状の収集・整理</span><div class="pd">現行 API（GROBIC 等）／API ごとのエラーメッセージ・タイプ／実際に TR に表示中のメッセージ を集めて整理する。</div></div>
+        <div class="phrow nx"><span class="tag">次</span><span class="pt">よい UX を検討し直す</span><div class="pd">集めた実態をもとに、エラー時にあるべき体験を考え直す。</div></div>
+        <div class="phrow min"><span class="tag">Phase①</span><span class="pt">文言を親切・丁寧・適切に（最小限）</span><div class="pd">現行のエラータイプに対し、原因と次の行動が伝わる文言へ。まず着手する最小限。※ 8月ピーク前に効かせたい満席型から。</div></div>
+        <div class="phrow"><span class="tag" style="background:#ecf6ef;color:#4c8a63">Phase②</span><span class="pt">UX・動線を改善</span><div class="pd">別の探し直し動線を出す・提案する等、離脱／停止させず次のアクションを促すメッセージや挙動に。</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ネクストアクション -->
+  <div class="sec">
+    <h2><span class="no">次</span>ネクストアクション</h2>
+    <p class="lead">まず現状把握（NA）から。集めて整理する対象は以下。</p>
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>対象</th><th>集める・整理するもの</th></tr>
+        <tr><td><b>現行 API</b></td><td>GROBIC 等、接続している API の一覧と特性</td></tr>
+        <tr><td><b>エラータイプ</b></td><td>API ごとのエラーメッセージ・エラータイプの種類</td></tr>
+        <tr><td><b>実表示メッセージ</b></td><td>実際に TR に表示しているエラーメッセージの文言</td></tr>
+      </table>
+    </div>
+    <div class="note">整理を踏まえて「よい UX」を検討し直し、<b>Phase①（文言改善・最小限）→ Phase②（動線・UX 改善）</b>へ進める。</div>
+  </div>
+
+  <!-- 議事録 -->
+  <div class="sec">
+    <h2><span class="no">録</span>議事録</h2>
+    <p class="lead">打ち合わせログ。新しいものを上に追記していく。</p>
+    <ul class="loglist">
+      <li><span class="m">リンク受領後に追記予定。</span></li>
+    </ul>
+  </div>
+
+  <div class="refs">
+    <div class="lbl">入口・参考</div>
+    <ul>
+      <li>起票チケット：<b>SYS-6968 / SYS-6931</b>（Sales/CS 発・未解決）</li>
+      <li><a href="/2026h2/cvr.html">CVR サマリー</a>（購入完了までの現状）</li>
+      <li><a href="/2026h2/#focus">H2 ミッション「Traveler の UX 向上」</a>（②の全体像と位置づけ）</li>
+    </ul>
+  </div>
+
+</div>
+
+<footer class="wrap">
+  <a class="back" href="/2026h2/">← H2 ミッションへ戻る</a><br>
+  VELTRA UX Design Squad ― ② TR側の既存 UX 改善 ／ プロジェクトブリーフィング
+</footer>
+
+</body>
+</html>
