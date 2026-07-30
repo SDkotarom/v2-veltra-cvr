@@ -20,6 +20,17 @@
     font-family:"Noto Sans JP","Montserrat",-apple-system,BlinkMacSystemFont,sans-serif;
     font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:960px;margin:0 auto;padding:0 22px}
+  .topbar{position:sticky;top:0;z-index:40;background:rgba(254,252,243,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .topbar .wrap{max-width:1120px;display:flex;align-items:center;gap:16px;height:56px;flex-wrap:wrap}
+  .brand{font-family:"Montserrat";font-weight:800;letter-spacing:.14em;color:var(--blue-d);font-size:18px}
+  .brand small{display:block;font-size:10px;letter-spacing:.28em;color:var(--muted);font-weight:600}
+  .topnav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+  .topnav a{font-size:12.5px;font-weight:600;color:var(--muted);text-decoration:none;padding:6px 11px;border-radius:999px}
+  .topnav a:hover{background:#fff;color:var(--ink)}
+  .crumb{padding:18px 0 0;font-size:12.5px;color:var(--muted)}
+  .crumb a{text-decoration:none;font-weight:600}
+  .crumb a:hover{text-decoration:underline}
+  @media(max-width:720px){.topnav{display:none}}
   h1,h2,h3,h4{font-family:"Montserrat","Noto Sans JP",sans-serif;letter-spacing:.01em}
   a{color:var(--blue-d)}
 
@@ -108,7 +119,17 @@
 </head>
 <body>
 
+<div class="topbar"><div class="wrap">
+  <div class="brand">VELTRA<small>UX DESIGN SQUAD</small></div>
+  <nav class="topnav">
+    <a href="/2026h2/">H2 ミッション</a>
+    <a href="/2026h2/cvr.html">CVR サマリー</a>
+  </nav>
+</div></div>
+
 <div class="wrap">
+
+  <div class="crumb"><a href="/2026h2/">← H2 ミッション</a> ／ ② ガバナンス ／ プロジェクト 2</div>
 
   <header class="hero">
     <div class="eyebrow">Governance Briefing ・ 02 データ / リーガル</div>
@@ -171,7 +192,7 @@
         <h3><span class="ic">✅</span>いま進めていい（Phase 0 を妨げない範囲）</h3>
         <ul>
           <li><b>明らかに死んでいるタグの停止。</b>提供終了済みの計測サービス（例：提供元がサービス終了した Google Optimize）や、参照先の消えたツール向けタグなど、発火しても意味のないものを止める。</li>
-          <li><b>管理者不明タグのヒアリング。</b>40 件の管理者不明タグの持ち主を洗い出す。第三者提供データの棚卸しページに接続。<a href="/2026h1/planning/third-party-data-audit.html">→ 40社台帳ブリーフィング</a></li>
+          <li><b>管理者不明タグのヒアリング。</b>40 件の管理者不明タグの持ち主を洗い出す。第三者提供データの棚卸しページに接続。<a href="/2026h2/projects/third-party-data-audit.html">→ 40社台帳ブリーフィング</a></li>
           <li><b>停止は Pause で統一。</b>削除ではなく一時停止で揃え、削除は棚卸し完了後にまとめて行う。</li>
         </ul>
       </div>
@@ -219,7 +240,7 @@
       <ul>
         <li>二木さんブリーフ：<code>consolidationbrief20260729.md</code></li>
         <li>二木さん調査：<code>gtmtagaudit20260714.md</code>（GTM タグ棚卸し）</li>
-        <li>関連ブリーフィング：<a href="/2026h1/planning/gdpr-consent-default.html">GDPR対応・同意の既定宣言</a> ／ <a href="/2026h1/planning/third-party-data-audit.html">第三者提供データの棚卸し（40社台帳）</a></li>
+        <li>関連ブリーフィング：<a href="/2026h2/projects/gdpr-consent-default.html">GDPR対応・同意の既定宣言</a> ／ <a href="/2026h2/projects/third-party-data-audit.html">第三者提供データの棚卸し（40社台帳）</a></li>
         <li>Slack：One Trust &amp; GTM Tag optimize project スレッド</li>
         <li>コンテナ ID：GTM-5KFX5VX（現行）／ GTM-NXVC2F39（統合先・新）</li>
       </ul>
@@ -230,9 +251,9 @@
 
 <footer class="wrap">
   VELTRA UX Design Squad — ガバナンス ブリーフィング ／ GTMコンテナの断捨離と統合<br>
-  用語：サービス名 = Veltra ／ ユーザー主語 = Traveler
+  用語：サービス名 = Veltra ／ ユーザー主語 = Traveler<br>
+  <a href="/2026h2/" style="font-weight:700;text-decoration:none">← H2 ミッションへ戻る</a>
 </footer>
 
-<script src="/2026h1/planning/back-nav.js"></script>
 </body>
 </html>
