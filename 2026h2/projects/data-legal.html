@@ -47,6 +47,17 @@
   .restricted{display:inline-block;margin-left:8px;font-size:11px;font-weight:800;letter-spacing:.02em;
     background:#fdeae4;color:var(--red-d);border:1px solid #f6c9ba;border-radius:999px;padding:2px 10px;
     vertical-align:middle;text-transform:none}
+  /* stakeholders / channels */
+  .stakeholders{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;max-width:860px}
+  .sh{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 16px;box-shadow:var(--shadow)}
+  .sh h4{font-family:"Montserrat";font-size:11px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin:0 0 8px}
+  .sh ul{margin:0;padding-left:0;list-style:none;font-size:12.5px;line-height:1.65}
+  .sh li{padding:3px 0;border-top:1px dashed var(--line);color:var(--ink)}
+  .sh li:first-child{border-top:none}
+  .sh li b{font-weight:700}
+  .sh li .role{color:var(--muted)}
+  .sh a{font-weight:700}
+  @media(max-width:640px){.stakeholders{grid-template-columns:1fr}}
 
   /* tab group: tabs sit on top edge, content lives in the box below (one unit) */
   .tabgroup{margin:24px 0 0}
@@ -249,6 +260,26 @@
     <p class="lead">計測とデータ取り扱いの健全化・法令順守。GDPR（同意の既定宣言）／ GTM コンテナの断捨離・統合 ／ 第三者提供データの棚卸し の 3 テーマは、独立タスクではなく <b>ひとつのワークストリーム</b>。タブで切り替えて全体像を追える。</p>
     <div class="dep"><b>順序の前提：</b> <b>Phase 0（同意の既定宣言）</b> がすべての土台。これを固める前に GTM 統合や個別同意設定を進めると全やり直しになる。GTM の断捨離と第三者提供の棚卸しは Phase 0 を妨げない「掃除」として並行で進める。</div>
 
+    <div class="stakeholders">
+      <div class="sh">
+        <h4>関係者</h4>
+        <ul>
+          <li><b>二木さん</b> <span class="role">— OneTrust / GDPR / GTM 全体主導（法務・データ管轄）</span></li>
+          <li><b>Kotaro</b> <span class="role">— サイト側実装調整</span></li>
+          <li><b>Hanae</b> <span class="role">— 法務パッケージ／社外GA権限</span></li>
+          <li><b>法務（Vt Legal &amp; GVA）</b> <span class="role">— 法務レビュー</span></li>
+          <li><b>Sachie・倉上・Mayumi 他</b> <span class="role">— One Trust project メンバー</span></li>
+        </ul>
+      </div>
+      <div class="sh">
+        <h4>チャンネル <span class="lp">（限定公開）</span></h4>
+        <ul>
+          <li><a href="https://veltra.slack.com/archives/C0BGRVBQZKL" target="_blank" rel="noopener">#product-legal ↗</a> <span class="role">— cookie / GDPR / 法務パッケージの本体議論</span></li>
+          <li><a href="https://veltra.slack.com/archives/C0BGS8NBTD3" target="_blank" rel="noopener">One Trust &amp; GTM Tag optimize project ↗</a> <span class="role">— 調査資料・タグ棚卸し（グループDM）</span></li>
+        </ul>
+      </div>
+    </div>
+
   </header>
 
   <div class="tabgroup">
@@ -266,7 +297,7 @@
       <p class="lead">英語サイトで完成済みの「同意の既定宣言」と法務文書パッケージを、日本語サイトにも適用する。Phase 0 が最優先である理由と、なぜ順序を戻せないのかを共有するための方向性メモ。</p>
       <div class="meta-row">
         <span class="chip top"><span class="dot"></span>優先度：最優先</span>
-        <span class="chip">主導：commons ／ サイト側調整：Kotaro</span>
+        <span class="chip">主導：二木さん ／ サイト側調整：Kotaro</span>
         <span class="chip">更新：2026-07-30</span>
       </div>
     </div>
@@ -322,9 +353,9 @@
 
     <section>
       <div class="sec-head"><span class="sec-num">04</span><h2>Kotaro の担当範囲</h2></div>
-      <p>この案件は <b>commons が主導</b>する。Kotaro は主導ではなく、二木さんからの実装依頼に応じて <b>サイト側の調整</b>を担当する立ち位置。</p>
+      <p>この案件は <b>二木さん（法務・データ管轄）が主導</b>する。Kotaro は主導ではなく、二木さんからの実装依頼に応じて <b>サイト側の調整</b>を担当する立ち位置。</p>
       <ul class="clean">
-        <li>Phase 0 の宣言そのものの設計・法務判断は commons 側。Kotaro はサイト側で必要な実装反映を引き受ける。</li>
+        <li>Phase 0 の宣言そのものの設計・法務判断は 法務（二木さん）側。Kotaro はサイト側で必要な実装反映を引き受ける。</li>
         <li>7/30 のオリエンで、サイト側実装のスコープを確定する。ここで受け取る範囲が Kotaro の実タスクになる。</li>
         <li>スコープ確定後の分岐（実装が軽い / 重い / 担当外）に応じて、本タブに実装タスクを追記するか、別ページを新設する。</li>
       </ul>
@@ -343,7 +374,7 @@
             <div class="kcard" id="dec-1" draggable="true">
               <div class="kc-q">管理者法人の統一</div>
               <div class="kc-why">データ管理者を東京 と ホノルルのどちらに寄せるか。統合時に必ず突き当たる論点。</div>
-              <div class="kc-foot"><span class="owner-pills"><span class="pill">commons</span><span class="pill sub">futagi</span></span><span class="grip">⣿</span></div>
+              <div class="kc-foot"><span class="owner-pills"><span class="pill">futagi</span></span><span class="grip">⣿</span></div>
             </div>
             <div class="kcard" id="dec-2" draggable="true">
               <div class="kc-q">excl. Yokka の廃止可否</div>
@@ -353,7 +384,7 @@
             <div class="kcard" id="dec-4" draggable="true">
               <div class="kc-q">法務ページの切替タイミング</div>
               <div class="kc-why">法務 13 文書パッケージを日本語サイトへ適用する時期。旧 URL の転送設計とセット。</div>
-              <div class="kc-foot"><span class="owner-pills"><span class="pill">commons</span></span><span class="grip">⣿</span></div>
+              <div class="kc-foot"><span class="owner-pills"><span class="pill">futagi</span></span><span class="grip">⣿</span></div>
             </div>
             <div class="kcard" id="dec-5" draggable="true">
               <div class="kc-q">旧 URL の転送設計</div>
