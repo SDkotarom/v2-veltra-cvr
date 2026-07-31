@@ -135,6 +135,27 @@
   .decide .d .why{font-size:12.5px;color:var(--muted)}
   .decide .d .due{display:inline-block;margin-top:8px;font-size:11px;font-weight:800;background:#fdeae4;color:var(--red-d);padding:2px 8px;border-radius:6px}
 
+  /* kanban */
+  .kban-hint{font-size:12px;color:var(--muted);margin:0 0 12px;background:#faf6ec;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:8px 12px}
+  .kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .kcol{background:#f6f2ea;border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column}
+  .kcol-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:2px 4px 12px;font-weight:800;font-size:13px}
+  .kcol-head .lbl{display:inline-flex;align-items:center;gap:7px}
+  .kcol-head .dotc{width:9px;height:9px;border-radius:50%}
+  .kcol.todo .dotc{background:var(--red)} .kcol.doing .dotc{background:var(--blue)} .kcol.done .dotc{background:var(--green)}
+  .kcol-head .cnt{font-size:11px;font-weight:800;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:999px;padding:1px 9px;min-width:24px;text-align:center}
+  .klist{display:flex;flex-direction:column;gap:10px;flex:1;min-height:56px;border-radius:10px;padding:2px;transition:background .12s,box-shadow .12s}
+  .klist.over{background:rgba(124,160,191,.14);box-shadow:inset 0 0 0 2px var(--blue)}
+  .kcard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;box-shadow:var(--shadow);cursor:grab}
+  .kcard:active{cursor:grabbing}
+  .kcard.dragging{opacity:.45}
+  .kcard .kc-q{font-weight:700;font-size:13.5px;margin-bottom:5px;line-height:1.5}
+  .kcard .kc-why{font-size:12px;color:var(--muted);line-height:1.65}
+  .kcard .kc-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:11px;flex-wrap:wrap}
+  .kcard .kc-due{font-size:10.5px;font-weight:800;background:#fdeae4;color:var(--red-d);padding:2px 8px;border-radius:6px;white-space:nowrap}
+  .kcard .grip{color:#c9bfae;font-size:12px;letter-spacing:-1px}
+  @media(max-width:640px){.kanban{grid-template-columns:1fr}}
+
   .callout{background:#faf6ec;border-left:3px solid var(--blue);border-radius:0 10px 10px 0;padding:12px 16px;font-size:13.5px;color:var(--muted);margin-top:14px}
   .callout.warn{background:#fdeae4;border-color:var(--red);color:var(--red-d)}
   .callout.info{background:#faf6ec;border-color:var(--blue);color:var(--muted)}
@@ -300,13 +321,52 @@
     <section>
       <div class="sec-head"><span class="sec-num">05</span><h2>着手前に決まっていない点（意思決定待ち）</h2></div>
       <p class="body-note">下記が決まらないと後工程が動かせない。オリエン・関係チームで順次確定させる。</p>
-      <div class="decide">
-        <div class="d"><div class="q">管理者法人の統一</div><div class="why">データ管理者を東京 と ホノルルのどちらに寄せるか。統合時に必ず突き当たる論点。</div></div>
-        <div class="d"><div class="q">excl. Yokka の廃止可否</div><div class="why">現行の除外設定を廃止してよいか。計測の連続性に影響する。</div></div>
-        <div class="d"><div class="q">社外 20 名の GA 権限</div><div class="why">社外アカウントの GA アクセス権をどう整理するか。権限は最小化の方針。</div><div class="due">期限 2026-08-05</div></div>
-        <div class="d"><div class="q">法務ページの切替タイミング</div><div class="why">法務 13 文書パッケージを日本語サイトへ適用する時期。旧 URL の転送設計とセット。</div></div>
-        <div class="d"><div class="q">旧 URL の転送設計</div><div class="why">旧法務ページの URL をどこへ転送するか。SEO と被リンクの維持を含む。</div></div>
-        <div class="d"><div class="q">コンビニ・ATM 支払い案内の移設先</div><div class="why">法務ページ切替に伴い、支払い案内コンテンツをどこへ移すか。</div></div>
+      <p class="kban-hint">カードは<b>ドラッグで列を移動</b>できます（並びはこのブラウザに保存されます）。担当は<b>暫定</b>です ―― 実際の割り当てが決まったら差し替えます。</p>
+      <div class="kanban" id="decide-board">
+        <div class="kcol todo">
+          <div class="kcol-head"><span class="lbl"><span class="dotc"></span>意思決定待ち</span><span class="cnt" data-cnt></span></div>
+          <div class="klist" data-col="todo">
+            <div class="kcard" id="dec-1" draggable="true">
+              <div class="kc-q">管理者法人の統一</div>
+              <div class="kc-why">データ管理者を東京 と ホノルルのどちらに寄せるか。統合時に必ず突き当たる論点。</div>
+              <div class="kc-foot"><span class="owner-pills"><span class="pill">commons</span><span class="pill sub">futagi</span></span><span class="grip">⣿</span></div>
+            </div>
+            <div class="kcard" id="dec-2" draggable="true">
+              <div class="kc-q">excl. Yokka の廃止可否</div>
+              <div class="kc-why">現行の除外設定を廃止してよいか。計測の連続性に影響する。</div>
+              <div class="kc-foot"><span class="owner-pills"><span class="pill sub">futagi</span></span><span class="grip">⣿</span></div>
+            </div>
+            <div class="kcard" id="dec-4" draggable="true">
+              <div class="kc-q">法務ページの切替タイミング</div>
+              <div class="kc-why">法務 13 文書パッケージを日本語サイトへ適用する時期。旧 URL の転送設計とセット。</div>
+              <div class="kc-foot"><span class="owner-pills"><span class="pill">commons</span></span><span class="grip">⣿</span></div>
+            </div>
+            <div class="kcard" id="dec-5" draggable="true">
+              <div class="kc-q">旧 URL の転送設計</div>
+              <div class="kc-why">旧法務ページの URL をどこへ転送するか。SEO と被リンクの維持を含む。</div>
+              <div class="kc-foot"><span class="owner-pills"><span class="pill">Kotaro</span></span><span class="grip">⣿</span></div>
+            </div>
+            <div class="kcard" id="dec-6" draggable="true">
+              <div class="kc-q">コンビニ・ATM 支払い案内の移設先</div>
+              <div class="kc-why">法務ページ切替に伴い、支払い案内コンテンツをどこへ移すか。</div>
+              <div class="kc-foot"><span class="owner-pills"><span class="pill">Kotaro</span></span><span class="grip">⣿</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="kcol doing">
+          <div class="kcol-head"><span class="lbl"><span class="dotc"></span>確認中</span><span class="cnt" data-cnt></span></div>
+          <div class="klist" data-col="doing">
+            <div class="kcard" id="dec-3" draggable="true">
+              <div class="kc-q">社外 20 名の GA 権限</div>
+              <div class="kc-why">社外アカウントの GA アクセス権をどう整理するか。権限は最小化の方針。</div>
+              <div class="kc-foot"><span class="owner-pills"><span class="pill">Kotaro</span></span><span class="kc-due">期限 08-05</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="kcol done">
+          <div class="kcol-head"><span class="lbl"><span class="dotc"></span>決定済み</span><span class="cnt" data-cnt></span></div>
+          <div class="klist" data-col="done"></div>
+        </div>
       </div>
       <div class="callout"><b>セキュリティ観点：</b> 社外の GA 権限は「必要な人・必要な範囲だけ」に絞る（アクセス権の最小化）。棚卸しの過程で、期限切れ・用途不明の権限は停止を既定とする。</div>
     </section>
@@ -567,6 +627,78 @@
   window.addEventListener('hashchange', function(){ activate(current()); });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
+})();
+
+/* draggable kanban for 意思決定待ち (positions saved to localStorage) */
+(function(){
+  function boot(){
+    var board = document.getElementById('decide-board');
+    if (!board) return;
+    var KEY = 'dl-decide-board-v1';
+    var lists = Array.prototype.slice.call(board.querySelectorAll('.klist'));
+    var dragging = null;
+
+    function counts(){
+      lists.forEach(function(l){
+        var c = l.parentNode.querySelector('[data-cnt]');
+        if (c) c.textContent = l.querySelectorAll('.kcard').length;
+      });
+    }
+    function save(){
+      var state = {};
+      lists.forEach(function(l){
+        state[l.getAttribute('data-col')] = Array.prototype.map.call(l.querySelectorAll('.kcard'), function(c){ return c.id; });
+      });
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    }
+    function restore(){
+      var raw; try { raw = localStorage.getItem(KEY); } catch (e) { return; }
+      if (!raw) return;
+      var state; try { state = JSON.parse(raw); } catch (e) { return; }
+      Object.keys(state).forEach(function(col){
+        var list = board.querySelector('.klist[data-col="' + col + '"]');
+        if (!list) return;
+        (state[col] || []).forEach(function(id){
+          var card = document.getElementById(id);
+          if (card) list.appendChild(card);
+        });
+      });
+    }
+    function afterCard(list, y){
+      var els = Array.prototype.slice.call(list.querySelectorAll('.kcard:not(.dragging)'));
+      var best = { offset: -Infinity, el: null };
+      els.forEach(function(child){
+        var box = child.getBoundingClientRect();
+        var offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > best.offset) best = { offset: offset, el: child };
+      });
+      return best.el;
+    }
+
+    board.querySelectorAll('.kcard').forEach(function(card){
+      card.addEventListener('dragstart', function(){ dragging = card; setTimeout(function(){ card.classList.add('dragging'); }, 0); });
+      card.addEventListener('dragend', function(){ card.classList.remove('dragging'); dragging = null; lists.forEach(function(l){ l.classList.remove('over'); }); save(); counts(); });
+    });
+    lists.forEach(function(list){
+      list.addEventListener('dragover', function(e){
+        e.preventDefault();
+        list.classList.add('over');
+        if (!dragging) return;
+        var after = afterCard(list, e.clientY);
+        if (after == null) list.appendChild(dragging);
+        else list.insertBefore(dragging, after);
+      });
+      list.addEventListener('dragleave', function(e){
+        if (!list.contains(e.relatedTarget)) list.classList.remove('over');
+      });
+      list.addEventListener('drop', function(e){ e.preventDefault(); list.classList.remove('over'); save(); counts(); });
+    });
+
+    restore();
+    counts();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
 })();
 </script>
 </body>
