@@ -287,6 +287,7 @@
       <a class="tab" id="tab-gdpr" href="#gdpr" role="tab"><span>GDPR / 同意の既定</span><span class="tab-pri crit">最優先</span></a>
       <a class="tab" id="tab-gtm" href="#gtm" role="tab"><span>GTM 断捨離・統合</span><span class="tab-pri high">高</span></a>
       <a class="tab" id="tab-third-party" href="#third-party" role="tab"><span>第三者提供 棚卸し</span><span class="tab-pri high">高</span></a>
+      <a class="tab" id="tab-mobility" href="#mobility" role="tab"><span>Mobility 計測</span></a>
     </nav>
     <div class="panelwrap">
 
@@ -647,6 +648,61 @@
     </section>
   </div><!-- /panel-third-party -->
 
+  <!-- ============ PANEL: MOBILITY ============ -->
+  <div class="tabpanel" id="panel-mobility" role="tabpanel">
+    <div class="panel-head">
+      <h2>Mobility Hub｜計測セットアップ</h2>
+      <p class="lead">mobility.veltra.com（別ドメイン・別GA4プロパティ・予約も mobility で完結）の計測設計。専用 GTM コンテナで分離するのが推奨。</p>
+      <div class="meta-row">
+        <span class="chip">担当：Kotaro ／ Sachie</span>
+        <span class="chip">更新：2026-07-31</span>
+      </div>
+    </div>
+
+    <section>
+      <div class="sec-head"><span class="sec-num">01</span><h2>結論</h2></div>
+      <div class="summary-card">
+        <p><b>Mobility 専用の GTM コンテナ＋専用プロパティで分離を推奨。</b>現行 v2（241本）をコピーせず、<span class="hl">同意の既定を最初から</span>敷いた新世代の作りで。二木さんに一言共有。</p>
+        <p>予約も mobility で完結するため、<b>CVR・予約数・売上は Mobility プロパティで直接取れる</b>（クロスドメイン不要）。残る論点は購入後のマイページ（カレント）横断のみ。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-num">02</span><h2>やること</h2></div>
+      <ul class="clean">
+        <li><b>A 設計</b> — KPI確定／命名・オーナー／二木さんへ共有</li>
+        <li><b>B 実装</b> — 専用コンテナ作成／GA4 ファネル＋purchase（transaction_id・value・items）／同意ゲート（同意前タグ発火なし）／二重計上防止</li>
+        <li><b>C 検証・公開</b> — 実ブラウザで検証（同意挙動含む）→ 共有</li>
+        <li><b>D 将来</b> — 顧客横断（LTV・リピート）が要れば sid 方式（<code>.veltra.com</code> cookie）で名寄せ</li>
+      </ul>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-num">03</span><h2>ラフスケジュール</h2></div>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr><th>期間</th><th>動き</th></tr></thead>
+          <tbody>
+            <tr><td>〜8/4</td><td>Kotaro 休暇</td></tr>
+            <tr><td>8/5–8/8</td><td>A 設計・二木さん共有 → B コンテナ作成着手</td></tr>
+            <tr><td>8/11–8/15</td><td>B 実装 → C 検証</td></tr>
+            <tr><td>8/18〜</td><td>公開・共有（D は必要時）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout"><b>要確認：</b> Mobility の公開目標日（これで B / C を逆算）。</div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-num">04</span><h2>論点</h2></div>
+      <ul class="clean">
+        <li>顧客横断（LTV・リピート）を今回スコープに入れるか → 入れれば sid 方式。</li>
+        <li>決済を mobility で持つ＝<b>同意・第三者提供の守りが最重要</b>（Phase 0 を最初から）。</li>
+        <li>マイページ側（カレント）で purchase を再発火させない（二重計上防止）。</li>
+      </ul>
+    </section>
+  </div><!-- /panel-mobility -->
+
     </div><!-- /panelwrap -->
   </div><!-- /tabgroup -->
 
@@ -660,7 +716,7 @@
 
 <script>
 (function(){
-  var TABS = ['gdpr','gtm','third-party'];
+  var TABS = ['gdpr','gtm','third-party','mobility'];
   function activate(name){
     if (TABS.indexOf(name) < 0) name = 'gdpr';
     TABS.forEach(function(t){
