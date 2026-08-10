@@ -149,6 +149,11 @@
   .pri{font-size:11px;font-weight:800;padding:2px 9px;border-radius:6px}
   .draft-tag{font-size:11px;font-weight:800;color:var(--muted);background:#f1ece2;border-radius:6px;padding:2px 9px;margin-left:8px;vertical-align:middle}
   .rm-cell{white-space:nowrap}
+  /* overview (above-tabs おおまとめ) */
+  .overview{margin-top:18px;max-width:960px}
+  .overview .ov-h{font-family:"Montserrat";font-weight:800;font-size:13px;letter-spacing:.04em;color:var(--ink);margin-bottom:10px}
+  .overview .ov-sub{font-weight:700;font-size:11.5px;color:var(--muted);margin-left:8px}
+  .overview .ov-note{font-size:11.5px;color:var(--muted);margin:8px 0 0}
   .phase h3{font-size:16px;margin:0 0 4px}
   .phase p{font-size:13.5px;color:var(--muted);margin:0}
   .phase .when{font-size:11.5px;font-weight:800;color:var(--red-d);background:#fdeae4;padding:2px 8px;border-radius:6px}
@@ -281,6 +286,21 @@
           <li><a href="https://veltra.slack.com/archives/C0BGS8NBTD3" target="_blank" rel="noopener">One Trust &amp; GTM Tag optimize project ↗</a> <span class="role">— 調査資料・タグ棚卸し（グループDM）</span></li>
         </ul>
       </div>
+    </div>
+
+    <div class="overview">
+      <div class="ov-h">ロードマップ おおまとめ<span class="ov-sub">3テーマ × 月次（大まか）</span></div>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr><th>テーマ</th><th>8月</th><th>9月</th><th>10月〜</th></tr></thead>
+          <tbody>
+            <tr><td>GDPR / 同意の既定 <span class="pri crit">最優先</span></td><td class="rm-cell">Phase 0 スコープ確定・着手</td><td class="rm-cell">Phase 0 実装 → GA 1本化</td><td class="rm-cell">GTM統合・恒久運用</td></tr>
+            <tr><td>GTM 断捨離・統合 <span class="pri high">高</span></td><td class="rm-cell">死にタグ停止・40件ヒアリング</td><td class="rm-cell">Phase 0後の統合設計</td><td class="rm-cell">新コンテナへ統合・再構築</td></tr>
+            <tr><td>第三者提供 棚卸し <span class="pri high">高</span></td><td class="rm-cell">★7ヒアリング・記入・無回答停止</td><td class="rm-cell">40社台帳 記入完了・停止</td><td class="rm-cell">統合へ引き渡し・恒久運用</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="ov-note">※ 大まかな全体像。個別タスクは ClickUp チケットで管理・進行。各テーマの詳細は下タブ参照。</p>
     </div>
 
   </header>
@@ -420,8 +440,8 @@
     </section>
 
     <section>
-      <div class="sec-head"><span class="sec-num">06</span><h2>タスク分解 &amp; ロードマップ <span class="draft-tag">たたき台</span></h2></div>
-      <p class="body-note">大タスク＝優先順位付き（Phase 0→3）。<b>Phase 0 の完了が全体の起点。</b>月次はざっくり。</p>
+      <div class="sec-head"><span class="sec-num">06</span><h2>タスク分解 &amp; ロードマップ</h2></div>
+      <p class="body-note">大タスク＝優先順位付き（Phase 0→3）。<b>Phase 0 の完了が全体の起点。</b>月次はざっくり。個別タスクは <b>ClickUp チケットで管理・進行</b>。</p>
       <ul class="clean">
         <li><b>Phase 0：日本語サイトで同意の既定を宣言</b> <span class="pri crit">最優先</span> — サイト側実装スコープ確定 → 実装</li>
         <li><b>Phase 1：GA 日本語プロパティを 1 本化</b> <span class="pri high">高</span></li>
@@ -549,7 +569,27 @@
     </section>
 
     <section>
-      <div class="sec-head"><span class="sec-num">06</span><h2>参照</h2></div>
+      <div class="sec-head"><span class="sec-num">06</span><h2>タスク分解 &amp; ロードマップ</h2></div>
+      <p class="body-note">大タスク＝優先順位付き。判断基準は「Phase 0 を妨げないか」。個別タスクは <b>ClickUp チケットで管理・進行</b>。</p>
+      <ul class="clean">
+        <li><b>死にタグ停止（Pause）・管理者不明40件ヒアリング</b> <span class="pri high">高・今すぐ</span> — 第三者提供の棚卸しと連動</li>
+        <li><b>新規タグ増設の抑制</b>（継続）</li>
+        <li><b>新コンテナへの統合・タグ個別同意設定・再構築</b> <span class="pri mid">中・Phase 0 後</span></li>
+      </ul>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr><th>大タスク</th><th>8月</th><th>9月</th><th>10月〜</th></tr></thead>
+          <tbody>
+            <tr><td>死にタグ停止・40件ヒアリング</td><td class="rm-cell">● 実施</td><td class="rm-cell">● 継続</td><td>—</td></tr>
+            <tr><td>新規増設の抑制</td><td class="rm-cell">● 継続</td><td class="rm-cell">● 継続</td><td class="rm-cell">● 継続</td></tr>
+            <tr><td>新コンテナ統合・再構築</td><td>—</td><td class="rm-cell">設計（Phase 0後）</td><td class="rm-cell">● 着手</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-num">07</span><h2>参照</h2></div>
       <div class="ref">
         <h4>Reference</h4>
         <ul>
@@ -660,7 +700,27 @@
     </section>
 
     <section>
-      <div class="sec-head"><span class="sec-num">07</span><h2>参照</h2></div>
+      <div class="sec-head"><span class="sec-num">07</span><h2>タスク分解 &amp; ロードマップ</h2></div>
+      <p class="body-note">大タスク＝優先順位付き。無回答は停止（Pause）が既定。個別タスクは <b>ClickUp チケットで管理・進行</b>。</p>
+      <ul class="clean">
+        <li><b>★7件を優先ヒアリング → R/S/T 記入 → 無回答は停止（Pause）</b> <span class="pri high">高</span></li>
+        <li><b>40社台帳 全体の記入完了・停止実行</b></li>
+        <li><b>削除は棚卸し完了後 → Phase 2 統合へ引き渡し</b> <span class="pri low">後続</span></li>
+      </ul>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr><th>大タスク</th><th>8月</th><th>9月</th><th>10月〜</th></tr></thead>
+          <tbody>
+            <tr><td>★7件 ヒアリング・記入・無回答停止</td><td class="rm-cell">● 実施</td><td class="rm-cell">● 完了</td><td>—</td></tr>
+            <tr><td>40社台帳 記入完了・停止実行</td><td class="rm-cell">着手</td><td class="rm-cell">● 完了</td><td>—</td></tr>
+            <tr><td>Phase 2 統合へ引き渡し／恒久運用</td><td>—</td><td>—</td><td class="rm-cell">● 引き渡し</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-num">08</span><h2>参照</h2></div>
       <div class="ref">
         <h4>Reference</h4>
         <ul>
