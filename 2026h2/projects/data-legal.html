@@ -154,6 +154,19 @@
   .overview .ov-h{font-family:"Montserrat";font-weight:800;font-size:13px;letter-spacing:.04em;color:var(--ink);margin-bottom:10px}
   .overview .ov-sub{font-weight:700;font-size:11.5px;color:var(--muted);margin-left:8px}
   .overview .ov-note{font-size:11.5px;color:var(--muted);margin:8px 0 0}
+  /* gantt */
+  .gantt-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .gantt{min-width:640px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
+  .g-row{display:grid;grid-template-columns:200px 1fr;align-items:stretch;border-top:1px dashed var(--line)}
+  .g-row.g-head{border-top:none;background:#faf6ec}
+  .g-label{padding:10px 12px;font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:6px;flex-wrap:wrap;border-right:1px solid var(--line)}
+  .g-head .g-label{font-size:11px;color:var(--muted)}
+  .g-track{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:8px 10px;align-items:center}
+  .g-axis span{font-size:11px;font-weight:700;color:var(--muted);text-align:center}
+  .g-bar{grid-row:1;border-radius:6px;padding:6px 9px;font-size:11px;font-weight:700;color:#fff;line-height:1.4;min-width:0}
+  .g-bar.red{background:var(--red)} .g-bar.red-l{background:#f6c3b4;color:var(--red-d)}
+  .g-bar.blue{background:var(--blue-d)} .g-bar.blue-l{background:#cfe0ec;color:var(--blue-d)}
+  .g-bar.green{background:#6bbf86} .g-bar.green-l{background:#d3ecdc;color:#4c8a63}
   .phase h3{font-size:16px;margin:0 0 4px}
   .phase p{font-size:13.5px;color:var(--muted);margin:0}
   .phase .when{font-size:11.5px;font-weight:800;color:var(--red-d);background:#fdeae4;padding:2px 8px;border-radius:6px}
@@ -289,18 +302,38 @@
     </div>
 
     <div class="overview">
-      <div class="ov-h">大まかなロードマップ<span class="ov-sub">3テーマ × 月次</span></div>
-      <div class="tbl-scroll">
-        <table>
-          <thead><tr><th>テーマ</th><th>8月</th><th>9月</th><th>10月〜</th></tr></thead>
-          <tbody>
-            <tr><td>GDPR / 同意の既定 <span class="pri crit">最優先</span></td><td class="rm-cell">Phase 0 スコープ確定・着手</td><td class="rm-cell">Phase 0 実装 → GA 1本化</td><td class="rm-cell">GTM統合・恒久運用</td></tr>
-            <tr><td>GTM 断捨離・統合 <span class="pri high">高</span></td><td class="rm-cell">不要タグ停止・40件ヒアリング</td><td class="rm-cell">Phase 0後の統合設計</td><td class="rm-cell">新コンテナへ統合・再構築</td></tr>
-            <tr><td>第三者提供 棚卸し <span class="pri high">高</span></td><td class="rm-cell">★7ヒアリング・記入・無回答停止</td><td class="rm-cell">40社台帳 記入完了・停止</td><td class="rm-cell">統合へ引き渡し・恒久運用</td></tr>
-          </tbody>
-        </table>
+      <div class="ov-h">大まかなロードマップ<span class="ov-sub">3テーマ × 月次（ガントチャート）</span></div>
+      <div class="gantt-scroll">
+        <div class="gantt">
+          <div class="g-row g-head">
+            <div class="g-label">テーマ ＼ 月</div>
+            <div class="g-track g-axis"><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span></div>
+          </div>
+          <div class="g-row">
+            <div class="g-label">GDPR / 同意の既定 <span class="pri crit">最優先</span></div>
+            <div class="g-track">
+              <div class="g-bar red" style="grid-column:1/2">Phase 0 着手</div>
+              <div class="g-bar red" style="grid-column:2/3">実装・GA1本化</div>
+              <div class="g-bar red-l" style="grid-column:3/6">統合・恒久運用</div>
+            </div>
+          </div>
+          <div class="g-row">
+            <div class="g-label">GTM 断捨離・統合 <span class="pri high">高</span></div>
+            <div class="g-track">
+              <div class="g-bar blue" style="grid-column:1/3">不要タグ停止・40件ヒアリング</div>
+              <div class="g-bar blue-l" style="grid-column:3/6">統合設計・実施（Phase 0後）</div>
+            </div>
+          </div>
+          <div class="g-row">
+            <div class="g-label">第三者提供 棚卸し <span class="pri high">高</span></div>
+            <div class="g-track">
+              <div class="g-bar green" style="grid-column:1/3">★7ヒアリング・記入・停止／40社完了</div>
+              <div class="g-bar green-l" style="grid-column:3/6">統合へ引き渡し・恒久運用</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <p class="ov-note">※ 大まかな全体像。個別タスクは ClickUp チケットで管理・進行。各テーマの詳細は下タブ参照。</p>
+      <p class="ov-note">※ <b>Phase 0（同意の既定）完了が全体の起点。</b>10月以降は大まか。個別タスクは ClickUp チケットで管理・進行。各テーマの詳細は下タブ参照。</p>
     </div>
 
   </header>
