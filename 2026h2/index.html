@@ -227,10 +227,20 @@
   .gantt-grid{width:100%}
   .g-row{display:grid;grid-template-columns:minmax(0,185px) 1fr;align-items:center;gap:12px;padding:8px 0;border-top:1px dashed var(--line)}
   .g-row.head{border-top:none;padding:0 0 6px}
-  .g-label{font-size:13px;font-weight:700;line-height:1.3;min-width:0}
-  .g-label .sub{display:block;font-size:10.5px;font-weight:600;color:var(--muted)}
-  .g-track{display:grid;grid-template-columns:repeat(6,1fr);align-items:center;height:24px;min-width:0;
-    background:repeating-linear-gradient(to right,transparent 0,transparent calc(100%/6 - 1px),var(--line) calc(100%/6 - 1px),var(--line) calc(100%/6))}
+  .g-label{font-size:13px;font-weight:700;line-height:1.35;min-width:0;white-space:normal}
+  .g-row.proj{border-top:1px solid var(--line)}
+  .g-row.proj .g-label{font-weight:800}
+  .g-row.sub .g-label{padding-left:12px;font-weight:600;font-size:12.5px}
+  .g-label .ow{display:inline-flex;flex-wrap:wrap;gap:4px;margin-left:7px;vertical-align:middle}
+  .g-label .ow .pill{font-size:10px;padding:1px 7px}
+  .g-note{display:block;font-size:10px;color:var(--muted);font-weight:600;margin-top:2px}
+  .bchip{display:inline-block;font-size:9px;font-weight:800;padding:1px 6px;border-radius:5px;margin-left:4px;vertical-align:middle;white-space:nowrap}
+  .bchip.ok{background:#ecf6ef;color:#4c8a63}
+  .bchip.warn{background:#fdeee0;color:#c0742a}
+  .bchip.na{background:#efeae0;color:#8a7d6b}
+  .tbd{grid-column:1 / -1;justify-self:start;font-size:10px;font-weight:700;color:#a89a9a;padding-left:2px}
+  .g-track{display:grid;grid-template-columns:repeat(5,1fr);align-items:center;height:24px;min-width:0;
+    background:repeating-linear-gradient(to right,transparent 0,transparent calc(100%/5 - 1px),var(--line) calc(100%/5 - 1px),var(--line) calc(100%/5))}
   .g-track.months{height:auto;background:none}
   .g-track.months span{font-size:11.5px;font-weight:700;color:var(--muted);text-align:center}
   .g-track.months i{display:block;font-style:normal;font-size:9.5px;font-weight:800;color:var(--red)}
@@ -296,39 +306,93 @@
   <section class="roadmap" id="roadmap">
     <div class="sec-head">
       <h2>主要リリース｜簡易ロードマップ</h2>
-      <p>リリース時期が見えている施策のみ（2026年）。未定は下に記載。</p>
+      <p>各PJの Phase とリリース時期（2026年 8〜12月）。横スクロールなしで全体把握。</p>
     </div>
     <div class="gantt">
       <div class="gantt-grid">
         <div class="g-row head">
           <div class="g-label"></div>
-          <div class="g-track months"><span>7月</span><span>8月<i>今</i></span><span>9月</span><span>10月</span><span>11月</span><span>12月</span></div>
+          <div class="g-track months"><span>8月<i>今</i></span><span>9月</span><span>10月</span><span>11月</span><span>12月</span></div>
         </div>
-        <div class="g-row">
-          <div class="g-label">eSIM Phase2<span class="sub">① Mav・Aki・choy</span></div>
-          <div class="g-track"><span class="bar g" style="grid-column:1 / 3">〜8月末</span></div>
+
+        <!-- esim -->
+        <div class="g-row proj g1">
+          <div class="g-label">esim<span class="ow"><span class="pill">Mav</span><span class="pill sub">Choy</span><span class="pill sub">Aki</span></span></div>
+          <div class="g-track"></div>
         </div>
-        <div class="g-row">
-          <div class="g-label">Mobility Hub Phase1<span class="sub">① Sachie・Izumi・Jason</span></div>
-          <div class="g-track"><span class="bar g" style="grid-column:2 / 3">8/12</span></div>
+        <div class="g-row sub">
+          <div class="g-label">Ph2 <span class="bchip ok">資産化</span></div>
+          <div class="g-track"><span class="bar g" style="grid-column:1 / 2">8月</span></div>
         </div>
-        <div class="g-row">
-          <div class="g-label">テーマ特化 LP（サッカー）<span class="sub">② Kotaro・Megumi・Izumi</span></div>
-          <div class="g-track"><span class="bar b" style="grid-column:2 / 3">8/21</span></div>
+        <div class="g-row sub">
+          <div class="g-label">Ph3 一部 <span class="bchip ok">資産化</span></div>
+          <div class="g-track"><span class="bar g" style="grid-column:1 / 2">8月</span></div>
         </div>
-        <div class="g-row">
-          <div class="g-label">キャンセル保険 Phase1<span class="sub">① Pitor・Aki（キャンセル保険）</span></div>
-          <div class="g-track"><span class="bar g" style="grid-column:1 / 5">10月頭</span></div>
+        <div class="g-row sub">
+          <div class="g-label">Ph3 本格 <span class="bchip warn">予算追加</span></div>
+          <div class="g-track"><span class="bar g" style="grid-column:2 / 3">9月</span></div>
         </div>
-        <div class="g-row">
-          <div class="g-label">キャンセル保険 Phase2<span class="sub">① Pitor・Aki（旅行保険）</span></div>
-          <div class="g-track"><span class="bar g" style="grid-column:4 / 7">12月</span></div>
+
+        <!-- 保険 -->
+        <div class="g-row proj g1">
+          <div class="g-label">保険<span class="ow"><span class="pill">Pitor</span><span class="pill sub">Andy</span><span class="pill sub">Aki</span></span></div>
+          <div class="g-track"></div>
+        </div>
+        <div class="g-row sub">
+          <div class="g-label">Ph1 <span class="bchip ok">資産化</span></div>
+          <div class="g-track"><span class="bar g" style="grid-column:1 / 4">8–10月</span></div>
+        </div>
+        <div class="g-row sub">
+          <div class="g-label">Ph2 <span class="bchip ok">資産化</span></div>
+          <div class="g-track"><span class="bar g" style="grid-column:4 / 6">11–12月</span></div>
+        </div>
+
+        <!-- mobility -->
+        <div class="g-row proj g1">
+          <div class="g-label">mobility<span class="ow"><span class="pill">Sachie</span><span class="pill sub">Jason</span><span class="pill sub">Izumi</span></span></div>
+          <div class="g-track"></div>
+        </div>
+        <div class="g-row sub">
+          <div class="g-label">Ph1 <span class="bchip ok">資産化</span></div>
+          <div class="g-track"><span class="bar g" style="grid-column:1 / 2">8月</span></div>
+        </div>
+        <div class="g-row sub">
+          <div class="g-label">Ph2 2地点間 <span class="bchip na">未確定</span></div>
+          <div class="g-track"><span class="bar g" style="grid-column:2 / 4">9–10月</span></div>
+        </div>
+        <div class="g-row sub">
+          <div class="g-label">Ph3 <span class="bchip na">未定</span></div>
+          <div class="g-track"><span class="tbd">時期未定</span></div>
+        </div>
+
+        <!-- 表示速度改善 -->
+        <div class="g-row proj g2">
+          <div class="g-label">表示速度改善 <span class="bchip na">予算未</span><span class="ow"><span class="pill">Kotaro</span><span class="pill sub">Suki/YT</span><span class="pill sub">Izumi</span></span><span class="g-note">※Pitor空いたらKotaroと交代</span></div>
+          <div class="g-track"><span class="bar b" style="grid-column:1 / 3">8–9月</span></div>
+        </div>
+
+        <!-- フォーム改善 -->
+        <div class="g-row proj g2">
+          <div class="g-label">フォーム改善 <span class="bchip na">予算未</span><span class="ow"><span class="pill">Sachie</span><span class="pill sub">未定</span><span class="pill sub">Yen</span></span></div>
+          <div class="g-track"><span class="bar b" style="grid-column:3 / 6">10–12月</span></div>
+        </div>
+
+        <!-- エラー系対応 -->
+        <div class="g-row proj g2">
+          <div class="g-label">エラー系対応？ <span class="bchip na">予算未</span><span class="ow"><span class="pill">Mav?</span><span class="pill sub">YT?</span><span class="pill sub">Meiko</span></span></div>
+          <div class="g-track"><span class="bar b" style="grid-column:2 / 4">9–10月</span></div>
+        </div>
+
+        <!-- プチUI改善系 -->
+        <div class="g-row proj g2">
+          <div class="g-label">プチUI 改善系<span class="ow"><span class="pill">Meiko?/Yen?</span><span class="pill sub">YT?</span><span class="pill sub">Yen</span></span><span class="g-note">※できればデザイナーとYTで自走／小さいタスクをちょっとずつ</span></div>
+          <div class="g-track"><span class="tbd">随時</span></div>
         </div>
       </div>
       <p class="rm-note">
-        凡例：<b style="color:#4c8a63">緑</b>＝①買い増し系／<b style="color:var(--blue-d)">青</b>＝②迷わず系。バーはリリース時期に合わせた目安。<br>
-        時期未定（検討中）：GlobalTOP・カレントサイト表示速度改善・APIエラーメッセージ改善・フォームステップ改善・リクエスト予約低減。<br>
-        出典：ClickUp（UX Design Squad）／各PJ Slack。
+        凡例：<b style="color:#4c8a63">緑</b>＝①買い増し系（esim・保険・mobility）／<b style="color:var(--blue-d)">青</b>＝②迷わず系（TR側UX改善）。<br>
+        予算：<b style="color:#4c8a63">資産化</b>＝計上済／<b style="color:#c0742a">予算追加</b>＝要追加／<b>予算未・未確定</b>＝未計上・未定。<br>
+        出典：進行表（スプレッドシート）／ClickUp（UX Design Squad）。
       </p>
     </div>
   </section>
