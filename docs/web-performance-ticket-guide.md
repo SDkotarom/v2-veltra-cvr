@@ -16,11 +16,20 @@ CVR リストの既存チケットから型を抽出したもの。**新規起�
 | Space | UX Design Squad (`901810555568`) |
 | URL | https://app.clickup.com/31108037/v/l/li/901820239496 |
 
-**ステータス遷移**：
-`to do` → `planning` → `in progress` →（必要に応じ `at risk` / `update required` / `on hold`）→ `complete`（中止は `cancelled`）
+**ステータス（5つに統一）とボールの所在**：
 
-- 実装前の調査・仕様詰め段階＝ `planning`
-- 未着手のバックログ＝ `to do`
+| ステータス | 種別 | 意味／ボール |
+|---|---|---|
+| **planning** | 未着手 | 起案中（企画・要件定義中）＝**牧野ボール** |
+| **to do** | 未着手 | 起案・要件定義 完了＝**Suki さんボール**（実装可能） |
+| **in progress** | 進行中 | 実装中 |
+| **pending** | 進行中 | 保留・待ち |
+| **complete** | 完了 | 完了 |
+
+**遷移**：`planning`（牧野で起案・要件定義）→ 完了したら `to do` にして Suki さんへハンドオフ → `in progress` → `complete`。待ちが発生したら `pending`。
+
+- **原則、新規チケットはまず `planning`（牧野ボール）で起票**。要件が固まってから `to do` に上げ、担当を Suki さんに切り替える。
+- `at risk` / `update required` / `on hold` / `cancelled` は使わない（工程削減のため廃止。`cancelled` は `pending` に統合）。
 
 参考リスト（同チームの使い方の見本）：**CVR** `901817269796`（UX_DESIGN-** チケット群）
 
@@ -163,8 +172,8 @@ CVR リストにある以下のフィールド（Impact / Confidence&Ease / Urge
 |------|--------|
 | プレフィックス | `[Perf]` |
 | 言語 | 日英併記 |
-| ステータス | `to do`（調査で即動くものは `planning`） |
-| 担当 | 空（後で割当） |
+| ステータス | `planning`（起案中＝牧野ボール。要件定義完了で `to do`＝Suki さんボールへ） |
+| 担当 | 牧野（起案中のため）。`to do` へ上げる際に Suki さんへ切替 |
 | Squad | UX Design |
 
 指示で上書き可。作成後は必ず custom_id と URL を報告する。
