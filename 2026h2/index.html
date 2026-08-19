@@ -220,47 +220,42 @@
   .brief-link.soon .bl-num{background:#c9bfae}
   .brief-link .bl-cta.soon{background:#ece5d7;color:#8a7d6b}
 
-  /* ===== simple roadmap (mini gantt) ===== */
+  /* ===== roadmap (gantt table) ===== */
   .roadmap{padding:18px 0 6px}
-  /* 横スクロールを出さず、どの幅でも全体が1画面に収まる作り */
-  .gantt{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:10px 16px 12px;overflow:hidden}
-  .gantt-grid{width:100%}
-  .g-row{display:grid;grid-template-columns:minmax(0,185px) 1fr;align-items:center;gap:12px;padding:3px 0;border-top:1px dashed var(--line)}
-  .g-row.head{border-top:none;padding:0 0 3px}
-  .g-label{font-size:13px;font-weight:700;line-height:1.25;min-width:0;white-space:normal}
-  .g-row.proj{border-top:1px solid var(--line)}
-  .g-row.proj .g-label{font-weight:800}
-  .g-row.sub .g-label{padding-left:12px;font-weight:600;font-size:12.5px}
-  .g-label .ow{display:inline-flex;flex-wrap:wrap;gap:4px;margin-left:7px;vertical-align:middle}
-  .g-label .ow .pill{font-size:10px;padding:1px 7px}
-  .g-note{display:block;font-size:9.5px;color:var(--muted);font-weight:600;margin-top:1px}
-  .bchip{display:inline-block;font-size:9px;font-weight:800;padding:1px 6px;border-radius:5px;margin-left:4px;vertical-align:middle;white-space:nowrap}
+  .gantt{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:8px 18px 14px;overflow:hidden}
+  .gt-row{display:grid;grid-template-columns:158px minmax(0,1fr) 60px 270px;
+    grid-template-areas:"name detail bud trk";align-items:center;column-gap:12px;padding:2px 0}
+  .gt-name{grid-area:name;min-width:0} .gt-detail{grid-area:detail;min-width:0}
+  .gt-bud{grid-area:bud;justify-self:start;min-width:0} .trk{grid-area:trk}
+  .gt-row.pjtop{border-top:1px solid var(--line);padding-top:6px;margin-top:3px}
+  .gt-row.hdr{padding:0 0 4px}
+  .gt-cat{margin:13px 0 3px;font-size:11px;font-weight:800;letter-spacing:.03em}
+  .gt-cat.c1{color:#4c8a63} .gt-cat.c2{color:var(--blue-d)} .gt-cat.c3{color:var(--red)}
+  .gt-name{font-size:13px;font-weight:800;line-height:1.25}
+  .gt-name .ow{display:block;font-size:10px;font-weight:600;color:var(--muted);margin-top:2px}
+  .gt-name .note{display:block;font-size:9.5px;font-weight:600;color:var(--muted);margin-top:1px}
+  .gt-detail{font-size:12px;color:var(--ink);line-height:1.3}
+  .bchip{display:inline-block;font-size:9px;font-weight:800;padding:1px 6px;border-radius:5px;vertical-align:middle;white-space:nowrap}
   .bchip.ok{background:#ecf6ef;color:#4c8a63}
   .bchip.warn{background:#fdeee0;color:#c0742a}
   .bchip.na{background:#efeae0;color:#8a7d6b}
-  .tbd{grid-column:1 / -1;justify-self:start;font-size:10px;font-weight:700;color:#a89a9a;padding-left:2px}
-  .g-track{display:grid;grid-template-columns:repeat(5,1fr);align-items:center;height:20px;min-width:0;
+  .bchip.crit{background:#fdeae4;color:#d0512f;margin-left:5px}
+  .trk{display:grid;grid-template-columns:repeat(5,1fr);align-items:center;height:15px;min-width:0;
     background:repeating-linear-gradient(to right,transparent 0,transparent calc(100%/5 - 1px),var(--line) calc(100%/5 - 1px),var(--line) calc(100%/5))}
-  .g-track.months{height:auto;background:none}
-  .g-track.months span{font-size:11.5px;font-weight:700;color:var(--muted);text-align:center}
-  .g-track.months i{display:block;font-style:normal;font-size:9.5px;font-weight:800;color:var(--red)}
-  .bar{height:14px;border-radius:999px;display:flex;align-items:center;justify-content:center;
-    font-size:10px;font-weight:800;color:#fff;white-space:nowrap;padding:0 6px;overflow:hidden;min-width:0}
-  .bar.g{background:var(--green)}
-  .bar.b{background:var(--blue)}
-  .bar.r{background:var(--red)}
+  .trk.months{height:auto;background:none}
+  .trk.months span{font-size:10.5px;font-weight:700;color:var(--muted);text-align:center}
+  .trk.months i{display:block;font-style:normal;font-size:9px;font-weight:800;color:var(--red)}
+  .bar{height:13px;border-radius:999px;display:flex;align-items:center;justify-content:center;
+    font-size:9px;font-weight:800;color:#fff;white-space:nowrap;padding:0 5px;overflow:hidden;min-width:0}
+  .bar.g{background:var(--green)} .bar.b{background:var(--blue)} .bar.r{background:var(--red)}
   .bar.on{background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.42) 0 5px,rgba(255,255,255,0) 5px 10px)}
-  .bchip.crit{background:#fdeae4;color:#d0512f}
-  .g-cat{margin:10px 0 2px;font-size:11px;font-weight:800;letter-spacing:.03em}
-  .g-cat.c1{color:#4c8a63} .g-cat.c2{color:var(--blue-d)} .g-cat.c3{color:var(--red)}
+  .tbd{font-size:9.5px;font-weight:700;color:#a89a9a;padding-left:2px}
   .rm-note{font-size:12px;color:var(--muted);margin-top:13px;line-height:1.7}
   .rm-note b{font-weight:800}
-  /* 狭い画面：ラベルをバーの上に積んで、6ヶ月分を横スクロールなしで表示 */
-  @media(max-width:560px){
-    .g-row{grid-template-columns:1fr;gap:4px;padding:9px 0}
-    .g-row.head .g-label{display:none}
-    .g-label{font-size:12.5px}
-    .bar{font-size:9.5px;padding:0 4px}
+  @media(max-width:720px){
+    .gt-row{grid-template-columns:1fr auto;grid-template-areas:"name bud" "detail detail" "trk trk";row-gap:3px;column-gap:8px}
+    .gt-bud{justify-self:end}
+    .gt-detail{font-size:11.5px}
   }
 
   footer{padding:40px 0 60px;color:var(--muted);font-size:12px;text-align:center;border-top:1px solid var(--line);margin-top:20px}
@@ -314,98 +309,128 @@
       <p>各PJの Phase とリリース時期（2026年 8〜12月）。横スクロールなしで全体把握。</p>
     </div>
     <div class="gantt">
-      <div class="gantt-grid">
-        <div class="g-row head">
-          <div class="g-label"></div>
-          <div class="g-track months"><span>8月<i>今</i></span><span>9月</span><span>10月</span><span>11月</span><span>12月</span></div>
+        <div class="gt-row hdr">
+          <div class="gt-name"></div><div class="gt-detail"></div><div class="gt-bud"></div>
+          <div class="trk months"><span>8月<i>今</i></span><span>9月</span><span>10月</span><span>11月</span><span>12月</span></div>
         </div>
 
-        <!-- ① 1回で複数買ってもらう -->
-        <div class="g-cat c1">① 1回で複数買ってもらう（買い増し）</div>
+        <div class="gt-cat c1">① 1回で複数買ってもらう（買い増し）</div>
 
         <!-- esim -->
-        <div class="g-row proj g1">
-          <div class="g-label">esim<span class="ow"><span class="pill">Mav</span><span class="pill sub">Choy</span><span class="pill sub">Aki</span></span></div>
-          <div class="g-track"></div>
+        <div class="gt-row pjtop">
+          <div class="gt-name">esim<span class="ow">Mav・Choy・Aki</span></div>
+          <div class="gt-detail">Ph2</div>
+          <div class="gt-bud"><span class="bchip ok">資産化</span></div>
+          <div class="trk"><span class="bar g" style="grid-column:1/2"></span></div>
         </div>
-        <div class="g-row sub"><div class="g-label">Ph2 <span class="bchip ok">資産化</span></div><div class="g-track"><span class="bar g" style="grid-column:1 / 2">8月</span></div></div>
-        <div class="g-row sub"><div class="g-label">Ph3 一部 <span class="bchip ok">資産化</span></div><div class="g-track"><span class="bar g" style="grid-column:1 / 2">8月</span></div></div>
-        <div class="g-row sub"><div class="g-label">Ph3 本格 <span class="bchip warn">予算追加</span></div><div class="g-track"><span class="bar g" style="grid-column:2 / 3">9月</span></div></div>
+        <div class="gt-row">
+          <div class="gt-name"></div><div class="gt-detail">Ph3 一部</div>
+          <div class="gt-bud"><span class="bchip ok">資産化</span></div>
+          <div class="trk"><span class="bar g" style="grid-column:1/2"></span></div>
+        </div>
+        <div class="gt-row">
+          <div class="gt-name"></div><div class="gt-detail">Ph3 本格</div>
+          <div class="gt-bud"><span class="bchip warn">予算追加</span></div>
+          <div class="trk"><span class="bar g" style="grid-column:2/3"></span></div>
+        </div>
 
         <!-- 保険 -->
-        <div class="g-row proj g1">
-          <div class="g-label">保険<span class="ow"><span class="pill">Pitor</span><span class="pill sub">Andy</span><span class="pill sub">Aki</span></span></div>
-          <div class="g-track"></div>
+        <div class="gt-row pjtop">
+          <div class="gt-name">保険<span class="ow">Pitor・Andy・Aki</span></div>
+          <div class="gt-detail">Ph1</div>
+          <div class="gt-bud"><span class="bchip ok">資産化</span></div>
+          <div class="trk"><span class="bar g" style="grid-column:1/4"></span></div>
         </div>
-        <div class="g-row sub"><div class="g-label">Ph1 <span class="bchip ok">資産化</span></div><div class="g-track"><span class="bar g" style="grid-column:1 / 4">8–10月</span></div></div>
-        <div class="g-row sub"><div class="g-label">Ph2 <span class="bchip ok">資産化</span></div><div class="g-track"><span class="bar g" style="grid-column:4 / 6">11–12月</span></div></div>
+        <div class="gt-row">
+          <div class="gt-name"></div><div class="gt-detail">Ph2</div>
+          <div class="gt-bud"><span class="bchip ok">資産化</span></div>
+          <div class="trk"><span class="bar g" style="grid-column:4/6"></span></div>
+        </div>
 
         <!-- mobility -->
-        <div class="g-row proj g1">
-          <div class="g-label">mobility<span class="ow"><span class="pill">Sachie</span><span class="pill sub">Jason</span><span class="pill sub">Izumi</span></span></div>
-          <div class="g-track"></div>
+        <div class="gt-row pjtop">
+          <div class="gt-name">mobility<span class="ow">Sachie・Jason・Izumi</span></div>
+          <div class="gt-detail">Ph1</div>
+          <div class="gt-bud"><span class="bchip ok">資産化</span></div>
+          <div class="trk"><span class="bar g" style="grid-column:1/2"></span></div>
         </div>
-        <div class="g-row sub"><div class="g-label">Ph1 <span class="bchip ok">資産化</span></div><div class="g-track"><span class="bar g" style="grid-column:1 / 2">8月</span></div></div>
-        <div class="g-row sub"><div class="g-label">Ph2 2地点間 <span class="bchip na">未確定</span></div><div class="g-track"><span class="bar g" style="grid-column:2 / 4">9–10月</span></div></div>
-        <div class="g-row sub"><div class="g-label">Ph3 <span class="bchip na">未定</span></div><div class="g-track"><span class="tbd">時期未定</span></div></div>
-
-        <!-- ② TR側の既存UX改善 -->
-        <div class="g-cat c2">② TR側の既存 UX 改善（迷わず買えるように）</div>
-
-        <div class="g-row proj g2">
-          <div class="g-label">GlobalTOP 設計 <span class="bchip crit">最優先</span><span class="ow"><span class="pill">Kotaro</span><span class="pill sub">futagi</span></span></div>
-          <div class="g-track"></div>
+        <div class="gt-row">
+          <div class="gt-name"></div><div class="gt-detail">Ph2 2地点間</div>
+          <div class="gt-bud"><span class="bchip na">未確定</span></div>
+          <div class="trk"><span class="bar g" style="grid-column:2/4"></span></div>
         </div>
-        <div class="g-row sub"><div class="g-label">新旧混在期のコミュニケーション・動線設計</div><div class="g-track"><span class="bar b on" style="grid-column:1 / 6">進行中 »</span></div></div>
-
-        <div class="g-row proj g2">
-          <div class="g-label">表示速度改善 <span class="bchip crit">最優先</span><span class="ow"><span class="pill">Kotaro</span><span class="pill sub">Suki/YT</span><span class="pill sub">Izumi</span></span><span class="g-note">※Pitor空いたらKotaroと交代</span></div>
-          <div class="g-track"></div>
+        <div class="gt-row">
+          <div class="gt-name"></div><div class="gt-detail">Ph3</div>
+          <div class="gt-bud"><span class="bchip na">未定</span></div>
+          <div class="trk"><span class="tbd">時期未定</span></div>
         </div>
-        <div class="g-row sub"><div class="g-label">Quick Win → 本格改善 <span class="bchip na">予算未</span></div><div class="g-track"><span class="bar b" style="grid-column:1 / 3">8–9月</span></div></div>
 
-        <div class="g-row proj g2">
-          <div class="g-label">エラー系対応？<span class="ow"><span class="pill">Mav?</span><span class="pill sub">YT?</span><span class="pill sub">Meiko</span></span></div>
-          <div class="g-track"></div>
-        </div>
-        <div class="g-row sub"><div class="g-label">エラー文言・導線の改善 <span class="bchip na">予算未</span></div><div class="g-track"><span class="bar b" style="grid-column:2 / 4">9–10月</span></div></div>
+        <div class="gt-cat c2">② TR側の既存 UX 改善（迷わず買えるように）</div>
 
-        <div class="g-row proj g2">
-          <div class="g-label">フォーム改善<span class="ow"><span class="pill">Sachie</span><span class="pill sub">未定</span><span class="pill sub">Yen</span></span></div>
-          <div class="g-track"></div>
+        <div class="gt-row pjtop">
+          <div class="gt-name">GlobalTOP 設計<span class="bchip crit">最優先</span><span class="ow">Kotaro・futagi</span></div>
+          <div class="gt-detail">新旧混在期のコミュニケーション・動線設計</div>
+          <div class="gt-bud"></div>
+          <div class="trk"><span class="bar b on" style="grid-column:1/6">»</span></div>
         </div>
-        <div class="g-row sub"><div class="g-label">ステップ簡素化・後追い入力 <span class="bchip na">予算未</span></div><div class="g-track"><span class="bar b" style="grid-column:3 / 6">10–12月</span></div></div>
 
-        <div class="g-row proj g2">
-          <div class="g-label">テーマ特化 LP（スポーツ）<span class="ow"><span class="pill">Kotaro</span><span class="pill sub">Megumi</span><span class="pill sub">Izumi</span></span></div>
-          <div class="g-track"></div>
+        <div class="gt-row pjtop">
+          <div class="gt-name">表示速度改善<span class="bchip crit">最優先</span><span class="ow">Kotaro・Suki/YT・Izumi</span><span class="note">※Pitor空いたらKotaroと交代</span></div>
+          <div class="gt-detail">Quick Win → 本格改善</div>
+          <div class="gt-bud"><span class="bchip na">予算未</span></div>
+          <div class="trk"><span class="bar b" style="grid-column:1/3"></span></div>
         </div>
-        <div class="g-row sub"><div class="g-label">サッカー → F1 等 順次 横展開</div><div class="g-track"><span class="bar b on" style="grid-column:1 / 6">サッカー8/21〜 »</span></div></div>
 
-        <div class="g-row proj g2">
-          <div class="g-label">リクエスト予約 低減<span class="ow"><span class="pill">未アサイン</span></span></div>
-          <div class="g-track"></div>
+        <div class="gt-row pjtop">
+          <div class="gt-name">エラー系対応？<span class="ow">Mav?・YT?・Meiko</span></div>
+          <div class="gt-detail">エラー文言・導線の改善</div>
+          <div class="gt-bud"><span class="bchip na">予算未</span></div>
+          <div class="trk"><span class="bar b" style="grid-column:2/4"></span></div>
         </div>
-        <div class="g-row sub"><div class="g-label">即時確定できるケースを増やす</div><div class="g-track"><span class="tbd">時期未定</span></div></div>
 
-        <div class="g-row proj g2">
-          <div class="g-label">プチUI 改善系<span class="ow"><span class="pill">Meiko?/Yen?</span><span class="pill sub">YT?</span><span class="pill sub">Yen</span></span><span class="g-note">※できればデザイナーとYTで自走／小さいタスクをちょっとずつ</span></div>
-          <div class="g-track"></div>
+        <div class="gt-row pjtop">
+          <div class="gt-name">フォーム改善<span class="ow">Sachie・未定・Yen</span></div>
+          <div class="gt-detail">ステップ簡素化・後追い入力</div>
+          <div class="gt-bud"><span class="bchip na">予算未</span></div>
+          <div class="trk"><span class="bar b" style="grid-column:3/6"></span></div>
         </div>
-        <div class="g-row sub"><div class="g-label">小さいUI改善を随時</div><div class="g-track"><span class="tbd">随時</span></div></div>
 
-        <!-- ガバナンス -->
-        <div class="g-cat c3">ガバナンス（ブランド・コンプライアンス）</div>
+        <div class="gt-row pjtop">
+          <div class="gt-name">テーマ特化 LP（スポーツ）<span class="ow">Kotaro・Megumi・Izumi</span></div>
+          <div class="gt-detail">サッカー → F1 等 順次 横展開（8/21〜）</div>
+          <div class="gt-bud"></div>
+          <div class="trk"><span class="bar b on" style="grid-column:1/6">»</span></div>
+        </div>
 
-        <div class="g-row proj g3">
-          <div class="g-label">CI 統一（旧ロゴ回帰）<span class="ow"><span class="pill">Meiko</span><span class="pill sub">Yen</span><span class="pill sub">YT</span></span><span class="g-note">8/10 ヘッダー／フッター リリース</span></div>
-          <div class="g-track"><span class="bar r" style="grid-column:1 / 2">8/10</span></div>
+        <div class="gt-row pjtop">
+          <div class="gt-name">リクエスト予約 低減<span class="ow">未アサイン</span></div>
+          <div class="gt-detail">即時確定できるケースを増やす</div>
+          <div class="gt-bud"></div>
+          <div class="trk"><span class="tbd">時期未定</span></div>
         </div>
-        <div class="g-row proj g3">
-          <div class="g-label">データ・リーガル対応 <span class="bchip crit">最優先</span><span class="ow"><span class="pill">Kotaro</span><span class="pill sub">futagi</span></span><span class="g-note">GDPR・同意既定／GTM断捨離・統合／第三者提供の棚卸し</span></div>
-          <div class="g-track"><span class="bar r on" style="grid-column:1 / 6">進行中 »</span></div>
+
+        <div class="gt-row pjtop">
+          <div class="gt-name">プチUI 改善系<span class="ow">Meiko?/Yen?・YT?・Yen</span><span class="note">※デザイナー＋YTで自走／小さく随時</span></div>
+          <div class="gt-detail">小さいUI改善を随時</div>
+          <div class="gt-bud"></div>
+          <div class="trk"><span class="tbd">随時</span></div>
         </div>
-      </div>
+
+        <div class="gt-cat c3">ガバナンス（ブランド・コンプライアンス）</div>
+
+        <div class="gt-row pjtop">
+          <div class="gt-name">CI 統一<span class="ow">Meiko・Yen・YT</span></div>
+          <div class="gt-detail">旧ロゴ回帰（8/10 ヘッダー／フッター リリース）</div>
+          <div class="gt-bud"></div>
+          <div class="trk"><span class="bar r" style="grid-column:1/2"></span></div>
+        </div>
+
+        <div class="gt-row pjtop">
+          <div class="gt-name">データ・リーガル対応<span class="bchip crit">最優先</span><span class="ow">Kotaro・futagi</span></div>
+          <div class="gt-detail">GDPR・同意既定／GTM断捨離・統合／第三者提供の棚卸し</div>
+          <div class="gt-bud"></div>
+          <div class="trk"><span class="bar r on" style="grid-column:1/6">»</span></div>
+        </div>
       <p class="rm-note">
         色：<b style="color:#4c8a63">緑</b>＝①買い増し（esim・保険・mobility）／<b style="color:var(--blue-d)">青</b>＝②TR側UX改善／<b style="color:var(--red)">赤</b>＝ガバナンス。<br>
         バー：塗り＝実施月／<b>斜線 »</b>＝進行中（継続・終了時期未定）／<b>時期未定・随時</b>＝バーなし。<br>
