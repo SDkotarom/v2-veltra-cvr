@@ -1,2 +1,25 @@
 .vercel
 .DS_Store
+
+# --- 認証情報・秘密情報（絶対にコミットしない）---
+# サービスアカウントJSONは ~/.config/gcp/ 配下に置く運用。万一リポジトリ内に
+# 置かれてもコミットされないようにパターンで塞ぐ。
+*-readonly*.json
+*service-account*.json
+*service_account*.json
+*credentials*.json
+*-key.json
+*.pem
+.env
+.env.*
+!.env.example
+
+# --- API取得物のダンプ（設定値・測定IDを含むため追跡しない）---
+gtm-live*.json
+live.json
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+venv/
