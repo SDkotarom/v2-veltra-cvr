@@ -42,12 +42,12 @@ ToolSearch で "run_report" を検索 → mcp__*__run_report ツールを取得
 
 ## GTM（Google Tag Manager）の読み取りについて
 
-GTM は **MCP がないため、サービスアカウント + REST API** で読む。GA4 と混同しないこと。
+GTM は **MCP がないため、REST API** で読む。GA4 と混同しないこと。
 
 | 対象 | 使うもの |
 |---|---|
 | GA4 データ・プロパティ設定 | MCP（`run_report` 等）。認証情報不要 |
-| GTM タグ・トリガー・変数 | `scripts/fetch_gtm.py`。サービスアカウント鍵が必要 |
+| GTM タグ・トリガー・変数 | `scripts/fetch_gtm.py`。ADC が必要 |
 
 ```bash
 python3 scripts/fetch_gtm.py accounts              # 疎通確認
@@ -56,13 +56,26 @@ python3 scripts/fetch_gtm.py summary --filter mobility
 python3 scripts/fetch_gtm.py find dev.veltra.com   # dev ホスト名の混入検出
 ```
 
-- 鍵は `~/.config/gcp/gtm-readonly.json`（`chmod 600`）。**リポジトリ内には絶対に置かない**（置くとスクリプトが実行を拒否する）
-- スコープは `tagmanager.readonly` のみ。コンテナは `8248186` のホワイトリスト固定。**ホワイトリストを外さない**
+### 認証の方針（管理者指示: 鍵は平文でおかない）
+
+**サービスアカウント鍵を作らない（キーレス / ADC）が既定。**
+
+```bash
+gcloud auth application-default login \
+  --scopes=https://www.googleapis.com/auth/tagmanager.readonly
+export GOOGLE_CLOUD_PROJECT=veltra-analytics-api
+```
+
+- スコープは `tagmanager.readonly` のみ。**`cloud-platform` を付けない**（自分のGCP全権限を持つ資格情報になる）
+- 平文の鍵ファイルはスクリプトが**拒否する**。仕様なので回避しない
+- 鍵が必要な場合（CI等）は `scripts/gtm-key-store.sh` で macOS Keychain に入れる
+- コンテナは `8248186` のホワイトリスト固定。**ホワイトリストを外さない**
 - 鍵が未設定の環境（リモートの使い捨てコンテナ等）では実行できない。ローカルの Claude Code から実行する
 - セットアップ手順・トラブルシュートは `docs/gtm-api-setup.md`
 
 | 項目 | 値 |
 |---|---|
+| GCP プロジェクト | `veltra-analytics-api` |
 | GTM アカウントID | `173868083` |
 | コンテナID | `8248186` |
 | 公開ID | `GTM-5KFX5VX` |
