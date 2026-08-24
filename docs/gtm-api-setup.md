@@ -3,38 +3,50 @@
 Claude から GTM コンテナ設定（タグ・トリガー・変数）を API 経由で読めるようにする手順。
 管理画面から手作業でエクスポートする運用をなくすことがゴール。
 
-## 前提となる方針
+## 方式（社内標準 / 2026-08 二木さん確認）
 
-> **鍵は平文でおかない。**（管理者指示 / 2026-08-20）
+> 自社 Google Cloud プロジェクト内に作った「内部（Internal）」の OAuth クライアントを使い、
+> 自分の Google アカウントで一度だけブラウザ承認する。サービスアカウント鍵は作らない。
 
-GCP のサービスアカウント鍵は、失効期限がなく、持ち出されれば誰でもその権限で動かせる。
-ファイルパーミッション（`chmod 600`）は他ユーザーから守るだけで、ディスク上は平文のまま。
-そのため本手順では次の優先順位を取る。
+| 項目 | 内容 |
+|---|---|
+| 認証 | OAuth インストール型アプリ（デスクトップアプリ）。本人の Google アカウントで承認 |
+| 鍵 | サービスアカウント鍵は作らない。更新用トークンを本人のローカルに保管 |
+| gcloud / ADC | 使わない（後述） |
+| Workspace 管理者への申請 | 不要 |
 
-| 優先 | 方式 | 鍵の状態 |
-|---|---|---|
-| **1（推奨）** | ADC / キーレス — サービスアカウント鍵を作らない | 鍵が存在しない |
-| 2 | サービスアカウント鍵 + macOS Keychain | 暗号化保管。実行時のみメモリ |
-| 3 | 環境変数 `GTM_SA_KEY_JSON`（CI / Secret Manager 経由） | ディスクに書かない |
-| ✗ | 平文の鍵ファイル | **スクリプトが既定で拒否** |
+### なぜ gcloud / ADC 方式ではないのか
+
+`gcloud`（Google Cloud SDK）は当社 Workspace から見ると **社外製アプリ** の扱いになる。
+社外アプリの利用が制限されているため、ADC 発行時に「このアプリはブロックされます」で止まる。
+
+一方、**自社プロジェクト内に作り、OAuth 同意画面を「内部」にした** OAuth クライアントは
+**社内アプリ扱い**になるので、この制限に当たらない。だから管理者の許可申請そのものが不要で、
+Workspace 管理コンソールを触る必要もない。
+
+### セキュリティ上の位置づけ
+
+更新用トークンもファイルに置く以上は秘密情報。ただしサービスアカウント鍵と比べて扱いやすい。
+
+- 本人に紐づくので、権限はその人が GTM に持つ範囲を超えない
+- 本人の Google アカウント画面からいつでも失効できる（鍵回収に人手が要らない）
+- 組織レベルの鍵が増えないので、流出時の影響範囲が限定される
+
+「鍵は平文で置かない（＝誰でも見える状態に置かない）」方針に対しては、
+トークンを本人のローカル（権限 600・本人だけ読める場所）に置き、リポジトリには入れない運用で満たす。
 
 ---
 
 ## 0. GA4 側は追加作業が不要
 
-元手順書には GA4 の API 有効化と権限付与も含まれていたが、**GA4 は既に MCP 経由で接続済み**。
+GA4 は既に MCP 経由で接続済み。GTM だけが本手順の対象。
 
 | 対象 | 状態 | 使うもの |
 |---|---|---|
-| GA4 レポートデータ | ✅ 接続済み | `mcp__*__run_report` / `run_realtime_report` |
-| GA4 プロパティ設定 | ✅ 接続済み | `mcp__*__get_property_details` / `get_account_summaries` |
-| GTM コンテナ設定 | ❌ 未接続 | 本手順で構築する |
+| GA4 レポート・プロパティ設定 | ✅ 接続済み | MCP（`run_report` 等） |
+| GTM コンテナ設定 | ❌ 未接続 | 本手順で構築 |
 
-MCP は GA4 アカウント `VELTRA Domain`（`21205104`）をアカウントレベルで参照でき、元手順書で
-対象とされた 3 プロパティ（`318494528` / `546403487` / `547515476`）はすべて到達可能。
-
-→ **Google Analytics Admin API / Data API の有効化、GA4 へのサービスアカウント追加は実施しない。**
-必要のない権限は付与しない。有効化するのは Tag Manager API のみ。
+→ **Google Analytics Admin API / Data API の有効化は不要。** 有効化するのは Tag Manager API のみ。
 
 ---
 
@@ -42,215 +54,127 @@ MCP は GA4 アカウント `VELTRA Domain`（`21205104`）をアカウントレ
 
 | 項目 | 値 |
 |---|---|
-| GCP プロジェクト | `veltra-analytics-api`（プロジェクト番号 `1039372110822`） |
+| GCP プロジェクト | `veltra-analytics-api`（veltra.com 組織配下。既存の別プロジェクトでも可） |
 | GTM アカウントID | `173868083` |
 | GTM コンテナID | `8248186` |
 | GTM 公開ID | `GTM-5KFX5VX` |
 
 ---
 
-## 2. 手順A：キーレス（推奨）
+## 2. GCP コンソール作業（ブラウザ・15分ほど）
 
-サービスアカウント鍵を作らないので、平文で置く鍵がそもそも発生しない。
-GTM を自分の権限で読む方式なので、GTM 管理画面でのユーザー追加も不要。
+### 2-1. プロジェクトを用意
 
-### 2-1. Tag Manager API を有効化
+`console.cloud.google.com` で veltra.com 組織配下のプロジェクトを 1 つ選ぶ（`veltra-analytics-api` 流用可）。
+
+### 2-2. Tag Manager API を有効化
 
 `APIとサービス` → `ライブラリ` → **Tag Manager API** → 有効にする。
 
-```bash
-gcloud config set project veltra-analytics-api
-gcloud services enable tagmanager.googleapis.com
-gcloud services list --enabled | grep tagmanager
-```
+### 2-3. OAuth 同意画面を「内部」にする ← 要点
 
-GA4 の 2 つの API は有効化しない。
+`APIとサービス` → `OAuth 同意画面` → **User Type = 内部（Internal）** を選択。
 
-### 2-2. ADC を発行（スコープを GTM 読み取りだけに絞る）
+これで社外アプリ扱いを避けられる（＝ Workspace の外部アプリ制限に当たらない）。
 
-```bash
-gcloud auth application-default login \
-  --scopes=https://www.googleapis.com/auth/tagmanager.readonly
+### 2-4. OAuth クライアント ID を作成
 
-export GOOGLE_CLOUD_PROJECT=veltra-analytics-api
-echo 'export GOOGLE_CLOUD_PROJECT=veltra-analytics-api' >> ~/.zshrc
-```
-
-スコープを `tagmanager.readonly` だけにするのが要点。これで発行される資格情報は
-**GTM の読み取り以外には何もできない**。`cloud-platform` は付けない（付けると自分の
-GCP 権限すべてを持つ資格情報になり、「GCPは極めて強力」という懸念がそのまま当たる）。
-
-`invalid_scope` で弾かれた場合のみ、必要最小の追加として次を試す。
-
-```bash
-gcloud auth application-default login \
-  --scopes=https://www.googleapis.com/auth/tagmanager.readonly,openid,https://www.googleapis.com/auth/userinfo.email
-```
-
-### 2-3. 古い平文鍵が残っていたら消す
-
-過去に鍵をダウンロードしている場合は、この時点で始末する。
-
-```bash
-unset GOOGLE_APPLICATION_CREDENTIALS          # ~/.zshrc に書いた行も削除
-rm -P ~/.config/gcp/*.json 2>/dev/null        # 平文鍵の削除
-```
-
-GCP コンソール（`IAMと管理` → `サービスアカウント` → 該当SA → `キー`）でも
-**鍵自体を削除**する。ローカルのファイルを消しても、鍵が有効なままなら意味がない。
-
-### 2-4. ADC 資格情報の性質を理解しておく
-
-`~/.config/gcloud/application_default_credentials.json` にリフレッシュトークンが残る。
-これは平文だが、サービスアカウント鍵とは性質が違う。
-
-| | サービスアカウント鍵 | ADC（ユーザー資格情報） |
-|---|---|---|
-| 有効期限 | 事実上無期限 | Google のセッションポリシーに従う |
-| 失効 | 鍵を消すまで有効 | `gcloud auth application-default revoke` で即失効 |
-| 権限範囲 | SA に付与された全権限 | 発行時に指定したスコープのみ |
-| 帰属 | 人に紐づかない | 本人に紐づく（監査ログで追跡可能） |
-
-作業が終わったら失効させておく。
-
-```bash
-gcloud auth application-default revoke
-```
-
----
-
-## 3. 手順B：鍵が必要な場合（CI・非属人運用）
-
-CI から動かす、または人に紐づかない ID が必要な場合のみ。鍵は Keychain に入れて平文を残さない。
-
-### 3-1. サービスアカウントを作る
-
-`IAMと管理` → `サービスアカウント` → `サービスアカウントを作成`
+`APIとサービス` → `認証情報` → `認証情報を作成` → `OAuth クライアント ID`
 
 | 項目 | 値 |
 |---|---|
-| 名前 | `gtm-readonly` |
-| 説明 | GTM コンテナの読み取り専用アクセス |
-| GCP ロール | **付与しない**（空のまま次へ） |
+| アプリケーションの種類 | **デスクトップアプリ** |
+| 名前 | 任意（例 `gtm-reader-local`） |
 
-GCP 側の IAM ロールは不要。権限は GTM 管理画面から個別に渡す。
+作成後、**JSON をダウンロード**する。
 
-### 3-2. GTM に読み取り権限だけ付与
+### 2-5. client_secret を安全な場所に置く
 
-`tagmanager.google.com` → コンテナ `www.veltra.com (v2)` → `管理` → `ユーザー管理` → `＋`
-
-| 種別 | 設定 |
-|---|---|
-| アカウント権限 | **ユーザー**（管理者にしない） |
-| コンテナ権限 | **読み取り**のみ |
-
-編集・承認・公開は付与しない。書き込み権限がなければ、本番タグが変更される事故は原理的に起きない。
-
-### 3-3. 鍵を Keychain に入れて平文を消す
-
-JSON キーを発行したら、**ダウンロードしたまま放置せず**すぐに移す。
+ダウンロードした JSON を、リポジトリ外・本人だけが読める場所に置く。
 
 ```bash
-scripts/gtm-key-store.sh store ~/Downloads/veltra-analytics-api-xxxxx.json
+mkdir -p ~/.config/gtm && chmod 700 ~/.config/gtm
+mv ~/Downloads/client_secret_*.json ~/.config/gtm/client_secret.json
+chmod 600 ~/.config/gtm/client_secret.json
 ```
 
-このスクリプトが行うこと：
-
-1. サービスアカウント JSON として妥当か検証（内容は表示しない）
-2. リポジトリ内のファイルなら拒否
-3. macOS Keychain に登録（シェル履歴に残さない）
-4. ダウンロードした平文ファイルを削除
-
-```bash
-scripts/gtm-key-store.sh check    # 登録済みか確認（中身は出さない）
-scripts/gtm-key-store.sh remove   # Keychain から削除
-```
-
-残存リスクは正直に把握しておく。`security` コマンド実行中は同一ユーザーの他プロセスから
-`ps` で引数が見える。また APFS では `rm -P` の上書き削除が保証されない。どちらも
-「鍵を即座にローテーションできる」ことが最終的な担保になる。懸念があれば GCP コンソールで
-鍵を削除して再発行する。
-
-### 3-4. CI で使う場合
-
-鍵を Secret Manager（または GitHub Actions の Secrets）に置き、実行時に環境変数へ展開する。
-
-```bash
-export GTM_SA_KEY_JSON="$(gcloud secrets versions access latest --secret=gtm-readonly-key)"
-python3 scripts/fetch_gtm.py summary
-```
-
-スクリプトはこの値をメモリ上でのみ扱い、ディスクに書き出さない。
+- リポジトリ内には置かない（スクリプトが実行を拒否する。`.gitignore` でも二重に防いでいる）
+- Slack・メールに貼らない
 
 ---
 
-## 4. 使い方
+## 3. 使い方
 
 ```bash
 python3 -m pip install -r scripts/requirements-gtm.txt
 
-# 疎通確認（まずこれ）
+# 初回のみブラウザ承認が走る（自分の Google アカウントを選んで許可）
 python3 scripts/fetch_gtm.py accounts
 
-# ライブ版のタグ/トリガー/変数を要約
+# 以降はトークンで自動的に通る
 python3 scripts/fetch_gtm.py summary
 python3 scripts/fetch_gtm.py summary --filter mobility
-
-# dev ホスト名がトリガー条件に残っていないか検索
 python3 scripts/fetch_gtm.py find dev.veltra.com
-
-# 生 JSON（秘匿値はマスク済み）。リポジトリ外に出力する
-python3 scripts/fetch_gtm.py live > ~/gtm-live.json
+python3 scripts/fetch_gtm.py live > ~/gtm-live.json   # 秘匿値はマスク済み
 ```
 
-`accounts` でアカウント `173868083` が出れば疎通成功。
-どの認証方式が使われたかは `GTM_VERBOSE=1` で確認できる。`--auth adc` 等で固定もできる。
+初回 `accounts` でブラウザが開く。同意画面には **GTM の読み取り** に関する権限だけが出るはず。
+承認後、アカウント `173868083` が一覧に出れば疎通成功。更新用トークンは
+`~/.config/gtm/token.json`（権限 600）に保存され、次回以降は自動で使われる。
+
+### ファイルの置き場所（環境変数で変更可）
+
+| 用途 | 既定パス | 環境変数 |
+|---|---|---|
+| client_secret | `~/.config/gtm/client_secret.json` | `GTM_OAUTH_CLIENT` |
+| 更新用トークン | `~/.config/gtm/token.json` | `GTM_OAUTH_TOKEN` |
+| 両方の親ディレクトリ | `~/.config/gtm` | `GTM_CONFIG_DIR` |
 
 ### スクリプト側の安全装置
 
 | 装置 | 内容 |
 |---|---|
-| スコープ限定 | `tagmanager.readonly` のみ要求。書き込み系スコープは持たない |
+| スコープ限定 | `tagmanager.readonly` のみ。書き込み系は要求しない |
 | ホワイトリスト | アカウント `173868083` / コンテナ `8248186` 以外へはアクセスしない |
-| 平文鍵の拒否 | 平文の鍵ファイルは既定で拒否し、移行先を案内する |
-| リポジトリ内鍵の拒否 | 許可フラグの有無にかかわらず無条件で拒否 |
-| 秘匿値マスク | GTM 定数変数の `api_key` / `token` / `secret` 等は既定でマスク（`measurementId` は保持） |
-| 鍵内容の非出力 | エラー時も鍵の中身・トークンは一切出力しない |
+| リポジトリ内ファイルの拒否 | client_secret / token がリポジトリ内にあると実行を拒否 |
+| トークンの権限 | 保存時に `chmod 600`。緩い権限のファイルは警告 |
+| 秘匿値マスク | GTM 定数変数の `api_key` / `token` / `secret` 等は既定でマスク（`measurementId` は保持）。`--no-redact` で解除 |
 
-`ALLOWED_CONTAINERS` のホワイトリストは外さない。権限設定によっては意図しないコンテナまで
-読めてしまうため。別コンテナが必要になったらスクリプトに明示追記してレビューを通す。
+`ALLOWED_CONTAINERS` のホワイトリストは外さない。別コンテナが必要になったらスクリプトに明示追記してレビューを通す。
 
-### 取得した JSON の扱い
+### トークンの失効・再承認
 
-`live` の出力にはタグ設定・測定ID・トリガー条件が含まれる。`.gitignore` で
-`gtm-live*.json` / `live.json` を塞いであるが、**リポジトリ外（ホームなど）に出力するのが基本**。
+```bash
+python3 scripts/fetch_gtm.py logout   # ローカルのトークンを削除
+```
+
+Google 側の承認自体を取り消すには、Google アカウント → セキュリティ →
+サードパーティのアクセス から該当アプリを削除する。
 
 ---
 
-## 5. うまくいかないとき
+## 4. うまくいかないとき
 
 | 症状 | 対処 |
 |---|---|
-| `利用できる認証情報がありません` | 手順2-2 の ADC 発行が済んでいない |
-| `quota project が未設定です` | `export GOOGLE_CLOUD_PROJECT=veltra-analytics-api` |
-| 403 Forbidden | Tag Manager API の有効化を確認。手順B の場合は GTM 権限が反映されるまで5分待つ |
-| 401 / リフレッシュ失敗 | `gcloud auth application-default login` をやり直す |
-| `平文の鍵ファイルは使用できません` | 仕様どおりの挙動。手順A か Keychain に移行する |
-| `invalid_scope` | 手順2-2 の追加スコープ版を試す |
+| `client_secret が見つかりません` | 2-5 の配置、または `GTM_OAUTH_CLIENT` の指定を確認 |
+| ブラウザで「このアプリはブロックされます」 | OAuth 同意画面が「内部」になっていない（2-3 を確認） |
+| `client_secret の形式が不正` | OAuth クライアントの種類が「デスクトップアプリ」か確認 |
+| 403 Forbidden | Tag Manager API 有効化、自分の GTM 権限、スコープを確認 |
+| 401 / リフレッシュ失敗 | `logout` してから再度 `accounts` で再承認 |
 
 ---
 
-## 6. エスカレーション（二木さんに相談）
+## 5. 書き込みについて（将来）
 
-- API 有効化で課金アカウントの紐付けを求められ、対象を選べない
-- サービスアカウント作成が拒否される（`iam.serviceAccounts.create`）
-- 組織ポリシーでキー作成が禁止（`iam.disableServiceAccountKeyCreation`）
-  → 手順A（キーレス）で進められるので、この禁止は障害ではない
-- GTM のユーザー管理画面で追加ボタンが押せない（手順B のみ該当）
+最終ゴールは読み書き両方だが、当面は読み取りで疎通確認・分析を行う。書き込みは必要になった時点で
+スコープ（`tagmanager.edit.containers` 等）を足す。**GTM の編集はワークスペース内に留まり、
+公開して初めて本番サイトに反映される。注意すべきは編集権限より公開権限なので、公開はコードから
+行わず管理画面から手作業で最終承認する**（＝スクリプトに公開系スコープは付けない）。
 
 ---
 
-## 7. 完了後にできること
+## 6. 完了後にできること
 
 - `Mobility - GA4 PageView (prod)` の測定ID確認（`summary --filter mobility`）
 - `Mobility - PageView Trigger (prod)` の発火条件確認

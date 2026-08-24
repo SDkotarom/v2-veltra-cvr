@@ -5,39 +5,42 @@ fetch_gtm.py
 GTM（Google Tag Manager）コンテナ設定の読み取り専用フェッチャ。
 管理画面から手作業でエクスポートする運用をなくすためのスクリプト。
 
+認証方式（社内標準 / 2026-08 二木さん確認）:
+  自社 Google Cloud プロジェクト内に作った「内部（Internal）」の OAuth クライアントを使い、
+  自分の Google アカウントで一度だけブラウザ承認する（インストール型アプリのフロー）。
+  承認後に返る更新用トークンをローカルに保管して使い回す。
+
+  - サービスアカウント鍵は作らない（平文の鍵をディスクに置かない）
+  - gcloud / ADC は使わない（Google Cloud SDK は社外アプリ扱いでブロックされるため）
+  - OAuth 同意画面を「内部」にすることで社内アプリ扱いになり、Workspace の
+    外部アプリ制限に当たらない（管理者の許可申請が不要）
+
 前提:
-  - サービスアカウントに GTM コンテナ「読み取り」権限のみを付与してあること
-  - Tag Manager API（tagmanager.googleapis.com）が有効化されていること
+  - veltra.com 組織配下の GCP プロジェクトで Tag Manager API を有効化済み
+  - OAuth 同意画面 = 内部（Internal）、OAuth クライアント = デスクトップアプリ
+  - client_secret JSON をダウンロード済み（Git 管理下に置かない）
   - 依存: pip install -r scripts/requirements-gtm.txt
 
-認証情報の渡し方（平文の鍵ファイルは使わない）:
-
-  A. ADC / キーレス（推奨）— サービスアカウント鍵を一切作らない
-       gcloud auth application-default login \
-         --scopes=https://www.googleapis.com/auth/tagmanager.readonly
-
-  B. macOS Keychain — サービスアカウント鍵を暗号化保管し、実行時のみメモリへ
-       scripts/gtm-key-store.sh store ~/Downloads/<key>.json
-
-  C. 環境変数に JSON 文字列（CI / Secret Manager 経由）
-       export GTM_SA_KEY_JSON="$(<Secret Manager 等から取得>)"
-
-  平文の鍵ファイル（GOOGLE_APPLICATION_CREDENTIALS）は既定で拒否する。
-  tmpfs マウント等の正当な理由がある場合のみ GTM_ALLOW_PLAINTEXT_KEY=1 で明示的に許可。
+ファイルの置き場所（既定。環境変数で変更可）:
+  - client_secret: ~/.config/gtm/client_secret.json   （GTM_OAUTH_CLIENT で変更可）
+  - token（更新用）: ~/.config/gtm/token.json          （GTM_OAUTH_TOKEN で変更可）
+  どちらも権限 600 を推奨。リポジトリ内に置くと実行を拒否する（コミット事故の防止）。
 
 使い方:
+    # 初回のみブラウザ承認が走る。以降はトークンで自動的に通る。
     python3 scripts/fetch_gtm.py accounts            # アクセス可能なアカウント確認（疎通テスト）
     python3 scripts/fetch_gtm.py containers          # 許可コンテナの一覧
     python3 scripts/fetch_gtm.py summary             # ライブ版のタグ/トリガー/変数を要約表示
+    python3 scripts/fetch_gtm.py summary --filter mobility
     python3 scripts/fetch_gtm.py live                # ライブ版の生 JSON（秘匿値はマスク）
-    python3 scripts/fetch_gtm.py find mobility       # ライブ版をキーワード検索
-    python3 scripts/fetch_gtm.py summary --container 8248186
+    python3 scripts/fetch_gtm.py find dev.veltra.com # ライブ版をキーワード検索
+    python3 scripts/fetch_gtm.py logout              # 保管中のトークンを削除（失効は Google アカウント画面から）
 
 セキュリティ上の設計:
-  - スコープは tagmanager.readonly のみ。書き込み系スコープは要求しない
+  - スコープは tagmanager.readonly のみ（書き込みは必要になった時点で足す。公開権限は付けない）
   - ACCOUNT_ID / ALLOWED_CONTAINERS のホワイトリスト外はアクセスしない
-  - 平文の鍵ファイルは既定で拒否（管理者方針: 鍵を平文でおかない）
-  - 鍵ファイルがリポジトリ内にある場合は無条件で拒否（コミット事故の防止）
+  - client_secret / token がリポジトリ内にある場合は実行を拒否
+  - token は保存時に chmod 600。緩い権限のファイルは警告
   - GTM の定数変数に third-party の API キーが入っていることがあるため、
     出力時に秘匿キーらしき値はデフォルトでマスクする（--no-redact で解除）
 """
@@ -45,18 +48,15 @@ GTM（Google Tag Manager）コンテナ設定の読み取り専用フェッチ�
 import argparse
 import json
 import os
-import platform
-import re
 import stat
-import subprocess
 import sys
 from pathlib import Path
 
 try:
-    import google.auth
+    from google.oauth2.credentials import Credentials
+    from google.auth.transport.requests import AuthorizedSession, Request
     from google.auth.exceptions import RefreshError
-    from google.oauth2 import service_account
-    from google.auth.transport.requests import AuthorizedSession
+    from google_auth_oauthlib.flow import InstalledAppFlow
 except ImportError:
     sys.exit(
         "依存パッケージが未インストールです。\n"
@@ -72,12 +72,23 @@ ALLOWED_CONTAINERS = {
 }
 DEFAULT_CONTAINER = "8248186"
 
+# 読み取り専用。書き込みが必要になったらここに edit 系スコープを足す（公開系は足さない）。
 SCOPES = ["https://www.googleapis.com/auth/tagmanager.readonly"]
-KEYCHAIN_SERVICE = os.environ.get("GTM_KEYCHAIN_SERVICE", "gtm-readonly")
+
 BASE = "https://tagmanager.googleapis.com/tagmanager/v2"
 TIMEOUT = 30
 
+# 認証情報の既定パス（環境変数で上書き可）
+CONFIG_DIR = Path(os.environ.get("GTM_CONFIG_DIR", "~/.config/gtm")).expanduser()
+CLIENT_SECRET_PATH = Path(
+    os.environ.get("GTM_OAUTH_CLIENT", str(CONFIG_DIR / "client_secret.json"))
+).expanduser()
+TOKEN_PATH = Path(
+    os.environ.get("GTM_OAUTH_TOKEN", str(CONFIG_DIR / "token.json"))
+).expanduser()
+
 # 値をマスクするパラメータキー / 変数名のパターン（measurementId 等は対象外）
+import re  # noqa: E402  (依存チェックの後に置きたいので遅延 import)
 SECRET_RE = re.compile(
     r"(api[_-]?key|secret|token|password|passwd|credential|private[_-]?key|auth)",
     re.IGNORECASE,
@@ -89,194 +100,128 @@ def die(msg):
     sys.exit(f"ERROR: {msg}")
 
 
-# --- 認証 --------------------------------------------------------------------
-def _build_sa_credentials(info=None, path=None, origin=""):
-    """サービスアカウント資格情報を構築する。失敗しても鍵の内容は出力しない。"""
+# --- 認証（OAuth インストール型アプリ）--------------------------------------
+def _reject_if_in_repo(path, label):
+    """認証ファイルがリポジトリ内にあれば拒否（コミット事故の防止）。"""
     try:
-        if info is not None:
-            return service_account.Credentials.from_service_account_info(info, scopes=SCOPES)
-        return service_account.Credentials.from_service_account_file(path, scopes=SCOPES)
-    except (ValueError, KeyError) as e:
+        resolved = path.resolve()
+    except OSError:
+        return
+    if ROOT == resolved or ROOT in resolved.parents:
         die(
-            f"サービスアカウント鍵を読み込めませんでした（{origin}）。\n"
-            "  鍵が破損・切り詰められている可能性があります。GCP コンソールで再発行してください。\n"
-            f"  原因: {type(e).__name__}"
+            f"{label} がリポジトリ内にあります: {resolved}\n"
+            f"  リポジトリ外（例 {CONFIG_DIR}）へ移動してから再実行してください。"
         )
 
 
-def _from_inline_env():
-    """環境変数の JSON 文字列から。CI や Secret Manager 経由の受け渡し用。"""
-    inline = os.environ.get("GTM_SA_KEY_JSON")
-    if not inline:
-        return None
+def _warn_if_loose_perms(path, label):
     try:
-        info = json.loads(inline)
-    except json.JSONDecodeError:
-        die("GTM_SA_KEY_JSON が正しい JSON ではありません（鍵の内容は表示しません）")
-    return _build_sa_credentials(info=info, origin="環境変数 GTM_SA_KEY_JSON")
-
-
-def _from_keychain():
-    """macOS Keychain から鍵を取り出す。ディスク上に平文を残さない。"""
-    if platform.system() != "Darwin":
-        return None
-    try:
-        r = subprocess.run(
-            ["security", "find-generic-password", "-s", KEYCHAIN_SERVICE, "-w"],
-            capture_output=True, text=True, timeout=15,
-        )
-    except (FileNotFoundError, subprocess.TimeoutExpired):
-        return None
-    if r.returncode != 0:
-        return None  # 項目未登録。次の方式へフォールバック
-    try:
-        info = json.loads(r.stdout.strip())
-    except json.JSONDecodeError:
-        die(
-            f"Keychain 項目 '{KEYCHAIN_SERVICE}' の中身が JSON ではありません。"
-            " scripts/gtm-key-store.sh store で再登録してください。"
-        )
-    return _build_sa_credentials(info=info, origin=f"Keychain '{KEYCHAIN_SERVICE}'")
-
-
-def _from_adc():
-    """ADC（キーレス）。gcloud auth application-default login で発行した資格情報。"""
-    # GOOGLE_APPLICATION_CREDENTIALS が指す平文鍵を google.auth が黙って拾わないよう退避する
-    saved = os.environ.pop("GOOGLE_APPLICATION_CREDENTIALS", None)
-    try:
-        creds, _ = google.auth.default(scopes=SCOPES)
-    except Exception:
-        return None
-    finally:
-        if saved is not None:
-            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = saved
-
-    quota_project = os.environ.get("GOOGLE_CLOUD_PROJECT")
-    if quota_project and hasattr(creds, "with_quota_project"):
-        creds = creds.with_quota_project(quota_project)
-    return creds
-
-
-def _from_plaintext_file():
-    """平文の鍵ファイル。管理者方針により既定で拒否。"""
-    key_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
-    if not key_path:
-        return None
-
-    path = Path(os.path.expanduser(key_path)).resolve()
-
-    # リポジトリ内の鍵は許可フラグの有無にかかわらず拒否（コミット事故の防止）
-    if ROOT in path.parents or path.parent == ROOT:
-        die(
-            f"鍵ファイルがリポジトリ内にあります: {path}\n"
-            "  リポジトリ外へ移動し、Keychain へ登録してください:\n"
-            "    scripts/gtm-key-store.sh store <鍵のパス>"
-        )
-
-    if os.environ.get("GTM_ALLOW_PLAINTEXT_KEY") != "1":
-        die(
-            f"平文の鍵ファイルは使用できません: {path}\n"
-            "  管理者方針: サービスアカウント鍵を平文でディスクに置かないこと。\n"
-            "  次のいずれかに移行してください:\n"
-            "    1. キーレス（推奨）: gcloud auth application-default login \\\n"
-            "         --scopes=https://www.googleapis.com/auth/tagmanager.readonly\n"
-            "       ＋ GCP コンソールで当該サービスアカウント鍵を削除\n"
-            "    2. Keychain 保管: scripts/gtm-key-store.sh store " + str(path) + "\n"
-            "  tmpfs 等に置いていて意図的に許可する場合のみ GTM_ALLOW_PLAINTEXT_KEY=1"
-        )
-
-    if not path.is_file():
-        die(f"鍵ファイルが見つかりません: {path}")
-
-    mode = path.stat().st_mode
+        mode = path.stat().st_mode
+    except OSError:
+        return
     if mode & (stat.S_IRWXG | stat.S_IRWXO):
         print(
-            f"⚠️  鍵ファイルが他ユーザーから読めます（{oct(stat.S_IMODE(mode))}）。"
-            f"chmod 600 {path}",
+            f"⚠️  {label} が他ユーザーからも読めます（{oct(stat.S_IMODE(mode))}）。"
+            f"chmod 600 {path} を推奨します。",
             file=sys.stderr,
         )
-    print(
-        "⚠️  平文の鍵ファイルを使用中（GTM_ALLOW_PLAINTEXT_KEY=1）。"
-        "恒久運用にはしないでください。",
-        file=sys.stderr,
-    )
-    return _build_sa_credentials(path=str(path), origin=str(path))
 
 
-SOURCES = {
-    "env": ("環境変数 GTM_SA_KEY_JSON", _from_inline_env),
-    "keychain": ("macOS Keychain", _from_keychain),
-    "adc": ("ADC（キーレス）", _from_adc),
-    "file": ("平文の鍵ファイル", _from_plaintext_file),
-}
-SOURCE_ORDER = ["env", "keychain", "adc", "file"]
+def _save_token(creds):
+    TOKEN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    # 先に 0600 で空ファイルを作ってから書く（中身が一瞬でも緩い権限で出ないように）
+    fd = os.open(str(TOKEN_PATH), os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    with os.fdopen(fd, "w") as f:
+        f.write(creds.to_json())
+    os.chmod(str(TOKEN_PATH), 0o600)
 
 
-def load_credentials(prefer="auto"):
-    """優先順に認証情報を探す。鍵の内容・トークンは一切出力しない。"""
-    order = SOURCE_ORDER if prefer == "auto" else [prefer]
-    for name in order:
-        label, fn = SOURCES[name]
-        creds = fn()
-        if creds is not None:
-            if os.environ.get("GTM_VERBOSE") == "1":
-                print(f"認証方式: {label}", file=sys.stderr)
+def load_credentials():
+    """OAuth 認証情報を用意する。トークンがあれば再利用、なければブラウザ承認。"""
+    _reject_if_in_repo(CLIENT_SECRET_PATH, "client_secret")
+    _reject_if_in_repo(TOKEN_PATH, "token")
+
+    creds = None
+    if TOKEN_PATH.is_file():
+        _warn_if_loose_perms(TOKEN_PATH, "token")
+        try:
+            creds = Credentials.from_authorized_user_file(str(TOKEN_PATH), SCOPES)
+        except (ValueError, KeyError):
+            die(
+                f"token ファイルが壊れています: {TOKEN_PATH}\n"
+                "  削除して再度承認してください: python3 scripts/fetch_gtm.py logout"
+            )
+
+    if creds and creds.valid:
+        return creds
+
+    # 期限切れならリフレッシュを試みる
+    if creds and creds.expired and creds.refresh_token:
+        try:
+            creds.refresh(Request())
+            _save_token(creds)
             return creds
+        except RefreshError:
+            # リフレッシュ不能（失効・取り消し等）→ 再承認に落とす
+            creds = None
 
-    die(
-        "利用できる認証情報がありません。次のいずれかを設定してください:\n"
-        "  1. キーレス（推奨）:\n"
-        "       gcloud auth application-default login \\\n"
-        "         --scopes=https://www.googleapis.com/auth/tagmanager.readonly\n"
-        "       export GOOGLE_CLOUD_PROJECT=<PROJECT_ID>\n"
-        "  2. Keychain 保管:\n"
-        "       scripts/gtm-key-store.sh store <サービスアカウント鍵のパス>\n"
-        "  詳細: docs/gtm-api-setup.md"
-    )
+    # ここまで来たら新規ブラウザ承認が必要
+    if not CLIENT_SECRET_PATH.is_file():
+        die(
+            f"OAuth クライアントの client_secret が見つかりません: {CLIENT_SECRET_PATH}\n"
+            "  GCP コンソールで作成した JSON を上記パスに置くか、環境変数 GTM_OAUTH_CLIENT で指定してください。\n"
+            "  手順は docs/gtm-api-setup.md を参照。"
+        )
+    _warn_if_loose_perms(CLIENT_SECRET_PATH, "client_secret")
+
+    try:
+        flow = InstalledAppFlow.from_client_secrets_file(str(CLIENT_SECRET_PATH), SCOPES)
+    except (ValueError, KeyError):
+        die(
+            f"client_secret の形式が不正です: {CLIENT_SECRET_PATH}\n"
+            "  OAuth クライアントの種類が『デスクトップアプリ』であることを確認してください。"
+        )
+
+    print("ブラウザで承認を求めます（初回のみ）。開かない場合は表示される URL を手で開いてください。",
+          file=sys.stderr)
+    creds = flow.run_local_server(port=0)
+    _save_token(creds)
+    print(f"承認済み。トークンを保存しました: {TOKEN_PATH}", file=sys.stderr)
+    return creds
 
 
 _session = None
 
 
-AUTH_PREFER = "auto"
-
-
 def session():
     global _session
     if _session is None:
-        _session = AuthorizedSession(load_credentials(AUTH_PREFER))
+        _session = AuthorizedSession(load_credentials())
     return _session
 
 
 def get(path, **params):
     try:
         r = session().get(f"{BASE}/{path}", params=params or None, timeout=TIMEOUT)
-    except RefreshError as e:
+    except RefreshError:
         die(
-            "認証情報のリフレッシュに失敗しました。次を確認してください:\n"
-            "  - ADC 利用時: gcloud auth application-default login をやり直す\n"
-            "  - 鍵利用時: GCP コンソールで鍵が削除・無効化されていないか\n"
-            "  - スコープが tagmanager.readonly を含んでいるか\n"
-            f"  原因: {type(e).__name__}"
+            "認証情報のリフレッシュに失敗しました。トークンが失効または取り消された可能性があります。\n"
+            "  再承認してください: python3 scripts/fetch_gtm.py logout && python3 scripts/fetch_gtm.py accounts"
         )
     if r.status_code == 403:
         die(
             "403 Forbidden。次を確認してください:\n"
-            "  - GTM 管理画面でサービスアカウントに『読み取り』権限を付与済みか\n"
-            "  - 権限付与は反映まで数分かかります。5分ほど待って再実行\n"
-            "  - Tag Manager API（tagmanager.googleapis.com）が有効化されているか"
+            "  - あなたの Google アカウントが GTM コンテナを読める権限を持っているか\n"
+            "  - Tag Manager API（tagmanager.googleapis.com）が有効化されているか\n"
+            "  - OAuth 同意画面が『内部』、スコープに tagmanager.readonly が含まれているか"
         )
     if r.status_code == 401:
-        die("401 Unauthorized。鍵が失効しているか、スコープ設定が不正です。")
+        die(
+            "401 Unauthorized。トークンが失効しています。\n"
+            "  再承認してください: python3 scripts/fetch_gtm.py logout && python3 scripts/fetch_gtm.py accounts"
+        )
     if not r.ok:
-        body = r.text[:500]
-        if "quota" in body.lower() and "project" in body.lower():
-            die(
-                "quota project が未設定です（ADC 利用時によく出ます）。\n"
-                "  export GOOGLE_CLOUD_PROJECT=<Tag Manager API を有効化したプロジェクトID>\n"
-                f"  原文: {body}"
-            )
-        die(f"{r.status_code} {r.reason}: {body}")
+        die(f"{r.status_code} {r.reason}: {r.text[:500]}")
     return r.json()
 
 
@@ -412,19 +357,26 @@ def cmd_find(args):
         print(f"  {path}\n    {value}")
 
 
+def cmd_logout(args):
+    if TOKEN_PATH.is_file():
+        TOKEN_PATH.unlink()
+        print(f"トークンを削除しました: {TOKEN_PATH}")
+        print("※ Google 側の承認自体を取り消すには、Google アカウント →")
+        print("   セキュリティ → サードパーティのアクセス から該当アプリを削除してください。")
+    else:
+        print(f"トークンはありません: {TOKEN_PATH}")
+
+
 def main():
-    p = argparse.ArgumentParser(description="GTM 読み取り専用フェッチャ")
+    p = argparse.ArgumentParser(description="GTM 読み取り専用フェッチャ（OAuth インストール型アプリ方式）")
     p.add_argument("--container", default=DEFAULT_CONTAINER, help="コンテナID（ホワイトリスト内のみ）")
     p.add_argument("--no-redact", action="store_true", help="秘匿値のマスクを解除（取り扱い注意）")
-    p.add_argument(
-        "--auth", default="auto", choices=["auto"] + SOURCE_ORDER,
-        help="認証方式を固定（既定 auto: env → keychain → adc の順に探す）",
-    )
     sub = p.add_subparsers(dest="cmd", required=True)
 
     sub.add_parser("accounts", help="アクセス可能なアカウント一覧（疎通確認）").set_defaults(func=cmd_accounts)
     sub.add_parser("containers", help="許可コンテナ一覧").set_defaults(func=cmd_containers)
     sub.add_parser("live", help="ライブ版の生JSON").set_defaults(func=cmd_live)
+    sub.add_parser("logout", help="保管中のトークンを削除").set_defaults(func=cmd_logout)
 
     s = sub.add_parser("summary", help="ライブ版のタグ/トリガー/変数を要約")
     s.add_argument("--filter", help="名前・タイプの部分一致で絞り込み")
@@ -435,8 +387,6 @@ def main():
     f.set_defaults(func=cmd_find)
 
     args = p.parse_args()
-    global AUTH_PREFER
-    AUTH_PREFER = args.auth
     args.func(args)
 
 

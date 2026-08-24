@@ -2,13 +2,15 @@
 .DS_Store
 
 # --- 認証情報・秘密情報（絶対にコミットしない）---
-# サービスアカウントJSONは ~/.config/gcp/ 配下に置く運用。万一リポジトリ内に
-# 置かれてもコミットされないようにパターンで塞ぐ。
+# OAuth の client_secret / token は ~/.config/gtm/ 配下に置く運用。万一リポジトリ内に
+# 置かれてもコミットされないようにパターンで塞ぐ（過去のSA鍵向けパターンも残置）。
 *-readonly*.json
 *service-account*.json
 *service_account*.json
 *credentials*.json
 *-key.json
+client_secret*.json
+token.json
 *.pem
 .env
 .env.*
