@@ -195,3 +195,30 @@ CVR リストにある以下のフィールド（Impact / Confidence&Ease / Urge
 | 7 | 上流レイテンシー（Booking quote <1s） | B/A | New Platform P2 |
 
 > 着手前に **Lighthouse CI / DevTools でベースラインを固定**（0番目）。効果は前後比較で測る。
+
+---
+
+## 7. 計測対象ページ（対象URL一覧）＝プロジェクト共通
+
+本プロジェクトの計測・施策は、この **6ページタイプ** を対象にする（KPI①のLCP合格率もこの6ページの p75 で判定）。
+**ページ単位のチケットには、必ず下表から該当タイプのURL例を本文に貼る。**「TOP／エリア…」というラベルだけで済ませない（担当が『どれがTOP？』とならないように）。
+
+| # | ページタイプ | 代表URL（例） | 判定条件（page type） |
+|---|---|---|---|
+| 1 | **TOP** | `https://www.veltra.com/jp/` | `/jp/` |
+| 2 | **エリア** | `https://www.veltra.com/jp/japan/tokyo/` | 国/都市 |
+| 3 | **地域** | `https://www.veltra.com/jp/japan/kanto/` | 広域 |
+| 4 | **カテゴリー** | `https://www.veltra.com/jp/japan/tokyo/ctg/160126:Sightseeing_Tour/` | `/ctg/` |
+| 5 | **AC詳細** | `https://www.veltra.com/jp/japan/tokyo/a/160690` | `/a/` |
+| 6 | **検索結果** | `https://www.veltra.com/jp/search?kw=tokyo` | `/search` |
+
+- 基準は **JP・モバイル**（field値は #300 の RUM 導入後、それまではラボ値）。
+- 上記URLが仕様変更で無効になっていたら、同タイプの実在URLに読み替えてOK（**どのURLで測ったかはレポートに明記**）。
+- サイト全体（site-wide）で効く施策（GTM整理・不要JS削減・フォント等）は6ページ表を貼らず「全ページ共通」と明記する。
+
+### 調査チケットの「完了条件」の書き方（レポート化を具体に）
+
+「〜がレポート化されている」で止めない。**成果物＝計測シートの何タブに、どのカラムで、何行**まで書く。
+
+- 例（LCP調査）：計測シートに「LCP要素分解」タブを追加し、6ページ＝6行で `ページ / URL / LCP要素(実物) / LCP合計(ms) / ①TTFB / ②読込delay / ③読込duration / ④render delay / 主因 / 割付チケット / 計測日・ツール` を埋める。
+- 調査結果の打ち手は **どの実装チケットへ割り付けたか**まで書く（割付先チケットにもコメントを残す）。
