@@ -16,20 +16,21 @@ CVR リストの既存チケットから型を抽出したもの。**新規起�
 | Space | UX Design Squad (`901810555568`) |
 | URL | https://app.clickup.com/31108037/v/l/li/901820239496 |
 
-**ステータス（5つに統一）とボールの所在**：
+**ステータス（6段）とボールの所在**：
 
 | ステータス | 種別 | 意味／ボール |
 |---|---|---|
-| **planning** | 未着手 | 起案中（企画・要件定義中）＝**牧野ボール** |
-| **to do** | 未着手 | 起案・要件定義 完了＝**Suki さんボール**（実装可能） |
+| **open (is planning)** | 未着手 | 起案中（企画・要件定義中）＝**牧野ボール** |
+| **ready** | 着手可 | 起案・要件定義 完了、着手可能＝**Suki さんボール** |
 | **in progress** | 進行中 | 実装中 |
-| **pending** | 進行中 | 保留・待ち |
-| **complete** | 完了 | 完了 |
+| **review** | 進行中 | レビュー中 |
+| **ready for release** | 進行中 | リリース待ち |
+| **Closed** | 完了 | 完了・クローズ（不要／重複チケットの整理も含む） |
 
-**遷移**：`planning`（牧野で起案・要件定義）→ 完了したら `to do` にして Suki さんへハンドオフ → `in progress` → `complete`。待ちが発生したら `pending`。
+**遷移**：`open (is planning)`（牧野で起案・要件定義）→ 固まったら `ready` にして Suki さんへハンドオフ → `in progress` → `review` → `ready for release` → `Closed`。
 
-- **原則、新規チケットはまず `planning`（牧野ボール）で起票**。要件が固まってから `to do` に上げ、担当を Suki さんに切り替える。
-- `at risk` / `update required` / `on hold` / `cancelled` は使わない（工程削減のため廃止。`cancelled` は `pending` に統合）。
+- **原則、新規チケットはまず `open (is planning)`（牧野ボール）で起票**。要件が固まってから `ready` に上げ、担当を Suki さんに切り替える。
+- 重複・不要になったチケットは `Closed` にする（保留用の中間ステータスは持たない）。
 
 参考リスト（同チームの使い方の見本）：**CVR** `901817269796`（UX_DESIGN-** チケット群）
 
