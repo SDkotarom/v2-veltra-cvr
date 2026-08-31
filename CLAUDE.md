@@ -40,6 +40,45 @@ ToolSearch で "run_report" を検索 → mcp__*__run_report ツールを取得
 
 ---
 
+## GTM（Google Tag Manager）の読み取りについて
+
+GTM は **MCP がないため、REST API** で読む。GA4 と混同しないこと。
+
+| 対象 | 使うもの |
+|---|---|
+| GA4 データ・プロパティ設定 | MCP（`run_report` 等）。認証情報不要 |
+| GTM タグ・トリガー・変数 | `scripts/fetch_gtm.py`。OAuth 承認が必要 |
+
+```bash
+python3 scripts/fetch_gtm.py accounts              # 疎通確認（初回のみブラウザ承認）
+python3 scripts/fetch_gtm.py summary               # ライブ版の要約
+python3 scripts/fetch_gtm.py summary --filter mobility
+python3 scripts/fetch_gtm.py find dev.veltra.com   # dev ホスト名の混入検出
+python3 scripts/fetch_gtm.py logout                # トークン削除
+```
+
+### 認証の方針（社内標準 / 2026-08 二木さん確認。鍵は平文でおかない）
+
+**自社プロジェクト内の「内部（Internal）」OAuth クライアントで、本人アカウントで承認する。**
+サービスアカウント鍵は作らない。gcloud / ADC は使わない（社外アプリ扱いでブロックされるため）。
+
+- OAuth 同意画面を **内部（Internal）** にするのが要点。これで社内アプリ扱いになり、Workspace の外部アプリ制限に当たらない（管理者申請が不要）
+- OAuth クライアントの種類は **デスクトップアプリ**。client_secret JSON をローカルに置く
+- client_secret / token は `~/.config/gtm/`（`chmod 600`）。**リポジトリ内には置かない**（スクリプトが拒否。`.gitignore` でも二重に防止）
+- スコープは `tagmanager.readonly` のみ。書き込みは必要時に足すが、**公開系スコープは付けない**（公開は管理画面から手作業）
+- コンテナは `8248186` のホワイトリスト固定。**ホワイトリストを外さない**
+- 使い捨てリモート環境では実行しない。ローカル（Desktop）から実行する
+- セットアップ手順・トラブルシュートは `docs/gtm-api-setup.md`
+
+| 項目 | 値 |
+|---|---|
+| GCP プロジェクト | `veltra-analytics-api`（veltra.com 組織配下） |
+| GTM アカウントID | `173868083` |
+| コンテナID | `8248186` |
+| 公開ID | `GTM-5KFX5VX` |
+
+---
+
 ## 基本情報
 
 - **GA4 Property ID**: `347074845`
