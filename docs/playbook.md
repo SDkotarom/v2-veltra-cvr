@@ -11,7 +11,7 @@
 - **目的**: VELTRAのCVR改善。ファネル×セグメントで転換率を分析し、ボトルネック10件を特定、各件に仮説・打ち手・プロトタイプを生成
 - **ホスティング**: Vercel（mainブランチ push → 自動デプロイ）
 - **URL**: https://v2-veltra-cvr.vercel.app/
-- **認証**: auth.js による Google OAuth（sessionStorage `gauth_user`）
+- **認証**: `middleware.js`（Vercel Edge Middleware）によるパスコードゲート。全パスをエッジで保護。詳細は [docs/ACCESS.md](ACCESS.md)
 - **GA4 Property**: `347074845`
 
 ---
@@ -68,12 +68,13 @@ v2-veltra-cvr/
 │   ├── audit-actions.py        ← 施策化レビュー監査（重複+制約チェック）
 │   ├── extract-content-from-html.py ← content.json スケルトン生成
 │   └── archive/                ← 過去の一時スクリプト
-├── auth.js / nav.js / funnel-def.js / bottleneck.js  ← 共通JS
+├── nav.js / funnel-def.js / bottleneck.js  ← 共通JS
 ├── summary.css / summary-detail.js  ← 週次サマリーページ専用（Phase 2.9）
 ├── bottleneck.html / bottleneck.css  ← ボトルネック分析テンプレート（動的描画）
 ├── index.html                        ← Northstar 振り分けhub（H1/H2 へ）
-├── login.html                        ← 認証（ルート据え置き）
-├── auth.js / nav.js / funnel-def.js / summary-detail.js / bottleneck.js  ← 共有JS（ルート据え置き）
+├── middleware.js                     ← アクセスゲート（全パス保護・ルート直下必須）
+├── login.html                        ← パスコード入力＋ポータル（ルート据え置き）
+├── nav.js / funnel-def.js / summary-detail.js / bottleneck.js  ← 共有JS（ルート据え置き）
 ├── report.css / summary.css / bottleneck.css                             ← 共有CSS（ルート据え置き）
 ├── summary-data.json / weekly-summary.json / reports-index.json / archive-meta.json  ← データ（ルート据え置き）
 ├── 2026h2/

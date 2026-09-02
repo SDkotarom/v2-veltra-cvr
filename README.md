@@ -9,6 +9,7 @@
 - **H2 Mission & 管理ボード**: `/2026h2/`（ファイル実体は `2026h2/index.html`）
 - **H1 入口（CVR サマリー）**: `/2026h1/`（実体 `2026h1/index.html`）／ **KPI**: `/2026h1/kpi.html` ／ **週次レポート**: `/2026h1/reports/`
 - H1（これまでの CVR レポート・分析・施策ページ）は `2026h1/` 配下、H2 は `2026h2/` 配下。振り分けは `/`（index.html）。
+- **アクセス制御**: [docs/ACCESS.md](docs/ACCESS.md) — パスコードゲートの仕組み・環境変数・共有リンクの配り方
 - **運用マニュアル**: [docs/playbook.md](docs/playbook.md) — 週次レポート生成手順・品質チェックリスト
 - **技術構成**: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — スキーマ・データフロー・デプロイ
 - **デザインルール**: [docs/veltra-design-system.md](docs/veltra-design-system.md) — VELTRAサイトのUI仕様
@@ -17,6 +18,7 @@
 ## 技術スタック
 
 - 静的HTML + Vanilla JS（ビルド不要）
+- アクセス制御: `middleware.js`（Vercel Edge Middleware）が全パスをパスコードで保護。環境変数 `ACCESS_PASSCODE` / `ACCESS_SECRET` が必須（→ [docs/ACCESS.md](docs/ACCESS.md)）
 - ボトルネック分析: `/bottleneck.html` が `bottleneck-{N}-content.json` を動的に描画
 - Vercel（main push → 自動デプロイ）
 - GA4 MCP でデータ取得 → Claude で分析 → content.json 生成
