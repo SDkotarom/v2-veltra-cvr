@@ -460,6 +460,42 @@
     <div class="note"><b>要確認：</b>#386・#387 は「レンダー遅延／フォント」の割付先として <b>#306（レンダーブロック）</b> を指しているが、#306 は現在 <b>クローズ</b>。割付先を残すなら #306 を復活、集約するなら #307 等へ付け替えが必要。</div>
   </div>
 
+  <!-- 計測とレポート -->
+  <div class="sec">
+    <h2><span class="no">測</span>計測とレポート（本番のみ・リリース前後で測る）</h2>
+    <p class="lead">成果（速度改善）は <b>本番 www.veltra.com でしか正確に測れない</b>。開発サーバは設定が異なり数値が本番と大きく乖離するため、<b>効果判定は「本番リリース前後の比較」</b>で行う（dev は"壊れていないか"の簡易確認のみ）。</p>
+
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>追う指標</th><th>取得方法</th><th>場所</th><th>頻度</th></tr>
+        <tr><td><b>LCP / INP / CLS</b>（p75）</td><td>PageSpeed Insights（ラボ）＋ CrUX/GA4（実ユーザー p75）</td><td><span class="lv a">本番のみ</span></td><td>週次＋リリース前後</td></tr>
+        <tr><td><b>TTFB / PageSpeed スコア</b></td><td>PageSpeed Insights</td><td><span class="lv a">本番のみ</span></td><td>週次＋リリース前後</td></tr>
+        <tr><td><b>対象ページ CVR / 増分 commission</b>（KPI②）</td><td>GA4</td><td><span class="lv a">本番のみ</span></td><td>月次</td></tr>
+      </table>
+    </div>
+
+    <p class="lead" style="margin-top:14px">効果の測り方（リリース起点の前後比較）</p>
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>#</th><th>ステップ</th><th>内容</th></tr>
+        <tr><td><b>0</b></td><td><b>ベースライン固定</b></td><td>着手前に本番で6ページを計測し、日付つきで記録（以後の "before" 基準）</td></tr>
+        <tr><td><b>1</b></td><td><b>リリース記録</b></td><td>リリースごとに「出した施策（チケット番号）＋リリース日」を残す</td></tr>
+        <tr><td><b>2</b></td><td><b>前後計測</b></td><td>リリース直後に本番を再計測 → before/after 差分で効果を帰属</td></tr>
+        <tr><td><b>3</b></td><td><b>週次トレンド</b></td><td>6ページ p75 の合格率を週次で追い、回帰（悪化）を検知</td></tr>
+      </table>
+    </div>
+    <div class="note"><b>dev は判定に使わない：</b>開発サーバは本番と設定が違い数値が乖離するため、効果の数値判定は必ず本番で。dev／Chrome拡張は"大きな問題が無いか"の事前チェック用。<b>シミュレーションを増やすより、確実な改善を本番に数多くリリースして実数を取る</b>方針。</div>
+
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>レポート</th><th>置き場所</th><th>役割</th></tr>
+        <tr><td><b>週次トラッカー／指標別グラフ</b></td><td>計測スプレッドシート（週次ログ・集計・グラフ）</td><td>トレンドと回帰検知</td></tr>
+        <tr><td><b>リリース記録</b></td><td>同スプレッドシート「リリース記録」タブ</td><td>リリース×施策×前後値の突合</td></tr>
+        <tr><td><b>KPI サマリー</b></td><td>本ページ上部「概要」＋ KPI ダッシュボード</td><td>目標 vs 現状の一望</td></tr>
+      </table>
+    </div>
+  </div>
+
   <!-- ネクストアクション -->
   <div class="sec">
     <h2><span class="no">次</span>ネクストアクション</h2>
