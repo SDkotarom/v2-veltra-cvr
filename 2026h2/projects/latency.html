@@ -463,8 +463,22 @@
   <!-- 計測とレポート -->
   <div class="sec">
     <h2><span class="no">測</span>計測とレポート（本番のみ・リリース前後で測る）</h2>
-    <p class="lead">成果（速度改善）は <b>本番 www.veltra.com でしか正確に測れない</b>。開発サーバは設定が異なり数値が本番と大きく乖離するため、<b>効果判定は「本番リリース前後の比較」</b>で行う（dev は"壊れていないか"の簡易確認のみ）。</p>
+    <p class="lead">成果（速度改善）は <b>本番 www.veltra.com でしか正確に測れない</b>。開発サーバは設定が異なり数値が本番と大きく乖離するため、<b>効果判定は「本番リリース前後の比較」</b>で行う（dev は"壊れていないか"の簡易確認のみ）。<b>実データの集計レポートは計測スプレッドシート</b>に置き、本ページは前提概念（指標・目的・優先度）に徹する。</p>
 
+    <p class="lead" style="margin-top:14px">見る指標と、なぜ見るか</p>
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>指標</th><th>何を表す</th><th>なぜ見るか（ユーザー・事業への効き）</th></tr>
+        <tr><td><b>LCP</b></td><td>主要コンテンツが見えるまでの時間</td><td>第一印象＝離脱に直結。<b>本PJの最重要</b>（合格ライン ≤2.5s）</td></tr>
+        <tr><td><b>INP</b></td><td>操作への反応の速さ</td><td>タップ/入力のもたつき＝ストレス離脱。予約操作の多いページで重要</td></tr>
+        <tr><td><b>CLS</b></td><td>レイアウトのガタつき</td><td>誤タップ・不快感。合格中(0.06)だが <b>悪化させないガード</b>が必要</td></tr>
+        <tr><td><b>TTFB</b></td><td>サーバ応答までの時間</td><td>全指標の土台。遅いと全部遅い（SRE連携で別枠）</td></tr>
+        <tr><td><b>PageSpeed スコア</b></td><td>Lighthouse 総合点</td><td>対外的な目安＋<b>回帰（悪化）検知</b>の入口</td></tr>
+        <tr><td><b>CVR / 増分 commission</b></td><td>事業成果</td><td>速度改善の<b>最終目的</b>＝予約・売上（KPI②）</td></tr>
+      </table>
+    </div>
+
+    <p class="lead" style="margin-top:14px">取得方法（どこで・どのくらいの頻度で）</p>
     <div class="tblwrap">
       <table class="ctbl">
         <tr><th>追う指標</th><th>取得方法</th><th>場所</th><th>頻度</th></tr>
