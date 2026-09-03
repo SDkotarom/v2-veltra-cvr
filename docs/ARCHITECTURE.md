@@ -19,8 +19,10 @@ v2-veltra-cvr/
 │   ├── veltra-url-structure.md      VELTRA URL階層（エリア定義）
 │   └── prd-template.md              PRDテンプレート（汎用）
 │
+├── middleware.js                    アクセスゲート（Vercel Edge Middleware・全パス保護）
+├── vercel.json                      レスポンスヘッダ（noindex 等）
+│
 ├── 共通アセット（ルート）
-│   ├── auth.js                      Google OAuth 認証
 │   ├── nav.js                       サイドナビゲーション（全ページ共通）
 │   ├── funnel-def.js                ファネル定義（ステップ名・イベント名）
 │   ├── report.html                  /report.html?week=… → /reports/{W}/ へリダイレクト（後方互換）
@@ -33,7 +35,7 @@ v2-veltra-cvr/
 │
 ├── ページ
 │   ├── index.html                   ダッシュボード（トップページ）
-│   ├── login.html                   ログインページ
+│   ├── login.html                   ログインページ（パスコード入力）兼ポータル
 │   ├── cycle.html                   CVR改善サイクル説明
 │   └── analysis.html                分析ガイド
 │
