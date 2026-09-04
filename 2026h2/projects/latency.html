@@ -177,6 +177,37 @@
     </div>
   </header>
 
+  <!-- 概要（幹） -->
+  <div class="sec">
+    <h2><span class="no">要</span>プロジェクト概要（ひと目で）</h2>
+    <p class="lead"><b>現行 Veltra サイトの表示速度を「やりきる」プロジェクト。</b>モバイル最重視で、対象 6 ページの Core Web Vitals を合格ラインに乗せ、速度改善を CVR 回復（＝事業成果）につなげる。以下が<b>幹</b>。個別の HOW（調査手法・ICE・チケット）は下段に。</p>
+
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>KPI</th><th>指標</th><th>現状（AsIs）</th><th>目標</th><th>判定</th></tr>
+        <tr><td rowspan="4"><span class="lv a">① 技術<br>(CWV)</span></td><td><b>LCP</b>（対象 6 ページ p75）</td><td>2.8s</td><td><b>≤ 2.5s</b></td><td>週次</td></tr>
+        <tr><td><b>INP</b></td><td>265ms</td><td><b>≤ 200ms</b></td><td>週次</td></tr>
+        <tr><td><b>CLS</b></td><td>0.06</td><td>0.1 未満を維持</td><td>週次</td></tr>
+        <tr><td><b>TTFB ／ PageSpeed</b></td><td>1.6s ／ 34</td><td>≤ 0.8s ／ 改善</td><td>週次</td></tr>
+        <tr><td><span class="lv b">② 事業<br>成果</span></td><td><b>対象ページ経由 CVR</b>（増分 commission）</td><td>2.38%</td><td><b>2.40%</b>（相対 +1%）＝ <b>+¥7,382,080</b></td><td>10〜12 月</td></tr>
+      </table>
+    </div>
+    <div class="note">AsIs は申請時の実測ベース。<b>#300（Web Vitals 計測）＋ PageSpeed でベースラインを正式に再取得</b>し、週次で p75 を追う（→ <a class="chan" href="https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit" target="_blank" rel="noopener">計測シート</a>）。</div>
+
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>項目</th><th>内容</th></tr>
+        <tr><td><b>対象</b></td><td>現行サイト（JP）・<b>モバイル最重視</b>／6 ページタイプ：TOP・エリア・地域・カテゴリー・AC 詳細・検索結果</td></tr>
+        <tr><td><b>体制</b></td><td>企画・要件定義・KPI 管理：<b>Kotaro</b>（牧野）／実装：<b>Suki・Pitor</b>（リソース 20%）／サーバ・TTFB：<b>SRE 連携</b></td></tr>
+        <tr><td><b>期間</b></td><td>2026/8 着手 → 段階リリース → <b>10〜12 月</b>に効果検証・ROI 回収判定</td></tr>
+        <tr><td><b>予算</b></td><td>¥3,000,000（Decision Request 承認済み）</td></tr>
+        <tr><td><b>進め方の幹</b></td><td>①全体共通 → ②ページ種類 → ③操作 の 3 レベルで <b>計測 → 重い原因順に潰す</b>。Quick Win（全ページ共通 × UI 不変 × 低リスク）から同時着手。</td></tr>
+      </table>
+    </div>
+
+    <div class="note"><b>現況：</b>施策リスト全 21 件＝<b>着手中 4・着手待ち（Suki）11・起案中 1・クローズ 5</b>。内訳は下段「着手状況（施策リストとの対応）」／ <a class="chan" href="https://app.clickup.com/31108037/v/l/li/901820239496" target="_blank" rel="noopener">web-performance リスト</a>。</div>
+  </div>
+
   <!-- 背景 -->
   <div class="bg">
     <div class="lbl">背景（なぜやるか？）</div>
@@ -387,6 +418,97 @@
       </table>
     </div>
     <div class="note"><b>読み方：</b>Impact＝CVR/CWV への効き×影響ページ規模、Effort＝実装＋検証の人日（S≦2／M 3〜5／L 1週間＋）、確度＝効く見込み(1〜5)。ICE が大きいほど上。<b>1〜3 を最初のスプリントで同時に</b>、4〜5 を続けて、6・7 は工数を確保して別枠。スコアは着手前の暫定で、ベースライン計測後に更新する。</div>
+  </div>
+
+  <!-- 着手状況（施策リストとの対応） -->
+  <div class="sec">
+    <h2><span class="no">状</span>着手状況（施策リストとの対応）</h2>
+    <p class="lead">上の「現状調査の方法」「着手優先度」で挙げた打ち手を、ClickUp の <a class="chan" href="https://app.clickup.com/31108037/v/l/li/901820239496" target="_blank" rel="noopener">web-performance リスト</a> のチケット・状況に対応づけたもの。<b>着手中</b>＝進行中／<b>着手待ち</b>＝要件定義済みで着手可（Suki さん）／<b>起案中</b>＝要件整理中（牧野）／<b>クローズ</b>＝既存チケットへ統合・重複整理。<b>計 21 件（着手中 4・着手待ち 11・起案中 1・クローズ 5）</b>。</p>
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>打ち手</th><th>チケット</th><th>ボール</th><th>メモ（紐づく調査・前提）</th></tr>
+
+        <tr><td colspan="4" style="background:#ecf6ef;font-weight:800;color:var(--green-d)">🟢 着手中（進行中）</td></tr>
+        <tr><td>Web Vitals を GA4 で計測＋ダッシュボード整備 <span class="qwtag">0番目＝ベースライン</span></td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-300" target="_blank" rel="noopener">#300</a></td><td>牧野</td><td>全調査・効果検証の前提（p75 計測）</td></tr>
+        <tr><td>未使用 GTM/計測タグの棚卸し（audit）</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-301" target="_blank" rel="noopener">#301</a></td><td>牧野</td><td>ICE #1 ／ ※GTM 断捨離はガバナンス側と連携</td></tr>
+        <tr><td>明らかに不要な GTM タグの停止</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-303" target="_blank" rel="noopener">#303</a></td><td>牧野</td><td>ICE #1 ／ ※ガバナンス側と連携</td></tr>
+        <tr><td>GTM ダイエット本格実施（統合・削除）</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-305" target="_blank" rel="noopener">#305</a></td><td>牧野</td><td>ICE #1 ／ ※ガバナンス側と連携</td></tr>
+
+        <tr><td colspan="4" style="background:#eef3f7;font-weight:800;color:var(--blue-d)">🔵 着手待ち（要件定義済み・Suki さん）</td></tr>
+        <tr><td>各ページの LCP 要素特定＆遅延分解</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-386" target="_blank" rel="noopener">#386</a></td><td>Suki</td><td>結果を #304/#306/#308/#309/#387 へ割付</td></tr>
+        <tr><td>INP / Long Task 分解調査</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-388" target="_blank" rel="noopener">#388</a></td><td>Suki</td><td>結果を #301/#303/#305/#307 へ割付</td></tr>
+        <tr><td>API N+1 / overfetch 監査</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-390" target="_blank" rel="noopener">#390</a></td><td>Suki</td><td>Suki #321 の横展開（AC詳細・検索）</td></tr>
+        <tr><td>TTFB 切り分け（別ワークストリーム）</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-314" target="_blank" rel="noopener">#314</a></td><td>Suki</td><td>ICE #6/#7 上流 ／ サーバ側・SRE 連携</td></tr>
+        <tr><td>LCP 画像の preload を残りページへ展開</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-304" target="_blank" rel="noopener">#304</a></td><td>Suki</td><td>ICE #2 ／ #386 の結果に従う</td></tr>
+        <tr><td>img に width/height 付与・CLS ガード</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-389" target="_blank" rel="noopener">#389</a></td><td>Suki</td><td>ICE #3</td></tr>
+        <tr><td>画像 WebP/AVIF 最適化・srcset・遅延読込</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-308" target="_blank" rel="noopener">#308</a></td><td>Suki</td><td>ICE #4</td></tr>
+        <tr><td>キャッシュ設定改善＋静的ページ HTML キャッシュ</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-309" target="_blank" rel="noopener">#309</a></td><td>Suki</td><td>ICE #4/#6（immutable / ETag）</td></tr>
+        <tr><td>未使用 JS/CSS・legacy JS の削減</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-307" target="_blank" rel="noopener">#307</a></td><td>Suki</td><td>TBT/INP・転送量</td></tr>
+        <tr><td>Web フォント最適化（font-display / preload / subset）</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-387" target="_blank" rel="noopener">#387</a></td><td>Suki</td><td>#306 と連携</td></tr>
+        <tr><td>検索 API 応答改善＋結果の段階描画</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-312" target="_blank" rel="noopener">#312</a></td><td>Suki</td><td>検索結果ページ</td></tr>
+
+        <tr><td colspan="4" style="background:#fbf3e6;font-weight:800;color:#a9711f">🟡 起案中（要件整理中・牧野）</td></tr>
+        <tr><td>速度 × CVR 効果検証（前後比較・10〜12月）</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-315" target="_blank" rel="noopener">#315</a></td><td>牧野</td><td>KPI②（ROI 回収の判定）</td></tr>
+
+        <tr><td colspan="4" style="background:#f1f2f4;font-weight:800;color:#7a808a">⬛ クローズ（既存チケットへ統合・重複整理）</td></tr>
+        <tr><td>カテゴリ 冗長クーポン処理（getApplicableCoupon）削除</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-302" target="_blank" rel="noopener">#302</a></td><td>—</td><td>ICE #5 ／ Suki #321 へ統合</td></tr>
+        <tr><td>isDynamicPrice 改修（必要4項目のみ取得）</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-310" target="_blank" rel="noopener">#310</a></td><td>—</td><td>ICE #5 ／ Suki #321 へ統合</td></tr>
+        <tr><td>カテゴリ 予約モーダル再読込の調査</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-313" target="_blank" rel="noopener">#313</a></td><td>—</td><td>重複整理</td></tr>
+        <tr><td>AC詳細 予約カレンダー・在庫 API 応答改善</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-311" target="_blank" rel="noopener">#311</a></td><td>—</td><td>ICE #7 上流 ／ 重複整理</td></tr>
+        <tr><td>レンダーブロッキング解消</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-306" target="_blank" rel="noopener">#306</a></td><td>—</td><td>重複整理（下記メモ参照）</td></tr>
+      </table>
+    </div>
+    <div class="note"><b>要確認：</b>#386・#387 は「レンダー遅延／フォント」の割付先として <b>#306（レンダーブロック）</b> を指しているが、#306 は現在 <b>クローズ</b>。割付先を残すなら #306 を復活、集約するなら #307 等へ付け替えが必要。</div>
+  </div>
+
+  <!-- 計測とレポート -->
+  <div class="sec">
+    <h2><span class="no">測</span>計測とレポート（本番のみ・リリース前後で測る）</h2>
+    <p class="lead">成果（速度改善）は <b>本番 www.veltra.com でしか正確に測れない</b>。開発サーバは設定が異なり数値が本番と大きく乖離するため、<b>効果判定は「本番リリース前後の比較」</b>で行う（dev は"壊れていないか"の簡易確認のみ）。<b>実データの集計レポートは計測スプレッドシート</b>に置き、本ページは前提概念（指標・目的・優先度）に徹する。</p>
+
+    <p class="lead" style="margin-top:14px">見る指標と、なぜ見るか</p>
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>指標</th><th>何を表す</th><th>なぜ見るか（ユーザー・事業への効き）</th></tr>
+        <tr><td><b>LCP</b></td><td>主要コンテンツが見えるまでの時間</td><td>第一印象＝離脱に直結。<b>本PJの最重要</b>（合格ライン ≤2.5s）</td></tr>
+        <tr><td><b>INP</b></td><td>操作への反応の速さ</td><td>タップ/入力のもたつき＝ストレス離脱。予約操作の多いページで重要</td></tr>
+        <tr><td><b>CLS</b></td><td>レイアウトのガタつき</td><td>誤タップ・不快感。合格中(0.06)だが <b>悪化させないガード</b>が必要</td></tr>
+        <tr><td><b>TTFB</b></td><td>サーバ応答までの時間</td><td>全指標の土台。遅いと全部遅い（SRE連携で別枠）</td></tr>
+        <tr><td><b>PageSpeed スコア</b></td><td>Lighthouse 総合点</td><td>対外的な目安＋<b>回帰（悪化）検知</b>の入口</td></tr>
+        <tr><td><b>CVR / 増分 commission</b></td><td>事業成果</td><td>速度改善の<b>最終目的</b>＝予約・売上（KPI②）</td></tr>
+      </table>
+    </div>
+
+    <p class="lead" style="margin-top:14px">取得方法（どこで・どのくらいの頻度で）</p>
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>追う指標</th><th>取得方法</th><th>場所</th><th>頻度</th></tr>
+        <tr><td><b>LCP / INP / CLS</b>（p75）</td><td>PageSpeed Insights（ラボ）＋ CrUX/GA4（実ユーザー p75）</td><td><span class="lv a">本番のみ</span></td><td>週次＋リリース前後</td></tr>
+        <tr><td><b>TTFB / PageSpeed スコア</b></td><td>PageSpeed Insights</td><td><span class="lv a">本番のみ</span></td><td>週次＋リリース前後</td></tr>
+        <tr><td><b>対象ページ CVR / 増分 commission</b>（KPI②）</td><td>GA4</td><td><span class="lv a">本番のみ</span></td><td>月次</td></tr>
+      </table>
+    </div>
+
+    <p class="lead" style="margin-top:14px">効果の測り方（リリース起点の前後比較）</p>
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>#</th><th>ステップ</th><th>内容</th></tr>
+        <tr><td><b>0</b></td><td><b>ベースライン固定</b></td><td>着手前に本番で6ページを計測し、日付つきで記録（以後の "before" 基準）</td></tr>
+        <tr><td><b>1</b></td><td><b>リリース記録</b></td><td>リリースごとに「出した施策（チケット番号）＋リリース日」を残す</td></tr>
+        <tr><td><b>2</b></td><td><b>前後計測</b></td><td>リリース直後に本番を再計測 → before/after 差分で効果を帰属</td></tr>
+        <tr><td><b>3</b></td><td><b>週次トレンド</b></td><td>6ページ p75 の合格率を週次で追い、回帰（悪化）を検知</td></tr>
+      </table>
+    </div>
+    <div class="note"><b>dev は判定に使わない：</b>開発サーバは本番と設定が違い数値が乖離するため、効果の数値判定は必ず本番で。dev／Chrome拡張は"大きな問題が無いか"の事前チェック用。<b>シミュレーションを増やすより、確実な改善を本番に数多くリリースして実数を取る</b>方針。</div>
+
+    <div class="tblwrap">
+      <table class="ctbl">
+        <tr><th>レポート</th><th>置き場所</th><th>役割</th></tr>
+        <tr><td><b>週次トラッカー／指標別グラフ</b></td><td>計測スプレッドシート（週次ログ・集計・グラフ）</td><td>トレンドと回帰検知</td></tr>
+        <tr><td><b>リリース記録</b></td><td>同スプレッドシート「リリース記録」タブ</td><td>リリース×施策×前後値の突合</td></tr>
+        <tr><td><b>KPI サマリー</b></td><td>本ページ上部「概要」＋ KPI ダッシュボード</td><td>目標 vs 現状の一望</td></tr>
+      </table>
+    </div>
   </div>
 
   <!-- ネクストアクション -->

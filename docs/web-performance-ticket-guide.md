@@ -16,20 +16,21 @@ CVR リストの既存チケットから型を抽出したもの。**新規起�
 | Space | UX Design Squad (`901810555568`) |
 | URL | https://app.clickup.com/31108037/v/l/li/901820239496 |
 
-**ステータス（5つに統一）とボールの所在**：
+**ステータス（6段）とボールの所在**：
 
 | ステータス | 種別 | 意味／ボール |
 |---|---|---|
-| **planning** | 未着手 | 起案中（企画・要件定義中）＝**牧野ボール** |
-| **to do** | 未着手 | 起案・要件定義 完了＝**Suki さんボール**（実装可能） |
+| **open (is planning)** | 未着手 | 起案中（企画・要件定義中）＝**牧野ボール** |
+| **ready** | 着手可 | 起案・要件定義 完了、着手可能＝**Suki さんボール** |
 | **in progress** | 進行中 | 実装中 |
-| **pending** | 進行中 | 保留・待ち |
-| **complete** | 完了 | 完了 |
+| **review** | 進行中 | レビュー中 |
+| **ready for release** | 進行中 | リリース待ち |
+| **Closed** | 完了 | 完了・クローズ（不要／重複チケットの整理も含む） |
 
-**遷移**：`planning`（牧野で起案・要件定義）→ 完了したら `to do` にして Suki さんへハンドオフ → `in progress` → `complete`。待ちが発生したら `pending`。
+**遷移**：`open (is planning)`（牧野で起案・要件定義）→ 固まったら `ready` にして Suki さんへハンドオフ → `in progress` → `review` → `ready for release` → `Closed`。
 
-- **原則、新規チケットはまず `planning`（牧野ボール）で起票**。要件が固まってから `to do` に上げ、担当を Suki さんに切り替える。
-- `at risk` / `update required` / `on hold` / `cancelled` は使わない（工程削減のため廃止。`cancelled` は `pending` に統合）。
+- **原則、新規チケットはまず `open (is planning)`（牧野ボール）で起票**。要件が固まってから `ready` に上げ、担当を Suki さんに切り替える。
+- 重複・不要になったチケットは `Closed` にする（保留用の中間ステータスは持たない）。
 
 参考リスト（同チームの使い方の見本）：**CVR** `901817269796`（UX_DESIGN-** チケット群）
 
@@ -195,3 +196,30 @@ CVR リストにある以下のフィールド（Impact / Confidence&Ease / Urge
 | 7 | 上流レイテンシー（Booking quote <1s） | B/A | New Platform P2 |
 
 > 着手前に **Lighthouse CI / DevTools でベースラインを固定**（0番目）。効果は前後比較で測る。
+
+---
+
+## 7. 計測対象ページ（対象URL一覧）＝プロジェクト共通
+
+本プロジェクトの計測・施策は、この **6ページタイプ** を対象にする（KPI①のLCP合格率もこの6ページの p75 で判定）。
+**ページ単位のチケットには、必ず下表から該当タイプのURL例を本文に貼る。**「TOP／エリア…」というラベルだけで済ませない（担当が『どれがTOP？』とならないように）。
+
+| # | ページタイプ | 代表URL（例） | 判定条件（page type） |
+|---|---|---|---|
+| 1 | **TOP** | `https://www.veltra.com/jp/` | `/jp/` |
+| 2 | **エリア** | `https://www.veltra.com/jp/japan/tokyo/` | 国/都市 |
+| 3 | **地域** | `https://www.veltra.com/jp/japan/kanto/` | 広域 |
+| 4 | **カテゴリー** | `https://www.veltra.com/jp/japan/tokyo/ctg/160126:Sightseeing_Tour/` | `/ctg/` |
+| 5 | **AC詳細** | `https://www.veltra.com/jp/japan/tokyo/a/160690` | `/a/` |
+| 6 | **検索結果** | `https://www.veltra.com/jp/search?kw=tokyo` | `/search` |
+
+- 基準は **JP・モバイル**（field値は #300 の RUM 導入後、それまではラボ値）。
+- 上記URLが仕様変更で無効になっていたら、同タイプの実在URLに読み替えてOK（**どのURLで測ったかはレポートに明記**）。
+- サイト全体（site-wide）で効く施策（GTM整理・不要JS削減・フォント等）は6ページ表を貼らず「全ページ共通」と明記する。
+
+### 調査チケットの「完了条件」の書き方（レポート化を具体に）
+
+「〜がレポート化されている」で止めない。**成果物＝計測シートの何タブに、どのカラムで、何行**まで書く。
+
+- 例（LCP調査）：計測シートに「LCP要素分解」タブを追加し、6ページ＝6行で `ページ / URL / LCP要素(実物) / LCP合計(ms) / ①TTFB / ②読込delay / ③読込duration / ④render delay / 主因 / 割付チケット / 計測日・ツール` を埋める。
+- 調査結果の打ち手は **どの実装チケットへ割り付けたか**まで書く（割付先チケットにもコメントを残す）。

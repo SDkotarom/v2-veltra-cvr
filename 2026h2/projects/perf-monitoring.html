@@ -1,0 +1,304 @@
+<!-- 表示速度モニタリング（Web Performance Monitoring）ダッシュボード
+     データソース：計測スプレッドシート（crux_weekly / psi_daily）。
+     本ページは「見た目（ビュー）」。実データは perf-data.json 経由で流し込む想定。
+     いまは perf-data.json が無ければ内蔵のサンプルデータで描画する。 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>表示速度モニタリング</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#fbfbf7; --card:#fff; --ink:#2D1C21; --sub:#6b5d61; --line:#ece7dd;
+    --blue:#7CA0BF; --blue-d:#4f7597; --green:#86BE99; --green-d:#3f7d57;
+    --amber:#e6a15a; --amber-d:#a9711f; --red:#F38268; --red-d:#c0442a;
+    --good:#3f7d57; --goodbg:#ecf6ef; --ni:#a9711f; --nibg:#fbf3e6; --poor:#c0442a; --poorbg:#fdeae4;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;font-size:14px;line-height:1.6}
+  a{color:var(--blue-d)}
+  .top{background:#fff;border-bottom:1px solid var(--line);padding:14px 24px;display:flex;align-items:center;gap:12px}
+  .top .logo{font-weight:800;letter-spacing:.06em;color:var(--blue-d)}
+  .top .ttl{font-weight:700}
+  .top .as{margin-left:auto;color:var(--sub);font-size:12.5px}
+  .wrap{max-width:1120px;margin:0 auto;padding:22px 24px 60px}
+  .note{background:#fff8ef;border:1px solid #f0dcc0;color:#8a6a34;border-radius:10px;padding:9px 13px;font-size:12.5px;margin:0 0 18px}
+  /* scorecards */
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:820px){.cards{grid-template-columns:repeat(2,1fr)}}
+  .sc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .sc .lbl{color:var(--sub);font-size:12px;margin-bottom:6px}
+  .sc .big{font-size:30px;font-weight:800;letter-spacing:-.01em}
+  .sc .sm{font-size:12.5px;color:var(--sub);margin-top:4px}
+  .donut{display:flex;align-items:center;gap:12px}
+  .donut .leg{font-size:12px;line-height:1.7}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
+  /* section */
+  h2{font-size:15px;margin:26px 0 12px;display:flex;align-items:center;gap:8px}
+  h2 .no{width:22px;height:22px;border-radius:6px;background:var(--blue);color:#fff;font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+  /* page cards */
+  .pg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:820px){.pg{grid-template-columns:1fr}}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px;cursor:pointer;transition:.12s;border-left:4px solid var(--line)}
+  .pcard:hover{box-shadow:0 4px 16px rgba(0,0,0,.06);transform:translateY(-1px)}
+  .pcard.good{border-left-color:var(--green)} .pcard.ni{border-left-color:var(--amber)} .pcard.poor{border-left-color:var(--red)} .pcard.nodata{border-left-color:#c9c2b6}
+  .pcard .pn{font-weight:700}
+  .pcard .pu{color:var(--sub);font-size:11.5px;margin-top:1px;word-break:break-all}
+  .pcard .lcp{font-size:26px;font-weight:800;margin-top:10px}
+  .pcard .lcp small{font-size:13px;font-weight:600;color:var(--sub)}
+  .badge{display:inline-block;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;margin-top:8px}
+  .badge.good{background:var(--goodbg);color:var(--good)} .badge.ni{background:var(--nibg);color:var(--ni)} .badge.poor{background:var(--poorbg);color:var(--poor)} .badge.nodata{background:#eeece7;color:#8a857b}
+  .mini{display:flex;gap:14px;margin-top:10px;font-size:11.5px;color:var(--sub)}
+  .mini b{color:var(--ink);font-weight:700}
+  /* detail */
+  .detail{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-top:16px}
+  .detail .dh{display:flex;align-items:center;gap:10px}
+  .detail .dh .x{margin-left:auto;color:var(--blue-d);cursor:pointer;font-size:13px}
+  .metg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
+  @media(max-width:820px){.metg{grid-template-columns:repeat(2,1fr)}}
+  .met{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .met .k{font-size:11.5px;color:var(--sub)} .met .v{font-size:20px;font-weight:800} .met .t{font-size:11px;color:var(--sub)}
+  .chartbox{position:relative;height:230px;margin-top:8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+  .panel h3{margin:0 0 4px;font-size:14px}
+  .panel .cap{color:var(--sub);font-size:12px;margin:0 0 10px}
+  .tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+  .tbl th,.tbl td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left}
+  .tbl th{color:var(--sub);font-weight:700}
+  .foot{color:var(--sub);font-size:11.5px;margin-top:26px;border-top:1px solid var(--line);padding-top:12px}
+</style>
+
+<div class="top">
+  <span class="logo">VELTRA</span>
+  <span class="ttl">表示速度モニタリング / Web Performance</span>
+  <span class="as" id="asof"></span>
+</div>
+
+<div class="wrap">
+  <div class="note" id="src"></div>
+
+  <!-- スコアカード -->
+  <div class="cards">
+    <div class="sc">
+      <div class="lbl">LCP 合格率（KPI①・実ユーザー p75）</div>
+      <div class="big" id="passrate">–</div>
+      <div class="sm" id="passsub">目標 ≤ 2,500ms</div>
+    </div>
+    <div class="sc">
+      <div class="lbl">合格ページ / 対象</div>
+      <div class="big" id="passcount">–</div>
+      <div class="sm">6ページ中</div>
+    </div>
+    <div class="sc">
+      <div class="lbl">サイト全体 LCP（p75）</div>
+      <div class="big" id="sitelcp">–</div>
+      <div class="sm" id="sitesub">INP・CLS・TTFB は詳細参照</div>
+    </div>
+    <div class="sc">
+      <div class="lbl">ページ状況</div>
+      <div class="donut">
+        <canvas id="donut" width="76" height="76"></canvas>
+        <div class="leg">
+          <div><span class="dot" style="background:var(--green)"></span>合格 <b id="cGood">0</b></div>
+          <div><span class="dot" style="background:var(--amber)"></span>要改善 <b id="cNi">0</b></div>
+          <div><span class="dot" style="background:var(--red)"></span>不良 <b id="cPoor">0</b></div>
+          <div><span class="dot" style="background:#c9c2b6"></span>データ待ち <b id="cNd">0</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ページ別 -->
+  <h2><span class="no">頁</span>ページ別ステータス（クリックで詳細）</h2>
+  <div class="pg" id="pgcards"></div>
+
+  <!-- 詳細パネル -->
+  <div id="detail"></div>
+
+  <!-- トレンド -->
+  <h2><span class="no">推</span>推移</h2>
+  <div class="grid2">
+    <div class="panel">
+      <h3>KPI① LCP合格率（週次）</h3>
+      <p class="cap">対象6ページのうち p75 が 2,500ms 以下の割合。実ユーザー値（CrUX）。</p>
+      <div class="chartbox"><canvas id="trendPass"></canvas></div>
+    </div>
+    <div class="panel">
+      <h3>ページ別 LCP p75（週次）</h3>
+      <p class="cap">点線＝目標 2,500ms。CrUX 週次。</p>
+      <div class="chartbox"><canvas id="trendLcp"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin-top:16px">
+    <div class="panel">
+      <h3>リリース記録</h3>
+      <p class="cap">施策のリリース日。前後比較の起点。</p>
+      <table class="tbl" id="reltbl"><thead><tr><th>日付</th><th>施策</th><th>対象</th><th>メモ</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="panel">
+      <h3>基準（合格ライン / Core Web Vitals）</h3>
+      <p class="cap">Google の合格ライン（実ユーザー p75）。</p>
+      <table class="tbl">
+        <thead><tr><th>指標</th><th>合格</th><th>要改善</th><th>不良</th></tr></thead>
+        <tbody>
+          <tr><td>LCP</td><td>≤2,500ms</td><td>≤4,000ms</td><td>&gt;4,000ms</td></tr>
+          <tr><td>INP</td><td>≤200ms</td><td>≤500ms</td><td>&gt;500ms</td></tr>
+          <tr><td>CLS</td><td>≤0.1</td><td>≤0.25</td><td>&gt;0.25</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+/* ---- サンプルデータ（実データは perf-data.json で上書き）----
+   HANDOFF §3 の実測（TTFB）を土台にした暫定値。LCP は正式値未確定のためサンプル。 */
+const SAMPLE = {
+  updated: "2026-09-04（サンプル）",
+  source: "サンプルデータ（実データは APIキー開通 → collector → perf-data.json で流し込み）",
+  target_lcp: 2500,
+  site: { lcp:2800, inp:265, cls:0.06, ttfb:1600 },
+  pages: [
+    {key:"TOP",  name:"TOP",        url:"/jp/",                         lcp:2800, inp:250, cls:0.05, ttfb:1494, lab:3100},
+    {key:"area", name:"エリア",      url:"/jp/japan/tokyo/",             lcp:2200, inp:190, cls:0.04, ttfb:620,  lab:2400},
+    {key:"region",name:"地域",       url:"/jp/japan/kanto/",             lcp:2900, inp:240, cls:0.07, ttfb:1298, lab:3000},
+    {key:"cat",  name:"カテゴリー",  url:"/jp/japan/tokyo/ctg/160126:Sightseeing_Tour/", lcp:3100, inp:300, cls:0.06, ttfb:1412, lab:3300},
+    {key:"ac",   name:"AC詳細",      url:"/jp/japan/tokyo/a/160690",     lcp:3000, inp:280, cls:0.05, ttfb:1395, lab:3200},
+    {key:"search",name:"検索結果",   url:"/jp/search?kw=tokyo",          lcp:4800, inp:360, cls:0.08, ttfb:3980, lab:5100},
+  ],
+  weeks: ["W31","W32","W33","W34","W35","W36"],
+  // 週×ページの LCP p75（サンプル）
+  weekly_lcp: {
+    "TOP":   [3000,2950,2900,2850,2820,2800],
+    "エリア":[2500,2450,2350,2300,2250,2200],
+    "地域":  [3050,3000,2980,2950,2920,2900],
+    "カテゴリー":[3300,3250,3200,3150,3120,3100],
+    "AC詳細":[3200,3150,3100,3050,3020,3000],
+    "検索結果":[5200,5150,5050,4980,4900,4800],
+  },
+  releases: [
+    {date:"—", ticket:"UX_DESIGN-304", target:"TOP/エリア/カテゴリ/AC", note:"LCP画像 preload（予定）"},
+    {date:"—", ticket:"UX_DESIGN-308", target:"全ページ", note:"画像 WebP化（予定）"},
+  ]
+};
+
+const TARGET = 2500;
+function cls_lcp(v){ if(v==null||v==="") return "nodata"; return v<=2500?"good": v<=4000?"ni":"poor"; }
+function label(c){ return c==="good"?"合格": c==="ni"?"要改善": c==="poor"?"不良":"データ待ち"; }
+const COL={good:"#86BE99",ni:"#e6a15a",poor:"#F38268",nodata:"#c9c2b6"};
+
+let DATA = SAMPLE;
+
+async function boot(){
+  try{
+    const r = await fetch("./perf-data.json",{cache:"no-store"});
+    if(r.ok){ DATA = await r.json(); }
+  }catch(e){ /* サンプルのまま */ }
+  render();
+}
+
+function render(){
+  const d = DATA;
+  document.getElementById("asof").textContent = "As of " + (d.updated||"");
+  document.getElementById("src").textContent = d.source || "";
+  // scorecards
+  const measurable = d.pages.filter(p=>p.lcp!=null);
+  const pass = measurable.filter(p=>p.lcp<=TARGET).length;
+  document.getElementById("passrate").textContent = measurable.length ? Math.round(pass/measurable.length*100)+"%" : "–";
+  document.getElementById("passcount").textContent = pass+" / "+measurable.length;
+  document.getElementById("passsub").textContent = "目標 ≤ 2,500ms（測定可 "+measurable.length+"/"+d.pages.length+"ページ）";
+  document.getElementById("sitelcp").textContent = (d.site.lcp!=null) ? (d.site.lcp/1000).toFixed(2)+"s" : "–";
+  // donut counts
+  let g=0,n=0,p=0,nd=0;
+  d.pages.forEach(x=>{const c=cls_lcp(x.lcp); if(c==="good")g++; else if(c==="ni")n++; else if(c==="poor")p++; else nd++;});
+  document.getElementById("cGood").textContent=g;
+  document.getElementById("cNi").textContent=n;
+  document.getElementById("cPoor").textContent=p;
+  document.getElementById("cNd").textContent=nd;
+  new Chart(document.getElementById("donut"),{type:"doughnut",
+    data:{datasets:[{data:[g,n,p,nd],backgroundColor:[COL.good,COL.ni,COL.poor,COL.nodata],borderWidth:0}]},
+    options:{cutout:"66%",plugins:{legend:{display:false},tooltip:{enabled:false}},responsive:false}});
+
+  // page cards
+  const wrap=document.getElementById("pgcards"); wrap.innerHTML="";
+  d.pages.forEach(x=>{
+    const c=cls_lcp(x.lcp);
+    const el=document.createElement("div");
+    el.className="pcard "+c;
+    const lcpTxt = x.lcp!=null ? (x.lcp/1000).toFixed(2) : "–";
+    const inpTxt = x.inp!=null ? x.inp+"ms" : "–";
+    const clsTxt = x.cls!=null ? x.cls : "–";
+    const ttfbTxt = x.ttfb!=null ? (x.ttfb/1000).toFixed(2)+"s" : "–";
+    el.innerHTML=`<div class="pn">${x.name}</div><div class="pu">${x.url}</div>
+      <div class="lcp">${lcpTxt}<small>s LCP</small></div>
+      <span class="badge ${c}">${label(c)}</span>
+      <div class="mini"><span>INP <b>${inpTxt}</b></span><span>CLS <b>${clsTxt}</b></span><span>TTFB <b>${ttfbTxt}</b></span></div>`;
+    el.onclick=()=>showDetail(x.key);
+    wrap.appendChild(el);
+  });
+
+  // trend: pass rate
+  const passRate=d.weeks.map((_,i)=>{
+    let ok=0; Object.keys(d.weekly_lcp).forEach(k=>{ if(d.weekly_lcp[k][i]<=TARGET) ok++; });
+    return Math.round(ok/Object.keys(d.weekly_lcp).length*100);
+  });
+  new Chart(document.getElementById("trendPass"),{type:"line",
+    data:{labels:d.weeks,datasets:[{label:"合格率(%)",data:passRate,borderColor:"#4f7597",backgroundColor:"rgba(124,160,191,.15)",fill:true,tension:.3,pointRadius:3}]},
+    options:{plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+"%"}}},maintainAspectRatio:false}});
+
+  // trend: per-page lcp
+  const palette=["#4f7597","#3f7d57","#a9711f","#c0442a","#7CA0BF","#b06fb0"];
+  const ds=Object.keys(d.weekly_lcp).map((k,i)=>({label:k,data:d.weekly_lcp[k],borderColor:palette[i%palette.length],fill:false,tension:.3,pointRadius:2}));
+  ds.push({label:"目標 2,500ms",data:d.weeks.map(()=>TARGET),borderColor:"#c0442a",borderDash:[6,4],pointRadius:0,fill:false});
+  new Chart(document.getElementById("trendLcp"),{type:"line",
+    data:{labels:d.weeks,datasets:ds},
+    options:{plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:10}}}},scales:{y:{ticks:{callback:v=>(v/1000).toFixed(1)+"s"}}},maintainAspectRatio:false}});
+
+  // releases
+  const tb=document.querySelector("#reltbl tbody"); tb.innerHTML="";
+  (d.releases||[]).forEach(r=>{ const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${r.date}</td><td>${r.ticket}</td><td>${r.target}</td><td>${r.note}</td>`; tb.appendChild(tr);});
+
+  document.getElementById("foot").textContent =
+    "データソース：計測スプレッドシート（crux_weekly=実ユーザー/週次、psi_daily=ラボ/日次）。効果判定は本番 www.veltra.com のリリース前後で行う。dev は判定に使わない。";
+}
+
+let detailChart=null;
+function showDetail(key){
+  const d=DATA, x=d.pages.find(p=>p.key===key); if(!x) return;
+  const c=cls_lcp(x.lcp);
+  const box=document.getElementById("detail");
+  box.innerHTML=`<div class="detail">
+    <div class="dh"><span class="no" style="width:22px;height:22px;border-radius:6px;background:var(--blue);color:#fff;font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">詳</span>
+      <b style="font-size:15px">${x.name}</b><span class="badge ${c}">${label(c)}</span>
+      <span class="x" onclick="document.getElementById('detail').innerHTML=''">✕ 閉じる</span></div>
+    <div style="color:var(--sub);font-size:12px;margin-top:2px">${x.url}</div>
+    <div class="metg">
+      <div class="met"><div class="k">LCP (p75)</div><div class="v">${x.lcp!=null?(x.lcp/1000).toFixed(2)+'s':'–'}</div><div class="t">目標 ≤2.5s</div></div>
+      <div class="met"><div class="k">INP (p75)</div><div class="v">${x.inp!=null?x.inp+'ms':'–'}</div><div class="t">目標 ≤200ms</div></div>
+      <div class="met"><div class="k">CLS</div><div class="v">${x.cls!=null?x.cls:'–'}</div><div class="t">目標 ≤0.1</div></div>
+      <div class="met"><div class="k">TTFB</div><div class="v">${x.ttfb!=null?(x.ttfb/1000).toFixed(2)+'s':'–'}</div><div class="t">目標 ≤0.8s</div></div>
+    </div>
+    <div style="font-size:12px;color:var(--sub);margin-bottom:6px">データ源：${x.src||'—'}</div>
+    <div style="font-size:12.5px;color:var(--sub);margin-bottom:4px">LCP p75 週次推移（点線＝目標 2,500ms）</div>
+    <div class="chartbox"><canvas id="dchart"></canvas></div>
+  </div>`;
+  box.scrollIntoView({behavior:"smooth",block:"nearest"});
+  const series=d.weekly_lcp[x.name]||[];
+  if(detailChart){ detailChart.destroy(); detailChart=null; }
+  if(!series.length){ document.getElementById("dchart").parentElement.innerHTML='<div style="color:var(--sub);font-size:12.5px;padding:18px 0">このページは週次トレンド（CrUX実ユーザー）が未取得です。現状はPSIフィールド値のみ。</div>'; return; }
+  detailChart=new Chart(document.getElementById("dchart"),{type:"line",
+    data:{labels:d.weeks,datasets:[
+      {label:x.name+" LCP",data:series,borderColor:"#4f7597",backgroundColor:"rgba(124,160,191,.15)",fill:true,tension:.3,pointRadius:3},
+      {label:"目標",data:d.weeks.map(()=>TARGET),borderColor:"#c0442a",borderDash:[6,4],pointRadius:0,fill:false}
+    ]},
+    options:{plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>(v/1000).toFixed(1)+"s"}}},maintainAspectRatio:false}});
+}
+
+boot();
+</script>
