@@ -1,0 +1,24 @@
+{
+  "updated": "2026-09-04（実ユーザー p75 / CrUX + PSIフィールド）",
+  "source": "実データ：CrUX History（実ユーザー p75・週次）＋ PageSpeed Insights。地域はPSIフィールド値、カテゴリーはPSI失敗のためデータ待ち。",
+  "target_lcp": 2500,
+  "site": { "lcp": null, "inp": 265, "cls": 0.06, "ttfb": 1600 },
+  "pages": [
+    { "key": "TOP",    "name": "TOP",        "url": "/jp/",                          "lcp": 2805, "inp": 213, "cls": 0.04, "ttfb": 1536, "lab": 11119, "src": "CrUX" },
+    { "key": "area",   "name": "エリア",      "url": "/jp/japan/tokyo/",              "lcp": 2714, "inp": 177, "cls": 0.00, "ttfb": 1718, "lab": 9580,  "src": "CrUX" },
+    { "key": "region", "name": "地域",        "url": "/jp/japan/kanto/",              "lcp": 2202, "inp": null,"cls": null, "ttfb": null, "lab": 4506,  "src": "PSIフィールド（CrUX週次は未取得）" },
+    { "key": "cat",    "name": "カテゴリー",  "url": "/jp/japan/tokyo/ctg/160126:Sightseeing_Tour/", "lcp": null, "inp": null, "cls": null, "ttfb": null, "lab": null, "src": "データ待ち（PSI失敗・要修正）" },
+    { "key": "ac",     "name": "AC詳細",      "url": "/jp/japan/tokyo/a/160690",      "lcp": 2202, "inp": 245, "cls": 0.03, "ttfb": 1200, "lab": 3975,  "src": "PSIフィールド（CrUX直近は薄い）" },
+    { "key": "search", "name": "検索結果",    "url": "/jp/search?kw=tokyo",           "lcp": 6708, "inp": 158, "cls": 0.32, "ttfb": 4851, "lab": 23476, "src": "CrUX" }
+  ],
+  "weeks": ["7/18","7/25","8/01","8/08","8/15","8/22","8/29"],
+  "weekly_lcp": {
+    "TOP":      [2838, 2826, 2777, 2736, 2720, 2755, 2805],
+    "エリア":    [1968, 2108, 2362, 2426, 2499, 2642, 2714],
+    "検索結果":  [7189, 7277, 7136, 7078, 6999, 6895, 6708]
+  },
+  "releases": [
+    { "date": "—", "ticket": "UX_DESIGN-304", "target": "TOP/エリア/カテゴリ/AC", "note": "LCP画像 preload（予定）" },
+    { "date": "—", "ticket": "UX_DESIGN-308", "target": "全ページ", "note": "画像 WebP化（予定）" }
+  ]
+}

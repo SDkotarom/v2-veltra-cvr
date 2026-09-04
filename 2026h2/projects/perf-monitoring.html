@@ -41,13 +41,13 @@
   @media(max-width:820px){.pg{grid-template-columns:1fr}}
   .pcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px;cursor:pointer;transition:.12s;border-left:4px solid var(--line)}
   .pcard:hover{box-shadow:0 4px 16px rgba(0,0,0,.06);transform:translateY(-1px)}
-  .pcard.good{border-left-color:var(--green)} .pcard.ni{border-left-color:var(--amber)} .pcard.poor{border-left-color:var(--red)}
+  .pcard.good{border-left-color:var(--green)} .pcard.ni{border-left-color:var(--amber)} .pcard.poor{border-left-color:var(--red)} .pcard.nodata{border-left-color:#c9c2b6}
   .pcard .pn{font-weight:700}
   .pcard .pu{color:var(--sub);font-size:11.5px;margin-top:1px;word-break:break-all}
   .pcard .lcp{font-size:26px;font-weight:800;margin-top:10px}
   .pcard .lcp small{font-size:13px;font-weight:600;color:var(--sub)}
   .badge{display:inline-block;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;margin-top:8px}
-  .badge.good{background:var(--goodbg);color:var(--good)} .badge.ni{background:var(--nibg);color:var(--ni)} .badge.poor{background:var(--poorbg);color:var(--poor)}
+  .badge.good{background:var(--goodbg);color:var(--good)} .badge.ni{background:var(--nibg);color:var(--ni)} .badge.poor{background:var(--poorbg);color:var(--poor)} .badge.nodata{background:#eeece7;color:#8a857b}
   .mini{display:flex;gap:14px;margin-top:10px;font-size:11.5px;color:var(--sub)}
   .mini b{color:var(--ink);font-weight:700}
   /* detail */
@@ -104,6 +104,7 @@
           <div><span class="dot" style="background:var(--green)"></span>合格 <b id="cGood">0</b></div>
           <div><span class="dot" style="background:var(--amber)"></span>要改善 <b id="cNi">0</b></div>
           <div><span class="dot" style="background:var(--red)"></span>不良 <b id="cPoor">0</b></div>
+          <div><span class="dot" style="background:#c9c2b6"></span>データ待ち <b id="cNd">0</b></div>
         </div>
       </div>
     </div>
@@ -187,9 +188,9 @@ const SAMPLE = {
 };
 
 const TARGET = 2500;
-function cls_lcp(v){ return v<=2500?"good": v<=4000?"ni":"poor"; }
-function label(c){ return c==="good"?"合格": c==="ni"?"要改善":"不良"; }
-const COL={good:"#86BE99",ni:"#e6a15a",poor:"#F38268"};
+function cls_lcp(v){ if(v==null||v==="") return "nodata"; return v<=2500?"good": v<=4000?"ni":"poor"; }
+function label(c){ return c==="good"?"合格": c==="ni"?"要改善": c==="poor"?"不良":"データ待ち"; }
+const COL={good:"#86BE99",ni:"#e6a15a",poor:"#F38268",nodata:"#c9c2b6"};
 
 let DATA = SAMPLE;
 
@@ -206,19 +207,21 @@ function render(){
   document.getElementById("asof").textContent = "As of " + (d.updated||"");
   document.getElementById("src").textContent = d.source || "";
   // scorecards
-  const pass = d.pages.filter(p=>p.lcp<=TARGET).length;
-  const total = d.pages.length;
-  document.getElementById("passrate").textContent = Math.round(pass/total*100)+"%";
-  document.getElementById("passcount").textContent = pass+" / "+total;
-  document.getElementById("sitelcp").textContent = (d.site.lcp/1000).toFixed(2)+"s";
+  const measurable = d.pages.filter(p=>p.lcp!=null);
+  const pass = measurable.filter(p=>p.lcp<=TARGET).length;
+  document.getElementById("passrate").textContent = measurable.length ? Math.round(pass/measurable.length*100)+"%" : "–";
+  document.getElementById("passcount").textContent = pass+" / "+measurable.length;
+  document.getElementById("passsub").textContent = "目標 ≤ 2,500ms（測定可 "+measurable.length+"/"+d.pages.length+"ページ）";
+  document.getElementById("sitelcp").textContent = (d.site.lcp!=null) ? (d.site.lcp/1000).toFixed(2)+"s" : "–";
   // donut counts
-  let g=0,n=0,p=0;
-  d.pages.forEach(x=>{const c=cls_lcp(x.lcp); if(c==="good")g++; else if(c==="ni")n++; else p++;});
+  let g=0,n=0,p=0,nd=0;
+  d.pages.forEach(x=>{const c=cls_lcp(x.lcp); if(c==="good")g++; else if(c==="ni")n++; else if(c==="poor")p++; else nd++;});
   document.getElementById("cGood").textContent=g;
   document.getElementById("cNi").textContent=n;
   document.getElementById("cPoor").textContent=p;
+  document.getElementById("cNd").textContent=nd;
   new Chart(document.getElementById("donut"),{type:"doughnut",
-    data:{datasets:[{data:[g,n,p],backgroundColor:[COL.good,COL.ni,COL.poor],borderWidth:0}]},
+    data:{datasets:[{data:[g,n,p,nd],backgroundColor:[COL.good,COL.ni,COL.poor,COL.nodata],borderWidth:0}]},
     options:{cutout:"66%",plugins:{legend:{display:false},tooltip:{enabled:false}},responsive:false}});
 
   // page cards
@@ -227,10 +230,14 @@ function render(){
     const c=cls_lcp(x.lcp);
     const el=document.createElement("div");
     el.className="pcard "+c;
+    const lcpTxt = x.lcp!=null ? (x.lcp/1000).toFixed(2) : "–";
+    const inpTxt = x.inp!=null ? x.inp+"ms" : "–";
+    const clsTxt = x.cls!=null ? x.cls : "–";
+    const ttfbTxt = x.ttfb!=null ? (x.ttfb/1000).toFixed(2)+"s" : "–";
     el.innerHTML=`<div class="pn">${x.name}</div><div class="pu">${x.url}</div>
-      <div class="lcp">${(x.lcp/1000).toFixed(2)}<small>s LCP</small></div>
+      <div class="lcp">${lcpTxt}<small>s LCP</small></div>
       <span class="badge ${c}">${label(c)}</span>
-      <div class="mini"><span>INP <b>${x.inp}ms</b></span><span>CLS <b>${x.cls}</b></span><span>TTFB <b>${(x.ttfb/1000).toFixed(2)}s</b></span></div>`;
+      <div class="mini"><span>INP <b>${inpTxt}</b></span><span>CLS <b>${clsTxt}</b></span><span>TTFB <b>${ttfbTxt}</b></span></div>`;
     el.onclick=()=>showDetail(x.key);
     wrap.appendChild(el);
   });
@@ -272,17 +279,19 @@ function showDetail(key){
       <span class="x" onclick="document.getElementById('detail').innerHTML=''">✕ 閉じる</span></div>
     <div style="color:var(--sub);font-size:12px;margin-top:2px">${x.url}</div>
     <div class="metg">
-      <div class="met"><div class="k">LCP (p75)</div><div class="v">${(x.lcp/1000).toFixed(2)}s</div><div class="t">目標 ≤2.5s</div></div>
-      <div class="met"><div class="k">INP (p75)</div><div class="v">${x.inp}ms</div><div class="t">目標 ≤200ms</div></div>
-      <div class="met"><div class="k">CLS</div><div class="v">${x.cls}</div><div class="t">目標 ≤0.1</div></div>
-      <div class="met"><div class="k">TTFB</div><div class="v">${(x.ttfb/1000).toFixed(2)}s</div><div class="t">目標 ≤0.8s</div></div>
+      <div class="met"><div class="k">LCP (p75)</div><div class="v">${x.lcp!=null?(x.lcp/1000).toFixed(2)+'s':'–'}</div><div class="t">目標 ≤2.5s</div></div>
+      <div class="met"><div class="k">INP (p75)</div><div class="v">${x.inp!=null?x.inp+'ms':'–'}</div><div class="t">目標 ≤200ms</div></div>
+      <div class="met"><div class="k">CLS</div><div class="v">${x.cls!=null?x.cls:'–'}</div><div class="t">目標 ≤0.1</div></div>
+      <div class="met"><div class="k">TTFB</div><div class="v">${x.ttfb!=null?(x.ttfb/1000).toFixed(2)+'s':'–'}</div><div class="t">目標 ≤0.8s</div></div>
     </div>
+    <div style="font-size:12px;color:var(--sub);margin-bottom:6px">データ源：${x.src||'—'}</div>
     <div style="font-size:12.5px;color:var(--sub);margin-bottom:4px">LCP p75 週次推移（点線＝目標 2,500ms）</div>
     <div class="chartbox"><canvas id="dchart"></canvas></div>
   </div>`;
   box.scrollIntoView({behavior:"smooth",block:"nearest"});
   const series=d.weekly_lcp[x.name]||[];
-  if(detailChart) detailChart.destroy();
+  if(detailChart){ detailChart.destroy(); detailChart=null; }
+  if(!series.length){ document.getElementById("dchart").parentElement.innerHTML='<div style="color:var(--sub);font-size:12.5px;padding:18px 0">このページは週次トレンド（CrUX実ユーザー）が未取得です。現状はPSIフィールド値のみ。</div>'; return; }
   detailChart=new Chart(document.getElementById("dchart"),{type:"line",
     data:{labels:d.weeks,datasets:[
       {label:x.name+" LCP",data:series,borderColor:"#4f7597",backgroundColor:"rgba(124,160,191,.15)",fill:true,tension:.3,pointRadius:3},
