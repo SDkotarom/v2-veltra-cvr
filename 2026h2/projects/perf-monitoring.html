@@ -50,6 +50,11 @@
   .badge.good{background:var(--goodbg);color:var(--good)} .badge.ni{background:var(--nibg);color:var(--ni)} .badge.poor{background:var(--poorbg);color:var(--poor)} .badge.nodata{background:#eeece7;color:#8a857b}
   .mini{display:flex;gap:14px;margin-top:10px;font-size:11.5px;color:var(--sub)}
   .mini b{color:var(--ink);font-weight:700}
+  .tgtbar{position:relative;height:9px;border-radius:5px;background:#efece5;margin-top:11px}
+  .tgtbar .fill{position:absolute;left:0;top:0;bottom:0;border-radius:5px}
+  .tgtbar .mk{position:absolute;top:-3px;width:2px;height:15px;background:#c0442a}
+  .tgtlbl{font-size:11px;color:var(--sub);margin-top:6px}
+  .tgtlbl .ok{color:var(--good);font-weight:800} .tgtlbl .ng{color:var(--poor);font-weight:800}
   /* detail */
   .detail{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-top:16px}
   .detail .dh{display:flex;align-items:center;gap:10px}
@@ -191,6 +196,16 @@ const TARGET = 2500;
 function cls_lcp(v){ if(v==null||v==="") return "nodata"; return v<=2500?"good": v<=4000?"ni":"poor"; }
 function label(c){ return c==="good"?"合格": c==="ni"?"要改善": c==="poor"?"不良":"データ待ち"; }
 const COL={good:"#86BE99",ni:"#e6a15a",poor:"#F38268",nodata:"#c9c2b6"};
+function tgtBar(lcp){
+  if(lcp==null) return '<div class="tgtlbl">目標 2.5s ／ 現状 <b>データ待ち</b></div>';
+  const SCALE=5000, mark=TARGET/SCALE*100, w=Math.min(lcp/SCALE,1)*100;
+  const c = lcp<=TARGET?COL.good : lcp<=4000?COL.ni:COL.poor;
+  const diff=(lcp-TARGET)/1000;
+  const lbl = diff>0
+    ? `目標 <b>2.5s</b> ／ 現状 <b>${(lcp/1000).toFixed(2)}s</b> <span class="ng">+${diff.toFixed(2)}s 超過</span>`
+    : `目標 <b>2.5s</b> ／ 現状 <b>${(lcp/1000).toFixed(2)}s</b> <span class="ok">${diff.toFixed(2)}s 達成</span>`;
+  return `<div class="tgtbar"><div class="fill" style="width:${w}%;background:${c}"></div><div class="mk" style="left:${mark}%" title="目標 2,500ms"></div></div><div class="tgtlbl">${lbl}</div>`;
+}
 
 let DATA = SAMPLE;
 
@@ -237,7 +252,8 @@ function render(){
     el.innerHTML=`<div class="pn">${x.name}</div><div class="pu">${x.url}</div>
       <div class="lcp">${lcpTxt}<small>s LCP</small></div>
       <span class="badge ${c}">${label(c)}</span>
-      <div class="mini"><span>INP <b>${inpTxt}</b></span><span>CLS <b>${clsTxt}</b></span><span>TTFB <b>${ttfbTxt}</b></span></div>`;
+      <div class="mini"><span>INP <b>${inpTxt}</b></span><span>CLS <b>${clsTxt}</b></span><span>TTFB <b>${ttfbTxt}</b></span></div>
+      ${tgtBar(x.lcp)}`;
     el.onclick=()=>showDetail(x.key);
     wrap.appendChild(el);
   });
