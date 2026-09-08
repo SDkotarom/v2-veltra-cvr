@@ -38,6 +38,15 @@
   /* section */
   h2{font-size:21px;font-weight:800;margin:32px 0 14px;display:flex;align-items:center;gap:9px}
   h2 .no{width:29px;height:29px;border-radius:7px;background:var(--blue);color:#fff;font-size:15px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+  /* 全体像＋観点タブ */
+  .ovbar{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:20px 0 4px;font-size:14.5px;color:var(--sub);line-height:1.7}
+  .ovbar b{color:var(--ink)}
+  .tabbar{display:flex;flex-wrap:wrap;gap:4px;margin:14px 0 22px;border-bottom:2px solid var(--line-strong,#cfcabf)}
+  .tabbar button{appearance:none;background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:11px 18px;font-family:inherit;font-size:15.5px;font-weight:800;color:var(--sub);cursor:pointer;line-height:1.3}
+  .tabbar button:hover{color:var(--ink)}
+  .tabbar button.on{color:var(--blue-d);border-bottom-color:var(--blue-d)}
+  .grp[hidden]{display:none}
+  .grp>h2:first-child{margin-top:6px}
   /* page cards */
   .pg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
   @media(max-width:820px){.pg{grid-template-columns:1fr}}
@@ -80,6 +89,17 @@
   .insight .ih{font-weight:800;font-size:20px}
   .insight .idate{font-weight:600;color:var(--sub);font-size:13.5px;margin-left:6px}
   .insight .inarr{margin:11px 0 10px;font-size:17px;line-height:1.95}
+  .insight .icards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0 2px}
+  @media(max-width:820px){.insight .icards{grid-template-columns:1fr}}
+  .insight .icard{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff;display:flex;flex-direction:column;gap:3px}
+  .insight .ilab{align-self:flex-start;font-size:11.5px;font-weight:800;padding:2px 10px;border-radius:999px;margin-bottom:5px}
+  .insight .ilab.good{background:var(--goodbg);color:var(--good)}
+  .insight .ilab.warn{background:var(--nibg);color:var(--ni)}
+  .insight .ilab.poor{background:var(--poorbg);color:var(--poor)}
+  .insight .ilab.note{background:#eeece7;color:#8a857b}
+  .insight .ilab.accent{background:#e8f0f6;color:var(--blue-d)}
+  .insight .ih{font-size:17px;font-weight:800;line-height:1.35}
+  .insight .idt{font-size:13px;color:var(--sub);line-height:1.6}
   .insight ul.pts{margin:10px 0 0;padding-left:0;list-style:none} .insight ul.pts li{margin:8px 0;font-size:16px;line-height:1.7;padding-left:24px;position:relative}
   .insight ul.pts li::before{content:"";position:absolute;left:6px;top:9px;width:8px;height:8px;border-radius:50%;background:var(--blue)}
   .insight ul{margin:6px 0 0;padding-left:19px;font-size:15px} .insight li{margin:5px 0}
@@ -140,6 +160,15 @@
     </div>
   </div>
 
+  <!-- 全体像：2つの観点 -->
+  <div class="ovbar"><b>この速度改善は2つの観点で進めています。</b>下のタブで切り替えると、それぞれ独立して見られます（他方の情報は混ざりません）。</div>
+  <div class="tabbar" role="tablist">
+    <button id="tabA" class="on" role="tab" onclick="showGrp('A')">観点A：ページごとの PageSpeed Insights スコア改善</button>
+    <button id="tabB" role="tab" onclick="showGrp('B')">観点B：操作フローごとの改善</button>
+  </div>
+
+  <div id="grpA" class="grp">
+
   <!-- 今週のインサイト -->
   <div class="insight">
     <div class="ih">今週のインサイト <span id="insDate" class="idate"></span></div>
@@ -148,19 +177,12 @@
     <div class="inote">※「実ユーザー値」＝ <b>CrUX</b>（実際にサイトを見た Chrome ユーザーの体感速度データ）。目標 <b>2.5秒</b> は <b>Google が定めた公式の合格基準（Core Web Vitals）</b>で、離脱・体感の研究に基づく世界標準です（詳細は最下部の補足）。</div>
   </div>
 
-  <!-- ページ別 -->
-  <h2>ページ別ステータス（クリックで詳細）</h2>
+  <!-- ページごとの PSI スコア -->
+  <h2>ページごとの Page Speed Insights スコア（クリックで詳細）</h2>
   <div class="pg" id="pgcards"></div>
 
   <!-- 詳細パネル -->
   <div id="detail"></div>
-
-  <!-- 操作フローの速度（読み込みとは別軸） -->
-  <h2>操作フローの速度（クリック→表示／PSIでは測れない別軸）</h2>
-  <div class="panel">
-    <p class="cap">ページの「読み込み」とは別に、<b>操作してから反応・表示されるまで</b>の速さ。実ユーザーの反応の速さは上カードの <b>INP</b> に集約されている（例：TOP 213ms）。ここでは<b>どのフローが遅いか</b>を個別に分解して追う。値は調査チケットの実測ベースライン。継続的な実ユーザー計測は GA4 カスタム計測イベントの実装が前提（下記「計測方法」参照）。</p>
-    <table class="tbl" id="flowtbl"><thead><tr><th>操作フロー</th><th>現状（ベースライン）</th><th>計測方法</th><th>状態</th><th>関連</th></tr></thead><tbody></tbody></table>
-  </div>
 
   <!-- トレンド -->
   <h2>推移</h2>
@@ -203,6 +225,17 @@
       </table>
     </div>
   </div>
+
+  </div><!-- /grpA -->
+
+  <!-- 観点B：操作フロー -->
+  <div id="grpB" class="grp" hidden>
+    <h2>操作フローごとの改善（クリック→表示／PSIでは測れない別軸）</h2>
+    <div class="panel">
+      <p class="cap"><b>ページの「読み込み」とは別の軸</b>です。操作してから反応・表示されるまでの速さ＝体感の速さを最も左右する部分。実ユーザーの反応の速さは観点Aの <b>INP</b> に部分的に出ますが、<b>どのフローが遅いか</b>はPSIでは切り分けられないため、ここで個別に追います。値は調査チケットの実測ベースライン。継続的な実ユーザー計測は GA4 カスタム計測イベントの実装が前提（最下部の補足参照）。</p>
+      <table class="tbl" id="flowtbl"><thead><tr><th>操作フロー</th><th>現状（ベースライン）</th><th>計測方法</th><th>状態</th><th>関連</th></tr></thead><tbody></tbody></table>
+    </div>
+  </div><!-- /grpB -->
 
   <!-- エビデンス（出所） -->
   <div class="evid">
@@ -279,6 +312,13 @@ function cls_lcp(v){ if(v==null||v==="") return "nodata"; return v<=2500?"good":
 function label(c){ return c==="good"?"合格": c==="ni"?"要改善": c==="poor"?"不良":"データ待ち"; }
 // チケット参照は ClickUp へリンク（GitHub issues への誤リンクを防ぐ）
 function linkifyTickets(s){ return (s||"—").replace(/UX_DESIGN-(\d+)/g, '<a href="https://app.clickup.com/t/31108037/UX_DESIGN-$1" target="_blank" rel="noopener">UX_DESIGN-$1</a>'); }
+// 観点A/B タブ切り替え
+function showGrp(g){
+  var A=document.getElementById('grpA'), B=document.getElementById('grpB');
+  var tA=document.getElementById('tabA'), tB=document.getElementById('tabB');
+  if(A) A.hidden=(g!=='A'); if(B) B.hidden=(g!=='B');
+  if(tA) tA.classList.toggle('on', g==='A'); if(tB) tB.classList.toggle('on', g==='B');
+}
 const COL={good:"#86BE99",ni:"#e6a15a",poor:"#F38268",nodata:"#c9c2b6"};
 function tgtBar(lcp){
   if(lcp==null) return '<div class="tgtlbl">目標 2.5s ／ 現状 <b>データ待ち</b></div>';
@@ -346,11 +386,12 @@ function render(){
   document.getElementById("insDate").textContent = d.updated ? "（"+d.updated+"）" : "";
   (function(){
     const nn=document.getElementById("insNarr");
-    if(Array.isArray(d.narrative)){
-      nn.innerHTML = '<ul class="pts">'+d.narrative.map(t=>'<li>'+t+'</li>').join('')+'</ul>';
-    } else {
-      nn.textContent = d.narrative || "";
-    }
+    const a=d.narrative;
+    if(Array.isArray(a) && a.length && typeof a[0]==="object"){
+      nn.innerHTML='<div class="icards">'+a.map(x=>`<div class="icard"><span class="ilab ${x.tone||'note'}">${x.label||''}</span><div class="ih">${x.h||''}</div><div class="idt">${x.d||''}</div></div>`).join('')+'</div>';
+    } else if(Array.isArray(a)){
+      nn.innerHTML='<div class="icards">'+a.map(t=>`<div class="icard"><div class="ih">${t}</div></div>`).join('')+'</div>';
+    } else { nn.textContent=a||""; }
   })();
   (function(){
     const il=document.getElementById("insList"); il.innerHTML="";
