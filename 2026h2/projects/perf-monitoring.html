@@ -242,29 +242,23 @@
   <!-- 観点B：操作フロー（予約導線のステップ別 待ち時間） -->
   <div id="grpB" class="grp" hidden>
     <div class="cards" id="flowtiles"></div>
-    <div class="panel">
+    <div class="panel" style="margin-top:16px">
       <h3>予約導線のステップ別 待ち時間（現状 ／ 目標）</h3>
-      <p class="cap">左が導線の入口、下へ進むほど予約に近い。バーが長いほど待ちが長く、離脱ポイント。<b>薄いバー＝サンプル（計測待ち）</b>。</p>
-      <div class="chartbox" style="height:250px"><canvas id="flowChart"></canvas></div>
+      <p class="cap">上から下へ進むほど予約に近い（① 検索 → ④ 予約画面）。バーが長いほど待ちが長く、離脱ポイント。<b>薄いバー＝サンプル（計測待ち）</b>。</p>
+      <div class="chartbox" style="height:290px"><canvas id="flowChart"></canvas></div>
     </div>
     <div class="pg" id="flowcards" style="margin-top:16px"></div>
-    <div class="note" id="flowNote"></div>
+    <div class="note" id="flowNote" style="margin-top:16px"></div>
   </div><!-- /grpB -->
 
-  <!-- エビデンス（出所） -->
-  <div class="evid">
-    <div class="evh">このダッシュボードの数値の出所（エビデンス）</div>
-    <ul>
-      <li><b>収集ログの原本</b>：<a href="https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit" target="_blank" rel="noopener">スプレッドシート「表示速度改善 施策リスト」の <code>crux_weekly</code>／<code>psi_daily</code> タブ</a> ＝ CrUX（実ユーザー週次）・PSI（ラボ日次）を自動記録した実測値。本ページはこの値をそのまま読み込み表示（改変なし）。<span class="evn">※ベルトラ社内アカウントのみ閲覧可</span></li>
-      <li><b>各ページをその場で再計測して照合</b>：各ページカードの「PSIで実測を確認」から Google PageSpeed Insights を開くと、<b>実ユーザー値(CrUX)＋ラボ値</b>が今この瞬間の値で表示され、突き合わせられます。</li>
-      <li><b>取得元API</b>：CrUX History API ／ PageSpeed Insights API（いずれも Google 公式・無償）。収集は Google Apps Script が自動実行。</li>
-    </ul>
-  </div>
-
-  <!-- 補足：計測方法とデータ定義 -->
+  <!-- 補足：エビデンス・計測方法・データ定義 -->
   <details class="appx">
-    <summary>補足：どこで・どう計測／集計しているか、データ項目の定義</summary>
+    <summary>補足：数値の出所（エビデンス）／どこで・どう計測しているか／データ項目の定義</summary>
     <div class="ab">
+      <h4>このダッシュボードの数値の出所（エビデンス）</h4>
+      ・<b>収集ログの原本</b>：<a href="https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit" target="_blank" rel="noopener">スプレッドシート「表示速度改善 施策リスト」の <code>crux_weekly</code>／<code>psi_daily</code> タブ</a> ＝ CrUX（実ユーザー週次）・PSI（ラボ日次）を自動記録した実測値。本ページはこの値をそのまま読み込み表示（改変なし）。<span class="evn">※ベルトラ社内アカウントのみ閲覧可</span><br>
+      ・<b>各ページをその場で再計測して照合</b>：各ページカードの「PSIで実測を確認」から Google PageSpeed Insights を開くと、<b>実ユーザー値(CrUX)＋ラボ値</b>が今この瞬間の値で表示され、突き合わせられます。<br>
+      ・<b>取得元API</b>：CrUX History API ／ PageSpeed Insights API（いずれも Google 公式・無償）。収集は Google Apps Script が自動実行。
       <h4>どこで測っているか</h4>
       効果は<b>本番 www.veltra.com のみ</b>で測ります（開発サーバは設定が違い数値が乖離するため判定に使いません）。効果判定は<b>リリース前後の比較</b>で行います。
       <h4>どう計測・集計しているか</h4>
@@ -340,7 +334,7 @@ function buildFlowChart(){
   var cv=document.getElementById('flowChart'); if(!cv||!window.Chart) return;
   if(_flowChart){ _flowChart.resize(); return; }
   var flows=(typeof DATA!=="undefined"&&DATA.flows)||[];
-  var names=flows.map(f=>"STEP "+f.step), cur=flows.map(f=>f.ms!=null?f.ms:0), tgt=flows.map(f=>f.target!=null?f.target:0);
+  var names=flows.map(f=>f.short||("STEP "+f.step)), cur=flows.map(f=>f.ms!=null?f.ms:0), tgt=flows.map(f=>f.target!=null?f.target:0);
   var cols=flows.map(f=> f.sample?"#b9c0c9":((f.ms!=null&&f.target!=null&&f.ms<=f.target)?COL.good:"#2f6f8f"));
   _flowChart=new Chart(cv,{type:"bar",
     data:{labels:names,datasets:[
@@ -350,7 +344,7 @@ function buildFlowChart(){
     options:{indexAxis:"y",
       plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
         tooltip:{callbacks:{title:it=>(flows[it[0].dataIndex]||{}).name||"", label:c=>c.dataset.label+" "+(c.parsed.x/1000).toFixed(2)+"s"}}},
-      scales:{x:{ticks:{callback:v=>(v/1000)+"s"}},y:{ticks:{font:{size:11}}}},maintainAspectRatio:false}});
+      scales:{x:{ticks:{callback:v=>(v/1000)+"s"}},y:{ticks:{font:{size:12.5},autoSkip:false}}},maintainAspectRatio:false}});
 }
 const COL={good:"#57b98a",ni:"#d99a4e",poor:"#e06a52",nodata:"#b9c0c9"};
 function tgtBar(lcp){
