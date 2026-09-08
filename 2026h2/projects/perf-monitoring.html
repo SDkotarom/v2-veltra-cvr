@@ -61,6 +61,9 @@
   @media(max-width:820px){.pg{grid-template-columns:1fr}}
   .pcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px;cursor:pointer;transition:.12s}
   .pcard:hover{box-shadow:0 4px 16px rgba(0,0,0,.06);transform:translateY(-1px)}
+  .pcard.static{cursor:default}
+  .pcard.static:hover{box-shadow:none;transform:none}
+  .sc .big,.pcard .lcp,.met .v{font-variant-numeric:tabular-nums}
   .pcard .pn{font-weight:700;font-size:16.5px}
   .pcard .pu{color:var(--sub);font-size:12.5px;margin-top:1px;word-break:break-all}
   .pcard .lcp{font-size:29px;font-weight:800;margin-top:10px}
@@ -502,7 +505,7 @@ function render(){
       flows.forEach(f=>{
         const tone=flTone(f);
         const val=f.sample?"計測待ち":(f.ms!=null?(f.ms/1000).toFixed(2)+"s":"–");
-        const el=document.createElement("div"); el.className="pcard";
+        const el=document.createElement("div"); el.className="pcard static";
         el.innerHTML=`<div class="pn">STEP ${f.step}　${f.name}</div><div class="pu">${f.note||""}</div>
           <div class="lcp">${val}<small>${f.sample?" ／ 暫定":" 所要"}</small></div>
           <span class="badge ${tone}">${f.status||'–'}</span>
