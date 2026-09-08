@@ -236,13 +236,16 @@
 
   </div><!-- /grpA -->
 
-  <!-- 観点B：操作フロー -->
+  <!-- 観点B：操作フロー（予約導線のステップ別 待ち時間） -->
   <div id="grpB" class="grp" hidden>
-    <h2>操作フローごとの改善（クリック→表示／PSIでは測れない別軸）</h2>
+    <div class="cards" id="flowtiles"></div>
     <div class="panel">
-      <p class="cap"><b>ページの「読み込み」とは別の軸</b>です。操作してから反応・表示されるまでの速さ＝体感の速さを最も左右する部分。実ユーザーの反応の速さは観点Aの <b>INP</b> に部分的に出ますが、<b>どのフローが遅いか</b>はPSIでは切り分けられないため、ここで個別に追います。値は調査チケットの実測ベースライン。継続的な実ユーザー計測は GA4 カスタム計測イベントの実装が前提（最下部の補足参照）。</p>
-      <table class="tbl" id="flowtbl"><thead><tr><th>操作フロー</th><th>現状（ベースライン）</th><th>計測方法</th><th>状態</th><th>関連</th></tr></thead><tbody></tbody></table>
+      <h3>予約導線のステップ別 待ち時間（現状 ／ 目標）</h3>
+      <p class="cap">左が導線の入口、下へ進むほど予約に近い。バーが長いほど待ちが長く、離脱ポイント。<b>薄いバー＝サンプル（計測待ち）</b>。</p>
+      <div class="chartbox" style="height:250px"><canvas id="flowChart"></canvas></div>
     </div>
+    <div class="pg" id="flowcards" style="margin-top:16px"></div>
+    <div class="note" id="flowNote"></div>
   </div><!-- /grpB -->
 
   <!-- エビデンス（出所） -->
@@ -326,6 +329,25 @@ function showGrp(g){
   var tA=document.getElementById('tabA'), tB=document.getElementById('tabB');
   if(A) A.hidden=(g!=='A'); if(B) B.hidden=(g!=='B');
   if(tA) tA.classList.toggle('on', g==='A'); if(tB) tB.classList.toggle('on', g==='B');
+  if(g==='B') buildFlowChart(); // 非表示時は0サイズになるため表示時に描画
+}
+// 予約導線チャート（初回タブB表示時に構築）
+let _flowChart=null;
+function buildFlowChart(){
+  var cv=document.getElementById('flowChart'); if(!cv||!window.Chart) return;
+  if(_flowChart){ _flowChart.resize(); return; }
+  var flows=(typeof DATA!=="undefined"&&DATA.flows)||[];
+  var names=flows.map(f=>"STEP "+f.step), cur=flows.map(f=>f.ms!=null?f.ms:0), tgt=flows.map(f=>f.target!=null?f.target:0);
+  var cols=flows.map(f=> f.sample?"#b9c0c9":((f.ms!=null&&f.target!=null&&f.ms<=f.target)?COL.good:"#2f6f8f"));
+  _flowChart=new Chart(cv,{type:"bar",
+    data:{labels:names,datasets:[
+      {label:"現状",data:cur,backgroundColor:cols,borderRadius:4,barPercentage:.68},
+      {label:"目標",data:tgt,backgroundColor:"rgba(120,132,144,.22)",borderRadius:4,barPercentage:.68}
+    ]},
+    options:{indexAxis:"y",
+      plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:11}}},
+        tooltip:{callbacks:{title:it=>(flows[it[0].dataIndex]||{}).name||"", label:c=>c.dataset.label+" "+(c.parsed.x/1000).toFixed(2)+"s"}}},
+      scales:{x:{ticks:{callback:v=>(v/1000)+"s"}},y:{ticks:{font:{size:11}}}},maintainAspectRatio:false}});
 }
 const COL={good:"#57b98a",ni:"#d99a4e",poor:"#e06a52",nodata:"#b9c0c9"};
 function tgtBar(lcp){
@@ -459,13 +481,38 @@ function render(){
   const cb=document.getElementById("showLines");
   if(cb) cb.addEventListener("change",()=>{ lcpChart.data.datasets[nSeries].hidden=!cb.checked; lcpChart.data.datasets[nSeries+1].hidden=!cb.checked; lcpChart.update(); });
 
-  // 操作フローの速度
+  // 観点B：予約導線のステップ別 待ち時間（タイル＋カード。チャートはタブ表示時に描画）
   (function(){
-    const fb=document.querySelector("#flowtbl tbody"); if(!fb) return; fb.innerHTML="";
-    const stColor=s=>/解消|達成|良/.test(s)?"var(--good)":/計測待ち|未|待/.test(s)?"#8a857b":"var(--ni)";
-    (d.flows||[]).forEach(f=>{ const tr=document.createElement("tr");
-      tr.innerHTML=`<td><b>${f.name}</b></td><td style="font-weight:700">${f.baseline||'–'}</td><td>${f.method||'–'}</td><td style="color:${stColor(f.status||'')};font-weight:700">${f.status||'–'}</td><td>${linkifyTickets(f.ticket)}</td>`;
-      fb.appendChild(tr);});
+    const flows=d.flows||[];
+    const flTone=f=> f.sample?"nodata":(/解消|達成/.test(f.status||"")?"good":(f.ms!=null&&f.target!=null&&f.ms<=f.target?"good":"ni"));
+    // タイル（導線の合計・目標・計測状況）
+    const tiles=document.getElementById("flowtiles");
+    if(tiles){
+      const sum=flows.reduce((a,f)=>a+(f.ms||0),0), tsum=flows.reduce((a,f)=>a+(f.target||0),0);
+      const meas=flows.filter(f=>f.status==="実測").length, hyp=flows.filter(f=>f.status==="仮説").length, wait=flows.filter(f=>/待ち/.test(f.status||"")).length;
+      tiles.innerHTML=
+        `<div class="sc"><div class="lbl">導線の合計待ち時間（暫定）</div><div class="big">${(sum/1000).toFixed(1)}s</div><div class="sm">クリック→表示の累計（4ステップ）</div></div>`+
+        `<div class="sc"><div class="lbl">目標（合計）</div><div class="big">${(tsum/1000).toFixed(1)}s</div><div class="sm">現状比 −${((sum-tsum)/1000).toFixed(1)}s 短縮</div></div>`+
+        `<div class="sc"><div class="lbl">計測状況</div><div class="big">${meas} / ${flows.length}</div><div class="sm">実測 ${meas}・仮説 ${hyp}・計測待ち ${wait}</div></div>`+
+        `<div class="sc"><div class="lbl">継続計測</div><div class="big" style="font-size:20px">GA4イベント</div><div class="sm">実装後に実ユーザー値へ（UX_DESIGN-425）</div></div>`;
+    }
+    // ステップカード
+    const wrap=document.getElementById("flowcards");
+    if(wrap){ wrap.innerHTML="";
+      flows.forEach(f=>{
+        const tone=flTone(f);
+        const val=f.sample?"計測待ち":(f.ms!=null?(f.ms/1000).toFixed(2)+"s":"–");
+        const el=document.createElement("div"); el.className="pcard";
+        el.innerHTML=`<div class="pn">STEP ${f.step}　${f.name}</div><div class="pu">${f.note||""}</div>
+          <div class="lcp">${val}<small>${f.sample?" ／ 暫定":" 所要"}</small></div>
+          <span class="badge ${tone}">${f.status||'–'}</span>
+          <div class="mini"><span>目標 <b>${f.target!=null?(f.target/1000).toFixed(2)+"s":"—"}</b></span></div>
+          <div style="margin-top:9px;font-size:12.5px;color:var(--sub)">関連：${linkifyTickets(f.ticket)}</div>`;
+        wrap.appendChild(el);
+      });
+    }
+    const note=document.getElementById("flowNote");
+    if(note) note.innerHTML = d.flows_note || "";
   })();
 
   // releases
