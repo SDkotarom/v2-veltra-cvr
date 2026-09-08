@@ -340,10 +340,14 @@ function render(){
     const inpTxt = x.inp!=null ? x.inp+"ms" : "–";
     const clsTxt = x.cls!=null ? x.cls : "–";
     const ttfbTxt = x.ttfb!=null ? (x.ttfb/1000).toFixed(2)+"s" : "–";
+    const labTxt = x.lab!=null ? (x.lab/1000).toFixed(2)+"s" : "–";
+    const perfTxt = x.perf!=null ? x.perf : "–";
+    const lcpUnit = x.lcp!=null ? '<small>s LCP（実ユーザー）</small>' : '<small style="color:var(--sub)">実ユーザー値 取得待ち</small>';
     el.innerHTML=`<div class="pn">${x.name}</div><div class="pu">${x.url}</div>
-      <div class="lcp">${lcpTxt}<small>s LCP</small></div>
+      <div class="lcp">${lcpTxt}${lcpUnit}</div>
       <span class="badge ${c}">${label(c)}</span>
       <div class="mini"><span>INP <b>${inpTxt}</b></span><span>CLS <b>${clsTxt}</b></span><span>TTFB <b>${ttfbTxt}</b></span></div>
+      <div class="mini" style="margin-top:2px;color:var(--sub)"><span>ラボ(PSI) LCP <b>${labTxt}</b></span><span>PSI Performance <b>${perfTxt}</b>/100</span></div>
       ${tgtBar(x.lcp)}
       <a class="psi" href="https://pagespeed.web.dev/analysis?url=${encodeURIComponent('https://www.veltra.com'+x.url)}&form_factor=mobile" target="_blank" rel="noopener" onclick="event.stopPropagation()">🔍 PSIで実測を確認 →</a>`;
     el.onclick=()=>showDetail(x.key);
@@ -395,7 +399,9 @@ function showDetail(key){
       <div class="met"><div class="k">INP (p75)</div><div class="v">${x.inp!=null?x.inp+'ms':'–'}</div><div class="t">目標 ≤200ms</div></div>
       <div class="met"><div class="k">CLS</div><div class="v">${x.cls!=null?x.cls:'–'}</div><div class="t">目標 ≤0.1</div></div>
       <div class="met"><div class="k">TTFB</div><div class="v">${x.ttfb!=null?(x.ttfb/1000).toFixed(2)+'s':'–'}</div><div class="t">目標 ≤0.8s</div></div>
+      <div class="met"><div class="k">ラボ(PSI) LCP</div><div class="v">${x.lab!=null?(x.lab/1000).toFixed(2)+'s':'–'}</div><div class="t">Perf ${x.perf!=null?x.perf:'–'}/100</div></div>
     </div>
+    <div style="font-size:12px;color:var(--sub);margin:-4px 0 8px">※「実ユーザー」＝CrUXの実訪問者p75。「ラボ」＝PSIが端末制約（CPU4倍遅・低速回線）で1回計測した参考値で、実ユーザー値より大きく出る／日ごとにばらつくため方向性の把握用。</div>
     <div style="font-size:12.5px;color:var(--sub);margin-bottom:6px">データ源：${x.src||'—'} ／ <a class="psi" style="margin:0" href="https://pagespeed.web.dev/analysis?url=${encodeURIComponent('https://www.veltra.com'+x.url)}&form_factor=mobile" target="_blank" rel="noopener">🔍 PageSpeed Insights で実測を確認 →</a></div>
     <div style="font-size:12.5px;color:var(--sub);margin-bottom:4px">LCP p75 週次推移（点線＝目標 2,500ms）</div>
     <div class="chartbox"><canvas id="dchart"></canvas></div>
