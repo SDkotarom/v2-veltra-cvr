@@ -156,6 +156,13 @@
   <!-- 詳細パネル -->
   <div id="detail"></div>
 
+  <!-- 操作フローの速度（読み込みとは別軸） -->
+  <h2><span class="no">操</span>操作フローの速度（クリック→表示／PSIでは測れない別軸）</h2>
+  <div class="panel">
+    <p class="cap">ページの「読み込み」とは別に、<b>操作してから反応・表示されるまで</b>の速さ。実ユーザーの反応の速さは上カードの <b>INP</b> に集約されている（例：TOP 213ms）。ここでは<b>どのフローが遅いか</b>を個別に分解して追う。値は調査チケットの実測ベースライン。継続的な実ユーザー計測は GA4 カスタム計測イベントの実装が前提（下記「計測方法」参照）。</p>
+    <table class="tbl" id="flowtbl"><thead><tr><th>操作フロー</th><th>現状（ベースライン）</th><th>計測方法</th><th>状態</th><th>関連</th></tr></thead><tbody></tbody></table>
+  </div>
+
   <!-- トレンド -->
   <h2><span class="no">推</span>推移</h2>
   <div class="grid2">
@@ -218,6 +225,10 @@
       ・<b>実ユーザー値（KPI①）</b>：Google の <b>CrUX（Chrome UX Report）History API</b> から、実際にサイトを訪れた Chrome ユーザーの体感速度（p75）を<b>週次</b>で取得。<br>
       ・<b>ラボ値（補助）</b>：<b>PageSpeed Insights API</b> で試験室的に<b>日次</b>取得（施策の即時反応を見る用）。<br>
       ・収集は Google Apps Script が自動実行 → スプレッドシートに蓄積 → このダッシュボードが読み込み表示。
+      <h4>「表示速度」の2つの層</h4>
+      本プロジェクトの速度改善は2層で捉える。<br>
+      ・<b>(A) ページ読み込み</b>（このページ上部のCWV）：LCP/CLS等。PSI/CrUX で測定。<br>
+      ・<b>(B) 操作フロー</b>（「操作フローの速度」表）：予約モーダル展開・カレンダー遷移・検索応答・ACリスト描画など、クリック→反応/表示の速さ。<b>PSIでは測れない</b>。実ユーザーの反応速度は <b>INP</b> に集約されるが、<b>どのフローが遅いかの切り分け</b>には <b>GA4 のカスタム計測イベント</b>（フロントで <code>performance.now()</code> により2点間の経過msを測り GA4 に送信＝要フロント実装）や<b>サーバ/APM 計測</b>（API応答）を用いる。現状は調査チケットの実測ベースラインを表示し、継続計測は GA4 イベント実装後に反映する。
       <h4>データ項目の定義</h4>
       ・<b>LCP</b>（Largest Contentful Paint）：主要コンテンツが表示されるまでの時間。<br>
       ・<b>INP</b>（Interaction to Next Paint）：タップ等の操作に画面が反応する速さ。<br>
@@ -397,6 +408,15 @@ function render(){
     options:{plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:10}}}},scales:{y:{ticks:{callback:v=>(v/1000).toFixed(1)+"s"}}},maintainAspectRatio:false}});
   const cb=document.getElementById("showLines");
   if(cb) cb.addEventListener("change",()=>{ lcpChart.data.datasets[nSeries].hidden=!cb.checked; lcpChart.data.datasets[nSeries+1].hidden=!cb.checked; lcpChart.update(); });
+
+  // 操作フローの速度
+  (function(){
+    const fb=document.querySelector("#flowtbl tbody"); if(!fb) return; fb.innerHTML="";
+    const stColor=s=>/解消|達成|良/.test(s)?"var(--good)":/計測待ち|未|待/.test(s)?"#8a857b":"var(--ni)";
+    (d.flows||[]).forEach(f=>{ const tr=document.createElement("tr");
+      tr.innerHTML=`<td><b>${f.name}</b></td><td style="font-weight:700">${f.baseline||'–'}</td><td>${f.method||'–'}</td><td style="color:${stColor(f.status||'')};font-weight:700">${f.status||'–'}</td><td>${f.ticket||'—'}</td>`;
+      fb.appendChild(tr);});
+  })();
 
   // releases
   const tb=document.querySelector("#reltbl tbody"); tb.innerHTML="";
