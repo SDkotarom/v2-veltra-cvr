@@ -21,7 +21,7 @@
   .top .logo{font-weight:800;letter-spacing:.06em;color:var(--blue-d)}
   .top .ttl{font-weight:700}
   .top .as{margin-left:auto;color:var(--sub);font-size:12.5px}
-  .wrap{max-width:1120px;margin:0 auto;padding:22px 24px 60px}
+  .wrap{max-width:1320px;margin:0 auto;padding:22px 24px 60px}
   .note{background:#fff8ef;border:1px solid #f0dcc0;color:#8a6a34;border-radius:10px;padding:9px 13px;font-size:12.5px;margin:0 0 18px}
   /* scorecards */
   .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
@@ -73,6 +73,21 @@
   .tbl th,.tbl td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left}
   .tbl th{color:var(--sub);font-weight:700}
   .foot{color:var(--sub);font-size:11.5px;margin-top:26px;border-top:1px solid var(--line);padding-top:12px}
+  .insight{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:14px;padding:16px 20px;margin:18px 0}
+  .insight .ih{font-weight:800;font-size:15px}
+  .insight .idate{font-weight:600;color:var(--sub);font-size:12px;margin-left:6px}
+  .insight .inarr{margin:9px 0 8px;font-size:14px;line-height:1.8}
+  .insight ul{margin:6px 0 0;padding-left:18px;font-size:13px} .insight li{margin:3px 0}
+  .insight .inote{margin-top:10px;font-size:11.5px;color:var(--sub);line-height:1.7}
+  .cmp .bar{position:relative;height:24px;border-radius:5px;background:#efece5;margin:7px 0}
+  .cmp .bar .f{position:absolute;left:0;top:0;bottom:0;border-radius:5px}
+  .cmp .bar .t{position:absolute;top:0;bottom:0;left:0;display:flex;align-items:center;padding-left:10px;font-size:12px;font-weight:700;color:#2D1C21}
+  .cmp .bar .v{position:absolute;right:9px;top:0;bottom:0;display:flex;align-items:center;font-size:12px;font-weight:800}
+  .cmp .bar .mk{position:absolute;top:-2px;width:2px;height:28px;background:#c0442a}
+  .appx{margin-top:22px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 18px}
+  .appx summary{cursor:pointer;font-weight:700;padding:13px 2px;font-size:13.5px}
+  .appx .ab{padding:2px 2px 18px;font-size:12.5px;color:var(--ink);line-height:1.85}
+  .appx h4{margin:14px 0 4px;font-size:13px;color:var(--blue-d)}
 </style>
 
 <div class="top">
@@ -115,6 +130,14 @@
     </div>
   </div>
 
+  <!-- 今週のインサイト -->
+  <div class="insight">
+    <div class="ih">📌 今週のインサイト <span id="insDate" class="idate"></span></div>
+    <p id="insNarr" class="inarr"></p>
+    <ul id="insList"></ul>
+    <div class="inote">※「実ユーザー値」＝ <b>CrUX</b>（実際にサイトを見た Chrome ユーザーの体感速度データ）。目標 <b>2.5秒</b> は <b>Google が定めた公式の合格基準（Core Web Vitals）</b>で、離脱・体感の研究に基づく世界標準です（詳細は最下部の補足）。</div>
+  </div>
+
   <!-- ページ別 -->
   <h2><span class="no">頁</span>ページ別ステータス（クリックで詳細）</h2>
   <div class="pg" id="pgcards"></div>
@@ -137,6 +160,13 @@
     </div>
   </div>
 
+  <!-- 競合ベンチマーク -->
+  <h2><span class="no">競</span>競合ベンチマーク（実ユーザー LCP p75）</h2>
+  <div class="panel cmp">
+    <p class="cap">同じ実ユーザー指標(CrUX)で競合と横並び比較。<b style="color:var(--poor)">赤線＝合格ライン 2.5s</b>。バーが短いほど速い。</p>
+    <div id="cmpBody"></div>
+  </div>
+
   <div class="grid2" style="margin-top:16px">
     <div class="panel">
       <h3>リリース記録</h3>
@@ -156,6 +186,27 @@
       </table>
     </div>
   </div>
+
+  <!-- 補足：計測方法とデータ定義 -->
+  <details class="appx">
+    <summary>ℹ️ 補足：どこで・どう計測／集計しているか、データ項目の定義</summary>
+    <div class="ab">
+      <h4>どこで測っているか</h4>
+      効果は<b>本番 www.veltra.com のみ</b>で測ります（開発サーバは設定が違い数値が乖離するため判定に使いません）。効果判定は<b>リリース前後の比較</b>で行います。
+      <h4>どう計測・集計しているか</h4>
+      ・<b>実ユーザー値（KPI①）</b>：Google の <b>CrUX（Chrome UX Report）History API</b> から、実際にサイトを訪れた Chrome ユーザーの体感速度（p75）を<b>週次</b>で取得。<br>
+      ・<b>ラボ値（補助）</b>：<b>PageSpeed Insights API</b> で試験室的に<b>日次</b>取得（施策の即時反応を見る用）。<br>
+      ・収集は Google Apps Script が自動実行 → スプレッドシートに蓄積 → このダッシュボードが読み込み表示。
+      <h4>データ項目の定義</h4>
+      ・<b>LCP</b>（Largest Contentful Paint）：主要コンテンツが表示されるまでの時間。<br>
+      ・<b>INP</b>（Interaction to Next Paint）：タップ等の操作に画面が反応する速さ。<br>
+      ・<b>CLS</b>（Cumulative Layout Shift）：表示中のレイアウトのズレ量。<br>
+      ・<b>TTFB</b>（Time To First Byte）：サーバから最初のデータが返り始めるまでの時間。<br>
+      ・<b>p75</b>：全ユーザーを速い順に並べ、遅い方25%手前の値（75パーセンタイル）＝「大多数のユーザーが体感している水準」。
+      <h4>目標値の根拠</h4>
+      目標（<b>LCP≤2.5秒／INP≤200ms／CLS≤0.1</b>）は <b>Google が定めた公式の合格基準（Core Web Vitals）</b> です。ユーザーの離脱・体感に関する研究に基づく世界標準で、Google 検索のランキング評価にも使われます。<b>恣意的に決めた値ではありません。</b>
+    </div>
+  </details>
 
   <div class="foot" id="foot"></div>
 </div>
@@ -207,6 +258,26 @@ function tgtBar(lcp){
   return `<div class="tgtbar"><div class="fill" style="width:${w}%;background:${c}"></div><div class="mk" style="left:${mark}%" title="目標 2,500ms"></div></div><div class="tgtlbl">${lbl}</div>`;
 }
 
+function renderCmp(d){
+  const box=document.getElementById("cmpBody"); if(!box) return;
+  const comps=(d.competitors||[]).slice();
+  const meas=d.pages.filter(p=>p.lcp!=null).map(p=>p.lcp).sort((a,b)=>a-b);
+  let veltra=null; if(meas.length){ veltra = meas.length%2 ? meas[(meas.length-1)/2] : Math.round((meas[meas.length/2-1]+meas[meas.length/2])/2); }
+  if(!comps.length){
+    box.innerHTML='<div style="color:var(--sub);font-size:12.5px;padding:8px 0">競合の実ユーザー値（CrUX）は<b>計測待ち</b>です。collector に競合ドメインを追加して取得すると、ここに「自社 vs 競合」の横並び比較が出ます。</div>'
+      + (veltra!=null?`<div style="font-size:12px;color:var(--sub);margin-top:4px">参考：自社（対象ページ p75 の中央値）<b>${(veltra/1000).toFixed(2)}s</b></div>`:'');
+    return;
+  }
+  const rows=[]; if(veltra!=null) rows.push({name:"VELTRA（自社・代表値）",lcp:veltra,self:true});
+  comps.forEach(c=>rows.push({name:c.name,lcp:c.lcp}));
+  const SCALE=Math.max(5000, Math.max(...rows.map(r=>r.lcp)))*1.05;
+  box.innerHTML=rows.map(r=>{
+    const w=Math.min(r.lcp/SCALE,1)*100, mark=2500/SCALE*100;
+    const c=r.lcp<=2500?COL.good:r.lcp<=4000?COL.ni:COL.poor;
+    return `<div class="bar" style="${r.self?'outline:2px solid #4f7597;outline-offset:1px;':''}"><div class="f" style="width:${w}%;background:${c}"></div><div class="mk" style="left:${mark}%"></div><div class="t">${r.name}</div><div class="v">${(r.lcp/1000).toFixed(2)}s</div></div>`;
+  }).join('');
+}
+
 let DATA = SAMPLE;
 
 async function boot(){
@@ -238,6 +309,22 @@ function render(){
   new Chart(document.getElementById("donut"),{type:"doughnut",
     data:{datasets:[{data:[g,n,p,nd],backgroundColor:[COL.good,COL.ni,COL.poor,COL.nodata],borderWidth:0}]},
     options:{cutout:"66%",plugins:{legend:{display:false},tooltip:{enabled:false}},responsive:false}});
+
+  // 今週のインサイト
+  document.getElementById("insDate").textContent = d.updated ? "（"+d.updated+"）" : "";
+  document.getElementById("insNarr").textContent = d.narrative || "";
+  (function(){
+    const il=document.getElementById("insList"); il.innerHTML="";
+    const add=t=>{const li=document.createElement("li");li.innerHTML=t;il.appendChild(li);};
+    add(`合格ページ：<b>${pass} / ${measurable.length}</b>（目標 全${d.pages.length}ページ合格）`);
+    let imp=[],wor=[];
+    Object.keys(d.weekly_lcp||{}).forEach(k=>{const s=d.weekly_lcp[k]; if(!s||s.length<2)return; const dl=s[s.length-1]-s[s.length-2]; if(dl<=-30) imp.push(`${k} <span style="color:var(--good)">${(dl/1000).toFixed(2)}s</span>`); else if(dl>=30) wor.push(`${k} <span style="color:var(--poor)">+${(dl/1000).toFixed(2)}s</span>`);});
+    if(imp.length) add(`先週より改善：${imp.join(' ／ ')}`);
+    if(wor.length) add(`先週より悪化：${wor.join(' ／ ')}`);
+    const worst=measurable.slice().sort((a,b)=>b.lcp-a.lcp)[0];
+    if(worst) add(`いちばん遅い：<b>${worst.name} ${(worst.lcp/1000).toFixed(2)}s</b>${(worst.ttfb!=null&&worst.ttfb>2000)?'（サーバ応答=TTFBが主因）':`（目標まで あと ${((worst.lcp-TARGET)/1000).toFixed(2)}s）`}`);
+  })();
+  renderCmp(d);
 
   // page cards
   const wrap=document.getElementById("pgcards"); wrap.innerHTML="";
