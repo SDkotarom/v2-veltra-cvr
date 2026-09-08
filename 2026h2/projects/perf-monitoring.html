@@ -41,9 +41,8 @@
   /* page cards */
   .pg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
   @media(max-width:820px){.pg{grid-template-columns:1fr}}
-  .pcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px;cursor:pointer;transition:.12s;border-left:4px solid var(--line)}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px;cursor:pointer;transition:.12s}
   .pcard:hover{box-shadow:0 4px 16px rgba(0,0,0,.06);transform:translateY(-1px)}
-  .pcard.good{border-left-color:var(--green)} .pcard.ni{border-left-color:var(--amber)} .pcard.poor{border-left-color:var(--red)} .pcard.nodata{border-left-color:#c9c2b6}
   .pcard .pn{font-weight:700;font-size:16.5px}
   .pcard .pu{color:var(--sub);font-size:12.5px;margin-top:1px;word-break:break-all}
   .pcard .lcp{font-size:29px;font-weight:800;margin-top:10px}
@@ -77,7 +76,7 @@
   .tbl th,.tbl td{border-bottom:1px solid var(--line);padding:8px 9px;text-align:left}
   .tbl th{color:var(--sub);font-weight:700}
   .foot{color:var(--sub);font-size:12.5px;margin-top:26px;border-top:1px solid var(--line);padding-top:12px}
-  .insight{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:14px;padding:18px 22px;margin:18px 0}
+  .insight{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:18px 0}
   .insight .ih{font-weight:800;font-size:20px}
   .insight .idate{font-weight:600;color:var(--sub);font-size:13.5px;margin-left:6px}
   .insight .inarr{margin:11px 0 10px;font-size:17px;line-height:1.95}
@@ -90,7 +89,7 @@
   .cmp .bar .t{position:absolute;top:0;bottom:0;left:0;display:flex;align-items:center;padding-left:10px;font-size:13.5px;font-weight:700;color:#2D1C21}
   .cmp .bar .v{position:absolute;right:9px;top:0;bottom:0;display:flex;align-items:center;font-size:13.5px;font-weight:800}
   .cmp .bar .mk{position:absolute;top:-2px;width:2px;height:28px;background:#c0442a}
-  .evid{margin:14px 0 20px;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:10px;background:#fff;padding:12px 16px}
+  .evid{margin:14px 0 20px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px 16px}
   .evid .evh{font-weight:800;font-size:15.5px;margin-bottom:6px}
   .evid ul{margin:0;padding-left:19px}
   .evid li{font-size:14px;line-height:1.8;margin:5px 0}
@@ -143,28 +142,28 @@
 
   <!-- 今週のインサイト -->
   <div class="insight">
-    <div class="ih">📌 今週のインサイト <span id="insDate" class="idate"></span></div>
+    <div class="ih">今週のインサイト <span id="insDate" class="idate"></span></div>
     <div id="insNarr" class="inarr"></div>
     <ul id="insList"></ul>
     <div class="inote">※「実ユーザー値」＝ <b>CrUX</b>（実際にサイトを見た Chrome ユーザーの体感速度データ）。目標 <b>2.5秒</b> は <b>Google が定めた公式の合格基準（Core Web Vitals）</b>で、離脱・体感の研究に基づく世界標準です（詳細は最下部の補足）。</div>
   </div>
 
   <!-- ページ別 -->
-  <h2><span class="no">頁</span>ページ別ステータス（クリックで詳細）</h2>
+  <h2>ページ別ステータス（クリックで詳細）</h2>
   <div class="pg" id="pgcards"></div>
 
   <!-- 詳細パネル -->
   <div id="detail"></div>
 
   <!-- 操作フローの速度（読み込みとは別軸） -->
-  <h2><span class="no">操</span>操作フローの速度（クリック→表示／PSIでは測れない別軸）</h2>
+  <h2>操作フローの速度（クリック→表示／PSIでは測れない別軸）</h2>
   <div class="panel">
     <p class="cap">ページの「読み込み」とは別に、<b>操作してから反応・表示されるまで</b>の速さ。実ユーザーの反応の速さは上カードの <b>INP</b> に集約されている（例：TOP 213ms）。ここでは<b>どのフローが遅いか</b>を個別に分解して追う。値は調査チケットの実測ベースライン。継続的な実ユーザー計測は GA4 カスタム計測イベントの実装が前提（下記「計測方法」参照）。</p>
     <table class="tbl" id="flowtbl"><thead><tr><th>操作フロー</th><th>現状（ベースライン）</th><th>計測方法</th><th>状態</th><th>関連</th></tr></thead><tbody></tbody></table>
   </div>
 
   <!-- トレンド -->
-  <h2><span class="no">推</span>推移</h2>
+  <h2>推移</h2>
   <div class="grid2">
     <div class="panel">
       <h3>KPI① LCP合格率（週次）</h3>
@@ -179,7 +178,7 @@
   </div>
 
   <!-- 競合ベンチマーク -->
-  <h2><span class="no">競</span>競合ベンチマーク（実ユーザー LCP p75）</h2>
+  <h2>競合ベンチマーク（実ユーザー LCP p75）</h2>
   <div class="panel cmp">
     <p class="cap">同じ実ユーザー指標(CrUX)で競合と横並び比較。<b style="color:var(--poor)">赤線＝合格ライン 2.5s</b>。バーが短いほど速い。</p>
     <div id="cmpBody"></div>
@@ -207,17 +206,17 @@
 
   <!-- エビデンス（出所） -->
   <div class="evid">
-    <div class="evh">🔗 このダッシュボードの数値の出所（エビデンス）</div>
+    <div class="evh">このダッシュボードの数値の出所（エビデンス）</div>
     <ul>
       <li><b>収集ログの原本</b>：<a href="https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit" target="_blank" rel="noopener">スプレッドシート「表示速度改善 施策リスト」の <code>crux_weekly</code>／<code>psi_daily</code> タブ</a> ＝ CrUX（実ユーザー週次）・PSI（ラボ日次）を自動記録した実測値。本ページはこの値をそのまま読み込み表示（改変なし）。<span class="evn">※ベルトラ社内アカウントのみ閲覧可</span></li>
-      <li><b>各ページをその場で再計測して照合</b>：各ページカードの「🔍 PSIで実測を確認」から Google PageSpeed Insights を開くと、<b>実ユーザー値(CrUX)＋ラボ値</b>が今この瞬間の値で表示され、突き合わせられます。</li>
+      <li><b>各ページをその場で再計測して照合</b>：各ページカードの「PSIで実測を確認」から Google PageSpeed Insights を開くと、<b>実ユーザー値(CrUX)＋ラボ値</b>が今この瞬間の値で表示され、突き合わせられます。</li>
       <li><b>取得元API</b>：CrUX History API ／ PageSpeed Insights API（いずれも Google 公式・無償）。収集は Google Apps Script が自動実行。</li>
     </ul>
   </div>
 
   <!-- 補足：計測方法とデータ定義 -->
   <details class="appx">
-    <summary>ℹ️ 補足：どこで・どう計測／集計しているか、データ項目の定義</summary>
+    <summary>補足：どこで・どう計測／集計しているか、データ項目の定義</summary>
     <div class="ab">
       <h4>どこで測っているか</h4>
       効果は<b>本番 www.veltra.com のみ</b>で測ります（開発サーバは設定が違い数値が乖離するため判定に使いません）。効果判定は<b>リリース前後の比較</b>で行います。
@@ -383,7 +382,7 @@ function render(){
       <div class="mini"><span>INP <b>${inpTxt}</b></span><span>CLS <b>${clsTxt}</b></span><span>TTFB <b>${ttfbTxt}</b></span></div>
       <div class="mini" style="margin-top:2px;color:var(--sub)"><span>ラボ(PSI) LCP <b>${labTxt}</b></span><span>PSI Performance <b>${perfTxt}</b>/100</span></div>
       ${tgtBar(x.lcp)}
-      <a class="psi" href="https://pagespeed.web.dev/analysis?url=${encodeURIComponent('https://www.veltra.com'+x.url)}&form_factor=mobile" target="_blank" rel="noopener" onclick="event.stopPropagation()">🔍 PSIで実測を確認 →</a>`;
+      <a class="psi" href="https://pagespeed.web.dev/analysis?url=${encodeURIComponent('https://www.veltra.com'+x.url)}&form_factor=mobile" target="_blank" rel="noopener" onclick="event.stopPropagation()">PSIで実測を確認 →</a>`;
     el.onclick=()=>showDetail(x.key);
     wrap.appendChild(el);
   });
@@ -433,8 +432,7 @@ function showDetail(key){
   const c=cls_lcp(x.lcp);
   const box=document.getElementById("detail");
   box.innerHTML=`<div class="detail">
-    <div class="dh"><span class="no" style="width:22px;height:22px;border-radius:6px;background:var(--blue);color:#fff;font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">詳</span>
-      <b style="font-size:15px">${x.name}</b><span class="badge ${c}">${label(c)}</span>
+    <div class="dh"><b style="font-size:18px">${x.name}</b><span class="badge ${c}">${label(c)}</span>
       <span class="x" onclick="document.getElementById('detail').innerHTML=''">✕ 閉じる</span></div>
     <div style="color:var(--sub);font-size:12px;margin-top:2px">${x.url}</div>
     <div class="metg">
@@ -445,7 +443,7 @@ function showDetail(key){
       <div class="met"><div class="k">ラボ(PSI) LCP</div><div class="v">${x.lab!=null?(x.lab/1000).toFixed(2)+'s':'–'}</div><div class="t">Perf ${x.perf!=null?x.perf:'–'}/100</div></div>
     </div>
     <div style="font-size:12px;color:var(--sub);margin:-4px 0 8px">※「実ユーザー」＝CrUXの実訪問者p75。「ラボ」＝PSIが端末制約（CPU4倍遅・低速回線）で1回計測した参考値で、実ユーザー値より大きく出る／日ごとにばらつくため方向性の把握用。</div>
-    <div style="font-size:12.5px;color:var(--sub);margin-bottom:6px">データ源：${x.src||'—'} ／ <a class="psi" style="margin:0" href="https://pagespeed.web.dev/analysis?url=${encodeURIComponent('https://www.veltra.com'+x.url)}&form_factor=mobile" target="_blank" rel="noopener">🔍 PageSpeed Insights で実測を確認 →</a></div>
+    <div style="font-size:12.5px;color:var(--sub);margin-bottom:6px">データ源：${x.src||'—'} ／ <a class="psi" style="margin:0" href="https://pagespeed.web.dev/analysis?url=${encodeURIComponent('https://www.veltra.com'+x.url)}&form_factor=mobile" target="_blank" rel="noopener">PageSpeed Insights で実測を確認 →</a></div>
     <div style="font-size:12.5px;color:var(--sub);margin-bottom:4px">LCP p75 週次推移（点線＝目標 2,500ms）</div>
     <div class="chartbox"><canvas id="dchart"></canvas></div>
   </div>`;
