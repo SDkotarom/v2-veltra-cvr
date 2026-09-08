@@ -1,16 +1,16 @@
 {
-  "updated": "2026-09-04",
-  "source": "実データ：CrUX History（実ユーザー p75・週次）＋ PageSpeed Insights。地域はPSIフィールド値、カテゴリーはPSI失敗のためデータ待ち。",
+  "updated": "2026-09-08",
+  "source": "実データ：CrUX History（実ユーザー p75・週次／URL単位はTOP・エリア・検索結果）＋ PageSpeed Insights（ラボ日次・全6ページ）。地域/AC詳細/カテゴリーはアクセス数がGoogleの掲載閾値未満のためURL単位の実ユーザー値が出ず、地域・AC詳細はサイト全体(origin)のCrUX値、カテゴリーはラボ値のみ。実ユーザー値は週末2026-08-29集計、ラボは2026-09-08まで。",
   "target_lcp": 2500,
-  "narrative": "今週は6ページ中2ページ（地域・AC詳細）が合格ライン内。TOP・エリアは2.7〜2.8秒で“あと一歩”、検索結果は6.7秒と大きく未達で、サーバの応答時間（TTFB＝最初の1バイトが返るまで）が4.8秒とほぼ原因を占めています。傾向として、エリアがここ数週でじわじわ遅くなっているのが注意点。まずは軽い施策（画像・レイアウトのズレ対策）から着手し、検索はサーバ側の改善が必要です。",
+  "narrative": "実ユーザー値（CrUX・URL単位が取れる3ページ）で見ると、TOP2.81s・エリア2.71sは合格ライン2.5sまであと一歩、検索結果6.71sはサーバ応答（TTFB4.85s）がほぼ主因で大きく未達。地域・AC詳細はサイト全体のCrUX値で2.20s。カテゴリーは実ユーザー値がまだ取れず（アクセス数が少なくGoogleが実ユーザーデータを提供しない）、ラボ計測ではPerformance 40。注意点はエリアがこの数週でじわじわ悪化していること。まず軽い施策（画像preload・レイアウトずれ対策）から着手し、検索はサーバ側の改善が必要。",
   "site": { "lcp": null, "inp": 265, "cls": 0.06, "ttfb": 1600 },
   "pages": [
-    { "key": "TOP",    "name": "TOP",        "url": "/jp/",                          "lcp": 2805, "inp": 213, "cls": 0.04, "ttfb": 1536, "lab": 11119, "src": "CrUX" },
-    { "key": "area",   "name": "エリア",      "url": "/jp/japan/tokyo/",              "lcp": 2714, "inp": 177, "cls": 0.00, "ttfb": 1718, "lab": 9580,  "src": "CrUX" },
-    { "key": "region", "name": "地域",        "url": "/jp/japan/kanto/",              "lcp": 2202, "inp": null,"cls": null, "ttfb": null, "lab": 4506,  "src": "PSIフィールド（CrUX週次は未取得）" },
-    { "key": "cat",    "name": "カテゴリー",  "url": "/jp/japan/tokyo/ctg/160126:Sightseeing_Tour/", "lcp": null, "inp": null, "cls": null, "ttfb": null, "lab": null, "src": "データ待ち（PSI失敗・要修正）" },
-    { "key": "ac",     "name": "AC詳細",      "url": "/jp/japan/tokyo/a/160690",      "lcp": 2202, "inp": 245, "cls": 0.03, "ttfb": 1200, "lab": 3975,  "src": "PSIフィールド（CrUX直近は薄い）" },
-    { "key": "search", "name": "検索結果",    "url": "/jp/search?kw=tokyo",           "lcp": 6708, "inp": 158, "cls": 0.32, "ttfb": 4851, "lab": 23476, "src": "CrUX" }
+    { "key": "TOP",    "name": "TOP",        "url": "/jp/",                          "lcp": 2805, "inp": 213, "cls": 0.04, "ttfb": 1536, "perf": 28, "lab": 5870,  "src": "CrUX実ユーザー（URL単位・週次／週末2026-08-29）。ラボはPSI 2026-09-08。" },
+    { "key": "area",   "name": "エリア",      "url": "/jp/japan/tokyo/",              "lcp": 2714, "inp": 177, "cls": 0.00, "ttfb": 1718, "perf": 45, "lab": 7531,  "src": "CrUX実ユーザー（URL単位・週次／週末2026-08-29）。ラボはPSI 2026-09-07。" },
+    { "key": "region", "name": "地域",        "url": "/jp/japan/kanto/",              "lcp": 2202, "inp": null,"cls": null, "ttfb": null, "perf": 40, "lab": 16955, "src": "実ユーザーLCPはサイト全体(origin)のCrUX値。URL単位はアクセス数が掲載閾値未満で未提供。ラボはPSI 2026-09-08（日次でばらつき大）。" },
+    { "key": "cat",    "name": "カテゴリー",  "url": "/jp/japan/tokyo/ctg/160126:Sightseeing_Tour/", "lcp": null, "inp": null, "cls": null, "ttfb": null, "perf": 40, "lab": 12091, "src": "実ユーザー値(CrUX)はアクセス数がGoogleの掲載閾値未満のため未提供。ラボ(PSI 2026-09-07)はPerformance 40・LCP12.1s（スロットリング値）。" },
+    { "key": "ac",     "name": "AC詳細",      "url": "/jp/japan/tokyo/a/160690",      "lcp": 2202, "inp": null,"cls": null, "ttfb": null, "perf": 45, "lab": 6541,  "src": "実ユーザーLCPはサイト全体(origin)のCrUX値。直近はURL単位が掲載閾値未満（最後にp75が取れたのは6月上旬）。ラボはPSI 2026-09-07。" },
+    { "key": "search", "name": "検索結果",    "url": "/jp/search?kw=tokyo",           "lcp": 6708, "inp": 158, "cls": 0.32, "ttfb": 4851, "perf": 14, "lab": 23851, "src": "CrUX実ユーザー（URL単位・週次／週末2026-08-29）。ラボはPSI 2026-09-08。" }
   ],
   "weeks": ["7/18","7/25","8/01","8/08","8/15","8/22","8/29"],
   "weekly_lcp": {
