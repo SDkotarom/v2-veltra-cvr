@@ -209,13 +209,14 @@ CVR リストにある以下のフィールド（Impact / Confidence&Ease / Urge
 | 1 | **TOP** | `https://www.veltra.com/jp/` | `/jp/` |
 | 2 | **エリア** | `https://www.veltra.com/jp/japan/tokyo/` | 国/都市 |
 | 3 | **地域** | `https://www.veltra.com/jp/japan/kanto/` | 広域 |
-| 4 | **カテゴリー** | `https://www.veltra.com/jp/japan/tokyo/ctg/160126:Sightseeing_Tour/` | `/ctg/` |
+| 4 | **カテゴリー** | `https://www.veltra.com/jp/japan/tokyo/ctg/183551:Yakatabune/` | `/ctg/` |
 | 5 | **AC詳細** | `https://www.veltra.com/jp/japan/tokyo/a/160690` | `/a/` |
 | 6 | **検索結果** | `https://www.veltra.com/jp/search?kw=tokyo` | `/search` |
 
 - 基準は **JP・モバイル**（field値は #300 の RUM 導入後、それまではラボ値）。
 - 上記URLが仕様変更で無効になっていたら、同タイプの実在URLに読み替えてOK（**どのURLで測ったかはレポートに明記**）。
 - サイト全体（site-wide）で効く施策（GTM整理・不要JS削減・フォント等）は6ページ表を貼らず「全ページ共通」と明記する。
+- **カテゴリー代表URLは「トラフィック最多の実在カテゴリー」を選ぶ**（CrUX のURL単位フィールド値は一定トラフィックが要るため）。2026-09 時点は東京カテゴリー1位の **屋形船 `/jp/japan/tokyo/ctg/183551:Yakatabune/`（9,211セッション/28日・GA4実測）**。旧 `160126:Sightseeing_Tour` は265セッションでCrUX閾値未満だったため差し替え。低トラフィックの特定カテゴリーは実ユーザー値が返らない点に注意。
 
 ### 調査チケットの「完了条件」の書き方（レポート化を具体に）
 
