@@ -277,6 +277,8 @@ const SAMPLE = {
 const TARGET = 2500;
 function cls_lcp(v){ if(v==null||v==="") return "nodata"; return v<=2500?"good": v<=4000?"ni":"poor"; }
 function label(c){ return c==="good"?"合格": c==="ni"?"要改善": c==="poor"?"不良":"データ待ち"; }
+// チケット参照は ClickUp へリンク（GitHub issues への誤リンクを防ぐ）
+function linkifyTickets(s){ return (s||"—").replace(/UX_DESIGN-(\d+)/g, '<a href="https://app.clickup.com/t/31108037/UX_DESIGN-$1" target="_blank" rel="noopener">UX_DESIGN-$1</a>'); }
 const COL={good:"#86BE99",ni:"#e6a15a",poor:"#F38268",nodata:"#c9c2b6"};
 function tgtBar(lcp){
   if(lcp==null) return '<div class="tgtlbl">目標 2.5s ／ 現状 <b>データ待ち</b></div>';
@@ -413,14 +415,14 @@ function render(){
     const fb=document.querySelector("#flowtbl tbody"); if(!fb) return; fb.innerHTML="";
     const stColor=s=>/解消|達成|良/.test(s)?"var(--good)":/計測待ち|未|待/.test(s)?"#8a857b":"var(--ni)";
     (d.flows||[]).forEach(f=>{ const tr=document.createElement("tr");
-      tr.innerHTML=`<td><b>${f.name}</b></td><td style="font-weight:700">${f.baseline||'–'}</td><td>${f.method||'–'}</td><td style="color:${stColor(f.status||'')};font-weight:700">${f.status||'–'}</td><td>${f.ticket||'—'}</td>`;
+      tr.innerHTML=`<td><b>${f.name}</b></td><td style="font-weight:700">${f.baseline||'–'}</td><td>${f.method||'–'}</td><td style="color:${stColor(f.status||'')};font-weight:700">${f.status||'–'}</td><td>${linkifyTickets(f.ticket)}</td>`;
       fb.appendChild(tr);});
   })();
 
   // releases
   const tb=document.querySelector("#reltbl tbody"); tb.innerHTML="";
   (d.releases||[]).forEach(r=>{ const tr=document.createElement("tr");
-    tr.innerHTML=`<td>${r.date}</td><td>${r.ticket}</td><td>${r.target}</td><td>${r.note}</td>`; tb.appendChild(tr);});
+    tr.innerHTML=`<td>${r.date}</td><td>${linkifyTickets(r.ticket)}</td><td>${r.target}</td><td>${r.note}</td>`; tb.appendChild(tr);});
 
   document.getElementById("foot").textContent =
     "データソース：計測スプレッドシート（crux_weekly=実ユーザー/週次、psi_daily=ラボ/日次）。効果判定は本番 www.veltra.com のリリース前後で行う。dev は判定に使わない。";
