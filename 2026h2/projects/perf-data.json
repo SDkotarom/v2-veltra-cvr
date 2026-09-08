@@ -25,12 +25,12 @@
     "エリア":    [1968, 2108, 2362, 2426, 2499, 2642, 2714],
     "検索結果":  [7189, 7277, 7136, 7078, 6999, 6895, 6708]
   },
+  "flows_note": "予約導線のステップ別・待ち時間（クリック→反応/表示）。数値は暫定（実測はサーバ計測ベース＋一部サンプル）。継続的な実ユーザー計測はGA4カスタム計測イベント実装後。遅いステップ＝離脱ポイントでKPI②(CVR)に直結。",
   "flows": [
-    { "name": "「予約する」→ カレンダー表示", "baseline": "0.77s", "method": "サーバ計測（予約モーダル formData 応答）＋実ユーザーINP。継続計測はGA4カスタムイベント要実装", "ticket": "UX_DESIGN-167 / UX_DESIGN-321", "status": "調査済ベースライン" },
-    { "name": "カレンダー選択 → 予約画面へ遷移", "baseline": "計測待ち", "method": "GA4カスタム計測イベント（クリック→遷移完了の経過ms）要実装", "ticket": "—（起票要）", "status": "計測待ち" },
-    { "name": "検索キーワード入力 → 結果表示", "baseline": "1.5s", "method": "サーバ計測（filter API 応答）。描画側はGA4カスタムイベント要実装", "ticket": "UX_DESIGN-321", "status": "調査済ベースライン" },
-    { "name": "ACリストを含むページの表示（仮説）", "baseline": "PSI Perf 34（カテゴリ）", "method": "PSI（ラボ）＋LCP。重い処理の切り分けは調査中", "ticket": "UX_DESIGN-167", "status": "仮説・部分観測" },
-    { "name": "AppsFlyer による描画ブロック（全ページ）", "baseline": "0ms（893ms→解消）", "method": "renderBlockingStatus（PSI監査）", "ticket": "UX_DESIGN-323", "status": "解消済" }
+    { "step": 1, "name": "検索／一覧の表示", "note": "キーワード入力・絞り込み → 結果表示", "ms": 1500, "target": 500, "sample": false, "status": "実測", "ticket": "UX_DESIGN-321 / UX_DESIGN-418" },
+    { "step": 2, "name": "AC詳細へ遷移", "note": "一覧カード → 商品詳細（約2秒 無反応）", "ms": 2000, "target": 800, "sample": true, "status": "仮説", "ticket": "UX_DESIGN-414" },
+    { "step": 3, "name": "「予約する」→ カレンダー表示", "note": "予約モーダル展開", "ms": 770, "target": 300, "sample": false, "status": "実測", "ticket": "UX_DESIGN-167 / UX_DESIGN-321" },
+    { "step": 4, "name": "カレンダー選択 → 予約画面へ", "note": "日程・人数確定 → 画面遷移", "ms": 1500, "target": 500, "sample": true, "status": "計測待ち", "ticket": "—（起票要）" }
   ],
   "releases": [
     { "date": "—", "ticket": "UX_DESIGN-304", "target": "TOP/エリア/カテゴリ/AC", "note": "LCP画像 preload（予定）" },
