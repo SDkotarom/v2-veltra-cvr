@@ -50,7 +50,7 @@
   .flag{display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;white-space:nowrap;vertical-align:middle}
   .flag.crit{background:#fdeae4;color:#d0512f}
 
-  .bg{background:#faf6ec;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);
+  .bg{background:#faf6ec;border:1px solid var(--line);border-radius:var(--radius);
     padding:16px 20px;margin:24px 0 6px;box-shadow:var(--shadow)}
   .bg .lbl{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--blue-d);text-transform:uppercase}
   .bg ul{margin:9px 0 0;padding-left:0;list-style:none}
@@ -59,11 +59,8 @@
   .bg li b{color:var(--ink)}
 
   .flow{display:flex;flex-direction:column;gap:14px;margin:14px 0 6px}
-  .pstep{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--blue);
+  .pstep{background:var(--card);border:1px solid var(--line);
     border-radius:var(--radius);padding:16px 20px 17px;box-shadow:var(--shadow)}
-  .pstep.q1{border-left-color:var(--red)}
-  .pstep.q2{border-left-color:var(--blue)}
-  .pstep.q3{border-left-color:var(--green)}
   .pstep .k{display:inline-flex;align-items:center;gap:9px;font-family:"Montserrat","Noto Sans JP";
     font-weight:800;font-size:13.5px;letter-spacing:.06em;margin-bottom:6px}
   .pstep .k .no{width:23px;height:23px;border-radius:7px;color:#fff;display:inline-flex;
@@ -104,7 +101,7 @@
   .ctbl tr.qw td{background:#f2f8f3}
   .prio{font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
   .qwtag{display:inline-block;font-size:10px;font-weight:800;padding:1px 7px;border-radius:5px;background:#e6f3ea;color:var(--green-d);white-space:nowrap}
-  .note{font-size:12.5px;color:var(--muted);background:#faf6ec;border-left:3px solid var(--amber);padding:9px 12px;border-radius:0 8px 8px 0;margin:6px 0 10px}
+  .note{font-size:12.5px;color:var(--muted);background:#faf6ec;border:1px solid var(--line);padding:9px 12px;border-radius:8px;margin:6px 0 10px}
   .note b{color:#a9711f}
 
   /* 議事録ログ（増えていく） */
@@ -117,7 +114,7 @@
   .loglist .t a:hover{text-decoration:underline}
   .loglist .m{font-size:11.5px;color:var(--muted)}
 
-  .refs{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--radius);padding:14px 20px;margin:22px 0 18px;box-shadow:var(--shadow)}
+  .refs{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:14px 20px;margin:22px 0 18px;box-shadow:var(--shadow)}
   .refs .lbl{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--blue-d);text-transform:uppercase}
   .refs ul{margin:7px 0 0;padding-left:18px}
   .refs li{font-size:13px;line-height:1.7}
@@ -179,7 +176,7 @@
 
   <!-- 概要（幹） -->
   <div class="sec">
-    <h2><span class="no">要</span>プロジェクト概要（ひと目で）</h2>
+    <h2>プロジェクト概要（ひと目で）</h2>
     <p class="lead"><b>現行 Veltra サイトの表示速度を「やりきる」プロジェクト。</b>モバイル最重視で、対象 6 ページの Core Web Vitals を合格ラインに乗せ、速度改善を CVR 回復（＝事業成果）につなげる。以下が<b>幹</b>。個別の HOW（調査手法・ICE・チケット）は下段に。</p>
 
     <div class="tblwrap">
@@ -223,7 +220,7 @@
 
     <!-- 課題 -->
     <div class="pstep q1">
-      <div class="k"><span class="no">問</span>課題</div>
+      <div class="k">課題</div>
       <ul>
         <li><b>表示・操作の遅さがそのまま離脱に。</b>特にモバイルで、読み込みや反応の遅れが取りこぼしになる。</li>
         <li><b>遅さは1箇所にない。</b><b>サイト全体共通</b>（重い共通スクリプト・画像・計測タグ）／<b>ページ種類ごと</b>（重い一覧生成・データ取得）／<b>個別の操作ごと</b>（変更のたびの再読込）の各レベルに散在する。</li>
@@ -250,7 +247,7 @@
 
     <!-- 打ち手方針 -->
     <div class="pstep q2">
-      <div class="k"><span class="no">方</span>打ち手方針（どう考えるか）</div>
+      <div class="k">打ち手方針（どう考えるか）</div>
       <ul>
         <li><b>① サイト全体共通で効くもの</b>
           <span class="s">全ページに波及。共通スクリプト・計測タグ（GTM 断捨離）・共通画像/フォント・キャッシュ/CDN 方針。効けば一気に全体が速くなる。</span></li>
@@ -278,7 +275,7 @@
 
     <!-- 進め方案 -->
     <div class="pstep q3">
-      <div class="k"><span class="no">進</span>進め方案（個別の1例）</div>
+      <div class="k">進め方案（個別の1例）</div>
       <p class="ksub">「計測 → 重い原因順に潰す」を1画面・1操作でやってみた例。指示ではなく、他のページ種類・操作・全体共通にも同じ型を当てるための見本。</p>
       <div class="note"><b>これは全てではない。</b>カテゴリページ表示・予約モーダル操作という特定ページ・特定操作の1例。詳細な実態は下段の「実態分析」。</div>
       <div class="tblwrap">
@@ -297,7 +294,7 @@
 
   <!-- 実態分析 -->
   <div class="sec">
-    <h2><span class="no">実</span>実態分析（3レベルで整理）</h2>
+    <h2>実態分析（3レベルで整理）</h2>
     <p class="lead">上の3レベルで「いま分かっていること」と「これから見るところ」を並べる。調査は各レベルとも計測から。</p>
     <div class="tblwrap">
       <table class="ctbl">
@@ -349,7 +346,7 @@
 
   <!-- 現状調査の方法 -->
   <div class="sec">
-    <h2><span class="no">査</span>現状調査の方法（何に時間がかかっているか）</h2>
+    <h2>現状調査の方法（何に時間がかかっているか）</h2>
     <p class="lead">PageSpeed Insights は入口の1つ。「①どこ・どの操作が遅いか（実ユーザー）→ ②なぜ遅いか（合成計測で内訳を割る）→ ③TTFB が犯人ならサーバ側」の順で掘ると、当てずっぽうにならない。</p>
     <div class="tblwrap">
       <table class="ctbl">
@@ -372,7 +369,7 @@
 
   <!-- 着手優先度 -->
   <div class="sec">
-    <h2><span class="no">優</span>着手優先度（Impact × Effort）</h2>
+    <h2>着手優先度（Impact × Effort）</h2>
     <p class="lead">「効果が高く工数が小さい」ものから。各施策を <b>ICE ＝ Impact × Confidence ÷ Effort</b> でスコア化し、降順に並べる。まず <b>全ページ共通で効く × UI を変えない × 低リスク</b> の Quick Win を同時多発で。</p>
 
     <div class="note"><b>0 番目（前提）：</b>着手前に <b>Lighthouse CI / DevTools でベースラインを固定</b>。でないと「効果が高い」を後で証明できない。指標は本 PJ のゴール（表示を◯秒短縮）に紐づける。</div>
@@ -422,13 +419,13 @@
 
   <!-- 着手状況（施策リストとの対応） -->
   <div class="sec">
-    <h2><span class="no">状</span>着手状況（施策リストとの対応）</h2>
+    <h2>着手状況（施策リストとの対応）</h2>
     <p class="lead">上の「現状調査の方法」「着手優先度」で挙げた打ち手を、ClickUp の <a class="chan" href="https://app.clickup.com/31108037/v/l/li/901820239496" target="_blank" rel="noopener">web-performance リスト</a> のチケット・状況に対応づけたもの。<b>着手中</b>＝進行中／<b>着手待ち</b>＝要件定義済みで着手可（Suki さん）／<b>起案中</b>＝要件整理中（牧野）／<b>クローズ</b>＝既存チケットへ統合・重複整理。<b>計 21 件（着手中 4・着手待ち 11・起案中 1・クローズ 5）</b>。</p>
     <div class="tblwrap">
       <table class="ctbl">
         <tr><th>打ち手</th><th>チケット</th><th>ボール</th><th>メモ（紐づく調査・前提）</th></tr>
 
-        <tr><td colspan="4" style="background:#ecf6ef;font-weight:800;color:var(--green-d)">🟢 着手中（進行中）</td></tr>
+        <tr><td colspan="4" style="background:#ecf6ef;font-weight:800;color:var(--green-d)">着手中（進行中）</td></tr>
         <tr><td>Web Vitals を GA4 で計測＋ダッシュボード整備 <span class="qwtag">0番目＝ベースライン</span></td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-300" target="_blank" rel="noopener">#300</a></td><td>牧野</td><td>全調査・効果検証の前提（p75 計測）</td></tr>
         <tr><td>未使用 GTM/計測タグの棚卸し（audit）</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-301" target="_blank" rel="noopener">#301</a></td><td>牧野</td><td>ICE #1 ／ ※GTM 断捨離はガバナンス側と連携</td></tr>
         <tr><td>明らかに不要な GTM タグの停止</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-303" target="_blank" rel="noopener">#303</a></td><td>牧野</td><td>ICE #1 ／ ※ガバナンス側と連携</td></tr>
@@ -447,7 +444,7 @@
         <tr><td>Web フォント最適化（font-display / preload / subset）</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-387" target="_blank" rel="noopener">#387</a></td><td>Suki</td><td>#306 と連携</td></tr>
         <tr><td>検索 API 応答改善＋結果の段階描画</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-312" target="_blank" rel="noopener">#312</a></td><td>Suki</td><td>検索結果ページ</td></tr>
 
-        <tr><td colspan="4" style="background:#fbf3e6;font-weight:800;color:#a9711f">🟡 起案中（要件整理中・牧野）</td></tr>
+        <tr><td colspan="4" style="background:#fbf3e6;font-weight:800;color:#a9711f">起案中（要件整理中・牧野）</td></tr>
         <tr><td>速度 × CVR 効果検証（前後比較・10〜12月）</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-315" target="_blank" rel="noopener">#315</a></td><td>牧野</td><td>KPI②（ROI 回収の判定）</td></tr>
 
         <tr><td colspan="4" style="background:#f1f2f4;font-weight:800;color:#7a808a">⬛ クローズ（既存チケットへ統合・重複整理）</td></tr>
@@ -463,7 +460,7 @@
 
   <!-- 計測とレポート -->
   <div class="sec">
-    <h2><span class="no">測</span>計測とレポート（本番のみ・リリース前後で測る）</h2>
+    <h2>計測とレポート（本番のみ・リリース前後で測る）</h2>
     <p class="lead">成果（速度改善）は <b>本番 www.veltra.com でしか正確に測れない</b>。開発サーバは設定が異なり数値が本番と大きく乖離するため、<b>効果判定は「本番リリース前後の比較」</b>で行う（dev は"壊れていないか"の簡易確認のみ）。<b>実データの集計レポートは計測スプレッドシート</b>に置き、本ページは前提概念（指標・目的・優先度）に徹する。</p>
 
     <p class="lead" style="margin-top:14px">見る指標と、なぜ見るか</p>
@@ -513,7 +510,7 @@
 
   <!-- ネクストアクション -->
   <div class="sec">
-    <h2><span class="no">次</span>ネクストアクション</h2>
+    <h2>ネクストアクション</h2>
     <p class="lead">2026-07-23 議事録より。8月からリソース 20% で着手。CVR の高いページ（＝予約に近い画面）から優先、モバイル最重視。</p>
     <div class="tblwrap">
       <table class="ctbl">
@@ -529,7 +526,7 @@
 
   <!-- 議事録（打ち合わせログ・増えていく） -->
   <div class="sec">
-    <h2><span class="no">録</span>議事録</h2>
+    <h2>議事録</h2>
     <p class="lead">レイテンシー改善の打ち合わせログ。新しいものを上に追記していく。</p>
     <ul class="loglist">
       <li>
@@ -542,7 +539,7 @@
 
   <!-- 参考資料アーカイブ -->
   <div class="sec">
-    <h2><span class="no">資</span>参考資料アーカイブ</h2>
+    <h2>参考資料アーカイブ</h2>
     <p class="lead">過去プロジェクトの ClickUp チケット・Google Drive 資料を AI で横断検索して収集。テーマ別にタイトル＋リンク＋概要（トグルで展開）で整理。バックログ化の素材。</p>
 
     <div class="arch">
