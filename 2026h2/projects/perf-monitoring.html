@@ -132,7 +132,7 @@
     </div>
     <div class="panel">
       <h3>ページ別 LCP p75（週次）</h3>
-      <p class="cap">点線＝目標 2,500ms。CrUX 週次。</p>
+      <p class="cap"><label style="cursor:pointer"><input type="checkbox" id="showLines" checked style="vertical-align:middle"> 合格ライン表示</label>（<b style="color:var(--good)">緑=合格 2.5s</b> ／ <b style="color:var(--poor)">赤=不良境界 4.0s</b>）。CrUX 週次。</p>
       <div class="chartbox"><canvas id="trendLcp"></canvas></div>
     </div>
   </div>
@@ -270,10 +270,14 @@ function render(){
   // trend: per-page lcp
   const palette=["#4f7597","#3f7d57","#a9711f","#c0442a","#7CA0BF","#b06fb0"];
   const ds=Object.keys(d.weekly_lcp).map((k,i)=>({label:k,data:d.weekly_lcp[k],borderColor:palette[i%palette.length],fill:false,tension:.3,pointRadius:2}));
-  ds.push({label:"目標 2,500ms",data:d.weeks.map(()=>TARGET),borderColor:"#c0442a",borderDash:[6,4],pointRadius:0,fill:false});
-  new Chart(document.getElementById("trendLcp"),{type:"line",
+  const nSeries=ds.length;
+  ds.push({label:"合格ライン 2.5s",data:d.weeks.map(()=>2500),borderColor:"#3f7d57",borderDash:[6,4],borderWidth:1.5,pointRadius:0,fill:false});
+  ds.push({label:"不良境界 4.0s",data:d.weeks.map(()=>4000),borderColor:"#c0442a",borderDash:[6,4],borderWidth:1.5,pointRadius:0,fill:false});
+  const lcpChart=new Chart(document.getElementById("trendLcp"),{type:"line",
     data:{labels:d.weeks,datasets:ds},
     options:{plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:10}}}},scales:{y:{ticks:{callback:v=>(v/1000).toFixed(1)+"s"}}},maintainAspectRatio:false}});
+  const cb=document.getElementById("showLines");
+  if(cb) cb.addEventListener("change",()=>{ lcpChart.data.datasets[nSeries].hidden=!cb.checked; lcpChart.data.datasets[nSeries+1].hidden=!cb.checked; lcpChart.update(); });
 
   // releases
   const tb=document.querySelector("#reltbl tbody"); tb.innerHTML="";
