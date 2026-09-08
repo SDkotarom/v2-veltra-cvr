@@ -88,6 +88,12 @@
   .cmp .bar .t{position:absolute;top:0;bottom:0;left:0;display:flex;align-items:center;padding-left:10px;font-size:12px;font-weight:700;color:#2D1C21}
   .cmp .bar .v{position:absolute;right:9px;top:0;bottom:0;display:flex;align-items:center;font-size:12px;font-weight:800}
   .cmp .bar .mk{position:absolute;top:-2px;width:2px;height:28px;background:#c0442a}
+  .evid{margin:14px 0 20px;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:10px;background:#fff;padding:12px 16px}
+  .evid .evh{font-weight:800;font-size:14px;margin-bottom:6px}
+  .evid ul{margin:0;padding-left:19px}
+  .evid li{font-size:12.5px;line-height:1.75;margin:4px 0}
+  .evid code{background:#f1efe9;border-radius:4px;padding:1px 5px;font-size:12px}
+  .evid .evn{color:var(--sub);font-size:11.5px}
   .appx{margin-top:22px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 18px}
   .appx summary{cursor:pointer;font-weight:700;padding:13px 2px;font-size:13.5px}
   .appx .ab{padding:2px 2px 18px;font-size:12.5px;color:var(--ink);line-height:1.85}
@@ -102,6 +108,16 @@
 
 <div class="wrap">
   <div class="note" id="src"></div>
+
+  <!-- エビデンス（出所） -->
+  <div class="evid">
+    <div class="evh">🔗 このダッシュボードの数値の出所（エビデンス）</div>
+    <ul>
+      <li><b>収集ログの原本</b>：<a href="https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit" target="_blank" rel="noopener">スプレッドシート「表示速度改善 施策リスト」の <code>crux_weekly</code>／<code>psi_daily</code> タブ</a> ＝ CrUX（実ユーザー週次）・PSI（ラボ日次）を自動記録した実測値。本ページはこの値をそのまま読み込み表示（改変なし）。<span class="evn">※ベルトラ社内アカウントのみ閲覧可</span></li>
+      <li><b>各ページをその場で再計測して照合</b>：下の各ページカードの「🔍 PSIで実測を確認」から Google PageSpeed Insights を開くと、<b>実ユーザー値(CrUX)＋ラボ値</b>が今この瞬間の値で表示され、突き合わせられます。</li>
+      <li><b>取得元API</b>：CrUX History API ／ PageSpeed Insights API（いずれも Google 公式・無償）。収集は Google Apps Script が自動実行。</li>
+    </ul>
+  </div>
 
   <!-- スコアカード -->
   <div class="cards">

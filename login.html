@@ -129,10 +129,33 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:var(--bg);color:
 </div>
 
 <script>
+// ===== アクセス許可リスト（ここを編集すれば許可を増減できます）=====
+// ・ALLOW_DOMAINS … このドメインのGoogleアカウントは全員許可（ベルトラ社内）
+// ・ALLOW_EMAILS  … 上記ドメイン以外で個別に許可するメールアドレス
+var ALLOW_DOMAINS = ['veltra.com'];
+var ALLOW_EMAILS  = ['issondodoitu@gmail.com'];
+function isAllowedEmail(email, verified) {
+  if (!email || verified === false) return false;
+  email = String(email).toLowerCase();
+  if (ALLOW_EMAILS.map(function(e){return e.toLowerCase();}).indexOf(email) !== -1) return true;
+  var domain = email.split('@')[1] || '';
+  return ALLOW_DOMAINS.map(function(d){return d.toLowerCase();}).indexOf(domain) !== -1;
+}
+
 function onSignIn(response) {
+  var errEl = document.getElementById('error');
   if (response.credential) {
     var parts = response.credential.split('.');
     var payload = JSON.parse(atob(parts[1].replace(/-/g,'+').replace(/_/g,'/')));
+    // 許可リストに無いアカウントは弾く（保存もしない）
+    if (!isAllowedEmail(payload.email, payload.email_verified)) {
+      sessionStorage.removeItem('gauth_user');
+      errEl.textContent = 'このアカウント（' + (payload.email || '不明') + '）にはアクセス権がありません。ベルトラ社内のアカウント、または管理者が許可したアカウントでログインしてください。';
+      errEl.style.display = 'block';
+      if (window.google && google.accounts && google.accounts.id) { google.accounts.id.disableAutoSelect(); }
+      return;
+    }
+    errEl.style.display = 'none';
     sessionStorage.setItem('gauth_user', JSON.stringify({
       email: payload.email,
       name: payload.name,
@@ -147,7 +170,7 @@ function onSignIn(response) {
       showPortal();
     }
   } else {
-    document.getElementById('error').style.display = 'block';
+    errEl.style.display = 'block';
   }
 }
 
@@ -205,9 +228,15 @@ function loadPlanning() {
     });
 }
 
-// On load: if already logged in, show portal. Otherwise stay on login screen.
+// On load: if already logged in with an allowed account, show portal. Otherwise stay on login screen.
 (function () {
-  if (sessionStorage.getItem('gauth_user')) showPortal();
+  var raw = sessionStorage.getItem('gauth_user');
+  if (!raw) return;
+  try {
+    var u = JSON.parse(raw);
+    if (!isAllowedEmail(u.email, true)) { sessionStorage.removeItem('gauth_user'); return; }
+  } catch (e) { sessionStorage.removeItem('gauth_user'); return; }
+  showPortal();
 })();
 </script>
 </body>
