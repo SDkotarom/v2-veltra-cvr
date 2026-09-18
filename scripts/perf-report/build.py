@@ -196,12 +196,14 @@ html = f'''<title>表示速度モニタリング</title>
 <style>{CSS}</style>
 <div class="wrap">
 <div class="langbar"><button id="btn-ja" aria-pressed="true" onclick="setLang('ja')">日本語</button><button id="btn-en" aria-pressed="false" onclick="setLang('en')">English</button></div>
+<div class="head">
 <p class="eyebrow">Veltra ／ {t("表示速度改善", "Web Performance")} ／ {defs["generated_at"][:10]}</p>
 <h1>{t("表示速度モニタリング", "Web Performance Monitor")}</h1>
 <p class="sub">www.veltra.com — {t(f'実ユーザー p75（CrUX・モバイル）・対象週 {defs["latest_period_end"]}', f'Real-user p75 (CrUX, mobile) · week ending {defs["latest_period_end"]}')}</p>
-{leads}
+</div>
+<div class="leads">{leads}</div>
 
-<h2><span class="n">1</span>{t("いまの数字", "Where we stand")}</h2>
+<div class="sec"><h2><span class="n">1</span>{t("いまの数字", "Where we stand")}</h2>
 <p class="tally">{t(f'対象 {defs["denominator"]} ページ — {tally_ja}', f'{defs["denominator"]} pages — {tally_en}')}</p>
 <div class="tiles">{tiles}</div>
 <p class="note">{t(f'合格ラインは LCP {defs["lcp_good"]:,}ms 以下。URL単位の CrUX のみを採用し、サイト全体（origin）の値での代用はしていない。取れないページは未計測として分母に残している。', f'Target is LCP {defs["lcp_good"]:,}ms or under. Only URL-level CrUX is used — origin-level values are never substituted. Pages without data stay in the denominator as "no data".')}</p>
@@ -213,19 +215,27 @@ html = f'''<title>表示速度モニタリング</title>
 <div class="tw"><table><tr><th>{t("ページ","Page")}</th><th>LCP</th><th>INP</th><th>CLS</th><th>TTFB</th><th>{t("状態","Status")}</th></tr>{drows}</table></div>
 <p class="note">{t(f'合格ライン：INP {defs["inp_good"]}ms 以下／CLS {defs["cls_good"]} 以下／TTFB {defs["ttfb_good"]}ms 以下。赤字は合格ラインを超えている値。LCP と TTFB はそれぞれ独立した p75 のため、差や比率は計算できない。', f'Targets: INP under {defs["inp_good"]}ms, CLS under {defs["cls_good"]}, TTFB under {defs["ttfb_good"]}ms. Red exceeds target. LCP and TTFB are independent p75 values — differences and ratios between them are not meaningful.')}</p>
 
-<h2><span class="n">2</span>{t("分かったこと", "What we learned")}</h2>
+</div>
+
+<div class="sec"><h2><span class="n">2</span>{t("分かったこと", "What we learned")}</h2>
 {frows}
 
-<h2><span class="n">3</span>{t("課題とやること", "Issues and next steps")}</h2>
+</div>
+
+<div class="sec"><h2><span class="n">3</span>{t("課題とやること", "Issues and next steps")}</h2>
 {irows}
 
-<h2><span class="n">4</span>{t("補足データ", "Supporting data")}</h2>
+</div>
+
+<div class="sec"><h2><span class="n">4</span>{t("補足データ", "Supporting data")}</h2>
 <div class="tw"><table><tr><th>{t("ページ","Page")}</th><th>{t("PSI スコア","PSI score")}</th><th>PSI LCP</th></tr>{prows}</table></div>
 <p class="note">{t(f'PageSpeed Insights（ラボ・{defs["psi_date"]}）。日次でばらつきが大きく、実ユーザー値とは別物。傾向の確認にのみ使う。', f'PageSpeed Insights (lab, {defs["psi_date"]}). High daily variance, not real-user data — direction only.')}</p>
 <div class="tw"><table><tr><th>{t("日付","Date")}</th><th>{t("チケット","Ticket")}</th><th>{t("対象","Scope")}</th><th>{t("内容","Change")}</th></tr>{rrows}</table></div>
 
 <details><summary>{t("データの定義を見る", "View data definitions")}</summary><div class="tw"><table><tr><th>key</th><th>value</th></tr>{defrows}</table></div></details>
 <details><summary>{t(f'週次データ（全{len(weekly["weeks"])}週）を表で見る', f'View the full {len(weekly["weeks"])}-week table')}</summary><div class="tw"><table>{wk}</table></div></details>
+
+</div>
 
 <a class="linkcard" href="{defs["sheet_url"]}"><div><b>{t("計測スプレッドシート","Measurement spreadsheet")}</b><span>{t("生データと集計タブ（_summary / _defs）","Raw data and the aggregation tabs (_summary / _defs)")}</span></div><span>{t("開く →","Open →")}</span></a>
 

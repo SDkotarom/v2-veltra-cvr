@@ -1,84 +1,145 @@
 <title>表示速度モニタリング</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
-<style>
-:root{--bg:#FBFAF8;--panel:#FFFFFF;--ink:#22201E;--mut:#6E6A65;--line:#E4E0D9;--soft:#F4F1EC;
---good:#2E7D32;--ni:#B45309;--poor:#B3261E;--accent:#1F6FB2;}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1A1917;--panel:#232220;--ink:#EDEAE4;--mut:#A5A099;--line:#37352F;--soft:#2B2A27;--good:#7BC47F;--ni:#E0A458;--poor:#E8776B;--accent:#7CB8EA;}}
-:root[data-theme="dark"]{--bg:#1A1917;--panel:#232220;--ink:#EDEAE4;--mut:#A5A099;--line:#37352F;--soft:#2B2A27;--good:#7BC47F;--ni:#E0A458;--poor:#E8776B;--accent:#7CB8EA;}
+<style>:root{
+  --brand:#7CA0BF; --brand-ink:#41637F;
+  --pos:#86BE99; --pos-ink:#3E7A52;
+  --neg:#F38268; --neg-ink:#B4462A;
+  --warn-ink:#9A6112;
+  --bg:#FFFFFF; --bg-tint:#FEFCF3; --surface:#FFFFFF; --surface-2:#F4F6F8;
+  --line:#E4E9ED; --line-strong:#C6D0D8; --line-soft:#EDF1F4;
+  --ink:#2D1C21; --ink-2:#54474B; --ink-3:#7C7175;
+  --shadow:0 1px 2px rgba(45,28,33,.05), 0 8px 24px -16px rgba(45,28,33,.18);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --brand:#8FB2CE; --brand-ink:#A9C6DC; --pos:#7FBE95; --pos-ink:#95CFA8;
+  --neg:#EE8A73; --neg-ink:#F19B86; --warn-ink:#E0A458;
+  --bg:#171418; --bg-tint:#1E1A1E; --surface:#201C21; --surface-2:#272227;
+  --line:#332B33; --line-strong:#4A404A; --line-soft:#2C262C;
+  --ink:#F2EDE9; --ink-2:#C4BAB8; --ink-3:#948A8A;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --brand:#8FB2CE; --brand-ink:#A9C6DC; --pos:#7FBE95; --pos-ink:#95CFA8;
+  --neg:#EE8A73; --neg-ink:#F19B86; --warn-ink:#E0A458;
+  --bg:#171418; --bg-tint:#1E1A1E; --surface:#201C21; --surface-2:#272227;
+  --line:#332B33; --line-strong:#4A404A; --line-soft:#2C262C;
+  --ink:#F2EDE9; --ink-2:#C4BAB8; --ink-3:#948A8A;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.7);
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",system-ui,-apple-system,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;font-size:14px;line-height:1.75;-webkit-font-smoothing:antialiased}
-.wrap{max-width:980px;margin:0 auto;padding:0 16px;padding-block:36px 60px}
-.eyebrow{font-family:Montserrat,system-ui,sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin:0 0 10px}
-h1{font-size:30px;font-weight:700;margin:0 0 4px;letter-spacing:.01em;text-wrap:balance}
-.sub{color:var(--accent);font-size:14px;margin:0 0 18px}
-.lead{font-size:15px;margin:0 0 8px}
-h2{font-size:17px;font-weight:700;margin:44px 0 16px;padding-bottom:9px;border-bottom:2px solid var(--ink)}
-h2 .n{font-family:Montserrat,sans-serif;color:var(--mut);margin-right:10px}
-.note{color:var(--mut);font-size:12.5px;margin:10px 0 0}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
-.tile{border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:14px 16px}
-.tl-h{font-size:12.5px;color:var(--mut);display:flex;align-items:center;gap:7px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic",system-ui,-apple-system,sans-serif;
+  font-size:15px;line-height:1.85;-webkit-font-smoothing:antialiased}
+
+.wrap{max-width:900px;margin:0 auto;padding-block:44px 88px;padding-left:20px;padding-right:20px;
+  display:flex;flex-direction:column;gap:46px}
+.head{display:flex;flex-direction:column;gap:10px}
+.eyebrow{font-family:Montserrat,system-ui,sans-serif;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);margin:0}
+h1{margin:0;font-size:clamp(26px,4vw,35px);line-height:1.22;font-weight:700;text-wrap:balance}
+.sub{color:var(--brand-ink);font-size:13.5px;margin:0}
+.leads{display:flex;flex-direction:column;gap:10px}
+.lead{font-size:15.5px;margin:0;line-height:1.85}
+.sec{display:flex;flex-direction:column;gap:16px}
+h2{font-size:19px;font-weight:700;margin:0;padding-bottom:10px;border-bottom:1px solid var(--line-strong);line-height:1.4}
+h2 .n{font-family:Montserrat,sans-serif;font-size:14px;color:var(--ink-3);margin-right:12px;vertical-align:.08em}
+.note{margin:0;font-size:12.5px;color:var(--ink-3);line-height:1.75}
+.tally{margin:0;font-size:13.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px 17px;
+  box-shadow:var(--shadow);display:flex;flex-direction:column;gap:2px}
+.tl-h{font-size:12px;color:var(--ink-3);display:flex;align-items:center;gap:8px;line-height:1.5}
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
-.tl-v{font-size:31px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin:4px 0 0}
-.tl-v .u{font-size:13px;font-weight:500;color:var(--mut);margin-left:3px}
-.tl-s{font-size:12px;color:var(--mut);margin-bottom:9px}
+.tl-v{font-size:28px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.25}
+.tl-v .u{font-size:13px;font-weight:500;color:var(--ink-3);margin-left:3px}
+.tl-s{font-size:11.5px;color:var(--ink-3);line-height:1.6;margin-bottom:8px}
 .tl-f{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.badge{font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:999px;border:1px solid}
-.badge.good{color:var(--good);border-color:var(--good)} .badge.ni{color:var(--ni);border-color:var(--ni)}
-.badge.poor{color:var(--poor);border-color:var(--poor)} .badge.nd{color:var(--mut);border-color:var(--line)}
-.diff{font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums}
-.diff.up{color:var(--poor)} .diff.down{color:var(--good)}
-.card{border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:16px 14px 8px;margin-top:14px}
-.card h3{font-size:13px;font-weight:700;margin:0 0 2px} .card p{margin:0 0 4px;color:var(--mut);font-size:12.5px}
+.badge{font-size:11px;font-weight:700;padding:2px 10px;border-radius:999px;border:1px solid;line-height:1.7}
+.badge.good{color:var(--pos-ink);border-color:var(--pos)}
+.badge.ni{color:var(--warn-ink);border-color:var(--warn-ink)}
+.badge.poor{color:var(--neg-ink);border-color:var(--neg)}
+.badge.nd{color:var(--ink-3);border-color:var(--line-strong)}
+.diff{font-size:11.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.diff.up{color:var(--neg-ink)} .diff.down{color:var(--pos-ink)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:17px 17px 10px;box-shadow:var(--shadow)}
+.card h3{font-size:13.5px;font-weight:700;margin:0 0 2px}
+.card p{margin:0 0 6px;color:var(--ink-3);font-size:12px}
 svg{display:block;width:100%;height:auto}
-.grid{stroke:var(--line);stroke-width:1} .target{stroke:var(--mut);stroke-width:1;stroke-dasharray:5 4;opacity:.7}
-.rel{stroke:var(--accent);stroke-width:1.5;stroke-dasharray:3 3;opacity:.85}
-.rell{font-size:10.5px;fill:var(--accent);font-weight:700}
-.ax{font-size:10.5px;fill:var(--mut);font-variant-numeric:tabular-nums} .tgt{font-size:10.5px;fill:var(--mut)}
-.dl{font-size:11.5px;font-weight:700} .ln{stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
-.find{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
-.find:last-child{border-bottom:0}
-.fn{font-family:Montserrat,sans-serif;font-size:12px;font-weight:700;color:var(--mut);flex:none;width:24px;padding-top:2px}
-.find h3{font-size:15px;font-weight:700;margin:0 0 4px} .find p{margin:0}
-.issue{border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:18px 20px;margin-bottom:12px}
-.ih{font-family:Montserrat,sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--poor);margin-bottom:6px}
-.issue h3{font-size:15.5px;font-weight:700;margin:0 0 4px}
-.issue p{margin:0 0 12px;color:var(--mut);font-size:13px}
-.yl{font-size:11.5px;font-weight:700;color:var(--mut);letter-spacing:.06em}
-.issue ul{margin:4px 0 14px;padding-left:20px} .issue li{margin:2px 0}
+.grid{stroke:var(--line-soft);stroke-width:1}
+.target{stroke:var(--line-strong);stroke-width:1;stroke-dasharray:5 4}
+.rel{stroke:var(--brand);stroke-width:1.5;stroke-dasharray:3 3}
+.rell{font-size:10.5px;fill:var(--brand-ink);font-weight:700}
+.ax{font-size:10.5px;fill:var(--ink-3);font-variant-numeric:tabular-nums}
+.tgt{font-size:10.5px;fill:var(--ink-3)}
+.dl{font-size:11.5px;font-weight:700}
+.ln{stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+
+.find{display:flex;gap:18px;padding:16px 0;border-bottom:1px solid var(--line-soft)}
+.find:last-child{border-bottom:0;padding-bottom:0}
+.fn{font-family:Montserrat,sans-serif;font-size:12px;font-weight:700;color:var(--ink-3);flex:none;width:26px;padding-top:4px}
+.find h3{font-size:16px;font-weight:700;margin:0 0 4px;line-height:1.5}
+.find p{margin:0;font-size:14px;color:var(--ink-2)}
+
+.issue{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:20px 22px;box-shadow:var(--shadow)}
+.ih{font-family:Montserrat,sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;
+  color:var(--neg-ink);margin-bottom:6px}
+.issue h3{font-size:16px;font-weight:700;margin:0 0 4px;line-height:1.5}
+.issue p{margin:0 0 14px;color:var(--ink-3);font-size:13px}
+.yl{font-size:11px;font-weight:700;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
+.issue ul{margin:6px 0 16px;padding-left:20px} .issue li{margin:3px 0;font-size:14px}
 .ifoot{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.chip{font-size:11.5px;background:var(--soft);border:1px solid var(--line);border-radius:4px;padding:2px 9px;color:var(--mut)}
-.nt{font-size:12px;color:var(--poor)}
-.tw{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--panel);margin-top:14px}
-table{border-collapse:collapse;width:100%;font-size:13px;min-width:480px}
-th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
-th{font-size:11.5px;color:var(--mut);font-weight:700;letter-spacing:.04em}
-tr:last-child td{border-bottom:0} td.bad{color:var(--poor);font-weight:700}
-a{color:var(--accent)} details{margin-top:14px} summary{cursor:pointer;font-size:12.5px;color:var(--mut)}
-.linkcard{display:flex;justify-content:space-between;align-items:center;gap:14px;border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:16px 20px;margin-top:20px;text-decoration:none;color:inherit}
-.linkcard b{display:block;font-size:14px} .linkcard span{font-size:12.5px;color:var(--mut)}
-footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);color:var(--mut);font-size:12px}
-@media(max-width:520px){h1{font-size:23px} .tl-v{font-size:26px} .issue{padding:16px}}
+.chip{font-size:11.5px;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:5px;padding:2px 10px;color:var(--ink-2)}
+.nt{font-size:12px;color:var(--neg-ink)}
+
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px}
+th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600;
+  background:var(--surface-2);border-bottom:1px solid var(--line);padding:9px 13px;text-align:right;white-space:nowrap}
+td{padding:10px 13px;text-align:right;border-bottom:1px solid var(--line-soft);
+  white-space:nowrap;font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left}
+th:last-child,td:last-child{text-align:left;white-space:normal}
+tr:last-child td{border-bottom:0}
+td.bad{color:var(--neg-ink);font-weight:700}
+
+a{color:var(--brand-ink)}
+details{margin:0} summary{cursor:pointer;font-size:12.5px;color:var(--ink-3);padding:4px 0}
+details .tw{margin-top:12px}
+.linkcard{display:flex;justify-content:space-between;align-items:center;gap:16px;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 22px;
+  box-shadow:var(--shadow);text-decoration:none;color:inherit}
+.linkcard b{display:block;font-size:14.5px} .linkcard span{font-size:12.5px;color:var(--ink-3)}
+footer{border-top:1px solid var(--line);padding-top:18px;font-size:12px;color:var(--ink-3);line-height:1.8}
+
+.langbar{display:flex;justify-content:flex-end;gap:0}
+.langbar button{font:inherit;font-size:12.5px;padding:5px 15px;border:1px solid var(--line-strong);
+  background:var(--surface);color:var(--ink-3);cursor:pointer;line-height:1.6}
+.langbar button:first-child{border-radius:6px 0 0 6px}
+.langbar button:last-child{border-radius:0 6px 6px 0;border-left:0}
+.langbar button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.langbar button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 
 .en{display:none} [data-lang="en"] .ja{display:none} [data-lang="en"] .en{display:inline}
-[data-lang="en"] p.en,[data-lang="en"] div.en{display:block}
-.langbar{display:flex;justify-content:flex-end;gap:0;margin-bottom:18px}
-.langbar button{font:inherit;font-size:12.5px;padding:5px 14px;border:1px solid var(--line);
-background:var(--panel);color:var(--mut);cursor:pointer}
-.langbar button:first-child{border-radius:5px 0 0 5px} .langbar button:last-child{border-radius:0 5px 5px 0;border-left:0}
-.langbar button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.langbar button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-
-.tally{font-size:13px;color:var(--mut);margin:0 0 12px;font-variant-numeric:tabular-nums}
+@media(max-width:560px){
+  .wrap{padding-left:16px;padding-right:16px;gap:38px;padding-block:32px 64px}
+  .tl-v{font-size:25px} .issue{padding:17px} .find{gap:12px}
+}
 </style>
 <div class="wrap">
 <div class="langbar"><button id="btn-ja" aria-pressed="true" onclick="setLang('ja')">日本語</button><button id="btn-en" aria-pressed="false" onclick="setLang('en')">English</button></div>
+<div class="head">
 <p class="eyebrow">Veltra ／ <span class="ja">表示速度改善</span><span class="en">Web Performance</span> ／ 2026-09-18</p>
 <h1><span class="ja">表示速度モニタリング</span><span class="en">Web Performance Monitor</span></h1>
 <p class="sub">www.veltra.com — <span class="ja">実ユーザー p75（CrUX・モバイル）・対象週 2026-08-29</span><span class="en">Real-user p75 (CrUX, mobile) · week ending 2026-08-29</span></p>
-<p class="lead"><span class="ja">対象6ページのうち、実ユーザー値が取れているのは <b>3ページ</b>。その3ページに<b>合格はゼロ</b>で、TOP 2,805ms・エリア 2,714ms が要改善、検索結果は <b>6,708ms</b> で不良。目標は 2,500ms。</span><span class="en">Of the six target pages, real-user data exists for <b>three</b>. <b>None of those three pass</b>: TOP at 2,805ms and Area at 2,714ms need work, Search is poor at <b>6,708ms</b>. The target is 2,500ms.</span></p><p class="lead"><span class="ja">残り3ページは測れていない。地域とカテゴリーは<b>収集対象に入っておらず</b>、AC詳細は 6/27 以降 CrUX の掲載閾値に届かず欠測。<b>KPI の分母6のうち半分が空いている状態</b>で、施策の効果も判定できない。</span><span class="en">The other three are not measured. Region and Category are <b>not in the collection set</b>, and AC detail has been below the CrUX reporting threshold since Jun 27. <b>Half the KPI denominator is empty</b>, so improvements there cannot be verified.</span></p><p class="lead"><span class="ja">問題は立ち上がりではなく<b>半年かけての劣化</b>。エリアは最速だった 3/28 の 1,660ms から <b>+1,054ms</b> 悪化した。検索結果は TTFB だけで <b>4,851ms</b> あり、目標 2,500ms を単体で超えている。</span><span class="en">This is <b>a six-month decline</b>, not a launch dip. Area has degraded <b>+1,054ms</b> from its best week (1,660ms on Mar 28). On Search, TTFB alone is <b>4,851ms</b> — over the 2,500ms target by itself.</span></p><p class="lead"><span class="ja">9/17 に最初の3件をリリースした。CrUX は28日間のローリングのため、<b>効果がこの数値に表れるのは数週先</b>になる。</span><span class="en">The first three fixes shipped on Sep 17. CrUX rolls over 28 days, so <b>the effect will not show here for several weeks</b>.</span></p>
+</div>
+<div class="leads"><p class="lead"><span class="ja">対象6ページのうち、実ユーザー値が取れているのは <b>3ページ</b>。その3ページに<b>合格はゼロ</b>で、TOP 2,805ms・エリア 2,714ms が要改善、検索結果は <b>6,708ms</b> で不良。目標は 2,500ms。</span><span class="en">Of the six target pages, real-user data exists for <b>three</b>. <b>None of those three pass</b>: TOP at 2,805ms and Area at 2,714ms need work, Search is poor at <b>6,708ms</b>. The target is 2,500ms.</span></p><p class="lead"><span class="ja">残り3ページは測れていない。地域とカテゴリーは<b>収集対象に入っておらず</b>、AC詳細は 6/27 以降 CrUX の掲載閾値に届かず欠測。<b>KPI の分母6のうち半分が空いている状態</b>で、施策の効果も判定できない。</span><span class="en">The other three are not measured. Region and Category are <b>not in the collection set</b>, and AC detail has been below the CrUX reporting threshold since Jun 27. <b>Half the KPI denominator is empty</b>, so improvements there cannot be verified.</span></p><p class="lead"><span class="ja">問題は立ち上がりではなく<b>半年かけての劣化</b>。エリアは最速だった 3/28 の 1,660ms から <b>+1,054ms</b> 悪化した。検索結果は TTFB だけで <b>4,851ms</b> あり、目標 2,500ms を単体で超えている。</span><span class="en">This is <b>a six-month decline</b>, not a launch dip. Area has degraded <b>+1,054ms</b> from its best week (1,660ms on Mar 28). On Search, TTFB alone is <b>4,851ms</b> — over the 2,500ms target by itself.</span></p><p class="lead"><span class="ja">9/17 に最初の3件をリリースした。CrUX は28日間のローリングのため、<b>効果がこの数値に表れるのは数週先</b>になる。</span><span class="en">The first three fixes shipped on Sep 17. CrUX rolls over 28 days, so <b>the effect will not show here for several weeks</b>.</span></p></div>
 
-<h2><span class="n">1</span><span class="ja">いまの数字</span><span class="en">Where we stand</span></h2>
+<div class="sec"><h2><span class="n">1</span><span class="ja">いまの数字</span><span class="en">Where we stand</span></h2>
 <p class="tally"><span class="ja">対象 6 ページ — 合格 0・要改善 2・不良 1・未計測 3</span><span class="en">6 pages — Pass 0 · Needs work 2 · Poor 1 · No data 3</span></p>
 <div class="tiles"><div class="tile"><div class="tl-h"><span class="dot" style="background:#1F6FB2"></span><span class="ja">TOP</span><span class="en">TOP</span></div>
 <div class="tl-v">2,805<span class="u">ms</span></div>
@@ -108,19 +169,27 @@ background:var(--panel);color:var(--mut);cursor:pointer}
 <div class="tw"><table><tr><th><span class="ja">ページ</span><span class="en">Page</span></th><th>LCP</th><th>INP</th><th>CLS</th><th>TTFB</th><th><span class="ja">状態</span><span class="en">Status</span></th></tr><tr><td><span class="ja">TOP</span><span class="en">TOP</span></td><td class="bad">2,805 ms</td><td class="bad">213 ms</td><td>0.04</td><td class="bad">1,536 ms</td><td><span class="ja">ok</span><span class="en">ok</span></td></tr><tr><td><span class="ja">エリア</span><span class="en">Area</span></td><td class="bad">2,714 ms</td><td>177 ms</td><td>0.00</td><td class="bad">1,718 ms</td><td><span class="ja">ok</span><span class="en">ok</span></td></tr><tr><td><span class="ja">地域</span><span class="en">Region</span></td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="ja">未収集</span><span class="en">not collected</span></td></tr><tr><td><span class="ja">カテゴリー</span><span class="en">Category</span></td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="ja">未収集</span><span class="en">not collected</span></td></tr><tr><td><span class="ja">AC詳細</span><span class="en">AC detail</span></td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="ja">欠測</span><span class="en">missing</span></td></tr><tr><td><span class="ja">検索結果</span><span class="en">Search</span></td><td class="bad">6,708 ms</td><td>158 ms</td><td class="bad">0.32</td><td class="bad">4,851 ms</td><td><span class="ja">ok</span><span class="en">ok</span></td></tr></table></div>
 <p class="note"><span class="ja">合格ライン：INP 200ms 以下／CLS 0.1 以下／TTFB 800ms 以下。赤字は合格ラインを超えている値。LCP と TTFB はそれぞれ独立した p75 のため、差や比率は計算できない。</span><span class="en">Targets: INP under 200ms, CLS under 0.1, TTFB under 800ms. Red exceeds target. LCP and TTFB are independent p75 values — differences and ratios between them are not meaningful.</span></p>
 
-<h2><span class="n">2</span><span class="ja">分かったこと</span><span class="en">What we learned</span></h2>
+</div>
+
+<div class="sec"><h2><span class="n">2</span><span class="ja">分かったこと</span><span class="en">What we learned</span></h2>
 <div class="find"><div class="fn">01</div><div><h3><span class="ja">半年かけて悪化している。立ち上がりの問題ではない</span><span class="en">A six-month slide, not a launch problem</span></h3><p><span class="ja">エリアは 3/28 の 1,660ms が最速で、8/29 の 2,714ms まで <b>+1,054ms</b> 悪化した。3月時点では合格していたページが、いま要改善に落ちている。TOP も同期間で 2,514 → 2,805ms。<b>放置して戻る種類の劣化ではない。</b></span><span class="en">Area peaked at 1,660ms on Mar 28 and has degraded <b>+1,054ms</b> to 2,714ms by Aug 29. A page that passed in March now needs work. TOP moved 2,514 → 2,805ms over the same period. <b>This does not reverse on its own.</b></span></p></div></div><div class="find"><div class="fn">02</div><div><h3><span class="ja">検索結果は、サーバー応答だけで目標を超えている</span><span class="en">On Search, server response alone exceeds the target</span></h3><p><span class="ja">TTFB が <b>4,851ms</b>。合格ライン 800ms の6倍で、LCP の目標 2,500ms も単体で超えている。画像最適化も preload も、このページでは届かない。<b>サーバー側の打ち手が要る。</b></span><span class="en">TTFB is <b>4,851ms</b> — six times the 800ms target, and above the 2,500ms LCP target by itself. Image work and preload cannot reach this page. <b>It needs a server-side fix.</b></span></p></div></div><div class="find"><div class="fn">03</div><div><h3><span class="ja">4月中旬に、検索結果で何かが起きた</span><span class="en">Something happened to Search in mid-April</span></h3><p><span class="ja">4/11 の 3,179ms から 4/18 に 6,148ms へ跳ね、5/16 には 9,392ms まで悪化した。同時期に CLS も 0 から 0.44 へ。<b>これは推定だが</b>、単調な劣化ではなく特定の変更が引き金になった形に見える。当時のリリース内容を当たる価値がある。</span><span class="en">It jumped from 3,179ms on Apr 11 to 6,148ms on Apr 18, reaching 9,392ms by May 16, with CLS moving 0 → 0.44 over the same weeks. <b>This is an inference</b>, but the shape looks like a specific change rather than gradual drift. Worth checking what shipped then.</span></p></div></div><div class="find"><div class="fn">04</div><div><h3><span class="ja">分母6のうち3ページが測れていない</span><span class="en">Three of the six pages are not measured</span></h3><p><span class="ja">地域とカテゴリーは収集対象に入っておらず、AC詳細は 6/27 以降 CrUX の掲載閾値未満で欠測。<b>この状態では KPI の合格率が計算できない。</b>サイト全体（origin）の値で代用する方法もあるが、それは「そのページの値」ではないため、施策の効果判定には使えない。</span><span class="en">Region and Category are not in the collection set, and AC detail has been below the CrUX threshold since Jun 27. <b>The KPI pass rate cannot be computed in this state.</b> Origin-level values could be substituted, but they are not that page's values and cannot verify a page-level fix.</span></p></div></div>
 
-<h2><span class="n">3</span><span class="ja">課題とやること</span><span class="en">Issues and next steps</span></h2>
+</div>
+
+<div class="sec"><h2><span class="n">3</span><span class="ja">課題とやること</span><span class="en">Issues and next steps</span></h2>
 <div class="issue"><div class="ih"><span class="ja">課題</span><span class="en">Issue</span> 01</div><h3><span class="ja">検索結果のサーバー応答が 4,851ms</span><span class="en">Search server response is 4,851ms</span></h3><p><span class="ja">TTFB をアプリ処理・キャッシュ・インフラのどれに帰属するか切り分ける</span><span class="en">Attribute TTFB to app processing, cache, or infrastructure</span></p><div class="yl"><span class="ja">やること</span><span class="en">Next steps</span></div><ul><li><span class="ja">APM / CloudWatch を使えるか SYS・SRE に相談する</span><span class="en">Ask SYS / SRE whether APM and CloudWatch are available</span></li><li><span class="ja">ページキャッシュのヒット率を可視化する（UX_DESIGN-407）</span><span class="en">Make page cache hit rate visible (UX_DESIGN-407)</span></li></ul><div class="ifoot"><span class="chip"><span class="ja">SRE 連携</span><span class="en">SRE</span></span><a href="https://app.clickup.com/t/31108037/UX_DESIGN-314">UX_DESIGN-314</a></div></div><div class="issue"><div class="ih"><span class="ja">課題</span><span class="en">Issue</span> 02</div><h3><span class="ja">分母6のうち3ページが測れていない</span><span class="en">Three of the six pages have no data</span></h3><p><span class="ja">地域・カテゴリーは収集対象外、AC詳細は CrUX の掲載閾値未満</span><span class="en">Region and Category are not collected; AC detail is below the CrUX threshold</span></p><div class="yl"><span class="ja">やること</span><span class="en">Next steps</span></div><ul><li><span class="ja">地域・カテゴリーを CrUX 収集対象に追加する</span><span class="en">Add Region and Category to the CrUX collection set</span></li><li><span class="ja">GA4 に web-vitals を送信し、閾値に依存しない実ユーザー p75 を持つ</span><span class="en">Send web-vitals to GA4 for real-user p75 that does not depend on the threshold</span></li></ul><div class="ifoot"><span class="chip"><span class="ja">計測基盤</span><span class="en">Measurement</span></span><a href="https://app.clickup.com/t/31108037/UX_DESIGN-300">UX_DESIGN-300</a></div></div><div class="issue"><div class="ih"><span class="ja">課題</span><span class="en">Issue</span> 03</div><h3><span class="ja">エリア・TOP の継続的な悪化の原因が不明</span><span class="en">No known cause for the ongoing decline on Area and TOP</span></h3><p><span class="ja">半年で 1,000ms 以上悪化した理由が特定できていない</span><span class="en">Over 1,000ms of degradation in six months, cause unidentified</span></p><div class="yl"><span class="ja">やること</span><span class="en">Next steps</span></div><ul><li><span class="ja">3〜8月のリリース履歴と週次推移を突き合わせる</span><span class="en">Cross-reference the March–August release history against the weekly trend</span></li><li><span class="ja">悪化が始まった週を特定してから調査チケットを起票する</span><span class="en">Identify the week it started, then file an investigation ticket</span></li></ul><div class="ifoot"><span class="chip"><span class="ja">調査</span><span class="en">Investigation</span></span><span class="nt"><span class="ja">未起票</span><span class="en">Not filed</span></span></div></div>
 
-<h2><span class="n">4</span><span class="ja">補足データ</span><span class="en">Supporting data</span></h2>
+</div>
+
+<div class="sec"><h2><span class="n">4</span><span class="ja">補足データ</span><span class="en">Supporting data</span></h2>
 <div class="tw"><table><tr><th><span class="ja">ページ</span><span class="en">Page</span></th><th><span class="ja">PSI スコア</span><span class="en">PSI score</span></th><th>PSI LCP</th></tr><tr><td><span class="ja">TOP</span><span class="en">TOP</span></td><td>23</td><td>10,576 ms</td></tr><tr><td><span class="ja">エリア</span><span class="en">Area</span></td><td>36</td><td>5,233 ms</td></tr><tr><td><span class="ja">地域</span><span class="en">Region</span></td><td>20</td><td>7,655 ms</td></tr><tr><td><span class="ja">カテゴリー</span><span class="en">Category</span></td><td>36</td><td>14,728 ms</td></tr><tr><td><span class="ja">AC詳細</span><span class="en">AC detail</span></td><td>48</td><td>5,160 ms</td></tr><tr><td><span class="ja">検索結果</span><span class="en">Search</span></td><td>20</td><td>23,626 ms</td></tr></table></div>
 <p class="note"><span class="ja">PageSpeed Insights（ラボ・2026-09-17）。日次でばらつきが大きく、実ユーザー値とは別物。傾向の確認にのみ使う。</span><span class="en">PageSpeed Insights (lab, 2026-09-17). High daily variance, not real-user data — direction only.</span></p>
 <div class="tw"><table><tr><th><span class="ja">日付</span><span class="en">Date</span></th><th><span class="ja">チケット</span><span class="en">Ticket</span></th><th><span class="ja">対象</span><span class="en">Scope</span></th><th><span class="ja">内容</span><span class="en">Change</span></th></tr><tr><td>2026-09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-323">UX_DESIGN-323</a></td><td><span class="ja">全ページ</span><span class="en">All pages</span></td><td><span class="ja">AppsFlyer defer（レンダーブロック 893ms を解消）</span><span class="en">AppsFlyer defer (removed 893ms of render blocking)</span></td></tr><tr><td>2026-09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-304">UX_DESIGN-304</a></td><td><span class="ja">AC詳細・エリア・カテゴリー・検索</span><span class="en">AC detail, Area, Category, Search</span></td><td><span class="ja">LCP画像 preload の修正／fetchpriority 付与</span><span class="en">Fixed LCP image preload / added fetchpriority</span></td></tr><tr><td>2026-09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-389">UX_DESIGN-389</a></td><td><span class="ja">6ページ</span><span class="en">All six pages</span></td><td><span class="ja">CLSガード（寸法予約・検索ページキャッシュ1時間）</span><span class="en">CLS guardrails (reserved dimensions, 1h search page cache)</span></td></tr></table></div>
 
 <details><summary><span class="ja">データの定義を見る</span><span class="en">View data definitions</span></summary><div class="tw"><table><tr><th>key</th><th>value</th></tr><tr><td>granularity_rule</td><td>url-only（origin値での代用はしない）</td></tr><tr><td>source_of_truth</td><td>crux_weekly</td></tr><tr><td>missing_rule</td><td>欠測は null。0では埋めない</td></tr><tr><td>denominator</td><td>6ページ固定。未計測も分母に残す</td></tr><tr><td>crux_window</td><td>28日ローリング</td></tr><tr><td>judge_env</td><td>production のみ</td></tr><tr><td>lcp_good</td><td>2500ms</td></tr><tr><td>inp_good</td><td>200ms</td></tr><tr><td>cls_good</td><td>0.1</td></tr><tr><td>ttfb_good</td><td>800ms</td></tr></table></div></details>
 <details><summary><span class="ja">週次データ（全25週）を表で見る</span><span class="en">View the full 25-week table</span></summary><div class="tw"><table><tr><th><span class="ja">週末日</span><span class="en">Week ending</span></th><th><span class="ja">TOP</span><span class="en">TOP</span></th><th><span class="ja">エリア</span><span class="en">Area</span></th><th><span class="ja">AC詳細</span><span class="en">AC detail</span></th><th><span class="ja">検索結果</span><span class="en">Search</span></th></tr><tr><td>2026-03-14</td><td>2,514</td><td>1,725</td><td>1,514</td><td>3,083</td></tr><tr><td>2026-03-21</td><td>2,568</td><td>1,727</td><td>1,597</td><td>2,828</td></tr><tr><td>2026-03-28</td><td>2,602</td><td>1,660</td><td>1,761</td><td>2,884</td></tr><tr><td>2026-04-04</td><td>2,613</td><td>2,076</td><td>1,903</td><td>2,841</td></tr><tr><td>2026-04-11</td><td>2,630</td><td>2,352</td><td>1,974</td><td>3,179</td></tr><tr><td>2026-04-18</td><td>2,601</td><td>2,431</td><td>2,006</td><td>6,148</td></tr><tr><td>2026-04-25</td><td>2,564</td><td>2,457</td><td>2,248</td><td>8,593</td></tr><tr><td>2026-05-02</td><td>2,529</td><td>2,465</td><td>2,283</td><td>9,031</td></tr><tr><td>2026-05-09</td><td>2,519</td><td>2,462</td><td>2,186</td><td>9,125</td></tr><tr><td>2026-05-16</td><td>2,548</td><td>2,372</td><td>2,128</td><td>9,392</td></tr><tr><td>2026-05-23</td><td>2,617</td><td>2,047</td><td>2,022</td><td>9,386</td></tr><tr><td>2026-05-30</td><td>2,687</td><td>1,935</td><td>2,060</td><td>9,335</td></tr><tr><td>2026-06-06</td><td>2,739</td><td>1,913</td><td>2,191</td><td>9,068</td></tr><tr><td>2026-06-13</td><td>2,787</td><td>1,932</td><td>—</td><td>8,784</td></tr><tr><td>2026-06-20</td><td>2,773</td><td>1,788</td><td>2,364</td><td>8,452</td></tr><tr><td>2026-06-27</td><td>2,759</td><td>1,788</td><td>—</td><td>7,846</td></tr><tr><td>2026-07-04</td><td>2,776</td><td>1,929</td><td>—</td><td>7,559</td></tr><tr><td>2026-07-11</td><td>2,772</td><td>1,917</td><td>—</td><td>7,293</td></tr><tr><td>2026-07-18</td><td>2,838</td><td>1,968</td><td>—</td><td>7,189</td></tr><tr><td>2026-07-25</td><td>2,826</td><td>2,108</td><td>—</td><td>7,277</td></tr><tr><td>2026-08-01</td><td>2,777</td><td>2,362</td><td>—</td><td>7,136</td></tr><tr><td>2026-08-08</td><td>2,736</td><td>2,426</td><td>—</td><td>7,078</td></tr><tr><td>2026-08-15</td><td>2,720</td><td>2,499</td><td>—</td><td>6,999</td></tr><tr><td>2026-08-22</td><td>2,755</td><td>2,642</td><td>—</td><td>6,895</td></tr><tr><td>2026-08-29</td><td>2,805</td><td>2,714</td><td>—</td><td>6,708</td></tr></table></div></details>
+
+</div>
 
 <a class="linkcard" href="https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit"><div><b><span class="ja">計測スプレッドシート</span><span class="en">Measurement spreadsheet</span></b><span><span class="ja">生データと集計タブ（_summary / _defs）</span><span class="en">Raw data and the aggregation tabs (_summary / _defs)</span></span></div><span><span class="ja">開く →</span><span class="en">Open →</span></span></a>
 
