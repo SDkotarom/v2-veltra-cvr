@@ -56,8 +56,10 @@ for m in metrics:
     kpi += f'''<div class="kpi">
 <div class="kpi-h">{m["ja"]}<span class="kpi-sub">{t(m["sub_ja"], m["sub_en"])}</span></div>
 <div class="kpi-v">{n_pass}<span class="kpi-d"> / {n_meas}</span></div>
-<div class="kpi-f">{t(f'合格ライン {fm(m["good"], m["dec"], m["unit"])} 以下', f'target {fm(m["good"], m["dec"], m["unit"])} or under')}
- · {t("最も悪いページ", "worst")} {fm(worst, m["dec"], m["unit"])}</div></div>'''
+<dl class="kpi-f">
+<div><dt>{t("合格ライン", "Target")}</dt><dd>{fm(m["good"], m["dec"], m["unit"])}</dd></div>
+<div><dt>{t("最も悪い", "Worst")}</dt><dd>{fm(worst, m["dec"], m["unit"])}</dd></div>
+</dl></div>'''
 
 tiles = ""
 for p in pages:
