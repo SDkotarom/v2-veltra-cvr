@@ -159,16 +159,6 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:va
 .lg:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 .plot svg{overflow:visible}
 
-/* --- リリース帯 --- */
-.strip .plot{margin-bottom:4px}
-.strip-ax{stroke:var(--line-strong);stroke-width:1}
-.strip-tick{stroke:var(--line-strong);stroke-width:1}
-.rels{font-size:10px;fill:var(--ink-3)}
-.rl{list-style:none;margin:8px 0 6px;padding:0;display:flex;flex-direction:column;gap:4px}
-.rl li{font-size:13.5px;color:var(--ink-2);line-height:1.7}
-.rl-d{font-variant-numeric:tabular-nums;color:var(--ink-3);margin-right:10px}
-.rl-sep{display:block;height:0}
-
 /* --- 指標切替 --- */
 .mtabs{display:flex;gap:0;flex-wrap:wrap}
 .mt{font:inherit;font-size:12.5px;padding:5px 16px;border:1px solid var(--line-strong);
@@ -188,6 +178,46 @@ tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
 .tl-u{font-size:12px;color:var(--ink-3);text-decoration:none;display:block;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.6;margin-bottom:2px}
 .tl-u:hover{color:var(--brand-ink);text-decoration:underline}
+
+/* --- リリース帯 --- */
+.strip .plot{margin:4px 0 2px}
+.strip-wrap{position:relative;height:92px}
+.strip-rail{position:absolute;top:46px;height:2px;background:var(--line-strong);border-radius:2px}
+.strip-months{position:absolute;top:56px;left:0;right:0;height:20px}
+.strip-months .sm{position:absolute;transform:translateX(-50%);font-size:12px;color:var(--ink-3)}
+.rdot{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;
+  align-items:center;gap:4px;cursor:pointer;outline:none}
+.rdot-date{order:1;font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums;
+  white-space:nowrap;margin-top:26px}
+.rdot-mark{order:2;position:absolute;top:38px;width:18px;height:18px;border-radius:50%;
+  background:var(--brand);border:2px solid var(--surface);box-shadow:0 0 0 1px var(--brand);
+  color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.rdot::before{content:"";position:absolute;top:24px;height:14px;width:2px;background:var(--brand);opacity:.5}
+.tip{position:absolute;top:64px;left:0;min-width:300px;max-width:420px;z-index:5;
+  background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;
+  box-shadow:var(--shadow);padding:10px 12px;display:none;text-align:left}
+.rdot.right .tip{left:auto;right:0}
+.rdot:hover .tip,.rdot:focus .tip,.rdot:focus-within .tip{display:block}
+.tip-h{font-size:12px;color:var(--ink-3);margin-bottom:6px;font-variant-numeric:tabular-nums}
+.tp-row{display:block;padding:6px 0;border-top:1px solid var(--line-soft);text-decoration:none;color:inherit}
+.tp-row:first-of-type{border-top:0}
+.tp-row:hover .tp-tk{text-decoration:underline}
+.tp-tk{display:inline-block;font-size:12.5px;font-weight:700;color:var(--brand-ink)}
+.tp-sc{display:inline-block;font-size:11.5px;color:var(--ink-3);margin-left:8px}
+.tp-nt{display:block;font-size:13px;color:var(--ink-2);line-height:1.6}
+
+/* --- リリース一覧（折りたたみ） --- */
+.rl-toggle{margin-top:2px;border-top:1px solid var(--line-soft);padding-top:6px}
+.rl-toggle summary{font-size:13px;color:var(--ink-3)}
+.rl{list-style:none;margin:8px 0 6px;padding:0;display:flex;flex-direction:column;gap:6px;
+  max-height:260px;overflow-y:auto}
+.rl li{display:grid;grid-template-columns:auto auto auto 1fr;align-items:baseline;gap:10px;
+  font-size:13px;color:var(--ink-2);line-height:1.6}
+.rl-d{font-variant-numeric:tabular-nums;color:var(--ink-3);white-space:nowrap}
+.rl li a{font-weight:700;white-space:nowrap}
+.rl-sc{color:var(--ink-3);font-size:12px;white-space:nowrap}
+.rl-n{color:var(--ink-2)}
+@media(max-width:560px){.rl li{grid-template-columns:1fr;gap:2px}}
 </style>
 <div class="wrap">
 <div class="topbar">
@@ -308,7 +338,7 @@ tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
 <span class="ja">CrUX は直近28日間の実ユーザーデータの p75。掲載閾値に満たない URL は値が返らないため、欠測は 0 で埋めず空欄として扱う。判定は本番のみで行い、dev 環境の数値は使わない。</span><span class="en">CrUX reports p75 over a rolling 28 days. URLs below the reporting threshold return nothing; gaps are left empty, never zero-filled. Judged on production only — dev numbers are not used.</span>
 </footer>
 </div>
-<script>window.__PERF={"weeks": ["2026-03-14", "2026-03-21", "2026-03-28", "2026-04-04", "2026-04-11", "2026-04-18", "2026-04-25", "2026-05-02", "2026-05-09", "2026-05-16", "2026-05-23", "2026-05-30", "2026-06-06", "2026-06-13", "2026-06-20", "2026-06-27", "2026-07-04", "2026-07-11", "2026-07-18", "2026-07-25", "2026-08-01", "2026-08-08", "2026-08-15", "2026-08-22", "2026-08-29"], "metrics": {"lcp": {"TOP": [2514, 2568, 2602, 2613, 2630, 2601, 2564, 2529, 2519, 2548, 2617, 2687, 2739, 2787, 2773, 2759, 2776, 2772, 2838, 2826, 2777, 2736, 2720, 2755, 2805], "エリア": [1725, 1727, 1660, 2076, 2352, 2431, 2457, 2465, 2462, 2372, 2047, 1935, 1913, 1932, 1788, 1788, 1929, 1917, 1968, 2108, 2362, 2426, 2499, 2642, 2714], "地域": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "カテゴリー": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "AC詳細": [1514, 1597, 1761, 1903, 1974, 2006, 2248, 2283, 2186, 2128, 2022, 2060, 2191, null, 2364, null, null, null, null, null, null, null, null, null, null], "検索結果": [3083, 2828, 2884, 2841, 3179, 6148, 8593, 9031, 9125, 9392, 9386, 9335, 9068, 8784, 8452, 7846, 7559, 7293, 7189, 7277, 7136, 7078, 6999, 6895, 6708]}, "inp": {"TOP": [186, 185, 188, 195, 207, 219, 224, 225, 225, 226, 236, 253, 261, 266, 265, 266, 265, 265, 259, 250, 239, 229, 219, 216, 213], "エリア": [140, null, 139, 158, 173, 172, 171, 171, 164, 160, 157, 158, 169, 174, 182, 190, 179, 170, 169, 157, 159, 157, 154, 172, 177], "地域": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "カテゴリー": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "AC詳細": [218, 233, 231, 233, 242, 241, 246, 245, 245, 241, 246, 250, 254, null, null, null, null, null, null, null, null, null, null, null, null], "検索結果": [131, 129, 130, 128, 125, 152, 165, 168, 170, 173, 179, 187, 194, 194, 195, 194, 190, 195, 190, 182, 178, 166, 162, 159, 158]}, "cls": {"TOP": [0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.03, 0.03, 0.03, 0.05, 0.06, 0.08, 0.07, 0.05, 0.04, 0.04, 0.04, 0.04], "エリア": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "地域": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "カテゴリー": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "AC詳細": [0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, null, 0.03, null, null, null, null, null, null, null, null, null, null], "検索結果": [0, 0, 0, 0, 0, 0.21, 0.44, 0.44, 0.44, 0.44, 0.45, 0.47, 0.5, 0.5, 0.5, 0.46, 0.41, 0.34, 0.32, 0.32, 0.32, 0.32, 0.32, 0.32, 0.32]}, "ttfb": {"TOP": [1482, 1512, 1538, 1548, 1555, 1559, 1539, 1510, 1488, 1480, 1501, 1533, 1574, 1613, 1613, 1613, 1632, 1634, 1679, 1680, 1644, 1602, 1536, 1529, 1536], "エリア": [1304, 1270, 1181, 1489, 1613, 1663, 1672, 1679, 1698, 1656, 1538, 1319, 1139, 1117, 1019, 1046, 1318, 1395, 1426, 1515, 1559, 1592, 1641, 1693, 1718], "地域": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "カテゴリー": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "AC詳細": [492, 556, 619, 865, 1056, 1138, 1280, 1294, 1267, 1258, 1154, 1074, 1238, null, 1379, null, null, null, null, null, null, null, null, null, null], "検索結果": [5503, 5347, 5216, 5209, 5125, 5544, 5563, 5580, 5673, 5722, 5720, 5732, 5568, 5432, 5160, 4897, 4870, 4774, 4955, 4955, 4897, 4902, 4811, 4822, 4851]}}, "meta": {"lcp": {"key": "lcp", "ja": "LCP", "en": "LCP", "sub_ja": "最大コンテンツの描画", "sub_en": "Largest Contentful Paint", "unit": "ms", "good": 2500, "ni": 4000, "dec": 0}, "inp": {"key": "inp", "ja": "INP", "en": "INP", "sub_ja": "操作への反応", "sub_en": "Interaction to Next Paint", "unit": "ms", "good": 200, "ni": 500, "dec": 0}, "cls": {"key": "cls", "ja": "CLS", "en": "CLS", "sub_ja": "レイアウトのずれ", "sub_en": "Cumulative Layout Shift", "unit": "", "good": 0.1, "ni": 0.25, "dec": 2}, "ttfb": {"key": "ttfb", "ja": "TTFB", "en": "TTFB", "sub_ja": "サーバー応答", "sub_en": "Time to First Byte", "unit": "ms", "good": 800, "ni": 1800, "dec": 0}}, "pages": [{"key": "TOP", "ja": "TOP", "en": "TOP", "color": "#1F6FB2"}, {"key": "エリア", "ja": "エリア", "en": "Area", "color": "#C2410C"}, {"key": "地域", "ja": "地域", "en": "Region", "color": "#6D28A8"}, {"key": "カテゴリー", "ja": "カテゴリー", "en": "Category", "color": "#0F766E"}, {"key": "AC詳細", "ja": "AC詳細", "en": "AC detail", "color": "#8A6D1F"}, {"key": "検索結果", "ja": "検索結果", "en": "Search", "color": "#B3246B"}], "releases": [{"date": "2026-09-17", "ticket": "UX_DESIGN-323", "scope": {"ja": "全ページ", "en": "All pages"}, "note": {"ja": "AppsFlyer defer（レンダーブロック 893ms を解消）", "en": "AppsFlyer defer (removed 893ms of render blocking)"}}, {"date": "2026-09-17", "ticket": "UX_DESIGN-304", "scope": {"ja": "AC詳細・エリア・カテゴリー・検索", "en": "AC detail, Area, Category, Search"}, "note": {"ja": "LCP画像 preload の修正／fetchpriority 付与", "en": "Fixed LCP image preload / added fetchpriority"}}, {"date": "2026-09-17", "ticket": "UX_DESIGN-389", "scope": {"ja": "6ページ", "en": "All six pages"}, "note": {"ja": "CLSガード（寸法予約・検索ページキャッシュ1時間）", "en": "CLS guardrails (reserved dimensions, 1h search page cache)"}}]};</script>
+<script>window.__PERF={"weeks": ["2026-03-14", "2026-03-21", "2026-03-28", "2026-04-04", "2026-04-11", "2026-04-18", "2026-04-25", "2026-05-02", "2026-05-09", "2026-05-16", "2026-05-23", "2026-05-30", "2026-06-06", "2026-06-13", "2026-06-20", "2026-06-27", "2026-07-04", "2026-07-11", "2026-07-18", "2026-07-25", "2026-08-01", "2026-08-08", "2026-08-15", "2026-08-22", "2026-08-29"], "metrics": {"lcp": {"TOP": [2514, 2568, 2602, 2613, 2630, 2601, 2564, 2529, 2519, 2548, 2617, 2687, 2739, 2787, 2773, 2759, 2776, 2772, 2838, 2826, 2777, 2736, 2720, 2755, 2805], "エリア": [1725, 1727, 1660, 2076, 2352, 2431, 2457, 2465, 2462, 2372, 2047, 1935, 1913, 1932, 1788, 1788, 1929, 1917, 1968, 2108, 2362, 2426, 2499, 2642, 2714], "地域": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "カテゴリー": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "AC詳細": [1514, 1597, 1761, 1903, 1974, 2006, 2248, 2283, 2186, 2128, 2022, 2060, 2191, null, 2364, null, null, null, null, null, null, null, null, null, null], "検索結果": [3083, 2828, 2884, 2841, 3179, 6148, 8593, 9031, 9125, 9392, 9386, 9335, 9068, 8784, 8452, 7846, 7559, 7293, 7189, 7277, 7136, 7078, 6999, 6895, 6708]}, "inp": {"TOP": [186, 185, 188, 195, 207, 219, 224, 225, 225, 226, 236, 253, 261, 266, 265, 266, 265, 265, 259, 250, 239, 229, 219, 216, 213], "エリア": [140, null, 139, 158, 173, 172, 171, 171, 164, 160, 157, 158, 169, 174, 182, 190, 179, 170, 169, 157, 159, 157, 154, 172, 177], "地域": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "カテゴリー": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "AC詳細": [218, 233, 231, 233, 242, 241, 246, 245, 245, 241, 246, 250, 254, null, null, null, null, null, null, null, null, null, null, null, null], "検索結果": [131, 129, 130, 128, 125, 152, 165, 168, 170, 173, 179, 187, 194, 194, 195, 194, 190, 195, 190, 182, 178, 166, 162, 159, 158]}, "cls": {"TOP": [0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.03, 0.03, 0.03, 0.05, 0.06, 0.08, 0.07, 0.05, 0.04, 0.04, 0.04, 0.04], "エリア": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "地域": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "カテゴリー": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "AC詳細": [0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, null, 0.03, null, null, null, null, null, null, null, null, null, null], "検索結果": [0, 0, 0, 0, 0, 0.21, 0.44, 0.44, 0.44, 0.44, 0.45, 0.47, 0.5, 0.5, 0.5, 0.46, 0.41, 0.34, 0.32, 0.32, 0.32, 0.32, 0.32, 0.32, 0.32]}, "ttfb": {"TOP": [1482, 1512, 1538, 1548, 1555, 1559, 1539, 1510, 1488, 1480, 1501, 1533, 1574, 1613, 1613, 1613, 1632, 1634, 1679, 1680, 1644, 1602, 1536, 1529, 1536], "エリア": [1304, 1270, 1181, 1489, 1613, 1663, 1672, 1679, 1698, 1656, 1538, 1319, 1139, 1117, 1019, 1046, 1318, 1395, 1426, 1515, 1559, 1592, 1641, 1693, 1718], "地域": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "カテゴリー": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "AC詳細": [492, 556, 619, 865, 1056, 1138, 1280, 1294, 1267, 1258, 1154, 1074, 1238, null, 1379, null, null, null, null, null, null, null, null, null, null], "検索結果": [5503, 5347, 5216, 5209, 5125, 5544, 5563, 5580, 5673, 5722, 5720, 5732, 5568, 5432, 5160, 4897, 4870, 4774, 4955, 4955, 4897, 4902, 4811, 4822, 4851]}}, "meta": {"lcp": {"key": "lcp", "ja": "LCP", "en": "LCP", "sub_ja": "最大コンテンツの描画", "sub_en": "Largest Contentful Paint", "unit": "ms", "good": 2500, "ni": 4000, "dec": 0}, "inp": {"key": "inp", "ja": "INP", "en": "INP", "sub_ja": "操作への反応", "sub_en": "Interaction to Next Paint", "unit": "ms", "good": 200, "ni": 500, "dec": 0}, "cls": {"key": "cls", "ja": "CLS", "en": "CLS", "sub_ja": "レイアウトのずれ", "sub_en": "Cumulative Layout Shift", "unit": "", "good": 0.1, "ni": 0.25, "dec": 2}, "ttfb": {"key": "ttfb", "ja": "TTFB", "en": "TTFB", "sub_ja": "サーバー応答", "sub_en": "Time to First Byte", "unit": "ms", "good": 800, "ni": 1800, "dec": 0}}, "pages": [{"key": "TOP", "ja": "TOP", "en": "TOP", "color": "#1F6FB2"}, {"key": "エリア", "ja": "エリア", "en": "Area", "color": "#C2410C"}, {"key": "地域", "ja": "地域", "en": "Region", "color": "#6D28A8"}, {"key": "カテゴリー", "ja": "カテゴリー", "en": "Category", "color": "#0F766E"}, {"key": "AC詳細", "ja": "AC詳細", "en": "AC detail", "color": "#8A6D1F"}, {"key": "検索結果", "ja": "検索結果", "en": "Search", "color": "#B3246B"}], "releases": [{"date": "2026-09-17", "ticket": "UX_DESIGN-323", "parent": "", "scope": {"ja": "全ページ", "en": "All pages"}, "note": {"ja": "AppsFlyer を defer 化（レンダーブロック 893ms を解消）", "en": "Deferred AppsFlyer (removed 893ms of render blocking)"}}, {"date": "2026-09-17", "ticket": "UX_DESIGN-395", "parent": "UX_DESIGN-304", "scope": {"ja": "AC詳細", "en": "AC detail"}, "note": {"ja": "preload の画像が実LCPと不一致だったのを修正（src_middle → src_large）", "en": "Fixed preload pointing at the wrong image (src_middle → src_large)"}}, {"date": "2026-09-17", "ticket": "UX_DESIGN-396", "parent": "UX_DESIGN-304", "scope": {"ja": "カテゴリー・検索", "en": "Category, Search"}, "note": {"ja": "先頭ACカード画像に fetchpriority=high を付与", "en": "Added fetchpriority=high to the first AC card image"}}, {"date": "2026-09-17", "ticket": "UX_DESIGN-397", "parent": "UX_DESIGN-304", "scope": {"ja": "エリア", "en": "Area"}, "note": {"ja": "lcp_image_url を設定して LCP画像を preload", "en": "Set lcp_image_url so the LCP image is preloaded"}}, {"date": "2026-09-17", "ticket": "UX_DESIGN-389", "parent": "", "scope": {"ja": "6ページ", "en": "All six pages"}, "note": {"ja": "検索・カテゴリーのフィルターバーを固定、ACカード・フッター・ブランドの画像枠を寸法予約", "en": "Fixed the filter bar on Search and Category; reserved dimensions for AC card, footer and brand images"}}, {"date": "2026-09-17", "ticket": "UX_DESIGN-389", "parent": "", "scope": {"ja": "検索", "en": "Search"}, "note": {"ja": "検索ページに1時間のページキャッシュを実装", "en": "Added a 1-hour page cache to the search page"}}]};</script>
 <script>(function () {
   var P = window.__PERF, off = {}, tableMetric = "lcp";
 
@@ -431,48 +461,61 @@ tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
   }
 
 
-  /* ---- リリース帯。各グラフと同じ日付レンジで点を打つ ---- */
+  /* ---- リリース帯。軸はSVG、点はHTMLで置いてホバーで内容を出す ---- */
   function drawStrip() {
     var host = document.getElementById("plot-releases");
     if (!host) return;
     var lang = document.documentElement.getAttribute("data-lang") === "en" ? "en" : "ja";
-    var W = 1160, H = 74, PL = 52, PR = 14, BY = 30;
     var weeks = P.weeks, xEnd = weeks[weeks.length - 1];
     P.releases.forEach(function (r) { if (Date.parse(r.date) > Date.parse(xEnd)) xEnd = r.date; });
+    var PL = 52, PR = 14, W = 1160;
     var X = scaleX(weeks[0], xEnd, PL, W - PR);
+    function pct(d) { return (X(d) / W * 100).toFixed(2) + "%"; }
 
-    var o = ['<line class="strip-ax" x1="' + PL + '" y1="' + BY + '" x2="' + (W - PR) + '" y2="' + BY + '"/>'];
-    var seenM = {};
+    var months = [], seen = {};
     weeks.forEach(function (w) {
-      var d = new Date(w + "T00:00:00Z"), m = d.getUTCMonth();
-      if (seenM[m]) return;
-      seenM[m] = 1;
-      o.push('<line class="strip-tick" x1="' + X(w).toFixed(1) + '" y1="' + BY + '" x2="' + X(w).toFixed(1) + '" y2="' + (BY + 5) + '"/>');
-      o.push('<text class="ax" x="' + X(w).toFixed(1) + '" y="' + (BY + 19) + '" text-anchor="middle">' + (m + 1) + '</text>');
+      var m = new Date(w + "T00:00:00Z").getUTCMonth();
+      if (seen[m]) return;
+      seen[m] = 1;
+      months.push('<span class="sm" style="left:' + pct(w) + '">' + (m + 1) + (lang === "en" ? "" : "月") + "</span>");
     });
 
-    /* 同じ日のリリースは1点にまとめ、チケットを並べる */
     var byDate = {};
     P.releases.forEach(function (r) { (byDate[r.date] = byDate[r.date] || []).push(r); });
-    Object.keys(byDate).sort().forEach(function (d) {
-      var g = byDate[d], x = X(d);
-      var anchor = x > W * 0.72 ? "end" : "start";
-      var tx = anchor === "end" ? x - 10 : x + 10;
-      o.push('<line class="rel" x1="' + x.toFixed(1) + '" y1="8" x2="' + x.toFixed(1) + '" y2="' + BY + '"/>');
-      o.push('<circle cx="' + x.toFixed(1) + '" cy="' + BY + '" r="5" fill="var(--brand)" stroke="var(--surface)" stroke-width="2"/>');
-      o.push('<text class="rell" x="' + tx.toFixed(1) + '" y="14" text-anchor="' + anchor + '">' + esc(d) + "</text>");
-      o.push('<text class="rels" x="' + tx.toFixed(1) + '" y="26" text-anchor="' + anchor + '">' +
-        esc(g.map(function (r) { return r.ticket.replace("UX_DESIGN-", "#"); }).join(" / ")) + "</text>");
-    });
 
-    var list = Object.keys(byDate).sort().map(function (d) {
-      return '<li><span class="rl-d">' + esc(d) + "</span>" + byDate[d].map(function (r) {
-        return '<a href="https://app.clickup.com/t/31108037/' + esc(r.ticket) + '">' + esc(r.ticket) + "</a> " + esc(r.note[lang]);
-      }).join('<span class="rl-sep"></span>') + "</li>";
+    var dots = Object.keys(byDate).sort().map(function (d) {
+      var g = byDate[d];
+      var side = X(d) / W > 0.6 ? " right" : "";
+      var rows = g.map(function (r) {
+        return '<a class="tp-row" href="https://app.clickup.com/t/31108037/' + esc(r.ticket) + '" target="_blank" rel="noopener">' +
+          '<span class="tp-tk">' + esc(r.ticket) + "</span>" +
+          '<span class="tp-nt">' + esc(r.note[lang]) + "</span>" +
+          '<span class="tp-sc">' + esc(r.scope[lang]) + "</span></a>";
+      }).join("");
+      return '<div class="rdot' + side + '" style="left:' + pct(d) + '" tabindex="0">' +
+        '<span class="rdot-mark">' + (g.length > 1 ? g.length : "") + "</span>" +
+        '<span class="rdot-date">' + esc(d.slice(5).replace("-", "/")) + "</span>" +
+        '<div class="tip"><div class="tip-h">' + esc(d) + " · " + g.length +
+        (lang === "en" ? " releases" : " 件") + "</div>" + rows + "</div></div>";
     }).join("");
 
-    host.innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="releases">' + o.join("") + "</svg>" +
-      '<ul class="rl">' + list + "</ul>";
+    var all = Object.keys(byDate).sort().reverse().map(function (d) {
+      return byDate[d].map(function (r) {
+        return '<li><span class="rl-d">' + esc(d) + "</span>" +
+          '<a href="https://app.clickup.com/t/31108037/' + esc(r.ticket) + '" target="_blank" rel="noopener">' +
+          esc(r.ticket) + "</a>" +
+          '<span class="rl-sc">' + esc(r.scope[lang]) + "</span>" +
+          '<span class="rl-n">' + esc(r.note[lang]) + "</span></li>";
+      }).join("");
+    }).join("");
+
+    host.innerHTML =
+      '<div class="strip-wrap">' +
+      '<div class="strip-rail" style="left:' + (PL / W * 100).toFixed(2) + '%;right:' + (PR / W * 100).toFixed(2) + '%"></div>' +
+      dots + '<div class="strip-months">' + months.join("") + "</div></div>" +
+      '<details class="rl-toggle"><summary>' +
+      (lang === "en" ? "All releases (" + P.releases.length + ")" : "リリース一覧（" + P.releases.length + "件）") +
+      '</summary><ul class="rl">' + all + "</ul></details>";
   }
 
   function redrawAll() { drawStrip(); Object.keys(P.metrics).forEach(drawChart); drawTable(); }

@@ -120,48 +120,61 @@
   }
 
 
-  /* ---- リリース帯。各グラフと同じ日付レンジで点を打つ ---- */
+  /* ---- リリース帯。軸はSVG、点はHTMLで置いてホバーで内容を出す ---- */
   function drawStrip() {
     var host = document.getElementById("plot-releases");
     if (!host) return;
     var lang = document.documentElement.getAttribute("data-lang") === "en" ? "en" : "ja";
-    var W = 1160, H = 74, PL = 52, PR = 14, BY = 30;
     var weeks = P.weeks, xEnd = weeks[weeks.length - 1];
     P.releases.forEach(function (r) { if (Date.parse(r.date) > Date.parse(xEnd)) xEnd = r.date; });
+    var PL = 52, PR = 14, W = 1160;
     var X = scaleX(weeks[0], xEnd, PL, W - PR);
+    function pct(d) { return (X(d) / W * 100).toFixed(2) + "%"; }
 
-    var o = ['<line class="strip-ax" x1="' + PL + '" y1="' + BY + '" x2="' + (W - PR) + '" y2="' + BY + '"/>'];
-    var seenM = {};
+    var months = [], seen = {};
     weeks.forEach(function (w) {
-      var d = new Date(w + "T00:00:00Z"), m = d.getUTCMonth();
-      if (seenM[m]) return;
-      seenM[m] = 1;
-      o.push('<line class="strip-tick" x1="' + X(w).toFixed(1) + '" y1="' + BY + '" x2="' + X(w).toFixed(1) + '" y2="' + (BY + 5) + '"/>');
-      o.push('<text class="ax" x="' + X(w).toFixed(1) + '" y="' + (BY + 19) + '" text-anchor="middle">' + (m + 1) + '</text>');
+      var m = new Date(w + "T00:00:00Z").getUTCMonth();
+      if (seen[m]) return;
+      seen[m] = 1;
+      months.push('<span class="sm" style="left:' + pct(w) + '">' + (m + 1) + (lang === "en" ? "" : "月") + "</span>");
     });
 
-    /* 同じ日のリリースは1点にまとめ、チケットを並べる */
     var byDate = {};
     P.releases.forEach(function (r) { (byDate[r.date] = byDate[r.date] || []).push(r); });
-    Object.keys(byDate).sort().forEach(function (d) {
-      var g = byDate[d], x = X(d);
-      var anchor = x > W * 0.72 ? "end" : "start";
-      var tx = anchor === "end" ? x - 10 : x + 10;
-      o.push('<line class="rel" x1="' + x.toFixed(1) + '" y1="8" x2="' + x.toFixed(1) + '" y2="' + BY + '"/>');
-      o.push('<circle cx="' + x.toFixed(1) + '" cy="' + BY + '" r="5" fill="var(--brand)" stroke="var(--surface)" stroke-width="2"/>');
-      o.push('<text class="rell" x="' + tx.toFixed(1) + '" y="14" text-anchor="' + anchor + '">' + esc(d) + "</text>");
-      o.push('<text class="rels" x="' + tx.toFixed(1) + '" y="26" text-anchor="' + anchor + '">' +
-        esc(g.map(function (r) { return r.ticket.replace("UX_DESIGN-", "#"); }).join(" / ")) + "</text>");
-    });
 
-    var list = Object.keys(byDate).sort().map(function (d) {
-      return '<li><span class="rl-d">' + esc(d) + "</span>" + byDate[d].map(function (r) {
-        return '<a href="https://app.clickup.com/t/31108037/' + esc(r.ticket) + '">' + esc(r.ticket) + "</a> " + esc(r.note[lang]);
-      }).join('<span class="rl-sep"></span>') + "</li>";
+    var dots = Object.keys(byDate).sort().map(function (d) {
+      var g = byDate[d];
+      var side = X(d) / W > 0.6 ? " right" : "";
+      var rows = g.map(function (r) {
+        return '<a class="tp-row" href="https://app.clickup.com/t/31108037/' + esc(r.ticket) + '" target="_blank" rel="noopener">' +
+          '<span class="tp-tk">' + esc(r.ticket) + "</span>" +
+          '<span class="tp-nt">' + esc(r.note[lang]) + "</span>" +
+          '<span class="tp-sc">' + esc(r.scope[lang]) + "</span></a>";
+      }).join("");
+      return '<div class="rdot' + side + '" style="left:' + pct(d) + '" tabindex="0">' +
+        '<span class="rdot-mark">' + (g.length > 1 ? g.length : "") + "</span>" +
+        '<span class="rdot-date">' + esc(d.slice(5).replace("-", "/")) + "</span>" +
+        '<div class="tip"><div class="tip-h">' + esc(d) + " · " + g.length +
+        (lang === "en" ? " releases" : " 件") + "</div>" + rows + "</div></div>";
     }).join("");
 
-    host.innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="releases">' + o.join("") + "</svg>" +
-      '<ul class="rl">' + list + "</ul>";
+    var all = Object.keys(byDate).sort().reverse().map(function (d) {
+      return byDate[d].map(function (r) {
+        return '<li><span class="rl-d">' + esc(d) + "</span>" +
+          '<a href="https://app.clickup.com/t/31108037/' + esc(r.ticket) + '" target="_blank" rel="noopener">' +
+          esc(r.ticket) + "</a>" +
+          '<span class="rl-sc">' + esc(r.scope[lang]) + "</span>" +
+          '<span class="rl-n">' + esc(r.note[lang]) + "</span></li>";
+      }).join("");
+    }).join("");
+
+    host.innerHTML =
+      '<div class="strip-wrap">' +
+      '<div class="strip-rail" style="left:' + (PL / W * 100).toFixed(2) + '%;right:' + (PR / W * 100).toFixed(2) + '%"></div>' +
+      dots + '<div class="strip-months">' + months.join("") + "</div></div>" +
+      '<details class="rl-toggle"><summary>' +
+      (lang === "en" ? "All releases (" + P.releases.length + ")" : "リリース一覧（" + P.releases.length + "件）") +
+      '</summary><ul class="rl">' + all + "</ul></details>";
   }
 
   function redrawAll() { drawStrip(); Object.keys(P.metrics).forEach(drawChart); drawTable(); }

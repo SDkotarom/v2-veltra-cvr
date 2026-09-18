@@ -157,16 +157,6 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:va
 .lg:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 .plot svg{overflow:visible}
 
-/* --- リリース帯 --- */
-.strip .plot{margin-bottom:4px}
-.strip-ax{stroke:var(--line-strong);stroke-width:1}
-.strip-tick{stroke:var(--line-strong);stroke-width:1}
-.rels{font-size:10px;fill:var(--ink-3)}
-.rl{list-style:none;margin:8px 0 6px;padding:0;display:flex;flex-direction:column;gap:4px}
-.rl li{font-size:13.5px;color:var(--ink-2);line-height:1.7}
-.rl-d{font-variant-numeric:tabular-nums;color:var(--ink-3);margin-right:10px}
-.rl-sep{display:block;height:0}
-
 /* --- 指標切替 --- */
 .mtabs{display:flex;gap:0;flex-wrap:wrap}
 .mt{font:inherit;font-size:12.5px;padding:5px 16px;border:1px solid var(--line-strong);
@@ -186,3 +176,43 @@ tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
 .tl-u{font-size:12px;color:var(--ink-3);text-decoration:none;display:block;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.6;margin-bottom:2px}
 .tl-u:hover{color:var(--brand-ink);text-decoration:underline}
+
+/* --- リリース帯 --- */
+.strip .plot{margin:4px 0 2px}
+.strip-wrap{position:relative;height:92px}
+.strip-rail{position:absolute;top:46px;height:2px;background:var(--line-strong);border-radius:2px}
+.strip-months{position:absolute;top:56px;left:0;right:0;height:20px}
+.strip-months .sm{position:absolute;transform:translateX(-50%);font-size:12px;color:var(--ink-3)}
+.rdot{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;
+  align-items:center;gap:4px;cursor:pointer;outline:none}
+.rdot-date{order:1;font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums;
+  white-space:nowrap;margin-top:26px}
+.rdot-mark{order:2;position:absolute;top:38px;width:18px;height:18px;border-radius:50%;
+  background:var(--brand);border:2px solid var(--surface);box-shadow:0 0 0 1px var(--brand);
+  color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.rdot::before{content:"";position:absolute;top:24px;height:14px;width:2px;background:var(--brand);opacity:.5}
+.tip{position:absolute;top:64px;left:0;min-width:300px;max-width:420px;z-index:5;
+  background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;
+  box-shadow:var(--shadow);padding:10px 12px;display:none;text-align:left}
+.rdot.right .tip{left:auto;right:0}
+.rdot:hover .tip,.rdot:focus .tip,.rdot:focus-within .tip{display:block}
+.tip-h{font-size:12px;color:var(--ink-3);margin-bottom:6px;font-variant-numeric:tabular-nums}
+.tp-row{display:block;padding:6px 0;border-top:1px solid var(--line-soft);text-decoration:none;color:inherit}
+.tp-row:first-of-type{border-top:0}
+.tp-row:hover .tp-tk{text-decoration:underline}
+.tp-tk{display:inline-block;font-size:12.5px;font-weight:700;color:var(--brand-ink)}
+.tp-sc{display:inline-block;font-size:11.5px;color:var(--ink-3);margin-left:8px}
+.tp-nt{display:block;font-size:13px;color:var(--ink-2);line-height:1.6}
+
+/* --- リリース一覧（折りたたみ） --- */
+.rl-toggle{margin-top:2px;border-top:1px solid var(--line-soft);padding-top:6px}
+.rl-toggle summary{font-size:13px;color:var(--ink-3)}
+.rl{list-style:none;margin:8px 0 6px;padding:0;display:flex;flex-direction:column;gap:6px;
+  max-height:260px;overflow-y:auto}
+.rl li{display:grid;grid-template-columns:auto auto auto 1fr;align-items:baseline;gap:10px;
+  font-size:13px;color:var(--ink-2);line-height:1.6}
+.rl-d{font-variant-numeric:tabular-nums;color:var(--ink-3);white-space:nowrap}
+.rl li a{font-weight:700;white-space:nowrap}
+.rl-sc{color:var(--ink-3);font-size:12px;white-space:nowrap}
+.rl-n{color:var(--ink-2)}
+@media(max-width:560px){.rl li{grid-template-columns:1fr;gap:2px}}

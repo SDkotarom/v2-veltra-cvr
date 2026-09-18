@@ -887,37 +887,79 @@
   {
    "date": "2026-09-17",
    "ticket": "UX_DESIGN-323",
+   "parent": "",
    "scope": {
     "ja": "全ページ",
     "en": "All pages"
    },
    "note": {
-    "ja": "AppsFlyer defer（レンダーブロック 893ms を解消）",
-    "en": "AppsFlyer defer (removed 893ms of render blocking)"
+    "ja": "AppsFlyer を defer 化（レンダーブロック 893ms を解消）",
+    "en": "Deferred AppsFlyer (removed 893ms of render blocking)"
    }
   },
   {
    "date": "2026-09-17",
-   "ticket": "UX_DESIGN-304",
+   "ticket": "UX_DESIGN-395",
+   "parent": "UX_DESIGN-304",
    "scope": {
-    "ja": "AC詳細・エリア・カテゴリー・検索",
-    "en": "AC detail, Area, Category, Search"
+    "ja": "AC詳細",
+    "en": "AC detail"
    },
    "note": {
-    "ja": "LCP画像 preload の修正／fetchpriority 付与",
-    "en": "Fixed LCP image preload / added fetchpriority"
+    "ja": "preload の画像が実LCPと不一致だったのを修正（src_middle → src_large）",
+    "en": "Fixed preload pointing at the wrong image (src_middle → src_large)"
+   }
+  },
+  {
+   "date": "2026-09-17",
+   "ticket": "UX_DESIGN-396",
+   "parent": "UX_DESIGN-304",
+   "scope": {
+    "ja": "カテゴリー・検索",
+    "en": "Category, Search"
+   },
+   "note": {
+    "ja": "先頭ACカード画像に fetchpriority=high を付与",
+    "en": "Added fetchpriority=high to the first AC card image"
+   }
+  },
+  {
+   "date": "2026-09-17",
+   "ticket": "UX_DESIGN-397",
+   "parent": "UX_DESIGN-304",
+   "scope": {
+    "ja": "エリア",
+    "en": "Area"
+   },
+   "note": {
+    "ja": "lcp_image_url を設定して LCP画像を preload",
+    "en": "Set lcp_image_url so the LCP image is preloaded"
    }
   },
   {
    "date": "2026-09-17",
    "ticket": "UX_DESIGN-389",
+   "parent": "",
    "scope": {
     "ja": "6ページ",
     "en": "All six pages"
    },
    "note": {
-    "ja": "CLSガード（寸法予約・検索ページキャッシュ1時間）",
-    "en": "CLS guardrails (reserved dimensions, 1h search page cache)"
+    "ja": "検索・カテゴリーのフィルターバーを固定、ACカード・フッター・ブランドの画像枠を寸法予約",
+    "en": "Fixed the filter bar on Search and Category; reserved dimensions for AC card, footer and brand images"
+   }
+  },
+  {
+   "date": "2026-09-17",
+   "ticket": "UX_DESIGN-389",
+   "parent": "",
+   "scope": {
+    "ja": "検索",
+    "en": "Search"
+   },
+   "note": {
+    "ja": "検索ページに1時間のページキャッシュを実装",
+    "en": "Added a 1-hour page cache to the search page"
    }
   }
  ],
