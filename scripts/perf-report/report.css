@@ -127,3 +127,54 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:12px;color:va
   .wrap{padding-left:16px;padding-right:16px;gap:38px;padding-block:32px 64px}
   .tl-v{font-size:25px} .issue{padding:17px} .find{gap:12px}
 }
+
+/* --- トップバー --- */
+.topbar{display:flex;justify-content:flex-end;align-items:center;gap:12px}
+
+/* --- KPI 一瞥 --- */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px 17px;box-shadow:var(--shadow)}
+.kpi-h{font-size:13px;font-weight:700;display:flex;flex-direction:column;gap:1px;line-height:1.45}
+.kpi-sub{font-size:11px;font-weight:400;color:var(--ink-3)}
+.kpi-v{font-size:30px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.3;margin-top:6px}
+.kpi-d{font-size:15px;font-weight:500;color:var(--ink-3)}
+.kpi-f{font-size:11px;color:var(--ink-3);line-height:1.6}
+
+/* --- グラフ --- */
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px}
+.ch-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.ch-h h3{font-size:14px;font-weight:700;margin:0}
+.ch-sub{font-size:11px;font-weight:400;color:var(--ink-3);margin-left:6px}
+.ch-t{font-size:11px;color:var(--ink-3);white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.lg{font:inherit;font-size:11.5px;display:inline-flex;align-items:center;gap:6px;
+  padding:2px 9px;border:1px solid var(--line);border-radius:999px;background:var(--surface);
+  color:var(--ink-2);cursor:pointer;line-height:1.7}
+.lg[aria-pressed="false"]{opacity:.4;text-decoration:line-through}
+.lg:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.plot svg{overflow:visible}
+
+/* --- リリース帯 --- */
+.strip .plot{margin-bottom:4px}
+.strip-ax{stroke:var(--line-strong);stroke-width:1}
+.strip-tick{stroke:var(--line-strong);stroke-width:1}
+.rels{font-size:10px;fill:var(--ink-3)}
+.rl{list-style:none;margin:8px 0 6px;padding:0;display:flex;flex-direction:column;gap:4px}
+.rl li{font-size:12px;color:var(--ink-2);line-height:1.7}
+.rl-d{font-variant-numeric:tabular-nums;color:var(--ink-3);margin-right:10px}
+.rl-sep{display:block;height:0}
+
+/* --- 指標切替 --- */
+.mtabs{display:flex;gap:0;flex-wrap:wrap}
+.mt{font:inherit;font-size:12.5px;padding:5px 16px;border:1px solid var(--line-strong);
+  background:var(--surface);color:var(--ink-3);cursor:pointer;line-height:1.6;margin-left:-1px}
+.mt:first-child{border-radius:6px 0 0 6px;margin-left:0}
+.mt:last-child{border-radius:0 6px 6px 0}
+.mt[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);position:relative;z-index:1}
+.mt:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+/* --- 表の注釈行 --- */
+tr.ann td{background:var(--surface-2);font-size:12px;color:var(--ink-2);white-space:normal;text-align:left}
+tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
+.ann-scope{color:var(--ink-3);font-size:11px;margin-left:8px}
+#trend-table table{min-width:640px}
