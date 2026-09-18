@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<script src="/auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/report.css">
+<link rel="stylesheet" href="/summary.css">
+<title>{{TITLE}} | VELTRA CVR</title>
+</head>
+<!-- インライン <style> を置かない。足りないコンポーネントは summary.css に 1 度追加する。
+     週次サマリーと同じ語彙（sec-tag / summary-hero / evidence-grid / action-item）を
+     使うので、レポート種別が変わっても読み手の見方が変わらない。 -->
+<body>
+<div id="app">
+
+  <div class="card">
+    <div class="header-band">
+      <div class="logo">V2</div>
+      <div class="right">{{KICKER}}<br><strong>{{TITLE}}</strong></div>
+    </div>
+  </div>
+
+  <!-- KPI の {{KPIn_DIR}} に入れるのは up / down / 空 のいずれか。
+       良化なら up、悪化なら down、中立なら空にする。
+       それ以外の語を入れると存在しないクラスになり、check.py が捕まえる。 -->
+
+  <!-- 01 結論
+       冒頭で全体像を出す。読み手は最初の 1 画面で「何が起きて何をするか」が分かる必要がある。
+       節を増やすのは 02 以降。結論を後ろに置くと、読まれない部分に結論が埋まる。 -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num red">01</span><span class="sec-main">Conclusion — 結論</span></div>
+    <div class="summary-hero">
+      <div class="summary-kicker">{{CONCLUSION_KICKER}}</div>
+      <div class="summary-headline">{{HEADLINE}}</div>
+      <div class="summary-sub">{{HEADLINE_SUB}}</div>
+      <div class="summary-kpi-strip">
+        <div class="skpi">
+          <div class="skpi-label">{{KPI1_LABEL}}</div>
+          <div class="skpi-val">{{KPI1_VAL}}</div>
+          <div class="skpi-wow {{KPI1_DIR}}">{{KPI1_NOTE}}</div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">{{KPI2_LABEL}}</div>
+          <div class="skpi-val">{{KPI2_VAL}}</div>
+          <div class="skpi-wow {{KPI2_DIR}}">{{KPI2_NOTE}}</div>
+        </div>
+        <div class="skpi">
+          <div class="skpi-label">{{KPI3_LABEL}}</div>
+          <div class="skpi-val">{{KPI3_VAL}}</div>
+          <div class="skpi-wow {{KPI3_DIR}}">{{KPI3_NOTE}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 論拠
+       カードは 1 枚 1 論点。枚数は論点の数で決める（3 枚に無理に揃えない）。
+       ただし「何と何が並列か」を先に決めてから書く。並列でないものを同じ枠に入れると
+       読み手が関係を読み取れない。
+       .evidence-card に green を付けると良化、.evidence-big に red / green。 -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">02</span><span class="sec-main">Evidence — 論拠</span></div>
+    <div class="sec-big">{{EVIDENCE_HEADLINE}}</div>
+    <div class="sec-sub">{{EVIDENCE_LEAD}}</div>
+    <div class="evidence-grid">
+
+      <div class="evidence-card">
+        <div class="evidence-num">E.01 — {{EV1_KICKER}}</div>
+        <div class="evidence-title">{{EV1_TITLE}}</div>
+        <div class="evidence-metric">
+          <div class="evidence-big red">{{EV1_BIG}}<span class="evidence-unit">{{EV1_UNIT}}</span></div>
+        </div>
+        <div class="evidence-comp">{{EV1_COMP}}</div>
+        <div class="evidence-desc">{{EV1_DESC}}</div>
+      </div>
+
+      <div class="evidence-card">
+        <div class="evidence-num">E.02 — {{EV2_KICKER}}</div>
+        <div class="evidence-title">{{EV2_TITLE}}</div>
+        <div class="evidence-metric">
+          <div class="evidence-big">{{EV2_BIG}}<span class="evidence-unit">{{EV2_UNIT}}</span></div>
+        </div>
+        <div class="evidence-comp">{{EV2_COMP}}</div>
+        <div class="evidence-desc">{{EV2_DESC}}</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 03 やるべきこと
+       粒度を揃える。「短期 / 中期 / 監視」のようにレイヤーで割るか、
+       対象で割るか、どちらかに統一する。混ぜると優先順位が読めない。 -->
+  <div class="card">
+    <div class="sec-tag"><span class="sec-num">03</span><span class="sec-main">Action — やるべきこと</span></div>
+
+    <div class="action-item">
+      <div class="action-prio amber">1</div>
+      <div class="action-body">
+        <div class="action-tags">
+          <span class="action-tag new">{{A1_TAG_WHEN}}</span>
+          <span class="action-tag stage">{{A1_TAG_AREA}}</span>
+          <span class="action-tag">優先度: {{A1_PRIO}}</span>
+        </div>
+        <div class="action-title">{{A1_TITLE}}</div>
+        <div class="action-why">{{A1_WHY}}</div>
+      </div>
+    </div>
+
+    <div class="action-item">
+      <div class="action-prio">2</div>
+      <div class="action-body">
+        <div class="action-tags">
+          <span class="action-tag stage">{{A2_TAG_AREA}}</span>
+          <span class="action-tag">優先度: {{A2_PRIO}}</span>
+        </div>
+        <div class="action-title">{{A2_TITLE}}</div>
+        <div class="action-why">{{A2_WHY}}</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <div class="footer">出典 GA4 Property 347074845 ／ 集計期間 {{PERIOD}}</div>
+  </div>
+
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

@@ -32,6 +32,64 @@
 
 ---
 
+## 公開フロー（Artifact）— 絶対守る
+
+公開先は Artifact 1本。Vercel は廃止した。**リポジトリが唯一の正**で、Artifact は publish 先でしかない。
+
+### 手順（この順番を崩さない）
+
+```
+1. リポジトリのファイルを編集する（従来どおり index.html / 2026h1/** / 2026h2/**）
+2. python3 scripts/artifact/lint.py        # UI 規則の機械チェック。NG を潰す
+3. python3 scripts/artifact/build.py       # dist/ を生成。切れリンクと上限を検査
+4. scripts/artifact/artifact.json の url を指定して dist/index.html を publish
+   supporting files は dist/_build/files.json の一覧をそのまま渡す（root: "dist"）
+```
+
+### 禁止事項
+
+- **Artifact のページを直接編集しない。** 正が2つになり、次の build で必ず上書き衝突する
+- **`url` を渡さずに publish しない。** 別の Artifact が増えて社内に古い URL が残る
+- **`dist/` を手で直さない。** 生成物なので次の build で消える。直すのは必ずリポジトリ側
+- **ページを作り直さない。** 更新依頼は既存ファイルの編集で行う。再生成すると前回の細部が飛ぶ
+
+### 仕組みの要点
+
+| ファイル | 役割 |
+|---|---|
+| `scripts/artifact/build.py` | パス書き換え・auth.js 除去・JSON 統合・切れリンク検査・上限検査 |
+| `scripts/artifact/site-shim.js` | 実行時に絶対パスの fetch と href を解決する。全ページに注入される |
+| `scripts/artifact/lint.py` | CLAUDE.md の UI 規則を機械チェックする |
+| `scripts/artifact/artifact.json` | publish 先の Artifact URL。上書き先を固定するための記録 |
+
+- **アクセス制御**：`auth.js` / `login.html` は Vercel 時代のクライアント側ゲート（sessionStorage を見るだけで実効性がない）。Artifact では publish 時に非公開が既定で、共有は claude.ai の Share メニューで明示指定する。公開範囲を広げるときは載っている GA4 実数値とチケット番号を確認してから広げる
+- **ファイル数上限 255**：週次の `bottleneck-N-content.json` は build 時に週ごと `bottlenecks.json` 1本へ統合される。1週追加あたり 3 ファイル増。現在 169 / 255
+- **新しい週を追加したとき**：`generate-week.py` の出力先は従来どおり。build が自動で拾うので publish 手順は変わらない
+
+---
+
+## レポートを作るとき
+
+`.claude/skills/report/` のスキルを使う。既存ページのコピー改変から始めない。
+配色と語彙が 3 系統に分裂した原因がそれ。
+
+```
+1. python3 .claude/skills/report/scripts/new-report.py --week 2026-w26
+   （単発なら --type analysis --out <path> --title <title>）
+2. 判断が要る箇所を書く。雛形のコメントに落とし穴が書いてある
+3. python3 .claude/skills/report/scripts/check.py --week 2026-w26
+4. NG を潰してから「公開フロー（Artifact）」へ
+```
+
+プログラムが決めること（構造・配色・クラス名・数値・前週比・整合・規則遵守）と
+AI が決めること（結論の文言・情報の階層・Evidence の軸・アクションの粒度）の
+線引きは `SKILL.md` の役割分担表にある。迷ったらそこに戻る。
+
+**実例として見るのは W16 と W13。** W20 以降の週次サマリーはインライン CSS と
+独自クラス語彙に置き換わっていて、`check.py` に通すと NG が出る。新しいから正しくはない。
+
+---
+
 ## GA4 MCP 接続について
 
 このプロジェクトでは **GA4 MCP ツールが自動的に利用可能**です。
@@ -70,7 +128,7 @@ ToolSearch で "run_report" を検索 → mcp__*__run_report ツールを取得
 ## 基本情報
 
 - **GA4 Property ID**: `347074845`
-- **Vercel URL**: https://v2-veltra-cvr.vercel.app/
+- **公開先**: Artifact `https://claude.ai/artifact/URSBSuYzijhHoVNL8ZJpau`（Vercel は廃止。詳細は下の「公開フロー」）
 - **開発ブランチ規則**: `claude/<task>-<hash>` 形式で作業し、完了後 push
 - **サイト構成（2026 H2〜／大改編）**: トップ `index.html` は Northstar 振り分けhub。これまでの全ページ（CVRレポート・分析・施策）は **`2026h1/` 配下**、H2 ミッションは **`2026h2/index.html`**。共有アセット（`auth.js`/`nav.js`/`funnel-def.js`/`summary-detail.js`/各CSS/各JSON）と `login.html`・`index.html` はルート据え置き。
 - **週次レポートの配置**: 週ディレクトリは **`2026h1/reports/{YYYY}-{h1|h2}/{YYYY}-w{WW}/`**（上半期 W1〜W26 → `h1`、下半期 W27〜 → `h2`）。公開URLは `/2026h1/reports/{YYYY}-{h1|h2}/{YYYY}-w{WW}/`。本書中の `reports/{W}/…` はすべて `2026h1/reports/` 配下を指す。W番号からのパス変換は `week_reldir()`（Python）/ `weekDirFor()`（JS）が担当。
