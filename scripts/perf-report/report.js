@@ -9,7 +9,6 @@
   function esc(s) { return String(s).replace(/[&<>]/g, function (c) { return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]; }); }
   function key(m, p) { return m + "|" + p; }
   function on(m, p) { return !off[key(m, p)]; }
-  function days(a, b) { return (Date.parse(b) - Date.parse(a)) / 86400000; }
 
   /* 時間軸。左右に余白を持たせ、端のリリース点が切れないようにする */
   function scaleX(from, to, x0, x1) {
@@ -94,7 +93,10 @@
       return series[p.key] && series[p.key].some(function (v) { return v !== null; });
     });
     var lang = document.documentElement.getAttribute("data-lang") === "en" ? "en" : "ja";
-    var h = "<table><thead><tr><th>" + (lang === "en" ? "Week ending" : "週末日") + "</th>" +
+    /* 見出しの1列目に指標名を出す。スクロールしても何の表か分かるようにするため */
+    var unit = meta.unit ? "（" + meta.unit + "）" : "";
+    var h = "<table><thead><tr><th>" + (lang === "en" ? "Week ending" : "週末日") +
+      '<span class="th-m">' + esc(meta[lang]) + esc(lang === "en" ? (meta.unit ? " (" + meta.unit + ")" : "") : unit) + "</span></th>" +
       cols.map(function (p) { return "<th>" + esc(p[lang]) + "</th>"; }).join("") + "</tr></thead><tbody>";
 
     P.weeks.forEach(function (w, i) {
@@ -104,19 +106,35 @@
         return "<td" + (bad ? ' class="bad"' : "") + ">" + fmt(v, meta.dec, "") + "</td>";
       }).join("") + "</tr>";
 
-      P.releases.forEach(function (r) {
-        var d = days(w, r.date);
-        var prev = i > 0 ? P.weeks[i - 1] : null;
+      /* その週に出したリリース。行が長くなりすぎないよう1行にまとめ、開くと中身が出る */
+      var prev = i > 0 ? P.weeks[i - 1] : null;
+      var rel = P.releases.filter(function (r) {
         var inWeek = prev ? (Date.parse(r.date) > Date.parse(prev) && Date.parse(r.date) <= Date.parse(w))
                           : Date.parse(r.date) <= Date.parse(w);
         var after = i === P.weeks.length - 1 && Date.parse(r.date) > Date.parse(w);
-        if (!inWeek && !after) return;
-        h += '<tr class="ann"><td>' + r.date + '</td><td colspan="' + cols.length + '">' +
-          '<a href="https://app.clickup.com/t/31108037/' + esc(r.ticket) + '">' + esc(r.ticket) + "</a> " +
-          esc(r.note[lang]) + ' <span class="ann-scope">' + esc(r.scope[lang]) + "</span></td></tr>";
+        return inWeek || after;
       });
+      if (!rel.length) return;
+
+      var dates = [];
+      rel.forEach(function (r) { if (dates.indexOf(r.date) < 0) dates.push(r.date); });
+      var label = (lang === "en" ? rel.length + (rel.length > 1 ? " releases" : " release") : "リリース " + rel.length + " 件") +
+        " · " + dates.sort().map(function (d) { return d.slice(5).replace("-", "/"); }).join(", ");
+      var items = rel.map(function (r) {
+        return '<li><span class="rl-d">' + esc(r.date.slice(5).replace("-", "/")) + "</span>" +
+          '<a href="https://app.clickup.com/t/31108037/' + esc(r.ticket) + '" target="_blank" rel="noopener">' +
+          esc(r.ticket) + "</a>" +
+          '<span class="rl-sc">' + esc(r.scope[lang]) + "</span>" +
+          '<span class="rl-n">' + esc(r.note[lang]) + "</span></li>";
+      }).join("");
+
+      h += '<tr class="ann"><td colspan="' + (cols.length + 1) + '">' +
+        '<details class="ann-d"><summary>' + esc(label) + '</summary>' +
+        '<ul class="rl ann-l">' + items + "</ul></details></td></tr>";
     });
     host.innerHTML = h + "</tbody></table>";
+    /* 最新週を初期表示に入れる。表の中だけのスクロールでページは動かない */
+    host.scrollTop = host.scrollHeight;
   }
 
 
@@ -176,6 +194,54 @@
       (lang === "en" ? "All releases (" + P.releases.length + ")" : "リリース一覧（" + P.releases.length + "件）") +
       '</summary><ul class="rl">' + all + "</ul></details>";
   }
+
+  /* ---- ホバーの吹き出しの置き場所。画面からはみ出す側には開かない ---- */
+  function placeTip(dot) {
+    var tip = dot.querySelector(".tip");
+    if (!tip) return;
+    tip.classList.remove("up");
+    tip.style.maxHeight = "";
+    tip.style.transform = "";
+
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var vw = window.innerWidth || document.documentElement.clientWidth;
+    var dr = dot.getBoundingClientRect();
+    var anchor = dr.top + 38;                    /* 点の中心あたり */
+    var below = vh - anchor - 40, above = anchor - 40;
+
+    /* 下に入りきらず、上のほうが空いているなら上向きに開く */
+    if (below < 200 && above > below) { tip.classList.add("up"); }
+    var room = (tip.classList.contains("up") ? above : below) - 16;
+    tip.style.maxHeight = Math.max(Math.min(320, room), 140) + "px";
+
+    /* 左右のはみ出しを測って内側へ寄せる */
+    var vis = tip.style.visibility;
+    tip.style.visibility = "hidden";
+    tip.style.display = "block";
+    var tr = tip.getBoundingClientRect();
+    tip.style.display = "";
+    tip.style.visibility = vis;
+
+    var shift = 0;
+    if (tr.right > vw - 12) shift = vw - 12 - tr.right;
+    if (tr.left + shift < 12) shift = 12 - tr.left;
+    if (shift) tip.style.transform = "translateX(" + Math.round(shift) + "px)";
+  }
+
+  /* 表の中のリリース行。開いたときに表示範囲の外だと読めないので寄せる */
+  document.addEventListener("toggle", function (e) {
+    var d = e.target;
+    if (d && d.classList && d.classList.contains("ann-d") && d.open) {
+      d.scrollIntoView({ block: "nearest" });
+    }
+  }, true);
+
+  ["mouseover", "focusin"].forEach(function (ev) {
+    document.addEventListener(ev, function (e) {
+      var dot = e.target.closest ? e.target.closest(".rdot") : null;
+      if (dot) placeTip(dot);
+    }, true);
+  });
 
   function redrawAll() { drawStrip(); Object.keys(P.metrics).forEach(drawChart); drawTable(); }
 

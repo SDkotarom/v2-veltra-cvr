@@ -175,9 +175,9 @@ html = f'''<title>表示速度モニタリング</title>
 <details><summary>{t("データの定義を見る", "View data definitions")}</summary><div class="tw"><table><tr><th>key</th><th>value</th></tr>{defrows}</table></div></details>
 </div>
 
-<div class="sec"><h2><span class="n">3</span>{t("週次の数値と、その週に出したもの", "Weekly figures and what shipped")}</h2>
+<div class="sec"><h2><span class="n">3</span>{t("週ごとの数値とリリース", "Weekly figures and releases")}</h2>
 <div class="mtabs">{mtabs}</div>
-<p class="note">{t('行は週。網掛けの行はその週のリリースで、チケット番号から ClickUp に飛べる。赤字は合格ラインを超えている値、— は欠測。', 'Each row is a week. Shaded rows are releases that shipped that week, linked to their ClickUp ticket. Red exceeds the target; — means no data.')}</p>
+<p class="note">{t('行は週。リリースがあった週は、その週の行のすぐ下に開閉行が入る。開くとチケットと変更内容が出る。赤字は合格ラインを超えている値、— は欠測。', 'One row per week. A week with releases gets a collapsible row right under it — open it for the tickets and what changed. Red exceeds the target; — means no data.')}</p>
 <div class="tw" id="trend-table"></div>
 </div>
 

@@ -168,11 +168,23 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:va
 .mt[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);position:relative;z-index:1}
 .mt:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 
-/* --- 表の注釈行 --- */
-tr.ann td{background:var(--surface-2);font-size:13px;color:var(--ink-2);white-space:normal;text-align:left}
-tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
-.ann-scope{color:var(--ink-3);font-size:12px;margin-left:8px}
+/* --- 週次の表：見出しを固定して、表の中だけスクロールさせる --- */
+#trend-table{max-height:min(62vh,520px);overflow:auto}
 #trend-table table{min-width:640px}
+.th-m{display:block;font-size:11px;font-weight:700;color:var(--brand-ink);
+  letter-spacing:0;text-transform:none;line-height:1.5}
+#trend-table thead th{position:sticky;top:0;z-index:3;
+  background:var(--surface-2);box-shadow:inset 0 -1px 0 var(--line)}
+#trend-table tbody tr:not(.ann) td:first-child{position:sticky;left:0;z-index:2;
+  background:var(--surface);box-shadow:inset -1px 0 0 var(--line-soft)}
+#trend-table thead th:first-child{left:0;z-index:4;
+  box-shadow:inset 0 -1px 0 var(--line),inset -1px 0 0 var(--line)}
+
+/* --- 表のリリース行（開閉） --- */
+tr.ann td{background:var(--surface-2);white-space:normal;text-align:left;padding:4px 13px}
+.ann-d summary{font-size:13px;color:var(--brand-ink);padding:3px 0;font-weight:700}
+.ann-d[open] summary{margin-bottom:2px}
+.ann-l{margin:2px 0 8px;max-height:none}
 
 /* --- タイルの計測URL --- */
 .tl-u{font-size:12px;color:var(--ink-3);text-decoration:none;display:block;
@@ -195,8 +207,10 @@ tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
 .rdot::before{content:"";position:absolute;top:24px;height:14px;width:2px;background:var(--brand);opacity:.5}
 .tip{position:absolute;top:64px;left:0;min-width:300px;max-width:420px;z-index:5;
   background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;
-  box-shadow:var(--shadow);padding:10px 12px;display:none;text-align:left}
+  box-shadow:var(--shadow);padding:10px 12px;display:none;text-align:left;
+  overflow-y:auto;overscroll-behavior:contain}
 .rdot.right .tip{left:auto;right:0}
+.tip.up{top:auto;bottom:62px}
 .rdot:hover .tip,.rdot:focus .tip,.rdot:focus-within .tip{display:block}
 .tip-h{font-size:12px;color:var(--ink-3);margin-bottom:6px;font-variant-numeric:tabular-nums}
 .tp-row{display:block;padding:6px 0;border-top:1px solid var(--line-soft);text-decoration:none;color:inherit}
@@ -324,9 +338,9 @@ tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
 <details><summary><span class="ja">データの定義を見る</span><span class="en">View data definitions</span></summary><div class="tw"><table><tr><th>key</th><th>value</th></tr><tr><td>granularity_rule</td><td>url-only（origin値での代用はしない）</td></tr><tr><td>source_of_truth</td><td>crux_weekly</td></tr><tr><td>missing_rule</td><td>欠測は null。0では埋めない</td></tr><tr><td>denominator</td><td>6ページ固定。未計測も分母に残す</td></tr><tr><td>crux_window</td><td>28日ローリング</td></tr><tr><td>judge_env</td><td>production のみ</td></tr><tr><td>lcp_good</td><td>2500ms</td></tr><tr><td>inp_good</td><td>200ms</td></tr><tr><td>cls_good</td><td>0.1</td></tr><tr><td>ttfb_good</td><td>800ms</td></tr></table></div></details>
 </div>
 
-<div class="sec"><h2><span class="n">3</span><span class="ja">週次の数値と、その週に出したもの</span><span class="en">Weekly figures and what shipped</span></h2>
+<div class="sec"><h2><span class="n">3</span><span class="ja">週ごとの数値とリリース</span><span class="en">Weekly figures and releases</span></h2>
 <div class="mtabs"><button class="mt" data-m="lcp" aria-pressed="true">LCP</button><button class="mt" data-m="inp" aria-pressed="false">INP</button><button class="mt" data-m="cls" aria-pressed="false">CLS</button><button class="mt" data-m="ttfb" aria-pressed="false">TTFB</button></div>
-<p class="note"><span class="ja">行は週。網掛けの行はその週のリリースで、チケット番号から ClickUp に飛べる。赤字は合格ラインを超えている値、— は欠測。</span><span class="en">Each row is a week. Shaded rows are releases that shipped that week, linked to their ClickUp ticket. Red exceeds the target; — means no data.</span></p>
+<p class="note"><span class="ja">行は週。リリースがあった週は、その週の行のすぐ下に開閉行が入る。開くとチケットと変更内容が出る。赤字は合格ラインを超えている値、— は欠測。</span><span class="en">One row per week. A week with releases gets a collapsible row right under it — open it for the tickets and what changed. Red exceeds the target; — means no data.</span></p>
 <div class="tw" id="trend-table"></div>
 </div>
 
@@ -350,7 +364,6 @@ tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
   function esc(s) { return String(s).replace(/[&<>]/g, function (c) { return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]; }); }
   function key(m, p) { return m + "|" + p; }
   function on(m, p) { return !off[key(m, p)]; }
-  function days(a, b) { return (Date.parse(b) - Date.parse(a)) / 86400000; }
 
   /* 時間軸。左右に余白を持たせ、端のリリース点が切れないようにする */
   function scaleX(from, to, x0, x1) {
@@ -435,7 +448,10 @@ tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
       return series[p.key] && series[p.key].some(function (v) { return v !== null; });
     });
     var lang = document.documentElement.getAttribute("data-lang") === "en" ? "en" : "ja";
-    var h = "<table><thead><tr><th>" + (lang === "en" ? "Week ending" : "週末日") + "</th>" +
+    /* 見出しの1列目に指標名を出す。スクロールしても何の表か分かるようにするため */
+    var unit = meta.unit ? "（" + meta.unit + "）" : "";
+    var h = "<table><thead><tr><th>" + (lang === "en" ? "Week ending" : "週末日") +
+      '<span class="th-m">' + esc(meta[lang]) + esc(lang === "en" ? (meta.unit ? " (" + meta.unit + ")" : "") : unit) + "</span></th>" +
       cols.map(function (p) { return "<th>" + esc(p[lang]) + "</th>"; }).join("") + "</tr></thead><tbody>";
 
     P.weeks.forEach(function (w, i) {
@@ -445,19 +461,35 @@ tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
         return "<td" + (bad ? ' class="bad"' : "") + ">" + fmt(v, meta.dec, "") + "</td>";
       }).join("") + "</tr>";
 
-      P.releases.forEach(function (r) {
-        var d = days(w, r.date);
-        var prev = i > 0 ? P.weeks[i - 1] : null;
+      /* その週に出したリリース。行が長くなりすぎないよう1行にまとめ、開くと中身が出る */
+      var prev = i > 0 ? P.weeks[i - 1] : null;
+      var rel = P.releases.filter(function (r) {
         var inWeek = prev ? (Date.parse(r.date) > Date.parse(prev) && Date.parse(r.date) <= Date.parse(w))
                           : Date.parse(r.date) <= Date.parse(w);
         var after = i === P.weeks.length - 1 && Date.parse(r.date) > Date.parse(w);
-        if (!inWeek && !after) return;
-        h += '<tr class="ann"><td>' + r.date + '</td><td colspan="' + cols.length + '">' +
-          '<a href="https://app.clickup.com/t/31108037/' + esc(r.ticket) + '">' + esc(r.ticket) + "</a> " +
-          esc(r.note[lang]) + ' <span class="ann-scope">' + esc(r.scope[lang]) + "</span></td></tr>";
+        return inWeek || after;
       });
+      if (!rel.length) return;
+
+      var dates = [];
+      rel.forEach(function (r) { if (dates.indexOf(r.date) < 0) dates.push(r.date); });
+      var label = (lang === "en" ? rel.length + (rel.length > 1 ? " releases" : " release") : "リリース " + rel.length + " 件") +
+        " · " + dates.sort().map(function (d) { return d.slice(5).replace("-", "/"); }).join(", ");
+      var items = rel.map(function (r) {
+        return '<li><span class="rl-d">' + esc(r.date.slice(5).replace("-", "/")) + "</span>" +
+          '<a href="https://app.clickup.com/t/31108037/' + esc(r.ticket) + '" target="_blank" rel="noopener">' +
+          esc(r.ticket) + "</a>" +
+          '<span class="rl-sc">' + esc(r.scope[lang]) + "</span>" +
+          '<span class="rl-n">' + esc(r.note[lang]) + "</span></li>";
+      }).join("");
+
+      h += '<tr class="ann"><td colspan="' + (cols.length + 1) + '">' +
+        '<details class="ann-d"><summary>' + esc(label) + '</summary>' +
+        '<ul class="rl ann-l">' + items + "</ul></details></td></tr>";
     });
     host.innerHTML = h + "</tbody></table>";
+    /* 最新週を初期表示に入れる。表の中だけのスクロールでページは動かない */
+    host.scrollTop = host.scrollHeight;
   }
 
 
@@ -517,6 +549,54 @@ tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
       (lang === "en" ? "All releases (" + P.releases.length + ")" : "リリース一覧（" + P.releases.length + "件）") +
       '</summary><ul class="rl">' + all + "</ul></details>";
   }
+
+  /* ---- ホバーの吹き出しの置き場所。画面からはみ出す側には開かない ---- */
+  function placeTip(dot) {
+    var tip = dot.querySelector(".tip");
+    if (!tip) return;
+    tip.classList.remove("up");
+    tip.style.maxHeight = "";
+    tip.style.transform = "";
+
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var vw = window.innerWidth || document.documentElement.clientWidth;
+    var dr = dot.getBoundingClientRect();
+    var anchor = dr.top + 38;                    /* 点の中心あたり */
+    var below = vh - anchor - 40, above = anchor - 40;
+
+    /* 下に入りきらず、上のほうが空いているなら上向きに開く */
+    if (below < 200 && above > below) { tip.classList.add("up"); }
+    var room = (tip.classList.contains("up") ? above : below) - 16;
+    tip.style.maxHeight = Math.max(Math.min(320, room), 140) + "px";
+
+    /* 左右のはみ出しを測って内側へ寄せる */
+    var vis = tip.style.visibility;
+    tip.style.visibility = "hidden";
+    tip.style.display = "block";
+    var tr = tip.getBoundingClientRect();
+    tip.style.display = "";
+    tip.style.visibility = vis;
+
+    var shift = 0;
+    if (tr.right > vw - 12) shift = vw - 12 - tr.right;
+    if (tr.left + shift < 12) shift = 12 - tr.left;
+    if (shift) tip.style.transform = "translateX(" + Math.round(shift) + "px)";
+  }
+
+  /* 表の中のリリース行。開いたときに表示範囲の外だと読めないので寄せる */
+  document.addEventListener("toggle", function (e) {
+    var d = e.target;
+    if (d && d.classList && d.classList.contains("ann-d") && d.open) {
+      d.scrollIntoView({ block: "nearest" });
+    }
+  }, true);
+
+  ["mouseover", "focusin"].forEach(function (ev) {
+    document.addEventListener(ev, function (e) {
+      var dot = e.target.closest ? e.target.closest(".rdot") : null;
+      if (dot) placeTip(dot);
+    }, true);
+  });
 
   function redrawAll() { drawStrip(); Object.keys(P.metrics).forEach(drawChart); drawTable(); }
 

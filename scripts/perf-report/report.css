@@ -166,11 +166,23 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:va
 .mt[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);position:relative;z-index:1}
 .mt:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 
-/* --- 表の注釈行 --- */
-tr.ann td{background:var(--surface-2);font-size:13px;color:var(--ink-2);white-space:normal;text-align:left}
-tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
-.ann-scope{color:var(--ink-3);font-size:12px;margin-left:8px}
+/* --- 週次の表：見出しを固定して、表の中だけスクロールさせる --- */
+#trend-table{max-height:min(62vh,520px);overflow:auto}
 #trend-table table{min-width:640px}
+.th-m{display:block;font-size:11px;font-weight:700;color:var(--brand-ink);
+  letter-spacing:0;text-transform:none;line-height:1.5}
+#trend-table thead th{position:sticky;top:0;z-index:3;
+  background:var(--surface-2);box-shadow:inset 0 -1px 0 var(--line)}
+#trend-table tbody tr:not(.ann) td:first-child{position:sticky;left:0;z-index:2;
+  background:var(--surface);box-shadow:inset -1px 0 0 var(--line-soft)}
+#trend-table thead th:first-child{left:0;z-index:4;
+  box-shadow:inset 0 -1px 0 var(--line),inset -1px 0 0 var(--line)}
+
+/* --- 表のリリース行（開閉） --- */
+tr.ann td{background:var(--surface-2);white-space:normal;text-align:left;padding:4px 13px}
+.ann-d summary{font-size:13px;color:var(--brand-ink);padding:3px 0;font-weight:700}
+.ann-d[open] summary{margin-bottom:2px}
+.ann-l{margin:2px 0 8px;max-height:none}
 
 /* --- タイルの計測URL --- */
 .tl-u{font-size:12px;color:var(--ink-3);text-decoration:none;display:block;
@@ -193,8 +205,10 @@ tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
 .rdot::before{content:"";position:absolute;top:24px;height:14px;width:2px;background:var(--brand);opacity:.5}
 .tip{position:absolute;top:64px;left:0;min-width:300px;max-width:420px;z-index:5;
   background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;
-  box-shadow:var(--shadow);padding:10px 12px;display:none;text-align:left}
+  box-shadow:var(--shadow);padding:10px 12px;display:none;text-align:left;
+  overflow-y:auto;overscroll-behavior:contain}
 .rdot.right .tip{left:auto;right:0}
+.tip.up{top:auto;bottom:62px}
 .rdot:hover .tip,.rdot:focus .tip,.rdot:focus-within .tip{display:block}
 .tip-h{font-size:12px;color:var(--ink-3);margin-bottom:6px;font-variant-numeric:tabular-nums}
 .tp-row{display:block;padding:6px 0;border-top:1px solid var(--line-soft);text-decoration:none;color:inherit}
