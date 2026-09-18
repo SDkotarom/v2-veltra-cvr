@@ -300,6 +300,14 @@ tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
   function on(m, p) { return !off[key(m, p)]; }
   function days(a, b) { return (Date.parse(b) - Date.parse(a)) / 86400000; }
 
+  /* 時間軸。左右に余白を持たせ、端のリリース点が切れないようにする */
+  function scaleX(from, to, x0, x1) {
+    var t0 = Date.parse(from), t1 = Date.parse(to);
+    var pad = Math.max((t1 - t0) * 0.045, 6 * 86400000);
+    var a = t0 - pad, b = t1 + pad;
+    return function (d) { return x0 + (Date.parse(d) - a) / (b - a) * (x1 - x0); };
+  }
+
   /* ---- チャート描画。表示中の系列だけで縦軸を張り直す ---- */
   function drawChart(mk) {
     var meta = P.meta[mk], host = document.getElementById("plot-" + mk);
@@ -320,11 +328,9 @@ tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
     [1, 2, 2.5, 5, 10].some(function (f) { if (top / (step * f) <= 4.5) { step = step * f; return true; } });
     var ymax = Math.ceil(top / step) * step;
 
-    var last = weeks[weeks.length - 1];
-    var xEnd = last;
+    var xEnd = weeks[weeks.length - 1];
     P.releases.forEach(function (r) { if (Date.parse(r.date) > Date.parse(xEnd)) xEnd = r.date; });
-    var span = Math.max(days(weeks[0], xEnd), 1);
-    function X(d) { return PL + days(weeks[0], d) / span * (W - PL - PR); }
+    var X = scaleX(weeks[0], xEnd, PL, W - PR);
     function Y(v) { return PT + (1 - v / ymax) * (H - PT - PB); }
 
     var o = [];
@@ -411,8 +417,7 @@ tr.ann td:first-child{color:var(--ink-3);white-space:nowrap}
     var W = 1160, H = 74, PL = 52, PR = 14, BY = 30;
     var weeks = P.weeks, xEnd = weeks[weeks.length - 1];
     P.releases.forEach(function (r) { if (Date.parse(r.date) > Date.parse(xEnd)) xEnd = r.date; });
-    var span = Math.max(days(weeks[0], xEnd), 1);
-    function X(d) { return PL + days(weeks[0], d) / span * (W - PL - PR); }
+    var X = scaleX(weeks[0], xEnd, PL, W - PR);
 
     var o = ['<line class="strip-ax" x1="' + PL + '" y1="' + BY + '" x2="' + (W - PR) + '" y2="' + BY + '"/>'];
     var seenM = {};
