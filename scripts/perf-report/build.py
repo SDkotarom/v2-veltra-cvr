@@ -156,7 +156,7 @@ html = f'''<title>表示速度モニタリング</title>
 
 <div class="sec"><h2><span class="n">2</span>{t("指標ごとの推移", "Trend by metric")}</h2>
 <p class="note">{t('指標ごとに単位が違うため、グラフを分けている。リリースは上の帯にまとめ、各グラフには同じ位置に細い縦線だけ引いている。凡例をクリックするとそのページを外せる（縦軸も引き直す）。', 'Each metric has its own chart because the units differ. Releases are collected in the strip above; the charts carry only a thin vertical line at the same position. Click a legend item to remove that page — the y-axis rescales.')}</p>
-<div class="card strip"><div class="ch-h"><h3>{t("リリース", "Releases")}</h3><span class="ch-t">{t("下のグラフと同じ時間軸", "Same time axis as the charts below")}</span></div>
+<div class="card strip"><div class="ch-h"><h3>{t("リリース", "Releases")}</h3></div>
 <div class="plot" id="plot-releases"></div></div>
 <div class="chart-grid">{charts}</div>
 </div>
