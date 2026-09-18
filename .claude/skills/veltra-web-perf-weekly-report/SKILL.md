@@ -29,6 +29,10 @@ description: >
 3. `weekly`（週次推移）は crux_weekly の**最新 collected_at のブロック**から作る。
    ここだけは生データを触るが、最新ブロック以外は使わない
 4. `lead` / `findings` / `issues` を今週の内容に書き換える（後述）
+4.5 `tracks`（2つの系統）と `pipeline`（データの流れ）の状態を見直す。
+   - `tracks[].rows` はサーバ計測の値。再測されたら差し替え、出典を書き換える
+   - `tracks[].auto` は指標キー。合格ページ数はビルダーが最新週から計算するので触らない
+   - `pipeline[].items[].st` は `ok`（稼働中）/ `todo`（未設置）。層が動き出したら切り替える
 5. `python3 scripts/perf-report/build.py` で HTML を生成
 6. Artifact ツールで同じファイルパスを再publish。**URLは変わらない**
 

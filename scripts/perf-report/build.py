@@ -116,6 +116,70 @@ prows = "".join(
     for p in pages)
 defrows = "".join(f'<tr><td>{k}</td><td>{v}</td></tr>' for k, v in D["defs_table"])
 
+MET = {m["key"]: m for m in metrics}
+
+
+def pass_count(m):
+    """最新週の「合格ページ数 / 実ユーザー値が取れているページ数」"""
+    vs = [weekly["metrics"][m["key"]][p["page_key"]][-1] for p in pages]
+    vs = [v for v in vs if v is not None]
+    return sum(1 for v in vs if v <= m["good"]), len(vs)
+
+
+_ps = [p["psi_score"] for p in pages if p.get("psi_score") is not None]
+PSI_AVG = round(sum(_ps) / len(_ps)) if _ps else None
+
+
+def track_row(key):
+    if key == "psi_avg":
+        return (t(f'PSI Performance 平均（{len(_ps)}ページ）', f'PSI Performance, mean of {len(_ps)} pages'),
+                f'{PSI_AVG} / 100' if PSI_AVG is not None else "—",
+                t(f'ラボ・{defs["psi_date"]}', f'lab, {defs["psi_date"]}'))
+    m = MET[key]
+    n, tot = pass_count(m)
+    return (t(f'実ユーザー {m["ja"]} 合格ページ', f'Pages passing {m["en"]} (real user)'),
+            f'{n} / {tot}',
+            t(f'合格ライン {fm(m["good"], m["dec"], m["unit"])} 以下', f'target {fm(m["good"], m["dec"], m["unit"])} or under'))
+
+
+tracks = ""
+for tr in D["tracks"]:
+    rows = ""
+    for k in tr["auto"]:
+        lab, val, src = track_row(k)
+        rows += f'<div><dt>{lab}</dt><dd>{val}<span class="trk-s">{src}</span></dd></div>'
+    for r in tr["rows"]:
+        rows += (f'<div><dt>{t(r["l"]["ja"], r["l"]["en"])}</dt>'
+                 f'<dd>{r["v"]}<span class="trk-s">{t(r["s"]["ja"], r["s"]["en"])}</span></dd></div>')
+    tk = "".join(f'<a class="chip" href="https://app.clickup.com/t/31108037/{x}">{x}</a>' for x in tr["tickets"])
+    gap = (f'<p class="trk-g">{t(tr["gap"]["ja"], tr["gap"]["en"])}</p>' if tr["gap"]["ja"] else "")
+    tracks += (f'<div class="trk"><h3>{t(tr["h"]["ja"], tr["h"]["en"])}</h3>'
+               f'<p class="trk-b">{t(tr["b"]["ja"], tr["b"]["en"])}</p>'
+               f'<dl class="trk-f">{rows}</dl>{gap}'
+               f'<div class="yl">{t("出しているもの", "What has shipped")}</div>'
+               f'<div class="ifoot">{tk}</div></div>')
+
+
+def _bi(v, en_key=None):
+    """文字列ならそのまま、辞書なら日英に展開する"""
+    return v if isinstance(v, str) else t(v["ja"], v["en"])
+
+
+ST = {"ok": ("稼働中", "running"), "todo": ("未設置", "not set up")}
+flow = ""
+for i, st in enumerate(D["pipeline"]["stages"]):
+    if i:
+        flow += '<div class="fa" aria-hidden="true">→</div>'
+    boxes = ""
+    for it in st["items"]:
+        sj, se = ST[it["st"]]
+        boxes += (f'<div class="fitem"><b>{_bi(it["n"])}</b>'
+                  f'<span class="fbox-d">{_bi(it["d"])}</span>'
+                  f'<span class="fbox-f">{_bi(it["f"])}<span class="fbadge {it["st"]}">{t(sj, se)}</span></span></div>')
+    flow += (f'<div class="fs"><div class="fs-h">{i+1} {t(st["h"]["ja"], st["h"]["en"])}'
+             f'<span class="fs-s">{t(st["sub"]["ja"], st["sub"]["en"])}</span></div>'
+             f'<div class="fbox">{boxes}</div></div>')
+
 mtabs = "".join(
     f'<button class="mt" data-m="{m["key"]}" aria-pressed="{"true" if i==0 else "false"}">{m["ja"]}</button>'
     for i, m in enumerate(metrics))
@@ -154,31 +218,42 @@ html = f'''<title>表示速度モニタリング</title>
 <p class="note">{t('タイルの数値は LCP。URL単位の CrUX のみを採用し、サイト全体（origin）の値での代用はしていない。', 'Tile figures are LCP. Only URL-level CrUX is used — origin-level values are never substituted.')}</p>
 </div>
 
-<div class="sec"><h2><span class="n">2</span>{t("指標ごとの推移", "Trend by metric")}</h2>
+<div class="sec"><h2><span class="n">2</span>{t("2つの系統で見る", "Two tracks")}</h2>
+<p class="note">{t('直し方が違うので分けている。左は読み込みの中身と順番、右は押してから返ってくるまでの待ち時間。数値は最新週。', 'The two need different fixes, so they are tracked apart: what gets loaded and in what order, versus the wait between a tap and a result. Figures are from the latest week.')}</p>
+<div class="trks">{tracks}</div>
+</div>
+
+<div class="sec"><h2><span class="n">3</span>{t("指標ごとの推移", "Trend by metric")}</h2>
 <p class="note">{t('指標ごとに単位が違うため、グラフを分けている。リリースは上の帯にまとめ、各グラフには同じ位置に細い縦線だけ引いている。凡例をクリックするとそのページを外せる（縦軸も引き直す）。', 'Each metric has its own chart because the units differ. Releases are collected in the strip above; the charts carry only a thin vertical line at the same position. Click a legend item to remove that page — the y-axis rescales.')}</p>
 <div class="card strip"><div class="ch-h"><h3>{t("リリース", "Releases")}</h3></div>
 <div class="plot" id="plot-releases"></div></div>
 <div class="chart-grid">{charts}</div>
 </div>
 
-<div class="sec"><h2><span class="n">4</span>{t("分かったこと", "What we learned")}</h2>
+<div class="sec"><h2><span class="n">4</span>{t("週ごとの数値とリリース", "Weekly figures and releases")}</h2>
+<div class="mtabs">{mtabs}</div>
+<p class="note">{t('行は週。リリースがあった週は、その週の行のすぐ下に開閉行が入る。開くとチケットと変更内容が出る。赤字は合格ラインを超えている値、— は欠測。', 'One row per week. A week with releases gets a collapsible row right under it — open it for the tickets and what changed. Red exceeds the target; — means no data.')}</p>
+<div class="tw" id="trend-table"></div>
+</div>
+
+<div class="sec"><h2><span class="n">5</span>{t("分かったこと", "What we learned")}</h2>
 {frows}
 </div>
 
-<div class="sec"><h2><span class="n">5</span>{t("課題とやること", "Issues and next steps")}</h2>
+<div class="sec"><h2><span class="n">6</span>{t("課題とやること", "Issues and next steps")}</h2>
 {irows}
 </div>
 
-<div class="sec"><h2><span class="n">6</span>{t("補足データ", "Supporting data")}</h2>
+<div class="sec"><h2><span class="n">7</span>{t("補足データ", "Supporting data")}</h2>
 <div class="tw"><table><tr><th>{t("ページ","Page")}</th><th>{t("PSI スコア","PSI score")}</th><th>PSI LCP</th></tr>{prows}</table></div>
 <p class="note">{t(f'PageSpeed Insights（ラボ・{defs["psi_date"]}）。日次でばらつきが大きく、実ユーザー値とは別物。傾向の確認にのみ使う。', f'PageSpeed Insights (lab, {defs["psi_date"]}). High daily variance, not real-user data — direction only.')}</p>
 <details><summary>{t("データの定義を見る", "View data definitions")}</summary><div class="tw"><table><tr><th>key</th><th>value</th></tr>{defrows}</table></div></details>
 </div>
 
-<div class="sec"><h2><span class="n">3</span>{t("週ごとの数値とリリース", "Weekly figures and releases")}</h2>
-<div class="mtabs">{mtabs}</div>
-<p class="note">{t('行は週。リリースがあった週は、その週の行のすぐ下に開閉行が入る。開くとチケットと変更内容が出る。赤字は合格ラインを超えている値、— は欠測。', 'One row per week. A week with releases gets a collapsible row right under it — open it for the tickets and what changed. Red exceeds the target; — means no data.')}</p>
-<div class="tw" id="trend-table"></div>
+<div class="sec"><h2><span class="n">8</span>{t("データの流れ", "How the data gets here")}</h2>
+<p class="note">{t(D["pipeline"]["note"]["ja"], D["pipeline"]["note"]["en"])}</p>
+<div class="flow">{flow}</div>
+<p class="note">{t('解釈は集計の段で確定させ、生成の段では触らない。週ごとに数値の読み方が変わらないようにするため。', 'Interpretation is settled in the aggregation step and never revisited when the page is built, so the reading of a figure does not drift week to week.')}</p>
 </div>
 
 <a class="linkcard" href="{defs["sheet_url"]}"><div><b>{t("計測スプレッドシート","Measurement spreadsheet")}</b><span>{t("生データと集計タブ（_summary / _defs）","Raw data and the aggregation tabs (_summary / _defs)")}</span></div><span>{t("開く →","Open →")}</span></a>

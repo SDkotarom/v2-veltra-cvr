@@ -1145,5 +1145,287 @@
    "ni": 1800,
    "dec": 0
   }
- ]
+ ],
+ "tracks": [
+  {
+   "key": "load",
+   "h": {
+    "ja": "ページが出るまで（PSI の数値）",
+    "en": "Time until the page appears (PSI scores)"
+   },
+   "b": {
+    "ja": "読み込むものの量と順番の問題。PageSpeed Insights のスコアと、実ユーザーの LCP / CLS / TTFB で見る。",
+    "en": "How much is loaded, and in what order. Watched through the PageSpeed Insights score and real-user LCP / CLS / TTFB."
+   },
+   "auto": [
+    "psi_avg",
+    "lcp",
+    "cls",
+    "ttfb"
+   ],
+   "rows": [],
+   "tickets": [
+    "UX_DESIGN-323",
+    "UX_DESIGN-395",
+    "UX_DESIGN-396",
+    "UX_DESIGN-397",
+    "UX_DESIGN-389"
+   ],
+   "gap": {
+    "ja": "",
+    "en": ""
+   }
+  },
+  {
+   "key": "react",
+   "h": {
+    "ja": "触ってからの反応（体感で遅いところ）",
+    "en": "Response after you tap (the slow-feeling parts)"
+   },
+   "b": {
+    "ja": "押してから返ってくるまでの待ち時間。実ユーザーの INP と、サーバ側で測った API の応答時間で見る。",
+    "en": "The wait between a tap and a result. Watched through real-user INP and server-side API response times."
+   },
+   "auto": [
+    "inp"
+   ],
+   "rows": [
+    {
+     "l": {
+      "ja": "カテゴリーのフィルター API 応答",
+      "en": "Category filter API response"
+     },
+     "v": "1.50 s",
+     "s": {
+      "ja": "サーバ計測・AsIs",
+      "en": "Server-side, AsIs"
+     }
+    },
+    {
+     "l": {
+      "ja": "予約モーダルの formData",
+      "en": "Booking modal formData"
+     },
+     "v": "0.77 s",
+     "s": {
+      "ja": "サーバ計測・AsIs",
+      "en": "Server-side, AsIs"
+     }
+    }
+   ],
+   "tickets": [
+    "UX_DESIGN-321"
+   ],
+   "gap": {
+    "ja": "サーバ計測の2つは着手前の値が1回あるだけで、週ごとの推移が取れていない。上のグラフにも出せない。",
+    "en": "The two server-side figures exist only as a single pre-work measurement — there is no weekly series, so they cannot appear in the charts above."
+   }
+  }
+ ],
+ "pipeline": {
+  "note": {
+   "ja": "数値がどこから来て、どこで解釈が確定し、このページに出るまで。",
+   "en": "Where the figures come from, where their interpretation is fixed, and how they reach this page."
+  },
+  "stages": [
+   {
+    "h": {
+     "ja": "取得",
+     "en": "Collect"
+    },
+    "sub": {
+     "ja": "外部API",
+     "en": "External APIs"
+    },
+    "items": [
+     {
+      "n": "CrUX API",
+      "d": {
+       "ja": "実ユーザー p75",
+       "en": "Real-user p75"
+      },
+      "f": {
+       "ja": "週1回",
+       "en": "Weekly"
+      },
+      "st": "ok"
+     },
+     {
+      "n": "PageSpeed Insights API",
+      "d": {
+       "ja": "ラボ値",
+       "en": "Lab values"
+      },
+      "f": {
+       "ja": "毎日",
+       "en": "Daily"
+      },
+      "st": "ok"
+     },
+     {
+      "n": {
+       "ja": "リリース記録",
+       "en": "Release log"
+      },
+      "d": {
+       "ja": "日付・チケット・内容",
+       "en": "Date, ticket, change"
+      },
+      "f": {
+       "ja": "手入力",
+       "en": "Manual"
+      },
+      "st": "todo"
+     }
+    ]
+   },
+   {
+    "h": {
+     "ja": "蓄積",
+     "en": "Store"
+    },
+    "sub": {
+     "ja": "計測スプレッドシート",
+     "en": "Measurement spreadsheet"
+    },
+    "items": [
+     {
+      "n": "crux_weekly",
+      "d": {
+       "ja": "週×ページ",
+       "en": "Week by page"
+      },
+      "f": {
+       "ja": "全履歴",
+       "en": "Full history"
+      },
+      "st": "ok"
+     },
+     {
+      "n": "psi_daily",
+      "d": {
+       "ja": "日次",
+       "en": "Daily"
+      },
+      "f": {
+       "ja": "全履歴",
+       "en": "Full history"
+      },
+      "st": "ok"
+     },
+     {
+      "n": "annotations",
+      "d": {
+       "ja": "リリースの記録先",
+       "en": "Release records"
+      },
+      "f": {
+       "ja": "空",
+       "en": "Empty"
+      },
+      "st": "todo"
+     }
+    ]
+   },
+   {
+    "h": {
+     "ja": "集計",
+     "en": "Aggregate"
+    },
+    "sub": {
+     "ja": "同じスプレッドシート",
+     "en": "Same spreadsheet"
+    },
+    "items": [
+     {
+      "n": "perf-aggregate.gs",
+      "d": {
+       "ja": "解釈をここで確定",
+       "en": "Interpretation settled here"
+      },
+      "f": {
+       "ja": "毎朝5時",
+       "en": "Daily 05:00"
+      },
+      "st": "todo"
+     },
+     {
+      "n": "_summary / _defs",
+      "d": {
+       "ja": "判定済みの値と規則",
+       "en": "Judged values and rules"
+      },
+      "f": {
+       "ja": "タブ",
+       "en": "Tabs"
+      },
+      "st": "todo"
+     }
+    ]
+   },
+   {
+    "h": {
+     "ja": "生成",
+     "en": "Build"
+    },
+    "sub": {
+     "ja": "リポジトリ",
+     "en": "Repository"
+    },
+    "items": [
+     {
+      "n": "data.json",
+      "d": {
+       "ja": "_summary の転記",
+       "en": "Transcript of _summary"
+      },
+      "f": {
+       "ja": "週次",
+       "en": "Weekly"
+      },
+      "st": "ok"
+     },
+     {
+      "n": "build.py",
+      "d": {
+       "ja": "テンプレートは固定",
+       "en": "Template is fixed"
+      },
+      "f": {
+       "ja": "週次",
+       "en": "Weekly"
+      },
+      "st": "ok"
+     }
+    ]
+   },
+   {
+    "h": {
+     "ja": "表示",
+     "en": "Show"
+    },
+    "sub": {
+     "ja": "アーティファクト",
+     "en": "Artifact"
+    },
+    "items": [
+     {
+      "n": {
+       "ja": "このページ",
+       "en": "This page"
+      },
+      "d": {
+       "ja": "組織内公開・同じURL",
+       "en": "Org-visible, same URL"
+      },
+      "f": {
+       "ja": "週次",
+       "en": "Weekly"
+      },
+      "st": "ok"
+     }
+    ]
+   }
+  ]
+ }
 }
