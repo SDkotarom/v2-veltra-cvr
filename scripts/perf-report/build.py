@@ -74,7 +74,9 @@ for p in pages:
         se = f'+{p["delta_from_best_ms"]:,}ms vs best ({p["best_period_end"]})'
     else:
         sj = se = ""
+    path = p["url"].replace("https://www.veltra.com", "") or "/"
     tiles += f'''<div class="tile"><div class="tl-h"><span class="dot" style="background:{COLOR[p["page_key"]]}"></span>{t(p["page_ja"], p["page_en"])}</div>
+<a class="tl-u" href="{p["url"]}" title="{p["url"]}">{path}</a>
 <div class="tl-v">{"—" if p["lcp_p75_ms"] is None else f'{p["lcp_p75_ms"]:,}'}<span class="u">ms</span></div>
 <div class="tl-s">{t(sj, se)}</div>
 <div class="tl-f"><span class="badge {cl}">{t(p["lcp_verdict"], VEN[p["lcp_verdict"]])}</span><span class="diff {dc}">{t("前週", "vs prev")} {dt}</span></div></div>'''
