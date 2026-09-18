@@ -68,6 +68,28 @@
 
 ---
 
+## レポートを作るとき
+
+`.claude/skills/report/` のスキルを使う。既存ページのコピー改変から始めない。
+配色と語彙が 3 系統に分裂した原因がそれ。
+
+```
+1. python3 .claude/skills/report/scripts/new-report.py --week 2026-w26
+   （単発なら --type analysis --out <path> --title <title>）
+2. 判断が要る箇所を書く。雛形のコメントに落とし穴が書いてある
+3. python3 .claude/skills/report/scripts/check.py --week 2026-w26
+4. NG を潰してから「公開フロー（Artifact）」へ
+```
+
+プログラムが決めること（構造・配色・クラス名・数値・前週比・整合・規則遵守）と
+AI が決めること（結論の文言・情報の階層・Evidence の軸・アクションの粒度）の
+線引きは `SKILL.md` の役割分担表にある。迷ったらそこに戻る。
+
+**実例として見るのは W16 と W13。** W20 以降の週次サマリーはインライン CSS と
+独自クラス語彙に置き換わっていて、`check.py` に通すと NG が出る。新しいから正しくはない。
+
+---
+
 ## GA4 MCP 接続について
 
 このプロジェクトでは **GA4 MCP ツールが自動的に利用可能**です。

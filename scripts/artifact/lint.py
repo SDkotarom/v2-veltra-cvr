@@ -17,6 +17,7 @@ CLAUDE.md の UI 規則を機械チェックする。
   NG   裸のチケット番号（#418 形式。ClickUp リンクにすること）
   WARN 13px 未満のフォントサイズ（planning 配下。モック内の UI 再現は対象外）
   WARN planning 配下の VELTRA 表記（Veltra に統一）
+  WARN ページ内で独自の配色トークンを定義している（report.css に寄せる）
 """
 
 import argparse
@@ -54,6 +55,13 @@ ICON_BADGE = re.compile(r'class="(?:[^"]*\s)?no(?:\s[^"]*)?"|(?<![\w-])\.no(?![\
 FONT_SIZE = re.compile(r"font-size\s*:\s*([0-9.]+)px", re.I)
 BARE_TICKET = re.compile(r"(?<![\w&#])#(\d{3,4})(?!\d)")
 VELTRA_UPPER = re.compile(r"\bVELTRA\b")
+# ページ内で独自の配色トークンを定義していないか。
+# 配色の正は report.css の :root だけ。ページごとに :root で色を作ると
+# 「3系統に分裂」状態に戻る
+LOCAL_COLOR_TOKEN = re.compile(
+    r"^\s*(--[a-z0-9-]*(?:bg|text|line|border|color|red|blue|green|amber|ink|accent|pink|offwhite|card|muted|sub|warn|danger|good|bad)[a-z0-9-]*)\s*:\s*"
+    r"(#[0-9A-Fa-f]{3,8}|rgba?\()", re.I)
+SHARED_CSS = re.compile(r'href="[^"]*report\.css"')
 
 STRIP_BLOCKS = re.compile(r"<(script|style)\b.*?</\1>", re.S | re.I)
 STRIP_STYLE_ATTR = re.compile(r'\sstyle="[^"]*"', re.I)
@@ -135,6 +143,20 @@ def lint_file(path: Path):
             continue
         seen.add(m.group(1))
         findings.append(("NG", rel, 0, "bare-ticket", f"裸のチケット番号 #{m.group(1)}（UX_DESIGN-{m.group(1)} とし ClickUp へリンク）"))
+
+    # モックは実サイトの UI を再現するので独自配色が正当
+    is_mock = "-mock" in rel or "staging" in rel
+    if path.suffix == ".html" and not is_mock and not SHARED_CSS.search(raw):
+        local = []
+        for i, line in enumerate(lines, 1):
+            m = LOCAL_COLOR_TOKEN.search(line)
+            if m:
+                local.append((i, m.group(1)))
+        if local:
+            i, name = local[0]
+            extra = f"（他 {len(local) - 1} 個）" if len(local) > 1 else ""
+            findings.append(("WARN", rel, i, "local-palette",
+                             f"ページ内で配色トークン {name} を定義{extra}。report.css を読み込んで共有トークンを使う"))
 
     if "planning/" in rel and VELTRA_UPPER.search(body):
         findings.append(("WARN", rel, 0, "naming", "VELTRA 表記（施策ドキュメントは Veltra に統一）"))
