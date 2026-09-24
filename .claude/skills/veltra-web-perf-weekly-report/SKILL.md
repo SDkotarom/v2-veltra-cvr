@@ -26,8 +26,15 @@ description: >
    （fileId `1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM`）を読む
 2. **`_summary` と `_defs` の内容だけ**を `scripts/perf-report/data.json` の
    `pages` / `defs` に転記する。crux_weekly や psi_daily を直接解釈しない
-3. `weekly`（週次推移）は crux_weekly の**最新 collected_at のブロック**から作る。
-   ここだけは生データを触るが、最新ブロック以外は使わない
+3. `weekly`（週次推移）は crux_weekly から作る。ここだけは生データを触る。
+   **(page, period_end) ごとに、その組み合わせを持つ最新の collected_at の値を採る。**
+   同じ period_end の値は収集回をまたいでも変わらない（2026-09-24 に TOP/エリア/検索結果で
+   照合済み）ので、これで二重計上にはならない。
+   「最新ブロックだけを使う」という旧ルールは 2026-09-24 に廃止した。2026-09-13 の回が
+   TOP と エリアの途中で落ちており、そのブロックだけを使うと AC詳細と検索結果が丸ごと
+   消えるため。収集が途中で落ちる前提で組む。
+   - 最新週が取れていないページは `pages[].as_of` にその値の週を入れる。ビルダーが
+     タイルに「YYYY-MM-DD 時点。最新週は未収集」と出す
 4. `lead` / `findings` / `issues` を今週の内容に書き換える（後述）
 4.5 `tracks`（2つの系統）と `pipeline`（データの流れ）の状態を見直す。
    - `tracks[].rows` はサーバ計測の値。再測されたら差し替え、出典を書き換える

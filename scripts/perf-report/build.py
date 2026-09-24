@@ -76,11 +76,15 @@ for p in pages:
         se = f'+{p["delta_from_best_ms"]:,}ms vs best ({p["best_period_end"]})'
     else:
         sj = se = ""
+    asof = ""
+    if p.get("as_of") and p["as_of"] != defs["latest_period_end"]:
+        aw = p["as_of"]
+        asof = '<div class="tl-w">' + t(f"{aw} 時点。最新週は未収集", f"as of {aw} — latest week not collected") + "</div>"
     path = p["url"].replace("https://www.veltra.com", "") or "/"
     tiles += f'''<div class="tile"><div class="tl-h"><span class="dot" style="background:{COLOR[p["page_key"]]}"></span>{t(p["page_ja"], p["page_en"])}</div>
 <a class="tl-u" href="{p["url"]}" title="{p["url"]}">{path}</a>
 <div class="tl-v">{"—" if p["lcp_p75_ms"] is None else f'{p["lcp_p75_ms"]:,}'}<span class="u">ms</span></div>
-<div class="tl-s">{t(sj, se)}</div>
+<div class="tl-s">{t(sj, se)}</div>{asof}
 <div class="tl-f"><span class="badge {cl}">{t(p["lcp_verdict"], VEN[p["lcp_verdict"]])}</span><span class="diff {dc}">{t("前週", "vs prev")} {dt}</span></div></div>'''
 
 # 指標ごとのグラフ枠（中身はブラウザ側で描く）
@@ -165,7 +169,7 @@ def _bi(v, en_key=None):
     return v if isinstance(v, str) else t(v["ja"], v["en"])
 
 
-ST = {"ok": ("稼働中", "running"), "todo": ("未設置", "not set up")}
+ST = {"ok": ("稼働中", "running"), "warn": ("要確認", "check"), "todo": ("未設置", "not set up")}
 flow = ""
 for i, st in enumerate(D["pipeline"]["stages"]):
     if i:
@@ -215,7 +219,7 @@ html = f'''<title>表示速度モニタリング</title>
 <p class="note">{t(f'分子は合格しているページ数、分母は実ユーザー値が取れているページ数。対象は {defs["denominator"]} ページで、取れていないページは分母にも入らない。', f'Numerator is pages passing; denominator is pages with real-user data. {defs["denominator"]} pages are in scope — those without data are not counted in either.')}</p>
 <div class="kpis">{kpi}</div>
 <div class="tiles">{tiles}</div>
-<p class="note">{t('タイルの数値は LCP。URL単位の CrUX のみを採用し、サイト全体（origin）の値での代用はしていない。', 'Tile figures are LCP. Only URL-level CrUX is used — origin-level values are never substituted.')}</p>
+<p class="note">{t('タイルの数値は LCP。URL単位の CrUX のみを採用し、サイト全体（origin）の値での代用はしていない。', 'Tile figures are LCP. Only URL-level CrUX is used — origin-level values are never substituted.')}<br>{t(f'今回の収集（{defs["crux_collected_at"]}）は途中で終わっており、{defs["latest_period_end"]} の週が取れているのは TOP だけ。他の5ページは前週の値を出している。', f'The latest collection ({defs["crux_collected_at"]}) ended partway: only TOP has the week ending {defs["latest_period_end"]}. The other five pages show the previous week.')}</p>
 </div>
 
 <div class="sec"><h2><span class="n">2</span>{t("2つの系統で見る", "Two tracks")}</h2>
