@@ -278,3 +278,16 @@ a.chip:hover{text-decoration:underline}
   .flow{flex-direction:column;gap:2px}
   .fa{align-self:flex-start;padding:2px 0 2px 16px;transform:rotate(90deg)}
 }
+
+/* --- 期間の切替 --- */
+.ctrl{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.range{display:flex;align-items:center;gap:6px}
+.rg{font:inherit;font-size:13px;line-height:1;padding:6px 10px;border:1px solid var(--line-strong);
+  border-radius:6px;background:var(--surface);color:var(--ink-2);cursor:pointer}
+.rg:disabled{opacity:.35;cursor:default}
+.rg:not(:disabled):hover{border-color:var(--brand);color:var(--brand-ink)}
+.rg:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.rg-today{font-size:12.5px;padding:6px 12px}
+.rg-lab{font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums;
+  min-width:172px;text-align:center}
+@media(max-width:560px){.rg-lab{min-width:0}}

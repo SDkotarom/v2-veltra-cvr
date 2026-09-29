@@ -1,5 +1,5 @@
 (function () {
-  var P = window.__PERF, off = {}, tableMetric = "lcp", gran = "w";
+  var P = window.__PERF, off = {}, tableMetric = "lcp", gran = "w", offset = 0;
 
   function fmt(v, dec, unit) {
     if (v === null || v === undefined) return "—";
@@ -27,6 +27,19 @@
     MONTH_LAST[m] = w;
   });
 
+  /* 表示する期間。offset 0 が最新側。‹ で1期間ぶん過去へ戻る。 */
+  var WIN = { w: 13, m: 12 };
+  function axisDates() {
+    return gran === "w" ? P.weeks.slice() : MONTHS.map(function (m) { return MONTH_LAST[m]; });
+  }
+  function windowInfo() {
+    var all = axisDates(), size = WIN[gran];
+    var maxOff = Math.max(0, Math.ceil(all.length / size) - 1);
+    offset = Math.min(Math.max(offset, 0), maxOff);
+    var end = all.length - offset * size;
+    return { dates: all.slice(Math.max(0, end - size), end), maxOff: maxOff };
+  }
+
   /* 描画する点列。週次はそのまま、月次は「その月で最後に値のある週」の値を採る。
      CrUX の値は28日ローリングの p75 なので、月内を平均してはいけない。 */
   function points(mk, key) {
@@ -53,8 +66,13 @@
       return on(mk, p.key) && series[p.key] && series[p.key].some(function (v) { return v !== null; });
     });
 
+    var win = windowInfo(), wd = win.dates, inWin = {};
+    wd.forEach(function (d) { inWin[d] = 1; });
+
     var PTS = {};
-    shown.forEach(function (p) { PTS[p.key] = points(mk, p.key); });
+    shown.forEach(function (p) {
+      PTS[p.key] = points(mk, p.key).filter(function (q) { return inWin[q[0]]; });
+    });
 
     var vals = [];
     shown.forEach(function (p) {
@@ -66,9 +84,11 @@
     [1, 2, 2.5, 5, 10].some(function (f) { if (top / (step * f) <= 4.5) { step = step * f; return true; } });
     var ymax = Math.ceil(top / step) * step;
 
-    var xEnd = weeks[weeks.length - 1];
-    P.releases.forEach(function (r) { if (Date.parse(r.date) > Date.parse(xEnd)) xEnd = r.date; });
-    var X = scaleX(weeks[0], xEnd, PL, W - PR);
+    var xStart = wd[0], xEnd = wd[wd.length - 1];
+    if (offset === 0) {
+      P.releases.forEach(function (r) { if (Date.parse(r.date) > Date.parse(xEnd)) xEnd = r.date; });
+    }
+    var X = scaleX(xStart, xEnd, PL, W - PR);
     function Y(v) { return PT + (1 - v / ymax) * (H - PT - PB); }
 
     var o = [];
@@ -79,14 +99,16 @@
     o.push('<line class="target" x1="' + PL + '" y1="' + Y(meta.good).toFixed(1) + '" x2="' + (W - PR) + '" y2="' + Y(meta.good).toFixed(1) + '"/>');
 
     var seenM = {};
-    weeks.forEach(function (w) {
-      var d = new Date(w + "T00:00:00Z"), m = d.getUTCMonth();
+    wd.forEach(function (w) {
+      var m = new Date(w + "T00:00:00Z").getUTCMonth();
       if (seenM[m]) return;
       seenM[m] = 1;
       o.push('<text class="ax" x="' + X(w).toFixed(1) + '" y="' + (H - 10) + '" text-anchor="middle">' + (m + 1) + '</text>');
     });
 
     P.releases.forEach(function (r) {
+      var t = Date.parse(r.date);
+      if (t < Date.parse(xStart) || t > Date.parse(xEnd)) return;
       o.push('<line class="rel" x1="' + X(r.date).toFixed(1) + '" y1="' + PT + '" x2="' + X(r.date).toFixed(1) + '" y2="' + (H - PB) + '"/>');
     });
 
@@ -175,22 +197,29 @@
     var host = document.getElementById("plot-releases");
     if (!host) return;
     var lang = document.documentElement.getAttribute("data-lang") === "en" ? "en" : "ja";
-    var weeks = P.weeks, xEnd = weeks[weeks.length - 1];
-    P.releases.forEach(function (r) { if (Date.parse(r.date) > Date.parse(xEnd)) xEnd = r.date; });
+    var wd = windowInfo().dates;
+    var xStart = wd[0], xEnd = wd[wd.length - 1];
+    if (offset === 0) {
+      P.releases.forEach(function (r) { if (Date.parse(r.date) > Date.parse(xEnd)) xEnd = r.date; });
+    }
     var PL = 52, PR = 14, W = 1160;
-    var X = scaleX(weeks[0], xEnd, PL, W - PR);
+    var X = scaleX(xStart, xEnd, PL, W - PR);
     function pct(d) { return (X(d) / W * 100).toFixed(2) + "%"; }
 
     var months = [], seen = {};
-    weeks.forEach(function (w) {
+    wd.forEach(function (w) {
       var m = new Date(w + "T00:00:00Z").getUTCMonth();
       if (seen[m]) return;
       seen[m] = 1;
       months.push('<span class="sm" style="left:' + pct(w) + '">' + (m + 1) + (lang === "en" ? "" : "月") + "</span>");
     });
 
-    var byDate = {};
-    P.releases.forEach(function (r) { (byDate[r.date] = byDate[r.date] || []).push(r); });
+    var byDate = {}, a = Date.parse(xStart), b = Date.parse(xEnd);
+    P.releases.forEach(function (r) {
+      var t = Date.parse(r.date);
+      if (t < a || t > b) return;
+      (byDate[r.date] = byDate[r.date] || []).push(r);
+    });
 
     var dots = Object.keys(byDate).sort().map(function (d) {
       var g = byDate[d];
@@ -275,7 +304,35 @@
     }, true);
   });
 
-  function redrawAll() { drawStrip(); Object.keys(P.metrics).forEach(drawChart); drawTable(); }
+  /* 期間ラベルと ‹ › の有効・無効 */
+  function renderRange() {
+    var win = windowInfo(), wd = win.dates;
+    var lang = document.documentElement.getAttribute("data-lang") === "en" ? "en" : "ja";
+    var lab = document.getElementById("range-label");
+    if (lab) {
+      var cut = gran === "w" ? 10 : 7;
+      lab.textContent = wd[0].slice(0, cut) + " 〜 " + wd[wd.length - 1].slice(0, cut);
+    }
+    var prev = document.querySelector('.rg[data-move="-1"]');
+    var next = document.querySelector('.rg[data-move="1"]');
+    var today = document.querySelector(".rg-today");
+    if (prev) prev.disabled = offset >= win.maxOff;
+    if (next) next.disabled = offset <= 0;
+    if (today) {
+      today.disabled = offset <= 0;
+      today.textContent = gran === "w"
+        ? (lang === "en" ? "This week" : "今週")
+        : (lang === "en" ? "This month" : "今月");
+    }
+  }
+
+  function redrawCharts() {
+    renderRange();
+    Object.keys(P.metrics).forEach(drawChart);
+    drawStrip();
+  }
+
+  function redrawAll() { redrawCharts(); drawTable(); }
 
   document.addEventListener("click", function (e) {
     var lg = e.target.closest ? e.target.closest(".lg") : null;
@@ -291,10 +348,17 @@
     var gt = e.target.closest ? e.target.closest(".gt") : null;
     if (gt) {
       gran = gt.dataset.g;
+      offset = 0;                       // 粒度を変えたら最新側に戻す
       document.querySelectorAll(".gt").forEach(function (b) {
         b.setAttribute("aria-pressed", String(b.dataset.g === gran));
       });
-      Object.keys(P.metrics).forEach(drawChart);
+      redrawCharts();
+      return;
+    }
+    var rg = e.target.closest ? e.target.closest(".rg") : null;
+    if (rg && !rg.disabled) {
+      offset = rg.classList.contains("rg-today") ? 0 : offset - Number(rg.dataset.move);
+      redrawCharts();
       return;
     }
     var mt = e.target.closest ? e.target.closest(".mt") : null;
@@ -313,10 +377,10 @@
     document.getElementById("btn-en").setAttribute("aria-pressed", String(l === "en"));
     try { localStorage.setItem("perf-report-lang", l); } catch (e) {}
     drawTable();
-    drawStrip();
+    redrawCharts();
   };
   try { var s = localStorage.getItem("perf-report-lang"); if (s) window.setLang(s); } catch (e) {}
 
   redrawAll();
-  addEventListener("resize", function () { drawStrip(); Object.keys(P.metrics).forEach(drawChart); });
+  addEventListener("resize", redrawCharts);
 })();

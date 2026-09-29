@@ -229,21 +229,29 @@ html = f'''<title>表示速度モニタリング</title>
 <div class="leads">{leads}</div>
 
 <div class="sec"><h2><span class="n">1</span>{t("KPI の現在地", "KPI status")}</h2>
-<p class="note">{t(f'分子は合格しているページ数、分母は実ユーザー値が取れているページ数。対象は {defs["denominator"]} ページで、取れていないページは分母にも入らない。', f'Numerator is pages passing; denominator is pages with real-user data. {defs["denominator"]} pages are in scope — those without data are not counted in either.')}</p>
+<p class="note">{t(f'分母は実ユーザー値が取れているページ数。対象は {defs["denominator"]} ページだが、値が無いページは合格にも不合格にも数えない。', f'The denominator counts pages that have real-user data. {defs["denominator"]} pages are in scope, but a page with no figure counts as neither pass nor fail.')}</p>
 <div class="kpis">{kpi}</div>
 <div class="tiles">{tiles}</div>
-<p class="note">{t('タイルの数値は LCP。URL単位の CrUX のみを採用し、サイト全体（origin）の値での代用はしていない。', 'Tile figures are LCP. Only URL-level CrUX is used — origin-level values are never substituted.')}<br>{t(f'今回の収集（{defs["crux_collected_at"]}）は途中で終わっており、{defs["latest_period_end"]} の週が取れているのは TOP だけ。他の5ページは前週の値を出している。', f'The latest collection ({defs["crux_collected_at"]}) ended partway: only TOP has the week ending {defs["latest_period_end"]}. The other five pages show the previous week.')}</p>
+<p class="note">{t('タイルの数値は LCP。そのURL自体の CrUX だけを使っており、値が無いときにサイト全体の数字で埋めることはしていない。', 'Tile figures are LCP, taken from CrUX for that exact URL. Where there is none, the site-wide figure is never used to fill the gap.')}<br>{t(f'{defs["crux_collected_at"]} の収集が途中で終わったため、{defs["latest_period_end"]} の週が取れているのは TOP だけ。残りは前の週の値を出している。', f'The {defs["crux_collected_at"]} collection ended partway, so only TOP has the week ending {defs["latest_period_end"]}. The rest show the week before.')}</p>
 </div>
 
 <div class="sec"><h2><span class="n">2</span>{t("2つの系統で見る", "Two tracks")}</h2>
-<p class="note">{t('直し方が違うので分けている。左は読み込みの中身と順番、右は押してから返ってくるまでの待ち時間。数値は最新週。', 'The two need different fixes, so they are tracked apart: what gets loaded and in what order, versus the wait between a tap and a result. Figures are from the latest week.')}</p>
+<p class="note">{t('直し方が違うので分けている。数値は各ページの最新の実測値。', 'The two need different fixes, so they are tracked apart. Figures are the latest measured value for each page.')}</p>
 <div class="trks">{tracks}</div>
 </div>
 
 <div class="sec"><h2><span class="n">3</span>{t("指標ごとの推移", "Trend by metric")}</h2>
-<p class="note">{t('指標ごとに単位が違うため、グラフを分けている。リリースは上の帯にまとめ、各グラフには同じ位置に細い縦線だけ引いている。凡例をクリックするとそのページを外せる（縦軸も引き直す）。', 'Each metric has its own chart because the units differ. Releases are collected in the strip above; the charts carry only a thin vertical line at the same position. Click a legend item to remove that page — the y-axis rescales.')}</p>
+<p class="note">{t('点線の縦線はリリースした日。凡例をクリックすると、そのページを外して縦軸を引き直せる。', 'A dashed vertical line marks a release. Click a legend item to drop that page and rescale the y-axis.')}</p>
+<div class="ctrl">
 <div class="mtabs"><button class="mt gt" data-g="w" aria-pressed="true">{t("週次","Weekly")}</button><button class="mt gt" data-g="m" aria-pressed="false">{t("月次","Monthly")}</button></div>
-<p class="note">{t('月次は、その月で最後に値のある週の数値をそのまま出している。CrUX は直近28日の p75 なので、月内を平均すると意味のない数になる。', 'The monthly view shows the figure from the last week in each month that has data, as is. CrUX is a p75 over a rolling 28 days, so averaging within a month would produce a meaningless number.')}</p>
+<div class="range">
+<button class="rg" data-move="-1" aria-label="前の期間 / Previous period">‹</button>
+<span class="rg-lab" id="range-label"></span>
+<button class="rg" data-move="1" aria-label="次の期間 / Next period">›</button>
+<button class="rg rg-today">{t("今週","This week")}</button>
+</div>
+</div>
+<p class="note">{t('月次は、その月の最後に値がある週をそのまま出している。CrUX は直近28日の p75 なので、月内で平均しても意味がない。', 'The monthly view takes the last week in the month that has a figure, as is. CrUX is a p75 over a rolling 28 days, so averaging within a month means nothing.')}</p>
 <div class="card strip"><div class="ch-h"><h3>{t("リリース", "Releases")}</h3></div>
 <div class="plot" id="plot-releases"></div></div>
 <div class="chart-grid">{charts}</div>
@@ -251,7 +259,7 @@ html = f'''<title>表示速度モニタリング</title>
 
 <div class="sec"><h2><span class="n">4</span>{t("週ごとの数値とリリース", "Weekly figures and releases")}</h2>
 <div class="mtabs">{mtabs}</div>
-<p class="note">{t('行は週。リリースがあった週は、その週の行のすぐ下に開閉行が入る。開くとチケットと変更内容が出る。赤字は合格ラインを超えている値、— は欠測。', 'One row per week. A week with releases gets a collapsible row right under it — open it for the tickets and what changed. Red exceeds the target; — means no data.')}</p>
+<p class="note">{t('赤字は合格ラインを超えた値。— はその週の値が取れていないところ。', 'Red means the figure missed its target. A dash means there is no figure for that week.')}</p>
 <div class="tw" id="trend-table"></div>
 </div>
 
@@ -265,7 +273,7 @@ html = f'''<title>表示速度モニタリング</title>
 
 <div class="sec"><h2><span class="n">7</span>{t("補足データ", "Supporting data")}</h2>
 <div class="tw"><table><tr><th>{t("ページ","Page")}</th><th>{t("PSI スコア","PSI score")}</th><th>PSI LCP</th></tr>{prows}</table></div>
-<p class="note">{t(f'PageSpeed Insights（ラボ・{defs["psi_date"]}）。日次でばらつきが大きく、実ユーザー値とは別物。傾向の確認にのみ使う。', f'PageSpeed Insights (lab, {defs["psi_date"]}). High daily variance, not real-user data — direction only.')}</p>
+<p class="note">{t(f'PageSpeed Insights（{defs["psi_date"]}）。日ごとの振れが大きいので、1日の値ではなく向きを見る。実ユーザーの数値とは別物。', f'PageSpeed Insights ({defs["psi_date"]}). It swings a lot day to day, so read the direction, not a single day. This is not real-user data.')}</p>
 <details><summary>{t("データの定義を見る", "View data definitions")}</summary><div class="tw"><table><tr><th>key</th><th>value</th></tr>{defrows}</table></div></details>
 </div>
 
