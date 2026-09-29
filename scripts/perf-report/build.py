@@ -46,10 +46,23 @@ def verdict(m, v):
 
 # ---------------------------------------------------- サマリー: KPI 一瞥
 
+# 判定に使うのは実ユーザー値が現に取れているページだけ。
+# 欠測（AC詳細）と未収集（地域・カテゴリー）は、古い値を持っていても数えない。
+LIVE = [p for p in pages if p["data_status"] == "ok"]
+
+
+def last_value(mk, page_key):
+    """そのページで最後に取れている値。最新週が未収集でも前週の値を使う"""
+    for v in reversed(weekly["metrics"][mk][page_key]):
+        if v is not None:
+            return v
+    return None
+
+
 kpi = ""
 for m in metrics:
-    latest = {p["page_key"]: weekly["metrics"][m["key"]][p["page_key"]][-1] for p in pages}
-    vs = [v for v in latest.values() if v is not None]
+    vs = [last_value(m["key"], p["page_key"]) for p in LIVE]
+    vs = [v for v in vs if v is not None]
     n_pass = sum(1 for v in vs if v <= m["good"])
     n_meas = len(vs)
     worst = max(vs) if vs else None
@@ -124,8 +137,8 @@ MET = {m["key"]: m for m in metrics}
 
 
 def pass_count(m):
-    """最新週の「合格ページ数 / 実ユーザー値が取れているページ数」"""
-    vs = [weekly["metrics"][m["key"]][p["page_key"]][-1] for p in pages]
+    """「合格ページ数 / 実ユーザー値が取れているページ数」。値はページごとの最新の実測値"""
+    vs = [last_value(m["key"], p["page_key"]) for p in LIVE]
     vs = [v for v in vs if v is not None]
     return sum(1 for v in vs if v <= m["good"]), len(vs)
 
@@ -208,7 +221,7 @@ html = f'''<title>表示速度モニタリング</title>
 </div>
 
 <div class="head">
-<p class="eyebrow">Veltra ／ {t("表示速度改善", "Web Performance")} ／ {defs["generated_at"][:10]}</p>
+<p class="eyebrow">Veltra ／ {t("表示速度改善", "Web Performance")} ／ {defs["generated_at"][:10]}<span class="ver">v{defs["version"]}</span></p>
 <h1>{t("表示速度モニタリング", "Web Performance Monitor")}</h1>
 <p class="sub">www.veltra.com — {t(f'実ユーザー p75（CrUX・モバイル）・対象週 {defs["latest_period_end"]}', f'Real-user p75 (CrUX, mobile) · week ending {defs["latest_period_end"]}')}</p>
 </div>
@@ -229,6 +242,8 @@ html = f'''<title>表示速度モニタリング</title>
 
 <div class="sec"><h2><span class="n">3</span>{t("指標ごとの推移", "Trend by metric")}</h2>
 <p class="note">{t('指標ごとに単位が違うため、グラフを分けている。リリースは上の帯にまとめ、各グラフには同じ位置に細い縦線だけ引いている。凡例をクリックするとそのページを外せる（縦軸も引き直す）。', 'Each metric has its own chart because the units differ. Releases are collected in the strip above; the charts carry only a thin vertical line at the same position. Click a legend item to remove that page — the y-axis rescales.')}</p>
+<div class="mtabs"><button class="mt gt" data-g="w" aria-pressed="true">{t("週次","Weekly")}</button><button class="mt gt" data-g="m" aria-pressed="false">{t("月次","Monthly")}</button></div>
+<p class="note">{t('月次は、その月で最後に値のある週の数値をそのまま出している。CrUX は直近28日の p75 なので、月内を平均すると意味のない数になる。', 'The monthly view shows the figure from the last week in each month that has data, as is. CrUX is a p75 over a rolling 28 days, so averaging within a month would produce a meaningless number.')}</p>
 <div class="card strip"><div class="ch-h"><h3>{t("リリース", "Releases")}</h3></div>
 <div class="plot" id="plot-releases"></div></div>
 <div class="chart-grid">{charts}</div>
@@ -241,7 +256,7 @@ html = f'''<title>表示速度モニタリング</title>
 </div>
 
 <div class="sec"><h2><span class="n">5</span>{t("分かったこと", "What we learned")}</h2>
-{frows}
+<div class="finds">{frows}</div>
 </div>
 
 <div class="sec"><h2><span class="n">6</span>{t("課題とやること", "Issues and next steps")}</h2>

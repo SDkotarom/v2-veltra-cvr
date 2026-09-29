@@ -1,5 +1,5 @@
 (function () {
-  var P = window.__PERF, off = {}, tableMetric = "lcp";
+  var P = window.__PERF, off = {}, tableMetric = "lcp", gran = "w";
 
   function fmt(v, dec, unit) {
     if (v === null || v === undefined) return "—";
@@ -18,6 +18,31 @@
     return function (d) { return x0 + (Date.parse(d) - a) / (b - a) * (x1 - x0); };
   }
 
+
+  /* 月ごとの最終週。月次表示のときの x 位置に使う */
+  var MONTHS = [], MONTH_LAST = {};
+  P.weeks.forEach(function (w) {
+    var m = w.slice(0, 7);
+    if (MONTHS.indexOf(m) < 0) MONTHS.push(m);
+    MONTH_LAST[m] = w;
+  });
+
+  /* 描画する点列。週次はそのまま、月次は「その月で最後に値のある週」の値を採る。
+     CrUX の値は28日ローリングの p75 なので、月内を平均してはいけない。 */
+  function points(mk, key) {
+    var vals = P.metrics[mk][key], out = [];
+    if (gran === "w") {
+      P.weeks.forEach(function (w, i) { out.push([w, vals[i]]); });
+      return out;
+    }
+    var last = {};
+    P.weeks.forEach(function (w, i) {
+      if (vals[i] !== null && vals[i] !== undefined) last[w.slice(0, 7)] = [w, vals[i]];
+    });
+    MONTHS.forEach(function (m) { out.push(last[m] || [MONTH_LAST[m], null]); });
+    return out;
+  }
+
   /* ---- チャート描画。表示中の系列だけで縦軸を張り直す ---- */
   function drawChart(mk) {
     var meta = P.meta[mk], host = document.getElementById("plot-" + mk);
@@ -28,9 +53,12 @@
       return on(mk, p.key) && series[p.key] && series[p.key].some(function (v) { return v !== null; });
     });
 
+    var PTS = {};
+    shown.forEach(function (p) { PTS[p.key] = points(mk, p.key); });
+
     var vals = [];
     shown.forEach(function (p) {
-      series[p.key].forEach(function (v) { if (v !== null) vals.push(v); });
+      PTS[p.key].forEach(function (q) { if (q[1] !== null) vals.push(q[1]); });
     });
     vals.push(meta.good);
     var top = Math.max.apply(null, vals) * 1.12 || 1;
@@ -63,20 +91,24 @@
     });
 
     shown.forEach(function (p) {
-      var seg = [], segs = [];
-      series[p.key].forEach(function (v, i) {
-        if (v === null) { if (seg.length) segs.push(seg); seg = []; return; }
-        seg.push([X(weeks[i]), Y(v)]);
+      var pts = PTS[p.key], seg = [], segs = [], lastPt = null;
+      pts.forEach(function (q) {
+        if (q[1] === null) { if (seg.length) segs.push(seg); seg = []; return; }
+        seg.push([X(q[0]), Y(q[1])]);
+        lastPt = q;
       });
       if (seg.length) segs.push(seg);
       segs.forEach(function (s) {
+        if (s.length === 1) {
+          o.push('<circle cx="' + s[0][0].toFixed(1) + '" cy="' + s[0][1].toFixed(1) +
+            '" r="2.5" fill="' + p.color + '"/>');
+          return;
+        }
         o.push('<path class="ln" fill="none" stroke="' + p.color + '" d="M' +
           s.map(function (q) { return q[0].toFixed(1) + "," + q[1].toFixed(1); }).join(" L") + '"/>');
       });
-      var lastIdx = -1;
-      series[p.key].forEach(function (v, i) { if (v !== null) lastIdx = i; });
-      if (lastIdx >= 0) {
-        o.push('<circle cx="' + X(weeks[lastIdx]).toFixed(1) + '" cy="' + Y(series[p.key][lastIdx]).toFixed(1) +
+      if (lastPt) {
+        o.push('<circle cx="' + X(lastPt[0]).toFixed(1) + '" cy="' + Y(lastPt[1]).toFixed(1) +
           '" r="4" fill="' + p.color + '" stroke="var(--surface)" stroke-width="2"/>');
       }
     });
@@ -254,6 +286,15 @@
       off[k] = on(m, p);
       lg.setAttribute("aria-pressed", String(!off[k]));
       drawChart(m);
+      return;
+    }
+    var gt = e.target.closest ? e.target.closest(".gt") : null;
+    if (gt) {
+      gran = gt.dataset.g;
+      document.querySelectorAll(".gt").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.g === gran));
+      });
+      Object.keys(P.metrics).forEach(drawChart);
       return;
     }
     var mt = e.target.closest ? e.target.closest(".mt") : null;
