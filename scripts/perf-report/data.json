@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 27,
+  "version": 28,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -1048,12 +1048,16 @@
    "en": "The work lands. What is jammed is the release side: <b>28 items</b> have been found, written up and never shipped, <b>9</b> of them marked urgent. One carries an estimated saving of about 2,182ms."
   },
   {
-   "ja": "起点の 2026-08-19 から6週間で、リリースした日は <b>9/17 の1日だけ</b>。効果が小さいのではなく、打った回数が足りていない。",
-   "en": "In the six weeks since the 2026-08-19 starting point, there has been <b>one release day: 9/17</b>. The problem is not that the changes are weak — it is how rarely they ship."
+   "ja": "ただし「9/17 以外にリリースが無かったか」は確かめられない。<b>リリース日を記録している場所が無い</b>ためで、ClickUp の状態が変わった日から分かるのは「9/17 に5件のチケットが動いた」までにとどまる。数字の段差も 9/17 の前後にあり、ここで何かが出たことは一致している。",
+   "en": "Whether anything else shipped outside 9/17 cannot be checked: <b>there is nowhere that records release dates</b>. ClickUp status changes only show that five tickets moved on 9/17. The step in the figures sits either side of 9/17 too, so something clearly went out then."
   },
   {
    "ja": "[[実ユーザー値]] は週1回の収集に頼っており、その収集が 9/13 で止まっている。いまは日次の [[PSI]] が返す実ユーザー LCP で代わりに追っている。毎日取れるようにする手当ては第7節に置いた。",
    "en": "Real-user figures depend on a weekly collection that stopped on 9/13. They are currently tracked through the real-user LCP that the daily PSI run returns. The fix that makes them daily is in section 7."
+  },
+  {
+   "ja": "この記録の欠落は、効果を施策に結びつけるうえで一番効く穴になっている。第4節に打刻の仕組みを置いた。",
+   "en": "That missing record is the gap that most limits tying an effect back to a change. The way to start recording it is in section 4."
   }
  ],
  "findings": [
@@ -1083,8 +1087,8 @@
     "en": "Most of what was found has never reached production"
    },
    "b": {
-    "ja": "web-performance の全49件のうち、本番に出たのは 6件。完了5件を足しても11件で、残る38件は手元にある。急ぎ9件の中には、空ボディの POST を止めるだけで 約2,182ms([[UX_DESIGN-404]])、アンチフリッカーの縮小で最大2,000ms([[UX_DESIGN-398]]) という見込みが並んでいる。",
-    "en": "Of 49 items in web-performance, 6 have shipped. Counting the 5 closed investigations, that is 11; the other 38 are still in hand. Among the 9 urgent ones: dropping an empty-body POST is estimated at about 2,182ms (UX_DESIGN-404), and shrinking the anti-flicker snippet at up to 2,000ms (UX_DESIGN-398)."
+    "ja": "web-performance の全49件のうち、リリース待ち・進行中・着手可・未着手を合わせて44件が手元にある。急ぎ9件の中には、空ボディの送信を止めるだけで 約2,182ms([[UX_DESIGN-404]])、表示を隠す処理の縮小で最大2,000ms([[UX_DESIGN-398]]) という見込みが並んでいる。なお2026-08-28 に5件が1分以内にまとめてクローズされており、これは整理作業と見られる。実際にいつ本番へ出たかは記録が無く、たどれない。",
+    "en": "Of 49 items in web-performance, 44 are still in hand across ready-for-release, in-progress, ready and not-started. Among the 9 urgent ones: dropping an empty request is estimated at about 2,182ms (UX_DESIGN-404), and shrinking the snippet that hides the page at up to 2,000ms (UX_DESIGN-398). Five items were closed within the same minute on 2026-08-28, which looks like a tidy-up; when any of them actually reached production is not recorded anywhere."
    }
   },
   {
@@ -2828,6 +2832,53 @@
      }
     ],
     "note": "Nothing is registered without being asked."
+   }
+  },
+  {
+   "key": "release-log",
+   "ja": {
+    "title": "リリースした日を記録する",
+    "cost": "5分",
+    "why": "いま本番にいつ何が出たかを残している場所が無い。ClickUp の状態が変わった日は、整理でまとめて閉じた日とも区別がつかない。記録が無いと、数字が動いても何のおかげか言えない。",
+    "who": "計測スプレッドシートの annotations タブに1行書くだけ。出した人が出した日に書く。",
+    "when": "次のリリースから",
+    "steps": [
+     {
+      "t": "計測スプレッドシートの annotations タブを開く（日付・チケット・対象・種別・内容の5列は作成済み）",
+      "u": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit"
+     },
+     {
+      "t": "本番に出した日に1行足す。チケット番号だけでもよい",
+      "u": ""
+     },
+     {
+      "t": "以降このレポートのグラフに自動で打刻が出る",
+      "u": ""
+     }
+    ],
+    "note": "いま出ている 9/17 の6件は手で入れたもの。タブが埋まれば、そこから読むように切り替える。"
+   },
+   "en": {
+    "title": "Record the day each change shipped",
+    "cost": "5 min",
+    "why": "Nothing currently records what reached production and when. A ClickUp status change cannot be told apart from a bulk tidy-up. Without the record, a figure can move and nobody can say what caused it.",
+    "who": "One row in the annotations tab of the measurement spreadsheet, written by whoever shipped it, on the day.",
+    "when": "From the next release",
+    "steps": [
+     {
+      "t": "Open the annotations tab (date, ticket, scope, type, note columns already exist)",
+      "u": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit"
+     },
+     {
+      "t": "Add a row on the day it goes out. The ticket number alone is enough",
+      "u": ""
+     },
+     {
+      "t": "From then on the marks appear on the charts here automatically",
+      "u": ""
+     }
+    ],
+    "note": "The six marks now shown for 9/17 were entered by hand. Once the tab is in use, the report will read from it instead."
    }
   }
  ]

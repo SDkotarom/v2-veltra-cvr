@@ -364,6 +364,7 @@ html = f'''<title>表示速度モニタリング</title>
 <div class="sec"><h2><span class="n">4</span>{t("やったこと", "What shipped")}</h2>
 <div class="card strip"><div class="ch-h"><h3>{t("リリースした日", "Release days")}</h3></div>
 <div class="plot" id="plot-releases"></div></div>
+{setup_panel("release-log")}
 <div class="tw"><table><tr><th>{t("日付","Date")}</th><th>{t("チケット","Ticket")}</th><th>{t("内容","Change")}</th><th>{t("対象","Scope")}</th><th>{t("削減","Saved")}</th></tr>{srows}</table></div>
 <details><summary>{t(f'調査・改修で完了したもの（{len(IV["closed"])}件）', f'Investigations and fixes already closed ({len(IV["closed"])})')}</summary><div class="tw"><table><tr><th>{t("チケット","Ticket")}</th><th>{t("内容","Change")}</th></tr>{crows}</table></div></details>
 </div>

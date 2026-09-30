@@ -204,7 +204,30 @@
     shown.forEach(function (p) { path(src[p.key], "ln raw", p.color, 1); });
     shown.forEach(function (p) { path(movingAvg(src[p.key], 7), "ln", p.color, 2.4); });
 
-    host.innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img">' + o.join("") + "</svg>";
+    /* リリースの打刻。軸の上に点を置き、ホバーでその日の中身を出す */
+    var byDate = {}, a0 = Date.parse(dates[0]), b0 = Date.parse(dates[dates.length - 1]);
+    P.releases.forEach(function (r) {
+      var tm = Date.parse(r.date);
+      if (tm < a0 || tm > b0) return;
+      (byDate[r.date] = byDate[r.date] || []).push(r);
+    });
+    var marks = Object.keys(byDate).sort().map(function (dd) {
+      var g = byDate[dd], side = X(dd) / W > 0.6 ? " right" : "";
+      var rows = g.map(function (r) {
+        return '<a class="tp-row" href="https://app.clickup.com/t/31108037/' + esc(r.ticket) +
+          '" target="_blank" rel="noopener"><span class="tp-tk">' + esc(r.ticket) + "</span>" +
+          '<span class="tp-nt">' + esc(r.note[lang]) + "</span>" +
+          '<span class="tp-sc">' + esc(r.scope[lang]) + "</span></a>";
+      }).join("");
+      return '<div class="rdot pm' + side + '" style="left:' + (X(dd) / W * 100).toFixed(2) + '%" tabindex="0">' +
+        '<span class="rdot-mark">' + (g.length > 1 ? g.length : "") + "</span>" +
+        '<span class="rdot-date">' + esc(dd.slice(5).replace("-", "/")) + "</span>" +
+        '<div class="tip"><div class="tip-h">' + esc(dd) + " · " + g.length +
+        (lang === "en" ? " releases" : " 件") + "</div>" + rows + "</div></div>";
+    }).join("");
+
+    host.innerHTML = '<div class="plot-wrap"><svg viewBox="0 0 ' + W + " " + H +
+      '" role="img">' + o.join("") + "</svg>" + marks + "</div>";
     if (legendEl) {
       legendEl.innerHTML = P.pages.filter(function (p) {
         return src[p.key] && src[p.key].some(function (v) { return v !== null; });
