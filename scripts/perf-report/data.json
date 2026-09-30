@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 29,
+  "version": 30,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -2881,5 +2881,44 @@
     "note": "The six marks now shown for 9/17 were entered by hand. Once the tab is in use, the report will read from it instead."
    }
   }
- ]
+ ],
+ "review": {
+  "period": {
+   "from": "2026-09-04",
+   "to": "2026-09-24"
+  },
+  "updated": "2026-09-30",
+  "parts": [
+   {
+    "h": {
+     "ja": "全体",
+     "en": "Overall"
+    },
+    "b": {
+     "ja": "9/17 に 6件リリースした。[[PSI]] スコアは <b>6ページ全部で上がり</b>、下がったページは無い。いちばん動いたのは検索結果で <b>18.4 → 40.0</b>。効果は出ている。<br>ただし出した回数は確かめられない。リリース日を記録している場所が無く、ClickUp の状態が変わった日からは「9/17 に5件動いた」までしか分からない。<br>未リリースの施策案が <b>28件</b>、うち急ぎが <b>9件</b>。空の送信を止めるだけで 約2,182ms([[UX_DESIGN-404]]) という見込みも含まれている。",
+     "en": "Six changes went out on 9/17. PSI scores <b>rose on all six pages</b> and none fell; Search moved most, <b>18.4 → 40.0</b>. The work lands.<br>How often anything ships cannot be checked: nothing records release dates, and ClickUp status changes only show that five tickets moved on 9/17.<br><b>28</b> items are written up and unreleased, <b>9</b> of them urgent — including one estimated at about 2,182ms just for dropping an empty request (UX_DESIGN-404)."
+    }
+   },
+   {
+    "h": {
+     "ja": "PageSpeed Insights（PSI）スコア推移",
+     "en": "PageSpeed Insights (PSI) score"
+    },
+    "b": {
+     "ja": "6ページとも毎日測っており、9/4 から21日ぶん揃っている。リリース前5日の平均が 31〜37、後5日が 39〜44 で段が付いた。<br>ただし日ごとの振れも ±5〜7 ある。1日の上下では判断せず、7日の[[移動平均]]で向きを見る。",
+     "en": "All six pages are measured daily, 21 days of them since 9/4. The five days before the release averaged 31-37 and the five after 39-44 — a clear step.<br>Daily swings still run ±5-7, so the direction is read from the 7-day mean, not from any single day."
+    }
+   },
+   {
+    "h": {
+     "ja": "操作レスポンス速度（TBT）",
+     "en": "Response speed (TBT)"
+    },
+    "b": {
+     "ja": "実ユーザーの数値はまだ取れておらず、[[ラボ値]]の [[TBT]] で代用している。9/4〜9/24 では、はっきりした向きは出ていない。<br>実ユーザーの計測は、GTM にタグを入れれば翌日から取れる。手順は第3節に置いた。",
+     "en": "There are no real-user figures yet, so the lab measure TBT stands in. Across 9/4-9/24 it shows no clear direction.<br>Real-user measurement starts the day after a tag goes into GTM. The steps are in section 3."
+    }
+   }
+  ]
+ }
 }

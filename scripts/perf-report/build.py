@@ -148,7 +148,10 @@ for m in metrics:
 <div class="legend">{legend}</div>
 <div class="plot" id="plot-{m["key"]}"></div></div>'''
 
-leads = "".join(f'<p class="lead">{t(l["ja"], l["en"])}</p>' for l in D["lead"])
+RV = D["review"]
+leads = "".join(
+    f'<div class="rv-p"><h3>{t(x["h"]["ja"], x["h"]["en"])}</h3>'
+    f'<p>{t(x["b"]["ja"], x["b"]["en"])}</p></div>' for x in RV["parts"])
 frows = "".join(
     f'<div class="find"><div class="fn">{i+1:02d}</div><div><h3>{t(f["h"]["ja"], f["h"]["en"])}</h3>'
     f'<p>{t(f["b"]["ja"], f["b"]["en"])}</p></div></div>' for i, f in enumerate(D["findings"]))
@@ -336,7 +339,10 @@ html = f'''<title>表示速度モニタリング</title>
 <p class="sub">www.veltra.com — {t(f'モバイル・日本語 ／ PSI 日次 {defs["psi_from"][5:]}〜{defs["psi_to"][5:]} ／ 実ユーザー値 〜{defs["latest_period_end"][5:]}', f'Mobile, Japanese · PSI daily {defs["psi_from"][5:]}-{defs["psi_to"][5:]} · real-user through {defs["latest_period_end"][5:]}')}</p>
 </div>
 
-<div class="leads">{leads}</div>
+<div class="rv">
+<div class="rv-h"><h2>{t("振り返り", "Review")}</h2>
+<span class="rv-m">{t(f'対象期間 {RV["period"]["from"]} 〜 {RV["period"]["to"]} ／ 更新 {RV["updated"]}', f'Covering {RV["period"]["from"]} to {RV["period"]["to"]} · updated {RV["updated"]}')}</span></div>
+{leads}</div>
 
 <div class="sec"><h2><span class="n">1</span>{t("プロジェクト実績サマリー", "Project summary")}</h2>
 <div class="hls">{headline}</div>
@@ -344,7 +350,7 @@ html = f'''<title>表示速度モニタリング</title>
 <p class="note">{t(f'起点は {defs["baseline_period_end"]} の週（計測トラッカーに最初の数値を記録した {defs["baseline_note"]} を含む週）。', f'The starting point is the week ending {defs["baseline_period_end"]}, which contains {defs["baseline_note"]} — when the first figures were recorded.')}</p>
 </div>
 
-<div class="sec"><h2><span class="n">2</span>{t("表示速度スコアの推移", "Speed score over time")}</h2>
+<div class="sec"><h2><span class="n">2</span>{t("PageSpeed Insights（PSI）スコア推移", "PageSpeed Insights (PSI) score")}</h2>
 <p class="note">{t(f'[[PageSpeed Insights]] のスコア。6ページとも毎日測っている。太線は7日の[[移動平均]]、薄い線がその日の値。日ごとの振れが大きいので、太線のほうを見る。', 'PageSpeed Insights scores, measured daily on all six pages. The bold line is a 7-day mean; the faint line is the value for that day. Daily swings are large, so read the bold line.')}</p>
 <div class="card"><div class="ch-h"><h3>{t("PSI スコアの推移", "PSI score over time")}</h3>
 <span class="ch-t">{t(f'{defs["psi_from"]} 〜 {defs["psi_to"]}', f'{defs["psi_from"]} to {defs["psi_to"]}')}</span></div>
@@ -354,7 +360,7 @@ html = f'''<title>表示速度モニタリング</title>
 <p class="note">{t(f'{EF["release_date"]} のリリース前5日と後5日の平均。6ページ全部が揃った日だけを使っている。', f'Mean of the five days before and the five days after the {EF["release_date"]} release, using only days where all six pages were measured.')}</p>
 </div>
 
-<div class="sec"><h2><span class="n">3</span>{t("触ってからの反応", "Response after you tap")}</h2>
+<div class="sec"><h2><span class="n">3</span>{t("操作レスポンス速度（TBT）", "Response speed (TBT)")}</h2>
 <p class="note">{t('押してから画面が応えるまでの時間。いまは [[ラボ値]] の [[TBT]] で代用している。実ユーザーの数値はこれから取る。', 'The wait between a tap and a response. It is currently stood in for by the lab figure TBT; real-user numbers are on the way.')}</p>
 <div class="card"><div class="ch-h"><h3>{t("TBT の推移（代理指標）", "TBT over time (stand-in)")}</h3>
 <span class="ch-t">{t("短いほどよい", "Lower is better")}</span></div>
