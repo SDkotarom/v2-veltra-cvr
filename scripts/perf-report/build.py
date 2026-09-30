@@ -284,7 +284,7 @@ html = f'''<title>表示速度モニタリング</title>
 <button class="rg rg-today">{t("今週","This week")}</button>
 </div>
 </div>
-<p class="note">{t('月次は、その月の最後に値がある週をそのまま出している。CrUX は直近28日の p75 なので、月内で平均しても意味がない。', 'The monthly view takes the last week in the month that has a figure, as is. CrUX is a p75 over a rolling 28 days, so averaging within a month means nothing.')}</p>
+<p class="note">{t('月次は、その月の最後に値がある週をそのまま出している。[[CrUX]] は[[28日ローリング]]の [[p75]] なので、月内で平均しても意味がない。', 'The monthly view takes the last week in the month that has a figure, as is. CrUX is a p75 over a rolling 28 days, so averaging within a month means nothing.')}</p>
 <div class="card strip"><div class="ch-h"><h3>{t("リリース", "Releases")}</h3></div>
 <div class="plot" id="plot-releases"></div></div>
 <div class="chart-grid">{charts}</div>
@@ -306,7 +306,7 @@ html = f'''<title>表示速度モニタリング</title>
 
 <div class="sec"><h2><span class="n">7</span>{t("補足データ", "Supporting data")}</h2>
 <div class="tw"><table><tr><th>{t("ページ","Page")}</th><th>{t("PSI スコア","PSI score")}</th><th>PSI LCP</th></tr>{prows}</table></div>
-<p class="note">{t(f'PageSpeed Insights（{defs["psi_date"]}）。日ごとの振れが大きいので、1日の値ではなく向きを見る。実ユーザーの数値とは別物。', f'PageSpeed Insights ({defs["psi_date"]}). It swings a lot day to day, so read the direction, not a single day. This is not real-user data.')}</p>
+<p class="note">{t(f'[[PageSpeed Insights]]（{defs["psi_date"]}）。日ごとの振れが大きいので、1日の値ではなく向きを見る。実ユーザーの数値とは別物。', f'PageSpeed Insights ({defs["psi_date"]}). It swings a lot day to day, so read the direction, not a single day. This is not real-user data.')}</p>
 <details><summary>{t("データの定義を見る", "View data definitions")}</summary><div class="tw"><table><tr><th>key</th><th>value</th></tr>{defrows}</table></div></details>
 </div>
 
@@ -321,7 +321,7 @@ html = f'''<title>表示速度モニタリング</title>
 <footer>
 {t(f'集計期間：{defs["period_from"]}〜{defs["latest_period_end"]}（{defs["weeks_covered"]}週）。対象は www.veltra.com・日本語・モバイル。', f'Period: {defs["period_from"]} to {defs["latest_period_end"]} ({defs["weeks_covered"]} weeks). Scope: www.veltra.com, Japanese, mobile.')}<br>
 {t(f'数値はすべて計測スプレッドシートの _summary タブから取得（CrUX 収集ブロック {defs["crux_collected_at"]}）。生データの解釈は集計タブ側で確定させており、本レポートでは行っていない。', f'All figures come from the _summary tab of the measurement spreadsheet (CrUX collection block {defs["crux_collected_at"]}). Raw data is interpreted in the aggregation layer, not in this report.')}<br>
-{t('CrUX は直近28日間の実ユーザーデータの p75。掲載閾値に満たない URL は値が返らないため、欠測は 0 で埋めず空欄として扱う。判定は本番のみで行い、dev 環境の数値は使わない。', 'CrUX reports p75 over a rolling 28 days. URLs below the reporting threshold return nothing; gaps are left empty, never zero-filled. Judged on production only — dev numbers are not used.')}
+{t('[[CrUX]] は直近28日間の実ユーザーデータの [[p75]]。掲載閾値に満たない URL は値が返らないため、欠測は 0 で埋めず空欄として扱う。判定は本番のみで行い、dev 環境の数値は使わない。', 'CrUX reports p75 over a rolling 28 days. URLs below the reporting threshold return nothing; gaps are left empty, never zero-filled. Judged on production only — dev numbers are not used.')}
 </footer>
 </div>
 <script>window.__PERF={PAYLOAD};</script>
