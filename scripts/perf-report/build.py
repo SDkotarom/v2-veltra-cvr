@@ -50,6 +50,13 @@ def verdict(m, v):
 # 欠測（AC詳細）と未収集（地域・カテゴリー）は、古い値を持っていても数えない。
 LIVE = [p for p in pages if p["data_status"] == "ok"]
 
+BASE_I = weekly["weeks"].index(defs["baseline_period_end"])
+
+
+def base_value(mk, page_key):
+    """起点の週の値。プロジェクト開始時点と比べるために使う"""
+    return weekly["metrics"][mk][page_key][BASE_I]
+
 
 def last_value(mk, page_key):
     """そのページで最後に取れている値。最新週が未収集でも前週の値を使う"""
@@ -65,13 +72,16 @@ for m in metrics:
     vs = [v for v in vs if v is not None]
     n_pass = sum(1 for v in vs if v <= m["good"])
     n_meas = len(vs)
-    worst = max(vs) if vs else None
+    bs = [base_value(m["key"], p["page_key"]) for p in LIVE]
+    bs = [v for v in bs if v is not None]
+    n_base = sum(1 for v in bs if v <= m["good"])
+    n_base_meas = len(bs)
     kpi += f'''<div class="kpi">
 <div class="kpi-h">{m["ja"]}<span class="kpi-sub">{t(m["sub_ja"], m["sub_en"])}</span></div>
 <div class="kpi-v">{n_pass}<span class="kpi-d"> / {n_meas}</span></div>
 <dl class="kpi-f">
 <div><dt>{t("合格ライン", "Target")}</dt><dd>{fm(m["good"], m["dec"], m["unit"])}</dd></div>
-<div><dt>{t("最も悪い", "Worst")}</dt><dd>{fm(worst, m["dec"], m["unit"])}</dd></div>
+<div><dt>{t(f'起点 {defs["baseline_period_end"]}', f'Baseline {defs["baseline_period_end"]}')}</dt><dd>{n_base} / {n_base_meas}</dd></div>
 </dl></div>'''
 
 tiles = ""
@@ -84,11 +94,15 @@ for p in pages:
         sj, se = "収集対象に入っていない", "not in collection"
     elif p["data_status"] == "欠測":
         sj, se = f'{p.get("first_missing_week","")} 以降 欠測', f'missing since {p.get("first_missing_week","")}'
-    elif p.get("delta_from_best_ms"):
-        sj = f'最速週 {p["best_period_end"]} 比 +{p["delta_from_best_ms"]:,}ms'
-        se = f'+{p["delta_from_best_ms"]:,}ms vs best ({p["best_period_end"]})'
     else:
-        sj = se = ""
+        bv = base_value("lcp", p["page_key"])
+        if bv is None or p["lcp_p75_ms"] is None:
+            sj = se = ""
+        else:
+            dv = p["lcp_p75_ms"] - bv
+            sign = "+" if dv > 0 else ""
+            sj = f'起点 {defs["baseline_period_end"]} 比 {sign}{dv:,}ms'
+            se = f'{sign}{dv:,}ms vs baseline ({defs["baseline_period_end"]})'
     asof = ""
     if p.get("as_of") and p["as_of"] != defs["latest_period_end"]:
         aw = p["as_of"]
@@ -232,7 +246,7 @@ html = f'''<title>表示速度モニタリング</title>
 <p class="note">{t(f'分母は実ユーザー値が取れているページ数。対象は {defs["denominator"]} ページだが、値が無いページは合格にも不合格にも数えない。', f'The denominator counts pages that have real-user data. {defs["denominator"]} pages are in scope, but a page with no figure counts as neither pass nor fail.')}</p>
 <div class="kpis">{kpi}</div>
 <div class="tiles">{tiles}</div>
-<p class="note">{t('タイルの数値は LCP。そのURL自体の CrUX だけを使っており、値が無いときにサイト全体の数字で埋めることはしていない。', 'Tile figures are LCP, taken from CrUX for that exact URL. Where there is none, the site-wide figure is never used to fill the gap.')}<br>{t(f'{defs["crux_collected_at"]} の収集が途中で終わったため、{defs["latest_period_end"]} の週が取れているのは TOP だけ。残りは前の週の値を出している。', f'The {defs["crux_collected_at"]} collection ended partway, so only TOP has the week ending {defs["latest_period_end"]}. The rest show the week before.')}</p>
+<p class="note">{t('タイルの数値は LCP。そのURL自体の CrUX だけを使っており、値が無いときにサイト全体の数字で埋めることはしていない。', 'Tile figures are LCP, taken from CrUX for that exact URL. Where there is none, the site-wide figure is never used to fill the gap.')}<br>{t(f'起点は {defs["baseline_period_end"]} の週。計測トラッカーに baseline を記録した {defs["baseline_note"]} を含む週で、ここから先が改善の対象期間。', f'The baseline is the week ending {defs["baseline_period_end"]}, which contains {defs["baseline_note"]} — the date the baseline was recorded in the tracker. Everything after it is the period under improvement.')}<br>{t(f'{defs["crux_collected_at"]} の収集が途中で終わったため、{defs["latest_period_end"]} の週が取れているのは TOP だけ。残りは前の週の値を出している。', f'The {defs["crux_collected_at"]} collection ended partway, so only TOP has the week ending {defs["latest_period_end"]}. The rest show the week before.')}</p>
 </div>
 
 <div class="sec"><h2><span class="n">2</span>{t("2つの系統で見る", "Two tracks")}</h2>

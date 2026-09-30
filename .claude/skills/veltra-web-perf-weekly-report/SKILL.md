@@ -53,7 +53,10 @@ description: >
 - **欠測は 0 で埋めない。** 線は途切れさせる
 - **LCP と TTFB の差や比率を計算しない。** それぞれ独立した p75 なので、
   「LCP のうち何%が TTFB」は成立しない
-- **「◯月比」と書かない。** `best_period_end` を使って「最速週 YYYY-MM-DD 比」と書く
+- **記録（最速週・最も悪い）を「現在地」として出さない。** 良くなったか悪くなったかが
+  分からないため。比較は `defs.baseline_period_end`（起点の週）に対して取る。
+  起点は 2026-08-22＝計測トラッカーの baseline 2026-08-19 を含む週。
+  `best_period_end` / `delta_from_best_ms` は data.json に残っているが、もう表示していない
 - **リリース直後の週で「改善した」と書かない。** CrUX は28日ローリング
 
 ## lead / findings / issues の書き方
