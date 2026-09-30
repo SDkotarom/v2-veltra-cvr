@@ -362,6 +362,8 @@ html = f'''<title>表示速度モニタリング</title>
 </div>
 
 <div class="sec"><h2><span class="n">4</span>{t("やったこと", "What shipped")}</h2>
+<div class="card strip"><div class="ch-h"><h3>{t("リリースした日", "Release days")}</h3></div>
+<div class="plot" id="plot-releases"></div></div>
 <div class="tw"><table><tr><th>{t("日付","Date")}</th><th>{t("チケット","Ticket")}</th><th>{t("内容","Change")}</th><th>{t("対象","Scope")}</th><th>{t("削減","Saved")}</th></tr>{srows}</table></div>
 <details><summary>{t(f'調査・改修で完了したもの（{len(IV["closed"])}件）', f'Investigations and fixes already closed ({len(IV["closed"])})')}</summary><div class="tw"><table><tr><th>{t("チケット","Ticket")}</th><th>{t("内容","Change")}</th></tr>{crows}</table></div></details>
 </div>
@@ -380,6 +382,16 @@ html = f'''<title>表示速度モニタリング</title>
 <p class="note">{t('[[CrUX]] の週次。[[28日ローリング]]の [[p75]] なので、隣り合う週は27日ぶん同じデータを共有している。1週の増減だけを見ても意味がない。', 'Weekly CrUX. Because each figure covers a rolling 28 days, neighbouring weeks share 27 days of data, so one week of movement means little.')}</p>
 <div class="tiles">{tiles}</div>
 {setup_panel("crux-key")}
+<div class="ctrl">
+<div class="mtabs"><button class="mt gt" data-g="w" aria-pressed="true">{t("週次","Weekly")}</button><button class="mt gt" data-g="m" aria-pressed="false">{t("月次","Monthly")}</button></div>
+<div class="range">
+<button class="rg" data-move="-1" aria-label="前の期間 / Previous period">‹</button>
+<span class="rg-lab" id="range-label"></span>
+<button class="rg" data-move="1" aria-label="次の期間 / Next period">›</button>
+<button class="rg rg-today">{t("今週","This week")}</button>
+</div>
+</div>
+<div class="chart-grid">{charts}</div>
 <div class="mtabs">{mtabs}</div>
 <p class="note">{t('赤字は合格ラインを超えた値。— はその週の値が取れていないところ。', 'Red means the figure missed its target. A dash means there is no figure for that week.')}</p>
 <div class="tw" id="trend-table"></div>

@@ -76,7 +76,7 @@ svg{display:block;width:100%;height:auto}
 .target{stroke:var(--line-strong);stroke-width:1;stroke-dasharray:5 4}
 .rel{stroke:var(--brand);stroke-width:1.5;stroke-dasharray:3 3}
 .rell{font-size:10.5px;fill:var(--brand-ink);font-weight:700}
-.ax{font-size:10.5px;fill:var(--ink-3);font-variant-numeric:tabular-nums}
+.ax{font-size:13px;fill:var(--ink-2);font-variant-numeric:tabular-nums}
 .tgt{font-size:10.5px;fill:var(--ink-3)}
 .dl{font-size:11.5px;font-weight:700}
 .ln{stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
@@ -152,7 +152,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:va
 .kpi-f dd{font-size:12.5px;margin:0;font-variant-numeric:tabular-nums;color:var(--ink-2)}
 
 /* --- グラフ --- */
-.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px}
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:14px}
 .ch-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
 .ch-h h3{font-size:14px;font-weight:700;margin:0}
 .ch-sub{font-size:12px;font-weight:400;color:var(--ink-3);margin-left:6px}
@@ -340,7 +340,7 @@ td.good{color:var(--pos-ink);font-weight:700}
 </div>
 
 <div class="head">
-<p class="eyebrow">Veltra ／ <span class="ja">表示速度改善</span><span class="en">Web Performance</span> ／ 2026-09-24<span class="ver">v25</span></p>
+<p class="eyebrow">Veltra ／ <span class="ja">表示速度改善</span><span class="en">Web Performance</span> ／ 2026-09-24<span class="ver">v26</span></p>
 <h1><span class="ja">表示速度モニタリング</span><span class="en">Web Performance Monitor</span></h1>
 <p class="sub">www.veltra.com — <span class="ja">モバイル・日本語 ／ PSI 日次 09-04〜09-24 ／ 実ユーザー値 〜09-05</span><span class="en">Mobile, Japanese · PSI daily 09-04-09-24 · real-user through 09-05</span></p>
 </div>
@@ -373,6 +373,8 @@ td.good{color:var(--pos-ink);font-weight:700}
 </div>
 
 <div class="sec"><h2><span class="n">4</span><span class="ja">やったこと</span><span class="en">What shipped</span></h2>
+<div class="card strip"><div class="ch-h"><h3><span class="ja">リリースした日</span><span class="en">Release days</span></h3></div>
+<div class="plot" id="plot-releases"></div></div>
 <div class="tw"><table><tr><th><span class="ja">日付</span><span class="en">Date</span></th><th><span class="ja">チケット</span><span class="en">Ticket</span></th><th><span class="ja">内容</span><span class="en">Change</span></th><th><span class="ja">対象</span><span class="en">Scope</span></th><th><span class="ja">削減</span><span class="en">Saved</span></th></tr><tr><td>09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-323">UX_DESIGN-323</a></td><td><span class="ja">AppsFlyer を defer 化</span><span class="en">Defer AppsFlyer</span></td><td>全ページ</td><td>893ms</td></tr><tr><td>09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-395">UX_DESIGN-395</a></td><td><span class="ja">preload の画像を実LCPに合わせる</span><span class="en">Point preload at the real LCP image</span></td><td>AC詳細</td><td>—</td></tr><tr><td>09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-396">UX_DESIGN-396</a></td><td><span class="ja">先頭ACカード画像に fetchpriority=high</span><span class="en">fetchpriority=high on the first AC card image</span></td><td>カテゴリー・検索</td><td>—</td></tr><tr><td>09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-397">UX_DESIGN-397</a></td><td><span class="ja">lcp_image_url を設定して preload</span><span class="en">Set lcp_image_url and preload it</span></td><td>エリア</td><td>—</td></tr><tr><td>09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-389">UX_DESIGN-389</a></td><td><span class="ja">フィルターバー固定・画像枠の寸法予約</span><span class="en">Pin the filter bar, reserve image box sizes</span></td><td>6ページ</td><td>—</td></tr><tr><td>09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-389">UX_DESIGN-389</a></td><td><span class="ja">検索ページに1時間のページキャッシュ</span><span class="en">One-hour page cache on search</span></td><td>検索</td><td>—</td></tr></table></div>
 <details><summary><span class="ja">調査・改修で完了したもの（5件）</span><span class="en">Investigations and fixes already closed (5)</span></summary><div class="tw"><table><tr><th><span class="ja">チケット</span><span class="en">Ticket</span></th><th><span class="ja">内容</span><span class="en">Change</span></th></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-302">UX_DESIGN-302</a></td><td><span class="ja">カテゴリ: 冗長なクーポン処理を削除</span><span class="en">Remove redundant coupon processing on category</span></td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-306">UX_DESIGN-306</a></td><td><span class="ja">レンダーブロッキング解消</span><span class="en">Eliminate render-blocking resources</span></td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-310">UX_DESIGN-310</a></td><td><span class="ja">isDynamicPrice 改修（約848ms削減）</span><span class="en">Refactor isDynamicPrice (~848ms)</span></td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-311">UX_DESIGN-311</a></td><td><span class="ja">AC詳細: 予約カレンダー・在庫APIの応答改善</span><span class="en">AC detail: faster booking calendar and inventory API</span></td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-313">UX_DESIGN-313</a></td><td><span class="ja">カテゴリ: 予約モーダル再読込の調査</span><span class="en">Category: investigate booking-modal reloads</span></td></tr></table></div></details>
 </div>
@@ -415,6 +417,32 @@ td.good{color:var(--pos-ink);font-weight:700}
 <div class="tl-s"><span class="ja">2026-08-22 時点から -187ms</span><span class="en">-187ms since 2026-08-22</span></div><div class="tl-w"><span class="ja">2026-08-29 時点。最新週は未収集</span><span class="en">as of 2026-08-29 — latest week not collected</span></div>
 <div class="tl-f"><span class="badge poor"><span class="ja">不良</span><span class="en">Poor</span></span><span class="diff down"><span class="ja">前週</span><span class="en">vs prev</span> -187ms</span></div></div></div>
 <details class="su"><summary><span class="su-b"><span class="ja">構築中</span><span class="en">Being set up</span></span><span class="su-t"><span class="ja">実ユーザー値を毎日取れるようにする</span><span class="en">Get real-user figures every day</span></span><span class="su-c"><span class="ja">5分</span><span class="en">5 min</span></span></summary><div class="su-body"><span class="ja"><dl class="su-f"><div><dt>なぜ必要か</dt><dd>いま実ユーザー値は週1回の収集に頼っていて、その収集が 2026-09-13 で止まっている。APIキーが1本あれば、この収集を経由せずに毎日取れる。地域・AC詳細の代表URL差し替えも即反映できる。</dd></div><div><dt>誰が何をするか</dt><dd>キーの発行はブラウザ作業。発行後の取得・更新は自動。</dd></div><div><dt>いつ取れるか</dt><dd>キーを受け取った当日から</dd></div></dl><div class="yl">手順</div><ol class="su-s"><li><a href="https://console.cloud.google.com/apis/library/chromeuxreport.googleapis.com" target="_blank" rel="noopener">Chrome UX Report API を有効にする</a></li><li><a href="https://console.cloud.google.com/apis/library/pagespeedonline.googleapis.com" target="_blank" rel="noopener">PageSpeed Insights API も同じプロジェクトで有効にする</a></li><li><a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener">認証情報 → APIキーを作成 → コピー</a></li><li>キーを環境変数に入れる（チャットに貼らない）。設定手順は依頼時に案内</li></ol><p class="su-n">CrUX API は 150クエリ/分まで無料。キー無しの共有枠は既に上限に達していることを確認済み。</p></span><span class="en"><dl class="su-f"><div><dt>Why it matters</dt><dd>Real-user figures depend on a weekly collection that stopped on 2026-09-13. One API key removes that dependency and lets the figures be pulled daily, and lets the Region and AC-detail sample URLs be swapped immediately.</dd></div><div><dt>Who does what</dt><dd>Issuing the key is a browser task. Everything after it is automatic.</dd></div><div><dt>When it lands</dt><dd>The day the key arrives</dd></div></dl><div class="yl">Steps</div><ol class="su-s"><li><a href="https://console.cloud.google.com/apis/library/chromeuxreport.googleapis.com" target="_blank" rel="noopener">Enable the Chrome UX Report API</a></li><li><a href="https://console.cloud.google.com/apis/library/pagespeedonline.googleapis.com" target="_blank" rel="noopener">Enable the PageSpeed Insights API in the same project</a></li><li><a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener">Credentials → Create API key → copy</a></li><li>Put the key in an environment variable, not in chat. Steps supplied on request</li></ol><p class="su-n">The CrUX API is free up to 150 queries per minute. The keyless shared quota is already exhausted (verified).</p></span></div></details>
+<div class="ctrl">
+<div class="mtabs"><button class="mt gt" data-g="w" aria-pressed="true"><span class="ja">週次</span><span class="en">Weekly</span></button><button class="mt gt" data-g="m" aria-pressed="false"><span class="ja">月次</span><span class="en">Monthly</span></button></div>
+<div class="range">
+<button class="rg" data-move="-1" aria-label="前の期間 / Previous period">‹</button>
+<span class="rg-lab" id="range-label"></span>
+<button class="rg" data-move="1" aria-label="次の期間 / Next period">›</button>
+<button class="rg rg-today"><span class="ja">今週</span><span class="en">This week</span></button>
+</div>
+</div>
+<div class="chart-grid"><div class="card chart" data-metric="lcp">
+<div class="ch-h"><h3>LCP <span class="ch-sub"><span class="ja">主役の画像や文字が出るまで</span><span class="en">Time until the main image or text appears</span></span></h3>
+<span class="ch-t"><span class="ja">合格ライン 2,500 ms 以下</span><span class="en">Target 2,500 ms or under</span></span></div>
+<div class="legend"><button class="lg" data-metric="lcp" data-page="TOP" aria-pressed="true"><span class="dot" style="background:#1F6FB2"></span><span class="ja">TOP</span><span class="en">TOP</span></button><button class="lg" data-metric="lcp" data-page="エリア" aria-pressed="true"><span class="dot" style="background:#C2410C"></span><span class="ja">エリア</span><span class="en">Area</span></button><button class="lg" data-metric="lcp" data-page="AC詳細" aria-pressed="true"><span class="dot" style="background:#8A6D1F"></span><span class="ja">AC詳細</span><span class="en">AC detail</span></button><button class="lg" data-metric="lcp" data-page="検索結果" aria-pressed="true"><span class="dot" style="background:#B3246B"></span><span class="ja">検索結果</span><span class="en">Search</span></button></div>
+<div class="plot" id="plot-lcp"></div></div><div class="card chart" data-metric="inp">
+<div class="ch-h"><h3>INP <span class="ch-sub"><span class="ja">タップしてから画面が応えるまで</span><span class="en">Time from a tap until the screen responds</span></span></h3>
+<span class="ch-t"><span class="ja">合格ライン 200 ms 以下</span><span class="en">Target 200 ms or under</span></span></div>
+<div class="legend"><button class="lg" data-metric="inp" data-page="TOP" aria-pressed="true"><span class="dot" style="background:#1F6FB2"></span><span class="ja">TOP</span><span class="en">TOP</span></button><button class="lg" data-metric="inp" data-page="エリア" aria-pressed="true"><span class="dot" style="background:#C2410C"></span><span class="ja">エリア</span><span class="en">Area</span></button><button class="lg" data-metric="inp" data-page="AC詳細" aria-pressed="true"><span class="dot" style="background:#8A6D1F"></span><span class="ja">AC詳細</span><span class="en">AC detail</span></button><button class="lg" data-metric="inp" data-page="検索結果" aria-pressed="true"><span class="dot" style="background:#B3246B"></span><span class="ja">検索結果</span><span class="en">Search</span></button></div>
+<div class="plot" id="plot-inp"></div></div><div class="card chart" data-metric="cls">
+<div class="ch-h"><h3>CLS <span class="ch-sub"><span class="ja">読み込み中に文字や画像がずれる量</span><span class="en">How much text and images shift while loading</span></span></h3>
+<span class="ch-t"><span class="ja">合格ライン 0.10 以下</span><span class="en">Target 0.10 or under</span></span></div>
+<div class="legend"><button class="lg" data-metric="cls" data-page="TOP" aria-pressed="true"><span class="dot" style="background:#1F6FB2"></span><span class="ja">TOP</span><span class="en">TOP</span></button><button class="lg" data-metric="cls" data-page="エリア" aria-pressed="true"><span class="dot" style="background:#C2410C"></span><span class="ja">エリア</span><span class="en">Area</span></button><button class="lg" data-metric="cls" data-page="AC詳細" aria-pressed="true"><span class="dot" style="background:#8A6D1F"></span><span class="ja">AC詳細</span><span class="en">AC detail</span></button><button class="lg" data-metric="cls" data-page="検索結果" aria-pressed="true"><span class="dot" style="background:#B3246B"></span><span class="ja">検索結果</span><span class="en">Search</span></button></div>
+<div class="plot" id="plot-cls"></div></div><div class="card chart" data-metric="ttfb">
+<div class="ch-h"><h3>TTFB <span class="ch-sub"><span class="ja">サーバーから最初の応答が届くまで</span><span class="en">Time until the server starts sending the page</span></span></h3>
+<span class="ch-t"><span class="ja">合格ライン 800 ms 以下</span><span class="en">Target 800 ms or under</span></span></div>
+<div class="legend"><button class="lg" data-metric="ttfb" data-page="TOP" aria-pressed="true"><span class="dot" style="background:#1F6FB2"></span><span class="ja">TOP</span><span class="en">TOP</span></button><button class="lg" data-metric="ttfb" data-page="エリア" aria-pressed="true"><span class="dot" style="background:#C2410C"></span><span class="ja">エリア</span><span class="en">Area</span></button><button class="lg" data-metric="ttfb" data-page="AC詳細" aria-pressed="true"><span class="dot" style="background:#8A6D1F"></span><span class="ja">AC詳細</span><span class="en">AC detail</span></button><button class="lg" data-metric="ttfb" data-page="検索結果" aria-pressed="true"><span class="dot" style="background:#B3246B"></span><span class="ja">検索結果</span><span class="en">Search</span></button></div>
+<div class="plot" id="plot-ttfb"></div></div></div>
 <div class="mtabs"><button class="mt" data-m="lcp" aria-pressed="true">LCP</button><button class="mt" data-m="inp" aria-pressed="false">INP</button><button class="mt" data-m="cls" aria-pressed="false">CLS</button><button class="mt" data-m="ttfb" aria-pressed="false">TTFB</button></div>
 <p class="note"><span class="ja">赤字は合格ラインを超えた値。— はその週の値が取れていないところ。</span><span class="en">Red means the figure missed its target. A dash means there is no figure for that week.</span></p>
 <div class="tw" id="trend-table"></div>
@@ -503,7 +531,7 @@ td.good{color:var(--pos-ink);font-weight:700}
   function drawChart(mk) {
     var meta = P.meta[mk], host = document.getElementById("plot-" + mk);
     if (!host) return;
-    var W = 560, H = 230, PL = 52, PR = 14, PT = 16, PB = 30;
+    var W = 390, H = 205, PL = 46, PR = 10, PT = 14, PB = 26;
     var weeks = P.weeks, series = P.metrics[mk];
     var shown = P.pages.filter(function (p) {
       return on(mk, p.key) && series[p.key] && series[p.key].some(function (v) { return v !== null; });
@@ -597,7 +625,7 @@ td.good{color:var(--pos-ink);font-weight:700}
     if (!host || !P.psi) return;
     var src = which === "psi" ? P.psi.score : P.psi.tbt;
     var dates = P.psi.dates, lang = document.documentElement.getAttribute("data-lang") === "en" ? "en" : "ja";
-    var W = 1160, H = 280, PL = 46, PR = 16, PT = 14, PB = 28;
+    var W = 824, H = 300, PL = 48, PR = 14, PT = 16, PB = 30;
 
     var shown = P.pages.filter(function (p) {
       return src[p.key] && src[p.key].some(function (v) { return v !== null; }) && !off[which + "|" + p.key];
@@ -723,7 +751,7 @@ td.good{color:var(--pos-ink);font-weight:700}
     if (offset === 0) {
       P.releases.forEach(function (r) { if (Date.parse(r.date) > Date.parse(xEnd)) xEnd = r.date; });
     }
-    var PL = 52, PR = 14, W = 1160;
+    var PL = 48, PR = 14, W = 824;
     var X = scaleX(xStart, xEnd, PL, W - PR);
     function pct(d) { return (X(d) / W * 100).toFixed(2) + "%"; }
 

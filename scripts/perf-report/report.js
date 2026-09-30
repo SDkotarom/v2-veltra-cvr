@@ -60,7 +60,7 @@
   function drawChart(mk) {
     var meta = P.meta[mk], host = document.getElementById("plot-" + mk);
     if (!host) return;
-    var W = 560, H = 230, PL = 52, PR = 14, PT = 16, PB = 30;
+    var W = 390, H = 205, PL = 46, PR = 10, PT = 14, PB = 26;
     var weeks = P.weeks, series = P.metrics[mk];
     var shown = P.pages.filter(function (p) {
       return on(mk, p.key) && series[p.key] && series[p.key].some(function (v) { return v !== null; });
@@ -154,7 +154,7 @@
     if (!host || !P.psi) return;
     var src = which === "psi" ? P.psi.score : P.psi.tbt;
     var dates = P.psi.dates, lang = document.documentElement.getAttribute("data-lang") === "en" ? "en" : "ja";
-    var W = 1160, H = 280, PL = 46, PR = 16, PT = 14, PB = 28;
+    var W = 824, H = 300, PL = 48, PR = 14, PT = 16, PB = 30;
 
     var shown = P.pages.filter(function (p) {
       return src[p.key] && src[p.key].some(function (v) { return v !== null; }) && !off[which + "|" + p.key];
@@ -280,7 +280,7 @@
     if (offset === 0) {
       P.releases.forEach(function (r) { if (Date.parse(r.date) > Date.parse(xEnd)) xEnd = r.date; });
     }
-    var PL = 52, PR = 14, W = 1160;
+    var PL = 48, PR = 14, W = 824;
     var X = scaleX(xStart, xEnd, PL, W - PR);
     function pct(d) { return (X(d) / W * 100).toFixed(2) + "%"; }
 
