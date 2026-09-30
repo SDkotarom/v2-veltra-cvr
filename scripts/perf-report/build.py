@@ -6,7 +6,7 @@ data.json を読み、固定テンプレートで HTML を書き出す。
 
 usage: python3 scripts/perf-report/build.py [data.json] [out.html]
 """
-import json, sys, datetime
+import json, re, sys, datetime
 from pathlib import Path
 
 BASE = Path(__file__).parent
@@ -23,14 +23,27 @@ VEN = {"合格": "Pass", "要改善": "Needs work", "不良": "Poor", "未計測
 STATUS_EN = {"ok": "ok", "欠測": "missing", "未収集": "not collected"}
 
 
-def t(ja, en):
-    return f'<span class="ja">{ja}</span><span class="en">{en}</span>'
-
-
 def hint(ja, en):
     """ホバーで出る小さな説明。日英は CSS の attr() で出し分ける"""
     esc = lambda x: x.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
     return f' class="hint" tabindex="0" data-tip-ja="{esc(ja)}" data-tip-en="{esc(en)}"'
+
+
+GLOSSARY = defs.get("glossary", {})
+GL_RE = re.compile(r"\[\[([^\]]+)\]\]")
+
+
+def expand(x):
+    """本文中の [[用語]] を、ホバーで説明が出る語に変える"""
+    def rep(m):
+        k = m.group(1)
+        g = GLOSSARY.get(k)
+        return f'<span{hint(g["ja"], g["en"])}>{k}</span>' if g else k
+    return GL_RE.sub(rep, x)
+
+
+def t(ja, en):
+    return f'<span class="ja">{expand(ja)}</span><span class="en">{expand(en)}</span>'
 
 
 def fm(v, dec=0, unit="ms"):
