@@ -291,3 +291,15 @@ a.chip:hover{text-decoration:underline}
 .rg-lab{font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums;
   min-width:172px;text-align:center}
 @media(max-width:560px){.rg-lab{min-width:0}}
+
+/* --- ホバーで出る短い説明 --- */
+.hint{position:relative;border-bottom:1px dotted var(--line-strong);cursor:help}
+.hint::after{content:attr(data-tip-ja);position:absolute;left:0;bottom:calc(100% + 7px);
+  width:max-content;max-width:min(260px,72vw);background:var(--ink);color:var(--bg);
+  font-size:12px;line-height:1.65;font-weight:400;letter-spacing:0;text-transform:none;
+  padding:8px 11px;border-radius:8px;box-shadow:var(--shadow);
+  opacity:0;visibility:hidden;transition:opacity .12s;z-index:30;pointer-events:none}
+[data-lang="en"] .hint::after{content:attr(data-tip-en)}
+.hint:hover::after,.hint:focus-visible::after{opacity:1;visibility:visible}
+.hint:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.kpi-f dt .hint::after{left:auto;right:0}

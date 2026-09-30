@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 20,
+  "version": 21,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19"
  },
@@ -1169,45 +1169,53 @@
    "key": "lcp",
    "ja": "LCP",
    "en": "LCP",
-   "sub_ja": "最大コンテンツの描画",
-   "sub_en": "Largest Contentful Paint",
+   "sub_ja": "主役の画像や文字が出るまで",
+   "sub_en": "Time until the main image or text appears",
    "unit": "ms",
    "good": 2500,
    "ni": 4000,
-   "dec": 0
+   "dec": 0,
+   "tip_ja": "画面のいちばん大きな要素が描き終わるまでの時間。ページが「出た」と感じる瞬間にあたる。",
+   "tip_en": "How long until the largest element on screen finishes drawing — the moment a page feels loaded."
   },
   {
    "key": "inp",
    "ja": "INP",
    "en": "INP",
-   "sub_ja": "操作への反応",
-   "sub_en": "Interaction to Next Paint",
+   "sub_ja": "タップしてから画面が応えるまで",
+   "sub_en": "Time from a tap until the screen responds",
    "unit": "ms",
    "good": 200,
    "ni": 500,
-   "dec": 0
+   "dec": 0,
+   "tip_ja": "タップやクリックに対して画面が変化するまでの時間。長いと固まったように感じる。",
+   "tip_en": "How long until the screen changes after a tap or click. A long wait feels frozen."
   },
   {
    "key": "cls",
    "ja": "CLS",
    "en": "CLS",
-   "sub_ja": "レイアウトのずれ",
-   "sub_en": "Cumulative Layout Shift",
+   "sub_ja": "読み込み中に文字や画像がずれる量",
+   "sub_en": "How much text and images shift while loading",
    "unit": "",
    "good": 0.1,
    "ni": 0.25,
-   "dec": 2
+   "dec": 2,
+   "tip_ja": "表示中に要素が動いた量の合計。押そうとしたボタンがずれる原因。",
+   "tip_en": "Total amount elements move while the page displays — why a button slips out from under your finger."
   },
   {
    "key": "ttfb",
    "ja": "TTFB",
    "en": "TTFB",
-   "sub_ja": "サーバー応答",
-   "sub_en": "Time to First Byte",
+   "sub_ja": "サーバーから最初の応答が届くまで",
+   "sub_en": "Time until the server starts sending the page",
    "unit": "ms",
    "good": 800,
    "ni": 1800,
-   "dec": 0
+   "dec": 0,
+   "tip_ja": "リクエストを送ってから、サーバーの返事が届き始めるまでの時間。ここが遅いと以降すべてが遅れる。",
+   "tip_en": "Time from the request until the server's reply starts arriving. Everything else waits on this."
   }
  ],
  "tracks": [

@@ -27,6 +27,12 @@ def t(ja, en):
     return f'<span class="ja">{ja}</span><span class="en">{en}</span>'
 
 
+def hint(ja, en):
+    """ホバーで出る小さな説明。日英は CSS の attr() で出し分ける"""
+    esc = lambda x: x.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
+    return f' class="hint" tabindex="0" data-tip-ja="{esc(ja)}" data-tip-en="{esc(en)}"'
+
+
 def fm(v, dec=0, unit="ms"):
     if v is None:
         return "—"
@@ -77,11 +83,11 @@ for m in metrics:
     n_base = sum(1 for v in bs if v <= m["good"])
     n_base_meas = len(bs)
     kpi += f'''<div class="kpi">
-<div class="kpi-h">{m["ja"]}<span class="kpi-sub">{t(m["sub_ja"], m["sub_en"])}</span></div>
+<div class="kpi-h"><span{hint(m["tip_ja"], m["tip_en"])}>{m["ja"]}</span><span class="kpi-sub">{t(m["sub_ja"], m["sub_en"])}</span></div>
 <div class="kpi-v">{n_pass}<span class="kpi-d"> / {n_meas}</span></div>
 <dl class="kpi-f">
-<div><dt>{t("合格ライン", "Target")}</dt><dd>{fm(m["good"], m["dec"], m["unit"])}</dd></div>
-<div><dt>{t(f'起点 {defs["baseline_period_end"]}', f'Baseline {defs["baseline_period_end"]}')}</dt><dd>{n_base} / {n_base_meas}</dd></div>
+<div><dt><span{hint("Google が Core Web Vitals で定めている基準値。ベルトラ内の平均でも、競合の平均でもない。", "The threshold Google sets for Core Web Vitals. It is not an average of Veltra pages, nor of competitors.")}>{t("合格ライン", "Target")}</span></dt><dd>{fm(m["good"], m["dec"], m["unit"])}</dd></div>
+<div><dt>{t(f'{defs["baseline_period_end"]} 時点', f'As of {defs["baseline_period_end"]}')}</dt><dd>{n_base} / {n_base_meas}</dd></div>
 </dl></div>'''
 
 tiles = ""
@@ -101,15 +107,15 @@ for p in pages:
         else:
             dv = p["lcp_p75_ms"] - bv
             sign = "+" if dv > 0 else ""
-            sj = f'起点 {defs["baseline_period_end"]} 比 {sign}{dv:,}ms'
-            se = f'{sign}{dv:,}ms vs baseline ({defs["baseline_period_end"]})'
+            sj = f'{defs["baseline_period_end"]} 時点から {sign}{dv:,}ms'
+            se = f'{sign}{dv:,}ms since {defs["baseline_period_end"]}'
     asof = ""
     if p.get("as_of") and p["as_of"] != defs["latest_period_end"]:
         aw = p["as_of"]
         asof = '<div class="tl-w">' + t(f"{aw} 時点。最新週は未収集", f"as of {aw} — latest week not collected") + "</div>"
-    path = p["url"].replace("https://www.veltra.com", "") or "/"
+    path = p["url"]
     tiles += f'''<div class="tile"><div class="tl-h"><span class="dot" style="background:{COLOR[p["page_key"]]}"></span>{t(p["page_ja"], p["page_en"])}</div>
-<a class="tl-u" href="{p["url"]}" title="{p["url"]}">{path}</a>
+<a class="tl-u" href="{p["url"]}" title="{p["url"]}" target="_blank" rel="noopener">{path}</a>
 <div class="tl-v">{"—" if p["lcp_p75_ms"] is None else f'{p["lcp_p75_ms"]:,}'}<span class="u">ms</span></div>
 <div class="tl-s">{t(sj, se)}</div>{asof}
 <div class="tl-f"><span class="badge {cl}">{t(p["lcp_verdict"], VEN[p["lcp_verdict"]])}</span><span class="diff {dc}">{t("前週", "vs prev")} {dt}</span></div></div>'''
@@ -246,7 +252,7 @@ html = f'''<title>表示速度モニタリング</title>
 <p class="note">{t(f'分母は実ユーザー値が取れているページ数。対象は {defs["denominator"]} ページだが、値が無いページは合格にも不合格にも数えない。', f'The denominator counts pages that have real-user data. {defs["denominator"]} pages are in scope, but a page with no figure counts as neither pass nor fail.')}</p>
 <div class="kpis">{kpi}</div>
 <div class="tiles">{tiles}</div>
-<p class="note">{t('タイルの数値は LCP。そのURL自体の CrUX だけを使っており、値が無いときにサイト全体の数字で埋めることはしていない。', 'Tile figures are LCP, taken from CrUX for that exact URL. Where there is none, the site-wide figure is never used to fill the gap.')}<br>{t(f'起点は {defs["baseline_period_end"]} の週。計測トラッカーに baseline を記録した {defs["baseline_note"]} を含む週で、ここから先が改善の対象期間。', f'The baseline is the week ending {defs["baseline_period_end"]}, which contains {defs["baseline_note"]} — the date the baseline was recorded in the tracker. Everything after it is the period under improvement.')}<br>{t(f'{defs["crux_collected_at"]} の収集が途中で終わったため、{defs["latest_period_end"]} の週が取れているのは TOP だけ。残りは前の週の値を出している。', f'The {defs["crux_collected_at"]} collection ended partway, so only TOP has the week ending {defs["latest_period_end"]}. The rest show the week before.')}</p>
+<p class="note">{t('タイルの数値は LCP。そのURL自体の CrUX だけを使っており、値が無いときにサイト全体の数字で埋めることはしていない。', 'Tile figures are LCP, taken from CrUX for that exact URL. Where there is none, the site-wide figure is never used to fill the gap.')}<br>{t(f'比較のもとにしている {defs["baseline_period_end"]} は、計測トラッカーに最初の数値を記録した {defs["baseline_note"]} を含む週。ここから先が改善の対象期間。', f'Figures are compared against the week ending {defs["baseline_period_end"]}, which contains {defs["baseline_note"]} — the day the first figures were recorded in the tracker. That is where the improvement work starts.')}<br>{t(f'{defs["crux_collected_at"]} の収集が途中で終わったため、{defs["latest_period_end"]} の週が取れているのは TOP だけ。残りは前の週の値を出している。', f'The {defs["crux_collected_at"]} collection ended partway, so only TOP has the week ending {defs["latest_period_end"]}. The rest show the week before.')}</p>
 </div>
 
 <div class="sec"><h2><span class="n">2</span>{t("2つの系統で見る", "Two tracks")}</h2>
