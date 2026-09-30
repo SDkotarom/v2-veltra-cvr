@@ -290,6 +290,17 @@ def _band(v):
     return ("低", "Low") if v < 50 else (("普通", "Average") if v < 90 else ("高", "High"))
 def _bk(v):
     return "slow" if v < 50 else ("mid" if v < 90 else "fast")
+TB = EF["tbt"]
+trows = "".join(
+    f'<tr><td>{r["p"]}</td>'
+    f'<td class="{"good" if r["after"] < r["before"] else "bad"}">{r["after"] - r["before"]:+,}</td>'
+    f'<td>{r["before"]:,} → {r["after"]:,}</td>'
+    f'<td>&plusmn;{r["sd"]:,}</td>'
+    f'<td><span class="bdg {"read" if abs(r["after"] - r["before"]) > r["sd"] else "flat"}">'
+    f'{t("ばらつきを超えた", "Beyond the noise") if abs(r["after"] - r["before"]) > r["sd"] else t("判断できない", "Cannot tell")}'
+    f'</span></td></tr>'
+    for r in sorted(EF["tbt"]["pages"], key=lambda x: x["after"] - x["before"]))
+
 erows = "".join(
     f'<tr><td>{r["p"]}</td>'
     f'<td><span class="bdg {"up" if r["after"] > r["before"] else "down"}">'
@@ -350,9 +361,15 @@ html = f'''<title>表示速度モニタリング</title>
 
 <div class="sec"><h2><span class="n">1</span>{t("プロジェクト実績サマリー", "Project summary")}</h2>
 <div class="hls">{headline}</div>
+<h3 class="sh">{t("表示の速さ（PSI スコア）", "How fast it appears (PSI score)")}</h3>
 <div class="tw"><table><tr><th>{t("ページ種別","Page type")}</th><th>{t("結果","Result")}</th><th>{t("点差","Points")}</th><th>{t("リリース前 → 後","Before → after")}</th><th><span class="ja"><span{_RT}>判定</span></span><span class="en"><span{_RT}>Rating</span></span></th></tr>{erows}</table></div>
 <p class="note">{t(f'数値は [[PageSpeed Insights]]（PSI）のスコア（0〜100点、高いほど速い）。{EF["release_date"]} のリリース前5日と後5日の平均で、6ページとも測れた日だけを使っている。', f'The figures are PageSpeed Insights (PSI) scores — 0 to 100, higher is faster. Each is a mean over the five days before and the five days after the {EF["release_date"]} release, counting only days when all six pages were measured.')}</p>
 <p class="note">{t('判定は PSI がスコアを分ける3段階。<b>90点以上が「高」、50〜89点が「普通」、49点以下が「低」</b>。6ページとも上がったが、「普通」に乗ったのは AC詳細だけ。', 'The rating is the three bands PSI sorts the score into: <b>90 and above high, 50-89 average, 49 and below low</b>. All six rose; only AC detail reached average.')}</p>
+
+<h3 class="sh">{t("操作への反応（[[TBT]]）", "Response to a tap ([[TBT]])")}</h3>
+<div class="tw"><table><tr><th>{t("ページ種別","Page type")}</th><th>{t("差","Change")}</th><th>{t("リリース前 → 後","Before → after")}</th><th>{t("日ごとのばらつき","Daily spread")}</th><th>{t("読み取れるか","Readable?")}</th></tr>{trows}</table></div>
+<p class="note">{t(f'単位はミリ秒、<b>小さいほど速い</b>。6ページ平均は {TB["overall"]["before"]:,} → {TB["overall"]["after"]:,}ms。', f'Milliseconds, <b>smaller is faster</b>. The six-page mean went {TB["overall"]["before"]:,} to {TB["overall"]["after"]:,}ms.')}</p>
+<p class="note">{t('ただし TBT は日ごとの振れが大きい。差がばらつき（同じページの日ごとの標準偏差）を超えたのは検索結果とカテゴリーの2ページだけで、しかも向きが逆。<b>残り4ページは差がばらつきに埋もれており、上がったか下がったかを判断できない</b>。', 'TBT swings hard day to day. Only Search and Category moved further than their own daily spread, and in opposite directions. <b>For the other four the change is smaller than the noise, so there is nothing to read.</b>')}</p>
 </div>
 
 <div class="sec"><h2><span class="n">2</span>{t("PSI スコア推移", "PSI score")}</h2>
@@ -365,6 +382,7 @@ html = f'''<title>表示速度モニタリング</title>
 
 <div class="sec"><h2><span class="n">3</span>{t("操作レスポンス速度（[[TBT]]）", "Response speed ([[TBT]])")}</h2>
 <p class="note">{t('押してから画面が応えるまでの時間。いまは [[ラボ値]] の [[TBT]] で代用している。実ユーザーの数値はこれから取る。', 'The wait between a tap and a response. It is currently stood in for by the lab figure TBT; real-user numbers are on the way.')}</p>
+<p class="note">{t('縦軸はミリ秒で、<b>線が下にあるほど速い</b>。太線は7日の[[移動平均]]、薄い線がその日の値。点線は 9/17 のリリース。<br>見るところは<b>点線の前後で太線に段が付いているか</b>。PSI スコア側には段が付いたが、こちらは付いていない。', 'The vertical axis is milliseconds, so <b>lower is faster</b>. The bold line is a 7-day mean, the faint one the value for that day, and the dotted line is the 9/17 release.<br>What to look for is <b>a step in the bold line either side of the dotted one</b>. The PSI score has one; this does not.')}</p>
 <div class="card"><div class="ch-h"><h3>{t("TBT の推移（代理指標）", "TBT over time (stand-in)")}</h3>
 <span class="ch-t">{t("短いほどよい", "Lower is better")}</span></div>
 <div class="legend" id="tbt-legend"></div>

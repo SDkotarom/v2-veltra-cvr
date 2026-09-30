@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 32,
+  "version": 33,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -2609,7 +2609,51 @@
     "before": 36.6,
     "after": 38.6
    }
-  ]
+  ],
+  "tbt": {
+   "pages": [
+    {
+     "p": "検索結果",
+     "before": 1563,
+     "after": 837,
+     "sd": 516
+    },
+    {
+     "p": "エリア",
+     "before": 964,
+     "after": 849,
+     "sd": 294
+    },
+    {
+     "p": "TOP",
+     "before": 1524,
+     "after": 1095,
+     "sd": 683
+    },
+    {
+     "p": "AC詳細",
+     "before": 992,
+     "after": 1334,
+     "sd": 491
+    },
+    {
+     "p": "地域",
+     "before": 1880,
+     "after": 1138,
+     "sd": 1263
+    },
+    {
+     "p": "カテゴリー",
+     "before": 1093,
+     "after": 1451,
+     "sd": 300
+    }
+   ],
+   "overall": {
+    "before": 1336,
+    "after": 1117
+   }
+  }
  },
  "setups": [
   {
@@ -2877,8 +2921,8 @@
      "en": "Where things stand"
     },
     "b": {
-     "ja": "9/24 時点の [[PageSpeed Insights]]（PSI）スコアは <b>32〜55点</b>（0〜100点、高いほど速い）。[[判定]]が「普通」に乗ったのは AC詳細（55.0点）だけで、<b>残り5ページは「低」のまま</b>。<br>実際に使っている人の反応速度（[[INP]]）は、まだ1件も取れていない。いまは[[ラボ値]]の [[TBT]] で代わりに見ている。<br>実際に使っている人の表示速度（[[CrUX]] の週次）は 9/13 で収集が止まっており、<b>このままだと 9/17 のリリース効果を実ユーザー側で確認できない</b>。",
-     "en": "As of 9/24 the [[PageSpeed Insights]] (PSI) scores run <b>32 to 55</b> (0-100, higher is faster). Only AC detail reached the average band (55.0); <b>the other five are still low</b>.<br>There is not a single real-user response figure ([[INP]]) yet, so the lab measure [[TBT]] stands in.<br>Real-user load figures ([[CrUX]], weekly) stopped collecting on 9/13, so as things stand <b>the effect of the 9/17 release cannot be confirmed on the real-user side</b>."
+     "ja": "9/24 時点の [[PageSpeed Insights]]（PSI）スコアは <b>32〜55点</b>（0〜100点、高いほど速い）。[[判定]]が「普通」に乗ったのは AC詳細（55.0点）だけで、<b>残り5ページは「低」のまま</b>。<br>実際に使っている人の反応速度（[[INP]]）は、まだ1件も取れていない。いまは[[ラボ値]]の [[TBT]] で代わりに見ており、9/24 時点で 6ページ平均 1,117ms（小さいほど速い）。<br>実際に使っている人の表示速度（[[CrUX]] の週次）は 9/13 で収集が止まっており、<b>このままだと 9/17 のリリース効果を実ユーザー側で確認できない</b>。",
+     "en": "As of 9/24 the [[PageSpeed Insights]] (PSI) scores run <b>32 to 55</b> (0-100, higher is faster). Only AC detail reached the average band (55.0); <b>the other five are still low</b>.<br>There is not a single real-user response figure ([[INP]]) yet, so the lab measure [[TBT]] stands in: 1,117ms on the six-page mean as of 9/24 (smaller is faster).<br>Real-user load figures ([[CrUX]], weekly) stopped collecting on 9/13, so as things stand <b>the effect of the 9/17 release cannot be confirmed on the real-user side</b>."
     }
    },
    {
@@ -2887,8 +2931,8 @@
      "en": "Direction and why"
     },
     "b": {
-     "ja": "<b>上昇</b>。6ページの PSI スコア平均は、9/17 のリリース前5日が 31〜37点、後5日が 39〜44点。<b>約 +8点</b>の段が付き、6ページとも上がって下がったページは無い。<br>要因は出した6件の中身にある。全件が<b>「先に画を出す」側</b>の施策（[[UX_DESIGN-323]] タグの読み込みを後回しに、[[UX_DESIGN-395]]／[[UX_DESIGN-396]]／[[UX_DESIGN-397]] 主役の画像を先に取りに行く、[[UX_DESIGN-389]] 画像枠の寸法を先に確保・検索にページキャッシュ）で、PSI スコアはここで大きく動く。<br>いちばん動いたのは検索結果（18.4 → 40.0点、+21.6点）。6件のうち2件が検索結果に当たっている。1ページに2件重なったことが効いている、というのはここからの推定で、切り分けはできていない。<br>一方 TBT に向きが出ていないのは、<b>6件のどれも JS の実行量を減らす施策ではない</b>から。「効かなかった」ではなく「まだ打っていない」。",
-     "en": "<b>Up.</b> Across the six pages the mean PSI score ran 31-37 over the five days before the 9/17 release and 39-44 over the five after — a step of about <b>+8 points</b>, up on all six, down on none.<br>The reason is what went out. All six were <b>about getting the picture on screen sooner</b> (UX_DESIGN-323 loading a tag later, UX_DESIGN-395/396/397 fetching the main image first, UX_DESIGN-389 reserving image space and caching the search page) — which is exactly what the PSI score responds to.<br>Search moved most (18.4 to 40.0, +21.6) and two of the six landed on it. That the two stacking on one page is what did it is an inference from here, not something separated out.<br>TBT shows no direction because <b>none of the six reduced how much JavaScript runs</b>. Nothing failed; that shot has not been taken yet."
+     "ja": "<b>上昇</b>。6ページの PSI スコア平均は、9/17 のリリース前5日が 31〜37点、後5日が 39〜44点。<b>約 +8点</b>の段が付き、6ページとも上がって下がったページは無い。<br>要因は出した6件の中身にある。全件が<b>「先に画を出す」側</b>の施策（[[UX_DESIGN-323]] タグの読み込みを後回しに、[[UX_DESIGN-395]]／[[UX_DESIGN-396]]／[[UX_DESIGN-397]] 主役の画像を先に取りに行く、[[UX_DESIGN-389]] 画像枠の寸法を先に確保・検索にページキャッシュ）で、PSI スコアはここで大きく動く。<br>いちばん動いたのは検索結果（18.4 → 40.0点、+21.6点）。6件のうち2件が検索結果に当たっている。1ページに2件重なったことが効いている、というのはここからの推定で、切り分けはできていない。<br>一方 [[TBT]]（操作への反応）は、6ページ平均で 1,336 → 1,117ms。下がって見えるが、<b>日ごとの振れが大きく、差がばらつきに埋もれている</b>。自分のばらつきを超えて動いたのは検索結果（-726ms）とカテゴリー（+358ms）の2ページだけで、しかも向きが逆。<b>効いたとも効かなかったとも言えない</b>のが正しい読み。<br>そもそも6件のどれも JS の実行量を減らす施策ではないので、ここが動く見込みは薄かった。「効かなかった」ではなく「まだ打っていない」。",
+     "en": "<b>Up.</b> Across the six pages the mean PSI score ran 31-37 over the five days before the 9/17 release and 39-44 over the five after — a step of about <b>+8 points</b>, up on all six, down on none.<br>The reason is what went out. All six were <b>about getting the picture on screen sooner</b> (UX_DESIGN-323 loading a tag later, UX_DESIGN-395/396/397 fetching the main image first, UX_DESIGN-389 reserving image space and caching the search page) — which is exactly what the PSI score responds to.<br>Search moved most (18.4 to 40.0, +21.6) and two of the six landed on it. That the two stacking on one page is what did it is an inference from here, not something separated out.<br>TBT (response to a tap) went 1,336 to 1,117ms on the six-page mean. That looks like a drop, but <b>the day-to-day swing is larger than the change</b>. Only Search (-726ms) and Category (+358ms) moved further than their own spread, and in opposite directions, so <b>neither success nor failure can be claimed</b>.<br>None of the six reduced how much JavaScript runs, so there was little reason to expect movement here. Nothing failed; that shot has not been taken yet."
     }
    },
    {
