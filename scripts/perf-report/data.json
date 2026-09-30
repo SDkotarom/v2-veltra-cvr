@@ -13,45 +13,49 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 26,
+  "version": 27,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
+   "p75": {
+    "ja": "100人がページを開いたとき、速いほうから数えて75人目の人が待った時間。いちばん速い人でも、いちばん遅い人でもなく「だいたいの人はこれくらい待っている」という線。平均だと、ごく一部の極端に遅い人に引っ張られて実感からずれるので、こちらを使う。",
+    "en": "If 100 people open the page, this is what the 75th-fastest of them waited. Not the fastest, not the slowest — the line most people sit under. An average gets dragged around by a handful of very slow visits, so this is used instead."
+   },
    "CrUX": {
-    "ja": "Chrome が実際の利用者から集めている表示速度のデータ。Google が公開していて、直近28日ぶんの値が出る。実際に使われた速度なので、検索順位の評価にも使われる。",
-    "en": "Real-world speed data Chrome collects from actual visitors, published by Google as a rolling 28-day figure. Because it reflects real use, Google also factors it into search ranking."
+    "ja": "Chrome を使っている人が実際にページを開いたときの速さを、Google が集めて公開しているデータ。実際に使われたときの速さなので、Google の検索順位の判断にも使われる。直近28日ぶんをまとめた値が出る。",
+    "en": "Speed data Google gathers from people actually opening the page in Chrome, and publishes. Because it reflects real use, Google also weighs it when ranking search results. Each figure covers the previous 28 days."
    },
    "PageSpeed Insights": {
-    "ja": "Google のページ速度測定ツール。その場で1回読み込んで0〜100点で採点する。毎日どのURLでも測れるかわりに、測るたびに振れる。",
-    "en": "Google's page speed tool. It loads the page once and scores it 0-100. Any URL can be measured daily, but the score swings between runs."
+    "ja": "Google が出している速度の測定ツール。ページを1回読み込んで、0〜100点で採点する。どのページでも毎日測れるかわりに、測るたびに点数が上下する。",
+    "en": "Google's speed tool. It opens the page once and scores it out of 100. Any page can be measured every day, but the score moves around between runs."
    },
    "PSI": {
-    "ja": "PageSpeed Insights の略。Google のページ速度測定ツールで、その場で1回読み込んで0〜100点で採点する。",
-    "en": "Short for PageSpeed Insights, Google's page speed tool that loads the page once and scores it 0-100."
-   },
-   "p75": {
-    "ja": "速い順に並べて、ちょうど75%目にあたる値。4人に3人はこれより速い、という見方をする。平均より実感に近い。",
-    "en": "The value at the 75th percentile when sorted fastest first — three in four visitors were faster than this. Closer to lived experience than an average."
+    "ja": "PageSpeed Insights の略。Google の速度測定ツールで、ページを1回読み込んで 0〜100点で採点する。",
+    "en": "Short for PageSpeed Insights: Google's speed tool, which opens the page once and scores it out of 100."
    },
    "ラボ値": {
-    "ja": "決まった条件（回線・端末）で測った値。条件を揃えられるので比べやすいが、実際の利用者の環境とは違う。",
-    "en": "A figure measured under fixed conditions (network, device). Easy to compare run to run, but not what real visitors experience."
+    "ja": "毎回おなじ条件（おなじ回線の速さ・おなじ端末）で測った値。条件がそろっているので前と後を比べやすい。ただし、実際のお客さんが使っている環境とは違う。",
+    "en": "A figure taken under the same conditions every time — same connection speed, same device. Easy to compare before and after, but not the conditions real customers are in."
    },
    "実ユーザー値": {
-    "ja": "実際にページを見た人の端末から集めた値。本当の体感に近いが、訪問が少ないページでは値が出ない。",
-    "en": "Figures gathered from the devices of people who actually visited. Closest to real experience, but pages with few visits return nothing."
+    "ja": "実際にページを見た人の端末から集めた値。本当の体感にいちばん近い。ただし、見た人が少ないページでは値が出てこない。",
+    "en": "A figure gathered from the devices of people who actually visited. The closest thing to how it really feels — but pages with few visitors return nothing."
    },
    "掲載閾値": {
-    "ja": "CrUX が値を返すのに必要な訪問数のライン。これを下回るページは、測ろうとしても空で返ってくる。",
-    "en": "The visit count CrUX needs before it will return a figure. Below it, a page comes back empty however often you ask."
+    "ja": "見た人が少なすぎるページには、Google がデータを出してくれない。その最低ラインのこと。下回っているページは、何度聞いても空で返ってくる。",
+    "en": "Google will not hand back data for a page too few people visited. This is that floor. A page under it comes back empty however often you ask."
    },
    "TBT": {
-    "ja": "Total Blocking Time。読み込み中に JavaScript の実行でブラウザが固まっていた合計時間。長いほど、押しても反応しない時間が長い。",
-    "en": "Total Blocking Time — how long JavaScript kept the browser busy during load. The longer it is, the longer taps go unanswered."
+    "ja": "ページを開いている最中に、画面が操作を受け付けられなかった時間の合計。この間はタップしても何も起きない。長いほど「固まっている」と感じる。",
+    "en": "How long, in total, the page could not respond to a touch while it was loading. During that time a tap does nothing. The longer it is, the more the page feels frozen."
    },
    "28日ローリング": {
-    "ja": "その日から遡って28日ぶんをまとめた値。隣り合う日の値は27日ぶん同じデータを共有しているので、1日や1週の増減だけを見ても意味がない。",
-    "en": "A figure covering the 28 days up to that date. Neighbouring points share 27 days of data, so a single day's or week's move means little on its own."
+    "ja": "その日から28日さかのぼった範囲をまとめた値。昨日の値と今日の値は27日ぶん中身が同じなので、1日や1週間の上下だけを見ても意味がない。",
+    "en": "A figure covering the 28 days up to that date. Yesterday and today share 27 days of the same visits, so a single day or week of movement says nothing on its own."
+   },
+   "移動平均": {
+    "ja": "その日を含む直近7日ぶんを平均した値。1日ごとの当たり外れをならして、向きだけを見るための線。",
+    "en": "The average of the last seven days including that one. It smooths out the luck of any single run so the direction shows through."
    }
   },
   "psi_from": "2026-09-04",
@@ -1215,8 +1219,8 @@
    "good": 2500,
    "ni": 4000,
    "dec": 0,
-   "tip_ja": "画面のいちばん大きな要素が描き終わるまでの時間。ページが「出た」と感じる瞬間にあたる。",
-   "tip_en": "How long until the largest element on screen finishes drawing — the moment a page feels loaded."
+   "tip_ja": "画面でいちばん大きく映るもの（多くは写真か見出し）が、出きるまでの時間。ページが「出た」と感じる瞬間にあたる。",
+   "tip_en": "How long until the biggest thing on screen — usually a photo or a headline — has finished appearing. That is the moment a page feels loaded."
   },
   {
    "key": "inp",
@@ -1228,8 +1232,8 @@
    "good": 200,
    "ni": 500,
    "dec": 0,
-   "tip_ja": "タップやクリックに対して画面が変化するまでの時間。長いと固まったように感じる。",
-   "tip_en": "How long until the screen changes after a tap or click. A long wait feels frozen."
+   "tip_ja": "タップしてから、画面が何か反応するまでの時間。長いと固まったように感じる。",
+   "tip_en": "How long after a tap before the screen does anything. A long wait feels like a freeze."
   },
   {
    "key": "cls",
@@ -1241,8 +1245,8 @@
    "good": 0.1,
    "ni": 0.25,
    "dec": 2,
-   "tip_ja": "表示中に要素が動いた量の合計。押そうとしたボタンがずれる原因。",
-   "tip_en": "Total amount elements move while the page displays — why a button slips out from under your finger."
+   "tip_ja": "読み込みの途中で、文字や写真が勝手に動いてしまった量の合計。押そうとしたボタンが下にずれる、あれの原因。",
+   "tip_en": "How much text and images shifted around on their own while loading. This is why a button slides out from under your finger."
   },
   {
    "key": "ttfb",
@@ -1254,8 +1258,8 @@
    "good": 800,
    "ni": 1800,
    "dec": 0,
-   "tip_ja": "リクエストを送ってから、サーバーの返事が届き始めるまでの時間。ここが遅いと以降すべてが遅れる。",
-   "tip_en": "Time from the request until the server's reply starts arriving. Everything else waits on this."
+   "tip_ja": "ページを開いた瞬間から、サーバーが返事を出し始めるまでの時間。ここが遅いと、あとの全部が遅れる。",
+   "tip_en": "The gap between opening the page and the server starting to answer. Everything else waits behind this."
   }
  ],
  "tracks": [
