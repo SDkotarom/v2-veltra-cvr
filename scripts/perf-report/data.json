@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 23,
+  "version": 25,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -1036,61 +1036,61 @@
  ],
  "lead": [
   {
-   "ja": "実ユーザーの LCP は 6ページ中 合格ゼロのまま。TOP は <b>2,880ms</b>（最速週 2026-03-14 比 +366ms）、検索結果は <b>6,708ms</b> で合格ラインの 2.7 倍。",
-   "en": "Still zero of six pages passing on real-user LCP. TOP is <b>2,880ms</b> (+366ms vs its best week, 2026-03-14); Search is <b>6,708ms</b>, 2.7x the target."
+   "ja": "9/17 に 6件出した。本番の [[PSI]] スコアは <b>6ページ全部</b>で上がった。6ページ平均 <b>33.7 → 41.6</b>、いちばん動いた検索結果は <b>18.4 → 40.0</b>。",
+   "en": "Six changes shipped on 9/17. Production PSI scores rose on <b>all six pages</b>: the six-page mean went <b>33.7 → 41.6</b>, and Search, which moved most, went <b>18.4 → 40.0</b>."
   },
   {
-   "ja": "9/17 に 6件出した。ラボ（[[PSI]]）には出ている。6ページ平均はリリース前5日の <b>32.9</b> から後5日の <b>41.6</b> へ、検索結果は <b>18.6 → 40.0</b>。[[実ユーザー値]]はこれから。[[CrUX]] は直近28日の [[p75]] なので、乗り切るのは 10月中旬。",
-   "en": "Six changes shipped on 9/17, and the lab numbers moved: the six-page [[PSI]] mean went from <b>32.9</b> (five days before) to <b>41.6</b> (five days after), Search from <b>18.6 to 40.0</b>. Real-user figures lag — [[CrUX]] is a [[p75]] over a rolling 28 days, so the effect lands around mid-October."
+   "ja": "効果は出ている。詰まっているのは出す口のほうで、調査で見つけて起票したまま本番に出ていないものが <b>28件</b>、うち急ぎが <b>9件</b>。その中には 約2,182ms 削減の見込みが立っているものもある。",
+   "en": "The work lands. What is jammed is the release side: <b>28 items</b> have been found, written up and never shipped, <b>9</b> of them marked urgent. One carries an estimated saving of about 2,182ms."
   },
   {
-   "ja": "ただし今週は数字を更新しきれていない。[[CrUX]] の週次収集が <b>9/13</b> を最後に止まっており、その 9/13 の回も途中で落ちている。増えたのは TOP の 1週ぶんだけ。",
-   "en": "This week's figures are incomplete. Weekly [[CrUX]] collection last ran on <b>9/13</b>, and that run itself stopped partway. Only one new week, for TOP alone, was added."
+   "ja": "起点の 2026-08-19 から6週間で、リリースした日は <b>9/17 の1日だけ</b>。効果が小さいのではなく、打った回数が足りていない。",
+   "en": "In the six weeks since the 2026-08-19 starting point, there has been <b>one release day: 9/17</b>. The problem is not that the changes are weak — it is how rarely they ship."
   },
   {
-   "ja": "体感側（フィルター API・予約モーダル）は着手前の値のままで、週次の推移が無い。効果が出ていても、この画面では分からない。",
-   "en": "On the response side (filter API, booking modal) only the pre-work figures exist — there is no weekly series, so any improvement there is invisible on this page."
+   "ja": "[[実ユーザー値]] は週1回の収集に頼っており、その収集が 9/13 で止まっている。いまは日次の [[PSI]] が返す実ユーザー LCP で代わりに追っている。毎日取れるようにする手当ては第7節に置いた。",
+   "en": "Real-user figures depend on a weekly collection that stopped on 9/13. They are currently tracked through the real-user LCP that the daily PSI run returns. The fix that makes them daily is in section 7."
   }
  ],
  "findings": [
   {
    "h": {
-    "ja": "TOP の実ユーザー LCP は半年ずっと上がり続けている",
-    "en": "TOP's real-user LCP has climbed for six straight months"
+    "ja": "打った翌日から、6ページ全部でスコアが上がった",
+    "en": "Every one of the six pages rose the day after shipping"
    },
    "b": {
-    "ja": "2026-03-14 の 2,514ms から 2026-09-05 の 2,880ms まで、26週で +366ms。合格ラインの 2,500ms を下回っていたのは最初の 1週だけで、以降は一度も戻っていない。9/17 のリリースはこの週にはまだ含まれない。",
-    "en": "From 2,514ms (2026-03-14) to 2,880ms (2026-09-05): +366ms over 26 weeks. It was under the 2,500ms target in the first week only and has never returned. The 9/17 releases are not yet inside this window."
+    "ja": "リリース前5日と後5日の平均で、TOP +7.0、エリア +7.4、地域 +2.6、カテゴリー +2.0、AC詳細 +6.4、検索結果 +21.6。1ページも下がっていない。日ごとの振れは大きいが、6ページが揃って同じ向きに動いているので、偶然とは考えにくい。",
+    "en": "Comparing the five days before and after: TOP +7.0, Area +7.4, Region +2.6, Category +2.0, AC detail +6.4, Search +21.6. Not one page fell. Daily swings are wide, but six pages moving the same way together is hard to put down to chance."
    }
   },
   {
    "h": {
-    "ja": "9/17 のリリースは[[ラボ値]]には出ている。[[実ユーザー値]]はまだ",
-    "en": "The 9/17 releases show up in the lab numbers, not yet in real-user data"
+    "ja": "いちばん効いたのは検索ページのキャッシュ",
+    "en": "The search page cache did the most work"
    },
    "b": {
-    "ja": "[[PSI]] の6ページ平均は、リリース前5日 32.9 → 後5日 41.6。伸びが最大なのは検索結果で 18.6 → 40.0、次が エリア +7.6、AC詳細 +7.0。一方、PSI が日次で返す URL単位の実ユーザー LCP は、検索結果だけ 6,290ms（9/12）→ 6,146ms（9/23）と下がり始め、TOP は 2,887 → 2,931ms と上がり続けている。",
-    "en": "The six-page [[PSI]] mean went from 32.9 (five days before) to 41.6 (five days after). Search moved most, 18.6 to 40.0, then Area (+7.6) and AC detail (+7.0). Meanwhile the URL-level real-user LCP that PSI returns daily has started falling for Search only — 6,290ms (9/12) to 6,146ms (9/23) — while TOP keeps rising, 2,887 to 2,931ms."
+    "ja": "検索結果は 18.4 → 40.0 で、他の5ページの伸び（+2.0〜+7.4）とは桁が違う。この日に検索へ入れたのは1時間のページキャッシュ（[[UX_DESIGN-389]]）で、時間軸も一致する。これは推定だが、同じ手が効くページは他にもあるはず。日程から探す（[[UX_DESIGN-415]]）はキャッシュ未設定のまま残っている。",
+    "en": "Search went 18.4 → 40.0 while the other five gained between 2.0 and 7.4. What went into Search that day was a one-hour page cache (UX_DESIGN-389), and the timing lines up. This is an inference, but the same move should help elsewhere: date search (UX_DESIGN-415) still has no page cache."
    }
   },
   {
    "h": {
-    "ja": "週次の [[CrUX]] 収集が 9/13 で止まり、その回も途中で落ちている",
-    "en": "Weekly [[CrUX]] collection stopped on 9/13, and that run died partway"
+    "ja": "見つけた分の大半が、まだ本番に出ていない",
+    "en": "Most of what was found has never reached production"
    },
    "b": {
-    "ja": "crux_weekly の最新 collected_at は 2026-09-13。それまで週1回動いていたので、9/20 の回が無い。さらに 9/13 の回は TOP を書き終えたあと エリア の 2026-08-22 で終わっており、AC詳細と検索結果の行が1つも無い。このため今回増えたのは TOP の 2026-09-05 の1週だけで、他の5ページは 2026-08-29 のままになっている。",
-    "en": "The newest collected_at in crux_weekly is 2026-09-13. It had been running weekly, so the 9/20 run is missing. The 9/13 run itself ends at Area's 2026-08-22 row after finishing TOP, with no rows at all for AC detail or Search. So the only week gained is TOP's 2026-09-05; the other five pages still sit at 2026-08-29."
+    "ja": "web-performance の全49件のうち、本番に出たのは 6件。完了5件を足しても11件で、残る38件は手元にある。急ぎ9件の中には、空ボディの POST を止めるだけで 約2,182ms([[UX_DESIGN-404]])、アンチフリッカーの縮小で最大2,000ms([[UX_DESIGN-398]]) という見込みが並んでいる。",
+    "en": "Of 49 items in web-performance, 6 have shipped. Counting the 5 closed investigations, that is 11; the other 38 are still in hand. Among the 9 urgent ones: dropping an empty-body POST is estimated at about 2,182ms (UX_DESIGN-404), and shrinking the anti-flicker snippet at up to 2,000ms (UX_DESIGN-398)."
    }
   },
   {
    "h": {
-    "ja": "[[PSI]] が日次で返す実ユーザー LCP は、ページによってサイト全体の値に化けている",
-    "en": "The daily real-user LCP from [[PSI]] silently falls back to the site-wide value"
+    "ja": "測れていなかったのは、測る先の選び方が原因だった",
+    "en": "The measurement gap came from how the sample URLs were picked"
    },
    "b": {
-    "ja": "9/24 時点で 地域・カテゴリー・AC詳細 の field_lcp_[[p75]]_ms はどれも 2,223ms で完全に一致している。URL単位のデータが無いページには origin（サイト全体）の値が返るためで、この3ページの数値としては使えない。逆に TOP 2,931 / エリア 2,800 / 検索結果 6,146 は互いに異なるので URL単位と判断できる。",
-    "en": "As of 9/24, field_lcp_[[p75]]_ms reads exactly 2,223ms for Region, Category and AC detail alike. Pages with no URL-level data get the origin (site-wide) value back, so the number is unusable for those three. TOP (2,931), Area (2,800) and Search (6,146) differ from each other, so those are URL-level."
+    "ja": "地域の代表URL は28日で161セッション、AC詳細は122。[[CrUX]] の[[掲載閾値]]に届く訪問数ではない。AC詳細の最上位は6,914セッションで、選んでいたURLの57倍ある。6月に値が返らなくなったのは収集の故障ではなく、もともと返らないURLを見ていたため。",
+    "en": "The Region sample URL saw 161 sessions in 28 days and AC detail 122 — nowhere near the visits CrUX needs. The busiest AC detail page had 6,914, fifty-seven times the one being watched. The June blackout was not a broken collector; the URL was never going to return a figure."
    }
   }
  ],
@@ -2620,5 +2620,211 @@
     "after": 38.6
    }
   ]
- }
+ },
+ "setups": [
+  {
+   "key": "crux-key",
+   "ja": {
+    "title": "実ユーザー値を毎日取れるようにする",
+    "why": "いま実ユーザー値は週1回の収集に頼っていて、その収集が 2026-09-13 で止まっている。APIキーが1本あれば、この収集を経由せずに毎日取れる。地域・AC詳細の代表URL差し替えも即反映できる。",
+    "who": "キーの発行はブラウザ作業。発行後の取得・更新は自動。",
+    "when": "キーを受け取った当日から",
+    "cost": "5分",
+    "steps": [
+     {
+      "t": "Chrome UX Report API を有効にする",
+      "u": "https://console.cloud.google.com/apis/library/chromeuxreport.googleapis.com"
+     },
+     {
+      "t": "PageSpeed Insights API も同じプロジェクトで有効にする",
+      "u": "https://console.cloud.google.com/apis/library/pagespeedonline.googleapis.com"
+     },
+     {
+      "t": "認証情報 → APIキーを作成 → コピー",
+      "u": "https://console.cloud.google.com/apis/credentials"
+     },
+     {
+      "t": "キーを環境変数に入れる（チャットに貼らない）。設定手順は依頼時に案内",
+      "u": ""
+     }
+    ],
+    "note": "CrUX API は 150クエリ/分まで無料。キー無しの共有枠は既に上限に達していることを確認済み。"
+   },
+   "en": {
+    "title": "Get real-user figures every day",
+    "why": "Real-user figures depend on a weekly collection that stopped on 2026-09-13. One API key removes that dependency and lets the figures be pulled daily, and lets the Region and AC-detail sample URLs be swapped immediately.",
+    "who": "Issuing the key is a browser task. Everything after it is automatic.",
+    "when": "The day the key arrives",
+    "cost": "5 min",
+    "steps": [
+     {
+      "t": "Enable the Chrome UX Report API",
+      "u": "https://console.cloud.google.com/apis/library/chromeuxreport.googleapis.com"
+     },
+     {
+      "t": "Enable the PageSpeed Insights API in the same project",
+      "u": "https://console.cloud.google.com/apis/library/pagespeedonline.googleapis.com"
+     },
+     {
+      "t": "Credentials → Create API key → copy",
+      "u": "https://console.cloud.google.com/apis/credentials"
+     },
+     {
+      "t": "Put the key in an environment variable, not in chat. Steps supplied on request",
+      "u": ""
+     }
+    ],
+    "note": "The CrUX API is free up to 150 queries per minute. The keyless shared quota is already exhausted (verified)."
+   }
+  },
+  {
+   "key": "web-vitals",
+   "ja": {
+    "title": "操作への反応を、実ユーザーで測れるようにする",
+    "why": "押してから画面が応えるまでの時間は、いまラボ値（TBT）で代用している。実ユーザーの INP を取れば代用をやめられる。CrUX と違い訪問数の下限がないので、6ページに限らず全ページで取れる。",
+    "who": "GTM にタグを貼って公開するまでがブラウザ作業。タグのコードはこちらで用意する。",
+    "when": "公開した翌日から",
+    "cost": "15分",
+    "steps": [
+     {
+      "t": "タグのコード全文を受け取る（依頼があれば出す）",
+      "u": ""
+     },
+     {
+      "t": "GTM（GTM-5KFX5VX）でカスタムHTMLタグを作成して貼る",
+      "u": "https://tagmanager.google.com/"
+     },
+     {
+      "t": "トリガーを All Pages にして公開",
+      "u": ""
+     },
+     {
+      "t": "GA4 でカスタム定義を登録（設定値はこちらで出す）",
+      "u": "https://analytics.google.com/"
+     }
+    ],
+    "note": "チケットは UX_DESIGN-300。"
+   },
+   "en": {
+    "title": "Measure response-to-touch on real users",
+    "why": "The wait between a tap and a response is currently stood in for by a lab figure (TBT). Real-user INP replaces that stand-in, and unlike CrUX it has no visit threshold, so every page can be measured, not just six.",
+    "who": "Pasting the tag into GTM and publishing is a browser task. The tag code is supplied.",
+    "when": "The day after it is published",
+    "cost": "15 min",
+    "steps": [
+     {
+      "t": "Receive the full tag code (supplied on request)",
+      "u": ""
+     },
+     {
+      "t": "Create a Custom HTML tag in GTM (GTM-5KFX5VX) and paste it",
+      "u": "https://tagmanager.google.com/"
+     },
+     {
+      "t": "Set the trigger to All Pages and publish",
+      "u": ""
+     },
+     {
+      "t": "Register the custom definitions in GA4 (values supplied)",
+      "u": "https://analytics.google.com/"
+     }
+    ],
+    "note": "Ticket: UX_DESIGN-300."
+   }
+  },
+  {
+   "key": "server-timing",
+   "ja": {
+    "title": "予約モーダル・絞り込みの応答を、週ごとに残す",
+    "why": "フィルター API 1.50s と 予約モーダル 0.77s は着手前に1回測っただけで、UX_DESIGN-321 を直しても効果を示せない。週ごとに残せば前後比較ができる。",
+    "who": "計測スプレッドシートにタブを1枚足して、スクリプトを貼るまで。以降は毎週自動で1行増える。",
+    "when": "貼った翌週から",
+    "cost": "10分",
+    "steps": [
+     {
+      "t": "スクリプト全文を受け取る（依頼があれば出す）",
+      "u": ""
+     },
+     {
+      "t": "計測スプレッドシートの Apps Script に貼る",
+      "u": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit"
+     },
+     {
+      "t": "setUp() を1回実行してトリガーを付ける",
+      "u": ""
+     }
+    ],
+    "note": "元の 1.50s / 0.77s をどう測ったかが分かれば、同じ条件に揃えられる。"
+   },
+   "en": {
+    "title": "Record booking-modal and filter response week by week",
+    "why": "Filter API 1.50s and booking modal 0.77s were each measured once before any work, so fixing UX_DESIGN-321 cannot be shown to have helped. A weekly record makes before/after possible.",
+    "who": "Add one tab to the measurement spreadsheet and paste a script. After that a row is added automatically each week.",
+    "when": "The week after it is pasted",
+    "cost": "10 min",
+    "steps": [
+     {
+      "t": "Receive the full script (supplied on request)",
+      "u": ""
+     },
+     {
+      "t": "Paste it into the spreadsheet's Apps Script",
+      "u": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit"
+     },
+     {
+      "t": "Run setUp() once to install the trigger",
+      "u": ""
+     }
+    ],
+    "note": "If we learn how the original 1.50s / 0.77s were measured, the new figures can match those conditions."
+   }
+  },
+  {
+   "key": "schedule",
+   "ja": {
+    "title": "このレポートを毎週ひとりでに更新する",
+    "why": "いまは依頼があったときだけ更新している。曜日を決めれば、数値の取り込み・生成・公開・Slack 通知までひとりで回る。",
+    "who": "曜日と Slack のチャンネルを決めるだけ。登録はこちらで行う。",
+    "when": "決めた当日に登録、翌週から稼働",
+    "cost": "2分",
+    "steps": [
+     {
+      "t": "曜日と時刻を決める（例：毎週月曜 09:00）",
+      "u": ""
+     },
+     {
+      "t": "投稿先の Slack チャンネルを決める",
+      "u": ""
+     },
+     {
+      "t": "登録を依頼する。実行内容は事前に提示する",
+      "u": ""
+     }
+    ],
+    "note": "指示があるまで登録はしない。"
+   },
+   "en": {
+    "title": "Update this report every week on its own",
+    "why": "Today it updates only when asked. Fix a weekday and the whole loop — pulling figures, building, publishing, posting to Slack — runs by itself.",
+    "who": "Pick a weekday and a Slack channel. Registration is handled here.",
+    "when": "Registered the same day, running from the following week",
+    "cost": "2 min",
+    "steps": [
+     {
+      "t": "Pick a day and time (e.g. Monday 09:00)",
+      "u": ""
+     },
+     {
+      "t": "Pick the Slack channel to post to",
+      "u": ""
+     },
+     {
+      "t": "Ask for it to be registered. The exact steps are shown beforehand",
+      "u": ""
+     }
+    ],
+    "note": "Nothing is registered without being asked."
+   }
+  }
+ ]
 }

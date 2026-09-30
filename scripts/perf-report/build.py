@@ -37,6 +37,8 @@ def expand(x):
     """本文中の [[用語]] を、ホバーで説明が出る語に変える"""
     def rep(m):
         k = m.group(1)
+        if k.startswith("UX_DESIGN-"):          # チケットは必ず ClickUp へ
+            return f'<a href="https://app.clickup.com/t/31108037/{k}">{k}</a>'
         g = GLOSSARY.get(k)
         return f'<span{hint(g["ja"], g["en"])}>{k}</span>' if g else k
     return GL_RE.sub(rep, x)
@@ -234,12 +236,85 @@ mtabs = "".join(
     f'<button class="mt" data-m="{m["key"]}" aria-pressed="{"true" if i==0 else "false"}">{m["ja"]}</button>'
     for i, m in enumerate(metrics))
 
+
+# ---------------------------------------------------- 構築中パネル / 実績 / ストック
+
+def setup_panel(key):
+    """足りていないデータの「構築中」パネル。押すと手順が開く"""
+    sp = next((x for x in D["setups"] if x["key"] == key), None)
+    if not sp:
+        return ""
+    def body(lang):
+        g = sp[lang]
+        L = {"ja": ("なぜ必要か", "誰が何をするか", "いつ取れるか", "手順"),
+             "en": ("Why it matters", "Who does what", "When it lands", "Steps")}[lang]
+        steps = "".join(
+            f'<li><a href="{x["u"]}" target="_blank" rel="noopener">{x["t"]}</a></li>' if x["u"]
+            else f'<li>{x["t"]}</li>' for x in g["steps"])
+        return (f'<dl class="su-f">'
+                f'<div><dt>{L[0]}</dt><dd>{g["why"]}</dd></div>'
+                f'<div><dt>{L[1]}</dt><dd>{g["who"]}</dd></div>'
+                f'<div><dt>{L[2]}</dt><dd>{g["when"]}</dd></div>'
+                f'</dl><div class="yl">{L[3]}</div><ol class="su-s">{steps}</ol>'
+                f'<p class="su-n">{g["note"]}</p>')
+    return (f'<details class="su"><summary>'
+            f'<span class="su-b">{t("構築中", "Being set up")}</span>'
+            f'<span class="su-t">{t(sp["ja"]["title"], sp["en"]["title"])}</span>'
+            f'<span class="su-c">{t(sp["ja"]["cost"], sp["en"]["cost"])}</span></summary>'
+            f'<div class="su-body"><span class="ja">{body("ja")}</span>'
+            f'<span class="en">{body("en")}</span></div></details>')
+
+
+EF = D["effect"]
+IV = D["inventory"]
+N = {g["key"]: g["n"] for g in IV["groups"]}
+
+# 1 何が起きたか — 4つの数字
+HEAD = [
+ (t("打った施策", "Shipped"), f'{len(IV["shipped"])}',
+  t(f'件（{EF["release_date"]} の1日）', f'changes (all on {EF["release_date"]})')),
+ (t("PSI 6ページ平均", "PSI mean, 6 pages"), f'+{EF["overall"]["after"] - EF["overall"]["before"]:.1f}',
+  t(f'{EF["overall"]["before"]} → {EF["overall"]["after"]}', f'{EF["overall"]["before"]} → {EF["overall"]["after"]}')),
+ (t("手元にある弾", "Waiting in the backlog"), f'{N["backlog"]}',
+  t(f'件（うち急ぎ {len(IV["urgent"])} 件）', f'items ({len(IV["urgent"])} urgent)')),
+ (t("毎日測れているページ", "Pages measured daily"), f'{len(pages)} / {len(pages)}',
+  t(f'{defs["psi_from"][5:]}〜{defs["psi_to"][5:]}', f'{defs["psi_from"][5:]}-{defs["psi_to"][5:]}')),
+]
+headline = "".join(
+    f'<div class="hl"><div class="hl-h">{h}</div><div class="hl-v">{v}</div>'
+    f'<div class="hl-s">{sub}</div></div>' for h, v, sub in HEAD)
+
+# 2 効果 — ページ別 before/after
+erows = "".join(
+    f'<tr><td>{r["p"]}</td><td>{r["before"]:.1f}</td><td>{r["after"]:.1f}</td>'
+    f'<td class="{"good" if r["after"] > r["before"] else "bad"}">'
+    f'{r["after"] - r["before"]:+.1f}</td></tr>' for r in EF["pages"])
+
+# 4 やったこと
+srows = "".join(
+    f'<tr><td>{r["d"][5:]}</td>'
+    f'<td><a href="https://app.clickup.com/t/31108037/{r["t"]}">{r["t"]}</a></td>'
+    f'<td>{t(r["ja"], r["en"])}</td><td>{r["scope"]}</td><td>{r["gain"] or "—"}</td></tr>'
+    for r in IV["shipped"])
+crows = "".join(
+    f'<tr><td><a href="https://app.clickup.com/t/31108037/{r["t"]}">{r["t"]}</a></td>'
+    f'<td>{t(r["ja"], r["en"])}</td></tr>' for r in IV["closed"])
+
+# 5 ストック
+urows = "".join(
+    f'<tr><td><a href="https://app.clickup.com/t/31108037/{r["t"]}">{r["t"]}</a></td>'
+    f'<td>{t(r["ja"], r["en"])}</td><td>{r["gain"] or "—"}</td></tr>' for r in IV["urgent"])
+grows = "".join(
+    f'<tr><td>{t(g["ja"], g["en"])}</td><td>{g["n"]}</td></tr>' for g in IV["groups"])
+
+
 PAYLOAD = json.dumps({
     "weeks": weekly["weeks"], "metrics": weekly["metrics"],
     "meta": {m["key"]: m for m in metrics},
     "pages": [{"key": p["page_key"], "ja": p["page_ja"], "en": p["page_en"],
                "color": COLOR[p["page_key"]]} for p in pages],
     "releases": D["releases"],
+    "psi": D["psi"],
 }, ensure_ascii=False)
 
 CSS = (BASE / "report.css").read_text(encoding="utf-8")
@@ -256,64 +331,70 @@ html = f'''<title>表示速度モニタリング</title>
 <div class="head">
 <p class="eyebrow">Veltra ／ {t("表示速度改善", "Web Performance")} ／ {defs["generated_at"][:10]}<span class="ver">v{defs["version"]}</span></p>
 <h1>{t("表示速度モニタリング", "Web Performance Monitor")}</h1>
-<p class="sub">www.veltra.com — {t(f'実ユーザー p75（CrUX・モバイル）・対象週 {defs["latest_period_end"]}', f'Real-user p75 (CrUX, mobile) · week ending {defs["latest_period_end"]}')}</p>
+<p class="sub">www.veltra.com — {t(f'モバイル・日本語 ／ PSI 日次 {defs["psi_from"][5:]}〜{defs["psi_to"][5:]} ／ 実ユーザー値 〜{defs["latest_period_end"][5:]}', f'Mobile, Japanese · PSI daily {defs["psi_from"][5:]}-{defs["psi_to"][5:]} · real-user through {defs["latest_period_end"][5:]}')}</p>
 </div>
 
 <div class="leads">{leads}</div>
 
-<div class="sec"><h2><span class="n">1</span>{t("KPI の現在地", "KPI status")}</h2>
-<p class="note">{t(f'分母は実ユーザー値が取れているページ数。対象は {defs["denominator"]} ページだが、値が無いページは合格にも不合格にも数えない。', f'The denominator counts pages that have real-user data. {defs["denominator"]} pages are in scope, but a page with no figure counts as neither pass nor fail.')}</p>
-<div class="kpis">{kpi}</div>
+<div class="sec"><h2><span class="n">1</span>{t("このプロジェクトで何が起きたか", "What has happened so far")}</h2>
+<div class="hls">{headline}</div>
+<p class="note">{t(f'起点は {defs["baseline_period_end"]} の週（計測トラッカーに最初の数値を記録した {defs["baseline_note"]} を含む週）。', f'The starting point is the week ending {defs["baseline_period_end"]}, which contains {defs["baseline_note"]} — when the first figures were recorded.')}</p>
+</div>
+
+<div class="sec"><h2><span class="n">2</span>{t("本番の数値は動いたか", "Did the production figures move")}</h2>
+<p class="note">{t(f'[[PageSpeed Insights]] のスコア。6ページとも毎日測っている。太線は7日移動平均、薄い線がその日の値。日ごとの振れが大きいので、太線のほうを見る。', 'PageSpeed Insights scores, measured daily on all six pages. The bold line is a 7-day mean; the faint line is the value for that day. Daily swings are large, so read the bold line.')}</p>
+<div class="card"><div class="ch-h"><h3>{t("PSI スコアの推移", "PSI score over time")}</h3>
+<span class="ch-t">{t(f'{defs["psi_from"]} 〜 {defs["psi_to"]}', f'{defs["psi_from"]} to {defs["psi_to"]}')}</span></div>
+<div class="legend" id="psi-legend"></div>
+<div class="plot" id="plot-psi"></div></div>
+<div class="tw"><table><tr><th>{t("ページ","Page")}</th><th>{t("リリース前","Before")}</th><th>{t("リリース後","After")}</th><th>{t("差","Change")}</th></tr>{erows}</table></div>
+<p class="note">{t(f'{EF["release_date"]} のリリース前5日と後5日の平均。6ページ全部が揃った日だけを使っている。', f'Mean of the five days before and the five days after the {EF["release_date"]} release, using only days where all six pages were measured.')}</p>
+</div>
+
+<div class="sec"><h2><span class="n">3</span>{t("触ってからの反応", "Response after you tap")}</h2>
+<p class="note">{t('押してから画面が応えるまでの時間。いまは [[ラボ値]] の [[TBT]] で代用している。実ユーザーの数値はこれから取る。', 'The wait between a tap and a response. It is currently stood in for by the lab figure TBT; real-user numbers are on the way.')}</p>
+<div class="card"><div class="ch-h"><h3>{t("TBT の推移（代理指標）", "TBT over time (stand-in)")}</h3>
+<span class="ch-t">{t("短いほどよい", "Lower is better")}</span></div>
+<div class="legend" id="tbt-legend"></div>
+<div class="plot" id="plot-tbt"></div></div>
+{setup_panel("web-vitals")}
+{setup_panel("server-timing")}
+</div>
+
+<div class="sec"><h2><span class="n">4</span>{t("やったこと", "What shipped")}</h2>
+<div class="tw"><table><tr><th>{t("日付","Date")}</th><th>{t("チケット","Ticket")}</th><th>{t("内容","Change")}</th><th>{t("対象","Scope")}</th><th>{t("削減","Saved")}</th></tr>{srows}</table></div>
+<details><summary>{t(f'調査・改修で完了したもの（{len(IV["closed"])}件）', f'Investigations and fixes already closed ({len(IV["closed"])})')}</summary><div class="tw"><table><tr><th>{t("チケット","Ticket")}</th><th>{t("内容","Change")}</th></tr>{crows}</table></div></details>
+</div>
+
+<div class="sec"><h2><span class="n">5</span>{t("まだ出していないもの", "Found but not shipped")}</h2>
+<p class="note">{t(f'調査で見つけて起票したまま、本番に出ていないものが {N["backlog"]} 件ある。うち急ぎが {len(IV["urgent"])} 件。', f'{N["backlog"]} items were found, written up, and have not reached production. {len(IV["urgent"])} of them are marked urgent.')}</p>
+<div class="tw"><table><tr><th>{t("チケット","Ticket")}</th><th>{t("内容","Item")}</th><th>{t("削減見込み","Expected saving")}</th></tr>{urows}</table></div>
+<details><summary>{t("全49件の内訳", "All 49 items by state")}</summary><div class="tw"><table><tr><th>{t("状態","State")}</th><th>{t("件数","Count")}</th></tr>{grows}</table></div></details>
+</div>
+
+<div class="sec"><h2><span class="n">6</span>{t("分かったこと", "What we learned")}</h2>
+<div class="finds">{frows}</div>
+</div>
+
+<div class="sec"><h2><span class="n">7</span>{t("実ユーザーの数値", "Real-user figures")}</h2>
+<p class="note">{t('[[CrUX]] の週次。[[28日ローリング]]の [[p75]] なので、隣り合う週は27日ぶん同じデータを共有している。1週の増減だけを見ても意味がない。', 'Weekly CrUX. Because each figure covers a rolling 28 days, neighbouring weeks share 27 days of data, so one week of movement means little.')}</p>
 <div class="tiles">{tiles}</div>
-<p class="note">{t('タイルの数値は LCP。そのURL自体の CrUX だけを使っており、値が無いときにサイト全体の数字で埋めることはしていない。', 'Tile figures are LCP, taken from CrUX for that exact URL. Where there is none, the site-wide figure is never used to fill the gap.')}<br>{t(f'比較のもとにしている {defs["baseline_period_end"]} は、計測トラッカーに最初の数値を記録した {defs["baseline_note"]} を含む週。ここから先が改善の対象期間。', f'Figures are compared against the week ending {defs["baseline_period_end"]}, which contains {defs["baseline_note"]} — the day the first figures were recorded in the tracker. That is where the improvement work starts.')}<br>{t(f'{defs["crux_collected_at"]} の収集が途中で終わったため、{defs["latest_period_end"]} の週が取れているのは TOP だけ。残りは前の週の値を出している。', f'The {defs["crux_collected_at"]} collection ended partway, so only TOP has the week ending {defs["latest_period_end"]}. The rest show the week before.')}</p>
-</div>
-
-<div class="sec"><h2><span class="n">2</span>{t("2つの系統で見る", "Two tracks")}</h2>
-<p class="note">{t('直し方が違うので分けている。数値は各ページの最新の実測値。', 'The two need different fixes, so they are tracked apart. Figures are the latest measured value for each page.')}</p>
-<div class="trks">{tracks}</div>
-</div>
-
-<div class="sec"><h2><span class="n">3</span>{t("指標ごとの推移", "Trend by metric")}</h2>
-<p class="note">{t('点線の縦線はリリースした日。凡例をクリックすると、そのページを外して縦軸を引き直せる。', 'A dashed vertical line marks a release. Click a legend item to drop that page and rescale the y-axis.')}</p>
-<div class="ctrl">
-<div class="mtabs"><button class="mt gt" data-g="w" aria-pressed="true">{t("週次","Weekly")}</button><button class="mt gt" data-g="m" aria-pressed="false">{t("月次","Monthly")}</button></div>
-<div class="range">
-<button class="rg" data-move="-1" aria-label="前の期間 / Previous period">‹</button>
-<span class="rg-lab" id="range-label"></span>
-<button class="rg" data-move="1" aria-label="次の期間 / Next period">›</button>
-<button class="rg rg-today">{t("今週","This week")}</button>
-</div>
-</div>
-<p class="note">{t('月次は、その月の最後に値がある週をそのまま出している。[[CrUX]] は[[28日ローリング]]の [[p75]] なので、月内で平均しても意味がない。', 'The monthly view takes the last week in the month that has a figure, as is. CrUX is a p75 over a rolling 28 days, so averaging within a month means nothing.')}</p>
-<div class="card strip"><div class="ch-h"><h3>{t("リリース", "Releases")}</h3></div>
-<div class="plot" id="plot-releases"></div></div>
-<div class="chart-grid">{charts}</div>
-</div>
-
-<div class="sec"><h2><span class="n">4</span>{t("週ごとの数値とリリース", "Weekly figures and releases")}</h2>
+{setup_panel("crux-key")}
 <div class="mtabs">{mtabs}</div>
 <p class="note">{t('赤字は合格ラインを超えた値。— はその週の値が取れていないところ。', 'Red means the figure missed its target. A dash means there is no figure for that week.')}</p>
 <div class="tw" id="trend-table"></div>
 </div>
 
-<div class="sec"><h2><span class="n">5</span>{t("分かったこと", "What we learned")}</h2>
-<div class="finds">{frows}</div>
-</div>
-
-<div class="sec"><h2><span class="n">6</span>{t("課題とやること", "Issues and next steps")}</h2>
+<div class="sec"><h2><span class="n">8</span>{t("課題とやること", "Issues and next steps")}</h2>
 {irows}
 </div>
 
-<div class="sec"><h2><span class="n">7</span>{t("補足データ", "Supporting data")}</h2>
-<div class="tw"><table><tr><th>{t("ページ","Page")}</th><th>{t("PSI スコア","PSI score")}</th><th>PSI LCP</th></tr>{prows}</table></div>
-<p class="note">{t(f'[[PageSpeed Insights]]（{defs["psi_date"]}）。日ごとの振れが大きいので、1日の値ではなく向きを見る。実ユーザーの数値とは別物。', f'PageSpeed Insights ({defs["psi_date"]}). It swings a lot day to day, so read the direction, not a single day. This is not real-user data.')}</p>
-<details><summary>{t("データの定義を見る", "View data definitions")}</summary><div class="tw"><table><tr><th>key</th><th>value</th></tr>{defrows}</table></div></details>
-</div>
-
-<div class="sec"><h2><span class="n">8</span>{t("データの流れ", "How the data gets here")}</h2>
+<div class="sec"><h2><span class="n">9</span>{t("データの流れと更新", "How the data arrives, and when")}</h2>
 <p class="note">{t(D["pipeline"]["note"]["ja"], D["pipeline"]["note"]["en"])}</p>
 <div class="flow">{flow}</div>
-<p class="note">{t('解釈は集計の段で確定させ、生成の段では触らない。週ごとに数値の読み方が変わらないようにするため。', 'Interpretation is settled in the aggregation step and never revisited when the page is built, so the reading of a figure does not drift week to week.')}</p>
+{setup_panel("schedule")}
+<details><summary>{t("データの定義を見る", "View data definitions")}</summary><div class="tw"><table><tr><th>key</th><th>value</th></tr>{defrows}</table></div>
+<div class="tw"><table><tr><th>{t("ページ","Page")}</th><th>{t("PSI スコア","PSI score")}</th><th>PSI LCP</th></tr>{prows}</table></div></details>
 </div>
 
 <a class="linkcard" href="{defs["sheet_url"]}"><div><b>{t("計測スプレッドシート","Measurement spreadsheet")}</b><span>{t("生データと集計タブ（_summary / _defs）","Raw data and the aggregation tabs (_summary / _defs)")}</span></div><span>{t("開く →","Open →")}</span></a>

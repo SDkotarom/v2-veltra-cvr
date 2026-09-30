@@ -138,6 +138,84 @@
     host.innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + esc(meta.ja) + '">' + o.join("") + "</svg>";
   }
 
+
+  /* ---- PSI 日次。太線は7日移動平均、薄い線はその日の値 ---- */
+  function movingAvg(vals, w) {
+    return vals.map(function (_, i) {
+      var seg = [];
+      for (var k = Math.max(0, i - w + 1); k <= i; k++) if (vals[k] !== null) seg.push(vals[k]);
+      return seg.length ? seg.reduce(function (a, b) { return a + b; }, 0) / seg.length : null;
+    });
+  }
+
+  function drawPsi(which) {
+    var host = document.getElementById("plot-" + which);
+    var legendEl = document.getElementById(which === "psi" ? "psi-legend" : "tbt-legend");
+    if (!host || !P.psi) return;
+    var src = which === "psi" ? P.psi.score : P.psi.tbt;
+    var dates = P.psi.dates, lang = document.documentElement.getAttribute("data-lang") === "en" ? "en" : "ja";
+    var W = 1160, H = 280, PL = 46, PR = 16, PT = 14, PB = 28;
+
+    var shown = P.pages.filter(function (p) {
+      return src[p.key] && src[p.key].some(function (v) { return v !== null; }) && !off[which + "|" + p.key];
+    });
+    if (!shown.length) shown = P.pages.slice(0, 1);
+
+    var vals = [];
+    shown.forEach(function (p) { src[p.key].forEach(function (v) { if (v !== null) vals.push(v); }); });
+    var top = Math.max.apply(null, vals) * 1.1 || 1;
+    var step = Math.pow(10, Math.floor(Math.log10(top / 3)));
+    [1, 2, 2.5, 5, 10].some(function (f) { if (top / (step * f) <= 5) { step = step * f; return true; } });
+    var ymax = which === "psi" ? 100 : Math.ceil(top / step) * step;
+
+    var X = scaleX(dates[0], dates[dates.length - 1], PL, W - PR);
+    function Y(v) { return PT + (1 - v / ymax) * (H - PT - PB); }
+
+    var o = [];
+    for (var g = 0; g <= ymax + 1e-9; g += step) {
+      o.push('<line class="grid" x1="' + PL + '" y1="' + Y(g).toFixed(1) + '" x2="' + (W - PR) + '" y2="' + Y(g).toFixed(1) + '"/>');
+      o.push('<text class="ax" x="' + (PL - 8) + '" y="' + (Y(g) + 4).toFixed(1) + '" text-anchor="end">' + Math.round(g) + '</text>');
+    }
+    var seenD = {};
+    dates.forEach(function (d) {
+      var lab = d.slice(5).replace("-", "/");
+      if (seenD[lab] || Number(d.slice(8)) % 4 !== 0) return;
+      seenD[lab] = 1;
+      o.push('<text class="ax" x="' + X(d).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + lab + '</text>');
+    });
+    P.releases.forEach(function (r) {
+      if (Date.parse(r.date) < Date.parse(dates[0]) || Date.parse(r.date) > Date.parse(dates[dates.length - 1])) return;
+      o.push('<line class="rel" x1="' + X(r.date).toFixed(1) + '" y1="' + PT + '" x2="' + X(r.date).toFixed(1) + '" y2="' + (H - PB) + '"/>');
+    });
+
+    function path(vs, cls, col, wid) {
+      var seg = [], segs = [];
+      vs.forEach(function (v, i) {
+        if (v === null) { if (seg.length) segs.push(seg); seg = []; return; }
+        seg.push([X(dates[i]), Y(v)]);
+      });
+      if (seg.length) segs.push(seg);
+      segs.forEach(function (sg) {
+        if (sg.length < 2) return;
+        o.push('<path class="' + cls + '" fill="none" stroke="' + col + '" stroke-width="' + wid + '" d="M' +
+          sg.map(function (q) { return q[0].toFixed(1) + "," + q[1].toFixed(1); }).join(" L") + '"/>');
+      });
+    }
+    shown.forEach(function (p) { path(src[p.key], "ln raw", p.color, 1); });
+    shown.forEach(function (p) { path(movingAvg(src[p.key], 7), "ln", p.color, 2.4); });
+
+    host.innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img">' + o.join("") + "</svg>";
+    if (legendEl) {
+      legendEl.innerHTML = P.pages.filter(function (p) {
+        return src[p.key] && src[p.key].some(function (v) { return v !== null; });
+      }).map(function (p) {
+        return '<button class="lg" data-metric="' + which + '" data-page="' + p.key + '" aria-pressed="' +
+          String(!off[which + "|" + p.key]) + '"><span class="dot" style="background:' + p.color + '"></span>' +
+          '<span class="ja">' + esc(p.ja) + '</span><span class="en">' + esc(p.en) + "</span></button>";
+      }).join("");
+    }
+  }
+
   /* ---- 週次の表。リリースのあった週は注釈行を差し込む ---- */
   function drawTable() {
     var host = document.getElementById("trend-table");
@@ -327,6 +405,8 @@
   }
 
   function redrawCharts() {
+    drawPsi("psi");
+    drawPsi("tbt");
     renderRange();
     Object.keys(P.metrics).forEach(drawChart);
     drawStrip();
@@ -342,7 +422,7 @@
       if (on(m, p) && others.length === 0) return;   // 最後の1本は消さない
       off[k] = on(m, p);
       lg.setAttribute("aria-pressed", String(!off[k]));
-      drawChart(m);
+      if (m === "psi" || m === "tbt") drawPsi(m); else drawChart(m);
       return;
     }
     var gt = e.target.closest ? e.target.closest(".gt") : null;
