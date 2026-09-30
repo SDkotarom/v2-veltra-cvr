@@ -270,15 +270,17 @@ IV = D["inventory"]
 N = {g["key"]: g["n"] for g in IV["groups"]}
 
 # 1 何が起きたか — 4つの数字
+_up = [r for r in EF["pages"] if r["after"] > r["before"]]
+_best = max(EF["pages"], key=lambda r: r["after"] - r["before"])
 HEAD = [
- (t("打った施策", "Shipped"), f'{len(IV["shipped"])}',
-  t(f'件（{EF["release_date"]} の1日）', f'changes (all on {EF["release_date"]})')),
- (t("PSI 6ページ平均", "PSI mean, 6 pages"), f'+{EF["overall"]["after"] - EF["overall"]["before"]:.1f}',
-  t(f'{EF["overall"]["before"]} → {EF["overall"]["after"]}', f'{EF["overall"]["before"]} → {EF["overall"]["after"]}')),
- (t("手元にある弾", "Waiting in the backlog"), f'{N["backlog"]}',
-  t(f'件（うち急ぎ {len(IV["urgent"])} 件）', f'items ({len(IV["urgent"])} urgent)')),
- (t("毎日測れているページ", "Pages measured daily"), f'{len(pages)} / {len(pages)}',
-  t(f'{defs["psi_from"][5:]}〜{defs["psi_to"][5:]}', f'{defs["psi_from"][5:]}-{defs["psi_to"][5:]}')),
+ (t("リリースした施策", "Changes released"), f'{len(IV["shipped"])}',
+  t(f'件（{EF["release_date"]}）', f'on {EF["release_date"]}')),
+ (t("スコアが上がったページ", "Pages that improved"), f'{len(_up)} / {len(EF["pages"])}',
+  t("下がったページは無い", "none went down")),
+ (t("いちばん上がったページ", "Biggest gain"), f'+{_best["after"] - _best["before"]:.1f}',
+  t(f'{_best["p"]}（{_best["before"]} → {_best["after"]}）', f'{_best["p"]} ({_best["before"]} → {_best["after"]})')),
+ (t("未リリースの施策案", "Not yet released"), f'{N["backlog"]}',
+  t(f'件（うち急ぎ {len(IV["urgent"])} 件）', f'items, {len(IV["urgent"])} urgent')),
 ]
 headline = "".join(
     f'<div class="hl"><div class="hl-h">{h}</div><div class="hl-v">{v}</div>'
@@ -336,12 +338,13 @@ html = f'''<title>表示速度モニタリング</title>
 
 <div class="leads">{leads}</div>
 
-<div class="sec"><h2><span class="n">1</span>{t("このプロジェクトで何が起きたか", "What has happened so far")}</h2>
+<div class="sec"><h2><span class="n">1</span>{t("プロジェクト実績サマリー", "Project summary")}</h2>
 <div class="hls">{headline}</div>
+<p class="note">{t('[[PSI]] のスコアは 0〜100 点で、<b>高いほど速い</b>。内訳の数値（描画・反応・ずれ・サーバー応答）はいずれも時間や量なので、そちらは<b>小さいほど速い</b>。向きが逆なので注意。', 'The PSI score runs 0-100 and <b>higher is faster</b>. The figures underneath it are times and amounts, so for those <b>smaller is faster</b>. The two run in opposite directions.')}</p>
 <p class="note">{t(f'起点は {defs["baseline_period_end"]} の週（計測トラッカーに最初の数値を記録した {defs["baseline_note"]} を含む週）。', f'The starting point is the week ending {defs["baseline_period_end"]}, which contains {defs["baseline_note"]} — when the first figures were recorded.')}</p>
 </div>
 
-<div class="sec"><h2><span class="n">2</span>{t("本番の数値は動いたか", "Did the production figures move")}</h2>
+<div class="sec"><h2><span class="n">2</span>{t("表示速度スコアの推移", "Speed score over time")}</h2>
 <p class="note">{t(f'[[PageSpeed Insights]] のスコア。6ページとも毎日測っている。太線は7日の[[移動平均]]、薄い線がその日の値。日ごとの振れが大きいので、太線のほうを見る。', 'PageSpeed Insights scores, measured daily on all six pages. The bold line is a 7-day mean; the faint line is the value for that day. Daily swings are large, so read the bold line.')}</p>
 <div class="card"><div class="ch-h"><h3>{t("PSI スコアの推移", "PSI score over time")}</h3>
 <span class="ch-t">{t(f'{defs["psi_from"]} 〜 {defs["psi_to"]}', f'{defs["psi_from"]} to {defs["psi_to"]}')}</span></div>
@@ -361,7 +364,7 @@ html = f'''<title>表示速度モニタリング</title>
 {setup_panel("server-timing")}
 </div>
 
-<div class="sec"><h2><span class="n">4</span>{t("やったこと", "What shipped")}</h2>
+<div class="sec"><h2><span class="n">4</span>{t("リリース実績", "Released")}</h2>
 <div class="card strip"><div class="ch-h"><h3>{t("リリースした日", "Release days")}</h3></div>
 <div class="plot" id="plot-releases"></div></div>
 {setup_panel("release-log")}
@@ -369,17 +372,17 @@ html = f'''<title>表示速度モニタリング</title>
 <details><summary>{t(f'調査・改修で完了したもの（{len(IV["closed"])}件）', f'Investigations and fixes already closed ({len(IV["closed"])})')}</summary><div class="tw"><table><tr><th>{t("チケット","Ticket")}</th><th>{t("内容","Change")}</th></tr>{crows}</table></div></details>
 </div>
 
-<div class="sec"><h2><span class="n">5</span>{t("まだ出していないもの", "Found but not shipped")}</h2>
+<div class="sec"><h2><span class="n">5</span>{t("未リリースの施策案", "Not yet released")}</h2>
 <p class="note">{t(f'調査で見つけて起票したまま、本番に出ていないものが {N["backlog"]} 件ある。うち急ぎが {len(IV["urgent"])} 件。', f'{N["backlog"]} items were found, written up, and have not reached production. {len(IV["urgent"])} of them are marked urgent.')}</p>
 <div class="tw"><table><tr><th>{t("チケット","Ticket")}</th><th>{t("内容","Item")}</th><th>{t("削減見込み","Expected saving")}</th></tr>{urows}</table></div>
 <details><summary>{t("全49件の内訳", "All 49 items by state")}</summary><div class="tw"><table><tr><th>{t("状態","State")}</th><th>{t("件数","Count")}</th></tr>{grows}</table></div></details>
 </div>
 
-<div class="sec"><h2><span class="n">6</span>{t("分かったこと", "What we learned")}</h2>
+<div class="sec"><h2><span class="n">6</span>{t("考察", "Observations")}</h2>
 <div class="finds">{frows}</div>
 </div>
 
-<div class="sec"><h2><span class="n">7</span>{t("実ユーザーの数値", "Real-user figures")}</h2>
+<div class="sec"><h2><span class="n">7</span>{t("実ユーザー計測値", "Real-user measurements")}</h2>
 <p class="note">{t('[[CrUX]] の週次。[[28日ローリング]]の [[p75]] なので、隣り合う週は27日ぶん同じデータを共有している。1週の増減だけを見ても意味がない。', 'Weekly CrUX. Because each figure covers a rolling 28 days, neighbouring weeks share 27 days of data, so one week of movement means little.')}</p>
 <div class="tiles">{tiles}</div>
 {setup_panel("crux-key")}
@@ -398,11 +401,11 @@ html = f'''<title>表示速度モニタリング</title>
 <div class="tw" id="trend-table"></div>
 </div>
 
-<div class="sec"><h2><span class="n">8</span>{t("課題とやること", "Issues and next steps")}</h2>
+<div class="sec"><h2><span class="n">8</span>{t("課題と次の打ち手", "Issues and next moves")}</h2>
 {irows}
 </div>
 
-<div class="sec"><h2><span class="n">9</span>{t("データの流れと更新", "How the data arrives, and when")}</h2>
+<div class="sec"><h2><span class="n">9</span>{t("計測基盤と更新サイクル", "Measurement pipeline and cadence")}</h2>
 <p class="note">{t(D["pipeline"]["note"]["ja"], D["pipeline"]["note"]["en"])}</p>
 <div class="flow">{flow}</div>
 {setup_panel("schedule")}
