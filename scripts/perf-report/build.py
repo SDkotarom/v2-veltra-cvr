@@ -268,6 +268,8 @@ def setup_panel(key):
             f'<span class="en">{body("en")}</span></div></details>')
 
 
+_RT = hint(GLOSSARY["判定"]["ja"], GLOSSARY["判定"]["en"])
+
 EF = D["effect"]
 IV = D["inventory"]
 N = {g["key"]: g["n"] for g in IV["groups"]}
@@ -285,7 +287,7 @@ headline = "".join(
 
 # 2 効果 — ページ別 before/after
 def _band(v):
-    return ("遅い", "Slow") if v < 50 else (("もう少し", "Near") if v < 90 else ("速い", "Fast"))
+    return ("低", "Low") if v < 50 else (("普通", "Average") if v < 90 else ("高", "High"))
 def _bk(v):
     return "slow" if v < 50 else ("mid" if v < 90 else "fast")
 erows = "".join(
@@ -342,15 +344,15 @@ html = f'''<title>表示速度モニタリング</title>
 </div>
 
 <div class="rv">
-<div class="rv-h"><h2>{t("振り返り", "Review")}</h2>
+<div class="rv-h"><h2>{t(RV["h"]["ja"], RV["h"]["en"])}</h2>
 <span class="rv-m">{t(f'対象期間 {RV["period"]["from"]} 〜 {RV["period"]["to"]} ／ 更新 {RV["updated"]}', f'Covering {RV["period"]["from"]} to {RV["period"]["to"]} · updated {RV["updated"]}')}</span></div>
 {leads}</div>
 
 <div class="sec"><h2><span class="n">1</span>{t("プロジェクト実績サマリー", "Project summary")}</h2>
 <div class="hls">{headline}</div>
-<div class="tw"><table><tr><th>{t("ページ種別","Page type")}</th><th>{t("結果","Result")}</th><th>{t("点差","Points")}</th><th>{t("リリース前 → 後","Before → after")}</th><th>{t("いまの位置","Where it sits")}</th></tr>{erows}</table></div>
+<div class="tw"><table><tr><th>{t("ページ種別","Page type")}</th><th>{t("結果","Result")}</th><th>{t("点差","Points")}</th><th>{t("リリース前 → 後","Before → after")}</th><th><span class="ja"><span{_RT}>判定</span></span><span class="en"><span{_RT}>Rating</span></span></th></tr>{erows}</table></div>
 <p class="note">{t(f'数値は [[PageSpeed Insights]]（PSI）のスコア（0〜100点、高いほど速い）。{EF["release_date"]} のリリース前5日と後5日の平均で、6ページとも測れた日だけを使っている。', f'The figures are PageSpeed Insights (PSI) scores — 0 to 100, higher is faster. Each is a mean over the five days before and the five days after the {EF["release_date"]} release, counting only days when all six pages were measured.')}</p>
-<p class="note">{t('「いまの位置」は PSI の判定帯。0〜49点が<b>遅い</b>、50〜89点が<b>もう少し</b>、90点以上が<b>速い</b>。6ページとも上がったが、50点台に乗ったのは AC詳細だけ。', 'Where it sits is the PSI band: 0-49 <b>slow</b>, 50-89 <b>near</b>, 90+ <b>fast</b>. All six rose; only AC detail cleared 50.')}</p>
+<p class="note">{t('判定は PSI がスコアを分ける3段階。<b>90点以上が「高」、50〜89点が「普通」、49点以下が「低」</b>。6ページとも上がったが、「普通」に乗ったのは AC詳細だけ。', 'The rating is the three bands PSI sorts the score into: <b>90 and above high, 50-89 average, 49 and below low</b>. All six rose; only AC detail reached average.')}</p>
 </div>
 
 <div class="sec"><h2><span class="n">2</span>{t("PSI スコア推移", "PSI score")}</h2>
@@ -361,7 +363,7 @@ html = f'''<title>表示速度モニタリング</title>
 <div class="plot" id="plot-psi"></div></div>
 </div>
 
-<div class="sec"><h2><span class="n">3</span>{t("操作レスポンス速度（TBT）", "Response speed (TBT)")}</h2>
+<div class="sec"><h2><span class="n">3</span>{t("操作レスポンス速度（[[TBT]]）", "Response speed ([[TBT]])")}</h2>
 <p class="note">{t('押してから画面が応えるまでの時間。いまは [[ラボ値]] の [[TBT]] で代用している。実ユーザーの数値はこれから取る。', 'The wait between a tap and a response. It is currently stood in for by the lab figure TBT; real-user numbers are on the way.')}</p>
 <div class="card"><div class="ch-h"><h3>{t("TBT の推移（代理指標）", "TBT over time (stand-in)")}</h3>
 <span class="ch-t">{t("短いほどよい", "Lower is better")}</span></div>
@@ -432,11 +434,25 @@ html = f'''<title>表示速度モニタリング</title>
 <script>window.__PERF={PAYLOAD};</script>
 <script>{JS}</script>'''
 
-# 同じ語に何度もツールチップを出さない。文書に現れた順で最初の1つだけ残す
-_seen = set()
-html = re.sub(r'(<span class="hint" tabindex="0" data-tip-ja="[^"]*" data-tip-en="[^"]*">)([^<]+)(</span>)',
-              lambda m: m.group(0) if m.group(2) not in _seen and not _seen.add(m.group(2))
-                        else f'<span>{m.group(2)}</span>', html)
+# 同じ語に何度もツールチップを出さない。文書に現れた順で最初の1つだけ残す。
+# ただし見出し（h1〜h3）の中は、本文に先に出ていても残す。見出しで初めて目にする人がいるため
+HINT_RE = re.compile(r'(<span class="hint" tabindex="0" data-tip-ja="[^"]*" data-tip-en="[^"]*">)([^<]+)(</span>)')
+HEAD_RE = re.compile(r'<h[123][ >].*?</h[123]>', re.S)
+_heads = [m.span() for m in HEAD_RE.finditer(html)]
+
+def _in_head(i):
+    return any(a <= i < b for a, b in _heads)
+
+_seen, _out, _last = set(), [], 0
+for m in HINT_RE.finditer(html):
+    term = m.group(2)
+    keep = _in_head(m.start()) or term not in _seen
+    _seen.add(term)
+    _out.append(html[_last:m.start()])
+    _out.append(m.group(0) if keep else f'<span>{term}</span>')
+    _last = m.end()
+_out.append(html[_last:])
+html = "".join(_out)
 
 OUT.write_text(html, encoding="utf-8")
 print(f"built {OUT} ({len(html):,} bytes)")

@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 31,
+  "version": 32,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -52,6 +52,14 @@
    "移動平均": {
     "ja": "その日を含む直近7日ぶんを平均した値。1日ごとの当たり外れをならして、向きだけを見るための線。",
     "en": "The average of the last seven days including that one. It smooths out the luck of any single run so the direction shows through."
+   },
+   "判定": {
+    "ja": "PageSpeed Insights のスコアを3段階に分けた呼び方。90点以上が「高」、50〜89点が「普通」、49点以下が「低」。区切りの値は PSI の採点エンジン（Lighthouse）のソースに書かれているもの。",
+    "en": "PageSpeed Insights sorts its score into three bands: 90 and above is high, 50-89 is average, 49 and below is low. The cut-offs come from the source of the engine that does the scoring (Lighthouse)."
+   },
+   "INP": {
+    "ja": "実際に使っている人が、画面のどこかを押してから、画面が応えるまでに待った時間。押しても何も起きない時間が長いほど大きくなる。",
+    "en": "How long someone actually using the site waits between tapping something and the screen answering. The longer nothing happens, the bigger it gets."
    }
   },
   "psi_from": "2026-09-04",
@@ -2865,34 +2873,38 @@
   "parts": [
    {
     "h": {
-     "ja": "全体",
-     "en": "Overall"
+     "ja": "現在の状況",
+     "en": "Where things stand"
     },
     "b": {
-     "ja": "9/17 に 6件リリースした。[[PageSpeed Insights]]（PSI）のスコア（0〜100点、高いほど速い）は <b>6ページ全部で上がり</b>、下がったページは無い。いちばん動いたのは検索結果で <b>18.4 → 40.0点</b>（+21.6点）。ただし PSI は 0〜49点が「遅い」帯。50点台に乗ったのは AC詳細（55.0点）だけで、<b>残り5ページはまだ「遅い」帯の中</b>。向きは良いが、到達点ではない。<br>また、出した回数は確かめられない。リリース日を記録している場所が無く、ClickUp の状態が変わった日からは「9/17 に5件動いた」までしか分からない。<br>未リリースの施策案が <b>28件</b>、うち急ぎが <b>9件</b>。空の送信を止めるだけで 約2,182ms([[UX_DESIGN-404]]) という見込みも含まれている。",
-     "en": "Six changes went out on 9/17. [[PageSpeed Insights]] (PSI) scores — 0 to 100, higher is faster — <b>rose on all six pages</b> and none fell. Search moved most, <b>18.4 to 40.0</b> (+21.6). But 0-49 is the slow band. Only AC detail cleared it (55.0); <b>the other five pages are still inside it</b>. The direction is right, the destination is not reached.<br>How often anything ships cannot be checked: nothing records release dates, and ClickUp status changes only show that five tickets moved on 9/17.<br><b>28</b> items are written up and unreleased, <b>9</b> of them urgent — including one estimated at about 2,182ms just for dropping an empty request (UX_DESIGN-404)."
+     "ja": "9/24 時点の [[PageSpeed Insights]]（PSI）スコアは <b>32〜55点</b>（0〜100点、高いほど速い）。[[判定]]が「普通」に乗ったのは AC詳細（55.0点）だけで、<b>残り5ページは「低」のまま</b>。<br>実際に使っている人の反応速度（[[INP]]）は、まだ1件も取れていない。いまは[[ラボ値]]の [[TBT]] で代わりに見ている。<br>実際に使っている人の表示速度（[[CrUX]] の週次）は 9/13 で収集が止まっており、<b>このままだと 9/17 のリリース効果を実ユーザー側で確認できない</b>。",
+     "en": "As of 9/24 the [[PageSpeed Insights]] (PSI) scores run <b>32 to 55</b> (0-100, higher is faster). Only AC detail reached the average band (55.0); <b>the other five are still low</b>.<br>There is not a single real-user response figure ([[INP]]) yet, so the lab measure [[TBT]] stands in.<br>Real-user load figures ([[CrUX]], weekly) stopped collecting on 9/13, so as things stand <b>the effect of the 9/17 release cannot be confirmed on the real-user side</b>."
     }
    },
    {
     "h": {
-     "ja": "PSI スコア推移",
-     "en": "PSI score"
+     "ja": "傾向と要因",
+     "en": "Direction and why"
     },
     "b": {
-     "ja": "6ページの PSI スコア平均は、リリース前5日が <b>31〜37点</b>、後5日が <b>39〜44点</b>。約 +8点の段が付いた。<br>ただし同じページでも日ごとに ±5〜7点ぶれる。1日の上下では判断せず、7日の[[移動平均]]で向きを見る。",
-     "en": "Across the six pages, the mean PSI score ran <b>31-37</b> over the five days before the release and <b>39-44</b> over the five after — a step of about +8 points.<br>The same page still swings 5-7 points day to day, so the direction is read from the 7-day mean, not from any single day."
+     "ja": "<b>上昇</b>。6ページの PSI スコア平均は、9/17 のリリース前5日が 31〜37点、後5日が 39〜44点。<b>約 +8点</b>の段が付き、6ページとも上がって下がったページは無い。<br>要因は出した6件の中身にある。全件が<b>「先に画を出す」側</b>の施策（[[UX_DESIGN-323]] タグの読み込みを後回しに、[[UX_DESIGN-395]]／[[UX_DESIGN-396]]／[[UX_DESIGN-397]] 主役の画像を先に取りに行く、[[UX_DESIGN-389]] 画像枠の寸法を先に確保・検索にページキャッシュ）で、PSI スコアはここで大きく動く。<br>いちばん動いたのは検索結果（18.4 → 40.0点、+21.6点）。6件のうち2件が検索結果に当たっている。1ページに2件重なったことが効いている、というのはここからの推定で、切り分けはできていない。<br>一方 TBT に向きが出ていないのは、<b>6件のどれも JS の実行量を減らす施策ではない</b>から。「効かなかった」ではなく「まだ打っていない」。",
+     "en": "<b>Up.</b> Across the six pages the mean PSI score ran 31-37 over the five days before the 9/17 release and 39-44 over the five after — a step of about <b>+8 points</b>, up on all six, down on none.<br>The reason is what went out. All six were <b>about getting the picture on screen sooner</b> (UX_DESIGN-323 loading a tag later, UX_DESIGN-395/396/397 fetching the main image first, UX_DESIGN-389 reserving image space and caching the search page) — which is exactly what the PSI score responds to.<br>Search moved most (18.4 to 40.0, +21.6) and two of the six landed on it. That the two stacking on one page is what did it is an inference from here, not something separated out.<br>TBT shows no direction because <b>none of the six reduced how much JavaScript runs</b>. Nothing failed; that shot has not been taken yet."
     }
    },
    {
     "h": {
-     "ja": "操作レスポンス速度（TBT）",
-     "en": "Response speed (TBT)"
+     "ja": "次にやること",
+     "en": "What to do next"
     },
     "b": {
-     "ja": "実ユーザーの反応速度（[[INP]]）はまだ取れておらず、[[ラボ値]]の [[TBT]] で代用している。TBT はページを開いている間に操作を受け付けられなかった時間で、<b>小さいほど速い</b>。9/4〜9/24 では、はっきりした向きは出ていない。<br>実ユーザーの計測は、GTM にタグを入れれば翌日から取れる。手順は第3節に置いた。",
-     "en": "There are no real-user response figures (INP) yet, so the lab measure TBT stands in. TBT is the time a page spends unable to accept a tap, so <b>smaller is faster</b>. Across 9/4-9/24 it shows no clear direction.<br>Real-user measurement starts the day after a tag goes into GTM. The steps are in section 3."
+     "ja": "<b>1. JS の実行量に効く施策を出す。</b> 未リリースの急ぎ9件のうち [[UX_DESIGN-404]]（空のまま送っている通信を止める／約2,182ms）と [[UX_DESIGN-398]]（画面を最大2秒まっ白にしている待ちを縮める／最大2,000ms）が桁として最大。見込み時間はいずれもチケット記載値。TBT と実ユーザーの反応速度はここで初めて動くはず。<br><b>2. 同じものを取り直している通信を止める。</b> [[UX_DESIGN-410]]（カテゴリ）／[[UX_DESIGN-418]]（検索結果）／[[UX_DESIGN-415]]（日程から探す）。<br><b>3. 実ユーザーの計測を始める。</b> GTM にタグを入れれば翌日から取れる（第3節）。止まっている週次の収集も戻す（第9節）。これが無いと、1. と 2. を出しても効果を数字で言えない。",
+     "en": "<b>1. Ship something that reduces JavaScript work.</b> Of the nine urgent unreleased items, UX_DESIGN-404 (stopping a request sent with an empty body, about 2,182ms) and UX_DESIGN-398 (shortening a wait that holds the screen blank for up to two seconds, up to 2,000ms) are the largest. Both estimates are the figures on the tickets. This is where TBT and real-user response should first move.<br><b>2. Stop re-fetching what is already there.</b> UX_DESIGN-410 (category), UX_DESIGN-418 (search), UX_DESIGN-415 (search by date).<br><b>3. Start measuring real users.</b> A tag in GTM and figures arrive the next day (section 3); restart the stalled weekly collection (section 9). Without it, 1 and 2 ship with no number to show for them."
     }
    }
-  ]
+  ],
+  "h": {
+   "ja": "現状と傾向",
+   "en": "Where we are"
+  }
  }
 }
