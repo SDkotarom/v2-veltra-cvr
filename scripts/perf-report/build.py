@@ -273,15 +273,9 @@ IV = D["inventory"]
 N = {g["key"]: g["n"] for g in IV["groups"]}
 
 # 1 何が起きたか — 4つの数字
-_up = [r for r in EF["pages"] if r["after"] > r["before"]]
-_best = max(EF["pages"], key=lambda r: r["after"] - r["before"])
 HEAD = [
  (t("リリースした施策", "Changes released"), f'{len(IV["shipped"])}',
   t(f'件（{EF["release_date"]}）', f'on {EF["release_date"]}')),
- (t("スコアが上がったページ", "Pages that improved"), f'{len(_up)} / {len(EF["pages"])}',
-  t("下がったページは無い", "none went down")),
- (t("いちばん上がったページ", "Biggest gain"), f'+{_best["after"] - _best["before"]:.1f}',
-  t(f'{_best["p"]}（{_best["before"]} → {_best["after"]}）', f'{_best["p"]} ({_best["before"]} → {_best["after"]})')),
  (t("未リリースの施策案", "Not yet released"), f'{N["backlog"]}',
   t(f'件（うち急ぎ {len(IV["urgent"])} 件）', f'items, {len(IV["urgent"])} urgent')),
 ]
@@ -290,10 +284,18 @@ headline = "".join(
     f'<div class="hl-s">{sub}</div></div>' for h, v, sub in HEAD)
 
 # 2 効果 — ページ別 before/after
+def _band(v):
+    return ("遅い", "Slow") if v < 50 else (("もう少し", "Near") if v < 90 else ("速い", "Fast"))
+def _bk(v):
+    return "slow" if v < 50 else ("mid" if v < 90 else "fast")
 erows = "".join(
-    f'<tr><td>{r["p"]}</td><td>{r["before"]:.1f}</td><td>{r["after"]:.1f}</td>'
-    f'<td class="{"good" if r["after"] > r["before"] else "bad"}">'
-    f'{r["after"] - r["before"]:+.1f}</td></tr>' for r in EF["pages"])
+    f'<tr><td>{r["p"]}</td>'
+    f'<td><span class="bdg {"up" if r["after"] > r["before"] else "down"}">'
+    f'{t("上がった", "Up") if r["after"] > r["before"] else t("下がった", "Down")}</span></td>'
+    f'<td class="{"good" if r["after"] > r["before"] else "bad"}">{r["after"] - r["before"]:+.1f}</td>'
+    f'<td>{r["before"]:.1f} → {r["after"]:.1f}</td>'
+    f'<td><span class="bdg b-{_bk(r["after"])}">{t(*_band(r["after"]))}</span></td></tr>'
+    for r in sorted(EF["pages"], key=lambda x: x["before"] - x["after"]))
 
 # 4 やったこと
 srows = "".join(
@@ -346,18 +348,17 @@ html = f'''<title>表示速度モニタリング</title>
 
 <div class="sec"><h2><span class="n">1</span>{t("プロジェクト実績サマリー", "Project summary")}</h2>
 <div class="hls">{headline}</div>
-<p class="note">{t('[[PSI]] のスコアは 0〜100 点で、<b>高いほど速い</b>。内訳の数値（描画・反応・ずれ・サーバー応答）はいずれも時間や量なので、そちらは<b>小さいほど速い</b>。向きが逆なので注意。', 'The PSI score runs 0-100 and <b>higher is faster</b>. The figures underneath it are times and amounts, so for those <b>smaller is faster</b>. The two run in opposite directions.')}</p>
-<p class="note">{t(f'起点は {defs["baseline_period_end"]} の週（計測トラッカーに最初の数値を記録した {defs["baseline_note"]} を含む週）。', f'The starting point is the week ending {defs["baseline_period_end"]}, which contains {defs["baseline_note"]} — when the first figures were recorded.')}</p>
+<div class="tw"><table><tr><th>{t("ページ種別","Page type")}</th><th>{t("結果","Result")}</th><th>{t("点差","Points")}</th><th>{t("リリース前 → 後","Before → after")}</th><th>{t("いまの位置","Where it sits")}</th></tr>{erows}</table></div>
+<p class="note">{t(f'数値は [[PageSpeed Insights]]（PSI）のスコア（0〜100点、高いほど速い）。{EF["release_date"]} のリリース前5日と後5日の平均で、6ページとも測れた日だけを使っている。', f'The figures are PageSpeed Insights (PSI) scores — 0 to 100, higher is faster. Each is a mean over the five days before and the five days after the {EF["release_date"]} release, counting only days when all six pages were measured.')}</p>
+<p class="note">{t('「いまの位置」は PSI の判定帯。0〜49点が<b>遅い</b>、50〜89点が<b>もう少し</b>、90点以上が<b>速い</b>。6ページとも上がったが、50点台に乗ったのは AC詳細だけ。', 'Where it sits is the PSI band: 0-49 <b>slow</b>, 50-89 <b>near</b>, 90+ <b>fast</b>. All six rose; only AC detail cleared 50.')}</p>
 </div>
 
-<div class="sec"><h2><span class="n">2</span>{t("PageSpeed Insights（PSI）スコア推移", "PageSpeed Insights (PSI) score")}</h2>
-<p class="note">{t(f'[[PageSpeed Insights]] のスコア。6ページとも毎日測っている。太線は7日の[[移動平均]]、薄い線がその日の値。日ごとの振れが大きいので、太線のほうを見る。', 'PageSpeed Insights scores, measured daily on all six pages. The bold line is a 7-day mean; the faint line is the value for that day. Daily swings are large, so read the bold line.')}</p>
+<div class="sec"><h2><span class="n">2</span>{t("PSI スコア推移", "PSI score")}</h2>
+<p class="note">{t(f'太線は7日の[[移動平均]]、薄い線がその日の PSI スコア。日ごとの振れが ±5〜7点あるので、太線のほうを見る。', 'The bold line is a 7-day mean; the faint line is the PSI score for that day. Daily swings run 5-7 points, so read the bold line.')}</p>
 <div class="card"><div class="ch-h"><h3>{t("PSI スコアの推移", "PSI score over time")}</h3>
 <span class="ch-t">{t(f'{defs["psi_from"]} 〜 {defs["psi_to"]}', f'{defs["psi_from"]} to {defs["psi_to"]}')}</span></div>
 <div class="legend" id="psi-legend"></div>
 <div class="plot" id="plot-psi"></div></div>
-<div class="tw"><table><tr><th>{t("ページ","Page")}</th><th>{t("リリース前","Before")}</th><th>{t("リリース後","After")}</th><th>{t("差","Change")}</th></tr>{erows}</table></div>
-<p class="note">{t(f'{EF["release_date"]} のリリース前5日と後5日の平均。6ページ全部が揃った日だけを使っている。', f'Mean of the five days before and the five days after the {EF["release_date"]} release, using only days where all six pages were measured.')}</p>
 </div>
 
 <div class="sec"><h2><span class="n">3</span>{t("操作レスポンス速度（TBT）", "Response speed (TBT)")}</h2>
@@ -404,6 +405,7 @@ html = f'''<title>表示速度モニタリング</title>
 <div class="chart-grid">{charts}</div>
 <div class="mtabs">{mtabs}</div>
 <p class="note">{t('赤字は合格ラインを超えた値。— はその週の値が取れていないところ。', 'Red means the figure missed its target. A dash means there is no figure for that week.')}</p>
+<p class="note">{t(f'このグラフと表の起点は {defs["baseline_period_end"]} の週（計測トラッカーに最初の数値を記録した {defs["baseline_note"]} を含む週）。第2節の PSI は別の計測で、{defs["psi_from"]} から毎日取っている。', f'These charts start at the week ending {defs["baseline_period_end"]}, which contains {defs["baseline_note"]}, when the first figures were recorded. The PSI series in section 2 is a separate measurement, taken daily from {defs["psi_from"]}.')}</p>
 <div class="tw" id="trend-table"></div>
 </div>
 
@@ -429,6 +431,12 @@ html = f'''<title>表示速度モニタリング</title>
 </div>
 <script>window.__PERF={PAYLOAD};</script>
 <script>{JS}</script>'''
+
+# 同じ語に何度もツールチップを出さない。文書に現れた順で最初の1つだけ残す
+_seen = set()
+html = re.sub(r'(<span class="hint" tabindex="0" data-tip-ja="[^"]*" data-tip-en="[^"]*">)([^<]+)(</span>)',
+              lambda m: m.group(0) if m.group(2) not in _seen and not _seen.add(m.group(2))
+                        else f'<span>{m.group(2)}</span>', html)
 
 OUT.write_text(html, encoding="utf-8")
 print(f"built {OUT} ({len(html):,} bytes)")

@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 30,
+  "version": 31,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -26,12 +26,8 @@
     "en": "Speed data Google gathers from people actually opening the page in Chrome, and publishes. Because it reflects real use, Google also weighs it when ranking search results. Each figure covers the previous 28 days."
    },
    "PageSpeed Insights": {
-    "ja": "Google が出している速度の測定ツール。ページを1回読み込んで、0〜100点で採点する。どのページでも毎日測れるかわりに、測るたびに点数が上下する。",
-    "en": "Google's speed tool. It opens the page once and scores it out of 100. Any page can be measured every day, but the score moves around between runs."
-   },
-   "PSI": {
-    "ja": "PageSpeed Insights の略。Google の速度測定ツールで、ページを1回読み込んで 0〜100点で採点する。",
-    "en": "Short for PageSpeed Insights: Google's speed tool, which opens the page once and scores it out of 100."
+    "ja": "Google が出している速度の測定ツール。略して PSI。ページを1回読み込んで、0〜100点で採点する。どのページでも毎日測れるかわりに、測るたびに点数が上下する。",
+    "en": "Google's speed tool, abbreviated PSI. It opens the page once and scores it out of 100. Any page can be measured every day, but the score moves around between runs."
    },
    "ラボ値": {
     "ja": "毎回おなじ条件（おなじ回線の速さ・おなじ端末）で測った値。条件がそろっているので前と後を比べやすい。ただし、実際のお客さんが使っている環境とは違う。",
@@ -1038,28 +1034,6 @@
    }
   }
  ],
- "lead": [
-  {
-   "ja": "9/17 に 6件出した。本番の [[PSI]] スコアは <b>6ページ全部</b>で上がった。6ページ平均 <b>33.7 → 41.6</b>、いちばん動いた検索結果は <b>18.4 → 40.0</b>。",
-   "en": "Six changes shipped on 9/17. Production PSI scores rose on <b>all six pages</b>: the six-page mean went <b>33.7 → 41.6</b>, and Search, which moved most, went <b>18.4 → 40.0</b>."
-  },
-  {
-   "ja": "効果は出ている。詰まっているのは出す口のほうで、調査で見つけて起票したまま本番に出ていないものが <b>28件</b>、うち急ぎが <b>9件</b>。その中には 約2,182ms 削減の見込みが立っているものもある。",
-   "en": "The work lands. What is jammed is the release side: <b>28 items</b> have been found, written up and never shipped, <b>9</b> of them marked urgent. One carries an estimated saving of about 2,182ms."
-  },
-  {
-   "ja": "ただし「9/17 以外にリリースが無かったか」は確かめられない。<b>リリース日を記録している場所が無い</b>ためで、ClickUp の状態が変わった日から分かるのは「9/17 に5件のチケットが動いた」までにとどまる。数字の段差も 9/17 の前後にあり、ここで何かが出たことは一致している。",
-   "en": "Whether anything else shipped outside 9/17 cannot be checked: <b>there is nowhere that records release dates</b>. ClickUp status changes only show that five tickets moved on 9/17. The step in the figures sits either side of 9/17 too, so something clearly went out then."
-  },
-  {
-   "ja": "[[実ユーザー値]] は週1回の収集に頼っており、その収集が 9/13 で止まっている。いまは日次の [[PSI]] が返す実ユーザー LCP で代わりに追っている。毎日取れるようにする手当ては第7節に置いた。",
-   "en": "Real-user figures depend on a weekly collection that stopped on 9/13. They are currently tracked through the real-user LCP that the daily PSI run returns. The fix that makes them daily is in section 7."
-  },
-  {
-   "ja": "この記録の欠落は、効果を施策に結びつけるうえで一番効く穴になっている。第4節に打刻の仕組みを置いた。",
-   "en": "That missing record is the gap that most limits tying an effect back to a change. The way to start recording it is in section 4."
-  }
- ],
  "findings": [
   {
    "h": {
@@ -1138,8 +1112,8 @@
     "en": "Two of the six pages have never been measured"
    },
    "b": {
-    "ja": "地域とカテゴリーは crux_weekly に1行も入っていない。さらに [[PSI]] 側のカテゴリーは Sightseeing_Tour のままで、レポートと集計が見ている Yakatabune と違うURLを測っている。",
-    "en": "Region and Category have no rows at all in crux_weekly. On the [[PSI]] side, Category still points at Sightseeing_Tour while the report and the aggregation layer use Yakatabune — different URLs."
+    "ja": "地域とカテゴリーは crux_weekly に1行も入っていない。さらに PSI 側のカテゴリーは Sightseeing_Tour のままで、レポートと集計が見ている Yakatabune と違うURLを測っている。",
+    "en": "Region and Category have no rows at all in crux_weekly. On the PSI side, Category still points at Sightseeing_Tour while the report and the aggregation layer use Yakatabune — different URLs."
    },
    "todo": [
     {
@@ -1147,8 +1121,8 @@
      "en": "Add Region /jp/japan/kanto/ and Category /jp/japan/tokyo/ctg/183551:Yakatabune/ to the [[CrUX]] collection"
     },
     {
-     "ja": "[[PSI]] 側のカテゴリーURLを Yakatabune に差し替える",
-     "en": "Switch the [[PSI]] Category URL to Yakatabune"
+     "ja": "PSI 側のカテゴリーURLを Yakatabune に差し替える",
+     "en": "Switch the PSI Category URL to Yakatabune"
     },
     {
      "ja": "[[掲載閾値]]に届かない場合は、そのページの判定を「未計測」で固定し、代わりに何を見るかを決める",
@@ -1270,12 +1244,12 @@
   {
    "key": "load",
    "h": {
-    "ja": "ページが出るまで（[[PSI]] の数値）",
-    "en": "Time until the page appears ([[PSI]] scores)"
+    "ja": "ページが出るまで（PSI の数値）",
+    "en": "Time until the page appears (PSI scores)"
    },
    "b": {
-    "ja": "読み込むものの量と順番の問題。[[PageSpeed Insights]] のスコアと、実ユーザーの LCP / CLS / TTFB で見る。",
-    "en": "How much is loaded, and in what order. Watched through the [[PageSpeed Insights]] score and real-user LCP / CLS / TTFB."
+    "ja": "読み込むものの量と順番の問題。PageSpeed Insights のスコアと、実ユーザーの LCP / CLS / TTFB で見る。",
+    "en": "How much is loaded, and in what order. Watched through the PageSpeed Insights score and real-user LCP / CLS / TTFB."
    },
    "auto": [
     "psi_avg",
@@ -2895,18 +2869,18 @@
      "en": "Overall"
     },
     "b": {
-     "ja": "9/17 に 6件リリースした。[[PSI]] スコアは <b>6ページ全部で上がり</b>、下がったページは無い。いちばん動いたのは検索結果で <b>18.4 → 40.0</b>。効果は出ている。<br>ただし出した回数は確かめられない。リリース日を記録している場所が無く、ClickUp の状態が変わった日からは「9/17 に5件動いた」までしか分からない。<br>未リリースの施策案が <b>28件</b>、うち急ぎが <b>9件</b>。空の送信を止めるだけで 約2,182ms([[UX_DESIGN-404]]) という見込みも含まれている。",
-     "en": "Six changes went out on 9/17. PSI scores <b>rose on all six pages</b> and none fell; Search moved most, <b>18.4 → 40.0</b>. The work lands.<br>How often anything ships cannot be checked: nothing records release dates, and ClickUp status changes only show that five tickets moved on 9/17.<br><b>28</b> items are written up and unreleased, <b>9</b> of them urgent — including one estimated at about 2,182ms just for dropping an empty request (UX_DESIGN-404)."
+     "ja": "9/17 に 6件リリースした。[[PageSpeed Insights]]（PSI）のスコア（0〜100点、高いほど速い）は <b>6ページ全部で上がり</b>、下がったページは無い。いちばん動いたのは検索結果で <b>18.4 → 40.0点</b>（+21.6点）。ただし PSI は 0〜49点が「遅い」帯。50点台に乗ったのは AC詳細（55.0点）だけで、<b>残り5ページはまだ「遅い」帯の中</b>。向きは良いが、到達点ではない。<br>また、出した回数は確かめられない。リリース日を記録している場所が無く、ClickUp の状態が変わった日からは「9/17 に5件動いた」までしか分からない。<br>未リリースの施策案が <b>28件</b>、うち急ぎが <b>9件</b>。空の送信を止めるだけで 約2,182ms([[UX_DESIGN-404]]) という見込みも含まれている。",
+     "en": "Six changes went out on 9/17. [[PageSpeed Insights]] (PSI) scores — 0 to 100, higher is faster — <b>rose on all six pages</b> and none fell. Search moved most, <b>18.4 to 40.0</b> (+21.6). But 0-49 is the slow band. Only AC detail cleared it (55.0); <b>the other five pages are still inside it</b>. The direction is right, the destination is not reached.<br>How often anything ships cannot be checked: nothing records release dates, and ClickUp status changes only show that five tickets moved on 9/17.<br><b>28</b> items are written up and unreleased, <b>9</b> of them urgent — including one estimated at about 2,182ms just for dropping an empty request (UX_DESIGN-404)."
     }
    },
    {
     "h": {
-     "ja": "PageSpeed Insights（PSI）スコア推移",
-     "en": "PageSpeed Insights (PSI) score"
+     "ja": "PSI スコア推移",
+     "en": "PSI score"
     },
     "b": {
-     "ja": "6ページとも毎日測っており、9/4 から21日ぶん揃っている。リリース前5日の平均が 31〜37、後5日が 39〜44 で段が付いた。<br>ただし日ごとの振れも ±5〜7 ある。1日の上下では判断せず、7日の[[移動平均]]で向きを見る。",
-     "en": "All six pages are measured daily, 21 days of them since 9/4. The five days before the release averaged 31-37 and the five after 39-44 — a clear step.<br>Daily swings still run ±5-7, so the direction is read from the 7-day mean, not from any single day."
+     "ja": "6ページの PSI スコア平均は、リリース前5日が <b>31〜37点</b>、後5日が <b>39〜44点</b>。約 +8点の段が付いた。<br>ただし同じページでも日ごとに ±5〜7点ぶれる。1日の上下では判断せず、7日の[[移動平均]]で向きを見る。",
+     "en": "Across the six pages, the mean PSI score ran <b>31-37</b> over the five days before the release and <b>39-44</b> over the five after — a step of about +8 points.<br>The same page still swings 5-7 points day to day, so the direction is read from the 7-day mean, not from any single day."
     }
    },
    {
@@ -2915,8 +2889,8 @@
      "en": "Response speed (TBT)"
     },
     "b": {
-     "ja": "実ユーザーの数値はまだ取れておらず、[[ラボ値]]の [[TBT]] で代用している。9/4〜9/24 では、はっきりした向きは出ていない。<br>実ユーザーの計測は、GTM にタグを入れれば翌日から取れる。手順は第3節に置いた。",
-     "en": "There are no real-user figures yet, so the lab measure TBT stands in. Across 9/4-9/24 it shows no clear direction.<br>Real-user measurement starts the day after a tag goes into GTM. The steps are in section 3."
+     "ja": "実ユーザーの反応速度（[[INP]]）はまだ取れておらず、[[ラボ値]]の [[TBT]] で代用している。TBT はページを開いている間に操作を受け付けられなかった時間で、<b>小さいほど速い</b>。9/4〜9/24 では、はっきりした向きは出ていない。<br>実ユーザーの計測は、GTM にタグを入れれば翌日から取れる。手順は第3節に置いた。",
+     "en": "There are no real-user response figures (INP) yet, so the lab measure TBT stands in. TBT is the time a page spends unable to accept a tap, so <b>smaller is faster</b>. Across 9/4-9/24 it shows no clear direction.<br>Real-user measurement starts the day after a tag goes into GTM. The steps are in section 3."
     }
    }
   ]

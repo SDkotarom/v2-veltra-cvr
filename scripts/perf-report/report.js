@@ -226,8 +226,27 @@
         (lang === "en" ? " releases" : " 件") + "</div>" + rows + "</div></div>";
     }).join("");
 
+    /* 数値の表。既定は畳んでおき、開いた時だけ出す */
+    var relD = {};
+    P.releases.forEach(function (r) { relD[r.date] = (relD[r.date] || 0) + 1; });
+    var dec = which === "psi" ? 0 : 0;
+    var tb = "<table><thead><tr><th>" + (lang === "en" ? "Date" : "日付") + "</th>" +
+      shown.map(function (p) { return "<th>" + esc(p[lang]) + "</th>"; }).join("") + "</tr></thead><tbody>";
+    dates.forEach(function (d, i) {
+      var rel = relD[d] ? '<span class="dt-r">' + (lang === "en" ? "released" : "リリース") + "</span>" : "";
+      tb += "<tr><td>" + esc(d.slice(5).replace("-", "/")) + rel + "</td>" +
+        shown.map(function (p) { return "<td>" + fmt(src[p.key][i], dec, "") + "</td>"; }).join("") + "</tr>";
+    });
+    tb += "</tbody></table>";
+    var unit = which === "psi" ? (lang === "en" ? "score, 0-100" : "スコア（0〜100点）")
+                               : (lang === "en" ? "ms" : "ミリ秒");
+    var dtHtml = '<details class="dt"><summary>' +
+      (lang === "en" ? "Show the figures" : "数値を表で見る") +
+      '<span class="dt-u">' + unit + "</span></summary>" +
+      '<div class="dt-w">' + tb + "</div></details>";
+
     host.innerHTML = '<div class="plot-wrap"><svg viewBox="0 0 ' + W + " " + H +
-      '" role="img">' + o.join("") + "</svg>" + marks + "</div>";
+      '" role="img">' + o.join("") + "</svg>" + marks + "</div>" + dtHtml;
     if (legendEl) {
       legendEl.innerHTML = P.pages.filter(function (p) {
         return src[p.key] && src[p.key].some(function (v) { return v !== null; });
