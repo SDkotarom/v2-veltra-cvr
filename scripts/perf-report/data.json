@@ -1,0 +1,2954 @@
+{
+ "defs": {
+  "generated_at": "2026-09-24 12:00",
+  "latest_period_end": "2026-09-05",
+  "crux_collected_at": "2026-09-13",
+  "psi_date": "2026-09-24",
+  "period_from": "2026-03-14",
+  "weeks_covered": 26,
+  "denominator": 6,
+  "chart_end": "2026-09-26",
+  "lcp_good": 2500,
+  "inp_good": 200,
+  "cls_good": 0.1,
+  "ttfb_good": 800,
+  "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
+  "version": 33,
+  "baseline_period_end": "2026-08-22",
+  "baseline_note": "2026-08-19",
+  "glossary": {
+   "p75": {
+    "ja": "100人がページを開いたとき、速いほうから数えて75人目の人が待った時間。いちばん速い人でも、いちばん遅い人でもなく「だいたいの人はこれくらい待っている」という線。平均だと、ごく一部の極端に遅い人に引っ張られて実感からずれるので、こちらを使う。",
+    "en": "If 100 people open the page, this is what the 75th-fastest of them waited. Not the fastest, not the slowest — the line most people sit under. An average gets dragged around by a handful of very slow visits, so this is used instead."
+   },
+   "CrUX": {
+    "ja": "Chrome を使っている人が実際にページを開いたときの速さを、Google が集めて公開しているデータ。実際に使われたときの速さなので、Google の検索順位の判断にも使われる。直近28日ぶんをまとめた値が出る。",
+    "en": "Speed data Google gathers from people actually opening the page in Chrome, and publishes. Because it reflects real use, Google also weighs it when ranking search results. Each figure covers the previous 28 days."
+   },
+   "PageSpeed Insights": {
+    "ja": "Google が出している速度の測定ツール。略して PSI。ページを1回読み込んで、0〜100点で採点する。どのページでも毎日測れるかわりに、測るたびに点数が上下する。",
+    "en": "Google's speed tool, abbreviated PSI. It opens the page once and scores it out of 100. Any page can be measured every day, but the score moves around between runs."
+   },
+   "ラボ値": {
+    "ja": "毎回おなじ条件（おなじ回線の速さ・おなじ端末）で測った値。条件がそろっているので前と後を比べやすい。ただし、実際のお客さんが使っている環境とは違う。",
+    "en": "A figure taken under the same conditions every time — same connection speed, same device. Easy to compare before and after, but not the conditions real customers are in."
+   },
+   "実ユーザー値": {
+    "ja": "実際にページを見た人の端末から集めた値。本当の体感にいちばん近い。ただし、見た人が少ないページでは値が出てこない。",
+    "en": "A figure gathered from the devices of people who actually visited. The closest thing to how it really feels — but pages with few visitors return nothing."
+   },
+   "掲載閾値": {
+    "ja": "見た人が少なすぎるページには、Google がデータを出してくれない。その最低ラインのこと。下回っているページは、何度聞いても空で返ってくる。",
+    "en": "Google will not hand back data for a page too few people visited. This is that floor. A page under it comes back empty however often you ask."
+   },
+   "TBT": {
+    "ja": "ページを開いている最中に、画面が操作を受け付けられなかった時間の合計。この間はタップしても何も起きない。長いほど「固まっている」と感じる。",
+    "en": "How long, in total, the page could not respond to a touch while it was loading. During that time a tap does nothing. The longer it is, the more the page feels frozen."
+   },
+   "28日ローリング": {
+    "ja": "その日から28日さかのぼった範囲をまとめた値。昨日の値と今日の値は27日ぶん中身が同じなので、1日や1週間の上下だけを見ても意味がない。",
+    "en": "A figure covering the 28 days up to that date. Yesterday and today share 27 days of the same visits, so a single day or week of movement says nothing on its own."
+   },
+   "移動平均": {
+    "ja": "その日を含む直近7日ぶんを平均した値。1日ごとの当たり外れをならして、向きだけを見るための線。",
+    "en": "The average of the last seven days including that one. It smooths out the luck of any single run so the direction shows through."
+   },
+   "判定": {
+    "ja": "PageSpeed Insights のスコアを3段階に分けた呼び方。90点以上が「高」、50〜89点が「普通」、49点以下が「低」。区切りの値は PSI の採点エンジン（Lighthouse）のソースに書かれているもの。",
+    "en": "PageSpeed Insights sorts its score into three bands: 90 and above is high, 50-89 is average, 49 and below is low. The cut-offs come from the source of the engine that does the scoring (Lighthouse)."
+   },
+   "INP": {
+    "ja": "実際に使っている人が、画面のどこかを押してから、画面が応えるまでに待った時間。押しても何も起きない時間が長いほど大きくなる。",
+    "en": "How long someone actually using the site waits between tapping something and the screen answering. The longer nothing happens, the bigger it gets."
+   }
+  },
+  "psi_from": "2026-09-04",
+  "psi_to": "2026-09-24"
+ },
+ "defs_table": [
+  [
+   "granularity_rule",
+   "url-only（origin値での代用はしない）"
+  ],
+  [
+   "source_of_truth",
+   "crux_weekly"
+  ],
+  [
+   "missing_rule",
+   "欠測は null。0では埋めない"
+  ],
+  [
+   "denominator",
+   "6ページ固定。未計測も分母に残す"
+  ],
+  [
+   "crux_window",
+   "28日ローリング"
+  ],
+  [
+   "judge_env",
+   "production のみ"
+  ],
+  [
+   "lcp_good",
+   "2500ms"
+  ],
+  [
+   "inp_good",
+   "200ms"
+  ],
+  [
+   "cls_good",
+   "0.1"
+  ],
+  [
+   "ttfb_good",
+   "800ms"
+  ]
+ ],
+ "pages": [
+  {
+   "page_key": "TOP",
+   "page_ja": "TOP",
+   "page_en": "TOP",
+   "url": "https://www.veltra.com/jp/",
+   "source": "crux_weekly",
+   "granularity": "url",
+   "period_end": "2026-08-29",
+   "lcp_p75_ms": 2880,
+   "inp_p75_ms": 213,
+   "cls_p75": 0.04,
+   "ttfb_p75_ms": 1536,
+   "lcp_prev_ms": 2755,
+   "lcp_delta_ms": 75,
+   "lcp_verdict": "要改善",
+   "best_ms": 2514,
+   "best_period_end": "2026-03-14",
+   "delta_from_best_ms": 366,
+   "first_missing_week": "",
+   "data_status": "ok",
+   "psi_score": 30,
+   "psi_lcp_ms": 16594,
+   "as_of": "2026-09-05"
+  },
+  {
+   "page_key": "エリア",
+   "page_ja": "エリア",
+   "page_en": "Area",
+   "url": "https://www.veltra.com/jp/japan/tokyo/",
+   "source": "crux_weekly",
+   "granularity": "url",
+   "period_end": "2026-08-29",
+   "lcp_p75_ms": 2714,
+   "inp_p75_ms": 177,
+   "cls_p75": 0.0,
+   "ttfb_p75_ms": 1718,
+   "lcp_prev_ms": 2642,
+   "lcp_delta_ms": 72,
+   "lcp_verdict": "要改善",
+   "best_ms": 1660,
+   "best_period_end": "2026-03-28",
+   "delta_from_best_ms": 1054,
+   "first_missing_week": "",
+   "data_status": "ok",
+   "psi_score": 51,
+   "psi_lcp_ms": 6773,
+   "as_of": "2026-08-29"
+  },
+  {
+   "page_key": "地域",
+   "page_ja": "地域",
+   "page_en": "Region",
+   "url": "https://www.veltra.com/jp/japan/kanto/",
+   "source": "",
+   "granularity": "",
+   "period_end": "2026-08-29",
+   "lcp_p75_ms": null,
+   "inp_p75_ms": null,
+   "cls_p75": null,
+   "ttfb_p75_ms": null,
+   "lcp_prev_ms": null,
+   "lcp_delta_ms": null,
+   "lcp_verdict": "未計測",
+   "best_ms": null,
+   "best_period_end": "",
+   "delta_from_best_ms": null,
+   "first_missing_week": "",
+   "data_status": "未収集",
+   "psi_score": 50,
+   "psi_lcp_ms": 19847
+  },
+  {
+   "page_key": "カテゴリー",
+   "page_ja": "カテゴリー",
+   "page_en": "Category",
+   "url": "https://www.veltra.com/jp/japan/tokyo/ctg/183551:Yakatabune/",
+   "source": "",
+   "granularity": "",
+   "period_end": "2026-08-29",
+   "lcp_p75_ms": null,
+   "inp_p75_ms": null,
+   "cls_p75": null,
+   "ttfb_p75_ms": null,
+   "lcp_prev_ms": null,
+   "lcp_delta_ms": null,
+   "lcp_verdict": "未計測",
+   "best_ms": null,
+   "best_period_end": "",
+   "delta_from_best_ms": null,
+   "first_missing_week": "",
+   "data_status": "未収集",
+   "psi_score": 45,
+   "psi_lcp_ms": 6585
+  },
+  {
+   "page_key": "AC詳細",
+   "page_ja": "AC詳細",
+   "page_en": "AC detail",
+   "url": "https://www.veltra.com/jp/japan/tokyo/a/160690",
+   "source": "crux_weekly",
+   "granularity": "url",
+   "period_end": "2026-08-29",
+   "lcp_p75_ms": null,
+   "inp_p75_ms": null,
+   "cls_p75": null,
+   "ttfb_p75_ms": null,
+   "lcp_prev_ms": null,
+   "lcp_delta_ms": null,
+   "lcp_verdict": "未計測",
+   "best_ms": 1514,
+   "best_period_end": "2026-03-14",
+   "delta_from_best_ms": null,
+   "first_missing_week": "2026-06-27",
+   "data_status": "欠測",
+   "psi_score": 51,
+   "psi_lcp_ms": 4068
+  },
+  {
+   "page_key": "検索結果",
+   "page_ja": "検索結果",
+   "page_en": "Search",
+   "url": "https://www.veltra.com/jp/search?kw=tokyo",
+   "source": "crux_weekly",
+   "granularity": "url",
+   "period_end": "2026-08-29",
+   "lcp_p75_ms": 6708,
+   "inp_p75_ms": 158,
+   "cls_p75": 0.32,
+   "ttfb_p75_ms": 4851,
+   "lcp_prev_ms": 6895,
+   "lcp_delta_ms": -187,
+   "lcp_verdict": "不良",
+   "best_ms": 2828,
+   "best_period_end": "2026-03-21",
+   "delta_from_best_ms": 3880,
+   "first_missing_week": "",
+   "data_status": "ok",
+   "psi_score": 37,
+   "psi_lcp_ms": 7953,
+   "as_of": "2026-08-29"
+  }
+ ],
+ "weekly": {
+  "weeks": [
+   "2026-03-14",
+   "2026-03-21",
+   "2026-03-28",
+   "2026-04-04",
+   "2026-04-11",
+   "2026-04-18",
+   "2026-04-25",
+   "2026-05-02",
+   "2026-05-09",
+   "2026-05-16",
+   "2026-05-23",
+   "2026-05-30",
+   "2026-06-06",
+   "2026-06-13",
+   "2026-06-20",
+   "2026-06-27",
+   "2026-07-04",
+   "2026-07-11",
+   "2026-07-18",
+   "2026-07-25",
+   "2026-08-01",
+   "2026-08-08",
+   "2026-08-15",
+   "2026-08-22",
+   "2026-08-29",
+   "2026-09-05"
+  ],
+  "metrics": {
+   "lcp": {
+    "TOP": [
+     2514,
+     2568,
+     2602,
+     2613,
+     2630,
+     2601,
+     2564,
+     2529,
+     2519,
+     2548,
+     2617,
+     2687,
+     2739,
+     2787,
+     2773,
+     2759,
+     2776,
+     2772,
+     2838,
+     2826,
+     2777,
+     2736,
+     2720,
+     2755,
+     2805,
+     2880
+    ],
+    "エリア": [
+     1725,
+     1727,
+     1660,
+     2076,
+     2352,
+     2431,
+     2457,
+     2465,
+     2462,
+     2372,
+     2047,
+     1935,
+     1913,
+     1932,
+     1788,
+     1788,
+     1929,
+     1917,
+     1968,
+     2108,
+     2362,
+     2426,
+     2499,
+     2642,
+     2714,
+     null
+    ],
+    "地域": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "カテゴリー": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "AC詳細": [
+     1514,
+     1597,
+     1761,
+     1903,
+     1974,
+     2006,
+     2248,
+     2283,
+     2186,
+     2128,
+     2022,
+     2060,
+     2191,
+     null,
+     2364,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "検索結果": [
+     3083,
+     2828,
+     2884,
+     2841,
+     3179,
+     6148,
+     8593,
+     9031,
+     9125,
+     9392,
+     9386,
+     9335,
+     9068,
+     8784,
+     8452,
+     7846,
+     7559,
+     7293,
+     7189,
+     7277,
+     7136,
+     7078,
+     6999,
+     6895,
+     6708,
+     null
+    ]
+   },
+   "inp": {
+    "TOP": [
+     186,
+     185,
+     188,
+     195,
+     207,
+     219,
+     224,
+     225,
+     225,
+     226,
+     236,
+     253,
+     261,
+     266,
+     265,
+     266,
+     265,
+     265,
+     259,
+     250,
+     239,
+     229,
+     219,
+     216,
+     213,
+     212
+    ],
+    "エリア": [
+     140,
+     null,
+     139,
+     158,
+     173,
+     172,
+     171,
+     171,
+     164,
+     160,
+     157,
+     158,
+     169,
+     174,
+     182,
+     190,
+     179,
+     170,
+     169,
+     157,
+     159,
+     157,
+     154,
+     172,
+     177,
+     null
+    ],
+    "地域": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "カテゴリー": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "AC詳細": [
+     218,
+     233,
+     231,
+     233,
+     242,
+     241,
+     246,
+     245,
+     245,
+     241,
+     246,
+     250,
+     254,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "検索結果": [
+     131,
+     129,
+     130,
+     128,
+     125,
+     152,
+     165,
+     168,
+     170,
+     173,
+     179,
+     187,
+     194,
+     194,
+     195,
+     194,
+     190,
+     195,
+     190,
+     182,
+     178,
+     166,
+     162,
+     159,
+     158,
+     null
+    ]
+   },
+   "cls": {
+    "TOP": [
+     0.05,
+     0.05,
+     0.05,
+     0.05,
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.03,
+     0.03,
+     0.03,
+     0.05,
+     0.06,
+     0.08,
+     0.07,
+     0.05,
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ],
+    "エリア": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     null
+    ],
+    "地域": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "カテゴリー": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "AC詳細": [
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     null,
+     0.03,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "検索結果": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0.21,
+     0.44,
+     0.44,
+     0.44,
+     0.44,
+     0.45,
+     0.47,
+     0.5,
+     0.5,
+     0.5,
+     0.46,
+     0.41,
+     0.34,
+     0.32,
+     0.32,
+     0.32,
+     0.32,
+     0.32,
+     0.32,
+     0.32,
+     null
+    ]
+   },
+   "ttfb": {
+    "TOP": [
+     1482,
+     1512,
+     1538,
+     1548,
+     1555,
+     1559,
+     1539,
+     1510,
+     1488,
+     1480,
+     1501,
+     1533,
+     1574,
+     1613,
+     1613,
+     1613,
+     1632,
+     1634,
+     1679,
+     1680,
+     1644,
+     1602,
+     1536,
+     1529,
+     1536,
+     1563
+    ],
+    "エリア": [
+     1304,
+     1270,
+     1181,
+     1489,
+     1613,
+     1663,
+     1672,
+     1679,
+     1698,
+     1656,
+     1538,
+     1319,
+     1139,
+     1117,
+     1019,
+     1046,
+     1318,
+     1395,
+     1426,
+     1515,
+     1559,
+     1592,
+     1641,
+     1693,
+     1718,
+     null
+    ],
+    "地域": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "カテゴリー": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "AC詳細": [
+     492,
+     556,
+     619,
+     865,
+     1056,
+     1138,
+     1280,
+     1294,
+     1267,
+     1258,
+     1154,
+     1074,
+     1238,
+     null,
+     1379,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "検索結果": [
+     5503,
+     5347,
+     5216,
+     5209,
+     5125,
+     5544,
+     5563,
+     5580,
+     5673,
+     5722,
+     5720,
+     5732,
+     5568,
+     5432,
+     5160,
+     4897,
+     4870,
+     4774,
+     4955,
+     4955,
+     4897,
+     4902,
+     4811,
+     4822,
+     4851,
+     null
+    ]
+   }
+  }
+ },
+ "releases": [
+  {
+   "date": "2026-09-17",
+   "ticket": "UX_DESIGN-323",
+   "parent": "",
+   "scope": {
+    "ja": "全ページ",
+    "en": "All pages"
+   },
+   "note": {
+    "ja": "AppsFlyer を defer 化（レンダーブロック 893ms を解消）",
+    "en": "Deferred AppsFlyer (removed 893ms of render blocking)"
+   }
+  },
+  {
+   "date": "2026-09-17",
+   "ticket": "UX_DESIGN-395",
+   "parent": "UX_DESIGN-304",
+   "scope": {
+    "ja": "AC詳細",
+    "en": "AC detail"
+   },
+   "note": {
+    "ja": "preload の画像が実LCPと不一致だったのを修正（src_middle → src_large）",
+    "en": "Fixed preload pointing at the wrong image (src_middle → src_large)"
+   }
+  },
+  {
+   "date": "2026-09-17",
+   "ticket": "UX_DESIGN-396",
+   "parent": "UX_DESIGN-304",
+   "scope": {
+    "ja": "カテゴリー・検索",
+    "en": "Category, Search"
+   },
+   "note": {
+    "ja": "先頭ACカード画像に fetchpriority=high を付与",
+    "en": "Added fetchpriority=high to the first AC card image"
+   }
+  },
+  {
+   "date": "2026-09-17",
+   "ticket": "UX_DESIGN-397",
+   "parent": "UX_DESIGN-304",
+   "scope": {
+    "ja": "エリア",
+    "en": "Area"
+   },
+   "note": {
+    "ja": "lcp_image_url を設定して LCP画像を preload",
+    "en": "Set lcp_image_url so the LCP image is preloaded"
+   }
+  },
+  {
+   "date": "2026-09-17",
+   "ticket": "UX_DESIGN-389",
+   "parent": "",
+   "scope": {
+    "ja": "6ページ",
+    "en": "All six pages"
+   },
+   "note": {
+    "ja": "検索・カテゴリーのフィルターバーを固定、ACカード・フッター・ブランドの画像枠を寸法予約",
+    "en": "Fixed the filter bar on Search and Category; reserved dimensions for AC card, footer and brand images"
+   }
+  },
+  {
+   "date": "2026-09-17",
+   "ticket": "UX_DESIGN-389",
+   "parent": "",
+   "scope": {
+    "ja": "検索",
+    "en": "Search"
+   },
+   "note": {
+    "ja": "検索ページに1時間のページキャッシュを実装",
+    "en": "Added a 1-hour page cache to the search page"
+   }
+  }
+ ],
+ "findings": [
+  {
+   "h": {
+    "ja": "打った翌日から、6ページ全部でスコアが上がった",
+    "en": "Every one of the six pages rose the day after shipping"
+   },
+   "b": {
+    "ja": "リリース前5日と後5日の平均で、TOP +7.0、エリア +7.4、地域 +2.6、カテゴリー +2.0、AC詳細 +6.4、検索結果 +21.6。1ページも下がっていない。日ごとの振れは大きいが、6ページが揃って同じ向きに動いているので、偶然とは考えにくい。",
+    "en": "Comparing the five days before and after: TOP +7.0, Area +7.4, Region +2.6, Category +2.0, AC detail +6.4, Search +21.6. Not one page fell. Daily swings are wide, but six pages moving the same way together is hard to put down to chance."
+   }
+  },
+  {
+   "h": {
+    "ja": "いちばん効いたのは検索ページのキャッシュ",
+    "en": "The search page cache did the most work"
+   },
+   "b": {
+    "ja": "検索結果は 18.4 → 40.0 で、他の5ページの伸び（+2.0〜+7.4）とは桁が違う。この日に検索へ入れたのは1時間のページキャッシュ（[[UX_DESIGN-389]]）で、時間軸も一致する。これは推定だが、同じ手が効くページは他にもあるはず。日程から探す（[[UX_DESIGN-415]]）はキャッシュ未設定のまま残っている。",
+    "en": "Search went 18.4 → 40.0 while the other five gained between 2.0 and 7.4. What went into Search that day was a one-hour page cache (UX_DESIGN-389), and the timing lines up. This is an inference, but the same move should help elsewhere: date search (UX_DESIGN-415) still has no page cache."
+   }
+  },
+  {
+   "h": {
+    "ja": "見つけた分の大半が、まだ本番に出ていない",
+    "en": "Most of what was found has never reached production"
+   },
+   "b": {
+    "ja": "web-performance の全49件のうち、リリース待ち・進行中・着手可・未着手を合わせて44件が手元にある。急ぎ9件の中には、空ボディの送信を止めるだけで 約2,182ms([[UX_DESIGN-404]])、表示を隠す処理の縮小で最大2,000ms([[UX_DESIGN-398]]) という見込みが並んでいる。なお2026-08-28 に5件が1分以内にまとめてクローズされており、これは整理作業と見られる。実際にいつ本番へ出たかは記録が無く、たどれない。",
+    "en": "Of 49 items in web-performance, 44 are still in hand across ready-for-release, in-progress, ready and not-started. Among the 9 urgent ones: dropping an empty request is estimated at about 2,182ms (UX_DESIGN-404), and shrinking the snippet that hides the page at up to 2,000ms (UX_DESIGN-398). Five items were closed within the same minute on 2026-08-28, which looks like a tidy-up; when any of them actually reached production is not recorded anywhere."
+   }
+  },
+  {
+   "h": {
+    "ja": "測れていなかったのは、測る先の選び方が原因だった",
+    "en": "The measurement gap came from how the sample URLs were picked"
+   },
+   "b": {
+    "ja": "地域の代表URL は28日で161セッション、AC詳細は122。[[CrUX]] の[[掲載閾値]]に届く訪問数ではない。AC詳細の最上位は6,914セッションで、選んでいたURLの57倍ある。6月に値が返らなくなったのは収集の故障ではなく、もともと返らないURLを見ていたため。",
+    "en": "The Region sample URL saw 161 sessions in 28 days and AC detail 122 — nowhere near the visits CrUX needs. The busiest AC detail page had 6,914, fifty-seven times the one being watched. The June blackout was not a broken collector; the URL was never going to return a figure."
+   }
+  }
+ ],
+ "issues": [
+  {
+   "h": {
+    "ja": "数字が週次で増えなくなっている",
+    "en": "The weekly figures have stopped growing"
+   },
+   "b": {
+    "ja": "収集が 9/13 で止まり、その回も途中で落ちた。このまま放っておくと、9/17 に出した6件の効果が[[実ユーザー値]]で確認できない。",
+    "en": "Weekly collection stopped after 9/13, and that run died partway. Left alone, the six changes shipped on 9/17 cannot be verified against real-user data."
+   },
+   "todo": [
+    {
+     "ja": "9/13 の実行ログを見て、どこで落ちたかを特定する",
+     "en": "Read the 9/13 execution log and find where it stopped"
+    },
+    {
+     "ja": "9/20 の回が動かなかった理由を確認する（トリガーが消えたのか、実行時間切れか）",
+     "en": "Find out why the 9/20 run never happened — a lost trigger, or a timeout"
+    },
+    {
+     "ja": "途中で落ちても次の回で取り直せるようにする（ページ単位で書き切る、または再実行する）",
+     "en": "Make a partial failure recoverable: write page by page, or re-run"
+    }
+   ],
+   "tag": {
+    "ja": "取得層",
+    "en": "Collection"
+   },
+   "ticket": ""
+  },
+  {
+   "h": {
+    "ja": "6ページのうち2ページがいまだに1度も測れていない",
+    "en": "Two of the six pages have never been measured"
+   },
+   "b": {
+    "ja": "地域とカテゴリーは crux_weekly に1行も入っていない。さらに PSI 側のカテゴリーは Sightseeing_Tour のままで、レポートと集計が見ている Yakatabune と違うURLを測っている。",
+    "en": "Region and Category have no rows at all in crux_weekly. On the PSI side, Category still points at Sightseeing_Tour while the report and the aggregation layer use Yakatabune — different URLs."
+   },
+   "todo": [
+    {
+     "ja": "地域 /jp/japan/kanto/ とカテゴリー /jp/japan/tokyo/ctg/183551:Yakatabune/ を [[CrUX]] の収集対象に追加する",
+     "en": "Add Region /jp/japan/kanto/ and Category /jp/japan/tokyo/ctg/183551:Yakatabune/ to the [[CrUX]] collection"
+    },
+    {
+     "ja": "PSI 側のカテゴリーURLを Yakatabune に差し替える",
+     "en": "Switch the PSI Category URL to Yakatabune"
+    },
+    {
+     "ja": "[[掲載閾値]]に届かない場合は、そのページの判定を「未計測」で固定し、代わりに何を見るかを決める",
+     "en": "If a URL stays under the reporting threshold, fix its verdict as no-data and decide what to watch instead"
+    }
+   ],
+   "tag": {
+    "ja": "対象ページ",
+    "en": "Scope"
+   },
+   "ticket": ""
+  },
+  {
+   "h": {
+    "ja": "体感側は着手前の1点しか無く、効果が測れない",
+    "en": "The response side has one pre-work figure and nothing to measure against"
+   },
+   "b": {
+    "ja": "フィルター API 応答 1.50s と 予約モーダル formData 0.77s は、いずれも着手前に1回測った値。週次で取れていないので、直しても直っていなくても画面上は同じに見える。",
+    "en": "Filter API response at 1.50s and booking-modal formData at 0.77s were each measured once, before any work. With no weekly series, fixed and unfixed look identical on this page."
+   },
+   "todo": [
+    {
+     "ja": "サーバ側の応答時間を週次で残す置き場所を決める（計測スプレッドシートのタブを1枚増やす）",
+     "en": "Decide where the weekly server-side timings live — one more tab in the measurement spreadsheet"
+    },
+    {
+     "ja": "UX_DESIGN-321 の対応後に再測し、着手前との差を出す",
+     "en": "Re-measure after UX_DESIGN-321 lands and report the delta"
+    }
+   ],
+   "tag": {
+    "ja": "体感の速さ",
+    "en": "Response"
+   },
+   "ticket": "UX_DESIGN-321"
+  },
+  {
+   "h": {
+    "ja": "数値の解釈がレポート側に残ったままになっている",
+    "en": "Interpretation still happens in the report instead of the aggregation layer"
+   },
+   "b": {
+    "ja": "集計層（perf-aggregate.gs）がまだスプレッドシートに入っていないため、_summary / _defs が無い。いまは生データをレポート側で読んでおり、週ごとに読み方がぶれる余地が残っている。",
+    "en": "The aggregation layer (perf-aggregate.gs) is not installed in the spreadsheet yet, so _summary and _defs do not exist. Raw data is still read on the report side, which leaves room for the reading to drift week to week."
+   },
+   "todo": [
+    {
+     "ja": "perf-aggregate.gs をスプレッドシートの Apps Script に貼り、setUp() を1回実行する",
+     "en": "Paste perf-aggregate.gs into the spreadsheet's Apps Script and run setUp() once"
+    },
+    {
+     "ja": "生成された _summary の値が、このレポートの数値と一致することを確認する",
+     "en": "Check that the generated _summary matches the figures on this page"
+    }
+   ],
+   "tag": {
+    "ja": "集計層",
+    "en": "Aggregation"
+   },
+   "ticket": ""
+  }
+ ],
+ "metrics": [
+  {
+   "key": "lcp",
+   "ja": "LCP",
+   "en": "LCP",
+   "sub_ja": "主役の画像や文字が出るまで",
+   "sub_en": "Time until the main image or text appears",
+   "unit": "ms",
+   "good": 2500,
+   "ni": 4000,
+   "dec": 0,
+   "tip_ja": "画面でいちばん大きく映るもの（多くは写真か見出し）が、出きるまでの時間。ページが「出た」と感じる瞬間にあたる。",
+   "tip_en": "How long until the biggest thing on screen — usually a photo or a headline — has finished appearing. That is the moment a page feels loaded."
+  },
+  {
+   "key": "inp",
+   "ja": "INP",
+   "en": "INP",
+   "sub_ja": "タップしてから画面が応えるまで",
+   "sub_en": "Time from a tap until the screen responds",
+   "unit": "ms",
+   "good": 200,
+   "ni": 500,
+   "dec": 0,
+   "tip_ja": "タップしてから、画面が何か反応するまでの時間。長いと固まったように感じる。",
+   "tip_en": "How long after a tap before the screen does anything. A long wait feels like a freeze."
+  },
+  {
+   "key": "cls",
+   "ja": "CLS",
+   "en": "CLS",
+   "sub_ja": "読み込み中に文字や画像がずれる量",
+   "sub_en": "How much text and images shift while loading",
+   "unit": "",
+   "good": 0.1,
+   "ni": 0.25,
+   "dec": 2,
+   "tip_ja": "読み込みの途中で、文字や写真が勝手に動いてしまった量の合計。押そうとしたボタンが下にずれる、あれの原因。",
+   "tip_en": "How much text and images shifted around on their own while loading. This is why a button slides out from under your finger."
+  },
+  {
+   "key": "ttfb",
+   "ja": "TTFB",
+   "en": "TTFB",
+   "sub_ja": "サーバーから最初の応答が届くまで",
+   "sub_en": "Time until the server starts sending the page",
+   "unit": "ms",
+   "good": 800,
+   "ni": 1800,
+   "dec": 0,
+   "tip_ja": "ページを開いた瞬間から、サーバーが返事を出し始めるまでの時間。ここが遅いと、あとの全部が遅れる。",
+   "tip_en": "The gap between opening the page and the server starting to answer. Everything else waits behind this."
+  }
+ ],
+ "tracks": [
+  {
+   "key": "load",
+   "h": {
+    "ja": "ページが出るまで（PSI の数値）",
+    "en": "Time until the page appears (PSI scores)"
+   },
+   "b": {
+    "ja": "読み込むものの量と順番の問題。PageSpeed Insights のスコアと、実ユーザーの LCP / CLS / TTFB で見る。",
+    "en": "How much is loaded, and in what order. Watched through the PageSpeed Insights score and real-user LCP / CLS / TTFB."
+   },
+   "auto": [
+    "psi_avg",
+    "lcp",
+    "cls",
+    "ttfb"
+   ],
+   "rows": [],
+   "tickets": [
+    "UX_DESIGN-323",
+    "UX_DESIGN-395",
+    "UX_DESIGN-396",
+    "UX_DESIGN-397",
+    "UX_DESIGN-389"
+   ],
+   "gap": {
+    "ja": "",
+    "en": ""
+   }
+  },
+  {
+   "key": "react",
+   "h": {
+    "ja": "触ってからの反応（体感で遅いところ）",
+    "en": "Response after you tap (the slow-feeling parts)"
+   },
+   "b": {
+    "ja": "押してから返ってくるまでの待ち時間。実ユーザーの INP と、サーバ側で測った API の応答時間で見る。",
+    "en": "The wait between a tap and a result. Watched through real-user INP and server-side API response times."
+   },
+   "auto": [
+    "inp"
+   ],
+   "rows": [
+    {
+     "l": {
+      "ja": "カテゴリーのフィルター API 応答",
+      "en": "Category filter API response"
+     },
+     "v": "1.50 s",
+     "s": {
+      "ja": "サーバ計測・AsIs",
+      "en": "Server-side, AsIs"
+     }
+    },
+    {
+     "l": {
+      "ja": "予約モーダルの formData",
+      "en": "Booking modal formData"
+     },
+     "v": "0.77 s",
+     "s": {
+      "ja": "サーバ計測・AsIs",
+      "en": "Server-side, AsIs"
+     }
+    }
+   ],
+   "tickets": [
+    "UX_DESIGN-321"
+   ],
+   "gap": {
+    "ja": "サーバ計測の2つは着手前の値が1回あるだけで、週ごとの推移が取れていない。上のグラフにも出せない。",
+    "en": "The two server-side figures exist only as a single pre-work measurement — there is no weekly series, so they cannot appear in the charts above."
+   }
+  }
+ ],
+ "pipeline": {
+  "note": {
+   "ja": "数値がどこから来て、どこで解釈が確定し、このページに出るまで。",
+   "en": "Where the figures come from, where their interpretation is fixed, and how they reach this page."
+  },
+  "stages": [
+   {
+    "h": {
+     "ja": "取得",
+     "en": "Collect"
+    },
+    "sub": {
+     "ja": "外部API",
+     "en": "External APIs"
+    },
+    "items": [
+     {
+      "n": "CrUX API",
+      "d": {
+       "ja": "実ユーザー p75",
+       "en": "Real-user p75"
+      },
+      "f": {
+       "ja": "週1回・最終 9/13",
+       "en": "Weekly, last ran 9/13"
+      },
+      "st": "warn"
+     },
+     {
+      "n": "PageSpeed Insights API",
+      "d": {
+       "ja": "ラボ値",
+       "en": "Lab values"
+      },
+      "f": {
+       "ja": "毎日",
+       "en": "Daily"
+      },
+      "st": "ok"
+     },
+     {
+      "n": {
+       "ja": "リリース記録",
+       "en": "Release log"
+      },
+      "d": {
+       "ja": "日付・チケット・内容",
+       "en": "Date, ticket, change"
+      },
+      "f": {
+       "ja": "手入力",
+       "en": "Manual"
+      },
+      "st": "todo"
+     }
+    ]
+   },
+   {
+    "h": {
+     "ja": "蓄積",
+     "en": "Store"
+    },
+    "sub": {
+     "ja": "計測スプレッドシート",
+     "en": "Measurement spreadsheet"
+    },
+    "items": [
+     {
+      "n": "crux_weekly",
+      "d": {
+       "ja": "週×ページ",
+       "en": "Week by page"
+      },
+      "f": {
+       "ja": "9/13 の回は途中",
+       "en": "9/13 run incomplete"
+      },
+      "st": "warn"
+     },
+     {
+      "n": "psi_daily",
+      "d": {
+       "ja": "日次",
+       "en": "Daily"
+      },
+      "f": {
+       "ja": "全履歴",
+       "en": "Full history"
+      },
+      "st": "ok"
+     },
+     {
+      "n": "annotations",
+      "d": {
+       "ja": "リリースの記録先",
+       "en": "Release records"
+      },
+      "f": {
+       "ja": "空",
+       "en": "Empty"
+      },
+      "st": "todo"
+     }
+    ]
+   },
+   {
+    "h": {
+     "ja": "集計",
+     "en": "Aggregate"
+    },
+    "sub": {
+     "ja": "同じスプレッドシート",
+     "en": "Same spreadsheet"
+    },
+    "items": [
+     {
+      "n": "perf-aggregate.gs",
+      "d": {
+       "ja": "解釈をここで確定",
+       "en": "Interpretation settled here"
+      },
+      "f": {
+       "ja": "毎朝5時",
+       "en": "Daily 05:00"
+      },
+      "st": "todo"
+     },
+     {
+      "n": "_summary / _defs",
+      "d": {
+       "ja": "判定済みの値と規則",
+       "en": "Judged values and rules"
+      },
+      "f": {
+       "ja": "タブ",
+       "en": "Tabs"
+      },
+      "st": "todo"
+     }
+    ]
+   },
+   {
+    "h": {
+     "ja": "生成",
+     "en": "Build"
+    },
+    "sub": {
+     "ja": "リポジトリ",
+     "en": "Repository"
+    },
+    "items": [
+     {
+      "n": "data.json",
+      "d": {
+       "ja": "_summary の転記",
+       "en": "Transcript of _summary"
+      },
+      "f": {
+       "ja": "週次",
+       "en": "Weekly"
+      },
+      "st": "ok"
+     },
+     {
+      "n": "build.py",
+      "d": {
+       "ja": "テンプレートは固定",
+       "en": "Template is fixed"
+      },
+      "f": {
+       "ja": "週次",
+       "en": "Weekly"
+      },
+      "st": "ok"
+     }
+    ]
+   },
+   {
+    "h": {
+     "ja": "表示",
+     "en": "Show"
+    },
+    "sub": {
+     "ja": "アーティファクト",
+     "en": "Artifact"
+    },
+    "items": [
+     {
+      "n": {
+       "ja": "このページ",
+       "en": "This page"
+      },
+      "d": {
+       "ja": "組織内公開・同じURL",
+       "en": "Org-visible, same URL"
+      },
+      "f": {
+       "ja": "週次",
+       "en": "Weekly"
+      },
+      "st": "ok"
+     }
+    ]
+   }
+  ]
+ },
+ "psi": {
+  "dates": [
+   "2026-09-04",
+   "2026-09-05",
+   "2026-09-06",
+   "2026-09-07",
+   "2026-09-08",
+   "2026-09-09",
+   "2026-09-10",
+   "2026-09-11",
+   "2026-09-12",
+   "2026-09-13",
+   "2026-09-14",
+   "2026-09-15",
+   "2026-09-16",
+   "2026-09-17",
+   "2026-09-18",
+   "2026-09-19",
+   "2026-09-20",
+   "2026-09-21",
+   "2026-09-22",
+   "2026-09-23",
+   "2026-09-24"
+  ],
+  "score": {
+   "TOP": [
+    34,
+    null,
+    25,
+    37,
+    28,
+    21,
+    36,
+    24,
+    20,
+    31,
+    25,
+    25,
+    24,
+    23,
+    37,
+    30,
+    23,
+    29,
+    31,
+    40,
+    30
+   ],
+   "エリア": [
+    32,
+    31,
+    null,
+    45,
+    null,
+    31,
+    null,
+    null,
+    37,
+    36,
+    36,
+    36,
+    47,
+    36,
+    53,
+    56,
+    null,
+    40,
+    40,
+    42,
+    51
+   ],
+   "地域": [
+    29,
+    16,
+    16,
+    24,
+    40,
+    24,
+    null,
+    20,
+    44,
+    28,
+    26,
+    34,
+    45,
+    20,
+    45,
+    20,
+    null,
+    41,
+    39,
+    40,
+    50
+   ],
+   "カテゴリー": [
+    null,
+    null,
+    44,
+    40,
+    null,
+    38,
+    29,
+    36,
+    38,
+    37,
+    35,
+    36,
+    37,
+    36,
+    null,
+    40,
+    null,
+    37,
+    39,
+    32,
+    45
+   ],
+   "AC詳細": [
+    45,
+    44,
+    50,
+    45,
+    null,
+    45,
+    40,
+    36,
+    51,
+    43,
+    52,
+    47,
+    50,
+    48,
+    null,
+    51,
+    42,
+    66,
+    57,
+    50,
+    51
+   ],
+   "検索結果": [
+    23,
+    19,
+    null,
+    19,
+    14,
+    null,
+    18,
+    22,
+    19,
+    21,
+    21,
+    11,
+    20,
+    20,
+    35,
+    39,
+    45,
+    49,
+    38,
+    37,
+    37
+   ]
+  },
+  "lcp": {
+   "TOP": [
+    11119,
+    null,
+    10726,
+    10126,
+    5870,
+    10726,
+    11039,
+    6085,
+    17342,
+    12016,
+    40730,
+    42419,
+    15916,
+    10576,
+    5267,
+    5560,
+    9751,
+    5494,
+    5571,
+    9901,
+    16594
+   ],
+   "エリア": [
+    9580,
+    8420,
+    null,
+    7531,
+    null,
+    5952,
+    null,
+    null,
+    8979,
+    9169,
+    12260,
+    8831,
+    7652,
+    5233,
+    7233,
+    7971,
+    null,
+    7689,
+    6226,
+    10829,
+    6773
+   ],
+   "地域": [
+    4506,
+    16984,
+    12828,
+    18933,
+    16955,
+    17578,
+    null,
+    19617,
+    19489,
+    19887,
+    17107,
+    8742,
+    5030,
+    7655,
+    14493,
+    24765,
+    null,
+    14106,
+    13286,
+    18309,
+    19847
+   ],
+   "カテゴリー": [
+    null,
+    null,
+    11107,
+    12091,
+    null,
+    8016,
+    10852,
+    16016,
+    13834,
+    15336,
+    15943,
+    10053,
+    15873,
+    14728,
+    null,
+    7289,
+    null,
+    7298,
+    10436,
+    13443,
+    6585
+   ],
+   "AC詳細": [
+    3975,
+    3869,
+    4411,
+    6541,
+    null,
+    6001,
+    5926,
+    10362,
+    3302,
+    6316,
+    6509,
+    4834,
+    3888,
+    5160,
+    null,
+    4948,
+    5101,
+    3301,
+    3884,
+    3078,
+    4068
+   ],
+   "検索結果": [
+    23476,
+    23777,
+    null,
+    23702,
+    23851,
+    null,
+    23701,
+    23551,
+    23551,
+    23626,
+    10534,
+    23776,
+    23626,
+    23626,
+    14080,
+    11922,
+    12100,
+    6828,
+    12059,
+    14091,
+    7953
+   ]
+  },
+  "ttfb": {
+   "TOP": [
+    222,
+    null,
+    126,
+    125,
+    157,
+    95,
+    226,
+    250,
+    228,
+    167,
+    16,
+    221,
+    224,
+    122,
+    140,
+    248,
+    227,
+    124,
+    161,
+    22,
+    123
+   ],
+   "エリア": [
+    246,
+    441,
+    null,
+    122,
+    null,
+    154,
+    null,
+    null,
+    221,
+    225,
+    246,
+    250,
+    21,
+    121,
+    138,
+    86,
+    null,
+    14,
+    157,
+    224,
+    122
+   ],
+   "地域": [
+    4,
+    5,
+    4,
+    4,
+    6,
+    4,
+    null,
+    3,
+    5,
+    5,
+    5,
+    5,
+    4,
+    4,
+    2,
+    2,
+    null,
+    3,
+    3,
+    2,
+    3
+   ],
+   "カテゴリー": [
+    null,
+    null,
+    123,
+    248,
+    null,
+    92,
+    25,
+    227,
+    247,
+    223,
+    227,
+    122,
+    159,
+    1071,
+    null,
+    121,
+    null,
+    122,
+    48,
+    221,
+    121
+   ],
+   "AC詳細": [
+    149,
+    245,
+    141,
+    96,
+    null,
+    89,
+    122,
+    145,
+    225,
+    225,
+    122,
+    225,
+    68,
+    139,
+    null,
+    155,
+    222,
+    117,
+    20,
+    247,
+    28
+   ],
+   "検索結果": [
+    167,
+    241,
+    null,
+    152,
+    89,
+    null,
+    100,
+    246,
+    87,
+    248,
+    247,
+    218,
+    159,
+    125,
+    161,
+    407,
+    159,
+    123,
+    155,
+    220,
+    122
+   ]
+  },
+  "tbt": {
+   "TOP": [
+    594,
+    null,
+    1497,
+    503,
+    1314,
+    2294,
+    457,
+    2470,
+    3213,
+    742,
+    972,
+    1374,
+    1319,
+    1682,
+    751,
+    1345,
+    1690,
+    1523,
+    1166,
+    672,
+    768
+   ],
+   "エリア": [
+    1686,
+    1734,
+    null,
+    1058,
+    null,
+    5767,
+    null,
+    null,
+    895,
+    1023,
+    948,
+    988,
+    967,
+    1792,
+    698,
+    494,
+    null,
+    1084,
+    1128,
+    735,
+    803
+   ],
+   "地域": [
+    1327,
+    1758,
+    2265,
+    790,
+    1303,
+    871,
+    null,
+    1095,
+    841,
+    554,
+    660,
+    5327,
+    2016,
+    1263,
+    977,
+    611,
+    null,
+    1289,
+    1775,
+    1399,
+    616
+   ],
+   "カテゴリー": [
+    null,
+    null,
+    856,
+    1140,
+    null,
+    1789,
+    2691,
+    950,
+    1450,
+    876,
+    1124,
+    1064,
+    951,
+    1036,
+    null,
+    1795,
+    null,
+    1132,
+    1599,
+    1715,
+    1015
+   ],
+   "AC詳細": [
+    1854,
+    2098,
+    898,
+    727,
+    null,
+    1552,
+    2128,
+    1147,
+    1438,
+    824,
+    658,
+    833,
+    1205,
+    1193,
+    null,
+    1079,
+    1350,
+    893,
+    871,
+    2574,
+    1255
+   ],
+   "検索結果": [
+    1103,
+    1532,
+    null,
+    1432,
+    1032,
+    null,
+    932,
+    1112,
+    1114,
+    1292,
+    1875,
+    2577,
+    957,
+    1423,
+    1028,
+    758,
+    565,
+    813,
+    818,
+    858,
+    938
+   ]
+  },
+  "cls": {
+   "TOP": [
+    0.157,
+    null,
+    0.157,
+    0.157,
+    0.157,
+    0.157,
+    0.17,
+    0.157,
+    0.157,
+    0.17,
+    0.182,
+    0.157,
+    0.17,
+    0.157,
+    0.157,
+    0.157,
+    0.157,
+    0.157,
+    0.16,
+    0.011,
+    0.159
+   ],
+   "エリア": [
+    0.146,
+    0.146,
+    null,
+    0.0,
+    null,
+    0.146,
+    null,
+    null,
+    0.146,
+    0.146,
+    0.146,
+    0.146,
+    0.0,
+    0.146,
+    0.0,
+    0.0,
+    null,
+    0.146,
+    0.146,
+    0.146,
+    0.0
+   ],
+   "地域": [
+    0.513,
+    0.513,
+    0.513,
+    0.513,
+    0.0,
+    0.513,
+    null,
+    0.513,
+    0.0,
+    0.513,
+    0.513,
+    0.0,
+    0.0,
+    0.513,
+    0.0,
+    0.513,
+    null,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "カテゴリー": [
+    null,
+    null,
+    0.0,
+    0.0,
+    null,
+    0.0,
+    0.146,
+    0.146,
+    0.021,
+    0.146,
+    0.146,
+    0.146,
+    0.146,
+    0.146,
+    null,
+    0.0,
+    null,
+    0.146,
+    0.021,
+    0.146,
+    0.0
+   ],
+   "AC詳細": [
+    0.146,
+    0.146,
+    0.146,
+    0.146,
+    null,
+    0.0,
+    0.002,
+    0.146,
+    0.146,
+    0.146,
+    0.0,
+    0.146,
+    0.146,
+    0.0,
+    null,
+    0.0,
+    0.146,
+    0.0,
+    0.146,
+    0.146,
+    0.146
+   ],
+   "検索結果": [
+    0.334,
+    0.334,
+    null,
+    0.334,
+    0.439,
+    null,
+    0.636,
+    0.334,
+    0.463,
+    0.334,
+    0.316,
+    0.567,
+    0.484,
+    0.334,
+    0.146,
+    0.146,
+    0.146,
+    0.0,
+    0.146,
+    0.146,
+    0.146
+   ]
+  },
+  "field_lcp": {
+   "TOP": [
+    2845,
+    null,
+    2875,
+    2875,
+    2880,
+    2883,
+    2872,
+    2878,
+    2877,
+    2887,
+    2891,
+    2886,
+    2895,
+    2895,
+    2894,
+    2896,
+    2916,
+    2916,
+    2916,
+    2930,
+    2931
+   ],
+   "エリア": [
+    2741,
+    2741,
+    null,
+    2752,
+    null,
+    2762,
+    null,
+    null,
+    2772,
+    2785,
+    2783,
+    2785,
+    2792,
+    2792,
+    2794,
+    2795,
+    null,
+    2808,
+    2808,
+    2804,
+    2800
+   ],
+   "地域": [
+    2202,
+    2202,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    2212,
+    2212,
+    2217,
+    2223
+   ],
+   "カテゴリー": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    2212,
+    2212,
+    2217,
+    2223
+   ],
+   "AC詳細": [
+    2202,
+    2202,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    2212,
+    2212,
+    2217,
+    2223
+   ],
+   "検索結果": [
+    6534,
+    6534,
+    null,
+    6464,
+    6413,
+    null,
+    6402,
+    6362,
+    6351,
+    6290,
+    6295,
+    6274,
+    6276,
+    6276,
+    6226,
+    6226,
+    6163,
+    6179,
+    6179,
+    6179,
+    6146
+   ]
+  }
+ },
+ "inventory": {
+  "as_of": "2026-09-30",
+  "list_url": "https://app.clickup.com/t/31108037/UX_DESIGN-386",
+  "groups": [
+   {
+    "key": "done",
+    "ja": "完了",
+    "en": "Done",
+    "n": 5
+   },
+   {
+    "key": "rfr",
+    "ja": "リリース待ち",
+    "en": "Ready for release",
+    "n": 2
+   },
+   {
+    "key": "doing",
+    "ja": "進行中",
+    "en": "In progress",
+    "n": 6
+   },
+   {
+    "key": "ready",
+    "ja": "着手できる",
+    "en": "Ready to start",
+    "n": 8
+   },
+   {
+    "key": "backlog",
+    "ja": "未着手",
+    "en": "Not started",
+    "n": 28
+   }
+  ],
+  "urgent": [
+   {
+    "t": "UX_DESIGN-404",
+    "ja": "空ボディの coupon POST を止める",
+    "en": "Stop the empty-body coupon POST",
+    "gain": "約2,182ms"
+   },
+   {
+    "t": "UX_DESIGN-398",
+    "ja": "VWO アンチフリッカーの縮小（body を最大2秒 opacity:0）",
+    "en": "Shrink the VWO anti-flicker snippet (body hidden up to 2s)",
+    "gain": "最大2,000ms"
+   },
+   {
+    "t": "UX_DESIGN-410",
+    "ja": "カテゴリ: 初期表示で同じリストを再取得している",
+    "en": "Category: the same list is fetched twice on load",
+    "gain": ""
+   },
+   {
+    "t": "UX_DESIGN-418",
+    "ja": "検索結果: サーバー描画済みの結果を無条件に再取得している",
+    "en": "Search: server-rendered results are refetched unconditionally",
+    "gain": ""
+   },
+   {
+    "t": "UX_DESIGN-415",
+    "ja": "日程から探す: ページキャッシュ未設定で毎回フル描画",
+    "en": "Date search: no page cache, full render every time",
+    "gain": ""
+   },
+   {
+    "t": "UX_DESIGN-395",
+    "ja": "AC詳細: preload の画像が実LCPと不一致",
+    "en": "AC detail: the preloaded image is not the real LCP element",
+    "gain": ""
+   },
+   {
+    "t": "UX_DESIGN-407",
+    "ja": "ページキャッシュのヒット率を可視化する",
+    "en": "Make the page-cache hit rate visible",
+    "gain": ""
+   },
+   {
+    "t": "UX_DESIGN-416",
+    "ja": "coupon_request を出力してクーポン表示を復旧",
+    "en": "Emit coupon_request to restore coupon display",
+    "gain": ""
+   },
+   {
+    "t": "UX_DESIGN-411",
+    "ja": "Peregrine APIキーが公開JSに平文で入っている",
+    "en": "Peregrine API key is hard-coded in public JS",
+    "gain": ""
+   }
+  ],
+  "shipped": [
+   {
+    "d": "2026-09-17",
+    "t": "UX_DESIGN-323",
+    "ja": "AppsFlyer を defer 化",
+    "en": "Defer AppsFlyer",
+    "scope": "全ページ",
+    "gain": "893ms"
+   },
+   {
+    "d": "2026-09-17",
+    "t": "UX_DESIGN-395",
+    "ja": "preload の画像を実LCPに合わせる",
+    "en": "Point preload at the real LCP image",
+    "scope": "AC詳細",
+    "gain": ""
+   },
+   {
+    "d": "2026-09-17",
+    "t": "UX_DESIGN-396",
+    "ja": "先頭ACカード画像に fetchpriority=high",
+    "en": "fetchpriority=high on the first AC card image",
+    "scope": "カテゴリー・検索",
+    "gain": ""
+   },
+   {
+    "d": "2026-09-17",
+    "t": "UX_DESIGN-397",
+    "ja": "lcp_image_url を設定して preload",
+    "en": "Set lcp_image_url and preload it",
+    "scope": "エリア",
+    "gain": ""
+   },
+   {
+    "d": "2026-09-17",
+    "t": "UX_DESIGN-389",
+    "ja": "フィルターバー固定・画像枠の寸法予約",
+    "en": "Pin the filter bar, reserve image box sizes",
+    "scope": "6ページ",
+    "gain": ""
+   },
+   {
+    "d": "2026-09-17",
+    "t": "UX_DESIGN-389",
+    "ja": "検索ページに1時間のページキャッシュ",
+    "en": "One-hour page cache on search",
+    "scope": "検索",
+    "gain": ""
+   }
+  ],
+  "closed": [
+   {
+    "t": "UX_DESIGN-302",
+    "ja": "カテゴリ: 冗長なクーポン処理を削除",
+    "en": "Remove redundant coupon processing on category"
+   },
+   {
+    "t": "UX_DESIGN-306",
+    "ja": "レンダーブロッキング解消",
+    "en": "Eliminate render-blocking resources"
+   },
+   {
+    "t": "UX_DESIGN-310",
+    "ja": "isDynamicPrice 改修（約848ms削減）",
+    "en": "Refactor isDynamicPrice (~848ms)"
+   },
+   {
+    "t": "UX_DESIGN-311",
+    "ja": "AC詳細: 予約カレンダー・在庫APIの応答改善",
+    "en": "AC detail: faster booking calendar and inventory API"
+   },
+   {
+    "t": "UX_DESIGN-313",
+    "ja": "カテゴリ: 予約モーダル再読込の調査",
+    "en": "Category: investigate booking-modal reloads"
+   }
+  ]
+ },
+ "effect": {
+  "release_date": "2026-09-17",
+  "pre": [
+   "2026-09-12",
+   "2026-09-16"
+  ],
+  "post": [
+   "2026-09-19",
+   "2026-09-24"
+  ],
+  "overall": {
+   "before": 33.7,
+   "after": 41.6
+  },
+  "pages": [
+   {
+    "p": "検索結果",
+    "before": 18.4,
+    "after": 40.0
+   },
+   {
+    "p": "エリア",
+    "before": 38.4,
+    "after": 45.8
+   },
+   {
+    "p": "TOP",
+    "before": 25.0,
+    "after": 32.0
+   },
+   {
+    "p": "AC詳細",
+    "before": 48.6,
+    "after": 55.0
+   },
+   {
+    "p": "地域",
+    "before": 35.4,
+    "after": 38.0
+   },
+   {
+    "p": "カテゴリー",
+    "before": 36.6,
+    "after": 38.6
+   }
+  ],
+  "tbt": {
+   "pages": [
+    {
+     "p": "検索結果",
+     "before": 1563,
+     "after": 837,
+     "sd": 516
+    },
+    {
+     "p": "エリア",
+     "before": 964,
+     "after": 849,
+     "sd": 294
+    },
+    {
+     "p": "TOP",
+     "before": 1524,
+     "after": 1095,
+     "sd": 683
+    },
+    {
+     "p": "AC詳細",
+     "before": 992,
+     "after": 1334,
+     "sd": 491
+    },
+    {
+     "p": "地域",
+     "before": 1880,
+     "after": 1138,
+     "sd": 1263
+    },
+    {
+     "p": "カテゴリー",
+     "before": 1093,
+     "after": 1451,
+     "sd": 300
+    }
+   ],
+   "overall": {
+    "before": 1336,
+    "after": 1117
+   }
+  }
+ },
+ "setups": [
+  {
+   "key": "crux-key",
+   "ja": {
+    "title": "実ユーザー値を毎日取れるようにする",
+    "why": "いま実ユーザー値は週1回の収集に頼っていて、その収集が 2026-09-13 で止まっている。APIキーが1本あれば、この収集を経由せずに毎日取れる。地域・AC詳細の代表URL差し替えも即反映できる。",
+    "who": "キーの発行はブラウザ作業。発行後の取得・更新は自動。",
+    "when": "キーを受け取った当日から",
+    "cost": "5分",
+    "steps": [
+     {
+      "t": "Chrome UX Report API を有効にする",
+      "u": "https://console.cloud.google.com/apis/library/chromeuxreport.googleapis.com"
+     },
+     {
+      "t": "PageSpeed Insights API も同じプロジェクトで有効にする",
+      "u": "https://console.cloud.google.com/apis/library/pagespeedonline.googleapis.com"
+     },
+     {
+      "t": "認証情報 → APIキーを作成 → コピー",
+      "u": "https://console.cloud.google.com/apis/credentials"
+     },
+     {
+      "t": "キーを環境変数に入れる（チャットに貼らない）。設定手順は依頼時に案内",
+      "u": ""
+     }
+    ],
+    "note": "CrUX API は 150クエリ/分まで無料。キー無しの共有枠は既に上限に達していることを確認済み。"
+   },
+   "en": {
+    "title": "Get real-user figures every day",
+    "why": "Real-user figures depend on a weekly collection that stopped on 2026-09-13. One API key removes that dependency and lets the figures be pulled daily, and lets the Region and AC-detail sample URLs be swapped immediately.",
+    "who": "Issuing the key is a browser task. Everything after it is automatic.",
+    "when": "The day the key arrives",
+    "cost": "5 min",
+    "steps": [
+     {
+      "t": "Enable the Chrome UX Report API",
+      "u": "https://console.cloud.google.com/apis/library/chromeuxreport.googleapis.com"
+     },
+     {
+      "t": "Enable the PageSpeed Insights API in the same project",
+      "u": "https://console.cloud.google.com/apis/library/pagespeedonline.googleapis.com"
+     },
+     {
+      "t": "Credentials → Create API key → copy",
+      "u": "https://console.cloud.google.com/apis/credentials"
+     },
+     {
+      "t": "Put the key in an environment variable, not in chat. Steps supplied on request",
+      "u": ""
+     }
+    ],
+    "note": "The CrUX API is free up to 150 queries per minute. The keyless shared quota is already exhausted (verified)."
+   }
+  },
+  {
+   "key": "web-vitals",
+   "ja": {
+    "title": "操作への反応を、実ユーザーで測れるようにする",
+    "why": "押してから画面が応えるまでの時間は、いまラボ値（TBT）で代用している。実ユーザーの INP を取れば代用をやめられる。CrUX と違い訪問数の下限がないので、6ページに限らず全ページで取れる。",
+    "who": "GTM にタグを貼って公開するまでがブラウザ作業。タグのコードはこちらで用意する。",
+    "when": "公開した翌日から",
+    "cost": "15分",
+    "steps": [
+     {
+      "t": "タグのコード全文を受け取る（依頼があれば出す）",
+      "u": ""
+     },
+     {
+      "t": "GTM（GTM-5KFX5VX）でカスタムHTMLタグを作成して貼る",
+      "u": "https://tagmanager.google.com/"
+     },
+     {
+      "t": "トリガーを All Pages にして公開",
+      "u": ""
+     },
+     {
+      "t": "GA4 でカスタム定義を登録（設定値はこちらで出す）",
+      "u": "https://analytics.google.com/"
+     }
+    ],
+    "note": "チケットは UX_DESIGN-300。"
+   },
+   "en": {
+    "title": "Measure response-to-touch on real users",
+    "why": "The wait between a tap and a response is currently stood in for by a lab figure (TBT). Real-user INP replaces that stand-in, and unlike CrUX it has no visit threshold, so every page can be measured, not just six.",
+    "who": "Pasting the tag into GTM and publishing is a browser task. The tag code is supplied.",
+    "when": "The day after it is published",
+    "cost": "15 min",
+    "steps": [
+     {
+      "t": "Receive the full tag code (supplied on request)",
+      "u": ""
+     },
+     {
+      "t": "Create a Custom HTML tag in GTM (GTM-5KFX5VX) and paste it",
+      "u": "https://tagmanager.google.com/"
+     },
+     {
+      "t": "Set the trigger to All Pages and publish",
+      "u": ""
+     },
+     {
+      "t": "Register the custom definitions in GA4 (values supplied)",
+      "u": "https://analytics.google.com/"
+     }
+    ],
+    "note": "Ticket: UX_DESIGN-300."
+   }
+  },
+  {
+   "key": "server-timing",
+   "ja": {
+    "title": "予約モーダル・絞り込みの応答を、週ごとに残す",
+    "why": "フィルター API 1.50s と 予約モーダル 0.77s は着手前に1回測っただけで、UX_DESIGN-321 を直しても効果を示せない。週ごとに残せば前後比較ができる。",
+    "who": "計測スプレッドシートにタブを1枚足して、スクリプトを貼るまで。以降は毎週自動で1行増える。",
+    "when": "貼った翌週から",
+    "cost": "10分",
+    "steps": [
+     {
+      "t": "スクリプト全文を受け取る（依頼があれば出す）",
+      "u": ""
+     },
+     {
+      "t": "計測スプレッドシートの Apps Script に貼る",
+      "u": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit"
+     },
+     {
+      "t": "setUp() を1回実行してトリガーを付ける",
+      "u": ""
+     }
+    ],
+    "note": "元の 1.50s / 0.77s をどう測ったかが分かれば、同じ条件に揃えられる。"
+   },
+   "en": {
+    "title": "Record booking-modal and filter response week by week",
+    "why": "Filter API 1.50s and booking modal 0.77s were each measured once before any work, so fixing UX_DESIGN-321 cannot be shown to have helped. A weekly record makes before/after possible.",
+    "who": "Add one tab to the measurement spreadsheet and paste a script. After that a row is added automatically each week.",
+    "when": "The week after it is pasted",
+    "cost": "10 min",
+    "steps": [
+     {
+      "t": "Receive the full script (supplied on request)",
+      "u": ""
+     },
+     {
+      "t": "Paste it into the spreadsheet's Apps Script",
+      "u": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit"
+     },
+     {
+      "t": "Run setUp() once to install the trigger",
+      "u": ""
+     }
+    ],
+    "note": "If we learn how the original 1.50s / 0.77s were measured, the new figures can match those conditions."
+   }
+  },
+  {
+   "key": "schedule",
+   "ja": {
+    "title": "このレポートを毎週ひとりでに更新する",
+    "why": "いまは依頼があったときだけ更新している。曜日を決めれば、数値の取り込み・生成・公開・Slack 通知までひとりで回る。",
+    "who": "曜日と Slack のチャンネルを決めるだけ。登録はこちらで行う。",
+    "when": "決めた当日に登録、翌週から稼働",
+    "cost": "2分",
+    "steps": [
+     {
+      "t": "曜日と時刻を決める（例：毎週月曜 09:00）",
+      "u": ""
+     },
+     {
+      "t": "投稿先の Slack チャンネルを決める",
+      "u": ""
+     },
+     {
+      "t": "登録を依頼する。実行内容は事前に提示する",
+      "u": ""
+     }
+    ],
+    "note": "指示があるまで登録はしない。"
+   },
+   "en": {
+    "title": "Update this report every week on its own",
+    "why": "Today it updates only when asked. Fix a weekday and the whole loop — pulling figures, building, publishing, posting to Slack — runs by itself.",
+    "who": "Pick a weekday and a Slack channel. Registration is handled here.",
+    "when": "Registered the same day, running from the following week",
+    "cost": "2 min",
+    "steps": [
+     {
+      "t": "Pick a day and time (e.g. Monday 09:00)",
+      "u": ""
+     },
+     {
+      "t": "Pick the Slack channel to post to",
+      "u": ""
+     },
+     {
+      "t": "Ask for it to be registered. The exact steps are shown beforehand",
+      "u": ""
+     }
+    ],
+    "note": "Nothing is registered without being asked."
+   }
+  },
+  {
+   "key": "release-log",
+   "ja": {
+    "title": "リリースした日を記録する",
+    "cost": "5分",
+    "why": "いま本番にいつ何が出たかを残している場所が無い。ClickUp の状態が変わった日は、整理でまとめて閉じた日とも区別がつかない。記録が無いと、数字が動いても何のおかげか言えない。",
+    "who": "計測スプレッドシートの annotations タブに1行書くだけ。出した人が出した日に書く。",
+    "when": "次のリリースから",
+    "steps": [
+     {
+      "t": "計測スプレッドシートの annotations タブを開く（日付・チケット・対象・種別・内容の5列は作成済み）",
+      "u": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit"
+     },
+     {
+      "t": "本番に出した日に1行足す。チケット番号だけでもよい",
+      "u": ""
+     },
+     {
+      "t": "以降このレポートのグラフに自動で打刻が出る",
+      "u": ""
+     }
+    ],
+    "note": "いま出ている 9/17 の6件は手で入れたもの。タブが埋まれば、そこから読むように切り替える。"
+   },
+   "en": {
+    "title": "Record the day each change shipped",
+    "cost": "5 min",
+    "why": "Nothing currently records what reached production and when. A ClickUp status change cannot be told apart from a bulk tidy-up. Without the record, a figure can move and nobody can say what caused it.",
+    "who": "One row in the annotations tab of the measurement spreadsheet, written by whoever shipped it, on the day.",
+    "when": "From the next release",
+    "steps": [
+     {
+      "t": "Open the annotations tab (date, ticket, scope, type, note columns already exist)",
+      "u": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit"
+     },
+     {
+      "t": "Add a row on the day it goes out. The ticket number alone is enough",
+      "u": ""
+     },
+     {
+      "t": "From then on the marks appear on the charts here automatically",
+      "u": ""
+     }
+    ],
+    "note": "The six marks now shown for 9/17 were entered by hand. Once the tab is in use, the report will read from it instead."
+   }
+  }
+ ],
+ "review": {
+  "period": {
+   "from": "2026-09-04",
+   "to": "2026-09-24"
+  },
+  "updated": "2026-09-30",
+  "parts": [
+   {
+    "h": {
+     "ja": "現在の状況",
+     "en": "Where things stand"
+    },
+    "b": {
+     "ja": "9/24 時点の [[PageSpeed Insights]]（PSI）スコアは <b>32〜55点</b>（0〜100点、高いほど速い）。[[判定]]が「普通」に乗ったのは AC詳細（55.0点）だけで、<b>残り5ページは「低」のまま</b>。<br>実際に使っている人の反応速度（[[INP]]）は、まだ1件も取れていない。いまは[[ラボ値]]の [[TBT]] で代わりに見ており、9/24 時点で 6ページ平均 1,117ms（小さいほど速い）。<br>実際に使っている人の表示速度（[[CrUX]] の週次）は 9/13 で収集が止まっており、<b>このままだと 9/17 のリリース効果を実ユーザー側で確認できない</b>。",
+     "en": "As of 9/24 the [[PageSpeed Insights]] (PSI) scores run <b>32 to 55</b> (0-100, higher is faster). Only AC detail reached the average band (55.0); <b>the other five are still low</b>.<br>There is not a single real-user response figure ([[INP]]) yet, so the lab measure [[TBT]] stands in: 1,117ms on the six-page mean as of 9/24 (smaller is faster).<br>Real-user load figures ([[CrUX]], weekly) stopped collecting on 9/13, so as things stand <b>the effect of the 9/17 release cannot be confirmed on the real-user side</b>."
+    }
+   },
+   {
+    "h": {
+     "ja": "傾向と要因",
+     "en": "Direction and why"
+    },
+    "b": {
+     "ja": "<b>上昇</b>。6ページの PSI スコア平均は、9/17 のリリース前5日が 31〜37点、後5日が 39〜44点。<b>約 +8点</b>の段が付き、6ページとも上がって下がったページは無い。<br>要因は出した6件の中身にある。全件が<b>「先に画を出す」側</b>の施策（[[UX_DESIGN-323]] タグの読み込みを後回しに、[[UX_DESIGN-395]]／[[UX_DESIGN-396]]／[[UX_DESIGN-397]] 主役の画像を先に取りに行く、[[UX_DESIGN-389]] 画像枠の寸法を先に確保・検索にページキャッシュ）で、PSI スコアはここで大きく動く。<br>いちばん動いたのは検索結果（18.4 → 40.0点、+21.6点）。6件のうち2件が検索結果に当たっている。1ページに2件重なったことが効いている、というのはここからの推定で、切り分けはできていない。<br>一方 [[TBT]]（操作への反応）は、6ページ平均で 1,336 → 1,117ms。下がって見えるが、<b>日ごとの振れが大きく、差がばらつきに埋もれている</b>。自分のばらつきを超えて動いたのは検索結果（-726ms）とカテゴリー（+358ms）の2ページだけで、しかも向きが逆。<b>効いたとも効かなかったとも言えない</b>のが正しい読み。<br>そもそも6件のどれも JS の実行量を減らす施策ではないので、ここが動く見込みは薄かった。「効かなかった」ではなく「まだ打っていない」。",
+     "en": "<b>Up.</b> Across the six pages the mean PSI score ran 31-37 over the five days before the 9/17 release and 39-44 over the five after — a step of about <b>+8 points</b>, up on all six, down on none.<br>The reason is what went out. All six were <b>about getting the picture on screen sooner</b> (UX_DESIGN-323 loading a tag later, UX_DESIGN-395/396/397 fetching the main image first, UX_DESIGN-389 reserving image space and caching the search page) — which is exactly what the PSI score responds to.<br>Search moved most (18.4 to 40.0, +21.6) and two of the six landed on it. That the two stacking on one page is what did it is an inference from here, not something separated out.<br>TBT (response to a tap) went 1,336 to 1,117ms on the six-page mean. That looks like a drop, but <b>the day-to-day swing is larger than the change</b>. Only Search (-726ms) and Category (+358ms) moved further than their own spread, and in opposite directions, so <b>neither success nor failure can be claimed</b>.<br>None of the six reduced how much JavaScript runs, so there was little reason to expect movement here. Nothing failed; that shot has not been taken yet."
+    }
+   },
+   {
+    "h": {
+     "ja": "次にやること",
+     "en": "What to do next"
+    },
+    "b": {
+     "ja": "<b>1. JS の実行量に効く施策を出す。</b> 未リリースの急ぎ9件のうち [[UX_DESIGN-404]]（空のまま送っている通信を止める／約2,182ms）と [[UX_DESIGN-398]]（画面を最大2秒まっ白にしている待ちを縮める／最大2,000ms）が桁として最大。見込み時間はいずれもチケット記載値。TBT と実ユーザーの反応速度はここで初めて動くはず。<br><b>2. 同じものを取り直している通信を止める。</b> [[UX_DESIGN-410]]（カテゴリ）／[[UX_DESIGN-418]]（検索結果）／[[UX_DESIGN-415]]（日程から探す）。<br><b>3. 実ユーザーの計測を始める。</b> GTM にタグを入れれば翌日から取れる（第3節）。止まっている週次の収集も戻す（第9節）。これが無いと、1. と 2. を出しても効果を数字で言えない。",
+     "en": "<b>1. Ship something that reduces JavaScript work.</b> Of the nine urgent unreleased items, UX_DESIGN-404 (stopping a request sent with an empty body, about 2,182ms) and UX_DESIGN-398 (shortening a wait that holds the screen blank for up to two seconds, up to 2,000ms) are the largest. Both estimates are the figures on the tickets. This is where TBT and real-user response should first move.<br><b>2. Stop re-fetching what is already there.</b> UX_DESIGN-410 (category), UX_DESIGN-418 (search), UX_DESIGN-415 (search by date).<br><b>3. Start measuring real users.</b> A tag in GTM and figures arrive the next day (section 3); restart the stalled weekly collection (section 9). Without it, 1 and 2 ship with no number to show for them."
+    }
+   }
+  ],
+  "h": {
+   "ja": "現状と傾向",
+   "en": "Where we are"
+  }
+ }
+}
