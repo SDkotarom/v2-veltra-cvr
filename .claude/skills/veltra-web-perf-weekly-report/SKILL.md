@@ -9,6 +9,23 @@ description: >
 
 # 表示速度モニタリング レポート更新
 
+## 取得経路の切り替え（2026-10-01 決定）
+
+スプレッドシート経由をやめ、**API を直接叩いて data.json を作る**方針に切り替える。
+
+- 理由：Drive コネクタはシートの各タブの先頭40行ほどしか返さず、末尾（最新の行）を読めない。
+  2026-09-30 時点で psi_daily は 144行あったが、レポートに入っていたのは 109点だけで、
+  9/25 以降が丸ごと抜けていた。収集は動いていたのに、取り込みが止まっていた
+- キー：環境変数 **`VELTRA_PERF_API_KEY`**（チャットに貼らせない。リポジトリに書かない）
+- 有効にする API（2026-10-01 に API の応答で確認したサービス名）
+  - `pagespeedonline.googleapis.com` — PSI 日次（`/pagespeedonline/v5/runPagespeed?url=…&strategy=mobile&key=…`）
+  - `chromeuxreport.googleapis.com` — CrUX。最新は `records:queryRecord`、週次の履歴は
+    `records:queryHistoryRecord`。どちらも同じサービスで、追加の有効化は要らない
+- この環境から両 API に到達できることは確認済み（不正キーで 400 API_KEY_INVALID が返る）
+- キーが入ったら `scripts/perf-report/fetch.py`（未作成）で取得 → data.json の `psi` / `weekly` を更新
+  → 以下の手順 5・6 に合流する
+- ついでに地域・カテゴリーの計測URLを訪問数の多いものに差し替える（いまのURLは CrUX の掲載閾値に届かない）
+
 ## 構成（3層）
 
 | 層 | 実体 | 役割 |
