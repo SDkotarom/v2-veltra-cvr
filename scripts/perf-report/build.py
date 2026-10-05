@@ -149,9 +149,14 @@ for m in metrics:
 <div class="plot" id="plot-{m["key"]}"></div></div>'''
 
 RV = D["review"]
-leads = "".join(
-    f'<div class="rv-p"><h3>{t(x["h"]["ja"], x["h"]["en"])}</h3>'
-    f'<p>{t(x["b"]["ja"], x["b"]["en"])}</p></div>' for x in RV["parts"])
+def _lead(x):
+    if "items" in x:   # 箇条書き
+        li = lambda L: "<ul>" + "".join(f"<li>{expand(v)}</li>" for v in L) + "</ul>"
+        body = f'<div class="rv-l"><span class="ja">{li(x["items"]["ja"])}</span><span class="en">{li(x["items"]["en"])}</span></div>'
+    else:
+        body = f'<p>{t(x["b"]["ja"], x["b"]["en"])}</p>'
+    return f'<div class="rv-p"><h3>{t(x["h"]["ja"], x["h"]["en"])}</h3>{body}</div>'
+leads = "".join(_lead(x) for x in RV["parts"])
 frows = "".join(
     f'<div class="find"><div class="fn">{i+1:02d}</div><div><h3>{t(f["h"]["ja"], f["h"]["en"])}</h3>'
     f'<p>{t(f["b"]["ja"], f["b"]["en"])}</p></div></div>' for i, f in enumerate(D["findings"]))
@@ -292,24 +297,31 @@ def _band(v):
 def _bk(v):
     return "slow" if v < 50 else ("mid" if v < 90 else "fast")
 TB = EF["tbt"]
-trows = "".join(
-    f'<tr><td>{r["p"]}</td>'
-    f'<td class="{"good" if r["after"] < r["before"] else "bad"}">{r["after"] - r["before"]:+,}</td>'
-    f'<td>{r["before"]:,} → {r["after"]:,}</td>'
-    f'<td>&plusmn;{r["sd"]:,}</td>'
-    f'<td><span class="bdg {"read" if abs(r["after"] - r["before"]) > r["sd"] else "flat"}">'
-    f'{t("ばらつきを超えた", "Beyond the noise") if abs(r["after"] - r["before"]) > r["sd"] else t("判断できない", "Cannot tell")}'
-    f'</span></td></tr>'
-    for r in sorted(EF["tbt"]["pages"], key=lambda x: x["after"] - x["before"]))
+VD = {"fast": ("速くなった", "Faster", "up", "good"), "slow": ("遅くなった", "Slower", "down", "bad"),
+      "same": ("変化なし", "No change", "flat", "")}
+_ORD = {"fast": 0, "same": 1, "slow": 2}
 
-erows = "".join(
-    f'<tr><td>{r["p"]}</td>'
-    f'<td><span class="bdg {"up" if r["after"] > r["before"] else "down"}">'
-    f'{t("上がった", "Up") if r["after"] > r["before"] else t("下がった", "Down")}</span></td>'
-    f'<td class="{"good" if r["after"] > r["before"] else "bad"}">{r["after"] - r["before"]:+.1f}</td>'
-    f'<td>{r["before"]:.1f} → {r["after"]:.1f}</td>'
-    f'<td><span class="bdg b-{_bk(r["after"])}">{t(*_band(r["after"]))}</span></td></tr>'
-    for r in sorted(EF["pages"], key=lambda x: x["before"] - x["after"]))
+def _md(a, b):
+    return f'{a[5:].replace("-", "/").lstrip("0")}〜{b[5:].replace("-", "/").lstrip("0")}'
+WIN = f'リリース前 {_md(*EF["pre"])}／直後 {_md(*EF["mid"])}／月末 {_md(*EF["post"])}'
+WIN_EN = f'before {_md(*EF["pre"])}, just after {_md(*EF["mid"])}, month end {_md(*EF["post"])}'
+
+def _row(r, unit, fmt, rating=""):
+    ja, en, bc, dc = VD[r["verdict"]]
+    diff = r["after"] - r["before"]
+    return (f'<tr><td>{r["p"]}</td><td><span class="bdg {bc}">{t(ja, en)}</span></td>'
+            f'<td class="{dc}">{fmt(diff, True)}{unit}</td>'
+            f'<td>{fmt(r["before"])}{unit} → {fmt(r["mid"])}{unit} → <b>{fmt(r["after"])}{unit}</b></td>'
+            f'<td>&plusmn;{fmt(r["sd"])}{unit}</td>{rating}</tr>')
+
+_pt = lambda v, sign=False: f'{v:+.1f}' if sign else f'{v:.1f}'
+_ms = lambda v, sign=False: f'{v:+,}' if sign else f'{v:,}'
+_key = lambda x: (_ORD[x["verdict"]], -abs(x["after"] - x["before"]))
+erows = "".join(_row(r, "点", _pt, f'<td><span class="bdg b-{_bk(r["after"])}">{t(*_band(r["after"]))}</span></td>')
+                for r in sorted(EF["pages"], key=_key))
+trows = "".join(_row(r, "ms", _ms) for r in sorted(TB["pages"], key=_key))
+_cnt = lambda rs: {k: sum(1 for r in rs if r["verdict"] == k) for k in VD}
+EC, TC = _cnt(EF["pages"]), _cnt(TB["pages"])
 
 # 4 やったこと
 srows = "".join(
@@ -400,18 +412,19 @@ html = f'''<title>表示速度モニタリング</title>
 <div class="sec"><h2><span class="n">1</span>{t("プロジェクト実績サマリー", "Project summary")}</h2>
 <div class="hls">{headline}</div>
 <h3 class="sh">{t("表示の速さ（PSI スコア）", "How fast it appears (PSI score)")}</h3>
-<div class="tw"><table><tr><th>{t("ページ種別","Page type")}</th><th>{t("結果","Result")}</th><th>{t("点差","Points")}</th><th>{t("リリース前 → 後","Before → after")}</th><th><span class="ja"><span{_RT}>判定</span></span><span class="en"><span{_RT}>Rating</span></span></th></tr>{erows}</table></div>
-<p class="note">{t(f'数値は [[PageSpeed Insights]]（PSI）のスコア（0〜100点、高いほど速い）。{EF["release_date"]} のリリース前5日と後5日の平均で、6ページとも測れた日だけを使っている。', f'The figures are PageSpeed Insights (PSI) scores — 0 to 100, higher is faster. Each is a mean over the five days before and the five days after the {EF["release_date"]} release, counting only days when all six pages were measured.')}</p>
-<p class="note">{t('判定は PSI がスコアを分ける3段階。<b>90点以上が「高」、50〜89点が「普通」、49点以下が「低」</b>。6ページとも上がったが、「普通」に乗ったのは AC詳細だけ。', 'The rating is the three bands PSI sorts the score into: <b>90 and above high, 50-89 average, 49 and below low</b>. All six rose; only AC detail reached average.')}</p>
+<div class="tw"><table><tr><th>{t("ページ種別","Page type")}</th><th>{t("結果","Result")}</th><th>{t("差","Change")}</th><th>{t("リリース前 → 直後 → 月末","Before → just after → month end")}</th><th>{t("日ごとのばらつき","Daily spread")}</th><th><span class="ja"><span{_RT}>判定（月末）</span></span><span class="en"><span{_RT}>Rating (month end)</span></span></th></tr>{erows}</table></div>
+<p class="note">{t(f'[[PageSpeed Insights]]（PSI）のスコア。0〜100点で、<b>点が高いほど速い</b>。{WIN}（いずれも6ページとも測れた5日の平均）。', f'PageSpeed Insights (PSI) score, 0 to 100, <b>higher is faster</b>. Five-day means: {WIN_EN}, counting only days when all six pages were measured.')}</p>
+<p class="note">{t(f'結果は「リリース前」と「月末」の差で決めている。差が日ごとのばらつき（同じページの日ごとの標準偏差）以内なら変化なし。速くなった {EC["fast"]}ページ／変化なし {EC["same"]}ページ／遅くなった {EC["slow"]}ページ。', f'The result compares before with month end. A change inside the daily spread (standard deviation of that page across days) counts as no change. Faster {EC["fast"]}, no change {EC["same"]}, slower {EC["slow"]}.')}</p>
+<p class="note">{t('判定は PSI がスコアを分ける3段階。<b>90点以上が「高」、50〜89点が「普通」、49点以下が「低」</b>。月末時点で6ページとも「低」。', 'The rating is the three bands PSI uses: <b>90 and above high, 50-89 average, 49 and below low</b>. At month end all six are low.')}</p>
 
 <h3 class="sh">{t("操作への反応（[[TBT]]）", "Response to a tap ([[TBT]])")}</h3>
-<div class="tw"><table><tr><th>{t("ページ種別","Page type")}</th><th>{t("差","Change")}</th><th>{t("リリース前 → 後","Before → after")}</th><th>{t("日ごとのばらつき","Daily spread")}</th><th>{t("読み取れるか","Readable?")}</th></tr>{trows}</table></div>
-<p class="note">{t(f'単位はミリ秒、<b>小さいほど速い</b>。6ページ平均は {TB["overall"]["before"]:,} → {TB["overall"]["after"]:,}ms。', f'Milliseconds, <b>smaller is faster</b>. The six-page mean went {TB["overall"]["before"]:,} to {TB["overall"]["after"]:,}ms.')}</p>
-<p class="note">{t('ただし TBT は日ごとの振れが大きい。差がばらつき（同じページの日ごとの標準偏差）を超えたのは検索結果とカテゴリーの2ページだけで、しかも向きが逆。<b>残り4ページは差がばらつきに埋もれており、上がったか下がったかを判断できない</b>。', 'TBT swings hard day to day. Only Search and Category moved further than their own daily spread, and in opposite directions. <b>For the other four the change is smaller than the noise, so there is nothing to read.</b>')}</p>
+<div class="tw"><table><tr><th>{t("ページ種別","Page type")}</th><th>{t("結果","Result")}</th><th>{t("差","Change")}</th><th>{t("リリース前 → 直後 → 月末","Before → just after → month end")}</th><th>{t("日ごとのばらつき","Daily spread")}</th></tr>{trows}</table></div>
+<p class="note">{t(f'ページを開いている間に、操作を受け付けられなかった時間の合計。<b>ミリ秒（ms）が小さいほど速い</b>。期間は表示の速さと同じ。6ページ平均は {TB["overall"]["before"]:,}ms → {TB["overall"]["mid"]:,}ms → {TB["overall"]["after"]:,}ms。', f'Total time the page could not accept a tap. <b>Fewer milliseconds is faster</b>. Same periods as above. Six-page mean {TB["overall"]["before"]:,}ms → {TB["overall"]["mid"]:,}ms → {TB["overall"]["after"]:,}ms.')}</p>
+<p class="note">{t(f'結果の決め方も同じ。速くなった {TC["fast"]}ページ／変化なし {TC["same"]}ページ／遅くなった {TC["slow"]}ページ。TBT は日ごとの振れが大きく、ばらつきの幅が差と同じくらいある。', f'Same rule for the result. Faster {TC["fast"]}, no change {TC["same"]}, slower {TC["slow"]}. TBT swings hard day to day; the spread is about as wide as the changes.')}</p>
 </div>
 
 <div class="sec"><h2><span class="n">2</span>{t("PSI スコア推移", "PSI score")}</h2>
-<p class="note">{t(f'太線は7日の[[移動平均]]、薄い線がその日の PSI スコア。日ごとの振れが ±5〜7点あるので、太線のほうを見る。', 'The bold line is a 7-day mean; the faint line is the PSI score for that day. Daily swings run 5-7 points, so read the bold line.')}</p>
+<p class="note">{t(f'太線は7日の[[移動平均]]、薄い線がその日の PSI スコア。日ごとの振れがページによって ±3〜11点あるので、太線のほうを見る。', 'The bold line is a 7-day mean; the faint line is the PSI score for that day. Daily swings run 3-11 points depending on the page, so read the bold line.')}</p>
 <div class="card"><div class="ch-h"><h3>{t("PSI スコアの推移", "PSI score over time")}</h3>
 <span class="ch-t">{t(f'{defs["psi_from"]} 〜 {defs["psi_to"]}', f'{defs["psi_from"]} to {defs["psi_to"]}')}</span></div>
 <div class="legend" id="psi-legend"></div>
@@ -446,11 +459,7 @@ html = f'''<title>表示速度モニタリング</title>
 <details><summary>{t("全49件の内訳", "All 49 items by state")}</summary><div class="tw"><table><tr><th>{t("状態","State")}</th><th>{t("件数","Count")}</th></tr>{grows}</table></div></details>
 </div>
 
-<div class="sec"><h2><span class="n">6</span>{t("考察", "Observations")}</h2>
-<div class="finds">{frows}</div>
-</div>
-
-<div class="sec"><h2><span class="n">7</span>{t("実ユーザー計測値", "Real-user measurements")}</h2>
+<div class="sec"><h2><span class="n">6</span>{t("実ユーザー計測値", "Real-user measurements")}</h2>
 <p class="note">{t('[[CrUX]] の週次。[[28日ローリング]]の [[p75]] なので、隣り合う週は27日ぶん同じデータを共有している。1週の増減だけを見ても意味がない。', 'Weekly CrUX. Because each figure covers a rolling 28 days, neighbouring weeks share 27 days of data, so one week of movement means little.')}</p>
 <div class="tiles">{tiles}</div>
 {setup_panel("crux-key")}
@@ -470,11 +479,11 @@ html = f'''<title>表示速度モニタリング</title>
 <div class="tw" id="trend-table"></div>
 </div>
 
-<div class="sec"><h2><span class="n">8</span>{t("課題と次の打ち手", "Issues and next moves")}</h2>
+<div class="sec"><h2><span class="n">7</span>{t("課題と次の打ち手", "Issues and next moves")}</h2>
 {irows}
 </div>
 
-<div class="sec"><h2><span class="n">9</span>{t("計測基盤と更新サイクル", "Measurement pipeline and cadence")}</h2>
+<div class="sec"><h2><span class="n">8</span>{t("計測基盤と更新サイクル", "Measurement pipeline and cadence")}</h2>
 <p class="note">{t(D["pipeline"]["note"]["ja"], D["pipeline"]["note"]["en"])}</p>
 <div class="flow">{flow}</div>
 {setup_panel("schedule")}

@@ -9,6 +9,23 @@ description: >
 
 # 表示速度モニタリング レポート更新
 
+## 取り込み方法（2026-10-05 更新：これが本線）
+
+`mcp__Google_Drive__download_file_content` に
+`exportMimeType: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` を付けると、
+スプレッドシートが**全行そのまま** xlsx で取れる（read_file_content のような途中切れが無い）。
+
+1. 上のツールで fileId `1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM` を書き出す
+   （結果はファイルに保存される。JSON の `content` を base64 デコードして .xlsx にする）
+2. `python3 scripts/perf-report/from_sheet.py <xlsx> [締め日]` で psi / weekly / pages を作り直す
+   - 締め日は「値の期間」で切る。CrUX は1週遅れで出るので、収集日では切らない
+   - 最後の値が4週以上前のページは「欠測」にし、古い値を出さない
+3. effect（リリース前・直後・月末の比較）と memos・review は from_sheet.py では触らない。
+   中身を見て手で更新する
+
+収集（CrUX 週次・PSI 日次）は9月を通して動いていた。止まっていたのは取り込み側。
+API キーは、計測URLの差し替え（地域・カテゴリー・AC詳細）を自前でやる場合にだけ要る。
+
 ## 取得経路の切り替え（2026-10-01 決定）
 
 スプレッドシート経由をやめ、**API を直接叩いて data.json を作る**方針に切り替える。
