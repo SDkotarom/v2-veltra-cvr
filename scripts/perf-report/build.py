@@ -271,13 +271,14 @@ def setup_panel(key):
 _RT = hint(GLOSSARY["判定"]["ja"], GLOSSARY["判定"]["en"])
 
 EF = D["effect"]
+_RD = "・".join(sorted({x["d"][5:].replace("-", "/").lstrip("0") for x in D["inventory"]["shipped"]}))
 IV = D["inventory"]
 N = {g["key"]: g["n"] for g in IV["groups"]}
 
 # 1 何が起きたか — 4つの数字
 HEAD = [
  (t("リリースした施策", "Changes released"), f'{len(IV["shipped"])}',
-  t(f'件（{EF["release_date"]}）', f'on {EF["release_date"]}')),
+  t(f'件（{_RD}）', f'released {_RD}')),
  (t("未リリースの施策案", "Not yet released"), f'{N["backlog"]}',
   t(f'件（うち急ぎ {len(IV["urgent"])} 件）', f'items, {len(IV["urgent"])} urgent')),
 ]
@@ -328,6 +329,39 @@ grows = "".join(
     f'<tr><td>{t(g["ja"], g["en"])}</td><td>{g["n"]}</td></tr>' for g in IV["groups"])
 
 
+
+# 週次メモ。新しい週を開いた状態で置き、過去の週は畳む
+def _ul(items):
+    return "<ul>" + "".join(f"<li>{x}</li>" for x in items) + "</ul>"
+
+def _memo_body(m, lang):
+    L = {"ja": ("リリース", "数値", "考察", "次週"), "en": ("Released", "Figures", "Reading", "Next week")}[lang]
+    _lk = lambda x: re.sub(r"(?<!\[\[)(UX_DESIGN-\d+)(?!\]\])", r"[[\1]]", x)  # チケットは全部 ClickUp へ
+    return "".join(f'<div class="wm-r"><div class="wm-k">{k}</div><div class="wm-v">{_ul([expand(_lk(x)) for x in m[f][lang]])}</div></div>'
+                   for k, f in zip(L, ("rel", "num", "obs", "nxt")))
+
+memos = ""
+for i, m in enumerate(D["memos"]):
+    rng = f'{m["from"][5:].replace("-", "/")}〜{m["to"][5:].replace("-", "/")}'
+    memos += (f'<details class="wm"{" open" if i == 0 else ""}><summary>'
+              f'<span class="wm-w">{m["week"]}</span><span class="wm-d">{rng}</span>'
+              f'<span class="wm-s">{t(m["obs"]["ja"][0], m["obs"]["en"][0])}</span></summary>'
+              f'<div class="wm-b"><span class="ja">{_memo_body(m, "ja")}</span>'
+              f'<span class="en">{_memo_body(m, "en")}</span></div></details>')
+
+# 操作への反応：本番で測った値
+import statistics as _st
+rmrows = ""
+for r in D.get("react_measured", []):
+    b, a = _st.mean(r["before"]), _st.mean(r["after"])
+    from decimal import Decimal, ROUND_HALF_UP
+    _r = lambda v: Decimal(str(v)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+    bm, am = _r(_st.median(r["before"])), _r(_st.median(r["after"]))
+    rmrows += (f'<tr><td>{t(r["what"]["ja"], r["what"]["en"])}</td>'
+               f'<td><a href="https://app.clickup.com/t/31108037/{r["t"]}">{r["t"]}</a><br><span class="mut">{r["date"][5:].replace("-", "/")}</span></td>'
+               f'<td>{b:.2f}s → <b>{a:.2f}s</b></td><td>{bm:.2f}s → {am:.2f}s</td>'
+               f'<td class="good">{a - b:+.2f}s</td></tr>')
+
 PAYLOAD = json.dumps({
     "weeks": weekly["weeks"], "metrics": weekly["metrics"],
     "meta": {m["key"]: m for m in metrics},
@@ -359,6 +393,10 @@ html = f'''<title>表示速度モニタリング</title>
 <span class="rv-m">{t(f'対象期間 {RV["period"]["from"]} 〜 {RV["period"]["to"]} ／ 更新 {RV["updated"]}', f'Covering {RV["period"]["from"]} to {RV["period"]["to"]} · updated {RV["updated"]}')}</span></div>
 {leads}</div>
 
+<div class="wms"><div class="wms-h"><h2>{t("週次メモ", "Weekly notes")}</h2>
+<span class="rv-m">{t("週ごとのリリース・数値・考察・次週。新しい週が上", "Releases, figures, reading and next steps by week, newest first")}</span></div>
+{memos}</div>
+
 <div class="sec"><h2><span class="n">1</span>{t("プロジェクト実績サマリー", "Project summary")}</h2>
 <div class="hls">{headline}</div>
 <h3 class="sh">{t("表示の速さ（PSI スコア）", "How fast it appears (PSI score)")}</h3>
@@ -387,6 +425,9 @@ html = f'''<title>表示速度モニタリング</title>
 <span class="ch-t">{t("短いほどよい", "Lower is better")}</span></div>
 <div class="legend" id="tbt-legend"></div>
 <div class="plot" id="plot-tbt"></div></div>
+<h3 class="sh">{t("本番で測った操作の応答", "Response measured in production")}</h3>
+<div class="tw"><table><tr><th>{t("操作","Action")}</th><th>{t("施策","Change")}</th><th>{t("平均（前 → 後）","Mean (before → after)")}</th><th>{t("中央値","Median")}</th><th>{t("差","Change")}</th></tr>{rmrows}</table></div>
+<p class="note">{t(f'{D["react_measured"][0]["src"]["ja"]}。実際に使っている人の値ではないので、実ユーザー計測が始まったら置き換える。', f'{D["react_measured"][0]["src"]["en"]}. These are not real-user figures and will be replaced once real-user measurement starts.')}</p>
 {setup_panel("web-vitals")}
 {setup_panel("server-timing")}
 </div>

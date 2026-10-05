@@ -382,3 +382,24 @@ td.good{color:var(--pos-ink);font-weight:700}
 .sec .hls + .sh{margin-top:22px}
 .bdg.flat{background:#EDEFF1;color:var(--ink-3)}
 .bdg.read{background:var(--ink-2);color:#fff}
+
+/* ---- 週次メモ ---- */
+.wms{margin:22px 0 8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 22px}
+.wms-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.wms-h h2{margin:0;font-size:18px}
+.wm{border:1px solid var(--line);border-radius:8px;margin-top:8px;background:var(--surface)}
+.wm>summary{list-style:none;cursor:pointer;padding:10px 12px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.wm>summary::-webkit-details-marker{display:none}
+.wm>summary::before{content:"＋";color:var(--ink-3);font-weight:700}
+.wm[open]>summary::before{content:"−"}
+.wm-w{font-weight:700;color:var(--ink)}
+.wm-d{font-size:13px;color:var(--ink-3)}
+.wm-s{font-size:13px;color:var(--ink-2);flex:1 1 240px}
+.wm-b{border-top:1px solid var(--line);padding:6px 14px 12px}
+.wm-r{display:grid;grid-template-columns:72px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-soft,#E6E9EC)}
+.wm-r:last-child{border-bottom:0}
+.wm-k{font-size:13px;font-weight:700;color:var(--ink-2)}
+.wm-v ul{margin:0;padding-left:1.1em}
+.wm-v li{font-size:14px;line-height:1.7;color:var(--ink)}
+.mut{font-size:12px;color:var(--ink-3)}
+@media (max-width:560px){.wm-r{grid-template-columns:1fr;gap:2px}.wms{padding:14px 16px}}

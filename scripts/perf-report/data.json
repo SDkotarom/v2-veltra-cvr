@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 33,
+  "version": 35,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -1040,6 +1040,19 @@
     "ja": "検索ページに1時間のページキャッシュを実装",
     "en": "Added a 1-hour page cache to the search page"
    }
+  },
+  {
+   "date": "2026-09-30",
+   "ticket": "UX_DESIGN-309",
+   "parent": "",
+   "scope": {
+    "ja": "カテゴリー（1ページ目・JP・絞り込み無し）",
+    "en": "Category (page 1, JP, no filters)"
+   },
+   "note": {
+    "ja": "絞り込み結果を30分単位でキャッシュ。絞り込みの応答 平均 1.82s → 0.97s（Suki さん計測・10回）",
+    "en": "Cached filter results in 30-minute buckets. Filter response mean 1.82s to 0.97s (measured by Suki, 10 runs)"
+   }
   }
  ],
  "findings": [
@@ -1294,13 +1307,13 @@
    "rows": [
     {
      "l": {
-      "ja": "カテゴリーのフィルター API 応答",
-      "en": "Category filter API response"
+      "ja": "カテゴリーの絞り込み応答",
+      "en": "Category filter response"
      },
-     "v": "1.50 s",
+     "v": "1.82 s → 0.97 s",
      "s": {
-      "ja": "サーバ計測・AsIs",
-      "en": "Server-side, AsIs"
+      "ja": "9/30 リリース前後・10回平均（Suki さん計測）",
+      "en": "Before/after 9/30 release, mean of 10 (Suki)"
      }
     },
     {
@@ -1316,7 +1329,8 @@
     }
    ],
    "tickets": [
-    "UX_DESIGN-321"
+    "UX_DESIGN-321",
+    "UX_DESIGN-309"
    ],
    "gap": {
     "ja": "サーバ計測の2つは着手前の値が1回あるだけで、週ごとの推移が取れていない。上のグラフにも出せない。",
@@ -2534,6 +2548,14 @@
     "en": "One-hour page cache on search",
     "scope": "検索",
     "gain": ""
+   },
+   {
+    "d": "2026-09-30",
+    "t": "UX_DESIGN-309",
+    "ja": "カテゴリーの絞り込み結果を30分単位でキャッシュ",
+    "en": "Cache category filter results in 30-minute buckets",
+    "scope": "カテゴリー",
+    "gain": "平均 -0.85s"
    }
   ],
   "closed": [
@@ -2950,5 +2972,179 @@
    "ja": "現状と傾向",
    "en": "Where we are"
   }
- }
+ },
+ "react_measured": [
+  {
+   "t": "UX_DESIGN-309",
+   "date": "2026-09-30",
+   "what": {
+    "ja": "カテゴリーの絞り込み（filter）の応答",
+    "en": "Category filter response"
+   },
+   "page": "https://www.veltra.com/jp/japan/tokyo/ctg/160126:Sightseeing_Tour/",
+   "before": [
+    1.3,
+    1.68,
+    1.44,
+    3.55,
+    1.44,
+    2.4,
+    1.21,
+    1.51,
+    1.58,
+    2.09
+   ],
+   "after": [
+    0.875,
+    0.717,
+    0.867,
+    0.676,
+    1.05,
+    1.25,
+    1.09,
+    0.743,
+    1.79,
+    0.594
+   ],
+   "src": {
+    "ja": "Suki さんがリリース前後に10回ずつ手で測った値（UX_DESIGN-309 のコメント、9/30）",
+    "en": "Measured by hand by Suki, 10 runs each before and after release (comment on UX_DESIGN-309, 9/30)"
+   }
+  }
+ ],
+ "memos": [
+  {
+   "week": "W40",
+   "from": "2026-09-28",
+   "to": "2026-10-04",
+   "rel": {
+    "ja": [
+     "9/30 [[UX_DESIGN-309]] カテゴリー1ページ目の絞り込み結果を30分単位でキャッシュ（JP・絞り込み無しに限定）"
+    ],
+    "en": [
+     "9/30 UX_DESIGN-309 cached category page-1 filter results in 30-minute buckets (JP, no filters only)"
+    ]
+   },
+   "num": {
+    "ja": [
+     "絞り込みの応答 平均 <b>1.82s → 0.97s</b>、中央値 1.55s → 0.87s（リリース前後10回ずつ、Suki さん計測）",
+     "PSI・実ユーザー値（CrUX）：この週の値はまだレポートに入っていない（取り込みが 9/24 で止まっている）"
+    ],
+    "en": [
+     "Filter response mean <b>1.82s to 0.97s</b>, median 1.55s to 0.87s (10 runs each side, measured by Suki)",
+     "PSI and real-user (CrUX): this week has not reached the report yet (import stopped at 9/24)"
+    ]
+   },
+   "obs": {
+    "ja": [
+     "「操作への反応」で、本番の効果を数字で示せた最初の1件",
+     "ただし手で10回測った値で、実際に使っている人の値ではない。対象もカテゴリー1ページ目・絞り込み無しに限られる",
+     "取り込みが止まっていた原因は、スプレッドシートの末尾をこちらから読めないこと。収集は動いていた（シートには 9/29 までの PSI がある）"
+    ],
+    "en": [
+     "The first production result with a number on the response side",
+     "Ten hand-timed runs, not real-user figures, and only category page 1 with no filters",
+     "Import stopped because the end of the spreadsheet cannot be read from here; collection itself kept running (PSI through 9/29 is in the sheet)"
+    ]
+   },
+   "nxt": {
+    "ja": [
+     "API キーを発行し、PSI・CrUX を直接取得して 9/25 以降を反映",
+     "UX_DESIGN-309 を検索ページ・2ページ目以降に広げるか判断（Suki さんが Redis の容量・コストを調査中）",
+     "ClickUp の [[UX_DESIGN-395]]／[[UX_DESIGN-396]]／[[UX_DESIGN-397]] は 9/17 に [[UX_DESIGN-304]] として出ているのに「open」のまま。ステータスを直す"
+    ],
+    "en": [
+     "Issue the API key and pull PSI and CrUX directly to fill in 9/25 onward",
+     "Decide whether to extend UX_DESIGN-309 to search and pages 2+ (Suki is checking Redis capacity and cost)",
+     "UX_DESIGN-395/396/397 shipped on 9/17 as UX_DESIGN-304 but are still open in ClickUp; fix their status"
+    ]
+   }
+  },
+  {
+   "week": "W39",
+   "from": "2026-09-21",
+   "to": "2026-09-27",
+   "rel": {
+    "ja": [
+     "なし"
+    ],
+    "en": [
+     "None"
+    ]
+   },
+   "num": {
+    "ja": [
+     "6ページの PSI スコア平均は 9/19〜9/24 で 39〜44点。9/17 に付いた段を保った",
+     "[[TBT]]（操作への反応のラボ値）は6ページ平均 1,117ms。日ごとの振れに埋もれていて、上がったか下がったかは判断できない"
+    ],
+    "en": [
+     "Six-page mean PSI score held at 39-44 over 9/19-9/24, keeping the 9/17 step",
+     "TBT (lab stand-in for response) six-page mean 1,117ms; the change is inside the daily swing, so no direction"
+    ]
+   },
+   "obs": {
+    "ja": [
+     "段が1週間続いたので、9/17 の効果は日ごとの振れではないと見ている（これは推定。実ユーザー値ではまだ確かめられていない）",
+     "UX_DESIGN-309 の進め方を合意。絞り込み結果を30分単位でキャッシュし、まずカテゴリーだけに限定して出す"
+    ],
+    "en": [
+     "A step that holds for a week is unlikely to be daily noise (inference; not yet confirmed in real-user figures)",
+     "Agreed the UX_DESIGN-309 approach: cache filter results in 30-minute buckets, release on category first"
+    ]
+   },
+   "nxt": {
+    "ja": [
+     "UX_DESIGN-309 を dev で確認 → カテゴリー限定でリリース（→ 9/30 にリリース）"
+    ],
+    "en": [
+     "Verify UX_DESIGN-309 on dev, then release on category only (released 9/30)"
+    ]
+   }
+  },
+  {
+   "week": "W38",
+   "from": "2026-09-14",
+   "to": "2026-09-20",
+   "rel": {
+    "ja": [
+     "9/17 [[UX_DESIGN-323]] AppsFlyer の読み込みを後回しに",
+     "9/17 [[UX_DESIGN-304]] 主役画像の先読みを修正（AC詳細の画像サイズ違い／エリアTOPに追加／カテゴリー・検索の先頭カードを優先）",
+     "9/17 [[UX_DESIGN-389]] 画像枠の寸法を先に確保、検索ページに1時間のページキャッシュ"
+    ],
+    "en": [
+     "9/17 UX_DESIGN-323 load AppsFlyer later",
+     "9/17 UX_DESIGN-304 fix main-image preload (wrong size on AC detail, added on area top, first card prioritised on category and search)",
+     "9/17 UX_DESIGN-389 reserve image space, 1-hour page cache on search"
+    ]
+   },
+   "num": {
+    "ja": [
+     "6ページの PSI スコア平均 31〜37点（リリース前5日）→ <b>39〜44点</b>（後5日）。6ページとも上がった",
+     "いちばん動いたのは検索結果 18.4 → 40.0点"
+    ],
+    "en": [
+     "Six-page mean PSI score 31-37 (five days before) to <b>39-44</b> (five days after); up on all six",
+     "Search moved most, 18.4 to 40.0"
+    ]
+   },
+   "obs": {
+    "ja": [
+     "3件とも「先に画を出す」側の施策。PSI スコアはここで動く",
+     "操作への反応に効く施策は、この週は入っていない"
+    ],
+    "en": [
+     "All three were about getting the picture on screen sooner, which is what the PSI score responds to",
+     "Nothing shipped this week targeted response to a tap"
+    ]
+   },
+   "nxt": {
+    "ja": [
+     "操作への反応に効く施策を出す（UX_DESIGN-309 の方針決め）"
+    ],
+    "en": [
+     "Ship something for response to a tap (settle the UX_DESIGN-309 approach)"
+    ]
+   }
+  }
+ ]
 }

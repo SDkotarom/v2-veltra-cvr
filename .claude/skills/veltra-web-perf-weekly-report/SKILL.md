@@ -57,6 +57,14 @@ description: >
    - `tracks[].rows` はサーバ計測の値。再測されたら差し替え、出典を書き換える
    - `tracks[].auto` は指標キー。合格ページ数はビルダーが最新週から計算するので触らない
    - `pipeline[].items[].st` は `ok`（稼働中）/ `todo`（未設置）。層が動き出したら切り替える
+4.6 `memos`（週次メモ）の先頭に今週分を1件足す。形は既存の週に合わせる
+   - `week`（W番号）・`from`/`to`（月〜日）・`rel`（リリース）・`num`（数値）・`obs`（考察）・`nxt`（次週）を日英で
+   - 材料：Slack #cspj-release の「UX_DESIGN-」投稿（リリース日の一次情報）、ClickUp web-performance リスト
+     （list 901820239496）の更新とコメント、data.json の数値
+   - `obs` の1件目はメモの見出しに出る。その週でいちばん大事な1文を置く
+   - 推定は「これは推定」と書く。手計測・ラボ値は実ユーザー値と書き分ける
+   - チケット番号はビルダーが自動で ClickUp にリンクする
+   - リリースは `releases` と `inventory.shipped` にも足す
 5. `python3 scripts/perf-report/build.py` で HTML を生成
 6. Artifact ツールで同じファイルパスを再publish。**URLは変わらない**
 
