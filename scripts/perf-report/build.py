@@ -374,6 +374,43 @@ for r in D.get("react_measured", []):
                f'<td>{b:.2f}s → <b>{a:.2f}s</b></td><td>{bm:.2f}s → {am:.2f}s</td>'
                f'<td class="good">{a - b:+.2f}s</td></tr>')
 
+
+# 後半の方針タブ
+SG = D["strategy"]
+def _li(items):
+    return "<ul>" + "".join(f"<li>{expand(_lk2(x))}</li>" for x in items) + "</ul>"
+import re as _re
+_lk2 = lambda x: _re.sub(r"(?<!\[\[)(UX_DESIGN-\d+)(?!\]\])", r"[[\1]]", x)
+def _bil(items):
+    return f'<span class="ja">{_li(items["ja"])}</span><span class="en">{_li(items["en"])}</span>'
+def _cell(c):
+    return c if isinstance(c, str) else t(c["ja"], c["en"])
+_views = ""
+for b in SG["views"]["blocks"]:
+    tb = ""
+    if "table" in b:
+        head, *body = b["table"]
+        tb = ('<div class="tw"><table><tr>' + "".join(f"<th>{_cell(c)}</th>" for c in head) + "</tr>"
+              + "".join("<tr>" + "".join(f"<td>{_cell(c)}</td>" for c in r) + "</tr>" for r in body) + "</table></div>")
+    _views += f'<div class="pl-b"><h4>{t(b["h"]["ja"], b["h"]["en"])}</h4>{tb}<div class="rv-l">{_bil(b["items"])}</div></div>'
+_crows = "".join(
+    f'<tr><td>{i+1}</td><td><a href="https://app.clickup.com/t/31108037/{r["t"]}">{r["t"]}</a></td>'
+    f'<td>{t(r["d"]["ja"], r["d"]["en"])}</td><td>{t(r["why"]["ja"], r["why"]["en"])}</td></tr>'
+    for i, r in enumerate(SG["cands"]["rows"]))
+def _sec(key):
+    x = SG[key]
+    return f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3><div class="rv-l">{_bil(x["items"])}</div></div>'
+PLAN = f'''<div class="rv-h"><h2>{t(SG["title"]["ja"], SG["title"]["en"])}</h2><span class="rv-m">{t(SG["meta"]["ja"], SG["meta"]["en"])}</span></div>
+{_sec("status")}
+<div class="sec pl"><h3 class="sh">{t(SG["views"]["h"]["ja"], SG["views"]["h"]["en"])}</h3>{_views}</div>
+<div class="sec pl"><h3 class="sh">{t(SG["cands"]["h"]["ja"], SG["cands"]["h"]["en"])}</h3>
+<div class="tw"><table><tr><th>{t("順","No.")}</th><th>{t("チケット","Ticket")}</th><th>{t("内容","What")}</th><th>{t("なぜ先か","Why first")}</th></tr>{_crows}</table></div>
+<p class="note">{t(SG["cands"]["note"]["ja"], SG["cands"]["note"]["en"])}</p></div>
+{_sec("extra")}
+{_sec("ideas")}
+{_sec("goals")}
+{_sec("asks")}'''
+
 PAYLOAD = json.dumps({
     "weeks": weekly["weeks"], "metrics": weekly["metrics"],
     "meta": {m["key"]: m for m in metrics},
@@ -400,6 +437,12 @@ html = f'''<title>表示速度モニタリング</title>
 <p class="sub">www.veltra.com — {t(f'モバイル・日本語 ／ PSI 日次 {defs["psi_from"][5:]}〜{defs["psi_to"][5:]} ／ 実ユーザー値 〜{defs["latest_period_end"][5:]}', f'Mobile, Japanese · PSI daily {defs["psi_from"][5:]}-{defs["psi_to"][5:]} · real-user through {defs["latest_period_end"][5:]}')}</p>
 </div>
 
+<nav class="ptabs" role="tablist">
+<button class="pt" data-tab="report" aria-selected="true">{t("レポート", "Report")}</button>
+<button class="pt" data-tab="plan" aria-selected="false">{t("後半の方針", "Second-half plan")}</button>
+</nav>
+<div class="pane" data-pane="plan" hidden><div class="rv">{PLAN}</div></div>
+<div class="pane" data-pane="report">
 <div class="rv">
 <div class="rv-h"><h2>{t(RV["h"]["ja"], RV["h"]["en"])}</h2>
 <span class="rv-m">{t(f'対象期間 {RV["period"]["from"]} 〜 {RV["period"]["to"]} ／ 更新 {RV["updated"]}', f'Covering {RV["period"]["from"]} to {RV["period"]["to"]} · updated {RV["updated"]}')}</span></div>
@@ -498,6 +541,7 @@ html = f'''<title>表示速度モニタリング</title>
 {t(f'数値はすべて計測スプレッドシートの _summary タブから取得（CrUX 収集ブロック {defs["crux_collected_at"]}）。生データの解釈は集計タブ側で確定させており、本レポートでは行っていない。', f'All figures come from the _summary tab of the measurement spreadsheet (CrUX collection block {defs["crux_collected_at"]}). Raw data is interpreted in the aggregation layer, not in this report.')}<br>
 {t('[[CrUX]] は直近28日間の実ユーザーデータの [[p75]]。掲載閾値に満たない URL は値が返らないため、欠測は 0 で埋めず空欄として扱う。判定は本番のみで行い、dev 環境の数値は使わない。', 'CrUX reports p75 over a rolling 28 days. URLs below the reporting threshold return nothing; gaps are left empty, never zero-filled. Judged on production only — dev numbers are not used.')}
 </footer>
+</div>
 </div>
 <script>window.__PERF={PAYLOAD};</script>
 <script>{JS}</script>'''

@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 37,
+  "version": 38,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -3551,5 +3551,279 @@
     ]
    }
   }
- ]
+ ],
+ "strategy": {
+  "title": {
+   "ja": "後半の方針：操作への反応",
+   "en": "Second-half plan: response to taps"
+  },
+  "meta": {
+   "ja": "作成 2026-10-06 ／ Suki さんに共有する前の社内メモ",
+   "en": "Written 2026-10-06 · internal notes before sharing with Suki"
+  },
+  "status": {
+   "h": {
+    "ja": "着手状況",
+    "en": "Where things stand"
+   },
+   "items": {
+    "ja": [
+     "くるくるに関係する施策の多くは、9/4 の調査で起票したまま「open（計画中）」で、担当が牧野のまま。<b>実装する人も見積もりも決まっていない</b>",
+     "9月に手を付けた②の施策は [[UX_DESIGN-309]] の1件だけ。絞り込みの待ち時間は 1.82秒 → 0.97秒 で、効くことは確かめられた",
+     "つまり②は「やってみて効かなかった」のではなく、<b>ほとんど着手できていない</b>",
+     "予算は半分ほど残っている"
+    ],
+    "en": [
+     "Most spinner-related items were written up on 9/4 and are still open, assigned to Makino. <b>No implementer and no estimates yet</b>",
+     "Only one response-side change shipped in September: UX_DESIGN-309, filter wait 1.82s → 0.97s. It proved the approach works",
+     "So the response side did not fail — <b>it has barely been started</b>",
+     "About half the budget is left"
+    ]
+   }
+  },
+  "views": {
+   "h": {
+    "ja": "見立て",
+    "en": "Reading"
+   },
+   "blocks": [
+    {
+     "h": {
+      "ja": "1. 実ユーザーは、サーバーの返事を待たされている（推定）",
+      "en": "1. Real users are waiting on the server (inference)"
+     },
+     "table": [
+      [
+       "",
+       {
+        "ja": "PSI（テスト環境）",
+        "en": "PSI (lab)"
+       },
+       {
+        "ja": "実ユーザー（9/26 締め）",
+        "en": "Real users (week ending 9/26)"
+       },
+       {
+        "ja": "合格ライン",
+        "en": "Target"
+       }
+      ],
+      [
+       {
+        "ja": "サーバーの返事（TTFB）",
+        "en": "Server response (TTFB)"
+       },
+       "2〜184ms",
+       {
+        "ja": "TOP 1.6秒・エリア 1.8秒・検索結果 <b>5.1秒</b>",
+        "en": "TOP 1.6s, Area 1.8s, Search <b>5.1s</b>"
+       },
+       {
+        "ja": "0.8秒",
+        "en": "0.8s"
+       }
+      ]
+     ],
+     "items": {
+      "ja": [
+       "PSI ではサーバーの返事が速いのに、実ユーザーでは何倍も遅い。8/22 の週から3ページとも悪くなっている",
+       "PSI はキャッシュが効いた状態で測れていて、実ユーザーはキャッシュを外していることが多いと見ている（推定）。9/4 の調査の「キャッシュが通貨・端末・国などで細かく分かれすぎている」「絞り込み条件が付くとキャッシュを読まない」と合う",
+       "PSI を上げる施策では、実ユーザーの一番大きな待ちに届かない。サーバーの返事を速くすれば、①表示の速さと②くるくるの<b>両方に効く</b>",
+       "地域・カテゴリーは事情が違う。PSI 上のサーバーの返事は速く、重いのはブラウザ側（画像・JS）。ここは別の見立てが要る"
+      ],
+      "en": [
+       "Server response is fast in PSI but several times slower for real users, and it has worsened on all three pages since the 8/22 week",
+       "PSI likely hits a warm cache while real users often miss it (inference). This fits the 9/4 finding: cache keys split by currency, device, country and so on, and filtered views skip the cache",
+       "PSI-focused fixes don't reach real users' biggest wait. Faster server response helps <b>both</b> load speed and spinner time",
+       "Region and Category differ: their server response in PSI is fast and the weight is in the browser (images, JS). They need their own reading"
+      ]
+     }
+    },
+    {
+     "h": {
+      "ja": "2. くるくるは「速くする」より「出さない」",
+      "en": "2. Remove spinners rather than speed them up"
+     },
+     "items": {
+      "ja": [
+       "9/4 の棚卸しでは、くるくるの多くが要らない待ちだった。表示済みの一覧の取り直し、「戻る」のたびの全読み直し、中身が空の通信など",
+       "1件ずつが秒単位。9月の施策（PSI で数点〜20点）とは効き方の桁が違う"
+      ],
+      "en": [
+       "The 9/4 inventory showed most spinners are unnecessary waits: re-fetching lists already shown, full reloads on browser back, empty requests",
+       "Each is worth seconds — a different order of magnitude from September's PSI gains"
+      ]
+     }
+    },
+    {
+     "h": {
+      "ja": "3. 測り方を変えないと、②の効果は見えない",
+      "en": "3. Without new measurement, the response side stays invisible"
+     },
+     "items": {
+      "ja": [
+       "[[TBT]] は「読み込み中に画面が固まっていた時間」。くるくるは「サーバーの返事待ち」なので TBT には出ない",
+       "[[UX_DESIGN-309]] の効果が見えたのは、Suki さんが手で測ったから。手計測に頼る限り、②は「やってもやらなくても同じ」に見える",
+       "くるくるが出てから消えるまでの時間を、実ユーザーで直接測る（[[UX_DESIGN-425]]）"
+      ],
+      "en": [
+       "TBT is time the screen was frozen during load. A spinner waits on the server, so it doesn't show up in TBT",
+       "UX_DESIGN-309's effect was visible only because Suki timed it by hand. Relying on that makes the response side look like it changed nothing",
+       "Measure spinner time directly from real users (UX_DESIGN-425)"
+      ]
+     }
+    }
+   ]
+  },
+  "cands": {
+   "h": {
+    "ja": "施策候補（既存チケット）",
+    "en": "Candidates (existing tickets)"
+   },
+   "note": {
+    "ja": "順番は私の見立て。Suki さんに、やる価値と実現性を判断してもらう前提",
+    "en": "Order is my reading; Suki to judge value and feasibility"
+   },
+   "rows": [
+    {
+     "t": "UX_DESIGN-418",
+     "d": {
+      "ja": "UX_DESIGN-309 を検索ページ・2ページ目以降・絞り込みありに広げる",
+      "en": "Extend UX_DESIGN-309 to search, pages 2+ and filtered views"
+     },
+     "why": {
+      "ja": "効くことは実証済み。Suki さんが調査中",
+      "en": "Proven; Suki already looking into it"
+     }
+    },
+    {
+     "t": "UX_DESIGN-404",
+     "d": {
+      "ja": "中身が空のクーポン通信を止める（見込み 約2.2秒）",
+      "en": "Stop the empty coupon request (est. ~2.2s)"
+     },
+     "why": {
+      "ja": "フロントだけで済む。クーポン関連の [[UX_DESIGN-416]]・[[UX_DESIGN-417]] と1組",
+      "en": "Front end only; paired with coupon items 416 and 417"
+     }
+    },
+    {
+     "t": "UX_DESIGN-419",
+     "d": {
+      "ja": "「戻る」のたびの全読み直しをやめる",
+      "en": "Stop the full reload on browser back"
+     },
+     "why": {
+      "ja": "一覧と詳細の往復は一番よく使われる動き。変更範囲が小さい見込み",
+      "en": "List and detail back-and-forth is the most common move; likely a small change"
+     }
+    },
+    {
+     "t": "UX_DESIGN-414",
+     "d": {
+      "ja": "AC詳細へ移るとき約2秒なにも反応しない",
+      "en": "No response for ~2s when moving to AC detail"
+     },
+     "why": {
+      "ja": "押した直後に反応を返すだけでも体感が変わる",
+      "en": "Even an immediate response changes how it feels"
+     }
+    },
+    {
+     "t": "UX_DESIGN-415",
+     "d": {
+      "ja": "「日程から探す」にキャッシュが無い",
+      "en": "No page cache on date search"
+     },
+     "why": {
+      "ja": "UX_DESIGN-309 と同じ種類の直し方で済む可能性",
+      "en": "May be the same kind of fix as 309"
+     }
+    },
+    {
+     "t": "UX_DESIGN-412",
+     "d": {
+      "ja": "同じエリアを選んでも全部読み直す／絞り込み条件でキャッシュを外す",
+      "en": "Full reload on picking the same area; filters skip the cache"
+     },
+     "why": {
+      "ja": "同上",
+      "en": "Same as above"
+     }
+    }
+   ]
+  },
+  "extra": {
+   "h": {
+    "ja": "計測と、調整が要るもの",
+    "en": "Measurement and items needing agreement"
+   },
+   "items": {
+    "ja": [
+     "[[UX_DESIGN-425]] くるくるの時間を実ユーザーで測る。9/4 の調査では、くるくるの表示は1か所（resources/src/mixins/modal.js）で制御されていた。ここに記録を足せば全部まとめて取れる可能性がある（実装は読んでいないので推定）",
+     "[[UX_DESIGN-398]] 画面を最大2秒まっ白にする設定（VWO）を縮める。効果は大きいが、マーケ側の合意が先",
+     "[[UX_DESIGN-307]] JS を減らす最初の施策（レビュー中）。before/after の数字を依頼済み"
+    ],
+    "en": [
+     "UX_DESIGN-425: measure spinner time from real users. On 9/4 the spinner was controlled in one place (resources/src/mixins/modal.js); logging there might cover them all (inference, code not read)",
+     "UX_DESIGN-398: shorten the VWO setting that blanks the screen for up to 2s. Big effect, but needs marketing's agreement first",
+     "UX_DESIGN-307: the first JS-reduction change (in review). Before/after numbers requested"
+    ]
+   }
+  },
+  "ideas": {
+   "h": {
+    "ja": "まだチケットに無い案",
+    "en": "Ideas not yet ticketed"
+   },
+   "items": {
+    "ja": [
+     "全画面のくるくるを、一覧部分だけの表示に変える（9/21 に Suki さんが挙げていた案）。待ち時間は同じでも、ページ全体は止まらなくなる",
+     "予約モーダルの絞り込み（9/4 の調査で 772.9ms と計測、改善の余地あり）",
+     "カードを押した時点で、AC詳細の取得を始める"
+    ],
+    "en": [
+     "Show the loader on the listing only, not full screen (Suki's idea on 9/21). Same wait, but the page stays usable",
+     "Booking modal filter (772.9ms measured on 9/4, room to improve)",
+     "Start fetching AC detail as soon as a card is tapped"
+    ]
+   }
+  },
+  "goals": {
+   "h": {
+    "ja": "目標の置き方（提案）",
+    "en": "Targets (proposal)"
+   },
+   "items": {
+    "ja": [
+     "① 主要ページの PSI を「低」から「普通」（50点以上）へ。実ユーザーのサーバーの返事を 0.8秒に近づける",
+     "② 主要なくるくる（カテゴリー・検索の絞り込み、AC詳細への遷移）を1秒以内",
+     "どちらも私の案で、根拠のある数字ではない。Suki さんと決める"
+    ],
+    "en": [
+     "Load: main pages from low to average in PSI (50+); bring real-user server response toward 0.8s",
+     "Response: main spinners (category and search filters, move to AC detail) within 1s",
+     "Both are my proposal, not evidence-based targets; to be set with Suki"
+    ]
+   }
+  },
+  "asks": {
+   "h": {
+    "ja": "Suki さんに聞くこと",
+    "en": "Questions for Suki"
+   },
+   "items": {
+    "ja": [
+     "この先数か月で、②にどれくらい時間を割けそうか",
+     "上の施策候補のうち、やる価値がありそうなもの・現実的なものはどれか",
+     "一覧に無い遅い箇所や、足りない施策はあるか"
+    ],
+    "en": [
+     "How much time could go to the response side over the next few months?",
+     "Which candidates above are worth doing, and which are realistic?",
+     "Any slow spots or missing measures not on the list?"
+    ]
+   }
+  }
+ }
 }

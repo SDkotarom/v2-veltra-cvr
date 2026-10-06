@@ -503,6 +503,20 @@
   };
   try { var s = localStorage.getItem("perf-report-lang"); if (s) window.setLang(s); } catch (e) {}
 
+  /* ページ上部のタブ。URL の #plan で方針タブを直接開ける */
+  function showTab(name) {
+    document.querySelectorAll(".pt").forEach(function (b) { b.setAttribute("aria-selected", String(b.dataset.tab === name)); });
+    document.querySelectorAll(".pane").forEach(function (p) { p.hidden = p.dataset.pane !== name; });
+    if (name === "report") redrawCharts();
+  }
+  document.querySelectorAll(".pt").forEach(function (b) {
+    b.addEventListener("click", function () {
+      showTab(b.dataset.tab);
+      try { history.replaceState(null, "", b.dataset.tab === "plan" ? "#plan" : location.pathname + location.search); } catch (e) {}
+    });
+  });
+
   redrawAll();
+  if (location.hash === "#plan") showTab("plan");
   addEventListener("resize", redrawCharts);
 })();
