@@ -8,17 +8,19 @@
 
 | 項目 | 値 |
 |---|---|
-| レポート | https://claude.ai/artifact/PdRrX84rA8hhBCxZ6Vq8WC （組織内公開・V37） |
+| レポート | https://claude.ai/artifact/PdRrX84rA8hhBCxZ6Vq8WC （組織内公開・V41） |
 | タブ | 「レポート」／「後半の方針」（URL 末尾 `#plan` で方針タブを直接開ける） |
 | データの範囲 | PSI 日次 9/4〜9/30、CrUX 週次 〜9/26 締めの週（9月末で中締め） |
 | 冒頭ブロック | 「9月の中締め」（実施内容／結果／要因／10月にやること） |
-| 版数表示 | `defs.version` = 38（次に公開すると Artifact も Version 38 になり一致する） |
+| 版数表示 | `defs.version` = 42（次に公開すると Artifact も Version 42 になり一致する） |
 | ブランチ | `claude/charming-albattani-mc5puq`（push 済み・PR は未作成） |
 | 計測スプレッドシート | fileId `1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM` |
 | Slack 投稿先の候補 | #proj-web-performance（C0BN961QQA1） |
 | ClickUp | web-performance リスト `901820239496`、Suki さんの user id `66847429` |
 
 ## 2. 更新手順（確定版）
+
+**別セッションも同じ Artifact に公開している。** 公開が拒否されたら、保存された最新版を全行読み、差分を data.json / build.py に移してから公開し直す（V39〜V41 で発生。中締めの「結果」の表は別セッション由来）
 
 1. `mcp__Google_Drive__download_file_content` に `exportMimeType: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` を付けてシートを書き出す（結果はファイルに保存される。JSON の `content` を base64 デコードして .xlsx に）
 2. `python3 scripts/perf-report/from_sheet.py <xlsx> [締め日]` で `psi` / `weekly` / `pages` を作り直す
@@ -40,7 +42,8 @@
 - **PSI の判定帯**：90点以上「高」／50〜89点「普通」／49点以下「低」（Lighthouse の shared/util.js と ja.json で確認）
 - **CrUX**：直近28日の p75。9/17 の効果を判定できるのは **10/17 締めの週** から。シートに入るのは締めの約1週間後なので **10/25 ごろ**
 - **欠測**：最後の値が4週以上前のページは「欠測」とし、古い値を現在地として出さない
-- **TBT**：くるくる（サーバー待ち）は TBT に出ない。②の効果は TBT では見えない
+- **TBT**：ローディング中のリング回転（サーバー待ち）は TBT に出ない。②の効果は TBT では見えない
+- **用語**：「くるくる」は使わない。「ローディング中のリング回転」と書く（英語は loading indicator）
 
 ## 4. 9月の結果（要点）
 

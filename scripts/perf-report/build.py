@@ -148,11 +148,24 @@ for m in metrics:
 <div class="legend">{legend}</div>
 <div class="plot" id="plot-{m["key"]}"></div></div>'''
 
+RV_BADGE = {"up": ("速くなった", "Faster"), "down": ("遅くなった", "Slower"),
+            "flat": ("変化なし", "No change"), "b-slow": ("合格ライン未達", "Below target")}
+def _rvtable(x):
+    if not x.get("table"):
+        return ""
+    hd = "".join(f"<th>{t(a, b)}</th>" for a, b in
+                 [("観点", "Aspect"), ("指標", "Measure"), ("前 → 後", "Before → after"), ("判定", "Verdict")])
+    rows = "".join(
+        f'<tr><td>{t(r["aspect"]["ja"], r["aspect"]["en"])}</td><td>{t(r["measure"]["ja"], r["measure"]["en"])}</td>'
+        f'<td>{r["val"]}</td><td><span class="bdg {r["verdict"]}">{t(*RV_BADGE[r["verdict"]])}</span></td></tr>'
+        for r in x["table"])
+    note = f'<p class="mut">{t(x["note"]["ja"], x["note"]["en"])}</p>' if x.get("note") else ""
+    return f'<div class="tw"><table><tr>{hd}</tr>{rows}</table></div>{note}'
 RV = D["review"]
 def _lead(x):
-    if "items" in x:   # 箇条書き
+    if "items" in x:   # 箇条書き（表があれば先に出す）
         li = lambda L: "<ul>" + "".join(f"<li>{expand(v)}</li>" for v in L) + "</ul>"
-        body = f'<div class="rv-l"><span class="ja">{li(x["items"]["ja"])}</span><span class="en">{li(x["items"]["en"])}</span></div>'
+        body = _rvtable(x) + f'<div class="rv-l"><span class="ja">{li(x["items"]["ja"])}</span><span class="en">{li(x["items"]["en"])}</span></div>'
     else:
         body = f'<p>{t(x["b"]["ja"], x["b"]["en"])}</p>'
     return f'<div class="rv-p"><h3>{t(x["h"]["ja"], x["h"]["en"])}</h3>{body}</div>'
@@ -352,12 +365,16 @@ def _memo_body(m, lang):
     return "".join(f'<div class="wm-r"><div class="wm-k">{k}</div><div class="wm-v">{_ul([expand(_lk(x)) for x in m[f][lang]])}</div></div>'
                    for k, f in zip(L, ("rel", "num", "obs", "nxt")))
 
+def _msum(m):
+    lk = lambda x: re.sub(r"(?<!\[\[)(UX_DESIGN-\d+)(?!\]\])", r"[[\1]]", x)
+    return t(lk(m["obs"]["ja"][0]), lk(m["obs"]["en"][0]))
+
 memos = ""
 for i, m in enumerate(D["memos"]):
     rng = f'{m["from"][5:].replace("-", "/")}〜{m["to"][5:].replace("-", "/")}'
     memos += (f'<details class="wm"{" open" if i == 0 else ""}><summary>'
               f'<span class="wm-w">{m["week"]}</span><span class="wm-d">{rng}</span>'
-              f'<span class="wm-s">{t(m["obs"]["ja"][0], m["obs"]["en"][0])}</span></summary>'
+              f'<span class="wm-s">{_msum(m)}</span></summary>'
               f'<div class="wm-b"><span class="ja">{_memo_body(m, "ja")}</span>'
               f'<span class="en">{_memo_body(m, "en")}</span></div></details>')
 

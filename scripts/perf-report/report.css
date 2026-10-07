@@ -150,7 +150,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:va
 .kpi-f dd{font-size:12.5px;margin:0;font-variant-numeric:tabular-nums;color:var(--ink-2)}
 
 /* --- グラフ --- */
-.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:14px}
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:14px}
 .ch-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
 .ch-h h3{font-size:14px;font-weight:700;margin:0}
 .ch-sub{font-size:12px;font-weight:400;color:var(--ink-3);margin-left:6px}
@@ -415,3 +415,10 @@ td.good{color:var(--pos-ink);font-weight:700}
 .pl-b{margin:14px 0 18px}
 .pl-b h4{margin:0 0 8px;font-size:15px;color:var(--ink)}
 .sec.pl{margin-top:20px}
+
+/* 中締めの表：指標の列は左揃え */
+.rv .tw th:nth-child(2),.rv .tw td:nth-child(2){text-align:left}
+.rv .tw+.mut{margin:8px 0 10px}
+
+/* スマホ幅で横スクロールを出さない（隠れている吹き出しが幅を押し広げるため） */
+html,body{overflow-x:clip}
