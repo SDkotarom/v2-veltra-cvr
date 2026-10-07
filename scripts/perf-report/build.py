@@ -149,12 +149,27 @@ for m in metrics:
 <div class="plot" id="plot-{m["key"]}"></div></div>'''
 
 RV = D["review"]
+def _cell(c):
+    if isinstance(c, dict):
+        txt = t(c["ja"], c["en"])
+        return f'<span class="bdg {c["bdg"]}">{txt}</span>' if c.get("bdg") else txt
+    return c
+
+
 def _lead(x):
+    body = ""
+    if "table" in x:   # 表（スライド風のまとめ）
+        tb = x["table"]
+        head = "".join(f"<th>{_cell(c)}</th>" for c in tb["head"])
+        rows = "".join("<tr>" + "".join(f"<td>{_cell(c)}</td>" for c in r) + "</tr>" for r in tb["rows"])
+        body += f'<div class="tw"><table><tr>{head}</tr>{rows}</table></div>'
+        if tb.get("note"):
+            body += f'<p class="mut">{t(tb["note"]["ja"], tb["note"]["en"])}</p>'
     if "items" in x:   # 箇条書き
         li = lambda L: "<ul>" + "".join(f"<li>{expand(v)}</li>" for v in L) + "</ul>"
-        body = f'<div class="rv-l"><span class="ja">{li(x["items"]["ja"])}</span><span class="en">{li(x["items"]["en"])}</span></div>'
-    else:
-        body = f'<p>{t(x["b"]["ja"], x["b"]["en"])}</p>'
+        body += f'<div class="rv-l"><span class="ja">{li(x["items"]["ja"])}</span><span class="en">{li(x["items"]["en"])}</span></div>'
+    if "b" in x:
+        body += f'<p>{t(x["b"]["ja"], x["b"]["en"])}</p>'
     return f'<div class="rv-p"><h3>{t(x["h"]["ja"], x["h"]["en"])}</h3>{body}</div>'
 leads = "".join(_lead(x) for x in RV["parts"])
 frows = "".join(

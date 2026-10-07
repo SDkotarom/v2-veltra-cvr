@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 40,
+  "version": 41,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -3319,17 +3319,137 @@
     },
     "items": {
      "ja": [
-      "<b>表示の速さ（PSI）</b>：6ページ平均 33.7点 → <b>38.5点</b>（リリース前 → 月末）。速くなった3ページ（検索結果 +20.6点・TOP +9.0点・エリア +7.0点）、変化なし2ページ（地域・カテゴリー）、遅くなった1ページ（AC詳細 −7.4点）",
-      "直後（9/19〜9/24）は 41.6点まで速くなったが、月末に 38.5点へ一部戻った。月末時点で6ページとも[[判定]]は「低」（49点以下）",
-      "<b>操作への反応</b>：本番で測った絞り込みの応答が 1.82秒 → <b>0.97秒</b>（[[UX_DESIGN-309]]、手で10回ずつ測った値）。ラボ値の [[TBT]] は速くなった1・変化なし3・遅くなった2ページで、向きは出ていない",
-      "<b>実ユーザーの表示</b>（CrUX の LCP、9/26 締めの週）：検索結果 6,895ms → <b>6,112ms</b>（起点 8/22 の週から −783ms）、TOP 2,755ms → 2,942ms（+187ms）、エリア 2,642ms → 2,805ms（+163ms）。3ページとも合格ライン 2,500ms を超えたまま"
+      "表示の速さ（PSI）は上がった。ただし6ページとも<span>判定</span>は「低」のまま",
+      "操作への反応は、絞り込みの応答だけ速くなった（手計測）",
+      "実ユーザーの表示は、まだ判定できない（10/17 締めの週から）"
      ],
      "en": [
-      "<b>Load speed (PSI)</b>: six-page mean 33.7 → <b>38.5</b> (before → month end). Faster on three (Search +20.6, TOP +9.0, Area +7.0), no change on two (Region, Category), slower on one (AC detail −7.4)",
-      "It reached 41.6 just after release (9/19-9/24) and gave some back by month end. All six are rated low (49 or under) at month end",
-      "<b>Response to a tap</b>: the filter response measured in production went 1.82s → <b>0.97s</b> (UX_DESIGN-309, 10 hand-timed runs each). Lab TBT: faster 1, no change 3, slower 2 — no direction",
-      "<b>Real-user load</b> (CrUX LCP, week ending 9/26): Search 6,895ms → <b>6,112ms</b> (−783ms from the 8/22 week), TOP 2,755 → 2,942ms (+187), Area 2,642 → 2,805ms (+163). All three still above the 2,500ms target"
+      "Load speed (PSI) went up, but all six pages are still rated low",
+      "On response, only the filter got faster (hand-timed)",
+      "Real-user load cannot be judged yet (from the week ending 10/17)"
      ]
+    },
+    "table": {
+     "head": [
+      {
+       "ja": "観点",
+       "en": "Aspect"
+      },
+      {
+       "ja": "指標",
+       "en": "Measure"
+      },
+      {
+       "ja": "前 → 後",
+       "en": "Before → after"
+      },
+      {
+       "ja": "判定",
+       "en": "Verdict"
+      }
+     ],
+     "rows": [
+      [
+       {
+        "ja": "表示の速さ",
+        "en": "Load speed"
+       },
+       {
+        "ja": "PSI スコア（6ページ平均、点）",
+        "en": "PSI score (six-page mean, points)"
+       },
+       "33.7 → 38.5",
+       {
+        "bdg": "up",
+        "ja": "速くなった",
+        "en": "Faster"
+       }
+      ],
+      [
+       {
+        "ja": "操作への反応（本番・手計測）",
+        "en": "Response (production, hand-timed)"
+       },
+       {
+        "ja": "カテゴリーの絞り込みの応答（秒）",
+        "en": "Category filter response (s)"
+       },
+       "1.82 → 0.97",
+       {
+        "bdg": "up",
+        "ja": "速くなった",
+        "en": "Faster"
+       }
+      ],
+      [
+       {
+        "ja": "操作への反応（ラボ値）",
+        "en": "Response (lab)"
+       },
+       {
+        "ja": "TBT（6ページ平均、ミリ秒）",
+        "en": "TBT (six-page mean, ms)"
+       },
+       "1,336 → 1,362",
+       {
+        "bdg": "flat",
+        "ja": "変化なし",
+        "en": "No change"
+       }
+      ],
+      [
+       {
+        "ja": "実ユーザーの表示",
+        "en": "Real-user load"
+       },
+       {
+        "ja": "LCP 検索結果（ミリ秒）",
+        "en": "LCP, Search (ms)"
+       },
+       "6,895 → 6,112",
+       {
+        "bdg": "b-slow",
+        "ja": "合格ライン未達",
+        "en": "Below target"
+       }
+      ],
+      [
+       {
+        "ja": "実ユーザーの表示",
+        "en": "Real-user load"
+       },
+       {
+        "ja": "LCP TOP（ミリ秒）",
+        "en": "LCP, TOP (ms)"
+       },
+       "2,755 → 2,942",
+       {
+        "bdg": "b-slow",
+        "ja": "合格ライン未達",
+        "en": "Below target"
+       }
+      ],
+      [
+       {
+        "ja": "実ユーザーの表示",
+        "en": "Real-user load"
+       },
+       {
+        "ja": "LCP エリア（ミリ秒）",
+        "en": "LCP, Area (ms)"
+       },
+       "2,642 → 2,805",
+       {
+        "bdg": "b-slow",
+        "ja": "合格ライン未達",
+        "en": "Below target"
+       }
+      ]
+     ],
+     "note": {
+      "ja": "前＝リリース前（PSI は 9/12〜9/16、実ユーザーは 8/22 の週）。後＝月末（PSI は 9/25〜9/30、実ユーザーは 9/26 の週）。LCP の合格ラインは 2,500ms 以下。",
+      "en": "Before = pre-release (PSI 9/12-9/16, real-user week of 8/22). After = month end (PSI 9/25-9/30, real-user week of 9/26). LCP target: 2,500ms or under."
+     }
     }
    },
    {
@@ -3339,16 +3459,16 @@
     },
     "items": {
      "ja": [
-      "PSI で速くなったのは、9/17 の3件がすべて「先に画を出す」側の施策だったから",
-      "実ユーザー値では、まだ 9/17 の効果を判断できない。9/26 締めの値は 8/30〜9/26 の28日分で、リリース後は10日しか含まない",
-      "検索結果の実ユーザー LCP は、9/17 より前から下がり始めている（8/22 → 9/05 の週で −482ms）。9/17 だけの効果ではなく、原因は特定できていない",
-      "AC詳細が PSI で月末に遅くなった理由と、TOP・エリアの実ユーザー LCP が悪くなっている理由は、まだ調べていない"
+      "PSI が上がったのは、9/17 の3件がすべて「先に画を出す」施策だったから",
+      "実ユーザー値は、まだ判定できない。9/26 締めの週は、リリース後のデータが10日分しかない",
+      "検索結果の実ユーザー LCP は、9/17 より前から下がり始めている。原因は未特定",
+      "未調査：AC詳細の PSI 低下、TOP・エリアの実ユーザー LCP の悪化"
      ],
      "en": [
-      "PSI rose because all three 9/17 changes were about getting the picture on screen sooner",
-      "Real-user figures cannot judge 9/17 yet: the 9/26 value covers 8/30-9/26 and includes only ten days after release",
-      "Search real-user LCP started falling before 9/17 (−482ms from the 8/22 to the 9/05 week), so it is not 9/17 alone; the cause is not identified",
-      "Why AC detail PSI dropped at month end, and why TOP and Area real-user LCP are worsening, has not been looked into"
+      "PSI rose because all three 9/17 changes put the picture on screen sooner",
+      "Real-user figures cannot be judged yet: the week ending 9/26 has only ten days after release",
+      "Search real-user LCP started falling before 9/17; the cause is not identified",
+      "Not yet investigated: the AC detail PSI drop and the worsening real-user LCP on TOP and Area"
      ]
     }
    },
@@ -3359,15 +3479,15 @@
     },
     "items": {
      "ja": [
-      "10/17 締めの週で、実ユーザー値の28日がすべて 9/17 以降になる。そこで 9/17 の効果を判定する",
-      "遅くなった AC詳細（PSI）と、悪くなっている TOP・エリア（実ユーザー LCP）の原因を調べる",
-      "操作への反応に効く施策を出す：[[UX_DESIGN-404]]（見込み 約2,182ms）、[[UX_DESIGN-398]]（見込み 最大2,000ms）、[[UX_DESIGN-309]] の検索ページ・2ページ目以降への展開",
+      "10/17 締めの週で、9/17 の効果を実ユーザー値で判定する",
+      "AC詳細の PSI 低下と、TOP・エリアの実ユーザー LCP の悪化の原因を調べる",
+      "操作への反応に効く施策を出す：[[UX_DESIGN-404]]、[[UX_DESIGN-398]]、[[UX_DESIGN-309]] の検索ページ・2ページ目以降への展開",
       "計測を足す：実ユーザーの操作への反応（web-vitals タグ）、AC詳細・地域・カテゴリーの計測 URL の差し替え"
      ],
      "en": [
-      "The week ending 10/17 is the first whose 28 days all fall after 9/17; judge 9/17 on real-user figures then",
-      "Find out why AC detail (PSI) slowed and why TOP and Area (real-user LCP) are worsening",
-      "Ship for response to a tap: UX_DESIGN-404 (est. ~2,182ms), UX_DESIGN-398 (est. up to 2,000ms), extend UX_DESIGN-309 to search and pages 2+",
+      "Judge the 9/17 changes on real-user figures from the week ending 10/17",
+      "Find out why AC detail PSI dropped and why TOP and Area real-user LCP is worsening",
+      "Ship for response to a tap: UX_DESIGN-404, UX_DESIGN-398, extend UX_DESIGN-309 to search and pages 2+",
       "Add measurement: real-user response (web-vitals tag) and replacement URLs for AC detail, Region and Category"
      ]
     }
