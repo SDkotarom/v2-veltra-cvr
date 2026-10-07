@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 43,
+  "version": 44,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -3095,54 +3095,62 @@
    "ja": {
     "title": "操作への反応を、実ユーザーで測れるようにする",
     "why": "押してから画面が応えるまでの時間は、いまラボ値（TBT）で代用している。実ユーザーの INP を取れば代用をやめられる。CrUX と違い訪問数の下限がないので、6ページに限らず全ページで取れる。",
-    "who": "GTM にタグを貼って公開するまでがブラウザ作業。タグのコードはこちらで用意する。",
+    "who": "タグのコードは用意済み（scripts/perf-report/tags/web-vitals-gtm.html）。GTM に貼って公開する作業と、GA4 のカスタム定義の登録がブラウザ作業。",
     "when": "公開した翌日から",
     "cost": "15分",
     "steps": [
      {
-      "t": "タグのコード全文を受け取る（依頼があれば出す）",
+      "t": "タグのコード（tags/web-vitals-gtm.html）の全文をコピーする",
       "u": ""
      },
      {
-      "t": "GTM（GTM-5KFX5VX）でカスタムHTMLタグを作成して貼る",
+      "t": "GTM（GTM-5KFX5VX）でカスタムHTMLタグを作成して貼る。トリガーは All Pages",
       "u": "https://tagmanager.google.com/"
      },
      {
-      "t": "トリガーを All Pages にして公開",
+      "t": "イベント名 web_vitals のカスタムイベントトリガーと、GA4 イベントタグを作る（変数と手順は tags/README.md）",
       "u": ""
      },
      {
-      "t": "GA4 でカスタム定義を登録（設定値はこちらで出す）",
+      "t": "プレビューで web_vitals が出ることを確認してから公開する",
+      "u": ""
+     },
+     {
+      "t": "GA4 でカスタム定義を登録（metric_name・metric_rating・page_type・device・metric_value。README に一覧）",
       "u": "https://analytics.google.com/"
      }
     ],
-    "note": "チケットは UX_DESIGN-300。"
+    "note": "チケットは UX_DESIGN-300。ページ種別は URL の形で判定する。地域とエリアは URL の形が同じため、まとめて area_or_region として出る。"
    },
    "en": {
     "title": "Measure response-to-touch on real users",
     "why": "The wait between a tap and a response is currently stood in for by a lab figure (TBT). Real-user INP replaces that stand-in, and unlike CrUX it has no visit threshold, so every page can be measured, not just six.",
-    "who": "Pasting the tag into GTM and publishing is a browser task. The tag code is supplied.",
+    "who": "The tag code is ready (scripts/perf-report/tags/web-vitals-gtm.html). Pasting it into GTM, publishing, and registering the GA4 custom definitions are browser tasks.",
     "when": "The day after it is published",
     "cost": "15 min",
     "steps": [
      {
-      "t": "Receive the full tag code (supplied on request)",
+      "t": "Copy the full tag code (tags/web-vitals-gtm.html)",
       "u": ""
      },
      {
-      "t": "Create a Custom HTML tag in GTM (GTM-5KFX5VX) and paste it",
+      "t": "Create a Custom HTML tag in GTM (GTM-5KFX5VX) and paste it; trigger All Pages",
       "u": "https://tagmanager.google.com/"
      },
      {
-      "t": "Set the trigger to All Pages and publish",
+      "t": "Create a custom-event trigger named web_vitals and a GA4 event tag (variables and steps in tags/README.md)",
       "u": ""
      },
      {
-      "t": "Register the custom definitions in GA4 (values supplied)",
+      "t": "Confirm web_vitals appears in preview, then publish",
+      "u": ""
+     },
+     {
+      "t": "Register the custom definitions in GA4 (metric_name, metric_rating, page_type, device, metric_value; list in README)",
       "u": "https://analytics.google.com/"
      }
     ],
-    "note": "Ticket: UX_DESIGN-300."
+    "note": "Ticket: UX_DESIGN-300. Page type is decided from the URL shape. Region and Area share the same URL shape, so they appear together as area_or_region."
    }
   },
   {
@@ -3482,13 +3490,13 @@
       "9/17 の効果は、日次の PSI では判定できた。実ユーザー値は28日の窓なので、判定は 10/17 締めの週以降。それまでは、日次の PSI と本番の手計測で見る",
       "AC詳細の PSI 低下と、TOP・エリアの実ユーザー LCP の悪化の原因を調べる",
       "操作への反応に効く施策を出す：[[UX_DESIGN-404]]、[[UX_DESIGN-398]]、[[UX_DESIGN-309]] の検索ページ・2ページ目以降への展開",
-      "計測を足す：実ユーザーの操作への反応（web-vitals タグ）、AC詳細・地域・カテゴリーの計測 URL の差し替え"
+      "計測を今すぐ足す：web-vitals タグ（コード用意済み。GTM に貼って公開するだけ）。AC詳細・地域・カテゴリーの計測 URL の差し替えは API キーが届き次第"
      ],
      "en": [
       "The 9/17 effect is already judged on daily PSI. Real-user figures use a 28-day window, so they can be judged from the week ending 10/17; until then, read daily PSI and hand-timed production figures",
       "Find out why AC detail PSI dropped and why TOP and Area real-user LCP is worsening",
       "Ship for response to a tap: UX_DESIGN-404, UX_DESIGN-398, extend UX_DESIGN-309 to search and pages 2+",
-      "Add measurement: real-user response (web-vitals tag) and replacement URLs for AC detail, Region and Category"
+      "Add measurement now: the web-vitals tag (code ready; paste into GTM and publish). Swapping the AC detail, Region and Category measurement URLs follows once the API key arrives"
      ]
     }
    }
