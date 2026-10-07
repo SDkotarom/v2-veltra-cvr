@@ -1,6 +1,6 @@
 {
  "defs": {
-  "generated_at": "2026-10-05 12:00",
+  "generated_at": "2026-10-07",
   "latest_period_end": "2026-09-26",
   "crux_collected_at": "2026-10-04",
   "psi_date": "2026-09-30",
@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 38,
+  "version": 39,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -3419,6 +3419,51 @@
  ],
  "memos": [
   {
+   "week": "W41",
+   "from": "2026-10-01",
+   "to": "2026-10-07",
+   "rel": {
+    "ja": [
+     "Web表示速度の施策としてリリースを確認できたものはなし（リリースチケットに中身の記載がないため、Slack #cspj-release の日次リリースとの対応は未確認）"
+    ],
+    "en": [
+     "No web-performance release confirmed (release tickets list no contents, so the daily #cspj-release deploys could not be matched)"
+    ]
+   },
+   "num": {
+    "ja": [
+     "[[UX_DESIGN-307]] の前後比較（dev 環境・Suki さん計測）：TOP・エリア・地域でスクリプトの転送量は変化なし（128→129KB、229→229KB、391→391KB）",
+     "カテゴリー・検索結果・AC詳細は前後で条件が揃っておらず（スクリプト転送量は増えているが展開後サイズは同じ）、効果は判断できない"
+    ],
+    "en": [
+     "UX_DESIGN-307 before/after (dev, measured by Suki): script transfer unchanged on TOP, Area and Region (128→129KB, 229→229KB, 391→391KB)",
+     "Category, Search and AC detail are not comparable (transfer rose, decoded size identical); no effect can be judged"
+    ]
+   },
+   "obs": {
+    "ja": [
+     "[[UX_DESIGN-307]] は、6ページを Coverage で調べて、完全に未使用のファイルはなかった。削減効果の大きい穴は見つからなかった",
+     "小さい冗長（廃止済み JS の参照、二重読み込み2件、使われていない preload）は整理した。効果は小さいかほぼ変わらない",
+     "jQuery の二重読み込み（削ると壊れる）、vds.css の削減、babel-polyfill の削除（IE11 を試せない）は見送り。IE11 は9月のセッションが 8以下"
+    ],
+    "en": [
+     "UX_DESIGN-307: Coverage on the six pages found no completely unused files, and no large reduction opportunity",
+     "Small redundancies were cleaned up (dead JS reference, two duplicate loads, unused preloads); effect is small to none",
+     "Skipped: duplicate jQuery (removal breaks the page), vds.css trimming, babel-polyfill removal (IE11 cannot be tested). IE11 had 8 sessions or fewer in September"
+    ]
+   },
+   "nxt": {
+    "ja": [
+     "[[UX_DESIGN-308]]（画像）と [[UX_DESIGN-387]]（Webフォント）が review。内容はこれから確認",
+     "[[UX_DESIGN-309]] の次の段階（検索ページ・1ページ目超のキャッシュ）は Suki さんの調査待ち"
+    ],
+    "en": [
+     "UX_DESIGN-308 (images) and UX_DESIGN-387 (web fonts) are in review; contents still to be checked",
+     "UX_DESIGN-309 next step (search page, caching beyond page 1) waits on Suki's investigation"
+    ]
+   }
+  },
+  {
    "week": "W40",
    "from": "2026-09-28",
    "to": "2026-09-30",
@@ -3762,12 +3807,12 @@
     "ja": [
      "[[UX_DESIGN-425]] くるくるの時間を実ユーザーで測る。9/4 の調査では、くるくるの表示は1か所（resources/src/mixins/modal.js）で制御されていた。ここに記録を足せば全部まとめて取れる可能性がある（実装は読んでいないので推定）",
      "[[UX_DESIGN-398]] 画面を最大2秒まっ白にする設定（VWO）を縮める。効果は大きいが、マーケ側の合意が先",
-     "[[UX_DESIGN-307]] JS を減らす最初の施策（レビュー中）。before/after の数字を依頼済み"
+     "[[UX_DESIGN-307]] JS を減らす最初の施策。調査の結果、削減効果の大きい穴は見つからなかった（週次メモ W41）"
     ],
     "en": [
      "UX_DESIGN-425: measure spinner time from real users. On 9/4 the spinner was controlled in one place (resources/src/mixins/modal.js); logging there might cover them all (inference, code not read)",
      "UX_DESIGN-398: shorten the VWO setting that blanks the screen for up to 2s. Big effect, but needs marketing's agreement first",
-     "UX_DESIGN-307: the first JS-reduction change (in review). Before/after numbers requested"
+     "UX_DESIGN-307: the first JS-reduction change. The investigation found no large reduction opportunity (see weekly note W41)"
     ]
    }
   },
