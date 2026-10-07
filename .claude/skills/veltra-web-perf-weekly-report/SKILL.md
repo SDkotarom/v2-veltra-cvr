@@ -9,6 +9,9 @@ description: >
 
 # 表示速度モニタリング レポート更新
 
+> 最新の状態と未完了の作業は `scripts/perf-report/HANDOVER.md` を先に読むこと。
+
+
 ## 取り込み方法（2026-10-05 更新：これが本線）
 
 `mcp__Google_Drive__download_file_content` に
