@@ -1,0 +1,1124 @@
+<title>表示速度モニタリング</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>:root{
+  --brand:#7CA0BF; --brand-ink:#41637F;
+  --pos:#86BE99; --pos-ink:#3E7A52;
+  --neg:#F38268; --neg-ink:#B4462A;
+  --warn-ink:#9A6112;
+  --bg:#EEF2F5; --bg-tint:#FEFCF3; --surface:#FFFFFF; --surface-2:#F4F6F8;
+  --line:#E4E9ED; --line-strong:#C6D0D8; --line-soft:#EDF1F4;
+  --ink:#241519; --ink-2:#3E3438; --ink-3:#5C5255;
+  --shadow:0 1px 2px rgba(45,28,33,.05), 0 8px 24px -16px rgba(45,28,33,.18);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --brand:#8FB2CE; --brand-ink:#A9C6DC; --pos:#7FBE95; --pos-ink:#95CFA8;
+  --neg:#EE8A73; --neg-ink:#F19B86; --warn-ink:#E0A458;
+  --bg:#171418; --bg-tint:#1E1A1E; --surface:#201C21; --surface-2:#272227;
+  --line:#332B33; --line-strong:#4A404A; --line-soft:#2C262C;
+  --ink:#F6F2EF; --ink-2:#DCD4D1; --ink-3:#B4AAA9;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --brand:#8FB2CE; --brand-ink:#A9C6DC; --pos:#7FBE95; --pos-ink:#95CFA8;
+  --neg:#EE8A73; --neg-ink:#F19B86; --warn-ink:#E0A458;
+  --bg:#171418; --bg-tint:#1E1A1E; --surface:#201C21; --surface-2:#272227;
+  --line:#332B33; --line-strong:#4A404A; --line-soft:#2C262C;
+  --ink:#F6F2EF; --ink-2:#DCD4D1; --ink-3:#B4AAA9;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic",system-ui,-apple-system,sans-serif;
+  font-size:15px;line-height:1.85;-webkit-font-smoothing:antialiased}
+
+.wrap{max-width:900px;margin:0 auto;padding-block:44px 88px;padding-left:20px;padding-right:20px;
+  display:flex;flex-direction:column;gap:46px}
+.head{display:flex;flex-direction:column;gap:10px}
+.eyebrow{font-family:Montserrat,system-ui,sans-serif;font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);margin:0}
+.ver{margin-left:10px;padding:1px 7px;border:1px solid var(--line-strong);border-radius:999px;
+  font-size:11px;letter-spacing:.04em;color:var(--ink-3);background:var(--surface)}
+h1{margin:0;font-size:clamp(26px,4vw,35px);line-height:1.22;font-weight:700;text-wrap:balance}
+.sub{color:var(--brand-ink);font-size:14px;margin:0}
+.leads{display:flex;flex-direction:column;gap:10px}
+.lead{font-size:15.5px;margin:0;line-height:1.85}
+.sec{display:flex;flex-direction:column;gap:16px}
+h2{font-size:19px;font-weight:700;margin:0;padding-bottom:10px;border-bottom:1px solid var(--line-strong);line-height:1.4}
+h2 .n{font-family:Montserrat,sans-serif;font-size:14px;color:var(--ink-3);margin-right:12px;vertical-align:.08em}
+.note{margin:0;font-size:14px;color:var(--ink-2);line-height:1.75}
+.tally{margin:0;font-size:13.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px 17px;
+  box-shadow:var(--shadow);display:flex;flex-direction:column;gap:2px}
+.tl-h{font-size:13px;color:var(--ink-3);display:flex;align-items:center;gap:8px;line-height:1.5}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
+.tl-v{font-size:28px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.25}
+.tl-v .u{font-size:13px;font-weight:500;color:var(--ink-3);margin-left:3px}
+.tl-s{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+.tl-w{font-size:12px;color:var(--warn-ink);line-height:1.6}
+.tl-s:last-of-type,.tl-w{margin-bottom:8px}
+.tl-f{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge{font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;border:1px solid;line-height:1.7}
+.badge.good{color:var(--pos-ink);border-color:var(--pos)}
+.badge.ni{color:var(--warn-ink);border-color:var(--warn-ink)}
+.badge.poor{color:var(--neg-ink);border-color:var(--neg)}
+.badge.nd{color:var(--ink-3);border-color:var(--line-strong)}
+.diff{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.diff.up{color:var(--neg-ink)} .diff.down{color:var(--pos-ink)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:17px 17px 10px;box-shadow:var(--shadow)}
+.card h3{font-size:13.5px;font-weight:700;margin:0 0 2px}
+.card p{margin:0 0 6px;color:var(--ink-3);font-size:12px}
+svg{display:block;width:100%;height:auto}
+.grid{stroke:var(--line-soft);stroke-width:1}
+.target{stroke:var(--line-strong);stroke-width:1;stroke-dasharray:5 4}
+.rel{stroke:var(--brand);stroke-width:1.5;stroke-dasharray:3 3}
+.rell{font-size:10.5px;fill:var(--brand-ink);font-weight:700}
+.ax{font-size:13px;fill:var(--ink-2);font-variant-numeric:tabular-nums}
+.tgt{font-size:10.5px;fill:var(--ink-3)}
+.dl{font-size:11.5px;font-weight:700}
+.ln{stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+
+.finds{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  box-shadow:var(--shadow);padding:4px 22px}
+.find{display:flex;gap:18px;padding:16px 0;border-bottom:1px solid var(--line-soft)}
+.find:last-child{border-bottom:0}
+.fn{font-family:Montserrat,sans-serif;font-size:12px;font-weight:700;color:var(--ink-3);flex:none;width:26px;padding-top:4px}
+.find h3{font-size:16px;font-weight:700;margin:0 0 4px;line-height:1.5}
+.find p{margin:0;font-size:14px;color:var(--ink)}
+
+.issue{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:20px 22px;box-shadow:var(--shadow)}
+.ih{font-family:Montserrat,sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;
+  color:var(--neg-ink);margin-bottom:6px}
+.issue h3{font-size:16px;font-weight:700;margin:0 0 4px;line-height:1.5}
+.issue p{margin:0 0 14px;color:var(--ink-2);font-size:14px}
+.yl{font-size:12px;font-weight:700;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
+.issue ul{margin:6px 0 16px;padding-left:20px} .issue li{margin:3px 0;font-size:14px}
+.ifoot{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.chip{font-size:12.5px;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:5px;padding:2px 10px;color:var(--ink-2)}
+.nt{font-size:12px;color:var(--neg-ink)}
+
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600;
+  background:var(--surface-2);border-bottom:1px solid var(--line);padding:9px 13px;text-align:right;white-space:nowrap}
+td{padding:10px 13px;text-align:right;border-bottom:1px solid var(--line-soft);
+  white-space:nowrap;font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left}
+th:last-child,td:last-child{text-align:left;white-space:normal}
+tr:last-child td{border-bottom:0}
+td.bad{color:var(--neg-ink);font-weight:700}
+
+a{color:var(--brand-ink)}
+details{margin:0} summary{cursor:pointer;font-size:13.5px;color:var(--ink-2);padding:4px 0}
+details .tw{margin-top:12px}
+.linkcard{display:flex;justify-content:space-between;align-items:center;gap:16px;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 22px;
+  box-shadow:var(--shadow);text-decoration:none;color:inherit}
+.linkcard b{display:block;font-size:14.5px} .linkcard span{font-size:13.5px;color:var(--ink-2)}
+footer{border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:var(--ink-2);line-height:1.8}
+
+.langbar{display:flex;justify-content:flex-end;gap:0}
+.langbar button{font:inherit;font-size:12.5px;padding:5px 15px;border:1px solid var(--line-strong);
+  background:var(--surface);color:var(--ink-3);cursor:pointer;line-height:1.6}
+.langbar button:first-child{border-radius:6px 0 0 6px}
+.langbar button:last-child{border-radius:0 6px 6px 0;border-left:0}
+.langbar button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.langbar button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+.en{display:none} [data-lang="en"] .ja{display:none} [data-lang="en"] .en{display:inline}
+@media(max-width:560px){
+  .wrap{padding-left:16px;padding-right:16px;gap:38px;padding-block:32px 64px}
+  .tl-v{font-size:25px} .issue{padding:17px} .find{gap:12px}
+}
+
+/* --- トップバー --- */
+.topbar{display:flex;justify-content:flex-end;align-items:center;gap:12px}
+
+/* --- KPI 一瞥 --- */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px 17px;box-shadow:var(--shadow)}
+.kpi-h{font-size:13px;font-weight:700;display:flex;flex-direction:column;gap:1px;line-height:1.45}
+.kpi-sub{font-size:12px;font-weight:400;color:var(--ink-3)}
+.kpi-v{font-size:30px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.3;margin-top:6px}
+.kpi-d{font-size:15px;font-weight:500;color:var(--ink-3)}
+.kpi-f{margin:10px 0 0;display:flex;flex-direction:column;gap:2px}
+.kpi-f>div{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.kpi-f dt{font-size:12px;color:var(--ink-3);margin:0}
+.kpi-f dd{font-size:12.5px;margin:0;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+
+/* --- グラフ --- */
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:14px}
+.ch-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.ch-h h3{font-size:14px;font-weight:700;margin:0}
+.ch-sub{font-size:12px;font-weight:400;color:var(--ink-3);margin-left:6px}
+.ch-t{font-size:12px;color:var(--ink-3);white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.lg{font:inherit;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;
+  padding:2px 9px;border:1px solid var(--line);border-radius:999px;background:var(--surface);
+  color:var(--ink-2);cursor:pointer;line-height:1.7}
+.lg[aria-pressed="false"]{opacity:.4;text-decoration:line-through}
+.lg:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.plot svg{overflow:visible}
+
+/* --- 指標切替 --- */
+.mtabs{display:flex;gap:0;flex-wrap:wrap}
+.mt{font:inherit;font-size:12.5px;padding:5px 16px;border:1px solid var(--line-strong);
+  background:var(--surface);color:var(--ink-3);cursor:pointer;line-height:1.6;margin-left:-1px}
+.mt:first-child{border-radius:6px 0 0 6px;margin-left:0}
+.mt:last-child{border-radius:0 6px 6px 0}
+.mt[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);position:relative;z-index:1}
+.mt:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+/* --- 週次の表：見出しを固定して、表の中だけスクロールさせる --- */
+#trend-table{max-height:min(62vh,520px);overflow:auto}
+#trend-table table{min-width:640px}
+.th-m{display:block;font-size:11px;font-weight:700;color:var(--brand-ink);
+  letter-spacing:0;text-transform:none;line-height:1.5}
+#trend-table thead th{position:sticky;top:0;z-index:3;
+  background:var(--surface-2);box-shadow:inset 0 -1px 0 var(--line)}
+#trend-table tbody tr:not(.ann) td:first-child{position:sticky;left:0;z-index:2;
+  background:var(--surface);box-shadow:inset -1px 0 0 var(--line-soft)}
+#trend-table thead th:first-child{left:0;z-index:4;
+  box-shadow:inset 0 -1px 0 var(--line),inset -1px 0 0 var(--line)}
+
+/* --- 表のリリース行（開閉） --- */
+tr.ann td{background:var(--surface-2);white-space:normal;text-align:left;padding:4px 13px}
+.ann-d summary{font-size:13px;color:var(--brand-ink);padding:3px 0;font-weight:700}
+.ann-d[open] summary{margin-bottom:2px}
+.ann-l{margin:2px 0 8px;max-height:none}
+
+/* --- タイルの計測URL --- */
+.tl-u{font-size:12px;color:var(--ink-3);text-decoration:none;display:block;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.6;margin-bottom:2px}
+.tl-u:hover{color:var(--brand-ink);text-decoration:underline}
+
+/* --- リリース帯 --- */
+.strip .plot{margin:4px 0 2px}
+.strip-wrap{position:relative;height:92px}
+.strip-rail{position:absolute;top:46px;height:2px;background:var(--line-strong);border-radius:2px}
+.strip-months{position:absolute;top:56px;left:0;right:0;height:20px}
+.strip-months .sm{position:absolute;transform:translateX(-50%);font-size:12px;color:var(--ink-3)}
+.rdot{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;
+  align-items:center;gap:4px;cursor:pointer;outline:none}
+.rdot-date{order:1;font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums;
+  white-space:nowrap;margin-top:26px}
+.rdot-mark{order:2;position:absolute;top:38px;width:18px;height:18px;border-radius:50%;
+  background:var(--brand);border:2px solid var(--surface);box-shadow:0 0 0 1px var(--brand);
+  color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.rdot::before{content:"";position:absolute;top:24px;height:14px;width:2px;background:var(--brand);opacity:.5}
+.tip{position:absolute;top:64px;left:0;min-width:300px;max-width:420px;z-index:5;
+  background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;
+  box-shadow:var(--shadow);padding:10px 12px;display:none;text-align:left;
+  overflow-y:auto;overscroll-behavior:contain}
+.rdot.right .tip{left:auto;right:0}
+.tip.up{top:auto;bottom:62px}
+.rdot:hover .tip,.rdot:focus .tip,.rdot:focus-within .tip{display:block}
+.tip-h{font-size:12px;color:var(--ink-3);margin-bottom:6px;font-variant-numeric:tabular-nums}
+.tp-row{display:block;padding:6px 0;border-top:1px solid var(--line-soft);text-decoration:none;color:inherit}
+.tp-row:first-of-type{border-top:0}
+.tp-row:hover .tp-tk{text-decoration:underline}
+.tp-tk{display:inline-block;font-size:12.5px;font-weight:700;color:var(--brand-ink)}
+.tp-sc{display:inline-block;font-size:11.5px;color:var(--ink-3);margin-left:8px}
+.tp-nt{display:block;font-size:13px;color:var(--ink-2);line-height:1.6}
+
+/* --- リリース一覧（折りたたみ） --- */
+.rl-toggle{margin-top:2px;border-top:1px solid var(--line-soft);padding-top:6px}
+.rl-toggle summary{font-size:13px;color:var(--ink-2)}
+.rl{list-style:none;margin:8px 0 6px;padding:0;display:flex;flex-direction:column;gap:6px;
+  max-height:260px;overflow-y:auto}
+.rl li{display:grid;grid-template-columns:auto auto auto 1fr;align-items:baseline;gap:10px;
+  font-size:13px;color:var(--ink-2);line-height:1.6}
+.rl-d{font-variant-numeric:tabular-nums;color:var(--ink-3);white-space:nowrap}
+.rl li a{font-weight:700;white-space:nowrap}
+.rl-sc{color:var(--ink-3);font-size:12px;white-space:nowrap}
+.rl-n{color:var(--ink-2)}
+@media(max-width:560px){.rl li{grid-template-columns:1fr;gap:2px}}
+
+/* --- 2つの系統 --- */
+.trks{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.trk{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:18px 20px;box-shadow:var(--shadow)}
+.trk h3{font-size:16px;font-weight:700;margin:0 0 4px;line-height:1.5}
+.trk-b{margin:0 0 12px;font-size:14px;color:var(--ink-2)}
+.trk-f{margin:0 0 12px;display:flex;flex-direction:column;gap:4px;
+  border-top:1px solid var(--line-soft);padding-top:10px}
+.trk-f>div{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.trk-f dt{margin:0;font-size:13.5px;color:var(--ink-2)}
+.trk-f dd{margin:0;font-size:15px;font-weight:700;white-space:nowrap;
+  font-variant-numeric:tabular-nums;text-align:right}
+.trk-s{display:block;font-size:12px;font-weight:400;color:var(--ink-3)}
+.trk-g{margin:0 0 12px;font-size:13px;color:var(--neg-ink)}
+.trk .ifoot{gap:6px}
+a.chip{text-decoration:none;font-weight:700;color:var(--brand-ink)}
+a.chip:hover{text-decoration:underline}
+
+/* --- 取得から表示までの流れ --- */
+.flow{display:flex;align-items:stretch;gap:0}
+.fs{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:7px}
+.fs-h{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--ink-3);
+  border-bottom:1px solid var(--line-strong);padding-bottom:5px;line-height:1.5}
+.fs-s{display:block;font-weight:400;font-size:11.5px;letter-spacing:0}
+.fa{flex:none;align-self:center;padding:0 7px;color:var(--ink-3);font-size:16px}
+.fbox{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  box-shadow:var(--shadow);display:flex;flex-direction:column}
+.fitem{padding:9px 11px;border-top:1px solid var(--line-soft);display:flex;flex-direction:column;gap:1px}
+.fitem:first-child{border-top:0}
+.fitem b{font-size:13px;line-height:1.5;word-break:break-word}
+.fbox-d{font-size:12.5px;color:var(--ink-2);line-height:1.55}
+.fbox-f{font-size:12px;color:var(--ink-3);display:flex;align-items:center;
+  gap:7px;flex-wrap:wrap;margin-top:3px}
+.fbadge{font-size:11.5px;font-weight:700;padding:1px 8px;border-radius:999px;border:1px solid;line-height:1.7}
+.fbadge.ok{color:var(--pos-ink);border-color:var(--pos)}
+.fbadge.warn{color:var(--warn-ink);border-color:var(--warn-ink)}
+.fbadge.todo{color:var(--ink-3);border-color:var(--line-strong)}
+@media(max-width:700px){
+  .flow{flex-direction:column;gap:2px}
+  .fa{align-self:flex-start;padding:2px 0 2px 16px;transform:rotate(90deg)}
+}
+
+/* --- 期間の切替 --- */
+.ctrl{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.range{display:flex;align-items:center;gap:6px}
+.rg{font:inherit;font-size:13px;line-height:1;padding:6px 10px;border:1px solid var(--line-strong);
+  border-radius:6px;background:var(--surface);color:var(--ink-2);cursor:pointer}
+.rg:disabled{opacity:.35;cursor:default}
+.rg:not(:disabled):hover{border-color:var(--brand);color:var(--brand-ink)}
+.rg:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.rg-today{font-size:12.5px;padding:6px 12px}
+.rg-lab{font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums;
+  min-width:172px;text-align:center}
+@media(max-width:560px){.rg-lab{min-width:0}}
+
+/* --- ホバーで出る短い説明 --- */
+.hint{position:relative;border-bottom:1px dotted var(--line-strong);cursor:help}
+.hint::after{content:attr(data-tip-ja);position:absolute;left:0;bottom:calc(100% + 7px);
+  width:max-content;max-width:min(260px,72vw);background:var(--ink);color:var(--bg);
+  font-size:12px;line-height:1.65;font-weight:400;letter-spacing:0;text-transform:none;
+  padding:8px 11px;border-radius:8px;box-shadow:var(--shadow);
+  opacity:0;visibility:hidden;transition:opacity .12s;z-index:30;pointer-events:none}
+[data-lang="en"] .hint::after{content:attr(data-tip-en)}
+.hint:hover::after,.hint:focus-visible::after{opacity:1;visibility:visible}
+.hint:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.kpi-f dt .hint::after{left:auto;right:0}
+
+/* --- 構築中パネル --- */
+.su{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  box-shadow:var(--shadow);margin-top:4px}
+.su>summary{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 18px;font-size:14px;color:var(--ink)}
+.su-b{font-size:11.5px;font-weight:700;padding:2px 10px;border-radius:999px;
+  border:1px solid var(--warn-ink);color:var(--warn-ink);white-space:nowrap}
+.su-t{font-weight:700}
+.su-c{margin-left:auto;font-size:12.5px;color:var(--ink-3)}
+.su-body{padding:0 18px 16px}
+.su-f{margin:0 0 12px;display:flex;flex-direction:column;gap:8px;
+  border-top:1px solid var(--line-soft);padding-top:12px}
+.su-f dt{margin:0;font-size:12px;font-weight:700;color:var(--ink-3)}
+.su-f dd{margin:2px 0 0;font-size:14px;color:var(--ink-2);line-height:1.75}
+.su-s{margin:6px 0 12px;padding-left:22px}
+.su-s li{font-size:14px;margin:4px 0;line-height:1.75}
+.su-n{margin:0;font-size:13px;color:var(--ink-3)}
+
+/* --- 冒頭の4つの数字 --- */
+.hls{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.hl{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:16px 18px;box-shadow:var(--shadow)}
+.hl-h{font-size:12.5px;color:var(--ink-3);line-height:1.5}
+.hl-v{font-size:32px;font-weight:700;letter-spacing:-.02em;line-height:1.3;
+  font-variant-numeric:tabular-nums;margin-top:4px}
+.hl-s{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+td.good{color:var(--pos-ink);font-weight:700}
+.ln.raw{opacity:.28}
+
+/* --- グラフ上のリリース打刻 --- */
+.plot-wrap{position:relative}
+.rdot.pm{top:0;transform:translateX(-50%)}
+.rdot.pm .rdot-mark{top:2px}
+.rdot.pm .rdot-date{margin-top:24px}
+.rdot.pm::before{top:-10px;height:12px}
+.rdot.pm .tip{top:30px}
+.rdot.pm .tip.up{top:auto;bottom:30px}
+
+/* --- 振り返り --- */
+.rv{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:22px 24px;box-shadow:var(--shadow)}
+.rv-h{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  border-bottom:1px solid var(--line-strong);padding-bottom:10px;margin-bottom:4px}
+.rv-h h2{border:0;padding:0}
+.rv-m{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.rv-p{padding:14px 0;border-bottom:1px solid var(--line-soft)}
+.rv-p:last-child{border-bottom:0;padding-bottom:0}
+.rv-p h3{font-size:14px;font-weight:700;margin:0 0 5px;color:var(--brand-ink)}
+.rv-p p{margin:0;font-size:15px;line-height:1.85}
+
+/* ---- グラフの下に畳んである数値の表 ---- */
+.dt{margin-top:14px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.dt>summary{list-style:none;cursor:pointer;padding:9px 12px;font-size:13px;font-weight:700;color:var(--ink-2);display:flex;align-items:center;gap:10px}
+.dt>summary::-webkit-details-marker{display:none}
+.dt>summary::before{content:"＋";font-weight:700;color:var(--ink-3)}
+.dt[open]>summary::before{content:"−"}
+.dt>summary:hover{color:var(--ink)}
+.dt .dt-u{font-weight:400;font-size:12px;color:var(--ink-3)}
+.dt-w{max-height:360px;overflow:auto;border-top:1px solid var(--line)}
+.dt-w table{width:100%;border-collapse:collapse;font-size:13px}
+.dt-w th,.dt-w td{padding:5px 10px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line-soft,#E6E9EC)}
+.dt-w th:first-child,.dt-w td:first-child{text-align:left;position:sticky;left:0;background:var(--surface)}
+.dt-w thead th{position:sticky;top:0;background:var(--surface);font-weight:700;color:var(--ink-2);z-index:2}
+.dt-w thead th:first-child{z-index:3}
+.dt-r{display:inline-block;margin-left:8px;padding:1px 6px;border-radius:999px;font-size:11px;font-weight:700;background:#F3E3E8;color:#8C2E4A}
+
+/* ---- 判定のバッジ。左罫線で色分けしない ---- */
+.bdg{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.bdg.up{background:#E2F0E6;color:#1F6B3A}
+.bdg.down{background:#F6E2E2;color:#93302E}
+.bdg.b-slow{background:#F6E6E2;color:#94402B}
+.bdg.b-mid{background:#F6F0DE;color:#7A5E12}
+.bdg.b-fast{background:#E2F0E6;color:#1F6B3A}
+
+/* ---- 節の中の小見出し ---- */
+.sh{margin:26px 0 10px;font-size:15px;font-weight:700;color:var(--ink)}
+.sec .hls + .sh{margin-top:22px}
+.bdg.flat{background:#EDEFF1;color:var(--ink-3)}
+.bdg.read{background:var(--ink-2);color:#fff}
+
+/* ---- 週次メモ ---- */
+.wms{margin:22px 0 8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 22px}
+.wms-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.wms-h h2{margin:0;font-size:18px}
+.wm{border:1px solid var(--line);border-radius:8px;margin-top:8px;background:var(--surface)}
+.wm>summary{list-style:none;cursor:pointer;padding:10px 12px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.wm>summary::-webkit-details-marker{display:none}
+.wm>summary::before{content:"＋";color:var(--ink-3);font-weight:700}
+.wm[open]>summary::before{content:"−"}
+.wm-w{font-weight:700;color:var(--ink)}
+.wm-d{font-size:13px;color:var(--ink-3)}
+.wm-s{font-size:13px;color:var(--ink-2);flex:1 1 240px}
+.wm-b{border-top:1px solid var(--line);padding:6px 14px 12px}
+.wm-r{display:grid;grid-template-columns:72px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-soft,#E6E9EC)}
+.wm-r:last-child{border-bottom:0}
+.wm-k{font-size:13px;font-weight:700;color:var(--ink-2)}
+.wm-v ul{margin:0;padding-left:1.1em}
+.wm-v li{font-size:14px;line-height:1.7;color:var(--ink)}
+.mut{font-size:12px;color:var(--ink-3)}
+@media (max-width:560px){.wm-r{grid-template-columns:1fr;gap:2px}.wms{padding:14px 16px}}
+.rv-l ul{margin:4px 0 0;padding-left:1.1em}
+.rv-l li{line-height:1.75;margin:2px 0}
+
+/* ---- ページ上部のタブ ---- */
+.ptabs{display:flex;gap:4px;margin:18px 0 0;border-bottom:1px solid var(--line)}
+.pt{font:inherit;font-size:14px;font-weight:700;padding:10px 18px;border:1px solid transparent;border-bottom:0;border-radius:8px 8px 0 0;background:transparent;color:var(--ink-3);cursor:pointer;margin-bottom:-1px}
+.pt[aria-selected="true"]{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.pt:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.pane[hidden]{display:none}
+.pl-b{margin:14px 0 18px}
+.pl-b h4{margin:0 0 8px;font-size:15px;color:var(--ink)}
+.sec.pl{margin-top:20px}
+
+/* 中締めの表：指標の列は左揃え */
+.rv .tw th:nth-child(2),.rv .tw td:nth-child(2){text-align:left}
+.rv .tw+.mut{margin:8px 0 10px}
+
+/* 施策の分類の表：折り返して、4列を横スクロールなしで見せる */
+table.cls{min-width:0;table-layout:fixed}
+table.cls th,table.cls td{white-space:normal;text-align:left;vertical-align:top;line-height:1.6;font-size:13px}
+table.cls th:nth-child(1){width:36%} table.cls th:nth-child(2){width:14%}
+table.cls th:nth-child(3){width:16%} table.cls th:nth-child(4){width:34%}
+
+/* スマホ幅で横スクロールを出さない（隠れている吹き出しが幅を押し広げるため） */
+html,body{overflow-x:clip}
+</style>
+<div class="wrap">
+<div class="topbar">
+<div class="langbar"><button id="btn-ja" aria-pressed="true" onclick="setLang('ja')">日本語</button><button id="btn-en" aria-pressed="false" onclick="setLang('en')">English</button></div>
+</div>
+
+<div class="head">
+<p class="eyebrow">Veltra ／ <span class="ja">表示速度改善</span><span class="en">Web Performance</span> ／ 2026-10-07<span class="ver">v43</span></p>
+<h1><span class="ja">表示速度モニタリング</span><span class="en">Web Performance Monitor</span></h1>
+<p class="sub">www.veltra.com — <span class="ja">モバイル・日本語 ／ PSI 日次 09-04〜09-30 ／ 実ユーザー値 〜09-26</span><span class="en">Mobile, Japanese · PSI daily 09-04-09-30 · real-user through 09-26</span></p>
+</div>
+
+<nav class="ptabs" role="tablist">
+<button class="pt" data-tab="report" aria-selected="true"><span class="ja">レポート</span><span class="en">Report</span></button>
+<button class="pt" data-tab="plan" aria-selected="false"><span class="ja">後半の方針</span><span class="en">Second-half plan</span></button>
+</nav>
+<div class="pane" data-pane="plan" hidden><div class="rv"><div class="rv-h"><h2><span class="ja">後半の方針：操作への反応</span><span class="en">Second-half plan: response to taps</span></h2><span class="rv-m"><span class="ja">作成 2026-10-06 ／ Suki さんに共有する前の社内メモ</span><span class="en">Written 2026-10-06 · internal notes before sharing with Suki</span></span></div>
+<div class="sec pl"><h3 class="sh"><span class="ja">着手状況</span><span class="en">Where things stand</span></h3><div class="rv-l"><span class="ja"><ul><li><span class="hint" tabindex="0" data-tip-ja="データを読み込んでいる間に画面に出る、回転するリング。全画面に出ている間は、ほかの操作ができない。" data-tip-en="The spinning ring shown while data is loading. While it covers the whole screen, nothing else can be done.">ローディング中のリング回転</span>に関係する施策の多くは、9/4 の調査で起票したまま「open（計画中）」で、担当が牧野のまま。<b>実装する人も見積もりも決まっていない</b></li><li>9月に手を付けた②の施策は <a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> の1件だけ。絞り込みの待ち時間は 1.82秒 → 0.97秒 で、効くことは確かめられた</li><li>つまり②は「やってみて効かなかった」のではなく、<b>ほとんど着手できていない</b></li><li>予算は半分ほど残っている</li></ul></span><span class="en"><ul><li>Most loading indicator-related items were written up on 9/4 and are still open, assigned to Makino. <b>No implementer and no estimates yet</b></li><li>Only one response-side change shipped in September: <a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a>, filter wait 1.82s → 0.97s. It proved the approach works</li><li>So the response side did not fail — <b>it has barely been started</b></li><li>About half the budget is left</li></ul></span></div></div>
+<div class="sec pl"><h3 class="sh"><span class="ja">施策の分類（現状の整理）</span><span class="en">Classification of changes (where things stand)</span></h3><div class="rv-l"><span class="ja"><ul><li>本番に出た4施策は、① 3件・②リング 1件・②TBT 0件。<b>②TBT に効く施策は、まだ1件も本番に出ていない</b></li><li>②TBT の候補は少ない。着手中は GTM の整理、未着手は調査（<a href="https://app.clickup.com/t/31108037/UX_DESIGN-388">UX_DESIGN-388</a>）と第三者タグ（<a href="https://app.clickup.com/t/31108037/UX_DESIGN-422">UX_DESIGN-422</a>）だけ</li><li>PSI のスコアは、TBT が30点分を占める（PSI が使う Lighthouse の配点：TBT 30・LCP 25・CLS 25・FCP 10・SI 10）。TBT の改善は、PSI のスコアに大きく効く</li><li>一方、実ユーザーの INP は、TOP が 218ms（合格ライン 200ms）、エリア 162ms、検索結果 158ms（9/26 締めの週）。実ユーザーが待たされているのは、サーバーの返事（検索 5.1秒）とローディング中のリング回転</li></ul></span><span class="en"><ul><li>Of the four changes in production: ① three, ② loading indicator one, ② TBT none. <b>No change that helps ② TBT has reached production yet</b></li><li>Few ② TBT candidates: GTM cleanup in progress; only the investigation (<a href="https://app.clickup.com/t/31108037/UX_DESIGN-388">UX_DESIGN-388</a>) and third-party tags (<a href="https://app.clickup.com/t/31108037/UX_DESIGN-422">UX_DESIGN-422</a>) not started</li><li>TBT carries 30 points of the PSI score (Lighthouse weights, which PSI uses: TBT 30, LCP 25, CLS 25, FCP 10, SI 10), so improving TBT helps the PSI score a lot</li><li>Real-user INP is 218ms on TOP (target 200ms), 162ms on Area, 158ms on Search (week ending 9/26). What real users wait on is the server response (Search 5.1s) and the loading ring</li></ul></span></div><div class="tw"><table class="cls"><tr><th><span class="ja">施策</span><span class="en">Change</span></th><th><span class="ja">状態</span><span class="en">State</span></th><th><span class="ja">主に効く側</span><span class="en">Mainly helps</span></th><th><span class="ja">根拠</span><span class="en">Basis</span></th></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-323">UX_DESIGN-323</a> AppsFlyer の読み込みを後回し</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-323">UX_DESIGN-323</a> Load AppsFlyer later</span></td><td><span class="ja">本番に出た</span><span class="en">Released</span></td><td><span class="ja"><b>① 表示の速さ</b></span><span class="en"><b>① Load speed</b></span></td><td><span class="ja">9/17 の3件を合わせて、PSI 33.7 → 38.5点</span><span class="en">The three 9/17 changes together: PSI 33.7 → 38.5</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-304">UX_DESIGN-304</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-395">UX_DESIGN-395</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-396">UX_DESIGN-396</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-397">UX_DESIGN-397</a> 主役画像の先読み・優先指定</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-304">UX_DESIGN-304</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-395">UX_DESIGN-395</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-396">UX_DESIGN-396</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-397">UX_DESIGN-397</a> Main-image preload and priority</span></td><td><span class="ja">本番に出た</span><span class="en">Released</span></td><td><span class="ja"><b>① 表示の速さ</b></span><span class="en"><b>① Load speed</b></span></td><td><span class="ja">同上</span><span class="en">Same</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-389">UX_DESIGN-389</a> 画像枠の寸法確保、検索ページのキャッシュ</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-389">UX_DESIGN-389</a> Reserved image space, search page cache</span></td><td><span class="ja">本番に出た</span><span class="en">Released</span></td><td><span class="ja"><b>① 表示の速さ</b></span><span class="en"><b>① Load speed</b></span></td><td><span class="ja">同上</span><span class="en">Same</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> カテゴリー絞り込み結果のキャッシュ</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> Cache category filter results</span></td><td><span class="ja">本番に出た</span><span class="en">Released</span></td><td><span class="ja"><b>② リング</b></span><span class="en"><b>② Loading indicator</b></span></td><td><span class="ja">実測：絞り込みの応答 1.82 → 0.97秒（手計測）</span><span class="en">Measured: filter response 1.82 → 0.97s (hand-timed)</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-307">UX_DESIGN-307</a> JS・CSS の削減</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-307">UX_DESIGN-307</a> Reduce JS and CSS</span></td><td><span class="ja">レビュー中</span><span class="en">In review</span></td><td><span class="ja"><b>② TBT</b></span><span class="en"><b>② TBT</b></span></td><td><span class="ja">大きな削減余地は見つからず。TOP・エリア・地域でスクリプト転送量は変化なし</span><span class="en">No large opportunity found; script transfer unchanged on TOP, Area and Region</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-308">UX_DESIGN-308</a> 画像最適化</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-308">UX_DESIGN-308</a> Image optimization</span></td><td><span class="ja">レビュー中</span><span class="en">In review</span></td><td><span class="ja"><b>① 表示の速さ</b></span><span class="en"><b>① Load speed</b></span></td><td><span class="ja">PR は beta にマージ済み。本番は未確認</span><span class="en">PR merged to beta; production not confirmed</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-387">UX_DESIGN-387</a> Webフォント</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-387">UX_DESIGN-387</a> Web fonts</span></td><td><span class="ja">レビュー中</span><span class="en">In review</span></td><td><span class="ja"><b>① 表示の速さ（小）</b></span><span class="en"><b>① Load speed (minor)</b></span></td><td><span class="ja">LCP の主因ではない（9/4 の調査）</span><span class="en">Not the LCP cause (9/4 investigation)</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-301">UX_DESIGN-301</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-303">UX_DESIGN-303</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-305">UX_DESIGN-305</a> GTM タグの棚卸し・停止・整理</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-301">UX_DESIGN-301</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-303">UX_DESIGN-303</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-305">UX_DESIGN-305</a> GTM tag audit, stop and cleanup</span></td><td><span class="ja">着手中</span><span class="en">In progress</span></td><td><span class="ja"><b>② TBT</b></span><span class="en"><b>② TBT</b></span></td><td><span class="ja">題名のみ。効果は未計測</span><span class="en">Title only; effect not measured</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-388">UX_DESIGN-388</a> INP・長い処理の分解調査</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-388">UX_DESIGN-388</a> INP and long-task breakdown</span></td><td><span class="ja">未着手</span><span class="en">Not started</span></td><td><span class="ja"><b>② TBT</b></span><span class="en"><b>② TBT</b></span></td><td><span class="ja">調査。TBT の内訳を出す受け皿</span><span class="en">Investigation; the place to break TBT down</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-422">UX_DESIGN-422</a> 第三者タグの条件付き読み込み</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-422">UX_DESIGN-422</a> Conditional loading of third-party tags</span></td><td><span class="ja">未着手</span><span class="en">Not started</span></td><td><span class="ja"><b>② TBT</b></span><span class="en"><b>② TBT</b></span></td><td><span class="ja">題名のみ</span><span class="en">Title only</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-410">UX_DESIGN-410</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-418">UX_DESIGN-418</a> 初期表示の一覧の取り直しをやめる</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-410">UX_DESIGN-410</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-418">UX_DESIGN-418</a> Stop re-fetching the list on first load</span></td><td><span class="ja">未着手</span><span class="en">Not started</span></td><td><span class="ja"><b>② リング</b></span><span class="en"><b>② Loading indicator</b></span></td><td><span class="ja">効く見込み。ただし取り直しは古いデータを避ける意図で、309 で決めた方向（取り直しは残して速くする）と衝突</span><span class="en">Likely to help, but the re-fetch exists to avoid stale data, which conflicts with the 309 direction (keep it, make it faster)</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-419">UX_DESIGN-419</a> 「戻る」のたびの全読み直しをやめる</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-419">UX_DESIGN-419</a> Stop the full reload on browser back</span></td><td><span class="ja">未着手</span><span class="en">Not started</span></td><td><span class="ja"><b>② リング</b></span><span class="en"><b>② Loading indicator</b></span></td><td><span class="ja">見込み。時間は未計測</span><span class="en">Expected; time not measured</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-405">UX_DESIGN-405</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-417">UX_DESIGN-417</a> 一覧 API のサーバー処理を減らす</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-405">UX_DESIGN-405</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-417">UX_DESIGN-417</a> Reduce server work in the list API</span></td><td><span class="ja">未着手</span><span class="en">Not started</span></td><td><span class="ja"><b>② リング</b></span><span class="en"><b>② Loading indicator</b></span></td><td><span class="ja">題名のみ</span><span class="en">Title only</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-404">UX_DESIGN-404</a> 空のクーポン通信を止める</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-404">UX_DESIGN-404</a> Stop the empty coupon requests</span></td><td><span class="ja">未着手</span><span class="en">Not started</span></td><td><span class="ja"><b>② リング（効くか不明）</b></span><span class="en"><b>② Loading indicator (unclear)</b></span></td><td><span class="ja">通信時間は実測（計 2,182ms）。リング回転を待たせているかは未確認</span><span class="en">Request time measured (2,182ms total); whether it holds the loading indicator is unconfirmed</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-312">UX_DESIGN-312</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-413">UX_DESIGN-413</a> 検索 API の応答改善</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-312">UX_DESIGN-312</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-413">UX_DESIGN-413</a> Faster search API</span></td><td><span class="ja">未着手</span><span class="en">Not started</span></td><td><span class="ja"><b>② リング／① TTFB</b></span><span class="en"><b>② Loading indicator / ① TTFB</b></span></td><td><span class="ja">題名のみ</span><span class="en">Title only</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-414">UX_DESIGN-414</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-415">UX_DESIGN-415</a> AC詳細への遷移・日程検索のキャッシュ</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-414">UX_DESIGN-414</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-415">UX_DESIGN-415</a> Cache for AC detail navigation and date search</span></td><td><span class="ja">未着手</span><span class="en">Not started</span></td><td><span class="ja"><b>① TTFB</b></span><span class="en"><b>① TTFB</b></span></td><td><span class="ja">ヒット時 298ms とミス時 1,395ms の差は実測（AC詳細）</span><span class="en">Hit 298ms vs miss 1,395ms measured (AC detail)</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-398">UX_DESIGN-398</a> VWO が body を最大2秒隠す設定の縮小</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-398">UX_DESIGN-398</a> Shrink the VWO setting that hides the body for up to 2s</span></td><td><span class="ja">未着手</span><span class="en">Not started</span></td><td><span class="ja"><b>① 表示の速さ</b></span><span class="en"><b>① Load speed</b></span></td><td><span class="ja">見込み 最大2,000ms。マーケの合意が前提</span><span class="en">Up to 2,000ms expected; needs marketing's agreement</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-399">UX_DESIGN-399</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-400">UX_DESIGN-400</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-401">UX_DESIGN-401</a> i-mobile の async 化、CSS defer の拡大、TOP 画像の webp</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-399">UX_DESIGN-399</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-400">UX_DESIGN-400</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-401">UX_DESIGN-401</a> i-mobile async, wider CSS defer, TOP image webp</span></td><td><span class="ja">未着手</span><span class="en">Not started</span></td><td><span class="ja"><b>① 表示の速さ</b></span><span class="en"><b>① Load speed</b></span></td><td><span class="ja">題名のみ</span><span class="en">Title only</span></td></tr><tr><td><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-407">UX_DESIGN-407</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-408">UX_DESIGN-408</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-314">UX_DESIGN-314</a> キャッシュのヒット率の可視化、ウォーミングの棚卸し、TTFB の切り分け</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-407">UX_DESIGN-407</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-408">UX_DESIGN-408</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-314">UX_DESIGN-314</a> Cache hit-rate view, warming audit, TTFB isolation</span></td><td><span class="ja">未着手</span><span class="en">Not started</span></td><td><span class="ja"><b>① TTFB</b></span><span class="en"><b>① TTFB</b></span></td><td><span class="ja">実ユーザーの TTFB は検索 5.1秒が最大（9/26 締めの週）</span><span class="en">Real-user TTFB: Search is worst at 5.1s (week ending 9/26)</span></td></tr></table></div><h4 class="sh"><span class="ja">② に足す観点（案）</span><span class="en">Viewpoints to add for ② (proposal)</span></h4><div class="rv-l"><span class="ja"><ul><li>TBT の内訳を、スクリプト別に出す。どの第三者タグ・自社 JS が処理時間を使っているかが分かれば、効く施策を選べる（受け皿は <a href="https://app.clickup.com/t/31108037/UX_DESIGN-388">UX_DESIGN-388</a>。PSI の応答から取れるかは未確認）</li><li>TOP の Braze の SDK：9/4 の実測（1回測定）で、読み込みに約3.8秒かかっていた。読み込み時間であって、実行の重さ（TBT への寄与）は未確認。読み込み時機の見直しが候補（マーケ所管との調整が前提）</li><li>実ユーザーの INP を全ページで取る。CrUX では、地域・カテゴリー・AC詳細が取れていない（<a href="https://app.clickup.com/t/31108037/UX_DESIGN-300">UX_DESIGN-300</a> の web-vitals タグ）</li><li>ローディング中のリング回転の時間を、実ユーザーで測る（<a href="https://app.clickup.com/t/31108037/UX_DESIGN-425">UX_DESIGN-425</a>）。これが無いと、②リングの施策の効果を数字で言えない</li></ul></span><span class="en"><ul><li>Break TBT down by script, so we can see which third-party tag or in-house JS uses the time and choose what to fix (<a href="https://app.clickup.com/t/31108037/UX_DESIGN-388">UX_DESIGN-388</a> is the vehicle; whether PSI's response gives this is unconfirmed)</li><li>Braze SDK on TOP: the 9/4 measurement (single run) showed about 3.8s to load. That is load time, not execution weight (its TBT share is unconfirmed). Reviewing when it loads is a candidate (needs agreement with marketing)</li><li>Collect real-user INP on every page. CrUX has none for Region, Category and AC detail (the web-vitals tag in <a href="https://app.clickup.com/t/31108037/UX_DESIGN-300">UX_DESIGN-300</a>)</li><li>Measure the time the loading ring spins, from real users (<a href="https://app.clickup.com/t/31108037/UX_DESIGN-425">UX_DESIGN-425</a>). Without it, the effect of ② loading indicator changes cannot be stated in numbers</li></ul></span></div></div>
+<div class="sec pl"><h3 class="sh"><span class="ja">見立て</span><span class="en">Reading</span></h3><div class="pl-b"><h4><span class="ja">1. 実ユーザーは、サーバーの返事を待たされている（推定）</span><span class="en">1. Real users are waiting on the server (inference)</span></h4><div class="tw"><table><tr><th></th><th><span class="ja">PSI（テスト環境）</span><span class="en">PSI (lab)</span></th><th><span class="ja">実ユーザー（9/26 締め）</span><span class="en">Real users (week ending 9/26)</span></th><th><span class="ja">合格ライン</span><span class="en">Target</span></th></tr><tr><td><span class="ja">サーバーの返事（TTFB）</span><span class="en">Server response (TTFB)</span></td><td>2〜184ms</td><td><span class="ja">TOP 1.6秒・エリア 1.8秒・検索結果 <b>5.1秒</b></span><span class="en">TOP 1.6s, Area 1.8s, Search <b>5.1s</b></span></td><td><span class="ja">0.8秒</span><span class="en">0.8s</span></td></tr></table></div><div class="rv-l"><span class="ja"><ul><li>PSI ではサーバーの返事が速いのに、実ユーザーでは何倍も遅い。8/22 の週から3ページとも悪くなっている</li><li>PSI はキャッシュが効いた状態で測れていて、実ユーザーはキャッシュを外していることが多いと見ている（推定）。9/4 の調査の「キャッシュが通貨・端末・国などで細かく分かれすぎている」「絞り込み条件が付くとキャッシュを読まない」と合う</li><li>PSI を上げる施策では、実ユーザーの一番大きな待ちに届かない。サーバーの返事を速くすれば、①表示の速さと②ローディング中のリング回転の時間の、<b>両方に効く</b></li><li>地域・カテゴリーは事情が違う。PSI 上のサーバーの返事は速く、重いのはブラウザ側（画像・JS）。ここは別の見立てが要る</li></ul></span><span class="en"><ul><li>Server response is fast in PSI but several times slower for real users, and it has worsened on all three pages since the 8/22 week</li><li>PSI likely hits a warm cache while real users often miss it (inference). This fits the 9/4 finding: cache keys split by currency, device, country and so on, and filtered views skip the cache</li><li>PSI-focused fixes don't reach real users' biggest wait. Faster server response helps <b>both</b> load speed and loading-indicator time</li><li>Region and Category differ: their server response in PSI is fast and the weight is in the browser (images, JS). They need their own reading</li></ul></span></div></div><div class="pl-b"><h4><span class="ja">2. ローディング中のリング回転には、要らない待ちがある（取り直しの扱いは未決）</span><span class="en">2. The loading ring has unnecessary waits (how to treat re-fetching is undecided)</span></h4><div class="rv-l"><span class="ja"><ul><li>9/4 の棚卸しでは、ローディング中のリング回転の多くが要らない待ちだった。表示済みの一覧の取り直し、「戻る」のたびの全読み直し、中身が空の通信など</li><li>取り直しをなくすと、古いデータを出すおそれがある（Suki さんの説明）。309 では、取り直しは残して速くする方向に決めた。どちらに寄せるかは未決</li></ul></span><span class="en"><ul><li>The 9/4 inventory showed most loading-ring waits are unnecessary: re-fetching lists already shown, full reloads on browser back, empty requests</li><li>Dropping the re-fetch risks showing stale data (Suki's explanation). For 309 we chose to keep it and make it faster. Which way to lean is undecided</li></ul></span></div></div><div class="pl-b"><h4><span class="ja">3. 測り方を変えないと、②の効果は見えない</span><span class="en">3. Without new measurement, the response side stays invisible</span></h4><div class="rv-l"><span class="ja"><ul><li><span class="hint" tabindex="0" data-tip-ja="ページを開いている最中に、画面が操作を受け付けられなかった時間の合計。この間はタップしても何も起きない。長いほど「固まっている」と感じる。" data-tip-en="How long, in total, the page could not respond to a touch while it was loading. During that time a tap does nothing. The longer it is, the more the page feels frozen.">TBT</span> は「読み込み中に画面が固まっていた時間」。ローディング中のリング回転が出ている間は「サーバーの返事待ち」なので TBT には出ない</li><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> の効果が見えたのは、Suki さんが手で測ったから。手計測に頼る限り、②は「やってもやらなくても同じ」に見える</li><li>ローディング中のリング回転が出てから消えるまでの時間を、実ユーザーで直接測る（<a href="https://app.clickup.com/t/31108037/UX_DESIGN-425">UX_DESIGN-425</a>）</li></ul></span><span class="en"><ul><li>TBT is time the screen was frozen during load. A loading indicator waits on the server, so it doesn't show up in TBT</li><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a>'s effect was visible only because Suki timed it by hand. Relying on that makes the response side look like it changed nothing</li><li>Measure loading-indicator time directly from real users (<a href="https://app.clickup.com/t/31108037/UX_DESIGN-425">UX_DESIGN-425</a>)</li></ul></span></div></div></div>
+<div class="sec pl"><h3 class="sh"><span class="ja">施策候補（既存チケット）</span><span class="en">Candidates (existing tickets)</span></h3>
+<div class="tw"><table><tr><th><span class="ja">順</span><span class="en">No.</span></th><th><span class="ja">チケット</span><span class="en">Ticket</span></th><th><span class="ja">内容</span><span class="en">What</span></th><th><span class="ja">なぜ先か</span><span class="en">Why first</span></th></tr><tr><td>1</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-418">UX_DESIGN-418</a></td><td><span class="ja">初期表示で、サーバーが描画した検索結果を取り直している（全画面の「処理中です」が出る）</span><span class="en">The search page re-fetches results the server already drew (full-screen loading shows)</span></td><td><span class="ja">リングは消えるが、取り直しは古いデータを避ける意図。309 で決めた方向（取り直しは残して速くする）との兼ね合いが未決</span><span class="en">Removes the ring, but the re-fetch exists to avoid stale data; how it fits the 309 direction is undecided</span></td></tr><tr><td>2</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-404">UX_DESIGN-404</a></td><td><span class="ja">中身が空のクーポン通信を止める</span><span class="en">Stop the empty coupon request</span></td><td><span class="ja">フロントだけで済む。リング回転の時間に効くかは未確認。クーポン関連の <a href="https://app.clickup.com/t/31108037/UX_DESIGN-416">UX_DESIGN-416</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-417">UX_DESIGN-417</a> と1組</span><span class="en">Front end only; whether it shortens the ring is unconfirmed; paired with coupon items 416 and 417</span></td></tr><tr><td>3</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-419">UX_DESIGN-419</a></td><td><span class="ja">「戻る」のたびの全読み直しをやめる</span><span class="en">Stop the full reload on browser back</span></td><td><span class="ja">一覧と詳細の往復は一番よく使われる動き。変更範囲が小さい見込み</span><span class="en">List and detail back-and-forth is the most common move; likely a small change</span></td></tr><tr><td>4</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-414">UX_DESIGN-414</a></td><td><span class="ja">AC詳細へ移るとき約2秒なにも反応しない</span><span class="en">No response for ~2s when moving to AC detail</span></td><td><span class="ja">押した直後に反応を返すだけでも体感が変わる</span><span class="en">Even an immediate response changes how it feels</span></td></tr><tr><td>5</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-415">UX_DESIGN-415</a></td><td><span class="ja">「日程から探す」にキャッシュが無い</span><span class="en">No page cache on date search</span></td><td><span class="ja">UX_DESIGN-309 と同じ種類の直し方で済む可能性</span><span class="en">May be the same kind of fix as 309</span></td></tr><tr><td>6</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-412">UX_DESIGN-412</a></td><td><span class="ja">同じエリアを選んでも全部読み直す／絞り込み条件でキャッシュを外す</span><span class="en">Full reload on picking the same area; filters skip the cache</span></td><td><span class="ja">同上</span><span class="en">Same as above</span></td></tr></table></div>
+<p class="note"><span class="ja">順番は私の見立て。Suki さんに、やる価値と実現性を判断してもらう前提</span><span class="en">Order is my reading; Suki to judge value and feasibility</span></p></div>
+<div class="sec pl"><h3 class="sh"><span class="ja">計測と、調整が要るもの</span><span class="en">Measurement and items needing agreement</span></h3><div class="rv-l"><span class="ja"><ul><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-425">UX_DESIGN-425</a> ローディング中のリング回転の時間を実ユーザーで測る。9/4 の調査では、ローディング中のリング回転は1か所（resources/src/mixins/modal.js）で制御されていた。ここに記録を足せば全部まとめて取れる可能性がある（実装は読んでいないので推定）</li><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-398">UX_DESIGN-398</a> 画面を最大2秒まっ白にする設定（VWO）を縮める。効果は大きいが、マーケ側の合意が先</li><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-307">UX_DESIGN-307</a> JS を減らす最初の施策。調査の結果、削減効果の大きい穴は見つからなかった（週次メモ W41）</li></ul></span><span class="en"><ul><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-425">UX_DESIGN-425</a>: measure loading-indicator time from real users. On 9/4 the loading indicator was controlled in one place (resources/src/mixins/modal.js); logging there might cover them all (inference, code not read)</li><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-398">UX_DESIGN-398</a>: shorten the VWO setting that blanks the screen for up to 2s. Big effect, but needs marketing's agreement first</li><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-307">UX_DESIGN-307</a>: the first JS-reduction change. The investigation found no large reduction opportunity (see weekly note W41)</li></ul></span></div></div>
+<div class="sec pl"><h3 class="sh"><span class="ja">まだチケットに無い案</span><span class="en">Ideas not yet ticketed</span></h3><div class="rv-l"><span class="ja"><ul><li>全画面のローディング中のリング回転を、一覧部分だけに出す形に変える（9/21 に Suki さんが挙げていた案）。待ち時間は同じでも、ページ全体は止まらなくなる</li><li>予約モーダルの絞り込み（9/4 の調査で 772.9ms と計測、改善の余地あり）</li><li>カードを押した時点で、AC詳細の取得を始める</li></ul></span><span class="en"><ul><li>Show the loader on the listing only, not full screen (Suki's idea on 9/21). Same wait, but the page stays usable</li><li>Booking modal filter (772.9ms measured on 9/4, room to improve)</li><li>Start fetching AC detail as soon as a card is tapped</li></ul></span></div></div>
+<div class="sec pl"><h3 class="sh"><span class="ja">目標の置き方（提案）</span><span class="en">Targets (proposal)</span></h3><div class="rv-l"><span class="ja"><ul><li>① 主要ページの PSI を「低」から「普通」（50点以上）へ。実ユーザーのサーバーの返事を 0.8秒に近づける</li><li>② 主要なローディング中のリング回転（カテゴリー・検索の絞り込み、AC詳細への遷移）を1秒以内</li><li>どちらも私の案で、根拠のある数字ではない。Suki さんと決める</li></ul></span><span class="en"><ul><li>Load: main pages from low to average in PSI (50+); bring real-user server response toward 0.8s</li><li>Response: main loading indicators (category and search filters, move to AC detail) within 1s</li><li>Both are my proposal, not evidence-based targets; to be set with Suki</li></ul></span></div></div>
+<div class="sec pl"><h3 class="sh"><span class="ja">Suki さんに聞くこと</span><span class="en">Questions for Suki</span></h3><div class="rv-l"><span class="ja"><ul><li>この先数か月で、②にどれくらい時間を割けそうか</li><li>上の施策候補のうち、やる価値がありそうなもの・現実的なものはどれか</li><li>一覧に無い遅い箇所や、足りない施策はあるか</li></ul></span><span class="en"><ul><li>How much time could go to the response side over the next few months?</li><li>Which candidates above are worth doing, and which are realistic?</li><li>Any slow spots or missing measures not on the list?</li></ul></span></div></div></div></div>
+<div class="pane" data-pane="report">
+<div class="rv">
+<div class="rv-h"><h2><span class="ja">9月の中締め</span><span class="en">September wrap-up</span></h2>
+<span class="rv-m"><span class="ja">対象期間 2026-09-01 〜 2026-09-30 ／ 更新 2026-10-05</span><span class="en">Covering 2026-09-01 to 2026-09-30 · updated 2026-10-05</span></span></div>
+<div class="rv-p"><h3><span class="ja">実施内容</span><span class="en">What was done</span></h3><div class="rv-l"><span class="ja"><ul><li>本番リリース 4件。9/17 に <a href="https://app.clickup.com/t/31108037/UX_DESIGN-323">UX_DESIGN-323</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-304">UX_DESIGN-304</a>・<a href="https://app.clickup.com/t/31108037/UX_DESIGN-389">UX_DESIGN-389</a>、9/30 に <a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a>（リリース日は Slack #cspj-release の投稿で確認）</li><li>web-performance リストに 49件を起票。そのうち本番に出たのが上の4件</li><li>計測：<span class="hint" tabindex="0" data-tip-ja="Google が出している速度の測定ツール。略して PSI。ページを1回読み込んで、0〜100点で採点する。どのページでも毎日測れるかわりに、測るたびに点数が上下する。" data-tip-en="Google's speed tool, abbreviated PSI. It opens the page once and scores it out of 100. Any page can be measured every day, but the score moves around between runs.">PageSpeed Insights</span>（PSI）を毎日6ページ、実ユーザー値（<span class="hint" tabindex="0" data-tip-ja="Chrome を使っている人が実際にページを開いたときの速さを、Google が集めて公開しているデータ。実際に使われたときの速さなので、Google の検索順位の判断にも使われる。直近28日ぶんをまとめた値が出る。" data-tip-en="Speed data Google gathers from people actually opening the page in Chrome, and publishes. Because it reflects real use, Google also weighs it when ranking search results. Each figure covers the previous 28 days.">CrUX</span>）を毎週。9月を通して自動で取れていた</li></ul></span><span class="en"><ul><li>Four production releases: UX_DESIGN-323, UX_DESIGN-304 and UX_DESIGN-389 on 9/17, UX_DESIGN-309 on 9/30 (dates checked against #cspj-release)</li><li>49 items written up in the web-performance list; the four above reached production</li><li>Measurement: PageSpeed Insights (PSI) daily on six pages and real-user figures (CrUX) weekly, collected automatically all month</li></ul></span></div></div><div class="rv-p"><h3><span class="ja">結果</span><span class="en">Results</span></h3><div class="tw"><table><tr><th><span class="ja">観点</span><span class="en">Aspect</span></th><th><span class="ja">指標</span><span class="en">Measure</span></th><th><span class="ja">前 → 後</span><span class="en">Before → after</span></th><th><span class="ja">判定</span><span class="en">Verdict</span></th></tr><tr><td><span class="ja">表示の速さ</span><span class="en">Load speed</span></td><td><span class="ja">PSI スコア（6ページ平均、点）</span><span class="en">PSI score (six-page mean, points)</span></td><td>33.7 → 38.5</td><td><span class="bdg up"><span class="ja">速くなった</span><span class="en">Faster</span></span></td></tr><tr><td><span class="ja">操作への反応（本番・手計測）</span><span class="en">Response (production, hand-timed)</span></td><td><span class="ja">カテゴリーの絞り込みの応答（秒）</span><span class="en">Category filter response (s)</span></td><td>1.82 → 0.97</td><td><span class="bdg up"><span class="ja">速くなった</span><span class="en">Faster</span></span></td></tr><tr><td><span class="ja">操作への反応（ラボ値）</span><span class="en">Response (lab)</span></td><td><span class="ja">TBT（6ページ平均、ミリ秒）</span><span class="en">TBT (six-page mean, ms)</span></td><td>1,336 → 1,362</td><td><span class="bdg flat"><span class="ja">変化なし</span><span class="en">No change</span></span></td></tr><tr><td><span class="ja">実ユーザーの表示</span><span class="en">Real-user load</span></td><td><span class="ja">LCP 検索結果（ミリ秒）</span><span class="en">LCP, Search (ms)</span></td><td>6,895 → 6,112</td><td><span class="bdg b-slow"><span class="ja">合格ライン未達</span><span class="en">Below target</span></span></td></tr><tr><td><span class="ja">実ユーザーの表示</span><span class="en">Real-user load</span></td><td><span class="ja">LCP TOP（ミリ秒）</span><span class="en">LCP, TOP (ms)</span></td><td>2,755 → 2,942</td><td><span class="bdg b-slow"><span class="ja">合格ライン未達</span><span class="en">Below target</span></span></td></tr><tr><td><span class="ja">実ユーザーの表示</span><span class="en">Real-user load</span></td><td><span class="ja">LCP エリア（ミリ秒）</span><span class="en">LCP, Area (ms)</span></td><td>2,642 → 2,805</td><td><span class="bdg b-slow"><span class="ja">合格ライン未達</span><span class="en">Below target</span></span></td></tr></table></div><p class="mut"><span class="ja">前＝リリース前（PSI は 9/12〜9/16、実ユーザーは 8/22 の週）。後＝月末（PSI は 9/25〜9/30、実ユーザーは 9/26 の週）。LCP の合格ラインは 2,500ms 以下。</span><span class="en">Before = pre-release (PSI 9/12-9/16, real-user week of 8/22). After = month end (PSI 9/25-9/30, real-user week of 9/26). LCP target: 2,500ms or under.</span></p><div class="rv-l"><span class="ja"><ul><li>表示の速さ（PSI）は速くなった。ただし6ページとも<span class="hint" tabindex="0" data-tip-ja="PageSpeed Insights のスコアを3段階に分けた呼び方。90点以上が「高」、50〜89点が「普通」、49点以下が「低」。区切りの値は PSI の採点エンジン（Lighthouse）のソースに書かれているもの。" data-tip-en="PageSpeed Insights sorts its score into three bands: 90 and above is high, 50-89 is average, 49 and below is low. The cut-offs come from the source of the engine that does the scoring (Lighthouse).">判定</span>は「低」のまま</li><li>操作への反応は、絞り込みの応答だけ速くなった（手計測）</li><li>実ユーザーの表示は、まだ判定できない（10/17 締めの週から）</li></ul></span><span class="en"><ul><li>Load speed (PSI) got faster, but all six pages are still rated low</li><li>On response, only the filter got faster (hand-timed)</li><li>Real-user load cannot be judged yet (from the week ending 10/17)</li></ul></span></div></div><div class="rv-p"><h3><span class="ja">要因</span><span class="en">Why</span></h3><div class="rv-l"><span class="ja"><ul><li>PSI スコアが上がったのは、9/17 の3件がすべて「先に画を出す」施策だったから</li><li>実ユーザー値は、まだ判定できない。9/26 締めの週は、リリース後のデータが10日分しかない</li><li>検索結果の実ユーザー LCP は、9/17 より前から下がり始めている。原因は未特定</li><li>未調査：AC詳細の PSI 低下、TOP・エリアの実ユーザー LCP の悪化</li></ul></span><span class="en"><ul><li>PSI rose because all three 9/17 changes put the picture on screen sooner</li><li>Real-user figures cannot be judged yet: the week ending 9/26 has only ten days after release</li><li>Search real-user LCP started falling before 9/17; the cause is not identified</li><li>Not yet investigated: the AC detail PSI drop and the worsening real-user LCP on TOP and Area</li></ul></span></div></div><div class="rv-p"><h3><span class="ja">10月にやること</span><span class="en">October</span></h3><div class="rv-l"><span class="ja"><ul><li>9/17 の効果は、日次の PSI では判定できた。実ユーザー値は28日の窓なので、判定は 10/17 締めの週以降。それまでは、日次の PSI と本番の手計測で見る</li><li>AC詳細の PSI 低下と、TOP・エリアの実ユーザー LCP の悪化の原因を調べる</li><li>操作への反応に効く施策を出す：<a href="https://app.clickup.com/t/31108037/UX_DESIGN-404">UX_DESIGN-404</a>、<a href="https://app.clickup.com/t/31108037/UX_DESIGN-398">UX_DESIGN-398</a>、<a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> の検索ページ・2ページ目以降への展開</li><li>計測を今すぐ足す：web-vitals タグ（コード用意済み。GTM に貼って公開するだけ）。AC詳細・地域・カテゴリーの計測 URL の差し替えは API キーが届き次第</li></ul></span><span class="en"><ul><li>The 9/17 effect is already judged on daily PSI. Real-user figures use a 28-day window, so they can be judged from the week ending 10/17; until then, read daily PSI and hand-timed production figures</li><li>Find out why AC detail PSI dropped and why TOP and Area real-user LCP is worsening</li><li>Ship for response to a tap: UX_DESIGN-404, UX_DESIGN-398, extend UX_DESIGN-309 to search and pages 2+</li><li>Add measurement now: the web-vitals tag (code ready; paste into GTM and publish). Swapping the AC detail, Region and Category measurement URLs follows once the API key arrives</li></ul></span></div></div></div>
+
+<div class="wms"><div class="wms-h"><h2><span class="ja">週次メモ</span><span class="en">Weekly notes</span></h2>
+<span class="rv-m"><span class="ja">週ごとのリリース・数値・考察・次週。新しい週が上</span><span class="en">Releases, figures, reading and next steps by week, newest first</span></span></div>
+<details class="wm" open><summary><span class="wm-w">W41</span><span class="wm-d">10/01〜10/07</span><span class="wm-s"><span class="ja"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-307">UX_DESIGN-307</a> は、6ページを Coverage で調べて、完全に未使用のファイルはなかった。削減効果の大きい穴は見つからなかった</span><span class="en"><a href="https://app.clickup.com/t/31108037/UX_DESIGN-307">UX_DESIGN-307</a>: Coverage on the six pages found no completely unused files, and no large reduction opportunity</span></span></summary><div class="wm-b"><span class="ja"><div class="wm-r"><div class="wm-k">リリース</div><div class="wm-v"><ul><li>Web表示速度の施策としてリリースを確認できたものはなし（リリースチケットに中身の記載がないため、Slack #cspj-release の日次リリースとの対応は未確認）</li></ul></div></div><div class="wm-r"><div class="wm-k">数値</div><div class="wm-v"><ul><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-307">UX_DESIGN-307</a> の前後比較（dev 環境・Suki さん計測）：TOP・エリア・地域でスクリプトの転送量は変化なし（128→129KB、229→229KB、391→391KB）</li><li>カテゴリー・検索結果・AC詳細は前後で条件が揃っておらず（スクリプト転送量は増えているが展開後サイズは同じ）、効果は判断できない</li></ul></div></div><div class="wm-r"><div class="wm-k">考察</div><div class="wm-v"><ul><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-307">UX_DESIGN-307</a> は、6ページを Coverage で調べて、完全に未使用のファイルはなかった。削減効果の大きい穴は見つからなかった</li><li>小さい冗長（廃止済み JS の参照、二重読み込み2件、使われていない preload）は整理した。効果は小さいかほぼ変わらない</li><li>jQuery の二重読み込み（削ると壊れる）、vds.css の削減、babel-polyfill の削除（IE11 を試せない）は見送り。IE11 は9月のセッションが 8以下</li></ul></div></div><div class="wm-r"><div class="wm-k">次週</div><div class="wm-v"><ul><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-308">UX_DESIGN-308</a>（画像）と <a href="https://app.clickup.com/t/31108037/UX_DESIGN-387">UX_DESIGN-387</a>（Webフォント）が review。内容はこれから確認</li><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> の次の段階（検索ページ・1ページ目超のキャッシュ）は Suki さんの調査待ち</li></ul></div></div></span><span class="en"><div class="wm-r"><div class="wm-k">Released</div><div class="wm-v"><ul><li>No web-performance release confirmed (release tickets list no contents, so the daily #cspj-release deploys could not be matched)</li></ul></div></div><div class="wm-r"><div class="wm-k">Figures</div><div class="wm-v"><ul><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-307">UX_DESIGN-307</a> before/after (dev, measured by Suki): script transfer unchanged on TOP, Area and Region (128→129KB, 229→229KB, 391→391KB)</li><li>Category, Search and AC detail are not comparable (transfer rose, decoded size identical); no effect can be judged</li></ul></div></div><div class="wm-r"><div class="wm-k">Reading</div><div class="wm-v"><ul><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-307">UX_DESIGN-307</a>: Coverage on the six pages found no completely unused files, and no large reduction opportunity</li><li>Small redundancies were cleaned up (dead JS reference, two duplicate loads, unused preloads); effect is small to none</li><li>Skipped: duplicate jQuery (removal breaks the page), vds.css trimming, babel-polyfill removal (IE11 cannot be tested). IE11 had 8 sessions or fewer in September</li></ul></div></div><div class="wm-r"><div class="wm-k">Next week</div><div class="wm-v"><ul><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-308">UX_DESIGN-308</a> (images) and <a href="https://app.clickup.com/t/31108037/UX_DESIGN-387">UX_DESIGN-387</a> (web fonts) are in review; contents still to be checked</li><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> next step (search page, caching beyond page 1) waits on Suki's investigation</li></ul></div></div></span></div></details><details class="wm"><summary><span class="wm-w">W40</span><span class="wm-d">09/28〜09/30</span><span class="wm-s"><span class="ja">「操作への反応」で、本番の効果を数字で示せた最初の1件</span><span class="en">The first production result with a number on the response side</span></span></summary><div class="wm-b"><span class="ja"><div class="wm-r"><div class="wm-k">リリース</div><div class="wm-v"><ul><li>9/30 <a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> カテゴリー1ページ目の絞り込み結果を30分単位でキャッシュ（JP・絞り込み無しに限定）</li></ul></div></div><div class="wm-r"><div class="wm-k">数値</div><div class="wm-v"><ul><li>絞り込みの応答 平均 <b>1.82秒 → 0.97秒</b>、中央値 1.55秒 → 0.87秒（リリース前後10回ずつ、Suki さん計測）</li><li>6ページの PSI スコア平均（日ごと）は 9/28 が 40.2点、9/29 が 42.3点</li><li>実ユーザー LCP（9/26 締めの週）：検索結果 6,112ms、TOP 2,942ms、エリア 2,805ms</li></ul></div></div><div class="wm-r"><div class="wm-k">考察</div><div class="wm-v"><ul><li>「操作への反応」で、本番の効果を数字で示せた最初の1件</li><li>ただし手で10回測った値で、実際に使っている人の値ではない。対象もカテゴリー1ページ目・絞り込み無しに限られる</li><li>スプレッドシートを丸ごと書き出す方法で、9/30 までの値を取り込めた。収集自体は9月中ずっと動いていた</li></ul></div></div><div class="wm-r"><div class="wm-k">次週</div><div class="wm-v"><ul><li>9月の中締め（冒頭）の「10月にやること」へ続く</li><li>ClickUp の <a href="https://app.clickup.com/t/31108037/UX_DESIGN-395">UX_DESIGN-395</a>／396／397 は 9/17 に <a href="https://app.clickup.com/t/31108037/UX_DESIGN-304">UX_DESIGN-304</a> として出ているのに「open」のまま。ステータスを直す</li></ul></div></div></span><span class="en"><div class="wm-r"><div class="wm-k">Released</div><div class="wm-v"><ul><li>9/30 <a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> cached category page-1 filter results in 30-minute buckets (JP, no filters only)</li></ul></div></div><div class="wm-r"><div class="wm-k">Figures</div><div class="wm-v"><ul><li>Filter response mean <b>1.82s → 0.97s</b>, median 1.55s → 0.87s (10 runs each, measured by Suki)</li><li>Six-page daily mean PSI: 40.2 on 9/28, 42.3 on 9/29</li><li>Real-user LCP (week ending 9/26): Search 6,112ms, TOP 2,942ms, Area 2,805ms</li></ul></div></div><div class="wm-r"><div class="wm-k">Reading</div><div class="wm-v"><ul><li>The first production result with a number on the response side</li><li>Ten hand-timed runs, not real-user figures, and only category page 1 with no filters</li><li>Exporting the whole spreadsheet brought in everything through 9/30; collection had been running all month</li></ul></div></div><div class="wm-r"><div class="wm-k">Next week</div><div class="wm-v"><ul><li>Continues in the October list of the September wrap-up above</li><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-395">UX_DESIGN-395</a>/396/397 shipped on 9/17 as <a href="https://app.clickup.com/t/31108037/UX_DESIGN-304">UX_DESIGN-304</a> but are still open in ClickUp; fix their status</li></ul></div></div></span></div></details><details class="wm"><summary><span class="wm-w">W39</span><span class="wm-d">09/21〜09/27</span><span class="wm-s"><span class="ja">9/17 の段は週の後半に一部戻した。ただしリリース前（32〜37点）よりは高いまま</span><span class="en">The 9/17 step gave some back late in the week but stayed above the pre-release 32-37</span></span></summary><div class="wm-b"><span class="ja"><div class="wm-r"><div class="wm-k">リリース</div><div class="wm-v"><ul><li>なし</li></ul></div></div><div class="wm-r"><div class="wm-k">数値</div><div class="wm-v"><ul><li>6ページの PSI スコア平均（日ごと）は 9/21〜9/24 が 40〜44点、9/25〜9/27 は 36〜39点に戻った（遅くなった）</li><li><span>TBT</span>（操作への反応のラボ値）は日ごとの振れに埋もれていて、向きは判断できない</li></ul></div></div><div class="wm-r"><div class="wm-k">考察</div><div class="wm-v"><ul><li>9/17 の段は週の後半に一部戻した。ただしリリース前（32〜37点）よりは高いまま</li><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> の進め方を合意。絞り込み結果を30分単位でキャッシュし、まずカテゴリーだけに限定して出す</li></ul></div></div><div class="wm-r"><div class="wm-k">次週</div><div class="wm-v"><ul><li><a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> を dev で確認 → カテゴリー限定でリリース（→ 9/30 にリリース）</li></ul></div></div></span><span class="en"><div class="wm-r"><div class="wm-k">Released</div><div class="wm-v"><ul><li>None</li></ul></div></div><div class="wm-r"><div class="wm-k">Figures</div><div class="wm-v"><ul><li>Six-page daily mean PSI was 40-44 on 9/21-9/24, then fell to 36-39 on 9/25-9/27</li><li>TBT (lab stand-in for response) stays inside its daily swing; no direction</li></ul></div></div><div class="wm-r"><div class="wm-k">Reading</div><div class="wm-v"><ul><li>The 9/17 step gave some back late in the week but stayed above the pre-release 32-37</li><li>Agreed the <a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> approach: cache filter results in 30-minute buckets, release on category first</li></ul></div></div><div class="wm-r"><div class="wm-k">Next week</div><div class="wm-v"><ul><li>Verify <a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> on dev, then release on category only (released 9/30)</li></ul></div></div></span></div></details><details class="wm"><summary><span class="wm-w">W38</span><span class="wm-d">09/14〜09/20</span><span class="wm-s"><span class="ja">3件とも「先に画を出す」側の施策。PSI スコアはここで動く</span><span class="en">All three were about getting the picture on screen sooner, which is what the PSI score responds to</span></span></summary><div class="wm-b"><span class="ja"><div class="wm-r"><div class="wm-k">リリース</div><div class="wm-v"><ul><li>9/17 <a href="https://app.clickup.com/t/31108037/UX_DESIGN-323">UX_DESIGN-323</a> AppsFlyer の読み込みを後回しに</li><li>9/17 <a href="https://app.clickup.com/t/31108037/UX_DESIGN-304">UX_DESIGN-304</a> 主役画像の先読みを修正（AC詳細の画像サイズ違い／エリアTOPに追加／カテゴリー・検索の先頭カードを優先）</li><li>9/17 <a href="https://app.clickup.com/t/31108037/UX_DESIGN-389">UX_DESIGN-389</a> 画像枠の寸法を先に確保、検索ページに1時間のページキャッシュ</li></ul></div></div><div class="wm-r"><div class="wm-k">数値</div><div class="wm-v"><ul><li>6ページの PSI スコア平均 31〜37点（リリース前5日）→ <b>39〜44点</b>（後5日）。6ページとも速くなった</li><li>いちばん動いたのは検索結果 18.4 → 40.0点</li></ul></div></div><div class="wm-r"><div class="wm-k">考察</div><div class="wm-v"><ul><li>3件とも「先に画を出す」側の施策。PSI スコアはここで動く</li><li>操作への反応に効く施策は、この週は入っていない</li></ul></div></div><div class="wm-r"><div class="wm-k">次週</div><div class="wm-v"><ul><li>操作への反応に効く施策を出す（<a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> の方針決め）</li></ul></div></div></span><span class="en"><div class="wm-r"><div class="wm-k">Released</div><div class="wm-v"><ul><li>9/17 <a href="https://app.clickup.com/t/31108037/UX_DESIGN-323">UX_DESIGN-323</a> load AppsFlyer later</li><li>9/17 <a href="https://app.clickup.com/t/31108037/UX_DESIGN-304">UX_DESIGN-304</a> fix main-image preload (wrong size on AC detail, added on area top, first card prioritised on category and search)</li><li>9/17 <a href="https://app.clickup.com/t/31108037/UX_DESIGN-389">UX_DESIGN-389</a> reserve image space, 1-hour page cache on search</li></ul></div></div><div class="wm-r"><div class="wm-k">Figures</div><div class="wm-v"><ul><li>Six-page mean PSI score 31-37 (five days before) to <b>39-44</b> (five days after); up on all six</li><li>Search moved most, 18.4 to 40.0</li></ul></div></div><div class="wm-r"><div class="wm-k">Reading</div><div class="wm-v"><ul><li>All three were about getting the picture on screen sooner, which is what the PSI score responds to</li><li>Nothing shipped this week targeted response to a tap</li></ul></div></div><div class="wm-r"><div class="wm-k">Next week</div><div class="wm-v"><ul><li>Ship something for response to a tap (settle the <a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a> approach)</li></ul></div></div></span></div></details></div>
+
+<div class="sec"><h2><span class="n">1</span><span class="ja">プロジェクト実績サマリー</span><span class="en">Project summary</span></h2>
+<div class="hls"><div class="hl"><div class="hl-h"><span class="ja">リリースした施策</span><span class="en">Changes released</span></div><div class="hl-v">7</div><div class="hl-s"><span class="ja">件（9/17・9/30）</span><span class="en">released 9/17・9/30</span></div></div><div class="hl"><div class="hl-h"><span class="ja">未リリースの施策案</span><span class="en">Not yet released</span></div><div class="hl-v">28</div><div class="hl-s"><span class="ja">件（うち急ぎ 9 件）</span><span class="en">items, 9 urgent</span></div></div></div>
+<h3 class="sh"><span class="ja">表示の速さ（PSI スコア）</span><span class="en">How fast it appears (PSI score)</span></h3>
+<div class="tw"><table><tr><th><span class="ja">ページ種別</span><span class="en">Page type</span></th><th><span class="ja">結果</span><span class="en">Result</span></th><th><span class="ja">差</span><span class="en">Change</span></th><th><span class="ja">リリース前 → 直後 → 月末</span><span class="en">Before → just after → month end</span></th><th><span class="ja">日ごとのばらつき</span><span class="en">Daily spread</span></th><th><span class="ja"><span class="hint" tabindex="0" data-tip-ja="PageSpeed Insights のスコアを3段階に分けた呼び方。90点以上が「高」、50〜89点が「普通」、49点以下が「低」。区切りの値は PSI の採点エンジン（Lighthouse）のソースに書かれているもの。" data-tip-en="PageSpeed Insights sorts its score into three bands: 90 and above is high, 50-89 is average, 49 and below is low. The cut-offs come from the source of the engine that does the scoring (Lighthouse).">判定（月末）</span></span><span class="en"><span class="hint" tabindex="0" data-tip-ja="PageSpeed Insights のスコアを3段階に分けた呼び方。90点以上が「高」、50〜89点が「普通」、49点以下が「低」。区切りの値は PSI の採点エンジン（Lighthouse）のソースに書かれているもの。" data-tip-en="PageSpeed Insights sorts its score into three bands: 90 and above is high, 50-89 is average, 49 and below is low. The cut-offs come from the source of the engine that does the scoring (Lighthouse).">Rating (month end)</span></span></th></tr><tr><td>検索結果</td><td><span class="bdg up"><span class="ja">速くなった</span><span class="en">Faster</span></span></td><td class="good">+20.6点</td><td>18.4点 → 40.0点 → <b>39.0点</b></td><td>&plusmn;11.0点</td><td><span class="bdg b-slow"><span class="ja">低</span><span class="en">Low</span></span></td></tr><tr><td>TOP</td><td><span class="bdg up"><span class="ja">速くなった</span><span class="en">Faster</span></span></td><td class="good">+9.0点</td><td>25.0点 → 32.0点 → <b>34.0点</b></td><td>&plusmn;5.3点</td><td><span class="bdg b-slow"><span class="ja">低</span><span class="en">Low</span></span></td></tr><tr><td>エリア</td><td><span class="bdg up"><span class="ja">速くなった</span><span class="en">Faster</span></span></td><td class="good">+7.0点</td><td>38.4点 → 45.8点 → <b>45.4点</b></td><td>&plusmn;6.1点</td><td><span class="bdg b-slow"><span class="ja">低</span><span class="en">Low</span></span></td></tr><tr><td>地域</td><td><span class="bdg flat"><span class="ja">変化なし</span><span class="en">No change</span></span></td><td class="">-0.6点</td><td>35.4点 → 38.0点 → <b>34.8点</b></td><td>&plusmn;10.6点</td><td><span class="bdg b-slow"><span class="ja">低</span><span class="en">Low</span></span></td></tr><tr><td>カテゴリー</td><td><span class="bdg flat"><span class="ja">変化なし</span><span class="en">No change</span></span></td><td class="">+0.2点</td><td>36.6点 → 38.6点 → <b>36.8点</b></td><td>&plusmn;3.3点</td><td><span class="bdg b-slow"><span class="ja">低</span><span class="en">Low</span></span></td></tr><tr><td>AC詳細</td><td><span class="bdg down"><span class="ja">遅くなった</span><span class="en">Slower</span></span></td><td class="bad">-7.4点</td><td>48.6点 → 55.0点 → <b>41.2点</b></td><td>&plusmn;6.9点</td><td><span class="bdg b-slow"><span class="ja">低</span><span class="en">Low</span></span></td></tr></table></div>
+<p class="note"><span class="ja"><span>PageSpeed Insights</span>（PSI）のスコア。0〜100点で、<b>点が高いほど速い</b>。リリース前 9/12〜9/16／直後 9/19〜9/24／月末 9/25〜9/30（いずれも6ページとも測れた5日の平均）。</span><span class="en">PageSpeed Insights (PSI) score, 0 to 100, <b>higher is faster</b>. Five-day means: before 9/12〜9/16, just after 9/19〜9/24, month end 9/25〜9/30, counting only days when all six pages were measured.</span></p>
+<p class="note"><span class="ja">結果は「リリース前」と「月末」の差で決めている。差が日ごとのばらつき（同じページの日ごとの標準偏差）以内なら変化なし。速くなった 3ページ／変化なし 2ページ／遅くなった 1ページ。</span><span class="en">The result compares before with month end. A change inside the daily spread (standard deviation of that page across days) counts as no change. Faster 3, no change 2, slower 1.</span></p>
+<p class="note"><span class="ja">判定は PSI がスコアを分ける3段階。<b>90点以上が「高」、50〜89点が「普通」、49点以下が「低」</b>。月末時点で6ページとも「低」。</span><span class="en">The rating is the three bands PSI uses: <b>90 and above high, 50-89 average, 49 and below low</b>. At month end all six are low.</span></p>
+
+<h3 class="sh"><span class="ja">操作への反応（<span class="hint" tabindex="0" data-tip-ja="ページを開いている最中に、画面が操作を受け付けられなかった時間の合計。この間はタップしても何も起きない。長いほど「固まっている」と感じる。" data-tip-en="How long, in total, the page could not respond to a touch while it was loading. During that time a tap does nothing. The longer it is, the more the page feels frozen.">TBT</span>）</span><span class="en">Response to a tap (<span class="hint" tabindex="0" data-tip-ja="ページを開いている最中に、画面が操作を受け付けられなかった時間の合計。この間はタップしても何も起きない。長いほど「固まっている」と感じる。" data-tip-en="How long, in total, the page could not respond to a touch while it was loading. During that time a tap does nothing. The longer it is, the more the page feels frozen.">TBT</span>)</span></h3>
+<div class="tw"><table><tr><th><span class="ja">ページ種別</span><span class="en">Page type</span></th><th><span class="ja">結果</span><span class="en">Result</span></th><th><span class="ja">差</span><span class="en">Change</span></th><th><span class="ja">リリース前 → 直後 → 月末</span><span class="en">Before → just after → month end</span></th><th><span class="ja">日ごとのばらつき</span><span class="en">Daily spread</span></th></tr><tr><td>検索結果</td><td><span class="bdg up"><span class="ja">速くなった</span><span class="en">Faster</span></span></td><td class="good">-692ms</td><td>1,563ms → 837ms → <b>871ms</b></td><td>&plusmn;475ms</td></tr><tr><td>地域</td><td><span class="bdg flat"><span class="ja">変化なし</span><span class="en">No change</span></span></td><td class="">-1,003ms</td><td>1,880ms → 1,138ms → <b>877ms</b></td><td>&plusmn;1,112ms</td></tr><tr><td>エリア</td><td><span class="bdg flat"><span class="ja">変化なし</span><span class="en">No change</span></span></td><td class="">+813ms</td><td>964ms → 849ms → <b>1,777ms</b></td><td>&plusmn;939ms</td></tr><tr><td>TOP</td><td><span class="bdg flat"><span class="ja">変化なし</span><span class="en">No change</span></span></td><td class="">-555ms</td><td>1,524ms → 1,095ms → <b>969ms</b></td><td>&plusmn;605ms</td></tr><tr><td>カテゴリー</td><td><span class="bdg down"><span class="ja">遅くなった</span><span class="en">Slower</span></span></td><td class="bad">+1,003ms</td><td>1,093ms → 1,451ms → <b>2,096ms</b></td><td>&plusmn;779ms</td></tr><tr><td>AC詳細</td><td><span class="bdg down"><span class="ja">遅くなった</span><span class="en">Slower</span></span></td><td class="bad">+590ms</td><td>992ms → 1,334ms → <b>1,582ms</b></td><td>&plusmn;479ms</td></tr></table></div>
+<p class="note"><span class="ja">ページを開いている間に、操作を受け付けられなかった時間の合計。<b>ミリ秒（ms）が小さいほど速い</b>。期間は表示の速さと同じ。6ページ平均は 1,336ms → 1,117ms → 1,362ms。</span><span class="en">Total time the page could not accept a tap. <b>Fewer milliseconds is faster</b>. Same periods as above. Six-page mean 1,336ms → 1,117ms → 1,362ms.</span></p>
+<p class="note"><span class="ja">結果の決め方も同じ。速くなった 1ページ／変化なし 3ページ／遅くなった 2ページ。TBT は日ごとの振れが大きく、ばらつきの幅が差と同じくらいある。</span><span class="en">Same rule for the result. Faster 1, no change 3, slower 2. TBT swings hard day to day; the spread is about as wide as the changes.</span></p>
+</div>
+
+<div class="sec"><h2><span class="n">2</span><span class="ja">PSI スコア推移</span><span class="en">PSI score</span></h2>
+<p class="note"><span class="ja">太線は7日の<span class="hint" tabindex="0" data-tip-ja="その日を含む直近7日ぶんを平均した値。1日ごとの当たり外れをならして、向きだけを見るための線。" data-tip-en="The average of the last seven days including that one. It smooths out the luck of any single run so the direction shows through.">移動平均</span>、薄い線がその日の PSI スコア。日ごとの振れがページによって ±3〜11点あるので、太線のほうを見る。</span><span class="en">The bold line is a 7-day mean; the faint line is the PSI score for that day. Daily swings run 3-11 points depending on the page, so read the bold line.</span></p>
+<div class="card"><div class="ch-h"><h3><span class="ja">PSI スコアの推移</span><span class="en">PSI score over time</span></h3>
+<span class="ch-t"><span class="ja">2026-09-04 〜 2026-09-30</span><span class="en">2026-09-04 to 2026-09-30</span></span></div>
+<div class="legend" id="psi-legend"></div>
+<div class="plot" id="plot-psi"></div></div>
+</div>
+
+<div class="sec"><h2><span class="n">3</span><span class="ja">操作レスポンス速度（<span class="hint" tabindex="0" data-tip-ja="ページを開いている最中に、画面が操作を受け付けられなかった時間の合計。この間はタップしても何も起きない。長いほど「固まっている」と感じる。" data-tip-en="How long, in total, the page could not respond to a touch while it was loading. During that time a tap does nothing. The longer it is, the more the page feels frozen.">TBT</span>）</span><span class="en">Response speed (<span class="hint" tabindex="0" data-tip-ja="ページを開いている最中に、画面が操作を受け付けられなかった時間の合計。この間はタップしても何も起きない。長いほど「固まっている」と感じる。" data-tip-en="How long, in total, the page could not respond to a touch while it was loading. During that time a tap does nothing. The longer it is, the more the page feels frozen.">TBT</span>)</span></h2>
+<p class="note"><span class="ja">押してから画面が応えるまでの時間。いまは <span class="hint" tabindex="0" data-tip-ja="毎回おなじ条件（おなじ回線の速さ・おなじ端末）で測った値。条件がそろっているので前と後を比べやすい。ただし、実際のお客さんが使っている環境とは違う。" data-tip-en="A figure taken under the same conditions every time — same connection speed, same device. Easy to compare before and after, but not the conditions real customers are in.">ラボ値</span> の <span>TBT</span> で代用している。実ユーザーの数値はこれから取る。</span><span class="en">The wait between a tap and a response. It is currently stood in for by the lab figure TBT; real-user numbers are on the way.</span></p>
+<p class="note"><span class="ja">縦軸はミリ秒で、<b>線が下にあるほど速い</b>。太線は7日の<span>移動平均</span>、薄い線がその日の値。点線は 9/17 のリリース。<br>見るところは<b>点線の前後で太線に段が付いているか</b>。PSI スコア側には段が付いたが、こちらは付いていない。</span><span class="en">The vertical axis is milliseconds, so <b>lower is faster</b>. The bold line is a 7-day mean, the faint one the value for that day, and the dotted line is the 9/17 release.<br>What to look for is <b>a step in the bold line either side of the dotted one</b>. The PSI score has one; this does not.</span></p>
+<div class="card"><div class="ch-h"><h3><span class="ja">TBT の推移（代理指標）</span><span class="en">TBT over time (stand-in)</span></h3>
+<span class="ch-t"><span class="ja">短いほどよい</span><span class="en">Lower is better</span></span></div>
+<div class="legend" id="tbt-legend"></div>
+<div class="plot" id="plot-tbt"></div></div>
+<h3 class="sh"><span class="ja">本番で測った操作の応答</span><span class="en">Response measured in production</span></h3>
+<div class="tw"><table><tr><th><span class="ja">操作</span><span class="en">Action</span></th><th><span class="ja">施策</span><span class="en">Change</span></th><th><span class="ja">平均（前 → 後）</span><span class="en">Mean (before → after)</span></th><th><span class="ja">中央値</span><span class="en">Median</span></th><th><span class="ja">差</span><span class="en">Change</span></th></tr><tr><td><span class="ja">カテゴリーの絞り込み（filter）の応答</span><span class="en">Category filter response</span></td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a><br><span class="mut">09/30</span></td><td>1.82s → <b>0.97s</b></td><td>1.55s → 0.87s</td><td class="good">-0.85s</td></tr></table></div>
+<p class="note"><span class="ja">Suki さんがリリース前後に10回ずつ手で測った値（UX_DESIGN-309 のコメント、9/30）。実際に使っている人の値ではないので、実ユーザー計測が始まったら置き換える。</span><span class="en">Measured by hand by Suki, 10 runs each before and after release (comment on UX_DESIGN-309, 9/30). These are not real-user figures and will be replaced once real-user measurement starts.</span></p>
+<details class="su"><summary><span class="su-b"><span class="ja">構築中</span><span class="en">Being set up</span></span><span class="su-t"><span class="ja">操作への反応を、実ユーザーで測れるようにする</span><span class="en">Measure response-to-touch on real users</span></span><span class="su-c"><span class="ja">15分</span><span class="en">15 min</span></span></summary><div class="su-body"><span class="ja"><dl class="su-f"><div><dt>なぜ必要か</dt><dd>押してから画面が応えるまでの時間は、いまラボ値（TBT）で代用している。実ユーザーの INP を取れば代用をやめられる。CrUX と違い訪問数の下限がないので、6ページに限らず全ページで取れる。</dd></div><div><dt>誰が何をするか</dt><dd>タグのコードは用意済み（scripts/perf-report/tags/web-vitals-gtm.html）。GTM に貼って公開する作業と、GA4 のカスタム定義の登録がブラウザ作業。</dd></div><div><dt>いつ取れるか</dt><dd>公開した翌日から</dd></div></dl><div class="yl">手順</div><ol class="su-s"><li>タグのコード（tags/web-vitals-gtm.html）の全文をコピーする</li><li><a href="https://tagmanager.google.com/" target="_blank" rel="noopener">GTM（GTM-5KFX5VX）でカスタムHTMLタグを作成して貼る。トリガーは All Pages</a></li><li>イベント名 web_vitals のカスタムイベントトリガーと、GA4 イベントタグを作る（変数と手順は tags/README.md）</li><li>プレビューで web_vitals が出ることを確認してから公開する</li><li><a href="https://analytics.google.com/" target="_blank" rel="noopener">GA4 でカスタム定義を登録（metric_name・metric_rating・page_type・device・metric_value。README に一覧）</a></li></ol><p class="su-n">チケットは UX_DESIGN-300。ページ種別は URL の形で判定する。地域とエリアは URL の形が同じため、まとめて area_or_region として出る。</p></span><span class="en"><dl class="su-f"><div><dt>Why it matters</dt><dd>The wait between a tap and a response is currently stood in for by a lab figure (TBT). Real-user INP replaces that stand-in, and unlike CrUX it has no visit threshold, so every page can be measured, not just six.</dd></div><div><dt>Who does what</dt><dd>The tag code is ready (scripts/perf-report/tags/web-vitals-gtm.html). Pasting it into GTM, publishing, and registering the GA4 custom definitions are browser tasks.</dd></div><div><dt>When it lands</dt><dd>The day after it is published</dd></div></dl><div class="yl">Steps</div><ol class="su-s"><li>Copy the full tag code (tags/web-vitals-gtm.html)</li><li><a href="https://tagmanager.google.com/" target="_blank" rel="noopener">Create a Custom HTML tag in GTM (GTM-5KFX5VX) and paste it; trigger All Pages</a></li><li>Create a custom-event trigger named web_vitals and a GA4 event tag (variables and steps in tags/README.md)</li><li>Confirm web_vitals appears in preview, then publish</li><li><a href="https://analytics.google.com/" target="_blank" rel="noopener">Register the custom definitions in GA4 (metric_name, metric_rating, page_type, device, metric_value; list in README)</a></li></ol><p class="su-n">Ticket: UX_DESIGN-300. Page type is decided from the URL shape. Region and Area share the same URL shape, so they appear together as area_or_region.</p></span></div></details>
+<details class="su"><summary><span class="su-b"><span class="ja">構築中</span><span class="en">Being set up</span></span><span class="su-t"><span class="ja">予約モーダル・絞り込みの応答を、週ごとに残す</span><span class="en">Record booking-modal and filter response week by week</span></span><span class="su-c"><span class="ja">10分</span><span class="en">10 min</span></span></summary><div class="su-body"><span class="ja"><dl class="su-f"><div><dt>なぜ必要か</dt><dd>フィルター API 1.50s と 予約モーダル 0.77s は着手前に1回測っただけで、UX_DESIGN-321 を直しても効果を示せない。週ごとに残せば前後比較ができる。</dd></div><div><dt>誰が何をするか</dt><dd>計測スプレッドシートにタブを1枚足して、スクリプトを貼るまで。以降は毎週自動で1行増える。</dd></div><div><dt>いつ取れるか</dt><dd>貼った翌週から</dd></div></dl><div class="yl">手順</div><ol class="su-s"><li>スクリプト全文を受け取る（依頼があれば出す）</li><li><a href="https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit" target="_blank" rel="noopener">計測スプレッドシートの Apps Script に貼る</a></li><li>setUp() を1回実行してトリガーを付ける</li></ol><p class="su-n">元の 1.50s / 0.77s をどう測ったかが分かれば、同じ条件に揃えられる。</p></span><span class="en"><dl class="su-f"><div><dt>Why it matters</dt><dd>Filter API 1.50s and booking modal 0.77s were each measured once before any work, so fixing UX_DESIGN-321 cannot be shown to have helped. A weekly record makes before/after possible.</dd></div><div><dt>Who does what</dt><dd>Add one tab to the measurement spreadsheet and paste a script. After that a row is added automatically each week.</dd></div><div><dt>When it lands</dt><dd>The week after it is pasted</dd></div></dl><div class="yl">Steps</div><ol class="su-s"><li>Receive the full script (supplied on request)</li><li><a href="https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit" target="_blank" rel="noopener">Paste it into the spreadsheet's Apps Script</a></li><li>Run setUp() once to install the trigger</li></ol><p class="su-n">If we learn how the original 1.50s / 0.77s were measured, the new figures can match those conditions.</p></span></div></details>
+</div>
+
+<div class="sec"><h2><span class="n">4</span><span class="ja">リリース実績</span><span class="en">Released</span></h2>
+<div class="card strip"><div class="ch-h"><h3><span class="ja">リリースした日</span><span class="en">Release days</span></h3></div>
+<div class="plot" id="plot-releases"></div></div>
+<details class="su"><summary><span class="su-b"><span class="ja">構築中</span><span class="en">Being set up</span></span><span class="su-t"><span class="ja">リリースした日を記録する</span><span class="en">Record the day each change shipped</span></span><span class="su-c"><span class="ja">5分</span><span class="en">5 min</span></span></summary><div class="su-body"><span class="ja"><dl class="su-f"><div><dt>なぜ必要か</dt><dd>いま本番にいつ何が出たかを残している場所が無い。ClickUp の状態が変わった日は、整理でまとめて閉じた日とも区別がつかない。記録が無いと、数字が動いても何のおかげか言えない。</dd></div><div><dt>誰が何をするか</dt><dd>計測スプレッドシートの annotations タブに1行書くだけ。出した人が出した日に書く。</dd></div><div><dt>いつ取れるか</dt><dd>次のリリースから</dd></div></dl><div class="yl">手順</div><ol class="su-s"><li><a href="https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit" target="_blank" rel="noopener">計測スプレッドシートの annotations タブを開く（日付・チケット・対象・種別・内容の5列は作成済み）</a></li><li>本番に出した日に1行足す。チケット番号だけでもよい</li><li>以降このレポートのグラフに自動で打刻が出る</li></ol><p class="su-n">いま出ている 9/17 の6件は手で入れたもの。タブが埋まれば、そこから読むように切り替える。</p></span><span class="en"><dl class="su-f"><div><dt>Why it matters</dt><dd>Nothing currently records what reached production and when. A ClickUp status change cannot be told apart from a bulk tidy-up. Without the record, a figure can move and nobody can say what caused it.</dd></div><div><dt>Who does what</dt><dd>One row in the annotations tab of the measurement spreadsheet, written by whoever shipped it, on the day.</dd></div><div><dt>When it lands</dt><dd>From the next release</dd></div></dl><div class="yl">Steps</div><ol class="su-s"><li><a href="https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit" target="_blank" rel="noopener">Open the annotations tab (date, ticket, scope, type, note columns already exist)</a></li><li>Add a row on the day it goes out. The ticket number alone is enough</li><li>From then on the marks appear on the charts here automatically</li></ol><p class="su-n">The six marks now shown for 9/17 were entered by hand. Once the tab is in use, the report will read from it instead.</p></span></div></details>
+<div class="tw"><table><tr><th><span class="ja">日付</span><span class="en">Date</span></th><th><span class="ja">チケット</span><span class="en">Ticket</span></th><th><span class="ja">内容</span><span class="en">Change</span></th><th><span class="ja">対象</span><span class="en">Scope</span></th><th><span class="ja">削減</span><span class="en">Saved</span></th></tr><tr><td>09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-323">UX_DESIGN-323</a></td><td><span class="ja">AppsFlyer を defer 化</span><span class="en">Defer AppsFlyer</span></td><td>全ページ</td><td>893ms</td></tr><tr><td>09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-395">UX_DESIGN-395</a></td><td><span class="ja">preload の画像を実LCPに合わせる</span><span class="en">Point preload at the real LCP image</span></td><td>AC詳細</td><td>—</td></tr><tr><td>09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-396">UX_DESIGN-396</a></td><td><span class="ja">先頭ACカード画像に fetchpriority=high</span><span class="en">fetchpriority=high on the first AC card image</span></td><td>カテゴリー・検索</td><td>—</td></tr><tr><td>09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-397">UX_DESIGN-397</a></td><td><span class="ja">lcp_image_url を設定して preload</span><span class="en">Set lcp_image_url and preload it</span></td><td>エリア</td><td>—</td></tr><tr><td>09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-389">UX_DESIGN-389</a></td><td><span class="ja">フィルターバー固定・画像枠の寸法予約</span><span class="en">Pin the filter bar, reserve image box sizes</span></td><td>6ページ</td><td>—</td></tr><tr><td>09-17</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-389">UX_DESIGN-389</a></td><td><span class="ja">検索ページに1時間のページキャッシュ</span><span class="en">One-hour page cache on search</span></td><td>検索</td><td>—</td></tr><tr><td>09-30</td><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-309">UX_DESIGN-309</a></td><td><span class="ja">カテゴリーの絞り込み結果を30分単位でキャッシュ</span><span class="en">Cache category filter results in 30-minute buckets</span></td><td>カテゴリー</td><td>平均 -0.85s</td></tr></table></div>
+<details><summary><span class="ja">調査・改修で完了したもの（5件）</span><span class="en">Investigations and fixes already closed (5)</span></summary><div class="tw"><table><tr><th><span class="ja">チケット</span><span class="en">Ticket</span></th><th><span class="ja">内容</span><span class="en">Change</span></th></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-302">UX_DESIGN-302</a></td><td><span class="ja">カテゴリ: 冗長なクーポン処理を削除</span><span class="en">Remove redundant coupon processing on category</span></td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-306">UX_DESIGN-306</a></td><td><span class="ja">レンダーブロッキング解消</span><span class="en">Eliminate render-blocking resources</span></td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-310">UX_DESIGN-310</a></td><td><span class="ja">isDynamicPrice 改修（約848ms削減）</span><span class="en">Refactor isDynamicPrice (~848ms)</span></td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-311">UX_DESIGN-311</a></td><td><span class="ja">AC詳細: 予約カレンダー・在庫APIの応答改善</span><span class="en">AC detail: faster booking calendar and inventory API</span></td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-313">UX_DESIGN-313</a></td><td><span class="ja">カテゴリ: 予約モーダル再読込の調査</span><span class="en">Category: investigate booking-modal reloads</span></td></tr></table></div></details>
+</div>
+
+<div class="sec"><h2><span class="n">5</span><span class="ja">未リリースの施策案</span><span class="en">Not yet released</span></h2>
+<p class="note"><span class="ja">調査で見つけて起票したまま、本番に出ていないものが 28 件ある。うち急ぎが 9 件。</span><span class="en">28 items were found, written up, and have not reached production. 9 of them are marked urgent.</span></p>
+<div class="tw"><table><tr><th><span class="ja">チケット</span><span class="en">Ticket</span></th><th><span class="ja">内容</span><span class="en">Item</span></th><th><span class="ja">削減見込み</span><span class="en">Expected saving</span></th></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-404">UX_DESIGN-404</a></td><td><span class="ja">空ボディの coupon POST を止める</span><span class="en">Stop the empty-body coupon POST</span></td><td>約2,182ms</td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-398">UX_DESIGN-398</a></td><td><span class="ja">VWO アンチフリッカーの縮小（body を最大2秒 opacity:0）</span><span class="en">Shrink the VWO anti-flicker snippet (body hidden up to 2s)</span></td><td>最大2,000ms</td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-410">UX_DESIGN-410</a></td><td><span class="ja">カテゴリ: 初期表示で同じリストを再取得している</span><span class="en">Category: the same list is fetched twice on load</span></td><td>—</td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-418">UX_DESIGN-418</a></td><td><span class="ja">検索結果: サーバー描画済みの結果を無条件に再取得している</span><span class="en">Search: server-rendered results are refetched unconditionally</span></td><td>—</td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-415">UX_DESIGN-415</a></td><td><span class="ja">日程から探す: ページキャッシュ未設定で毎回フル描画</span><span class="en">Date search: no page cache, full render every time</span></td><td>—</td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-395">UX_DESIGN-395</a></td><td><span class="ja">AC詳細: preload の画像が実LCPと不一致</span><span class="en">AC detail: the preloaded image is not the real LCP element</span></td><td>—</td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-407">UX_DESIGN-407</a></td><td><span class="ja">ページキャッシュのヒット率を可視化する</span><span class="en">Make the page-cache hit rate visible</span></td><td>—</td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-416">UX_DESIGN-416</a></td><td><span class="ja">coupon_request を出力してクーポン表示を復旧</span><span class="en">Emit coupon_request to restore coupon display</span></td><td>—</td></tr><tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-411">UX_DESIGN-411</a></td><td><span class="ja">Peregrine APIキーが公開JSに平文で入っている</span><span class="en">Peregrine API key is hard-coded in public JS</span></td><td>—</td></tr></table></div>
+<details><summary><span class="ja">全49件の内訳</span><span class="en">All 49 items by state</span></summary><div class="tw"><table><tr><th><span class="ja">状態</span><span class="en">State</span></th><th><span class="ja">件数</span><span class="en">Count</span></th></tr><tr><td><span class="ja">完了</span><span class="en">Done</span></td><td>5</td></tr><tr><td><span class="ja">リリース待ち</span><span class="en">Ready for release</span></td><td>2</td></tr><tr><td><span class="ja">進行中</span><span class="en">In progress</span></td><td>6</td></tr><tr><td><span class="ja">着手できる</span><span class="en">Ready to start</span></td><td>8</td></tr><tr><td><span class="ja">未着手</span><span class="en">Not started</span></td><td>28</td></tr></table></div></details>
+</div>
+
+<div class="sec"><h2><span class="n">6</span><span class="ja">実ユーザー計測値</span><span class="en">Real-user measurements</span></h2>
+<p class="note"><span class="ja"><span>CrUX</span> の週次。<span class="hint" tabindex="0" data-tip-ja="その日から28日さかのぼった範囲をまとめた値。昨日の値と今日の値は27日ぶん中身が同じなので、1日や1週間の上下だけを見ても意味がない。" data-tip-en="A figure covering the 28 days up to that date. Yesterday and today share 27 days of the same visits, so a single day or week of movement says nothing on its own.">28日ローリング</span>の <span class="hint" tabindex="0" data-tip-ja="100人がページを開いたとき、速いほうから数えて75人目の人が待った時間。いちばん速い人でも、いちばん遅い人でもなく「だいたいの人はこれくらい待っている」という線。平均だと、ごく一部の極端に遅い人に引っ張られて実感からずれるので、こちらを使う。" data-tip-en="If 100 people open the page, this is what the 75th-fastest of them waited. Not the fastest, not the slowest — the line most people sit under. An average gets dragged around by a handful of very slow visits, so this is used instead.">p75</span> なので、隣り合う週は27日ぶん同じデータを共有している。1週の増減だけを見ても意味がない。</span><span class="en">Weekly CrUX. Because each figure covers a rolling 28 days, neighbouring weeks share 27 days of data, so one week of movement means little.</span></p>
+<div class="tiles"><div class="tile"><div class="tl-h"><span class="dot" style="background:#1F6FB2"></span><span class="ja">TOP</span><span class="en">TOP</span></div>
+<a class="tl-u" href="https://www.veltra.com/jp/" title="https://www.veltra.com/jp/" target="_blank" rel="noopener">https://www.veltra.com/jp/</a>
+<div class="tl-v">2,942<span class="u">ms</span></div>
+<div class="tl-s"><span class="ja">2026-08-22 時点から +187ms</span><span class="en">+187ms since 2026-08-22</span></div>
+<div class="tl-f"><span class="badge ni"><span class="ja">要改善</span><span class="en">Needs work</span></span><span class="diff up"><span class="ja">前週</span><span class="en">vs prev</span> +26ms</span></div></div><div class="tile"><div class="tl-h"><span class="dot" style="background:#C2410C"></span><span class="ja">エリア</span><span class="en">Area</span></div>
+<a class="tl-u" href="https://www.veltra.com/jp/japan/tokyo/" title="https://www.veltra.com/jp/japan/tokyo/" target="_blank" rel="noopener">https://www.veltra.com/jp/japan/tokyo/</a>
+<div class="tl-v">2,805<span class="u">ms</span></div>
+<div class="tl-s"><span class="ja">2026-08-22 時点から +163ms</span><span class="en">+163ms since 2026-08-22</span></div>
+<div class="tl-f"><span class="badge ni"><span class="ja">要改善</span><span class="en">Needs work</span></span><span class="diff down"><span class="ja">前週</span><span class="en">vs prev</span> -3ms</span></div></div><div class="tile"><div class="tl-h"><span class="dot" style="background:#6D28A8"></span><span class="ja">地域</span><span class="en">Region</span></div>
+<a class="tl-u" href="https://www.veltra.com/jp/japan/kanto/" title="https://www.veltra.com/jp/japan/kanto/" target="_blank" rel="noopener">https://www.veltra.com/jp/japan/kanto/</a>
+<div class="tl-v">—<span class="u">ms</span></div>
+<div class="tl-s"><span class="ja">収集対象に入っていない</span><span class="en">not in collection</span></div>
+<div class="tl-f"><span class="badge nd"><span class="ja">未計測</span><span class="en">No data</span></span><span class="diff "><span class="ja">前週</span><span class="en">vs prev</span> —</span></div></div><div class="tile"><div class="tl-h"><span class="dot" style="background:#0F766E"></span><span class="ja">カテゴリー</span><span class="en">Category</span></div>
+<a class="tl-u" href="https://www.veltra.com/jp/japan/tokyo/ctg/183551:Yakatabune/" title="https://www.veltra.com/jp/japan/tokyo/ctg/183551:Yakatabune/" target="_blank" rel="noopener">https://www.veltra.com/jp/japan/tokyo/ctg/183551:Yakatabune/</a>
+<div class="tl-v">—<span class="u">ms</span></div>
+<div class="tl-s"><span class="ja">収集対象に入っていない</span><span class="en">not in collection</span></div>
+<div class="tl-f"><span class="badge nd"><span class="ja">未計測</span><span class="en">No data</span></span><span class="diff "><span class="ja">前週</span><span class="en">vs prev</span> —</span></div></div><div class="tile"><div class="tl-h"><span class="dot" style="background:#8A6D1F"></span><span class="ja">AC詳細</span><span class="en">AC detail</span></div>
+<a class="tl-u" href="https://www.veltra.com/jp/japan/tokyo/a/160690" title="https://www.veltra.com/jp/japan/tokyo/a/160690" target="_blank" rel="noopener">https://www.veltra.com/jp/japan/tokyo/a/160690</a>
+<div class="tl-v">—<span class="u">ms</span></div>
+<div class="tl-s"><span class="ja">2026-06-27 以降 欠測</span><span class="en">missing since 2026-06-27</span></div>
+<div class="tl-f"><span class="badge nd"><span class="ja">未計測</span><span class="en">No data</span></span><span class="diff "><span class="ja">前週</span><span class="en">vs prev</span> —</span></div></div><div class="tile"><div class="tl-h"><span class="dot" style="background:#B3246B"></span><span class="ja">検索結果</span><span class="en">Search</span></div>
+<a class="tl-u" href="https://www.veltra.com/jp/search?kw=tokyo" title="https://www.veltra.com/jp/search?kw=tokyo" target="_blank" rel="noopener">https://www.veltra.com/jp/search?kw=tokyo</a>
+<div class="tl-v">6,112<span class="u">ms</span></div>
+<div class="tl-s"><span class="ja">2026-08-22 時点から -783ms</span><span class="en">-783ms since 2026-08-22</span></div>
+<div class="tl-f"><span class="badge poor"><span class="ja">不良</span><span class="en">Poor</span></span><span class="diff down"><span class="ja">前週</span><span class="en">vs prev</span> -67ms</span></div></div></div>
+<details class="su"><summary><span class="su-b"><span class="ja">構築中</span><span class="en">Being set up</span></span><span class="su-t"><span class="ja">実ユーザー値を毎日取れるようにする</span><span class="en">Get real-user figures every day</span></span><span class="su-c"><span class="ja">5分</span><span class="en">5 min</span></span></summary><div class="su-body"><span class="ja"><dl class="su-f"><div><dt>なぜ必要か</dt><dd>いま実ユーザー値は週1回の収集に頼っていて、その収集が 2026-09-13 で止まっている。APIキーが1本あれば、この収集を経由せずに毎日取れる。地域・AC詳細の代表URL差し替えも即反映できる。</dd></div><div><dt>誰が何をするか</dt><dd>キーの発行はブラウザ作業。発行後の取得・更新は自動。</dd></div><div><dt>いつ取れるか</dt><dd>キーを受け取った当日から</dd></div></dl><div class="yl">手順</div><ol class="su-s"><li><a href="https://console.cloud.google.com/apis/library/chromeuxreport.googleapis.com" target="_blank" rel="noopener">Chrome UX Report API を有効にする</a></li><li><a href="https://console.cloud.google.com/apis/library/pagespeedonline.googleapis.com" target="_blank" rel="noopener">PageSpeed Insights API も同じプロジェクトで有効にする</a></li><li><a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener">認証情報 → APIキーを作成 → コピー</a></li><li>キーを環境変数に入れる（チャットに貼らない）。設定手順は依頼時に案内</li></ol><p class="su-n">CrUX API は 150クエリ/分まで無料。キー無しの共有枠は既に上限に達していることを確認済み。</p></span><span class="en"><dl class="su-f"><div><dt>Why it matters</dt><dd>Real-user figures depend on a weekly collection that stopped on 2026-09-13. One API key removes that dependency and lets the figures be pulled daily, and lets the Region and AC-detail sample URLs be swapped immediately.</dd></div><div><dt>Who does what</dt><dd>Issuing the key is a browser task. Everything after it is automatic.</dd></div><div><dt>When it lands</dt><dd>The day the key arrives</dd></div></dl><div class="yl">Steps</div><ol class="su-s"><li><a href="https://console.cloud.google.com/apis/library/chromeuxreport.googleapis.com" target="_blank" rel="noopener">Enable the Chrome UX Report API</a></li><li><a href="https://console.cloud.google.com/apis/library/pagespeedonline.googleapis.com" target="_blank" rel="noopener">Enable the PageSpeed Insights API in the same project</a></li><li><a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener">Credentials → Create API key → copy</a></li><li>Put the key in an environment variable, not in chat. Steps supplied on request</li></ol><p class="su-n">The CrUX API is free up to 150 queries per minute. The keyless shared quota is already exhausted (verified).</p></span></div></details>
+<div class="ctrl">
+<div class="mtabs"><button class="mt gt" data-g="w" aria-pressed="true"><span class="ja">週次</span><span class="en">Weekly</span></button><button class="mt gt" data-g="m" aria-pressed="false"><span class="ja">月次</span><span class="en">Monthly</span></button></div>
+<div class="range">
+<button class="rg" data-move="-1" aria-label="前の期間 / Previous period">‹</button>
+<span class="rg-lab" id="range-label"></span>
+<button class="rg" data-move="1" aria-label="次の期間 / Next period">›</button>
+<button class="rg rg-today"><span class="ja">今週</span><span class="en">This week</span></button>
+</div>
+</div>
+<div class="chart-grid"><div class="card chart" data-metric="lcp">
+<div class="ch-h"><h3>LCP <span class="ch-sub"><span class="ja">主役の画像や文字が出るまで</span><span class="en">Time until the main image or text appears</span></span></h3>
+<span class="ch-t"><span class="ja">合格ライン 2,500 ms 以下</span><span class="en">Target 2,500 ms or under</span></span></div>
+<div class="legend"><button class="lg" data-metric="lcp" data-page="TOP" aria-pressed="true"><span class="dot" style="background:#1F6FB2"></span><span class="ja">TOP</span><span class="en">TOP</span></button><button class="lg" data-metric="lcp" data-page="エリア" aria-pressed="true"><span class="dot" style="background:#C2410C"></span><span class="ja">エリア</span><span class="en">Area</span></button><button class="lg" data-metric="lcp" data-page="AC詳細" aria-pressed="true"><span class="dot" style="background:#8A6D1F"></span><span class="ja">AC詳細</span><span class="en">AC detail</span></button><button class="lg" data-metric="lcp" data-page="検索結果" aria-pressed="true"><span class="dot" style="background:#B3246B"></span><span class="ja">検索結果</span><span class="en">Search</span></button></div>
+<div class="plot" id="plot-lcp"></div></div><div class="card chart" data-metric="inp">
+<div class="ch-h"><h3>INP <span class="ch-sub"><span class="ja">タップしてから画面が応えるまで</span><span class="en">Time from a tap until the screen responds</span></span></h3>
+<span class="ch-t"><span class="ja">合格ライン 200 ms 以下</span><span class="en">Target 200 ms or under</span></span></div>
+<div class="legend"><button class="lg" data-metric="inp" data-page="TOP" aria-pressed="true"><span class="dot" style="background:#1F6FB2"></span><span class="ja">TOP</span><span class="en">TOP</span></button><button class="lg" data-metric="inp" data-page="エリア" aria-pressed="true"><span class="dot" style="background:#C2410C"></span><span class="ja">エリア</span><span class="en">Area</span></button><button class="lg" data-metric="inp" data-page="AC詳細" aria-pressed="true"><span class="dot" style="background:#8A6D1F"></span><span class="ja">AC詳細</span><span class="en">AC detail</span></button><button class="lg" data-metric="inp" data-page="検索結果" aria-pressed="true"><span class="dot" style="background:#B3246B"></span><span class="ja">検索結果</span><span class="en">Search</span></button></div>
+<div class="plot" id="plot-inp"></div></div><div class="card chart" data-metric="cls">
+<div class="ch-h"><h3>CLS <span class="ch-sub"><span class="ja">読み込み中に文字や画像がずれる量</span><span class="en">How much text and images shift while loading</span></span></h3>
+<span class="ch-t"><span class="ja">合格ライン 0.10 以下</span><span class="en">Target 0.10 or under</span></span></div>
+<div class="legend"><button class="lg" data-metric="cls" data-page="TOP" aria-pressed="true"><span class="dot" style="background:#1F6FB2"></span><span class="ja">TOP</span><span class="en">TOP</span></button><button class="lg" data-metric="cls" data-page="エリア" aria-pressed="true"><span class="dot" style="background:#C2410C"></span><span class="ja">エリア</span><span class="en">Area</span></button><button class="lg" data-metric="cls" data-page="AC詳細" aria-pressed="true"><span class="dot" style="background:#8A6D1F"></span><span class="ja">AC詳細</span><span class="en">AC detail</span></button><button class="lg" data-metric="cls" data-page="検索結果" aria-pressed="true"><span class="dot" style="background:#B3246B"></span><span class="ja">検索結果</span><span class="en">Search</span></button></div>
+<div class="plot" id="plot-cls"></div></div><div class="card chart" data-metric="ttfb">
+<div class="ch-h"><h3>TTFB <span class="ch-sub"><span class="ja">サーバーから最初の応答が届くまで</span><span class="en">Time until the server starts sending the page</span></span></h3>
+<span class="ch-t"><span class="ja">合格ライン 800 ms 以下</span><span class="en">Target 800 ms or under</span></span></div>
+<div class="legend"><button class="lg" data-metric="ttfb" data-page="TOP" aria-pressed="true"><span class="dot" style="background:#1F6FB2"></span><span class="ja">TOP</span><span class="en">TOP</span></button><button class="lg" data-metric="ttfb" data-page="エリア" aria-pressed="true"><span class="dot" style="background:#C2410C"></span><span class="ja">エリア</span><span class="en">Area</span></button><button class="lg" data-metric="ttfb" data-page="AC詳細" aria-pressed="true"><span class="dot" style="background:#8A6D1F"></span><span class="ja">AC詳細</span><span class="en">AC detail</span></button><button class="lg" data-metric="ttfb" data-page="検索結果" aria-pressed="true"><span class="dot" style="background:#B3246B"></span><span class="ja">検索結果</span><span class="en">Search</span></button></div>
+<div class="plot" id="plot-ttfb"></div></div></div>
+<div class="mtabs"><button class="mt" data-m="lcp" aria-pressed="true">LCP</button><button class="mt" data-m="inp" aria-pressed="false">INP</button><button class="mt" data-m="cls" aria-pressed="false">CLS</button><button class="mt" data-m="ttfb" aria-pressed="false">TTFB</button></div>
+<p class="note"><span class="ja">赤字は合格ラインを超えた値。— はその週の値が取れていないところ。</span><span class="en">Red means the figure missed its target. A dash means there is no figure for that week.</span></p>
+<p class="note"><span class="ja">このグラフと表の起点は 2026-08-22 の週（計測トラッカーに最初の数値を記録した 2026-08-19 を含む週）。第2節の PSI は別の計測で、2026-09-04 から毎日取っている。</span><span class="en">These charts start at the week ending 2026-08-22, which contains 2026-08-19, when the first figures were recorded. The PSI series in section 2 is a separate measurement, taken daily from 2026-09-04.</span></p>
+<div class="tw" id="trend-table"></div>
+</div>
+
+<div class="sec"><h2><span class="n">7</span><span class="ja">課題と次の打ち手</span><span class="en">Issues and next moves</span></h2>
+<div class="issue"><div class="ih"><span class="ja">課題</span><span class="en">Issue</span> 01</div><h3><span class="ja">数字が週次で増えなくなっている</span><span class="en">The weekly figures have stopped growing</span></h3><p><span class="ja">収集が 9/13 で止まり、その回も途中で落ちた。このまま放っておくと、9/17 に出した6件の効果が<span class="hint" tabindex="0" data-tip-ja="実際にページを見た人の端末から集めた値。本当の体感にいちばん近い。ただし、見た人が少ないページでは値が出てこない。" data-tip-en="A figure gathered from the devices of people who actually visited. The closest thing to how it really feels — but pages with few visitors return nothing.">実ユーザー値</span>で確認できない。</span><span class="en">Weekly collection stopped after 9/13, and that run died partway. Left alone, the six changes shipped on 9/17 cannot be verified against real-user data.</span></p><div class="yl"><span class="ja">やること</span><span class="en">Next steps</span></div><ul><li><span class="ja">9/13 の実行ログを見て、どこで落ちたかを特定する</span><span class="en">Read the 9/13 execution log and find where it stopped</span></li><li><span class="ja">9/20 の回が動かなかった理由を確認する（トリガーが消えたのか、実行時間切れか）</span><span class="en">Find out why the 9/20 run never happened — a lost trigger, or a timeout</span></li><li><span class="ja">途中で落ちても次の回で取り直せるようにする（ページ単位で書き切る、または再実行する）</span><span class="en">Make a partial failure recoverable: write page by page, or re-run</span></li></ul><div class="ifoot"><span class="chip"><span class="ja">取得層</span><span class="en">Collection</span></span><span class="nt"><span class="ja">未起票</span><span class="en">Not filed</span></span></div></div><div class="issue"><div class="ih"><span class="ja">課題</span><span class="en">Issue</span> 02</div><h3><span class="ja">6ページのうち2ページがいまだに1度も測れていない</span><span class="en">Two of the six pages have never been measured</span></h3><p><span class="ja">地域とカテゴリーは crux_weekly に1行も入っていない。さらに PSI 側のカテゴリーは Sightseeing_Tour のままで、レポートと集計が見ている Yakatabune と違うURLを測っている。</span><span class="en">Region and Category have no rows at all in crux_weekly. On the PSI side, Category still points at Sightseeing_Tour while the report and the aggregation layer use Yakatabune — different URLs.</span></p><div class="yl"><span class="ja">やること</span><span class="en">Next steps</span></div><ul><li><span class="ja">地域 /jp/japan/kanto/ とカテゴリー /jp/japan/tokyo/ctg/183551:Yakatabune/ を <span>CrUX</span> の収集対象に追加する</span><span class="en">Add Region /jp/japan/kanto/ and Category /jp/japan/tokyo/ctg/183551:Yakatabune/ to the <span>CrUX</span> collection</span></li><li><span class="ja">PSI 側のカテゴリーURLを Yakatabune に差し替える</span><span class="en">Switch the PSI Category URL to Yakatabune</span></li><li><span class="ja"><span class="hint" tabindex="0" data-tip-ja="見た人が少なすぎるページには、Google がデータを出してくれない。その最低ラインのこと。下回っているページは、何度聞いても空で返ってくる。" data-tip-en="Google will not hand back data for a page too few people visited. This is that floor. A page under it comes back empty however often you ask.">掲載閾値</span>に届かない場合は、そのページの判定を「未計測」で固定し、代わりに何を見るかを決める</span><span class="en">If a URL stays under the reporting threshold, fix its verdict as no-data and decide what to watch instead</span></li></ul><div class="ifoot"><span class="chip"><span class="ja">対象ページ</span><span class="en">Scope</span></span><span class="nt"><span class="ja">未起票</span><span class="en">Not filed</span></span></div></div><div class="issue"><div class="ih"><span class="ja">課題</span><span class="en">Issue</span> 03</div><h3><span class="ja">体感側は着手前の1点しか無く、効果が測れない</span><span class="en">The response side has one pre-work figure and nothing to measure against</span></h3><p><span class="ja">フィルター API 応答 1.50s と 予約モーダル formData 0.77s は、いずれも着手前に1回測った値。週次で取れていないので、直しても直っていなくても画面上は同じに見える。</span><span class="en">Filter API response at 1.50s and booking-modal formData at 0.77s were each measured once, before any work. With no weekly series, fixed and unfixed look identical on this page.</span></p><div class="yl"><span class="ja">やること</span><span class="en">Next steps</span></div><ul><li><span class="ja">サーバ側の応答時間を週次で残す置き場所を決める（計測スプレッドシートのタブを1枚増やす）</span><span class="en">Decide where the weekly server-side timings live — one more tab in the measurement spreadsheet</span></li><li><span class="ja">UX_DESIGN-321 の対応後に再測し、着手前との差を出す</span><span class="en">Re-measure after UX_DESIGN-321 lands and report the delta</span></li></ul><div class="ifoot"><span class="chip"><span class="ja">体感の速さ</span><span class="en">Response</span></span><a href="https://app.clickup.com/t/31108037/UX_DESIGN-321">UX_DESIGN-321</a></div></div><div class="issue"><div class="ih"><span class="ja">課題</span><span class="en">Issue</span> 04</div><h3><span class="ja">数値の解釈がレポート側に残ったままになっている</span><span class="en">Interpretation still happens in the report instead of the aggregation layer</span></h3><p><span class="ja">集計層（perf-aggregate.gs）がまだスプレッドシートに入っていないため、_summary / _defs が無い。いまは生データをレポート側で読んでおり、週ごとに読み方がぶれる余地が残っている。</span><span class="en">The aggregation layer (perf-aggregate.gs) is not installed in the spreadsheet yet, so _summary and _defs do not exist. Raw data is still read on the report side, which leaves room for the reading to drift week to week.</span></p><div class="yl"><span class="ja">やること</span><span class="en">Next steps</span></div><ul><li><span class="ja">perf-aggregate.gs をスプレッドシートの Apps Script に貼り、setUp() を1回実行する</span><span class="en">Paste perf-aggregate.gs into the spreadsheet's Apps Script and run setUp() once</span></li><li><span class="ja">生成された _summary の値が、このレポートの数値と一致することを確認する</span><span class="en">Check that the generated _summary matches the figures on this page</span></li></ul><div class="ifoot"><span class="chip"><span class="ja">集計層</span><span class="en">Aggregation</span></span><span class="nt"><span class="ja">未起票</span><span class="en">Not filed</span></span></div></div>
+</div>
+
+<div class="sec"><h2><span class="n">8</span><span class="ja">計測基盤と更新サイクル</span><span class="en">Measurement pipeline and cadence</span></h2>
+<p class="note"><span class="ja">数値がどこから来て、どこで解釈が確定し、このページに出るまで。</span><span class="en">Where the figures come from, where their interpretation is fixed, and how they reach this page.</span></p>
+<div class="flow"><div class="fs"><div class="fs-h">1 <span class="ja">取得</span><span class="en">Collect</span><span class="fs-s"><span class="ja">外部API</span><span class="en">External APIs</span></span></div><div class="fbox"><div class="fitem"><b>CrUX API</b><span class="fbox-d"><span class="ja">実ユーザー p75</span><span class="en">Real-user p75</span></span><span class="fbox-f"><span class="ja">週1回・最終 9/13</span><span class="en">Weekly, last ran 9/13</span><span class="fbadge warn"><span class="ja">要確認</span><span class="en">check</span></span></span></div><div class="fitem"><b>PageSpeed Insights API</b><span class="fbox-d"><span class="ja">ラボ値</span><span class="en">Lab values</span></span><span class="fbox-f"><span class="ja">毎日</span><span class="en">Daily</span><span class="fbadge ok"><span class="ja">稼働中</span><span class="en">running</span></span></span></div><div class="fitem"><b><span class="ja">リリース記録</span><span class="en">Release log</span></b><span class="fbox-d"><span class="ja">日付・チケット・内容</span><span class="en">Date, ticket, change</span></span><span class="fbox-f"><span class="ja">手入力</span><span class="en">Manual</span><span class="fbadge todo"><span class="ja">未設置</span><span class="en">not set up</span></span></span></div></div></div><div class="fa" aria-hidden="true">→</div><div class="fs"><div class="fs-h">2 <span class="ja">蓄積</span><span class="en">Store</span><span class="fs-s"><span class="ja">計測スプレッドシート</span><span class="en">Measurement spreadsheet</span></span></div><div class="fbox"><div class="fitem"><b>crux_weekly</b><span class="fbox-d"><span class="ja">週×ページ</span><span class="en">Week by page</span></span><span class="fbox-f"><span class="ja">9/13 の回は途中</span><span class="en">9/13 run incomplete</span><span class="fbadge warn"><span class="ja">要確認</span><span class="en">check</span></span></span></div><div class="fitem"><b>psi_daily</b><span class="fbox-d"><span class="ja">日次</span><span class="en">Daily</span></span><span class="fbox-f"><span class="ja">全履歴</span><span class="en">Full history</span><span class="fbadge ok"><span class="ja">稼働中</span><span class="en">running</span></span></span></div><div class="fitem"><b>annotations</b><span class="fbox-d"><span class="ja">リリースの記録先</span><span class="en">Release records</span></span><span class="fbox-f"><span class="ja">空</span><span class="en">Empty</span><span class="fbadge todo"><span class="ja">未設置</span><span class="en">not set up</span></span></span></div></div></div><div class="fa" aria-hidden="true">→</div><div class="fs"><div class="fs-h">3 <span class="ja">集計</span><span class="en">Aggregate</span><span class="fs-s"><span class="ja">同じスプレッドシート</span><span class="en">Same spreadsheet</span></span></div><div class="fbox"><div class="fitem"><b>perf-aggregate.gs</b><span class="fbox-d"><span class="ja">解釈をここで確定</span><span class="en">Interpretation settled here</span></span><span class="fbox-f"><span class="ja">毎朝5時</span><span class="en">Daily 05:00</span><span class="fbadge todo"><span class="ja">未設置</span><span class="en">not set up</span></span></span></div><div class="fitem"><b>_summary / _defs</b><span class="fbox-d"><span class="ja">判定済みの値と規則</span><span class="en">Judged values and rules</span></span><span class="fbox-f"><span class="ja">タブ</span><span class="en">Tabs</span><span class="fbadge todo"><span class="ja">未設置</span><span class="en">not set up</span></span></span></div></div></div><div class="fa" aria-hidden="true">→</div><div class="fs"><div class="fs-h">4 <span class="ja">生成</span><span class="en">Build</span><span class="fs-s"><span class="ja">リポジトリ</span><span class="en">Repository</span></span></div><div class="fbox"><div class="fitem"><b>data.json</b><span class="fbox-d"><span class="ja">_summary の転記</span><span class="en">Transcript of _summary</span></span><span class="fbox-f"><span class="ja">週次</span><span class="en">Weekly</span><span class="fbadge ok"><span class="ja">稼働中</span><span class="en">running</span></span></span></div><div class="fitem"><b>build.py</b><span class="fbox-d"><span class="ja">テンプレートは固定</span><span class="en">Template is fixed</span></span><span class="fbox-f"><span class="ja">週次</span><span class="en">Weekly</span><span class="fbadge ok"><span class="ja">稼働中</span><span class="en">running</span></span></span></div></div></div><div class="fa" aria-hidden="true">→</div><div class="fs"><div class="fs-h">5 <span class="ja">表示</span><span class="en">Show</span><span class="fs-s"><span class="ja">アーティファクト</span><span class="en">Artifact</span></span></div><div class="fbox"><div class="fitem"><b><span class="ja">このページ</span><span class="en">This page</span></b><span class="fbox-d"><span class="ja">組織内公開・同じURL</span><span class="en">Org-visible, same URL</span></span><span class="fbox-f"><span class="ja">週次</span><span class="en">Weekly</span><span class="fbadge ok"><span class="ja">稼働中</span><span class="en">running</span></span></span></div></div></div></div>
+<details class="su"><summary><span class="su-b"><span class="ja">構築中</span><span class="en">Being set up</span></span><span class="su-t"><span class="ja">このレポートを毎週ひとりでに更新する</span><span class="en">Update this report every week on its own</span></span><span class="su-c"><span class="ja">2分</span><span class="en">2 min</span></span></summary><div class="su-body"><span class="ja"><dl class="su-f"><div><dt>なぜ必要か</dt><dd>いまは依頼があったときだけ更新している。曜日を決めれば、数値の取り込み・生成・公開・Slack 通知までひとりで回る。</dd></div><div><dt>誰が何をするか</dt><dd>曜日と Slack のチャンネルを決めるだけ。登録はこちらで行う。</dd></div><div><dt>いつ取れるか</dt><dd>決めた当日に登録、翌週から稼働</dd></div></dl><div class="yl">手順</div><ol class="su-s"><li>曜日と時刻を決める（例：毎週月曜 09:00）</li><li>投稿先の Slack チャンネルを決める</li><li>登録を依頼する。実行内容は事前に提示する</li></ol><p class="su-n">指示があるまで登録はしない。</p></span><span class="en"><dl class="su-f"><div><dt>Why it matters</dt><dd>Today it updates only when asked. Fix a weekday and the whole loop — pulling figures, building, publishing, posting to Slack — runs by itself.</dd></div><div><dt>Who does what</dt><dd>Pick a weekday and a Slack channel. Registration is handled here.</dd></div><div><dt>When it lands</dt><dd>Registered the same day, running from the following week</dd></div></dl><div class="yl">Steps</div><ol class="su-s"><li>Pick a day and time (e.g. Monday 09:00)</li><li>Pick the Slack channel to post to</li><li>Ask for it to be registered. The exact steps are shown beforehand</li></ol><p class="su-n">Nothing is registered without being asked.</p></span></div></details>
+<details><summary><span class="ja">データの定義を見る</span><span class="en">View data definitions</span></summary><div class="tw"><table><tr><th>key</th><th>value</th></tr><tr><td>granularity_rule</td><td>url-only（origin値での代用はしない）</td></tr><tr><td>source_of_truth</td><td>crux_weekly</td></tr><tr><td>missing_rule</td><td>欠測は null。0では埋めない</td></tr><tr><td>denominator</td><td>6ページ固定。未計測も分母に残す</td></tr><tr><td>crux_window</td><td>28日ローリング</td></tr><tr><td>judge_env</td><td>production のみ</td></tr><tr><td>lcp_good</td><td>2500ms</td></tr><tr><td>inp_good</td><td>200ms</td></tr><tr><td>cls_good</td><td>0.1</td></tr><tr><td>ttfb_good</td><td>800ms</td></tr></table></div>
+<div class="tw"><table><tr><th><span class="ja">ページ</span><span class="en">Page</span></th><th><span class="ja">PSI スコア</span><span class="en">PSI score</span></th><th>PSI LCP</th></tr><tr><td><span class="ja">TOP</span><span class="en">TOP</span></td><td>35</td><td>11,489 ms</td></tr><tr><td><span class="ja">エリア</span><span class="en">Area</span></td><td>42</td><td>6,436 ms</td></tr><tr><td><span class="ja">地域</span><span class="en">Region</span></td><td>41</td><td>8,784 ms</td></tr><tr><td><span class="ja">カテゴリー</span><span class="en">Category</span></td><td>35</td><td>7,170 ms</td></tr><tr><td><span class="ja">AC詳細</span><span class="en">AC detail</span></td><td>60</td><td>4,562 ms</td></tr><tr><td><span class="ja">検索結果</span><span class="en">Search</span></td><td>38</td><td>10,837 ms</td></tr></table></div></details>
+</div>
+
+<a class="linkcard" href="https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit"><div><b><span class="ja">計測スプレッドシート</span><span class="en">Measurement spreadsheet</span></b><span><span class="ja">生データと集計タブ（_summary / _defs）</span><span class="en">Raw data and the aggregation tabs (_summary / _defs)</span></span></div><span><span class="ja">開く →</span><span class="en">Open →</span></span></a>
+
+<footer>
+<span class="ja">集計期間：2026-03-14〜2026-09-26（29週）。対象は www.veltra.com・日本語・モバイル。</span><span class="en">Period: 2026-03-14 to 2026-09-26 (29 weeks). Scope: www.veltra.com, Japanese, mobile.</span><br>
+<span class="ja">数値はすべて計測スプレッドシートの _summary タブから取得（CrUX 収集ブロック 2026-10-04）。生データの解釈は集計タブ側で確定させており、本レポートでは行っていない。</span><span class="en">All figures come from the _summary tab of the measurement spreadsheet (CrUX collection block 2026-10-04). Raw data is interpreted in the aggregation layer, not in this report.</span><br>
+<span class="ja"><span>CrUX</span> は直近28日間の実ユーザーデータの <span>p75</span>。掲載閾値に満たない URL は値が返らないため、欠測は 0 で埋めず空欄として扱う。判定は本番のみで行い、dev 環境の数値は使わない。</span><span class="en">CrUX reports p75 over a rolling 28 days. URLs below the reporting threshold return nothing; gaps are left empty, never zero-filled. Judged on production only — dev numbers are not used.</span>
+</footer>
+</div>
+</div>
+<script>window.__PERF={"weeks": ["2026-03-14", "2026-03-21", "2026-03-28", "2026-04-04", "2026-04-11", "2026-04-18", "2026-04-25", "2026-05-02", "2026-05-09", "2026-05-16", "2026-05-23", "2026-05-30", "2026-06-06", "2026-06-13", "2026-06-20", "2026-06-27", "2026-07-04", "2026-07-11", "2026-07-18", "2026-07-25", "2026-08-01", "2026-08-08", "2026-08-15", "2026-08-22", "2026-08-29", "2026-09-05", "2026-09-12", "2026-09-19", "2026-09-26"], "metrics": {"lcp": {"TOP": [2514, 2568, 2602, 2613, 2630, 2601, 2564, 2529, 2519, 2548, 2617, 2687, 2739, 2787, 2773, 2759, 2776, 2772, 2838, 2826, 2777, 2736, 2720, 2755, 2805, 2880, 2886, 2916, 2942], "エリア": [1725, 1727, 1660, 2076, 2352, 2431, 2457, 2465, 2462, 2372, 2047, 1935, 1913, 1932, 1788, 1788, 1929, 1917, 1968, 2108, 2362, 2426, 2499, 2642, 2714, 2760, 2785, 2808, 2805], "地域": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "カテゴリー": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "AC詳細": [1514, 1597, 1761, 1903, 1974, 2006, 2248, 2283, 2186, 2128, 2022, 2060, 2191, null, 2364, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "検索結果": [3083, 2828, 2884, 2841, 3179, 6148, 8593, 9031, 9125, 9392, 9386, 9335, 9068, 8784, 8452, 7846, 7559, 7293, 7189, 7277, 7136, 7078, 6999, 6895, 6708, 6413, 6274, 6179, 6112]}, "inp": {"TOP": [186, 185, 188, 195, 207, 219, 224, 225, 225, 226, 236, 253, 261, 266, 265, 266, 265, 265, 259, 250, 239, 229, 219, 216, 213, 212, 220, 216, 218], "エリア": [140, null, 139, 158, 173, 172, 171, 171, 164, 160, 157, 158, 169, 174, 182, 190, 179, 170, 169, 157, 159, 157, 154, 172, 177, 172, 173, 166, 162], "地域": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "カテゴリー": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "AC詳細": [218, 233, 231, 233, 242, 241, 246, 245, 245, 241, 246, 250, 254, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "検索結果": [131, 129, 130, 128, 125, 152, 165, 168, 170, 173, 179, 187, 194, 194, 195, 194, 190, 195, 190, 182, 178, 166, 162, 159, 158, 156, 157, 158, 158]}, "cls": {"TOP": [0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.03, 0.03, 0.03, 0.05, 0.06, 0.08, 0.07, 0.05, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.03], "エリア": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "地域": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "カテゴリー": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "AC詳細": [0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, null, 0.03, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "検索結果": [0.0, 0.0, 0.0, 0.0, 0.0, 0.21, 0.44, 0.44, 0.44, 0.44, 0.45, 0.47, 0.5, 0.5, 0.5, 0.46, 0.41, 0.34, 0.32, 0.32, 0.32, 0.32, 0.32, 0.32, 0.32, 0.32, 0.32, 0.31, 0.28]}, "ttfb": {"TOP": [1482, 1512, 1538, 1548, 1555, 1559, 1539, 1510, 1488, 1480, 1501, 1533, 1574, 1613, 1613, 1613, 1632, 1634, 1679, 1680, 1644, 1602, 1536, 1529, 1536, 1563, 1580, 1590, 1608], "エリア": [1304, 1270, 1181, 1489, 1613, 1663, 1672, 1679, 1698, 1656, 1538, 1319, 1139, 1117, 1019, 1046, 1318, 1395, 1426, 1515, 1559, 1592, 1641, 1693, 1718, 1740, 1749, 1789, 1829], "地域": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "カテゴリー": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "AC詳細": [492, 556, 619, 865, 1056, 1138, 1280, 1294, 1267, 1258, 1154, 1074, 1238, null, 1379, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "検索結果": [5503, 5347, 5216, 5209, 5125, 5544, 5563, 5580, 5673, 5722, 5720, 5732, 5568, 5432, 5160, 4897, 4870, 4774, 4955, 4955, 4897, 4902, 4811, 4822, 4851, 4737, 4764, 4810, 5126]}}, "meta": {"lcp": {"key": "lcp", "ja": "LCP", "en": "LCP", "sub_ja": "主役の画像や文字が出るまで", "sub_en": "Time until the main image or text appears", "unit": "ms", "good": 2500, "ni": 4000, "dec": 0, "tip_ja": "画面でいちばん大きく映るもの（多くは写真か見出し）が、出きるまでの時間。ページが「出た」と感じる瞬間にあたる。", "tip_en": "How long until the biggest thing on screen — usually a photo or a headline — has finished appearing. That is the moment a page feels loaded."}, "inp": {"key": "inp", "ja": "INP", "en": "INP", "sub_ja": "タップしてから画面が応えるまで", "sub_en": "Time from a tap until the screen responds", "unit": "ms", "good": 200, "ni": 500, "dec": 0, "tip_ja": "タップしてから、画面が何か反応するまでの時間。長いと固まったように感じる。", "tip_en": "How long after a tap before the screen does anything. A long wait feels like a freeze."}, "cls": {"key": "cls", "ja": "CLS", "en": "CLS", "sub_ja": "読み込み中に文字や画像がずれる量", "sub_en": "How much text and images shift while loading", "unit": "", "good": 0.1, "ni": 0.25, "dec": 2, "tip_ja": "読み込みの途中で、文字や写真が勝手に動いてしまった量の合計。押そうとしたボタンが下にずれる、あれの原因。", "tip_en": "How much text and images shifted around on their own while loading. This is why a button slides out from under your finger."}, "ttfb": {"key": "ttfb", "ja": "TTFB", "en": "TTFB", "sub_ja": "サーバーから最初の応答が届くまで", "sub_en": "Time until the server starts sending the page", "unit": "ms", "good": 800, "ni": 1800, "dec": 0, "tip_ja": "ページを開いた瞬間から、サーバーが返事を出し始めるまでの時間。ここが遅いと、あとの全部が遅れる。", "tip_en": "The gap between opening the page and the server starting to answer. Everything else waits behind this."}}, "pages": [{"key": "TOP", "ja": "TOP", "en": "TOP", "color": "#1F6FB2"}, {"key": "エリア", "ja": "エリア", "en": "Area", "color": "#C2410C"}, {"key": "地域", "ja": "地域", "en": "Region", "color": "#6D28A8"}, {"key": "カテゴリー", "ja": "カテゴリー", "en": "Category", "color": "#0F766E"}, {"key": "AC詳細", "ja": "AC詳細", "en": "AC detail", "color": "#8A6D1F"}, {"key": "検索結果", "ja": "検索結果", "en": "Search", "color": "#B3246B"}], "releases": [{"date": "2026-09-17", "ticket": "UX_DESIGN-323", "parent": "", "scope": {"ja": "全ページ", "en": "All pages"}, "note": {"ja": "AppsFlyer を defer 化（レンダーブロック 893ms を解消）", "en": "Deferred AppsFlyer (removed 893ms of render blocking)"}}, {"date": "2026-09-17", "ticket": "UX_DESIGN-395", "parent": "UX_DESIGN-304", "scope": {"ja": "AC詳細", "en": "AC detail"}, "note": {"ja": "preload の画像が実LCPと不一致だったのを修正（src_middle → src_large）", "en": "Fixed preload pointing at the wrong image (src_middle → src_large)"}}, {"date": "2026-09-17", "ticket": "UX_DESIGN-396", "parent": "UX_DESIGN-304", "scope": {"ja": "カテゴリー・検索", "en": "Category, Search"}, "note": {"ja": "先頭ACカード画像に fetchpriority=high を付与", "en": "Added fetchpriority=high to the first AC card image"}}, {"date": "2026-09-17", "ticket": "UX_DESIGN-397", "parent": "UX_DESIGN-304", "scope": {"ja": "エリア", "en": "Area"}, "note": {"ja": "lcp_image_url を設定して LCP画像を preload", "en": "Set lcp_image_url so the LCP image is preloaded"}}, {"date": "2026-09-17", "ticket": "UX_DESIGN-389", "parent": "", "scope": {"ja": "6ページ", "en": "All six pages"}, "note": {"ja": "検索・カテゴリーのフィルターバーを固定、ACカード・フッター・ブランドの画像枠を寸法予約", "en": "Fixed the filter bar on Search and Category; reserved dimensions for AC card, footer and brand images"}}, {"date": "2026-09-17", "ticket": "UX_DESIGN-389", "parent": "", "scope": {"ja": "検索", "en": "Search"}, "note": {"ja": "検索ページに1時間のページキャッシュを実装", "en": "Added a 1-hour page cache to the search page"}}, {"date": "2026-09-30", "ticket": "UX_DESIGN-309", "parent": "", "scope": {"ja": "カテゴリー（1ページ目・JP・絞り込み無し）", "en": "Category (page 1, JP, no filters)"}, "note": {"ja": "絞り込み結果を30分単位でキャッシュ。絞り込みの応答 平均 1.82s → 0.97s（Suki さん計測・10回）", "en": "Cached filter results in 30-minute buckets. Filter response mean 1.82s to 0.97s (measured by Suki, 10 runs)"}}], "psi": {"dates": ["2026-09-04", "2026-09-05", "2026-09-06", "2026-09-07", "2026-09-08", "2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30"], "score": {"TOP": [34, null, 25, 37, 28, 21, 36, 24, 20, 31, 25, 25, 24, 23, 37, 30, 23, 29, 31, 40, 30, 32, 37, 32, 34, 35, 35], "エリア": [32, 31, null, 45, null, 31, null, null, 37, 36, 36, 36, 47, 36, 53, 56, null, 40, 40, 42, 51, 38, 45, 45, 48, 51, 42], "地域": [29, 16, 16, 24, 40, 24, null, 20, 44, 28, 26, 34, 45, 20, 45, 20, null, 41, 39, 40, 50, 19, 40, 22, 47, 46, 41], "カテゴリー": [null, null, 44, 40, null, 38, 29, 36, 38, 37, 35, 36, 37, 36, null, 40, null, 37, 39, 32, 45, 42, 35, 31, 39, 37, 35], "AC詳細": [45, 44, 50, 45, null, 45, 40, 36, 51, 43, 52, 47, 50, 48, null, 51, 42, 66, 57, 50, 51, 37, 42, 44, 36, 47, 60], "検索結果": [23, 19, null, 19, 14, null, 18, 22, 19, 21, 21, 11, 20, 20, 35, 39, 45, 49, 38, 37, 37, 46, 34, 40, 37, 38, null]}, "lcp": {"TOP": [11119, null, 10726, 10126, 5870, 10726, 11039, 6085, 17342, 12016, 40730, 42419, 15916, 10576, 5267, 5560, 9751, 5494, 5571, 9901, 16594, 41150, 10201, 12465, 17942, 40864, 11489], "エリア": [9580, 8420, null, 7531, null, 5952, null, null, 8979, 9169, 12260, 8831, 7652, 5233, 7233, 7971, null, 7689, 6226, 10829, 6773, 5149, 6030, 8309, 6182, 8106, 6436], "地域": [4506, 16984, 12828, 18933, 16955, 17578, null, 19617, 19489, 19887, 17107, 8742, 5030, 7655, 14493, 24765, null, 14106, 13286, 18309, 19847, 12734, 18288, 16263, 21525, 26153, 8784], "カテゴリー": [null, null, 11107, 12091, null, 8016, 10852, 16016, 13834, 15336, 15943, 10053, 15873, 14728, null, 7289, null, 7298, 10436, 13443, 6585, 6791, 13220, 9528, 12932, 6881, 7170], "AC詳細": [3975, 3869, 4411, 6541, null, 6001, 5926, 10362, 3302, 6316, 6509, 4834, 3888, 5160, null, 4948, 5101, 3301, 3884, 3078, 4068, 12114, 4589, 4855, 8081, 5926, 4562], "検索結果": [23476, 23777, null, 23702, 23851, null, 23701, 23551, 23551, 23626, 10534, 23776, 23626, 23626, 14080, 11922, 12100, 6828, 12059, 14091, 7953, 8689, 9528, 13170, 11757, 10837, null]}, "ttfb": {"TOP": [222, null, 126, 125, 157, 95, 226, 250, 228, 167, 16, 221, 224, 122, 140, 248, 227, 124, 161, 22, 123, 122, 123, 160, 136, 94, 158], "エリア": [246, 441, null, 122, null, 154, null, null, 221, 225, 246, 250, 21, 121, 138, 86, null, 14, 157, 224, 122, 13, 121, 160, 129, 86, 156], "地域": [4, 5, 4, 4, 6, 4, null, 3, 5, 5, 5, 5, 4, 4, 2, 2, null, 3, 3, 2, 3, 2, 2, 2, 2, 3, 3], "カテゴリー": [null, null, 123, 248, null, 92, 25, 227, 247, 223, 227, 122, 159, 1071, null, 121, null, 122, 48, 221, 121, 119, 221, 128, 152, 94, 19], "AC詳細": [149, 245, 141, 96, null, 89, 122, 145, 225, 225, 122, 225, 68, 139, null, 155, 222, 117, 20, 247, 28, 121, 223, 126, 90, 92, 131], "検索結果": [167, 241, null, 152, 89, null, 100, 246, 87, 248, 247, 218, 159, 125, 161, 407, 159, 123, 155, 220, 122, 121, 223, 267, 191, 120, null]}, "tbt": {"TOP": [594, null, 1497, 503, 1314, 2294, 457, 2470, 3213, 742, 972, 1374, 1319, 1682, 751, 1345, 1690, 1523, 1166, 672, 768, 1090, 547, 1284, 939, 984, 880], "エリア": [1686, 1734, null, 1058, null, 5767, null, null, 895, 1023, 948, 988, 967, 1792, 698, 494, null, 1084, 1128, 735, 803, 4767, 1546, 1128, 998, 446, 1595], "地域": [1327, 1758, 2265, 790, 1303, 871, null, 1095, 841, 554, 660, 5327, 2016, 1263, 977, 611, null, 1289, 1775, 1399, 616, 1095, 1422, 1046, 398, 426, 1363], "カテゴリー": [null, null, 856, 1140, null, 1789, 2691, 950, 1450, 876, 1124, 1064, 951, 1036, null, 1795, null, 1132, 1599, 1715, 1015, 1322, 1210, 2222, 1434, 4291, 1657], "AC詳細": [1854, 2098, 898, 727, null, 1552, 2128, 1147, 1438, 824, 658, 833, 1205, 1193, null, 1079, 1350, 893, 871, 2574, 1255, 1318, 2006, 1418, 1586, 1584, 723], "検索結果": [1103, 1532, null, 1432, 1032, null, 932, 1112, 1114, 1292, 1875, 2577, 957, 1423, 1028, 758, 565, 813, 818, 858, 938, 727, 1227, 719, 869, 814, null]}, "cls": {"TOP": [0.1572620263829854, null, 0.1572620263829854, 0.15748088558503642, 0.1572620263829854, 0.1572620263829854, 0.1701065967468706, 0.1572620263829854, 0.1572620263829854, 0.17032545594892162, 0.1822600243013366, 0.1572620263829854, 0.17032545594892162, 0.15748088558503642, 0.1572620263829854, 0.1572620263829854, 0.15748088558503642, 0.1572620263829854, 0.16005881856620788, 0.01142723846166339, 0.15946656930011216, 0.01364181955888497, 0.14604360894327822, 0.01364181955888497, 0.013658549859042985, 0.01387740906109401, 0.013658549859042985], "エリア": [0.1458080194410692, 0.1458080194410692, null, 0.0, null, 0.1458080194410692, null, null, 0.1458080194410692, 0.1458080194410692, 0.1458080194410692, 0.1458080194410692, 0.0, 0.1458080194410692, 0.0, 0.0, null, 0.1458080194410692, 0.1458080194410692, 0.1458080194410692, 0.0, 0.1472951631120143, 0.0, 0.0, 0.0, 0.1458080194410692, 0.0], "地域": [0.5130298569823528, 0.5130298569823528, 0.5130298569823528, 0.5130298569823528, 0.0, 0.5130298569823528, null, 0.5130298569823528, 0.0, 0.5130298569823528, 0.5130298569823528, 0.0, 0.0, 0.5130298569823528, 0.0, 0.5130298569823528, null, 0.0, 0.0, 0.0, 0.0, 0.5130298569823528, 0.0, 0.5130298569823528, 0.0, 0.0, 0.0], "カテゴリー": [null, null, 0.0, 0.0, null, 0.0, 0.1458080194410692, 0.1458080194410692, 0.02055131258221632, 0.1458080194410692, 0.1458080194410692, 0.1458080194410692, 0.1458080194410692, 0.1458080194410692, null, 0.0, null, 0.1458080194410692, 0.02055131258221632, 0.1458080194410692, 0.0, 0.0003543329755554538, 0.1447450205144029, 0.1447450205144029, 0.02055131258221632, 0.0, 0.1348236971988502], "AC詳細": [0.1458080194410692, 0.1458080194410692, 0.1458080194410692, 0.1458080194410692, null, 0.0, 0.002310797120620291, 0.1458080194410692, 0.1458080194410692, 0.1458080194410692, 0.0, 0.1458080194410692, 0.1458080194410692, 0.0, null, 0.0, 0.1458080194410692, 0.0, 0.1458080194410692, 0.1458080194410692, 0.1458080194410692, 0.14594390441713173, 0.1458080194410692, 0.1458080194410692, 0.1458080194410692, 0.0, 0.0], "検索結果": [0.3336951008033597, 0.3336951008033597, null, 0.3336951008033597, 0.4386391251518834, null, 0.6363138795917493, 0.3336951008033597, 0.4629786171122157, 0.3336951008033597, 0.3161437702357347, 0.5672927185598394, 0.4835192258857955, 0.3336951008033597, 0.1458080194410692, 0.1458080194410692, 0.1458080194410692, 0.0, 0.1458080194410692, 0.1458080194410692, 0.1458080194410692, 0.0, 0.1458080194410692, 0.1458080194410692, 0.1458080194410692, 0.1458080194410692, null]}, "field_lcp": {"TOP": [2845, null, 2875, 2875, 2880, 2883, 2872, 2878, 2877, 2887, 2891, 2886, 2895, 2895, 2894, 2896, 2916, 2916, 2916, 2930, 2931, 2936, 2941, 2949, 2942, 2942, 2947], "エリア": [2741, 2741, null, 2752, null, 2762, null, null, 2772, 2785, 2783, 2785, 2792, 2792, 2794, 2795, null, 2808, 2808, 2804, 2800, 2798, 2797, 2808, 2805, 2805, 2808], "地域": [2202, 2202, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 2212, 2212, 2217, 2223, 2230, null, 2242, 2246, 2246, 2248], "カテゴリー": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 2212, 2212, 2217, 2223, 2230, 2235, 2242, 2246, 2246, 2248], "AC詳細": [2202, 2202, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 2212, 2212, 2217, 2223, 2230, 2235, 2242, 2246, 2246, 2248], "検索結果": [6534, 6534, null, 6464, 6413, null, 6402, 6362, 6351, 6290, 6295, 6274, 6276, 6276, 6226, 6226, 6163, 6179, 6179, 6179, 6146, 6144, 6153, 6123, 6112, 6112, null]}}};</script>
+<script>(function () {
+  var P = window.__PERF, off = {}, tableMetric = "lcp", gran = "w", offset = 0;
+
+  function fmt(v, dec, unit) {
+    if (v === null || v === undefined) return "—";
+    var s = dec ? v.toFixed(dec) : Math.round(v).toLocaleString();
+    return unit ? s + " " + unit : s;
+  }
+  function esc(s) { return String(s).replace(/[&<>]/g, function (c) { return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]; }); }
+  function key(m, p) { return m + "|" + p; }
+  function on(m, p) { return !off[key(m, p)]; }
+
+  /* 時間軸。左右に余白を持たせ、端のリリース点が切れないようにする */
+  function scaleX(from, to, x0, x1) {
+    var t0 = Date.parse(from), t1 = Date.parse(to);
+    var pad = Math.max((t1 - t0) * 0.045, 6 * 86400000);
+    var a = t0 - pad, b = t1 + pad;
+    return function (d) { return x0 + (Date.parse(d) - a) / (b - a) * (x1 - x0); };
+  }
+
+
+  /* 月ごとの最終週。月次表示のときの x 位置に使う */
+  var MONTHS = [], MONTH_LAST = {};
+  P.weeks.forEach(function (w) {
+    var m = w.slice(0, 7);
+    if (MONTHS.indexOf(m) < 0) MONTHS.push(m);
+    MONTH_LAST[m] = w;
+  });
+
+  /* 表示する期間。offset 0 が最新側。‹ で1期間ぶん過去へ戻る。 */
+  var WIN = { w: 13, m: 12 };
+  function axisDates() {
+    return gran === "w" ? P.weeks.slice() : MONTHS.map(function (m) { return MONTH_LAST[m]; });
+  }
+  function windowInfo() {
+    var all = axisDates(), size = WIN[gran];
+    var maxOff = Math.max(0, Math.ceil(all.length / size) - 1);
+    offset = Math.min(Math.max(offset, 0), maxOff);
+    var end = all.length - offset * size;
+    return { dates: all.slice(Math.max(0, end - size), end), maxOff: maxOff };
+  }
+
+  /* 描画する点列。週次はそのまま、月次は「その月で最後に値のある週」の値を採る。
+     CrUX の値は28日ローリングの p75 なので、月内を平均してはいけない。 */
+  function points(mk, key) {
+    var vals = P.metrics[mk][key], out = [];
+    if (gran === "w") {
+      P.weeks.forEach(function (w, i) { out.push([w, vals[i]]); });
+      return out;
+    }
+    var last = {};
+    P.weeks.forEach(function (w, i) {
+      if (vals[i] !== null && vals[i] !== undefined) last[w.slice(0, 7)] = [w, vals[i]];
+    });
+    MONTHS.forEach(function (m) { out.push(last[m] || [MONTH_LAST[m], null]); });
+    return out;
+  }
+
+  /* ---- チャート描画。表示中の系列だけで縦軸を張り直す ---- */
+  function drawChart(mk) {
+    var meta = P.meta[mk], host = document.getElementById("plot-" + mk);
+    if (!host) return;
+    var W = 390, H = 205, PL = 46, PR = 10, PT = 14, PB = 26;
+    var weeks = P.weeks, series = P.metrics[mk];
+    var shown = P.pages.filter(function (p) {
+      return on(mk, p.key) && series[p.key] && series[p.key].some(function (v) { return v !== null; });
+    });
+
+    var win = windowInfo(), wd = win.dates, inWin = {};
+    wd.forEach(function (d) { inWin[d] = 1; });
+
+    var PTS = {};
+    shown.forEach(function (p) {
+      PTS[p.key] = points(mk, p.key).filter(function (q) { return inWin[q[0]]; });
+    });
+
+    var vals = [];
+    shown.forEach(function (p) {
+      PTS[p.key].forEach(function (q) { if (q[1] !== null) vals.push(q[1]); });
+    });
+    vals.push(meta.good);
+    var top = Math.max.apply(null, vals) * 1.12 || 1;
+    var step = Math.pow(10, Math.floor(Math.log10(top / 3)));
+    [1, 2, 2.5, 5, 10].some(function (f) { if (top / (step * f) <= 4.5) { step = step * f; return true; } });
+    var ymax = Math.ceil(top / step) * step;
+
+    var xStart = wd[0], xEnd = wd[wd.length - 1];
+    if (offset === 0) {
+      P.releases.forEach(function (r) { if (Date.parse(r.date) > Date.parse(xEnd)) xEnd = r.date; });
+    }
+    var X = scaleX(xStart, xEnd, PL, W - PR);
+    function Y(v) { return PT + (1 - v / ymax) * (H - PT - PB); }
+
+    var o = [];
+    for (var g = 0; g <= ymax + 1e-9; g += step) {
+      o.push('<line class="grid" x1="' + PL + '" y1="' + Y(g).toFixed(1) + '" x2="' + (W - PR) + '" y2="' + Y(g).toFixed(1) + '"/>');
+      o.push('<text class="ax" x="' + (PL - 8) + '" y="' + (Y(g) + 4).toFixed(1) + '" text-anchor="end">' + fmt(g, meta.dec, "") + '</text>');
+    }
+    o.push('<line class="target" x1="' + PL + '" y1="' + Y(meta.good).toFixed(1) + '" x2="' + (W - PR) + '" y2="' + Y(meta.good).toFixed(1) + '"/>');
+
+    var seenM = {};
+    wd.forEach(function (w) {
+      var m = new Date(w + "T00:00:00Z").getUTCMonth();
+      if (seenM[m]) return;
+      seenM[m] = 1;
+      o.push('<text class="ax" x="' + X(w).toFixed(1) + '" y="' + (H - 10) + '" text-anchor="middle">' + (m + 1) + '</text>');
+    });
+
+    P.releases.forEach(function (r) {
+      var t = Date.parse(r.date);
+      if (t < Date.parse(xStart) || t > Date.parse(xEnd)) return;
+      o.push('<line class="rel" x1="' + X(r.date).toFixed(1) + '" y1="' + PT + '" x2="' + X(r.date).toFixed(1) + '" y2="' + (H - PB) + '"/>');
+    });
+
+    shown.forEach(function (p) {
+      var pts = PTS[p.key], seg = [], segs = [], lastPt = null;
+      pts.forEach(function (q) {
+        if (q[1] === null) { if (seg.length) segs.push(seg); seg = []; return; }
+        seg.push([X(q[0]), Y(q[1])]);
+        lastPt = q;
+      });
+      if (seg.length) segs.push(seg);
+      segs.forEach(function (s) {
+        if (s.length === 1) {
+          o.push('<circle cx="' + s[0][0].toFixed(1) + '" cy="' + s[0][1].toFixed(1) +
+            '" r="2.5" fill="' + p.color + '"/>');
+          return;
+        }
+        o.push('<path class="ln" fill="none" stroke="' + p.color + '" d="M' +
+          s.map(function (q) { return q[0].toFixed(1) + "," + q[1].toFixed(1); }).join(" L") + '"/>');
+      });
+      if (lastPt) {
+        o.push('<circle cx="' + X(lastPt[0]).toFixed(1) + '" cy="' + Y(lastPt[1]).toFixed(1) +
+          '" r="4" fill="' + p.color + '" stroke="var(--surface)" stroke-width="2"/>');
+      }
+    });
+
+    host.innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + esc(meta.ja) + '">' + o.join("") + "</svg>";
+  }
+
+
+  /* ---- PSI 日次。太線は7日移動平均、薄い線はその日の値 ---- */
+  function movingAvg(vals, w) {
+    return vals.map(function (_, i) {
+      var seg = [];
+      for (var k = Math.max(0, i - w + 1); k <= i; k++) if (vals[k] !== null) seg.push(vals[k]);
+      return seg.length ? seg.reduce(function (a, b) { return a + b; }, 0) / seg.length : null;
+    });
+  }
+
+  function drawPsi(which) {
+    var host = document.getElementById("plot-" + which);
+    var legendEl = document.getElementById(which === "psi" ? "psi-legend" : "tbt-legend");
+    if (!host || !P.psi) return;
+    var src = which === "psi" ? P.psi.score : P.psi.tbt;
+    var dates = P.psi.dates, lang = document.documentElement.getAttribute("data-lang") === "en" ? "en" : "ja";
+    var W = 824, H = 300, PL = 48, PR = 14, PT = 16, PB = 30;
+
+    var shown = P.pages.filter(function (p) {
+      return src[p.key] && src[p.key].some(function (v) { return v !== null; }) && !off[which + "|" + p.key];
+    });
+    if (!shown.length) shown = P.pages.slice(0, 1);
+
+    var vals = [];
+    shown.forEach(function (p) { src[p.key].forEach(function (v) { if (v !== null) vals.push(v); }); });
+    var top = Math.max.apply(null, vals) * 1.1 || 1;
+    var step = Math.pow(10, Math.floor(Math.log10(top / 3)));
+    [1, 2, 2.5, 5, 10].some(function (f) { if (top / (step * f) <= 5) { step = step * f; return true; } });
+    var ymax = which === "psi" ? 100 : Math.ceil(top / step) * step;
+
+    var X = scaleX(dates[0], dates[dates.length - 1], PL, W - PR);
+    function Y(v) { return PT + (1 - v / ymax) * (H - PT - PB); }
+
+    var o = [];
+    for (var g = 0; g <= ymax + 1e-9; g += step) {
+      o.push('<line class="grid" x1="' + PL + '" y1="' + Y(g).toFixed(1) + '" x2="' + (W - PR) + '" y2="' + Y(g).toFixed(1) + '"/>');
+      o.push('<text class="ax" x="' + (PL - 8) + '" y="' + (Y(g) + 4).toFixed(1) + '" text-anchor="end">' + Math.round(g) + '</text>');
+    }
+    var seenD = {};
+    dates.forEach(function (d) {
+      var lab = d.slice(5).replace("-", "/");
+      if (seenD[lab] || Number(d.slice(8)) % 4 !== 0) return;
+      seenD[lab] = 1;
+      o.push('<text class="ax" x="' + X(d).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + lab + '</text>');
+    });
+    P.releases.forEach(function (r) {
+      if (Date.parse(r.date) < Date.parse(dates[0]) || Date.parse(r.date) > Date.parse(dates[dates.length - 1])) return;
+      o.push('<line class="rel" x1="' + X(r.date).toFixed(1) + '" y1="' + PT + '" x2="' + X(r.date).toFixed(1) + '" y2="' + (H - PB) + '"/>');
+    });
+
+    function path(vs, cls, col, wid) {
+      var seg = [], segs = [];
+      vs.forEach(function (v, i) {
+        if (v === null) { if (seg.length) segs.push(seg); seg = []; return; }
+        seg.push([X(dates[i]), Y(v)]);
+      });
+      if (seg.length) segs.push(seg);
+      segs.forEach(function (sg) {
+        if (sg.length < 2) return;
+        o.push('<path class="' + cls + '" fill="none" stroke="' + col + '" stroke-width="' + wid + '" d="M' +
+          sg.map(function (q) { return q[0].toFixed(1) + "," + q[1].toFixed(1); }).join(" L") + '"/>');
+      });
+    }
+    shown.forEach(function (p) { path(src[p.key], "ln raw", p.color, 1); });
+    shown.forEach(function (p) { path(movingAvg(src[p.key], 7), "ln", p.color, 2.4); });
+
+    /* リリースの打刻。軸の上に点を置き、ホバーでその日の中身を出す */
+    var byDate = {}, a0 = Date.parse(dates[0]), b0 = Date.parse(dates[dates.length - 1]);
+    P.releases.forEach(function (r) {
+      var tm = Date.parse(r.date);
+      if (tm < a0 || tm > b0) return;
+      (byDate[r.date] = byDate[r.date] || []).push(r);
+    });
+    var marks = Object.keys(byDate).sort().map(function (dd) {
+      var g = byDate[dd], side = X(dd) / W > 0.6 ? " right" : "";
+      var rows = g.map(function (r) {
+        return '<a class="tp-row" href="https://app.clickup.com/t/31108037/' + esc(r.ticket) +
+          '" target="_blank" rel="noopener"><span class="tp-tk">' + esc(r.ticket) + "</span>" +
+          '<span class="tp-nt">' + esc(r.note[lang]) + "</span>" +
+          '<span class="tp-sc">' + esc(r.scope[lang]) + "</span></a>";
+      }).join("");
+      return '<div class="rdot pm' + side + '" style="left:' + (X(dd) / W * 100).toFixed(2) + '%" tabindex="0">' +
+        '<span class="rdot-mark">' + (g.length > 1 ? g.length : "") + "</span>" +
+        '<span class="rdot-date">' + esc(dd.slice(5).replace("-", "/")) + "</span>" +
+        '<div class="tip"><div class="tip-h">' + esc(dd) + " · " + g.length +
+        (lang === "en" ? " releases" : " 件") + "</div>" + rows + "</div></div>";
+    }).join("");
+
+    /* 数値の表。既定は畳んでおき、開いた時だけ出す */
+    var relD = {};
+    P.releases.forEach(function (r) { relD[r.date] = (relD[r.date] || 0) + 1; });
+    var dec = which === "psi" ? 0 : 0;
+    var tb = "<table><thead><tr><th>" + (lang === "en" ? "Date" : "日付") + "</th>" +
+      shown.map(function (p) { return "<th>" + esc(p[lang]) + "</th>"; }).join("") + "</tr></thead><tbody>";
+    dates.forEach(function (d, i) {
+      var rel = relD[d] ? '<span class="dt-r">' + (lang === "en" ? "released" : "リリース") + "</span>" : "";
+      tb += "<tr><td>" + esc(d.slice(5).replace("-", "/")) + rel + "</td>" +
+        shown.map(function (p) { return "<td>" + fmt(src[p.key][i], dec, "") + "</td>"; }).join("") + "</tr>";
+    });
+    tb += "</tbody></table>";
+    var unit = which === "psi" ? (lang === "en" ? "score, 0-100" : "スコア（0〜100点）")
+                               : (lang === "en" ? "ms" : "ミリ秒");
+    var dtHtml = '<details class="dt"><summary>' +
+      (lang === "en" ? "Show the figures" : "数値を表で見る") +
+      '<span class="dt-u">' + unit + "</span></summary>" +
+      '<div class="dt-w">' + tb + "</div></details>";
+
+    host.innerHTML = '<div class="plot-wrap"><svg viewBox="0 0 ' + W + " " + H +
+      '" role="img">' + o.join("") + "</svg>" + marks + "</div>" + dtHtml;
+    if (legendEl) {
+      legendEl.innerHTML = P.pages.filter(function (p) {
+        return src[p.key] && src[p.key].some(function (v) { return v !== null; });
+      }).map(function (p) {
+        return '<button class="lg" data-metric="' + which + '" data-page="' + p.key + '" aria-pressed="' +
+          String(!off[which + "|" + p.key]) + '"><span class="dot" style="background:' + p.color + '"></span>' +
+          '<span class="ja">' + esc(p.ja) + '</span><span class="en">' + esc(p.en) + "</span></button>";
+      }).join("");
+    }
+  }
+
+  /* ---- 週次の表。リリースのあった週は注釈行を差し込む ---- */
+  function drawTable() {
+    var host = document.getElementById("trend-table");
+    if (!host) return;
+    var meta = P.meta[tableMetric], series = P.metrics[tableMetric];
+    var cols = P.pages.filter(function (p) {
+      return series[p.key] && series[p.key].some(function (v) { return v !== null; });
+    });
+    var lang = document.documentElement.getAttribute("data-lang") === "en" ? "en" : "ja";
+    /* 見出しの1列目に指標名を出す。スクロールしても何の表か分かるようにするため */
+    var unit = meta.unit ? "（" + meta.unit + "）" : "";
+    var h = "<table><thead><tr><th>" + (lang === "en" ? "Week ending" : "週末日") +
+      '<span class="th-m">' + esc(meta[lang]) + esc(lang === "en" ? (meta.unit ? " (" + meta.unit + ")" : "") : unit) + "</span></th>" +
+      cols.map(function (p) { return "<th>" + esc(p[lang]) + "</th>"; }).join("") + "</tr></thead><tbody>";
+
+    P.weeks.forEach(function (w, i) {
+      h += "<tr><td>" + w + "</td>" + cols.map(function (p) {
+        var v = series[p.key][i];
+        var bad = v !== null && v > meta.good;
+        return "<td" + (bad ? ' class="bad"' : "") + ">" + fmt(v, meta.dec, "") + "</td>";
+      }).join("") + "</tr>";
+
+      /* その週に出したリリース。行が長くなりすぎないよう1行にまとめ、開くと中身が出る */
+      var prev = i > 0 ? P.weeks[i - 1] : null;
+      var rel = P.releases.filter(function (r) {
+        var inWeek = prev ? (Date.parse(r.date) > Date.parse(prev) && Date.parse(r.date) <= Date.parse(w))
+                          : Date.parse(r.date) <= Date.parse(w);
+        var after = i === P.weeks.length - 1 && Date.parse(r.date) > Date.parse(w);
+        return inWeek || after;
+      });
+      if (!rel.length) return;
+
+      var dates = [];
+      rel.forEach(function (r) { if (dates.indexOf(r.date) < 0) dates.push(r.date); });
+      var label = (lang === "en" ? rel.length + (rel.length > 1 ? " releases" : " release") : "リリース " + rel.length + " 件") +
+        " · " + dates.sort().map(function (d) { return d.slice(5).replace("-", "/"); }).join(", ");
+      var items = rel.map(function (r) {
+        return '<li><span class="rl-d">' + esc(r.date.slice(5).replace("-", "/")) + "</span>" +
+          '<a href="https://app.clickup.com/t/31108037/' + esc(r.ticket) + '" target="_blank" rel="noopener">' +
+          esc(r.ticket) + "</a>" +
+          '<span class="rl-sc">' + esc(r.scope[lang]) + "</span>" +
+          '<span class="rl-n">' + esc(r.note[lang]) + "</span></li>";
+      }).join("");
+
+      h += '<tr class="ann"><td colspan="' + (cols.length + 1) + '">' +
+        '<details class="ann-d"><summary>' + esc(label) + '</summary>' +
+        '<ul class="rl ann-l">' + items + "</ul></details></td></tr>";
+    });
+    host.innerHTML = h + "</tbody></table>";
+    /* 最新週を初期表示に入れる。表の中だけのスクロールでページは動かない */
+    host.scrollTop = host.scrollHeight;
+  }
+
+
+  /* ---- リリース帯。軸はSVG、点はHTMLで置いてホバーで内容を出す ---- */
+  function drawStrip() {
+    var host = document.getElementById("plot-releases");
+    if (!host) return;
+    var lang = document.documentElement.getAttribute("data-lang") === "en" ? "en" : "ja";
+    var wd = windowInfo().dates;
+    var xStart = wd[0], xEnd = wd[wd.length - 1];
+    if (offset === 0) {
+      P.releases.forEach(function (r) { if (Date.parse(r.date) > Date.parse(xEnd)) xEnd = r.date; });
+    }
+    var PL = 48, PR = 14, W = 824;
+    var X = scaleX(xStart, xEnd, PL, W - PR);
+    function pct(d) { return (X(d) / W * 100).toFixed(2) + "%"; }
+
+    var months = [], seen = {};
+    wd.forEach(function (w) {
+      var m = new Date(w + "T00:00:00Z").getUTCMonth();
+      if (seen[m]) return;
+      seen[m] = 1;
+      months.push('<span class="sm" style="left:' + pct(w) + '">' + (m + 1) + (lang === "en" ? "" : "月") + "</span>");
+    });
+
+    var byDate = {}, a = Date.parse(xStart), b = Date.parse(xEnd);
+    P.releases.forEach(function (r) {
+      var t = Date.parse(r.date);
+      if (t < a || t > b) return;
+      (byDate[r.date] = byDate[r.date] || []).push(r);
+    });
+
+    var dots = Object.keys(byDate).sort().map(function (d) {
+      var g = byDate[d];
+      var side = X(d) / W > 0.6 ? " right" : "";
+      var rows = g.map(function (r) {
+        return '<a class="tp-row" href="https://app.clickup.com/t/31108037/' + esc(r.ticket) + '" target="_blank" rel="noopener">' +
+          '<span class="tp-tk">' + esc(r.ticket) + "</span>" +
+          '<span class="tp-nt">' + esc(r.note[lang]) + "</span>" +
+          '<span class="tp-sc">' + esc(r.scope[lang]) + "</span></a>";
+      }).join("");
+      return '<div class="rdot' + side + '" style="left:' + pct(d) + '" tabindex="0">' +
+        '<span class="rdot-mark">' + (g.length > 1 ? g.length : "") + "</span>" +
+        '<span class="rdot-date">' + esc(d.slice(5).replace("-", "/")) + "</span>" +
+        '<div class="tip"><div class="tip-h">' + esc(d) + " · " + g.length +
+        (lang === "en" ? " releases" : " 件") + "</div>" + rows + "</div></div>";
+    }).join("");
+
+    var all = Object.keys(byDate).sort().reverse().map(function (d) {
+      return byDate[d].map(function (r) {
+        return '<li><span class="rl-d">' + esc(d) + "</span>" +
+          '<a href="https://app.clickup.com/t/31108037/' + esc(r.ticket) + '" target="_blank" rel="noopener">' +
+          esc(r.ticket) + "</a>" +
+          '<span class="rl-sc">' + esc(r.scope[lang]) + "</span>" +
+          '<span class="rl-n">' + esc(r.note[lang]) + "</span></li>";
+      }).join("");
+    }).join("");
+
+    host.innerHTML =
+      '<div class="strip-wrap">' +
+      '<div class="strip-rail" style="left:' + (PL / W * 100).toFixed(2) + '%;right:' + (PR / W * 100).toFixed(2) + '%"></div>' +
+      dots + '<div class="strip-months">' + months.join("") + "</div></div>" +
+      '<details class="rl-toggle"><summary>' +
+      (lang === "en" ? "All releases (" + P.releases.length + ")" : "リリース一覧（" + P.releases.length + "件）") +
+      '</summary><ul class="rl">' + all + "</ul></details>";
+  }
+
+  /* ---- ホバーの吹き出しの置き場所。画面からはみ出す側には開かない ---- */
+  function placeTip(dot) {
+    var tip = dot.querySelector(".tip");
+    if (!tip) return;
+    tip.classList.remove("up");
+    tip.style.maxHeight = "";
+    tip.style.transform = "";
+
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var vw = window.innerWidth || document.documentElement.clientWidth;
+    var dr = dot.getBoundingClientRect();
+    var anchor = dr.top + 38;                    /* 点の中心あたり */
+    var below = vh - anchor - 40, above = anchor - 40;
+
+    /* 下に入りきらず、上のほうが空いているなら上向きに開く */
+    if (below < 200 && above > below) { tip.classList.add("up"); }
+    var room = (tip.classList.contains("up") ? above : below) - 16;
+    tip.style.maxHeight = Math.max(Math.min(320, room), 140) + "px";
+
+    /* 左右のはみ出しを測って内側へ寄せる */
+    var vis = tip.style.visibility;
+    tip.style.visibility = "hidden";
+    tip.style.display = "block";
+    var tr = tip.getBoundingClientRect();
+    tip.style.display = "";
+    tip.style.visibility = vis;
+
+    var shift = 0;
+    if (tr.right > vw - 12) shift = vw - 12 - tr.right;
+    if (tr.left + shift < 12) shift = 12 - tr.left;
+    if (shift) tip.style.transform = "translateX(" + Math.round(shift) + "px)";
+  }
+
+  /* 表の中のリリース行。開いたときに表示範囲の外だと読めないので寄せる */
+  document.addEventListener("toggle", function (e) {
+    var d = e.target;
+    if (d && d.classList && d.classList.contains("ann-d") && d.open) {
+      d.scrollIntoView({ block: "nearest" });
+    }
+  }, true);
+
+  ["mouseover", "focusin"].forEach(function (ev) {
+    document.addEventListener(ev, function (e) {
+      var dot = e.target.closest ? e.target.closest(".rdot") : null;
+      if (dot) placeTip(dot);
+    }, true);
+  });
+
+  /* 期間ラベルと ‹ › の有効・無効 */
+  function renderRange() {
+    var win = windowInfo(), wd = win.dates;
+    var lang = document.documentElement.getAttribute("data-lang") === "en" ? "en" : "ja";
+    var lab = document.getElementById("range-label");
+    if (lab) {
+      var cut = gran === "w" ? 10 : 7;
+      lab.textContent = wd[0].slice(0, cut) + " 〜 " + wd[wd.length - 1].slice(0, cut);
+    }
+    var prev = document.querySelector('.rg[data-move="-1"]');
+    var next = document.querySelector('.rg[data-move="1"]');
+    var today = document.querySelector(".rg-today");
+    if (prev) prev.disabled = offset >= win.maxOff;
+    if (next) next.disabled = offset <= 0;
+    if (today) {
+      today.disabled = offset <= 0;
+      today.textContent = gran === "w"
+        ? (lang === "en" ? "This week" : "今週")
+        : (lang === "en" ? "This month" : "今月");
+    }
+  }
+
+  function redrawCharts() {
+    drawPsi("psi");
+    drawPsi("tbt");
+    renderRange();
+    Object.keys(P.metrics).forEach(drawChart);
+    drawStrip();
+  }
+
+  function redrawAll() { redrawCharts(); drawTable(); }
+
+  document.addEventListener("click", function (e) {
+    var lg = e.target.closest ? e.target.closest(".lg") : null;
+    if (lg) {
+      var m = lg.dataset.metric, p = lg.dataset.page, k = key(m, p);
+      var others = P.pages.filter(function (q) { return q.key !== p && on(m, q.key); });
+      if (on(m, p) && others.length === 0) return;   // 最後の1本は消さない
+      off[k] = on(m, p);
+      lg.setAttribute("aria-pressed", String(!off[k]));
+      if (m === "psi" || m === "tbt") drawPsi(m); else drawChart(m);
+      return;
+    }
+    var gt = e.target.closest ? e.target.closest(".gt") : null;
+    if (gt) {
+      gran = gt.dataset.g;
+      offset = 0;                       // 粒度を変えたら最新側に戻す
+      document.querySelectorAll(".gt").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.g === gran));
+      });
+      redrawCharts();
+      return;
+    }
+    var rg = e.target.closest ? e.target.closest(".rg") : null;
+    if (rg && !rg.disabled) {
+      offset = rg.classList.contains("rg-today") ? 0 : offset - Number(rg.dataset.move);
+      redrawCharts();
+      return;
+    }
+    var mt = e.target.closest ? e.target.closest(".mt") : null;
+    if (mt) {
+      tableMetric = mt.dataset.m;
+      document.querySelectorAll(".mt").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.m === tableMetric));
+      });
+      drawTable();
+    }
+  });
+
+  window.setLang = function (l) {
+    document.documentElement.setAttribute("data-lang", l);
+    document.getElementById("btn-ja").setAttribute("aria-pressed", String(l === "ja"));
+    document.getElementById("btn-en").setAttribute("aria-pressed", String(l === "en"));
+    try { localStorage.setItem("perf-report-lang", l); } catch (e) {}
+    drawTable();
+    redrawCharts();
+  };
+  try { var s = localStorage.getItem("perf-report-lang"); if (s) window.setLang(s); } catch (e) {}
+
+  /* ページ上部のタブ。URL の #plan で方針タブを直接開ける */
+  function showTab(name) {
+    document.querySelectorAll(".pt").forEach(function (b) { b.setAttribute("aria-selected", String(b.dataset.tab === name)); });
+    document.querySelectorAll(".pane").forEach(function (p) { p.hidden = p.dataset.pane !== name; });
+    if (name === "report") redrawCharts();
+  }
+  document.querySelectorAll(".pt").forEach(function (b) {
+    b.addEventListener("click", function () {
+      showTab(b.dataset.tab);
+      try { history.replaceState(null, "", b.dataset.tab === "plan" ? "#plan" : location.pathname + location.search); } catch (e) {}
+    });
+  });
+
+  redrawAll();
+  if (location.hash === "#plan") showTab("plan");
+  addEventListener("resize", redrawCharts);
+})();
+</script>
