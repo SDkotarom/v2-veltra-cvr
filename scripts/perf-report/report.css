@@ -150,7 +150,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:va
 .kpi-f dd{font-size:12.5px;margin:0;font-variant-numeric:tabular-nums;color:var(--ink-2)}
 
 /* --- グラフ --- */
-.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:14px}
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:14px}
 .ch-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
 .ch-h h3{font-size:14px;font-weight:700;margin:0}
 .ch-sub{font-size:12px;font-weight:400;color:var(--ink-3);margin-left:6px}
@@ -419,3 +419,12 @@ td.good{color:var(--pos-ink);font-weight:700}
 /* 中締めの表：指標の列は左揃え */
 .rv .tw th:nth-child(2),.rv .tw td:nth-child(2){text-align:left}
 .rv .tw+.mut{margin:8px 0 10px}
+
+/* 施策の分類の表：折り返して、4列を横スクロールなしで見せる */
+table.cls{min-width:0;table-layout:fixed}
+table.cls th,table.cls td{white-space:normal;text-align:left;vertical-align:top;line-height:1.6;font-size:13px}
+table.cls th:nth-child(1){width:36%} table.cls th:nth-child(2){width:14%}
+table.cls th:nth-child(3){width:16%} table.cls th:nth-child(4){width:34%}
+
+/* スマホ幅で横スクロールを出さない（隠れている吹き出しが幅を押し広げるため） */
+html,body{overflow-x:clip}

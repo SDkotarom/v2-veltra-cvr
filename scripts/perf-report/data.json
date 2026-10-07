@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 41,
+  "version": 43,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -3319,12 +3319,12 @@
     },
     "items": {
      "ja": [
-      "表示の速さ（PSI）は上がった。ただし6ページとも<span>判定</span>は「低」のまま",
+      "表示の速さ（PSI）は速くなった。ただし6ページとも<span class=\"hint\" tabindex=\"0\" data-tip-ja=\"PageSpeed Insights のスコアを3段階に分けた呼び方。90点以上が「高」、50〜89点が「普通」、49点以下が「低」。区切りの値は PSI の採点エンジン（Lighthouse）のソースに書かれているもの。\" data-tip-en=\"PageSpeed Insights sorts its score into three bands: 90 and above is high, 50-89 is average, 49 and below is low. The cut-offs come from the source of the engine that does the scoring (Lighthouse).\">判定</span>は「低」のまま",
       "操作への反応は、絞り込みの応答だけ速くなった（手計測）",
       "実ユーザーの表示は、まだ判定できない（10/17 締めの週から）"
      ],
      "en": [
-      "Load speed (PSI) went up, but all six pages are still rated low",
+      "Load speed (PSI) got faster, but all six pages are still rated low",
       "On response, only the filter got faster (hand-timed)",
       "Real-user load cannot be judged yet (from the week ending 10/17)"
      ]
@@ -3459,7 +3459,7 @@
     },
     "items": {
      "ja": [
-      "PSI が上がったのは、9/17 の3件がすべて「先に画を出す」施策だったから",
+      "PSI スコアが上がったのは、9/17 の3件がすべて「先に画を出す」施策だったから",
       "実ユーザー値は、まだ判定できない。9/26 締めの週は、リリース後のデータが10日分しかない",
       "検索結果の実ユーザー LCP は、9/17 より前から下がり始めている。原因は未特定",
       "未調査：AC詳細の PSI 低下、TOP・エリアの実ユーザー LCP の悪化"
@@ -3479,13 +3479,13 @@
     },
     "items": {
      "ja": [
-      "10/17 締めの週で、9/17 の効果を実ユーザー値で判定する",
+      "9/17 の効果は、日次の PSI では判定できた。実ユーザー値は28日の窓なので、判定は 10/17 締めの週以降。それまでは、日次の PSI と本番の手計測で見る",
       "AC詳細の PSI 低下と、TOP・エリアの実ユーザー LCP の悪化の原因を調べる",
       "操作への反応に効く施策を出す：[[UX_DESIGN-404]]、[[UX_DESIGN-398]]、[[UX_DESIGN-309]] の検索ページ・2ページ目以降への展開",
       "計測を足す：実ユーザーの操作への反応（web-vitals タグ）、AC詳細・地域・カテゴリーの計測 URL の差し替え"
      ],
      "en": [
-      "Judge the 9/17 changes on real-user figures from the week ending 10/17",
+      "The 9/17 effect is already judged on daily PSI. Real-user figures use a 28-day window, so they can be judged from the week ending 10/17; until then, read daily PSI and hand-timed production figures",
       "Find out why AC detail PSI dropped and why TOP and Area real-user LCP is worsening",
       "Ship for response to a tap: UX_DESIGN-404, UX_DESIGN-398, extend UX_DESIGN-309 to search and pages 2+",
       "Add measurement: real-user response (web-vitals tag) and replacement URLs for AC detail, Region and Category"
@@ -3567,7 +3567,7 @@
      "jQuery の二重読み込み（削ると壊れる）、vds.css の削減、babel-polyfill の削除（IE11 を試せない）は見送り。IE11 は9月のセッションが 8以下"
     ],
     "en": [
-     "UX_DESIGN-307: Coverage on the six pages found no completely unused files, and no large reduction opportunity",
+     "[[UX_DESIGN-307]]: Coverage on the six pages found no completely unused files, and no large reduction opportunity",
      "Small redundancies were cleaned up (dead JS reference, two duplicate loads, unused preloads); effect is small to none",
      "Skipped: duplicate jQuery (removal breaks the page), vds.css trimming, babel-polyfill removal (IE11 cannot be tested). IE11 had 8 sessions or fewer in September"
     ]
@@ -3733,13 +3733,13 @@
    },
    "items": {
     "ja": [
-     "ローディング中のリング回転に関係する施策の多くは、9/4 の調査で起票したまま「open（計画中）」で、担当が牧野のまま。<b>実装する人も見積もりも決まっていない</b>",
+     "<span class=\"hint\" tabindex=\"0\" data-tip-ja=\"データを読み込んでいる間に画面に出る、回転するリング。全画面に出ている間は、ほかの操作ができない。\" data-tip-en=\"The spinning ring shown while data is loading. While it covers the whole screen, nothing else can be done.\">ローディング中のリング回転</span>に関係する施策の多くは、9/4 の調査で起票したまま「open（計画中）」で、担当が牧野のまま。<b>実装する人も見積もりも決まっていない</b>",
      "9月に手を付けた②の施策は [[UX_DESIGN-309]] の1件だけ。絞り込みの待ち時間は 1.82秒 → 0.97秒 で、効くことは確かめられた",
      "つまり②は「やってみて効かなかった」のではなく、<b>ほとんど着手できていない</b>",
      "予算は半分ほど残っている"
     ],
     "en": [
-     "Most spinner-related items were written up on 9/4 and are still open, assigned to Makino. <b>No implementer and no estimates yet</b>",
+     "Most loading indicator-related items were written up on 9/4 and are still open, assigned to Makino. <b>No implementer and no estimates yet</b>",
      "Only one response-side change shipped in September: UX_DESIGN-309, filter wait 1.82s → 0.97s. It proved the approach works",
      "So the response side did not fail — <b>it has barely been started</b>",
      "About half the budget is left"
@@ -3793,30 +3793,30 @@
       "ja": [
        "PSI ではサーバーの返事が速いのに、実ユーザーでは何倍も遅い。8/22 の週から3ページとも悪くなっている",
        "PSI はキャッシュが効いた状態で測れていて、実ユーザーはキャッシュを外していることが多いと見ている（推定）。9/4 の調査の「キャッシュが通貨・端末・国などで細かく分かれすぎている」「絞り込み条件が付くとキャッシュを読まない」と合う",
-       "PSI を上げる施策では、実ユーザーの一番大きな待ちに届かない。サーバーの返事を速くすれば、①表示の速さと②ローディング中のリング回転の<b>両方に効く</b>",
+       "PSI を上げる施策では、実ユーザーの一番大きな待ちに届かない。サーバーの返事を速くすれば、①表示の速さと②ローディング中のリング回転の時間の、<b>両方に効く</b>",
        "地域・カテゴリーは事情が違う。PSI 上のサーバーの返事は速く、重いのはブラウザ側（画像・JS）。ここは別の見立てが要る"
       ],
       "en": [
        "Server response is fast in PSI but several times slower for real users, and it has worsened on all three pages since the 8/22 week",
        "PSI likely hits a warm cache while real users often miss it (inference). This fits the 9/4 finding: cache keys split by currency, device, country and so on, and filtered views skip the cache",
-       "PSI-focused fixes don't reach real users' biggest wait. Faster server response helps <b>both</b> load speed and spinner time",
+       "PSI-focused fixes don't reach real users' biggest wait. Faster server response helps <b>both</b> load speed and loading-indicator time",
        "Region and Category differ: their server response in PSI is fast and the weight is in the browser (images, JS). They need their own reading"
       ]
      }
     },
     {
      "h": {
-      "ja": "2. ローディング中のリング回転は「速くする」より「出さない」",
-      "en": "2. Remove spinners rather than speed them up"
+      "ja": "2. ローディング中のリング回転には、要らない待ちがある（取り直しの扱いは未決）",
+      "en": "2. The loading ring has unnecessary waits (how to treat re-fetching is undecided)"
      },
      "items": {
       "ja": [
        "9/4 の棚卸しでは、ローディング中のリング回転の多くが要らない待ちだった。表示済みの一覧の取り直し、「戻る」のたびの全読み直し、中身が空の通信など",
-       "1件ずつが秒単位。9月の施策（PSI で数点〜20点）とは効き方の桁が違う"
+       "取り直しをなくすと、古いデータを出すおそれがある（Suki さんの説明）。309 では、取り直しは残して速くする方向に決めた。どちらに寄せるかは未決"
       ],
       "en": [
-       "The 9/4 inventory showed most spinners are unnecessary waits: re-fetching lists already shown, full reloads on browser back, empty requests",
-       "Each is worth seconds — a different order of magnitude from September's PSI gains"
+       "The 9/4 inventory showed most loading-ring waits are unnecessary: re-fetching lists already shown, full reloads on browser back, empty requests",
+       "Dropping the re-fetch risks showing stale data (Suki's explanation). For 309 we chose to keep it and make it faster. Which way to lean is undecided"
       ]
      }
     },
@@ -3827,14 +3827,14 @@
      },
      "items": {
       "ja": [
-       "[[TBT]] は「読み込み中に画面が固まっていた時間」。ローディング中のリング回転は「サーバーの返事待ち」なので TBT には出ない",
+       "[[TBT]] は「読み込み中に画面が固まっていた時間」。ローディング中のリング回転が出ている間は「サーバーの返事待ち」なので TBT には出ない",
        "[[UX_DESIGN-309]] の効果が見えたのは、Suki さんが手で測ったから。手計測に頼る限り、②は「やってもやらなくても同じ」に見える",
        "ローディング中のリング回転が出てから消えるまでの時間を、実ユーザーで直接測る（[[UX_DESIGN-425]]）"
       ],
       "en": [
-       "TBT is time the screen was frozen during load. A spinner waits on the server, so it doesn't show up in TBT",
+       "TBT is time the screen was frozen during load. A loading indicator waits on the server, so it doesn't show up in TBT",
        "UX_DESIGN-309's effect was visible only because Suki timed it by hand. Relying on that makes the response side look like it changed nothing",
-       "Measure spinner time directly from real users (UX_DESIGN-425)"
+       "Measure loading-indicator time directly from real users (UX_DESIGN-425)"
       ]
      }
     }
@@ -3853,23 +3853,23 @@
     {
      "t": "UX_DESIGN-418",
      "d": {
-      "ja": "UX_DESIGN-309 を検索ページ・2ページ目以降・絞り込みありに広げる",
-      "en": "Extend UX_DESIGN-309 to search, pages 2+ and filtered views"
+      "ja": "初期表示で、サーバーが描画した検索結果を取り直している（全画面の「処理中です」が出る）",
+      "en": "The search page re-fetches results the server already drew (full-screen loading shows)"
      },
      "why": {
-      "ja": "効くことは実証済み。Suki さんが調査中",
-      "en": "Proven; Suki already looking into it"
+      "ja": "リングは消えるが、取り直しは古いデータを避ける意図。309 で決めた方向（取り直しは残して速くする）との兼ね合いが未決",
+      "en": "Removes the ring, but the re-fetch exists to avoid stale data; how it fits the 309 direction is undecided"
      }
     },
     {
      "t": "UX_DESIGN-404",
      "d": {
-      "ja": "中身が空のクーポン通信を止める（見込み 約2.2秒）",
-      "en": "Stop the empty coupon request (est. ~2.2s)"
+      "ja": "中身が空のクーポン通信を止める",
+      "en": "Stop the empty coupon request"
      },
      "why": {
-      "ja": "フロントだけで済む。クーポン関連の [[UX_DESIGN-416]]・[[UX_DESIGN-417]] と1組",
-      "en": "Front end only; paired with coupon items 416 and 417"
+      "ja": "フロントだけで済む。リング回転の時間に効くかは未確認。クーポン関連の [[UX_DESIGN-416]]・[[UX_DESIGN-417]] と1組",
+      "en": "Front end only; whether it shortens the ring is unconfirmed; paired with coupon items 416 and 417"
      }
     },
     {
@@ -3925,12 +3925,12 @@
    },
    "items": {
     "ja": [
-     "[[UX_DESIGN-425]] ローディング中のリング回転の時間を実ユーザーで測る。9/4 の調査では、ローディング中のリング回転の表示は1か所（resources/src/mixins/modal.js）で制御されていた。ここに記録を足せば全部まとめて取れる可能性がある（実装は読んでいないので推定）",
+     "[[UX_DESIGN-425]] ローディング中のリング回転の時間を実ユーザーで測る。9/4 の調査では、ローディング中のリング回転は1か所（resources/src/mixins/modal.js）で制御されていた。ここに記録を足せば全部まとめて取れる可能性がある（実装は読んでいないので推定）",
      "[[UX_DESIGN-398]] 画面を最大2秒まっ白にする設定（VWO）を縮める。効果は大きいが、マーケ側の合意が先",
      "[[UX_DESIGN-307]] JS を減らす最初の施策。調査の結果、削減効果の大きい穴は見つからなかった（週次メモ W41）"
     ],
     "en": [
-     "UX_DESIGN-425: measure spinner time from real users. On 9/4 the spinner was controlled in one place (resources/src/mixins/modal.js); logging there might cover them all (inference, code not read)",
+     "UX_DESIGN-425: measure loading-indicator time from real users. On 9/4 the loading indicator was controlled in one place (resources/src/mixins/modal.js); logging there might cover them all (inference, code not read)",
      "UX_DESIGN-398: shorten the VWO setting that blanks the screen for up to 2s. Big effect, but needs marketing's agreement first",
      "UX_DESIGN-307: the first JS-reduction change. The investigation found no large reduction opportunity (see weekly note W41)"
     ]
@@ -3943,7 +3943,7 @@
    },
    "items": {
     "ja": [
-     "全画面のローディング表示を、一覧部分だけの表示に変える（9/21 に Suki さんが挙げていた案）。待ち時間は同じでも、ページ全体は止まらなくなる",
+     "全画面のローディング中のリング回転を、一覧部分だけに出す形に変える（9/21 に Suki さんが挙げていた案）。待ち時間は同じでも、ページ全体は止まらなくなる",
      "予約モーダルの絞り込み（9/4 の調査で 772.9ms と計測、改善の余地あり）",
      "カードを押した時点で、AC詳細の取得を始める"
     ],
@@ -3967,7 +3967,7 @@
     ],
     "en": [
      "Load: main pages from low to average in PSI (50+); bring real-user server response toward 0.8s",
-     "Response: main spinners (category and search filters, move to AC detail) within 1s",
+     "Response: main loading indicators (category and search filters, move to AC detail) within 1s",
      "Both are my proposal, not evidence-based targets; to be set with Suki"
     ]
    }
@@ -3988,6 +3988,408 @@
      "Which candidates above are worth doing, and which are realistic?",
      "Any slow spots or missing measures not on the list?"
     ]
+   }
+  },
+  "classify": {
+   "h": {
+    "ja": "施策の分類（現状の整理）",
+    "en": "Classification of changes (where things stand)"
+   },
+   "items": {
+    "ja": [
+     "本番に出た4施策は、① 3件・②リング 1件・②TBT 0件。<b>②TBT に効く施策は、まだ1件も本番に出ていない</b>",
+     "②TBT の候補は少ない。着手中は GTM の整理、未着手は調査（UX_DESIGN-388）と第三者タグ（UX_DESIGN-422）だけ",
+     "PSI のスコアは、TBT が30点分を占める（PSI が使う Lighthouse の配点：TBT 30・LCP 25・CLS 25・FCP 10・SI 10）。TBT の改善は、PSI のスコアに大きく効く",
+     "一方、実ユーザーの INP は、TOP が 218ms（合格ライン 200ms）、エリア 162ms、検索結果 158ms（9/26 締めの週）。実ユーザーが待たされているのは、サーバーの返事（検索 5.1秒）とローディング中のリング回転"
+    ],
+    "en": [
+     "Of the four changes in production: ① three, ② loading indicator one, ② TBT none. <b>No change that helps ② TBT has reached production yet</b>",
+     "Few ② TBT candidates: GTM cleanup in progress; only the investigation (UX_DESIGN-388) and third-party tags (UX_DESIGN-422) not started",
+     "TBT carries 30 points of the PSI score (Lighthouse weights, which PSI uses: TBT 30, LCP 25, CLS 25, FCP 10, SI 10), so improving TBT helps the PSI score a lot",
+     "Real-user INP is 218ms on TOP (target 200ms), 162ms on Area, 158ms on Search (week ending 9/26). What real users wait on is the server response (Search 5.1s) and the loading ring"
+    ]
+   },
+   "table": [
+    [
+     {
+      "ja": "施策",
+      "en": "Change"
+     },
+     {
+      "ja": "状態",
+      "en": "State"
+     },
+     {
+      "ja": "主に効く側",
+      "en": "Mainly helps"
+     },
+     {
+      "ja": "根拠",
+      "en": "Basis"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-323\">UX_DESIGN-323</a> AppsFlyer の読み込みを後回し",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-323\">UX_DESIGN-323</a> Load AppsFlyer later"
+     },
+     {
+      "ja": "本番に出た",
+      "en": "Released"
+     },
+     {
+      "ja": "<b>① 表示の速さ</b>",
+      "en": "<b>① Load speed</b>"
+     },
+     {
+      "ja": "9/17 の3件を合わせて、PSI 33.7 → 38.5点",
+      "en": "The three 9/17 changes together: PSI 33.7 → 38.5"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-304\">UX_DESIGN-304</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-395\">UX_DESIGN-395</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-396\">UX_DESIGN-396</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-397\">UX_DESIGN-397</a> 主役画像の先読み・優先指定",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-304\">UX_DESIGN-304</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-395\">UX_DESIGN-395</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-396\">UX_DESIGN-396</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-397\">UX_DESIGN-397</a> Main-image preload and priority"
+     },
+     {
+      "ja": "本番に出た",
+      "en": "Released"
+     },
+     {
+      "ja": "<b>① 表示の速さ</b>",
+      "en": "<b>① Load speed</b>"
+     },
+     {
+      "ja": "同上",
+      "en": "Same"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-389\">UX_DESIGN-389</a> 画像枠の寸法確保、検索ページのキャッシュ",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-389\">UX_DESIGN-389</a> Reserved image space, search page cache"
+     },
+     {
+      "ja": "本番に出た",
+      "en": "Released"
+     },
+     {
+      "ja": "<b>① 表示の速さ</b>",
+      "en": "<b>① Load speed</b>"
+     },
+     {
+      "ja": "同上",
+      "en": "Same"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-309\">UX_DESIGN-309</a> カテゴリー絞り込み結果のキャッシュ",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-309\">UX_DESIGN-309</a> Cache category filter results"
+     },
+     {
+      "ja": "本番に出た",
+      "en": "Released"
+     },
+     {
+      "ja": "<b>② リング</b>",
+      "en": "<b>② Loading indicator</b>"
+     },
+     {
+      "ja": "実測：絞り込みの応答 1.82 → 0.97秒（手計測）",
+      "en": "Measured: filter response 1.82 → 0.97s (hand-timed)"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-307\">UX_DESIGN-307</a> JS・CSS の削減",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-307\">UX_DESIGN-307</a> Reduce JS and CSS"
+     },
+     {
+      "ja": "レビュー中",
+      "en": "In review"
+     },
+     {
+      "ja": "<b>② TBT</b>",
+      "en": "<b>② TBT</b>"
+     },
+     {
+      "ja": "大きな削減余地は見つからず。TOP・エリア・地域でスクリプト転送量は変化なし",
+      "en": "No large opportunity found; script transfer unchanged on TOP, Area and Region"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-308\">UX_DESIGN-308</a> 画像最適化",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-308\">UX_DESIGN-308</a> Image optimization"
+     },
+     {
+      "ja": "レビュー中",
+      "en": "In review"
+     },
+     {
+      "ja": "<b>① 表示の速さ</b>",
+      "en": "<b>① Load speed</b>"
+     },
+     {
+      "ja": "PR は beta にマージ済み。本番は未確認",
+      "en": "PR merged to beta; production not confirmed"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-387\">UX_DESIGN-387</a> Webフォント",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-387\">UX_DESIGN-387</a> Web fonts"
+     },
+     {
+      "ja": "レビュー中",
+      "en": "In review"
+     },
+     {
+      "ja": "<b>① 表示の速さ（小）</b>",
+      "en": "<b>① Load speed (minor)</b>"
+     },
+     {
+      "ja": "LCP の主因ではない（9/4 の調査）",
+      "en": "Not the LCP cause (9/4 investigation)"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-301\">UX_DESIGN-301</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-303\">UX_DESIGN-303</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-305\">UX_DESIGN-305</a> GTM タグの棚卸し・停止・整理",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-301\">UX_DESIGN-301</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-303\">UX_DESIGN-303</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-305\">UX_DESIGN-305</a> GTM tag audit, stop and cleanup"
+     },
+     {
+      "ja": "着手中",
+      "en": "In progress"
+     },
+     {
+      "ja": "<b>② TBT</b>",
+      "en": "<b>② TBT</b>"
+     },
+     {
+      "ja": "題名のみ。効果は未計測",
+      "en": "Title only; effect not measured"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-388\">UX_DESIGN-388</a> INP・長い処理の分解調査",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-388\">UX_DESIGN-388</a> INP and long-task breakdown"
+     },
+     {
+      "ja": "未着手",
+      "en": "Not started"
+     },
+     {
+      "ja": "<b>② TBT</b>",
+      "en": "<b>② TBT</b>"
+     },
+     {
+      "ja": "調査。TBT の内訳を出す受け皿",
+      "en": "Investigation; the place to break TBT down"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-422\">UX_DESIGN-422</a> 第三者タグの条件付き読み込み",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-422\">UX_DESIGN-422</a> Conditional loading of third-party tags"
+     },
+     {
+      "ja": "未着手",
+      "en": "Not started"
+     },
+     {
+      "ja": "<b>② TBT</b>",
+      "en": "<b>② TBT</b>"
+     },
+     {
+      "ja": "題名のみ",
+      "en": "Title only"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-410\">UX_DESIGN-410</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-418\">UX_DESIGN-418</a> 初期表示の一覧の取り直しをやめる",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-410\">UX_DESIGN-410</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-418\">UX_DESIGN-418</a> Stop re-fetching the list on first load"
+     },
+     {
+      "ja": "未着手",
+      "en": "Not started"
+     },
+     {
+      "ja": "<b>② リング</b>",
+      "en": "<b>② Loading indicator</b>"
+     },
+     {
+      "ja": "効く見込み。ただし取り直しは古いデータを避ける意図で、309 で決めた方向（取り直しは残して速くする）と衝突",
+      "en": "Likely to help, but the re-fetch exists to avoid stale data, which conflicts with the 309 direction (keep it, make it faster)"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-419\">UX_DESIGN-419</a> 「戻る」のたびの全読み直しをやめる",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-419\">UX_DESIGN-419</a> Stop the full reload on browser back"
+     },
+     {
+      "ja": "未着手",
+      "en": "Not started"
+     },
+     {
+      "ja": "<b>② リング</b>",
+      "en": "<b>② Loading indicator</b>"
+     },
+     {
+      "ja": "見込み。時間は未計測",
+      "en": "Expected; time not measured"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-405\">UX_DESIGN-405</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-417\">UX_DESIGN-417</a> 一覧 API のサーバー処理を減らす",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-405\">UX_DESIGN-405</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-417\">UX_DESIGN-417</a> Reduce server work in the list API"
+     },
+     {
+      "ja": "未着手",
+      "en": "Not started"
+     },
+     {
+      "ja": "<b>② リング</b>",
+      "en": "<b>② Loading indicator</b>"
+     },
+     {
+      "ja": "題名のみ",
+      "en": "Title only"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-404\">UX_DESIGN-404</a> 空のクーポン通信を止める",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-404\">UX_DESIGN-404</a> Stop the empty coupon requests"
+     },
+     {
+      "ja": "未着手",
+      "en": "Not started"
+     },
+     {
+      "ja": "<b>② リング（効くか不明）</b>",
+      "en": "<b>② Loading indicator (unclear)</b>"
+     },
+     {
+      "ja": "通信時間は実測（計 2,182ms）。リング回転を待たせているかは未確認",
+      "en": "Request time measured (2,182ms total); whether it holds the loading indicator is unconfirmed"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-312\">UX_DESIGN-312</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-413\">UX_DESIGN-413</a> 検索 API の応答改善",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-312\">UX_DESIGN-312</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-413\">UX_DESIGN-413</a> Faster search API"
+     },
+     {
+      "ja": "未着手",
+      "en": "Not started"
+     },
+     {
+      "ja": "<b>② リング／① TTFB</b>",
+      "en": "<b>② Loading indicator / ① TTFB</b>"
+     },
+     {
+      "ja": "題名のみ",
+      "en": "Title only"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-414\">UX_DESIGN-414</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-415\">UX_DESIGN-415</a> AC詳細への遷移・日程検索のキャッシュ",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-414\">UX_DESIGN-414</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-415\">UX_DESIGN-415</a> Cache for AC detail navigation and date search"
+     },
+     {
+      "ja": "未着手",
+      "en": "Not started"
+     },
+     {
+      "ja": "<b>① TTFB</b>",
+      "en": "<b>① TTFB</b>"
+     },
+     {
+      "ja": "ヒット時 298ms とミス時 1,395ms の差は実測（AC詳細）",
+      "en": "Hit 298ms vs miss 1,395ms measured (AC detail)"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-398\">UX_DESIGN-398</a> VWO が body を最大2秒隠す設定の縮小",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-398\">UX_DESIGN-398</a> Shrink the VWO setting that hides the body for up to 2s"
+     },
+     {
+      "ja": "未着手",
+      "en": "Not started"
+     },
+     {
+      "ja": "<b>① 表示の速さ</b>",
+      "en": "<b>① Load speed</b>"
+     },
+     {
+      "ja": "見込み 最大2,000ms。マーケの合意が前提",
+      "en": "Up to 2,000ms expected; needs marketing's agreement"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-399\">UX_DESIGN-399</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-400\">UX_DESIGN-400</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-401\">UX_DESIGN-401</a> i-mobile の async 化、CSS defer の拡大、TOP 画像の webp",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-399\">UX_DESIGN-399</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-400\">UX_DESIGN-400</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-401\">UX_DESIGN-401</a> i-mobile async, wider CSS defer, TOP image webp"
+     },
+     {
+      "ja": "未着手",
+      "en": "Not started"
+     },
+     {
+      "ja": "<b>① 表示の速さ</b>",
+      "en": "<b>① Load speed</b>"
+     },
+     {
+      "ja": "題名のみ",
+      "en": "Title only"
+     }
+    ],
+    [
+     {
+      "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-407\">UX_DESIGN-407</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-408\">UX_DESIGN-408</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-314\">UX_DESIGN-314</a> キャッシュのヒット率の可視化、ウォーミングの棚卸し、TTFB の切り分け",
+      "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-407\">UX_DESIGN-407</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-408\">UX_DESIGN-408</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-314\">UX_DESIGN-314</a> Cache hit-rate view, warming audit, TTFB isolation"
+     },
+     {
+      "ja": "未着手",
+      "en": "Not started"
+     },
+     {
+      "ja": "<b>① TTFB</b>",
+      "en": "<b>① TTFB</b>"
+     },
+     {
+      "ja": "実ユーザーの TTFB は検索 5.1秒が最大（9/26 締めの週）",
+      "en": "Real-user TTFB: Search is worst at 5.1s (week ending 9/26)"
+     }
+    ]
+   ],
+   "add": {
+    "h": {
+     "ja": "② に足す観点（案）",
+     "en": "Viewpoints to add for ② (proposal)"
+    },
+    "items": {
+     "ja": [
+      "TBT の内訳を、スクリプト別に出す。どの第三者タグ・自社 JS が処理時間を使っているかが分かれば、効く施策を選べる（受け皿は UX_DESIGN-388。PSI の応答から取れるかは未確認）",
+      "TOP の Braze の SDK：9/4 の実測（1回測定）で、読み込みに約3.8秒かかっていた。読み込み時間であって、実行の重さ（TBT への寄与）は未確認。読み込み時機の見直しが候補（マーケ所管との調整が前提）",
+      "実ユーザーの INP を全ページで取る。CrUX では、地域・カテゴリー・AC詳細が取れていない（UX_DESIGN-300 の web-vitals タグ）",
+      "ローディング中のリング回転の時間を、実ユーザーで測る（UX_DESIGN-425）。これが無いと、②リングの施策の効果を数字で言えない"
+     ],
+     "en": [
+      "Break TBT down by script, so we can see which third-party tag or in-house JS uses the time and choose what to fix (UX_DESIGN-388 is the vehicle; whether PSI's response gives this is unconfirmed)",
+      "Braze SDK on TOP: the 9/4 measurement (single run) showed about 3.8s to load. That is load time, not execution weight (its TBT share is unconfirmed). Reviewing when it loads is a candidate (needs agreement with marketing)",
+      "Collect real-user INP on every page. CrUX has none for Region, Category and AC detail (the web-vitals tag in UX_DESIGN-300)",
+      "Measure the time the loading ring spins, from real users (UX_DESIGN-425). Without it, the effect of ② loading indicator changes cannot be stated in numbers"
+     ]
+    }
    }
   }
  }

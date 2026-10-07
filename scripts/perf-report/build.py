@@ -415,8 +415,20 @@ _crows = "".join(
 def _sec(key):
     x = SG[key]
     return f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3><div class="rv-l">{_bil(x["items"])}</div></div>'
+
+def _classify():
+    x = SG["classify"]
+    head, *body = x["table"]
+    tb = ('<div class="tw"><table class="cls"><tr>' + "".join(f"<th>{_cell(c)}</th>" for c in head) + "</tr>"
+          + "".join("<tr>" + "".join(f"<td>{_cell(c)}</td>" for c in r) + "</tr>" for r in body) + "</table></div>")
+    return (f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>'
+            f'<div class="rv-l">{_bil(x["items"])}</div>{tb}'
+            f'<h4 class="sh">{t(x["add"]["h"]["ja"], x["add"]["h"]["en"])}</h4>'
+            f'<div class="rv-l">{_bil(x["add"]["items"])}</div></div>')
+
 PLAN = f'''<div class="rv-h"><h2>{t(SG["title"]["ja"], SG["title"]["en"])}</h2><span class="rv-m">{t(SG["meta"]["ja"], SG["meta"]["en"])}</span></div>
 {_sec("status")}
+{_classify()}
 <div class="sec pl"><h3 class="sh">{t(SG["views"]["h"]["ja"], SG["views"]["h"]["en"])}</h3>{_views}</div>
 <div class="sec pl"><h3 class="sh">{t(SG["cands"]["h"]["ja"], SG["cands"]["h"]["en"])}</h3>
 <div class="tw"><table><tr><th>{t("順","No.")}</th><th>{t("チケット","Ticket")}</th><th>{t("内容","What")}</th><th>{t("なぜ先か","Why first")}</th></tr>{_crows}</table></div>
