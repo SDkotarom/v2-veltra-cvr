@@ -433,3 +433,24 @@ html,body{overflow-x:clip}
 .rv-p{padding:20px 0 16px}
 .rv-p h3{margin:0 0 8px}
 .sh{margin-top:32px}
+
+/* 主な対応事項タブ */
+table.mst{min-width:0;table-layout:fixed;width:100%}
+.mst th,.mst td{white-space:normal;overflow-wrap:anywhere;vertical-align:top;text-align:left}
+.mst th:nth-child(1){width:34%}.mst th:nth-child(2){width:10%}.mst th:nth-child(3){width:22%}.mst th:nth-child(4){width:15%}.mst th:nth-child(5){width:19%}
+@media (max-width:560px){table.mst{table-layout:auto;min-width:640px}}
+details.ms{border:1px solid var(--line);border-radius:10px;background:var(--surface);margin-top:12px}
+details.ms>summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;padding:14px 16px}
+details.ms>summary::-webkit-details-marker{display:none}
+details.ms>summary::before{content:"+";font-weight:700;color:var(--ink-3);width:14px;flex:none}
+details.ms[open]>summary::before{content:"\2212"}
+details.ms>summary:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.ms-t{font-size:15px;font-weight:700;flex:1 1 320px}
+.ms-m{font-size:13px;color:var(--ink-3)}
+.ms-b{border-top:1px solid var(--line-soft);padding:6px 16px 12px}
+.ms-r{display:grid;grid-template-columns:110px 1fr;gap:4px 16px;padding:12px 0;border-bottom:1px solid var(--line-soft)}
+.ms-r:last-child{border-bottom:0}
+.ms-k{font-size:13px;font-weight:700;color:var(--brand-ink)}
+.ms-v ul{margin:0;padding-left:1.1em}
+.ms-v li{line-height:1.75;margin:2px 0;font-size:14.5px}
+@media (max-width:560px){.ms-r{grid-template-columns:1fr}}

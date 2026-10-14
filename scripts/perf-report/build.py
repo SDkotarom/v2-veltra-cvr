@@ -172,6 +172,25 @@ def _lead(x):
         body += f'<p>{t(x["b"]["ja"], x["b"]["en"])}</p>'
     return f'<div class="rv-p"><h3>{t(x["h"]["ja"], x["h"]["en"])}</h3>{body}</div>'
 leads = "".join(_lead(x) for x in RV["parts"])
+
+MS = D["measures"]
+def _ms_item(x):
+    secs = ""
+    for sc in x["secs"]:
+        li = lambda L: "<ul>" + "".join(f"<li>{expand(v)}</li>" for v in L) + "</ul>"
+        secs += (f'<div class="ms-r"><div class="ms-k">{t(sc["h"]["ja"], sc["h"]["en"])}</div>'
+                 f'<div class="ms-v"><span class="ja">{li(sc["ja"])}</span><span class="en">{li(sc["en"])}</span></div></div>')
+    return (f'<details class="ms"><summary><span class="ms-t">{t(x["t"]["ja"], x["t"]["en"])}</span>'
+            f'<span class="ms-m">{t(x["meta"]["ja"], x["meta"]["en"])}</span>{_cell(x["b"])}</summary>'
+            f'<div class="ms-b">{secs}</div></details>')
+_mt = MS["table"]
+_mhead = "".join(f"<th>{_cell(c)}</th>" for c in _mt["head"])
+_mrows = "".join("<tr>" + "".join(f"<td>{_cell(c)}</td>" for c in r) + "</tr>" for r in _mt["rows"])
+MEASURES = (f'<div class="rv-h"><h2>{t(MS["h"]["ja"], MS["h"]["en"])}</h2>'
+            f'<span class="rv-m">{t(MS["meta"]["ja"], MS["meta"]["en"])}</span></div>'
+            f'<div class="tw"><table class="mst"><tr>{_mhead}</tr>{_mrows}</table></div>'
+            f'<p class="mut">{t(_mt["note"]["ja"], _mt["note"]["en"])}</p>'
+            + "".join(_ms_item(x) for x in MS["items"]))
 frows = "".join(
     f'<div class="find"><div class="fn">{i+1:02d}</div><div><h3>{t(f["h"]["ja"], f["h"]["en"])}</h3>'
     f'<p>{t(f["b"]["ja"], f["b"]["en"])}</p></div></div>' for i, f in enumerate(D["findings"]))
@@ -467,7 +486,9 @@ html = f'''<title>表示速度モニタリング</title>
 <nav class="ptabs" role="tablist">
 <button class="pt" data-tab="report" aria-selected="true">{t("レポート", "Report")}</button>
 <button class="pt" data-tab="plan" aria-selected="false">{t("後半の方針", "Second-half plan")}</button>
+<button class="pt" data-tab="measures" aria-selected="false">{t("主な対応事項", "Main changes")}</button>
 </nav>
+<div class="pane" data-pane="measures" hidden><div class="rv">{MEASURES}</div></div>
 <div class="pane" data-pane="plan" hidden><div class="rv">{PLAN}</div></div>
 <div class="pane" data-pane="report">
 <div class="rv">

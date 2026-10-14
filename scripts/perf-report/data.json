@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 46,
+  "version": 47,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -4578,5 +4578,421 @@
     }
    }
   }
+ },
+ "measures": {
+  "h": {
+   "ja": "主な対応事項",
+   "en": "Main changes shipped"
+  },
+  "meta": {
+   "ja": "本番に出した施策ごとの、課題・内容・効果。効果の確認が取れているものを先に並べる",
+   "en": "Per shipped change: the problem, what was done, and the effect. Changes with confirmed effect come first"
+  },
+  "table": {
+   "head": [
+    {
+     "ja": "施策",
+     "en": "Change"
+    },
+    {
+     "ja": "リリース",
+     "en": "Released"
+    },
+    {
+     "ja": "対象",
+     "en": "Scope"
+    },
+    {
+     "ja": "効果の確認",
+     "en": "Effect"
+    },
+    {
+     "ja": "確認した方法",
+     "en": "How it was checked"
+    }
+   ],
+   "rows": [
+    [
+     {
+      "ja": "[[UX_DESIGN-309]] カテゴリーの絞り込み結果をキャッシュ",
+      "en": "[[UX_DESIGN-309]] Cache category filter results"
+     },
+     "9/30",
+     {
+      "ja": "カテゴリー（1ページ目・日本語・絞り込みなし）",
+      "en": "Category (page 1, JP, no filters)"
+     },
+     {
+      "bdg": "up",
+      "ja": "効果あり",
+      "en": "Effect seen"
+     },
+     {
+      "ja": "本番で手計測（10回）",
+      "en": "Hand-timed in production (10 runs)"
+     }
+    ],
+    [
+     {
+      "ja": "[[UX_DESIGN-389]] 表示のずれ対策と検索ページのキャッシュ",
+      "en": "[[UX_DESIGN-389]] Layout-shift fixes and search page cache"
+     },
+     "9/17",
+     {
+      "ja": "6ページ（検索が中心）",
+      "en": "Six pages (mainly Search)"
+     },
+     {
+      "bdg": "up",
+      "ja": "効果あり",
+      "en": "Effect seen"
+     },
+     {
+      "ja": "実ユーザーの CLS",
+      "en": "Real-user CLS"
+     }
+    ],
+    [
+     {
+      "ja": "[[UX_DESIGN-304]] 先頭画像の先読み（[[UX_DESIGN-395]]・[[UX_DESIGN-396]]・[[UX_DESIGN-397]]）",
+      "en": "[[UX_DESIGN-304]] Preload of the first image ([[UX_DESIGN-395]], [[UX_DESIGN-396]], [[UX_DESIGN-397]])"
+     },
+     "9/17",
+     {
+      "ja": "AC詳細・エリア・カテゴリー・検索",
+      "en": "AC detail, Area, Category, Search"
+     },
+     {
+      "bdg": "b-mid",
+      "ja": "一部確認",
+      "en": "Partly confirmed"
+     },
+     {
+      "ja": "Suki さんの dev と本番の比較（数値なし）",
+      "en": "Suki's dev vs production check (no figures)"
+     }
+    ],
+    [
+     {
+      "ja": "[[UX_DESIGN-323]] AppsFlyer の読み込みを後回し",
+      "en": "[[UX_DESIGN-323]] Defer AppsFlyer"
+     },
+     "9/17",
+     {
+      "ja": "全ページ",
+      "en": "All pages"
+     },
+     {
+      "bdg": "b-mid",
+      "ja": "合算でのみ確認",
+      "en": "Seen only in total"
+     },
+     {
+      "ja": "PSI の指摘値（893ms）",
+      "en": "PSI-reported figure (893ms)"
+     }
+    ]
+   ],
+   "note": {
+    "ja": "9/17 の3件（[[UX_DESIGN-323]]、[[UX_DESIGN-304]] と配下、[[UX_DESIGN-389]]）は同日のリリースなので、PSI の変化は合算でしか言えない。6ページ平均 33.7 → 38.5 点（検索結果 +20.6、TOP +9.0、エリア +7.0、AC詳細 −7.4、地域・カテゴリーは変化なし）。",
+    "en": "The three 9/17 changes shipped on the same day, so the PSI change can only be stated in total: six-page mean 33.7 to 38.5 points (Search +20.6, TOP +9.0, Area +7.0, AC detail -7.4, Region and Category unchanged)."
+   }
+  },
+  "items": [
+   {
+    "t": {
+     "ja": "[[UX_DESIGN-309]] カテゴリーの絞り込み結果をキャッシュ",
+     "en": "[[UX_DESIGN-309]] Cache category filter results"
+    },
+    "meta": {
+     "ja": "9/30 本番 ／ カテゴリー（1ページ目・日本語・絞り込みなし）",
+     "en": "Released 9/30 · Category (page 1, JP, no filters)"
+    },
+    "b": {
+     "bdg": "up",
+     "ja": "効果あり",
+     "en": "Effect seen"
+    },
+    "secs": [
+     {
+      "h": {
+       "ja": "課題",
+       "en": "Problem"
+      },
+      "ja": [
+       "カテゴリーページを開くと、保存済みのページ（24時間キャッシュ）がすぐ出る。その直後に、最新の一覧を取り直す通信が走り、その間は全画面のローディング（リング回転）が出る。待ち時間は平均 1.82 秒（1.21〜3.55 秒、10回の手計測）",
+       "古いデータを出さないための取り直しなので、なくせない。取り直す通信は、条件に合う AC の一覧をサーバーが探して返すもので、変わる項目だけを返すことはできない"
+      ],
+      "en": [
+       "Opening a category page shows the saved page (24-hour cache) at once, then a request fetches the latest list and a full-screen loading ring shows meanwhile. The wait averaged 1.82 s (1.21-3.55 s, 10 hand-timed runs)",
+       "The refetch exists to avoid stale data, so it cannot be removed. The request makes the server look up the matching AC list; it cannot return only the fields that change"
+      ]
+     },
+     {
+      "h": {
+       "ja": "やったこと",
+       "en": "What was done"
+      },
+      "ja": [
+       "取り直す通信の結果を memcache に保存し、取り直し自体を速くした。取り直しは残している",
+       "範囲は、カテゴリーの1ページ目・日本語・絞り込みなしに限定したリリース。dev で、AC やパッケージの停止、クーポン、PR の編集のあと、キャッシュが消えて最新が取れることを確認してから出した"
+      ],
+      "en": [
+       "Saved the result of the refetch in memcache so the refetch itself is faster. The refetch stays",
+       "Limited to category page 1, JP, no filters. Before release, checked on dev that after AC or package stops, coupon and PR edits the cache clears and the latest data is fetched"
+      ]
+     },
+     {
+      "h": {
+       "ja": "効果",
+       "en": "Effect"
+      },
+      "ja": [
+       "取り直しの待ち時間が、平均 1.82 秒 → 0.97 秒（範囲 1.21〜3.55 秒 → 0.59〜1.79 秒）。同じカテゴリーページで、リリース前後に10回ずつ、Suki さんが手計測"
+      ],
+      "en": [
+       "Refetch wait: mean 1.82 s to 0.97 s (range 1.21-3.55 s to 0.59-1.79 s). Suki hand-timed 10 runs before and after on the same category page"
+      ]
+     },
+     {
+      "h": {
+       "ja": "注意・未確認",
+       "en": "Caveats"
+      },
+      "ja": [
+       "ローディング自体は、なくなっていない。速くなっただけ",
+       "効果が確認できているのは、上の範囲だけ。検索ページと2ページ目以降は、Suki さんの調査待ち（Redis の容量・費用の検討）",
+       "実ユーザーでの確認は、まだない（Suki さん1人の手計測）",
+       "在庫・売切れの表示が最大30分ずれる懸念は、SYS への確認が未実施。許容範囲と判断している（牧野）。実装された保持時間は、チケットに記載がない"
+      ],
+      "en": [
+       "The loading ring itself remains; it is only shorter",
+       "Confirmed effect is limited to the scope above. Search and page 2+ wait for Suki's investigation (Redis capacity and cost)",
+       "Not yet confirmed on real users (one person's hand timing)",
+       "The concern that stock and sold-out display may lag by up to 30 minutes has not been checked with SYS; judged acceptable (Makino). The implemented retention time is not written in the ticket"
+      ]
+     }
+    ]
+   },
+   {
+    "t": {
+     "ja": "[[UX_DESIGN-389]] 表示のずれ対策と検索ページのキャッシュ",
+     "en": "[[UX_DESIGN-389]] Layout-shift fixes and search page cache"
+    },
+    "meta": {
+     "ja": "9/17 本番 ／ 6ページ（検索が中心）",
+     "en": "Released 9/17 · Six pages (mainly Search)"
+    },
+    "b": {
+     "bdg": "up",
+     "ja": "効果あり",
+     "en": "Effect seen"
+    },
+    "secs": [
+     {
+      "h": {
+       "ja": "課題",
+       "en": "Problem"
+      },
+      "ja": [
+       "検索結果ページで、結果が後から入り、下の内容が押し下げられる。実ユーザーの CLS（表示のずれ）が 0.32 で、合格ライン（0.1 以下）を大きく超えていた",
+       "カテゴリーページは、24時間キャッシュのページを先に出して結果を置き換えるので、押し下げは起きない"
+      ],
+      "en": [
+       "On Search, results arrive late and push the content below down. Real-user CLS was 0.32, far above the passing line (0.1 or less)",
+       "Category shows the 24-hour cached page first and replaces the results, so nothing is pushed down"
+      ]
+     },
+     {
+      "h": {
+       "ja": "やったこと",
+       "en": "What was done"
+      },
+      "ja": [
+       "検索・カテゴリーの絞り込みバーを固定",
+       "AC カード・フッター・ブランド画像の枠に、寸法を予約",
+       "検索ページに1時間のページキャッシュ（カテゴリーと同じ方式）",
+       "CLS の基準と、PR のチェックリストを docs/cls に追加"
+      ],
+      "en": [
+       "Fixed the filter bar on Search and Category",
+       "Reserved dimensions for AC card, footer and brand images",
+       "Added a 1-hour page cache to Search (same approach as Category)",
+       "Added the CLS standard and a PR checklist in docs/cls"
+      ]
+     },
+     {
+      "h": {
+       "ja": "効果",
+       "en": "Effect"
+      },
+      "ja": [
+       "実ユーザーの検索の CLS：0.32（8/22 の週）→ 0.28（9/26）→ 0.12（10/3）",
+       "Suki さんのリリース前の確認：6ページとも CLS 0.06 未満。検索が最も改善"
+      ],
+      "en": [
+       "Real-user CLS on Search: 0.32 (week of 8/22), 0.28 (9/26), 0.12 (10/3)",
+       "Suki's pre-release check: CLS under 0.06 on all six pages, with Search improving most"
+      ]
+     },
+     {
+      "h": {
+       "ja": "注意・未確認",
+       "en": "Caveats"
+      },
+      "ja": [
+       "0.12 は、合格ライン 0.1 まで、あと少し。値は直近28日の窓なので、窓全体がリリース後になる 10/17 締めの週で、もう一度見る",
+       "TOP・エリアは、もともと CLS 0.04 以下で、変化は見えない",
+       "検索ページキャッシュ（1時間）が、最初の応答（TTFB）を短くしたかは、確認できていない。検索の実ユーザー TTFB は、4.8 秒（8/22）→ 5.5 秒（10/3）に上がっている"
+      ],
+      "en": [
+       "0.12 is just above the passing line of 0.1. The figure covers the previous 28 days, so re-check at the week ending 10/17, when the whole window is after release",
+       "TOP and Area were already at 0.04 or below, so no change shows",
+       "Whether the 1-hour search cache shortened time to first response is not confirmed: real-user TTFB on Search rose from 4.8 s (8/22) to 5.5 s (10/3)"
+      ]
+     }
+    ]
+   },
+   {
+    "t": {
+     "ja": "[[UX_DESIGN-304]] 先頭画像の先読み（[[UX_DESIGN-395]]・[[UX_DESIGN-396]]・[[UX_DESIGN-397]]）",
+     "en": "[[UX_DESIGN-304]] Preload of the first image ([[UX_DESIGN-395]], [[UX_DESIGN-396]], [[UX_DESIGN-397]])"
+    },
+    "meta": {
+     "ja": "9/17 本番 ／ AC詳細・エリア・カテゴリー・検索",
+     "en": "Released 9/17 · AC detail, Area, Category, Search"
+    },
+    "b": {
+     "bdg": "b-mid",
+     "ja": "一部確認",
+     "en": "Partly confirmed"
+    },
+    "secs": [
+     {
+      "h": {
+       "ja": "課題",
+       "en": "Problem"
+      },
+      "ja": [
+       "9/4 の調査で、先読み（preload）が、6ページのどこでも効いていなかった。AC詳細は、表示する画像と別サイズの画像を先読みして、二重に取得していた。エリア・カテゴリー・検索は、先読みがなかった"
+      ],
+      "en": [
+       "The 9/4 investigation found preload working on none of the six pages. AC detail preloaded a different size from the one displayed, fetching twice. Area, Category and Search had no preload"
+      ]
+     },
+     {
+      "h": {
+       "ja": "やったこと",
+       "en": "What was done"
+      },
+      "ja": [
+       "AC詳細：先読みする画像を、実際に表示する画像に合わせた（[[UX_DESIGN-395]]）",
+       "エリア：先頭の画像を先読みするようにした（[[UX_DESIGN-397]]）",
+       "カテゴリー・検索：先読みではなく、先頭のカード画像に fetchpriority=high を付けた（[[UX_DESIGN-396]]）。表示後にデータが差し替わると、先読みした画像が無駄になるため（Suki さんの提案）"
+      ],
+      "en": [
+       "AC detail: preload now matches the image actually displayed ([[UX_DESIGN-395]])",
+       "Area: the first image is now preloaded ([[UX_DESIGN-397]])",
+       "Category and Search: fetchpriority=high on the first card image instead of preload ([[UX_DESIGN-396]]), because data swapped in after display would waste a preload (Suki's proposal)"
+      ]
+     },
+     {
+      "h": {
+       "ja": "効果",
+       "en": "Effect"
+      },
+      "ja": [
+       "Suki さんのリリース前の確認（dev と本番の比較）：AC詳細・カテゴリー・検索は LCP が改善、エリアはわずかに改善。先読みした URL と、実際の LCP 画像の URL が一致",
+       "ミリ秒の数値は、コメントに記載がない"
+      ],
+      "en": [
+       "Suki's pre-release check (dev vs production): LCP improved on AC detail, Category and Search, slightly on Area. The preloaded URL matches the actual LCP image",
+       "No millisecond figures are given in the comments"
+      ]
+     },
+     {
+      "h": {
+       "ja": "注意・未確認",
+       "en": "Caveats"
+      },
+      "ja": [
+       "実ユーザーの LCP は、TOP・エリアで改善が見えない（TOP 2,755 → 2,945ms、エリア 2,642 → 2,760ms、8/22 → 10/3 の週）。判定は 10/17 締めの週以降",
+       "AC詳細の PSI は、48.6 → 41.2 点に下がっている。原因は未調査",
+       "AC詳細・地域・カテゴリーは、実ユーザー値がなく、確認できない"
+      ],
+      "en": [
+       "Real-user LCP shows no improvement on TOP and Area (TOP 2,755 to 2,945 ms, Area 2,642 to 2,760 ms, weeks of 8/22 to 10/3). Judge from the week ending 10/17",
+       "AC detail PSI fell from 48.6 to 41.2. Cause not investigated",
+       "AC detail, Region and Category have no real-user figures, so nothing can be confirmed"
+      ]
+     }
+    ]
+   },
+   {
+    "t": {
+     "ja": "[[UX_DESIGN-323]] AppsFlyer の読み込みを後回し",
+     "en": "[[UX_DESIGN-323]] Defer AppsFlyer"
+    },
+    "meta": {
+     "ja": "9/17 本番 ／ 全ページ",
+     "en": "Released 9/17 · All pages"
+    },
+    "b": {
+     "bdg": "b-mid",
+     "ja": "合算でのみ確認",
+     "en": "Seen only in total"
+    },
+    "secs": [
+     {
+      "h": {
+       "ja": "課題",
+       "en": "Problem"
+      },
+      "ja": [
+       "AppsFlyer のスクリプトの読み込みが、画面の表示を止めていた。PSI の指摘で、止めている時間は 893ms"
+      ],
+      "en": [
+       "The AppsFlyer script load was blocking rendering: 893 ms by PSI's report"
+      ]
+     },
+     {
+      "h": {
+       "ja": "やったこと",
+       "en": "What was done"
+      },
+      "ja": [
+       "読み込みを、画面の表示のあとに回した（defer 化）。全ページ"
+      ],
+      "en": [
+       "Deferred the load until after the screen is shown (defer). All pages"
+      ]
+     },
+     {
+      "h": {
+       "ja": "効果",
+       "en": "Effect"
+      },
+      "ja": [
+       "PSI が指摘していた 893ms の表示の停止を解消。リリース前後の個別の数値は、ない"
+      ],
+      "en": [
+       "Removed the 893 ms render block PSI had flagged. No separate before and after figures exist"
+      ]
+     },
+     {
+      "h": {
+       "ja": "注意・未確認",
+       "en": "Caveats"
+      },
+      "ja": [
+       "同日に3件をリリースしたため、この施策だけの効果は分けられない。実ユーザー値への効果は、10/17 締めの週以降に判定する"
+      ],
+      "en": [
+       "Three changes shipped the same day, so this one's effect cannot be separated. Real-user effect is judged from the week ending 10/17"
+      ]
+     }
+    ]
+   }
+  ]
  }
 }
