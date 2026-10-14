@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 45,
+  "version": 46,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -1176,25 +1176,21 @@
  "issues": [
   {
    "h": {
-    "ja": "数字が週次で増えなくなっている",
-    "en": "The weekly figures have stopped growing"
+    "ja": "収集は動いているが、レポートに10月分が入っていない",
+    "en": "Collection is running, but October is not in this report"
    },
    "b": {
-    "ja": "収集が 9/13 で止まり、その回も途中で落ちた。このまま放っておくと、9/17 に出した6件の効果が[[実ユーザー値]]で確認できない。",
-    "en": "Weekly collection stopped after 9/13, and that run died partway. Left alone, the six changes shipped on 9/17 cannot be verified against real-user data."
+    "ja": "計測シートの Apps Script は動いている（CrUX は毎週、最新の回は 10/11 で期間は 10/3 まで。PSI は毎日、最新は 10/13）。このレポートが取り込んでいるのは 9/30 まで。9/17 の効果を実ユーザー値で見られるのは、10/17 締めの週からになる。",
+    "en": "The Apps Script on the measurement sheet is running (CrUX weekly, latest run 10/11 covering through 10/3; PSI daily, latest 10/13). This report only takes in data through 9/30. The 9/17 effect can be read on real-user data from the week ending 10/17."
    },
    "todo": [
     {
-     "ja": "9/13 の実行ログを見て、どこで落ちたかを特定する",
-     "en": "Read the 9/13 execution log and find where it stopped"
+     "ja": "10月分を取り込み、レポートを更新する",
+     "en": "Load the October data and update the report"
     },
     {
-     "ja": "9/20 の回が動かなかった理由を確認する（トリガーが消えたのか、実行時間切れか）",
-     "en": "Find out why the 9/20 run never happened — a lost trigger, or a timeout"
-    },
-    {
-     "ja": "途中で落ちても次の回で取り直せるようにする（ページ単位で書き切る、または再実行する）",
-     "en": "Make a partial failure recoverable: write page by page, or re-run"
+     "ja": "crux_weekly に、毎回、全履歴が再掲されている（1回100行ずつ増えている）。シートの行数の上限は1,000行で、現在は約700行。このままだと来月初めごろに書き込めなくなる可能性がある（重複判定が日付を文字列と比べているため、と推定。要確認）",
+     "en": "crux_weekly gets the full history re-appended each run (100 rows each time). The sheet limit is 1,000 rows and it holds about 700 now, so writes may fail around early next month (suspected cause: the duplicate check compares dates with strings; to be confirmed)"
     }
    ],
    "tag": {
@@ -1437,10 +1433,10 @@
        "en": "Real-user p75"
       },
       "f": {
-       "ja": "週1回・最終 9/13",
-       "en": "Weekly, last ran 9/13"
+       "ja": "週1回・最終 10/11",
+       "en": "Weekly, last ran 10/11"
       },
-      "st": "warn"
+      "st": "ok"
      },
      {
       "n": "PageSpeed Insights API",
@@ -1488,8 +1484,8 @@
        "en": "Week by page"
       },
       "f": {
-       "ja": "9/13 の回は途中",
-       "en": "9/13 run incomplete"
+       "ja": "毎回、全履歴を再掲",
+       "en": "Full history re-added each run"
       },
       "st": "warn"
      },
@@ -3038,56 +3034,48 @@
   {
    "key": "crux-key",
    "ja": {
-    "title": "実ユーザー値を毎日取れるようにする",
-    "why": "いま実ユーザー値は週1回の収集に頼っていて、その収集が 2026-09-13 で止まっている。APIキーが1本あれば、この収集を経由せずに毎日取れる。地域・AC詳細の代表URL差し替えも即反映できる。",
-    "who": "キーの発行はブラウザ作業。発行後の取得・更新は自動。",
-    "when": "キーを受け取った当日から",
-    "cost": "5分",
+    "title": "地域・カテゴリー・AC詳細の計測 URL を差し替える",
+    "why": "いま地域とカテゴリーは crux_weekly に1行も入らず、AC詳細も値が出ない。PSI のカテゴリーは Sightseeing_Tour を測っていて、レポートが見る Yakatabune とずれている。",
+    "who": "計測シートの Apps Script の対象 URL を書き換える。コードはこちらで用意する。API キーは設定済み。",
+    "when": "貼った翌日から",
+    "cost": "10分",
     "steps": [
      {
-      "t": "Chrome UX Report API を有効にする",
-      "u": "https://console.cloud.google.com/apis/library/chromeuxreport.googleapis.com"
+      "t": "差し替える URL を決める（候補はこちらで出す）",
+      "u": ""
      },
      {
-      "t": "PageSpeed Insights API も同じプロジェクトで有効にする",
-      "u": "https://console.cloud.google.com/apis/library/pagespeedonline.googleapis.com"
+      "t": "計測シートの Apps Script を開き、getTargets_() の URL を書き換える",
+      "u": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit"
      },
      {
-      "t": "認証情報 → APIキーを作成 → コピー",
-      "u": "https://console.cloud.google.com/apis/credentials"
-     },
-     {
-      "t": "キーを環境変数に入れる（チャットに貼らない）。設定手順は依頼時に案内",
+      "t": "backfillCruxHistory() を1回実行する",
       "u": ""
      }
     ],
-    "note": "CrUX API は 150クエリ/分まで無料。キー無しの共有枠は既に上限に達していることを確認済み。"
+    "note": "キーはスクリプトプロパティ API_KEY に入っていて、CrUX と PSI の2つに限定してある。訪問数が少ない URL は、差し替えても CrUX に値が出ない場合がある。"
    },
    "en": {
-    "title": "Get real-user figures every day",
-    "why": "Real-user figures depend on a weekly collection that stopped on 2026-09-13. One API key removes that dependency and lets the figures be pulled daily, and lets the Region and AC-detail sample URLs be swapped immediately.",
-    "who": "Issuing the key is a browser task. Everything after it is automatic.",
-    "when": "The day the key arrives",
-    "cost": "5 min",
+    "title": "Swap the measurement URLs for Region, Category and AC detail",
+    "why": "Region and Category have no rows in crux_weekly, and AC detail returns no value. PSI measures Category at Sightseeing_Tour while the report reads Yakatabune.",
+    "who": "Edit the target URLs in the measurement sheet's Apps Script. The code is supplied. The API key is already set.",
+    "when": "From the day after pasting",
+    "cost": "10 min",
     "steps": [
      {
-      "t": "Enable the Chrome UX Report API",
-      "u": "https://console.cloud.google.com/apis/library/chromeuxreport.googleapis.com"
+      "t": "Decide the URLs (candidates supplied)",
+      "u": ""
      },
      {
-      "t": "Enable the PageSpeed Insights API in the same project",
-      "u": "https://console.cloud.google.com/apis/library/pagespeedonline.googleapis.com"
+      "t": "Open the sheet's Apps Script and edit the URLs in getTargets_()",
+      "u": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit"
      },
      {
-      "t": "Credentials → Create API key → copy",
-      "u": "https://console.cloud.google.com/apis/credentials"
-     },
-     {
-      "t": "Put the key in an environment variable, not in chat. Steps supplied on request",
+      "t": "Run backfillCruxHistory() once",
       "u": ""
      }
     ],
-    "note": "The CrUX API is free up to 150 queries per minute. The keyless shared quota is already exhausted (verified)."
+    "note": "The key is in script property API_KEY and limited to the CrUX and PSI APIs. A URL with few visits may still return nothing in CrUX."
    }
   },
   {
@@ -3679,14 +3667,14 @@
       "9/17 の効果は、日次の PSI では判定できた。実ユーザー値は28日の窓なので、判定は 10/17 締めの週以降。それまでは、日次の PSI と本番の手計測で見る",
       "AC詳細の PSI 低下と、TOP・エリアの実ユーザー LCP の悪化の原因を調べる",
       "操作への反応に効く施策を出す：[[UX_DESIGN-404]]、[[UX_DESIGN-398]]、[[UX_DESIGN-309]] の検索ページ・2ページ目以降への展開",
-      "計測を今すぐ足す：web-vitals タグ（コード用意済み。GTM に貼って公開するだけ）。AC詳細・地域・カテゴリーの計測 URL の差し替えは API キーが届き次第"
+      "計測を今すぐ足す：web-vitals タグ（コード用意済み。GTM に貼って公開するだけ）。AC詳細・地域・カテゴリーの計測 URL の差し替えは、計測シートの Apps Script の対象 URL を書き換えるだけ（API キーは設定済み）"
      ],
      "en": [
       "Load the October PSI and real-user figures and update this report",
       "The 9/17 effect is already judged on daily PSI. Real-user figures use a 28-day window, so they can be judged from the week ending 10/17; until then, read daily PSI and hand-timed production figures",
       "Find out why AC detail PSI dropped and why TOP and Area real-user LCP is worsening",
       "Ship for response to a tap: UX_DESIGN-404, UX_DESIGN-398, extend UX_DESIGN-309 to search and pages 2+",
-      "Add measurement now: the web-vitals tag (code ready; paste into GTM and publish). Swapping the AC detail, Region and Category measurement URLs follows once the API key arrives"
+      "Add measurement now: the web-vitals tag (code ready; paste into GTM and publish). Swapping the AC detail, Region and Category measurement URLs only means editing the target URLs in the measurement sheet's Apps Script (the API key is already set)"
      ]
     }
    }
