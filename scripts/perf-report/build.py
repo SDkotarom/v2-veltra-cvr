@@ -435,6 +435,15 @@ def _sec(key):
     x = SG[key]
     return f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3><div class="rv-l">{_bil(x["items"])}</div></div>'
 
+def _waits():
+    x = SG["waits"]
+    head, *body = x["table"]
+    tb = ('<div class="tw"><table class="wt"><tr>' + "".join(f"<th>{_cell(c)}</th>" for c in head) + "</tr>"
+          + "".join("<tr>" + "".join(f"<td>{_cell(c)}</td>" for c in r) + "</tr>" for r in body) + "</table></div>")
+    return (f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>{tb}'
+            f'<p class="mut">{t(x["note"]["ja"], x["note"]["en"])}</p></div>')
+
+
 def _classify():
     x = SG["classify"]
     head, *body = x["table"]
@@ -446,6 +455,8 @@ def _classify():
             f'<div class="rv-l">{_bil(x["add"]["items"])}</div></div>')
 
 PLAN = f'''<div class="rv-h"><h2>{t(SG["title"]["ja"], SG["title"]["en"])}</h2><span class="rv-m">{t(SG["meta"]["ja"], SG["meta"]["en"])}</span></div>
+{_sec("process")}
+{_waits()}
 {_sec("status")}
 {_classify()}
 <div class="sec pl"><h3 class="sh">{t(SG["views"]["h"]["ja"], SG["views"]["h"]["en"])}</h3>{_views}</div>
