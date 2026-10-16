@@ -1,6 +1,6 @@
 {
  "defs": {
-  "generated_at": "2026-10-14",
+  "generated_at": "2026-10-16",
   "latest_period_end": "2026-10-03",
   "crux_collected_at": "2026-10-11",
   "psi_date": "2026-10-14",
@@ -13,7 +13,7 @@
   "cls_good": 0.1,
   "ttfb_good": 800,
   "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-  "version": 52,
+  "version": 53,
   "baseline_period_end": "2026-08-22",
   "baseline_note": "2026-08-19",
   "glossary": {
@@ -5409,6 +5409,172 @@
    "note": {
     "ja": "確認済みの数字は、計測シートの実ユーザー値（CrUX）と、各チケットの記載から引いている。「未算定」は、効果の見込みを、まだ出せていないという意味。",
     "en": "Figures come from the real-user data (CrUX) in the measurement sheet and from the tickets. 'Not estimated' means an expected effect has not yet been worked out."
+   }
+  },
+  "policy": {
+   "h": {
+    "ja": "対応方針の整理（牧野の体感ベース、叩き台）",
+    "en": "Response policy by felt wait (Makino's experience, draft)"
+   },
+   "table": [
+    [
+     {
+      "ja": "体感（牧野、10/16）",
+      "en": "Felt wait (Makino, 10/16)"
+     },
+     {
+      "ja": "考えられる原因",
+      "en": "Likely cause"
+     },
+     {
+      "ja": "対応の方向",
+      "en": "Direction"
+     },
+     {
+      "ja": "関係するチケット",
+      "en": "Tickets"
+     },
+     {
+      "ja": "見込み・注意",
+      "en": "Expected effect and caveats"
+     }
+    ],
+    [
+     {
+      "ja": "検索（キーワード検索）が、いちばん重い。ローディングが回る",
+      "en": "Search by keyword is the heaviest; the loading ring spins"
+     },
+     {
+      "ja": "検索の実ユーザー TTFB は 5.5 秒（10/3 の週）。キーワードは無数にあり、初めての検索は、キャッシュに当たらない（9/4 の私の実測：初めてのキーワード 5.3 秒、キャッシュが効くと約 0.2 秒）。Suki さんの curl では、同じ検索を繰り返しても 3 秒前後（原因は未特定）",
+      "en": "Real-user TTFB for Search is 5.5 s (week of 10/3). Keywords are endless, so a first search misses the cache (my 9/4 measurement: new keyword 5.3 s, about 0.2 s when cached). In Suki's curl runs the same search stayed around 3 s (cause not identified)"
+     },
+     {
+      "ja": "1) 画面の枠と上の結果を先に出し、下は後から読み込む（段階描画）。2) 検索 API の速度（処理の内訳を計装して、遅い箇所を特定）。3) キャッシュの仕組みと保持時間の見直し（Suki さん）",
+      "en": "1) Show the frame and top results first and load the rest later (progressive rendering). 2) Speed up the search API (instrument it to find the slow part). 3) Review cache logic and duration (Suki)"
+     },
+     {
+      "ja": "[[UX_DESIGN-312]]・[[UX_DESIGN-390]]・[[UX_DESIGN-406]]・[[UX_DESIGN-389]]",
+      "en": "[[UX_DESIGN-312]], [[UX_DESIGN-390]], [[UX_DESIGN-406]], [[UX_DESIGN-389]]"
+     },
+     {
+      "ja": "段階描画は、検索 API の改修が要る（peregrine-api。Suki さんが変更でき、PR を Andy さん（KL チーム）に出す）。キャッシュだけでは、新しいキーワードに効かない。効果は未算定",
+      "en": "Progressive rendering needs a search API change (peregrine-api; Suki can change it and sends PRs to Andy, KL team). Caching alone does not help new keywords. Effect not estimated"
+     }
+    ],
+    [
+     {
+      "ja": "カテゴリー（エリア未絞り）で、エリアを絞ると、ローディングが回る",
+      "en": "Narrowing the area on an unfiltered Category page spins the loading ring"
+     },
+     {
+      "ja": "[[UX_DESIGN-309]] のキャッシュは、「カテゴリー1ページ目・日本語・絞り込みなし」だけが対象。エリアを絞った条件は、対象外",
+      "en": "The [[UX_DESIGN-309]] cache covers only Category page 1, JP, no filters. Area-filtered requests are not covered"
+     },
+     {
+      "ja": "[[UX_DESIGN-309]] の仕組みを、絞り込み条件つきの結果にも広げる。Redis の容量と費用、在庫・売切れのずれ（最大30分）を、先に確認する",
+      "en": "Extend the [[UX_DESIGN-309]] approach to filtered results, after checking Redis capacity and cost and the stock and sold-out lag (up to 30 min)"
+     },
+     {
+      "ja": "[[UX_DESIGN-309]]（次の段階）・[[UX_DESIGN-410]]・[[UX_DESIGN-412]]・[[UX_DESIGN-418]]",
+      "en": "[[UX_DESIGN-309]] (next stage), [[UX_DESIGN-410]], [[UX_DESIGN-412]], [[UX_DESIGN-418]]"
+     },
+     {
+      "ja": "309 の実績は、絞り込みなしで 1.82 → 0.97 秒。条件の組み合わせが多く、全部は保存できない（Suki さんの 9/22 のコメント）。効果は未算定",
+      "en": "309 reached 1.82 to 0.97 s without filters. Combinations are many and cannot all be stored (Suki, 9/22). Effect not estimated"
+     }
+    ],
+    [
+     {
+      "ja": "カテゴリーの初回表示（例：アラブ首長国連邦など、あまり見られないエリア）が、2〜3秒かかる",
+      "en": "First view of a Category page for a rarely visited area (e.g. UAE) takes 2-3 s"
+     },
+     {
+      "ja": "キャッシュがない状態で開くため、と推測（牧野）。9/4 の調査で、キャッシュの有無で、待ち時間が大きく変わることは、確認済み",
+      "en": "Suspected to be opening without a cache (Makino). The 9/4 investigation confirmed that cache or no cache changes the wait a lot"
+     },
+     {
+      "ja": "あまり見られないエリアにも、キャッシュを先に作る（ウォーミング）。既存のウォーミングが、実際に効いているかの確認が先",
+      "en": "Warm the cache for rarely visited areas too. First check that the existing warming actually works"
+     },
+     {
+      "ja": "[[UX_DESIGN-408]]・[[UX_DESIGN-407]]・[[UX_DESIGN-309]]",
+      "en": "[[UX_DESIGN-408]], [[UX_DESIGN-407]], [[UX_DESIGN-309]]"
+     },
+     {
+      "ja": "ヒット率が見えていないため、効果は未算定。SRE の相談が要る",
+      "en": "Hit rate is not visible yet, so the effect is not estimated. Needs an SRE consultation"
+     }
+    ],
+    [
+     {
+      "ja": "予約ステップで、参加日・人数・子供の年齢を入れると、約2秒、ローディングが回る",
+      "en": "In the booking step, entering date, party size and children's ages spins the loading ring for about 2 s"
+     },
+     {
+      "ja": "価格・在庫の計算が、商品ごとに何度も走る（[[UX_DESIGN-405]]・[[UX_DESIGN-417]] の指摘）。価格や在庫は、変わりやすく、キャッシュで解決しにくい",
+      "en": "Price and stock calculations run repeatedly per product (flagged in [[UX_DESIGN-405]] and [[UX_DESIGN-417]]). Price and stock change often, so caching is hard"
+     },
+     {
+      "ja": "キャッシュではなく、計算の回数を減らす（まとめて取得、重複の削除）。先に、処理の内訳を計装して、遅い箇所を特定する",
+      "en": "Reduce the number of calculations instead of caching (batching, removing duplicates). First instrument the processing to find the slow part"
+     },
+     {
+      "ja": "[[UX_DESIGN-405]]・[[UX_DESIGN-406]]・[[UX_DESIGN-417]]・[[UX_DESIGN-321]]",
+      "en": "[[UX_DESIGN-405]], [[UX_DESIGN-406]], [[UX_DESIGN-417]], [[UX_DESIGN-321]]"
+     },
+     {
+      "ja": "予約モーダルは、着手前の1回の計測で 0.77 秒（[[UX_DESIGN-321]]）。体感の約2秒との差は、未確認。購入に近い画面なので、優先度の判断が要る",
+      "en": "The booking modal measured 0.77 s once before work started ([[UX_DESIGN-321]]); the gap to the felt 2 s is unconfirmed. It is close to purchase, so priority needs a decision"
+     }
+    ],
+    [
+     {
+      "ja": "初めて見るページ全般が、遅い",
+      "en": "Pages seen for the first time are slow"
+     },
+     {
+      "ja": "キャッシュを作る前だから、と推測（牧野）。9/4 の調査で、キャッシュが、端末・サブドメイン・通貨・国などで、細かく分かれることを、確認済み",
+      "en": "Suspected to be before the cache exists (Makino). The 9/4 investigation confirmed the cache splits by device, subdomain, currency, country and more"
+     },
+     {
+      "ja": "キャッシュの分かれ方を減らす。CloudFront（CDN）でのキャッシュの可否を、SRE と確認する",
+      "en": "Reduce how the cache splits. Check with SRE whether CloudFront (CDN) caching is possible"
+     },
+     {
+      "ja": "[[UX_DESIGN-314]]・[[UX_DESIGN-407]]・[[UX_DESIGN-408]]",
+      "en": "[[UX_DESIGN-314]], [[UX_DESIGN-407]], [[UX_DESIGN-408]]"
+     },
+     {
+      "ja": "CDN の設定の確認が先。効果は未算定",
+      "en": "CDN settings come first. Effect not estimated"
+     }
+    ],
+    [
+     {
+      "ja": "左上のロゴから TOP へ戻ると、引っかかる",
+      "en": "Returning to TOP via the top-left logo feels sticky"
+     },
+     {
+      "ja": "未確認。TOP の最初の応答は、実ユーザーで 1.6 秒。TOP の部品（バナーなど）の読み込みが、関係する可能性がある",
+      "en": "Unconfirmed. Real-user time to first response on TOP is 1.6 s. TOP components such as banners may be involved"
+     },
+     {
+      "ja": "まず、どこで時間がかかっているかを測る。測ってから、方向を決める",
+      "en": "Measure where the time goes first, then decide the direction"
+     },
+     {
+      "ja": "[[UX_DESIGN-314]]・[[UX_DESIGN-422]]・[[UX_DESIGN-303]]",
+      "en": "[[UX_DESIGN-314]], [[UX_DESIGN-422]], [[UX_DESIGN-303]]"
+     },
+     {
+      "ja": "原因が分からないため、効果は未算定。手計測の対象に入れる",
+      "en": "Cause unknown, so effect not estimated. Add to hand timing"
+     }
+    ]
+   ],
+   "note": {
+    "ja": "牧野が、スマホ・Wi-Fi で、実際に触って感じた待ちを、口頭で挙げたもの。「推測（牧野）」は、牧野の推測で、確認できていない。「未算定」は、効果の見込みを、まだ出せていない、という意味。Suki さんが挙げた対象（カテゴリー・検索）と重なるのは、検索、カテゴリーの2行。",
+    "en": "Waits Makino noted by hand on a phone over Wi-Fi. 'Suspected (Makino)' means unconfirmed. 'Not estimated' means an expected effect has not yet been worked out. Rows that overlap with Suki's targets (Category and Search): the Search and Category rows."
    }
   }
  },

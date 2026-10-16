@@ -435,10 +435,10 @@ def _sec(key):
     x = SG[key]
     return f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3><div class="rv-l">{_bil(x["items"])}</div></div>'
 
-def _waits():
-    x = SG["waits"]
+def _waits(key="waits", cls="wt"):
+    x = SG[key]
     head, *body = x["table"]
-    tb = ('<div class="tw"><table class="wt"><tr>' + "".join(f"<th>{_cell(c)}</th>" for c in head) + "</tr>"
+    tb = (f'<div class="tw"><table class="{cls}"><tr>' + "".join(f"<th>{_cell(c)}</th>" for c in head) + "</tr>"
           + "".join("<tr>" + "".join(f"<td>{_cell(c)}</td>" for c in r) + "</tr>" for r in body) + "</table></div>")
     return (f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>{tb}'
             f'<p class="mut">{t(x["note"]["ja"], x["note"]["en"])}</p></div>')
@@ -457,6 +457,7 @@ def _classify():
 PLAN = f'''<div class="rv-h"><h2>{t(SG["title"]["ja"], SG["title"]["en"])}</h2><span class="rv-m">{t(SG["meta"]["ja"], SG["meta"]["en"])}</span></div>
 {_sec("process")}
 {_waits()}
+{_waits("policy", "wt")}
 {_sec("status")}
 {_classify()}
 <div class="sec pl"><h3 class="sh">{t(SG["views"]["h"]["ja"], SG["views"]["h"]["en"])}</h3>{_views}</div>
@@ -594,6 +595,7 @@ html = f'''<title>表示速度モニタリング</title>
 </div>
 
 <a class="linkcard" href="{defs["sheet_url"]}"><div><b>{t("計測スプレッドシート","Measurement spreadsheet")}</b><span>{t("生データと集計タブ（_summary / _defs）","Raw data and the aggregation tabs (_summary / _defs)")}</span></div><span>{t("開く →","Open →")}</span></a>
+<a class="linkcard" href="https://claude.ai/artifact/7CJnG9Ui4BGwjpbwryzddr" target="_blank" rel="noopener"><div><b>{t("KPIレポート","KPI report")}</b><span>{t("目標値に対する週次の予実（実ユーザー・PSI スコア）","Weekly actuals against targets (real users and PSI score)")}</span></div><span>{t("開く →","Open →")}</span></a>
 
 <footer>
 {t(f'集計期間：{defs["period_from"]}〜{defs["latest_period_end"]}（{defs["weeks_covered"]}週）。対象は www.veltra.com・日本語・モバイル。', f'Period: {defs["period_from"]} to {defs["latest_period_end"]} ({defs["weeks_covered"]} weeks). Scope: www.veltra.com, Japanese, mobile.')}<br>
