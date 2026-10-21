@@ -445,19 +445,15 @@ def _waits(key="waits", cls="wt"):
 
 
 CP = D["cacheplan"]
-def _cp_tbl(x, cls="wt"):
-    head, *body = x["table"]
-    return ('<div class="tw"><table class="' + cls + '"><tr>' + "".join(f"<th>{_cell(c)}</th>" for c in head) + "</tr>"
-            + "".join("<tr>" + "".join(f"<td>{_cell(c)}</td>" for c in r) + "</tr>" for r in body) + "</table></div>"
-            + (f'<p class="mut">{t(x["note"]["ja"], x["note"]["en"])}</p>' if x.get("note") else ""))
-def _cp_list(x):
-    return f'<div class="rv-l">{_bil(x["items"])}</div>'
+def _nest(items):
+    return "<ul>" + "".join(
+        f"<li>{expand(i['t'])}" + (_nest(i["c"]) if i.get("c") else "") + "</li>" for i in items) + "</ul>"
 CACHE = (f'<div class="rv-h"><h2>{t(CP["h"]["ja"], CP["h"]["en"])}</h2>'
          f'<span class="rv-m">{t(CP["meta"]["ja"], CP["meta"]["en"])}</span></div>'
-         f'<div class="sec pl"><h3 class="sh">{t(CP["problem"]["h"]["ja"], CP["problem"]["h"]["en"])}</h3>{_cp_list(CP["problem"])}</div>'
-         f'<div class="sec pl"><h3 class="sh">{t(CP["scope"]["h"]["ja"], CP["scope"]["h"]["en"])}</h3>{_cp_tbl(CP["scope"], "wt cp3")}</div>'
-         f'<div class="sec pl"><h3 class="sh">{t(CP["pros"]["h"]["ja"], CP["pros"]["h"]["en"])}</h3>{_cp_tbl(CP["pros"], "wt cp1")}</div>'
-         f'<div class="sec pl"><h3 class="sh">{t(CP["asks"]["h"]["ja"], CP["asks"]["h"]["en"])}</h3>{_cp_tbl(CP["asks"], "wt cp2")}</div>')
+         + "".join(
+             f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>'
+             f'<div class="rv-l cp-n"><span class="ja">{_nest(x["items"]["ja"])}</span>'
+             f'<span class="en">{_nest(x["items"]["en"])}</span></div></div>' for x in CP["sections"]))
 
 def _classify():
     x = SG["classify"]

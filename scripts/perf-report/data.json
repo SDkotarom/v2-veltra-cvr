@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 58,
+    "version": 59,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6003,341 +6003,793 @@
       "ja": "2026-10-21 時点",
       "en": "As of 2026-10-21"
     },
-    "asks": {
-      "h": {
-        "ja": "要確認・検討事項",
-        "en": "To confirm and to decide"
+    "sections": [
+      {
+        "h": {
+          "ja": "今の問題",
+          "en": "Current problems"
+        },
+        "items": {
+          "ja": [
+            {
+              "t": "検索",
+              "c": [
+                {
+                  "t": "初めて検索するキーワードは、最初の応答まで約 5.5 秒かかる（実ユーザー、10/3 の週）"
+                },
+                {
+                  "t": "検索 API の処理は、3 秒未満"
+                },
+                {
+                  "t": "残りの約 2 秒の原因は、まだ分かっていない"
+                }
+              ]
+            },
+            {
+              "t": "カテゴリー",
+              "c": [
+                {
+                  "t": "エリアなどで絞り込むと、読み込み中のリングが回る"
+                },
+                {
+                  "t": "あまり見られないエリアの初回表示は、2〜3 秒かかる（牧野の体感、10/16。測定ではない）"
+                },
+                {
+                  "t": "キャッシュがあるのは 1 ページ目だけ（2 ページ目以降と、絞り込み結果にはない）"
+                }
+              ]
+            },
+            {
+              "t": "効果の確認",
+              "c": [
+                {
+                  "t": "数字で改善を確認できた体感の待ちは、カテゴリーの絞り込み（1.82 → 0.97 秒）の 1 件だけ"
+                },
+                {
+                  "t": "PSI の改善は、小さい"
+                },
+                {
+                  "t": "CVR への影響は、まだ測れていない"
+                }
+              ]
+            }
+          ],
+          "en": [
+            {
+              "t": "Search",
+              "c": [
+                {
+                  "t": "A first-time keyword takes about 5.5 s to the first response (real users, week of 10/3)"
+                },
+                {
+                  "t": "The search API itself takes under 3 s"
+                },
+                {
+                  "t": "The cause of the remaining 2 s or so is not yet known"
+                }
+              ]
+            },
+            {
+              "t": "Category",
+              "c": [
+                {
+                  "t": "Narrowing by area and similar actions spins the loading ring"
+                },
+                {
+                  "t": "The first view of a rarely visited area takes 2-3 s (Makino's impression, 10/16; not a measurement)"
+                },
+                {
+                  "t": "Only page 1 is cached (not page 2 onward or filtered results)"
+                }
+              ]
+            },
+            {
+              "t": "Checking the effect",
+              "c": [
+                {
+                  "t": "The only felt wait with a confirmed improvement in numbers is the category filter (1.82 to 0.97 s)"
+                },
+                {
+                  "t": "PSI gains are small"
+                },
+                {
+                  "t": "The effect on CVR has not been measured"
+                }
+              ]
+            }
+          ]
+        }
       },
-      "table": [
-        [
-          {
-            "ja": "事項",
-            "en": "Item"
-          },
-          {
-            "ja": "確認先",
-            "en": "Who"
-          },
-          {
-            "ja": "状態",
-            "en": "Status"
-          }
-        ],
-        [
-          {
-            "ja": "キャッシュは、アクセスで作られるのか、30 分ごとに自動で作られるのか。30 分の枠が切り替わった直後の挙動",
-            "en": "Is the cache built on access or automatically every 30 minutes? What happens right after a slot changes"
-          },
-          {
-            "ja": "Suki さん",
-            "en": "Suki"
-          },
-          {
-            "ja": "依頼済み（10/21）。回答待ち",
-            "en": "Requested 10/21. Awaiting reply"
-          }
-        ],
-        [
-          {
-            "ja": "キャッシュが約 1.6GB 増えたときの、コスト・性能への影響",
-            "en": "Cost and performance impact of about 1.6 GB more cache"
-          },
-          {
-            "ja": "Suki さん経由で SRE（Jeff さん）",
-            "en": "SRE (Jeff), via Suki"
-          },
-          {
-            "ja": "依頼済み（10/21）。回答待ち",
-            "en": "Requested 10/21. Awaiting reply"
-          }
-        ],
-        [
-          {
-            "ja": "予約ステップ（約 2 秒）を対象に入れられるか",
-            "en": "Whether the booking step (about 2 s) can be included"
-          },
-          {
-            "ja": "Suki さん",
-            "en": "Suki"
-          },
-          {
-            "ja": "依頼済み（10/16）。回答なし",
-            "en": "Requested 10/16. No reply"
-          }
-        ],
-        [
-          {
-            "ja": "公開した瞬間にキャッシュを更新する仕組み。②③で、Redis なしでできるか（1ページ目では、すでにある）",
-            "en": "Update-on-publish for ② and ③ without Redis (already exists for page 1)"
-          },
-          {
-            "ja": "Suki さん",
-            "en": "Suki"
-          },
-          {
-            "ja": "未依頼",
-            "en": "Not yet requested"
-          }
-        ],
-        [
-          {
-            "ja": "戻し方（再リリースか、設定の切り替えか）",
-            "en": "How to revert (re-release or a setting)"
-          },
-          {
-            "ja": "Suki さん",
-            "en": "Suki"
-          },
-          {
-            "ja": "未依頼",
-            "en": "Not yet requested"
-          }
-        ],
-        [
-          {
-            "ja": "カテゴリー1ページ目の表示項目（在庫・価格・セール）が、24 時間古くなってよいか",
-            "en": "Whether stock, price and sale labels on category page 1 may be up to 24 hours old"
-          },
-          {
-            "ja": "牧野（SYS に表示項目を確認できる）",
-            "en": "Makino (display items can be checked with SYS)"
-          },
-          {
-            "ja": "方針は確認済み。表示項目は未確認",
-            "en": "Policy confirmed. Display items not checked"
-          }
-        ],
-        [
-          {
-            "ja": "効果の見方：手前の指標（一覧に着地したセッションの離脱、商品ページへの到達率、1 セッションあたりの商品ページ閲覧数）と、戻す条件。戻す条件の案：商品ページへの到達率が、変更前のばらつきを超えて下がり続けたら戻す",
-            "en": "Indicators and revert condition: earlier-stage indicators (engagement of sessions landing on a list, rate of reaching product pages, product pages per session) and a revert condition. Proposal: revert if the rate of reaching product pages keeps falling beyond its normal variation"
-          },
-          {
-            "ja": "牧野（Teppei さんと）",
-            "en": "Makino (with Teppei)"
-          },
-          {
-            "ja": "未決。変更前の値も未取得",
-            "en": "Undecided. Baseline values not yet taken"
-          }
-        ]
-      ]
-    },
-    "problem": {
-      "h": {
-        "ja": "今の問題",
-        "en": "Current problems"
+      {
+        "h": {
+          "ja": "今回改善すること",
+          "en": "What will be improved"
+        },
+        "items": {
+          "ja": [
+            {
+              "t": "カテゴリー",
+              "c": [
+                {
+                  "t": "① 1 ページ目を、24 時間のページキャッシュにする（リングを出さない）",
+                  "c": [
+                    {
+                      "t": "状態：仕組みの確認待ち"
+                    }
+                  ]
+                },
+                {
+                  "t": "② 2 ページ目以降も、30 分単位でキャッシュする",
+                  "c": [
+                    {
+                      "t": "状態：容量の確認待ち"
+                    }
+                  ]
+                },
+                {
+                  "t": "③ 絞り込み結果も、30 分単位でキャッシュする（よく使われる絞り込みだけに絞る）",
+                  "c": [
+                    {
+                      "t": "状態：範囲を決める段階"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "検索",
+              "c": [
+                {
+                  "t": "⑤ 検索ページと filter_kw() の処理を調べる（約 2 秒の原因の特定）",
+                  "c": [
+                    {
+                      "t": "状態：実施をお願いする"
+                    }
+                  ]
+                },
+                {
+                  "t": "⑥ よく検索されるキーワードを、定期実行で先にキャッシュする",
+                  "c": [
+                    {
+                      "t": "状態：範囲を決める段階"
+                    }
+                  ]
+                },
+                {
+                  "t": "④ 枠を先に出し、結果は後から描画する",
+                  "c": [
+                    {
+                      "t": "状態：あとで"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "予約ステップ",
+              "c": [
+                {
+                  "t": "約 2 秒の待ちを、対象に入れられるか確認する（できれば）",
+                  "c": [
+                    {
+                      "t": "状態：依頼済み（10/16）。回答なし"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "共通",
+              "c": [
+                {
+                  "t": "効果を、CVR だけでなく、手前の指標でも見る"
+                },
+                {
+                  "t": "問題が出たら戻せる状態で進める"
+                },
+                {
+                  "t": "UX の判断は牧野。Suki さんの案は、費用などの問題が小さければ実施する（10/21、Teppei さんと確認）"
+                },
+                {
+                  "t": "状態：変更前の値の取得と、戻し方の確認が、これから"
+                }
+              ]
+            }
+          ],
+          "en": [
+            {
+              "t": "Category",
+              "c": [
+                {
+                  "t": "① Make page 1 a 24-hour page cache (no loading ring)",
+                  "c": [
+                    {
+                      "t": "Status: waiting on how the cache works"
+                    }
+                  ]
+                },
+                {
+                  "t": "② Cache page 2 onward in 30-minute slots",
+                  "c": [
+                    {
+                      "t": "Status: waiting on capacity"
+                    }
+                  ]
+                },
+                {
+                  "t": "③ Cache filtered results in 30-minute slots (only the most-used filters)",
+                  "c": [
+                    {
+                      "t": "Status: scope to be decided"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "Search",
+              "c": [
+                {
+                  "t": "⑤ Investigate the search page and filter_kw() (find the cause of the 2 s)",
+                  "c": [
+                    {
+                      "t": "Status: to be requested"
+                    }
+                  ]
+                },
+                {
+                  "t": "⑥ Pre-cache popular keywords with a scheduled job",
+                  "c": [
+                    {
+                      "t": "Status: scope to be decided"
+                    }
+                  ]
+                },
+                {
+                  "t": "④ Show the frame first and render results later",
+                  "c": [
+                    {
+                      "t": "Status: later"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "Booking step",
+              "c": [
+                {
+                  "t": "Check whether the wait of about 2 s can be included (if possible)",
+                  "c": [
+                    {
+                      "t": "Status: requested 10/16. No reply"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "Common",
+              "c": [
+                {
+                  "t": "Judge the effect not only by CVR but also by earlier-stage indicators"
+                },
+                {
+                  "t": "Proceed so that changes can be reverted"
+                },
+                {
+                  "t": "UX decisions are Makino's. Suki's ideas are done if cost and other concerns are small (confirmed with Teppei on 10/21)"
+                },
+                {
+                  "t": "Status: baseline values and the way to revert are still to do"
+                }
+              ]
+            }
+          ]
+        }
       },
-      "items": {
-        "ja": [
-          "検索：初めて検索するキーワードで、最初の応答まで約 5.5 秒かかる（実ユーザー、10/3 の週）。検索 API の処理は 3 秒未満で、残りの約 2 秒の原因は、まだ分かっていない",
-          "カテゴリー：エリアなどで絞り込むと、読み込み中のリングが回る。あまり見られないエリアの初回表示は、2〜3 秒かかる（牧野の体感、10/16。測定ではない）。キャッシュがあるのは 1 ページ目だけで、2 ページ目以降と絞り込み結果にはない",
-          "効果の確認：数字で改善を確認できた体感の待ちは、カテゴリーの絞り込み（1.82 → 0.97 秒）の 1 件だけ。PSI の改善は小さく、CVR への影響は測れていない"
-        ],
-        "en": [
-          "Search: for a keyword searched for the first time, the first response takes about 5.5 s (real users, week of 10/3). The search API takes under 3 s; the cause of the remaining 2 s or so is not yet known",
-          "Category: narrowing by area and similar actions spins the loading ring. The first view of a rarely visited area takes 2-3 s (Makino's impression, 10/16; not a measurement). Only page 1 is cached; page 2 onward and filtered results are not",
-          "Checking the effect: the only felt wait with a confirmed improvement in numbers is the category filter (1.82 to 0.97 s). PSI gains are small and the effect on CVR has not been measured"
-        ]
+      {
+        "h": {
+          "ja": "メリット・デメリット",
+          "en": "Pros and cons"
+        },
+        "items": {
+          "ja": [
+            {
+              "t": "① カテゴリー 1 ページ目を、24 時間のページキャッシュにする",
+              "c": [
+                {
+                  "t": "メリット",
+                  "c": [
+                    {
+                      "t": "リングが出ない。速い"
+                    },
+                    {
+                      "t": "Sightseeing_Tour のページが、すでに同じ方式"
+                    }
+                  ]
+                },
+                {
+                  "t": "デメリット・懸念",
+                  "c": [
+                    {
+                      "t": "古いデータが、最大 24 時間出る（特別セールなど）"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "② 2 ページ目以降を、30 分単位でキャッシュする",
+              "c": [
+                {
+                  "t": "メリット",
+                  "c": [
+                    {
+                      "t": "キャッシュがあれば速い"
+                    }
+                  ]
+                },
+                {
+                  "t": "デメリット・懸念",
+                  "c": [
+                    {
+                      "t": "全部で 1.6GB 超の見積もり"
+                    },
+                    {
+                      "t": "2 ページ目以降を見る人の割合は、未確認"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "③ 絞り込み結果を、30 分単位でキャッシュする",
+              "c": [
+                {
+                  "t": "メリット",
+                  "c": [
+                    {
+                      "t": "キャッシュがあれば速い"
+                    }
+                  ]
+                },
+                {
+                  "t": "デメリット・懸念",
+                  "c": [
+                    {
+                      "t": "組み合わせが多く、キャッシュに当たる割合が読めない"
+                    },
+                    {
+                      "t": "範囲を絞る案：よく使われる絞り込みだけ、日付 1 日だけ"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "④ 枠を先に出し、結果は後から描画する",
+              "c": [
+                {
+                  "t": "メリット",
+                  "c": [
+                    {
+                      "t": "最初の応答が速くなる"
+                    }
+                  ]
+                },
+                {
+                  "t": "デメリット・懸念",
+                  "c": [
+                    {
+                      "t": "表示のずれが出る可能性（原文は CLP。CLS の誤記と思われるが未確認）"
+                    },
+                    {
+                      "t": "仮の枠のデザインが要る。検索 API の改修が要る"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "⑤ 検索ページと filter_kw() の処理を調べる",
+              "c": [
+                {
+                  "t": "メリット",
+                  "c": [
+                    {
+                      "t": "キャッシュに関係なく速くなる"
+                    }
+                  ]
+                },
+                {
+                  "t": "デメリット・懸念",
+                  "c": [
+                    {
+                      "t": "原因が未特定。先に処理の内訳を測る必要がある（[[UX_DESIGN-406]]・[[UX_DESIGN-413]]）"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "⑥ よく検索されるキーワードを、定期実行で先にキャッシュする",
+              "c": [
+                {
+                  "t": "メリット",
+                  "c": [
+                    {
+                      "t": "よく検索されるキーワードが、いつでも速い"
+                    }
+                  ]
+                },
+                {
+                  "t": "デメリット・懸念",
+                  "c": [
+                    {
+                      "t": "珍しいキーワードには、効かない"
+                    },
+                    {
+                      "t": "定期実行の仕組みが、新しく要る"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "en": [
+            {
+              "t": "① Make category page 1 a 24-hour page cache",
+              "c": [
+                {
+                  "t": "Pros",
+                  "c": [
+                    {
+                      "t": "No loading ring. Fast"
+                    },
+                    {
+                      "t": "The Sightseeing_Tour page already works this way"
+                    }
+                  ]
+                },
+                {
+                  "t": "Cons and concerns",
+                  "c": [
+                    {
+                      "t": "Data can be up to 24 hours old (e.g. special deals)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "② Cache page 2 onward in 30-minute slots",
+              "c": [
+                {
+                  "t": "Pros",
+                  "c": [
+                    {
+                      "t": "Fast when the cache is warm"
+                    }
+                  ]
+                },
+                {
+                  "t": "Cons and concerns",
+                  "c": [
+                    {
+                      "t": "Estimated at over 1.6 GB in total"
+                    },
+                    {
+                      "t": "Share of people who view page 2 onward is unconfirmed"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "③ Cache filtered results in 30-minute slots",
+              "c": [
+                {
+                  "t": "Pros",
+                  "c": [
+                    {
+                      "t": "Fast when the cache is warm"
+                    }
+                  ]
+                },
+                {
+                  "t": "Cons and concerns",
+                  "c": [
+                    {
+                      "t": "Many combinations, so the hit rate is unclear"
+                    },
+                    {
+                      "t": "Idea to narrow: only the most-used filters, single-date queries only"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "④ Show the frame first and render results later",
+              "c": [
+                {
+                  "t": "Pros",
+                  "c": [
+                    {
+                      "t": "Faster first response"
+                    }
+                  ]
+                },
+                {
+                  "t": "Cons and concerns",
+                  "c": [
+                    {
+                      "t": "Possible layout shift (written as CLP; probably CLS, unconfirmed)"
+                    },
+                    {
+                      "t": "Placeholder design needed. Needs a search API change"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "⑤ Investigate the search page and filter_kw()",
+              "c": [
+                {
+                  "t": "Pros",
+                  "c": [
+                    {
+                      "t": "Faster regardless of caching"
+                    }
+                  ]
+                },
+                {
+                  "t": "Cons and concerns",
+                  "c": [
+                    {
+                      "t": "Cause not identified. Processing must be measured first ([[UX_DESIGN-406]], [[UX_DESIGN-413]])"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "⑥ Pre-cache popular keywords with a scheduled job",
+              "c": [
+                {
+                  "t": "Pros",
+                  "c": [
+                    {
+                      "t": "Popular keywords are always fast"
+                    }
+                  ]
+                },
+                {
+                  "t": "Cons and concerns",
+                  "c": [
+                    {
+                      "t": "Does not help rare keywords"
+                    },
+                    {
+                      "t": "A scheduled job must be built"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "h": {
+          "ja": "要確認・検討事項",
+          "en": "To confirm and to decide"
+        },
+        "items": {
+          "ja": [
+            {
+              "t": "キャッシュの作られ方",
+              "c": [
+                {
+                  "t": "内容：アクセスで作られるのか、30 分ごとに自動で作られるのか。30 分の枠が切り替わった直後は、どうなるか"
+                },
+                {
+                  "t": "確認先：Suki さん"
+                },
+                {
+                  "t": "状態：依頼済み（10/21）。回答待ち"
+                }
+              ]
+            },
+            {
+              "t": "キャッシュが約 1.6GB 増えたときの影響",
+              "c": [
+                {
+                  "t": "内容：コスト・性能への影響"
+                },
+                {
+                  "t": "確認先：Suki さん経由で SRE（Jeff さん）"
+                },
+                {
+                  "t": "状態：依頼済み（10/21）。回答待ち"
+                }
+              ]
+            },
+            {
+              "t": "予約ステップを対象に入れられるか",
+              "c": [
+                {
+                  "t": "確認先：Suki さん"
+                },
+                {
+                  "t": "状態：依頼済み（10/16）。回答なし"
+                }
+              ]
+            },
+            {
+              "t": "公開した瞬間のキャッシュ更新（②③）",
+              "c": [
+                {
+                  "t": "内容：Redis なしでできるか（1 ページ目では、すでにある）"
+                },
+                {
+                  "t": "確認先：Suki さん"
+                },
+                {
+                  "t": "状態：未依頼"
+                }
+              ]
+            },
+            {
+              "t": "戻し方",
+              "c": [
+                {
+                  "t": "内容：再リリースか、設定の切り替えか"
+                },
+                {
+                  "t": "確認先：Suki さん"
+                },
+                {
+                  "t": "状態：未依頼"
+                }
+              ]
+            },
+            {
+              "t": "1 ページ目の表示項目の古さ",
+              "c": [
+                {
+                  "t": "内容：在庫・価格・セールの表示が、24 時間古くなってよいか"
+                },
+                {
+                  "t": "確認先：牧野（SYS に表示項目を確認できる）"
+                },
+                {
+                  "t": "状態：方針は確認済み。表示項目は未確認"
+                }
+              ]
+            },
+            {
+              "t": "効果の見方と、戻す条件",
+              "c": [
+                {
+                  "t": "手前の指標：一覧に着地したセッションの離脱、商品ページへの到達率、1 セッションあたりの商品ページ閲覧数"
+                },
+                {
+                  "t": "戻す条件の案：商品ページへの到達率が、変更前のばらつきを超えて下がり続けたら戻す"
+                },
+                {
+                  "t": "確認先：牧野（Teppei さんと）"
+                },
+                {
+                  "t": "状態：未決。変更前の値も未取得"
+                }
+              ]
+            }
+          ],
+          "en": [
+            {
+              "t": "How the cache is built",
+              "c": [
+                {
+                  "t": "What: built on access, or automatically every 30 minutes? What happens right after a slot changes"
+                },
+                {
+                  "t": "Who: Suki"
+                },
+                {
+                  "t": "Status: requested 10/21. Awaiting reply"
+                }
+              ]
+            },
+            {
+              "t": "Impact of about 1.6 GB more cache",
+              "c": [
+                {
+                  "t": "What: cost and performance impact"
+                },
+                {
+                  "t": "Who: SRE (Jeff), via Suki"
+                },
+                {
+                  "t": "Status: requested 10/21. Awaiting reply"
+                }
+              ]
+            },
+            {
+              "t": "Whether the booking step can be included",
+              "c": [
+                {
+                  "t": "Who: Suki"
+                },
+                {
+                  "t": "Status: requested 10/16. No reply"
+                }
+              ]
+            },
+            {
+              "t": "Update-on-publish (② and ③)",
+              "c": [
+                {
+                  "t": "What: possible without Redis (already exists for page 1)"
+                },
+                {
+                  "t": "Who: Suki"
+                },
+                {
+                  "t": "Status: not yet requested"
+                }
+              ]
+            },
+            {
+              "t": "How to revert",
+              "c": [
+                {
+                  "t": "What: re-release or a setting change"
+                },
+                {
+                  "t": "Who: Suki"
+                },
+                {
+                  "t": "Status: not yet requested"
+                }
+              ]
+            },
+            {
+              "t": "Staleness of page 1 display items",
+              "c": [
+                {
+                  "t": "What: whether stock, price and sale labels may be up to 24 hours old"
+                },
+                {
+                  "t": "Who: Makino (display items can be checked with SYS)"
+                },
+                {
+                  "t": "Status: policy confirmed. Display items not checked"
+                }
+              ]
+            },
+            {
+              "t": "Indicators and revert condition",
+              "c": [
+                {
+                  "t": "Earlier-stage indicators: engagement of sessions landing on a list, rate of reaching product pages, product pages per session"
+                },
+                {
+                  "t": "Revert proposal: revert if the rate of reaching product pages keeps falling beyond its normal variation"
+                },
+                {
+                  "t": "Who: Makino (with Teppei)"
+                },
+                {
+                  "t": "Status: undecided. Baseline values not yet taken"
+                }
+              ]
+            }
+          ]
+        }
       }
-    },
-    "scope": {
-      "h": {
-        "ja": "今回改善すること",
-        "en": "What will be improved"
-      },
-      "note": {
-        "ja": "UX の判断は牧野。Suki さんの案（10/20）を、費用などの問題が小さければ実施する（10/21、Teppei さんと確認）",
-        "en": "UX decisions are Makino's. Suki's ideas (10/20) will be done if cost and other concerns are small (confirmed with Teppei on 10/21)"
-      },
-      "table": [
-        [
-          {
-            "ja": "対象",
-            "en": "Target"
-          },
-          {
-            "ja": "改善すること",
-            "en": "What"
-          },
-          {
-            "ja": "状態",
-            "en": "Status"
-          }
-        ],
-        [
-          {
-            "ja": "カテゴリー",
-            "en": "Category"
-          },
-          {
-            "ja": "① 1 ページ目を 24 時間のページキャッシュにして、リングを出さない<br>② 2 ページ目以降も、30 分単位でキャッシュする<br>③ 絞り込み結果も、30 分単位でキャッシュする（よく使われる絞り込みだけに範囲を絞る）",
-            "en": "① Make page 1 a 24-hour page cache so the ring does not appear<br>② Cache page 2 onward in 30-minute slots<br>③ Cache filtered results in 30-minute slots (limited to the most-used filters)"
-          },
-          {
-            "ja": "① 仕組みの確認待ち<br>② 容量の確認待ち<br>③ 範囲を決める段階",
-            "en": "① Waiting on how the cache works<br>② Waiting on capacity<br>③ Scope to be decided"
-          }
-        ],
-        [
-          {
-            "ja": "検索",
-            "en": "Search"
-          },
-          {
-            "ja": "⑤ 検索ページと filter_kw() の処理を調べる（API は 3 秒未満、最初の応答は 5 秒超）<br>⑥ よく検索されるキーワードを、定期実行で先にキャッシュする<br>④ 枠を先に出し、結果は後から描画する（あとで）",
-            "en": "⑤ Investigate the search page and filter_kw() (API under 3 s, first response over 5 s)<br>⑥ Pre-cache popular keywords with a scheduled job<br>④ Show the frame first and render results later (later)"
-          },
-          {
-            "ja": "⑤ 実施をお願いする<br>⑥ 範囲を決める段階<br>④ あとで",
-            "en": "⑤ To be requested<br>⑥ Scope to be decided<br>④ Later"
-          }
-        ],
-        [
-          {
-            "ja": "予約ステップ",
-            "en": "Booking step"
-          },
-          {
-            "ja": "約 2 秒の待ちを、対象に入れられるか確認する（できれば）",
-            "en": "Check whether the wait of about 2 s can be included (if possible)"
-          },
-          {
-            "ja": "依頼済み（10/16）。回答なし",
-            "en": "Requested 10/16. No reply"
-          }
-        ],
-        [
-          {
-            "ja": "共通",
-            "en": "Common"
-          },
-          {
-            "ja": "効果を、CVR だけでなく、手前の指標でも見る。問題が出たら戻せる状態で進める",
-            "en": "Judge the effect not only by CVR but also by earlier-stage indicators. Proceed so that changes can be reverted"
-          },
-          {
-            "ja": "変更前の値の取得と、戻し方の確認が、これから",
-            "en": "Baseline values and the way to revert are still to do"
-          }
-        ]
-      ]
-    },
-    "pros": {
-      "h": {
-        "ja": "メリット・デメリット",
-        "en": "Pros and cons"
-      },
-      "table": [
-        [
-          {
-            "ja": "番号",
-            "en": "No."
-          },
-          {
-            "ja": "案",
-            "en": "Idea"
-          },
-          {
-            "ja": "メリット",
-            "en": "Pros"
-          },
-          {
-            "ja": "デメリット・懸念",
-            "en": "Cons and concerns"
-          }
-        ],
-        [
-          "①",
-          {
-            "ja": "カテゴリー 1 ページ目を、24 時間のページキャッシュにする",
-            "en": "Make category page 1 a 24-hour page cache"
-          },
-          {
-            "ja": "リングが出ない。速い。Sightseeing_Tour のページが、すでに同じ方式",
-            "en": "No loading ring. Fast. The Sightseeing_Tour page already works this way"
-          },
-          {
-            "ja": "古いデータが、最大 24 時間出る（特別セールなど）",
-            "en": "Data can be up to 24 hours old (e.g. special deals)"
-          }
-        ],
-        [
-          "②",
-          {
-            "ja": "2 ページ目以降を、30 分単位でキャッシュする",
-            "en": "Cache page 2 onward in 30-minute slots"
-          },
-          {
-            "ja": "キャッシュがあれば速い",
-            "en": "Fast when the cache is warm"
-          },
-          {
-            "ja": "全部で 1.6GB 超の見積もり。2 ページ目以降を見る人の割合は未確認",
-            "en": "Estimated at over 1.6 GB in total. Share of people who view page 2 onward is unconfirmed"
-          }
-        ],
-        [
-          "③",
-          {
-            "ja": "絞り込み結果を、30 分単位でキャッシュする",
-            "en": "Cache filtered results in 30-minute slots"
-          },
-          {
-            "ja": "キャッシュがあれば速い",
-            "en": "Fast when the cache is warm"
-          },
-          {
-            "ja": "組み合わせが多く、キャッシュに当たる割合が読めない。範囲を絞る案：よく使われる絞り込みだけ、日付 1 日だけ",
-            "en": "Many combinations, so the hit rate is unclear. Idea: only the most-used filters, single-date queries only"
-          }
-        ],
-        [
-          "④",
-          {
-            "ja": "枠を先に出し、結果は後から描画する",
-            "en": "Show the frame first and render results later"
-          },
-          {
-            "ja": "最初の応答が速くなる",
-            "en": "Faster first response"
-          },
-          {
-            "ja": "表示のずれ（原文は CLP。CLS の誤記と思われるが未確認）。仮の枠のデザインが要る。検索 API の改修が要る",
-            "en": "Layout shift (written as CLP; probably CLS, unconfirmed). Placeholder design needed. Needs a search API change"
-          }
-        ],
-        [
-          "⑤",
-          {
-            "ja": "検索ページと filter_kw() の処理を調べる",
-            "en": "Investigate the search page and filter_kw()"
-          },
-          {
-            "ja": "キャッシュに関係なく速くなる",
-            "en": "Faster regardless of caching"
-          },
-          {
-            "ja": "原因が未特定。先に処理の内訳を測る必要がある（[[UX_DESIGN-406]]・[[UX_DESIGN-413]]）",
-            "en": "Cause not identified. Processing must be measured first ([[UX_DESIGN-406]], [[UX_DESIGN-413]])"
-          }
-        ],
-        [
-          "⑥",
-          {
-            "ja": "よく検索されるキーワードを、定期実行で先にキャッシュする",
-            "en": "Pre-cache popular keywords with a scheduled job"
-          },
-          {
-            "ja": "よく検索されるキーワードが、いつでも速い",
-            "en": "Popular keywords are always fast"
-          },
-          {
-            "ja": "珍しいキーワードには効かない。定期実行の仕組みが新しく要る",
-            "en": "Does not help rare keywords. A scheduled job must be built"
-          }
-        ]
-      ]
-    }
+    ]
   }
 }
