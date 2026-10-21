@@ -472,15 +472,17 @@ table.cp3 th:nth-child(1){width:12%}
 table.cp3 th:nth-child(2){width:56%}
 table.cp3 th:nth-child(3){width:32%}
 
-/* キャッシュの流れの図 */
+/* キャッシュの流れの図：5 列の表。列の幅は、すべての行で同じ */
 .fl-leg{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
-.fl-g{margin:0 0 20px}
-.fl-gh{margin:0 0 8px;font-size:14px;font-weight:700}
-.fl-r{display:flex;gap:10px;margin:0 0 8px}
-.fl-l{flex:0 0 36px;padding-top:7px;font-size:13px;font-weight:700;color:var(--ink-3)}
-.fl-s{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;flex:1;min-width:0}
-.fl-b{display:inline-block;padding:7px 10px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface);font-size:13px;line-height:1.5;max-width:210px}
+.fl-gh{margin:22px 0 8px;font-size:14px;font-weight:700}
+.fl-wrap{overflow-x:auto}
+.fl-grid{display:grid;grid-template-columns:92px repeat(5,minmax(0,1fr));gap:8px 20px;min-width:740px}
+.fl-h{font-size:12px;font-weight:700;color:var(--ink-3);padding:0 2px 2px;border-bottom:1px solid var(--line)}
+.fl-l{font-size:13px;font-weight:700;color:var(--ink-3);padding-top:9px}
+.fl-b{position:relative;display:block;padding:8px 10px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface);font-size:13px;line-height:1.55}
+.fl-leg .fl-b{display:inline-block}
 .fl-b.cache{border-color:var(--pos-ink);background:var(--surface-2)}
 .fl-b.wait{border-color:var(--neg-ink);background:var(--surface-2)}
-.fl-a{align-self:center;color:var(--ink-3)}
-.fl-i{display:inline-flex;align-items:stretch;gap:6px}
+.fl-b.none{border:1px dashed var(--line-strong);background:transparent;color:var(--ink-3)}
+.fl-grid>.fl-b:not(:nth-of-type(5n))::after{content:"→";position:absolute;right:-17px;top:50%;transform:translateY(-50%);color:var(--ink-3);font-size:13px}
+.fl-l small{display:block;margin-top:2px;font-size:11px;font-weight:400;line-height:1.4;color:var(--ink-3)}

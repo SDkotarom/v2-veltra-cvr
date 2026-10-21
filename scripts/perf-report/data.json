@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 61,
+    "version": 62,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6381,7 +6381,7 @@
         "items": {
           "ja": [
             {
-              "t": "A　カテゴリー 1 ページ目：リングが回る（確認済み）",
+              "t": "カテゴリー 1 ページ目：リングが回る（確認済み）",
               "c": [
                 {
                   "t": "ページを開いたあと、最新の一覧を取りにいくため"
@@ -6392,7 +6392,7 @@
               ]
             },
             {
-              "t": "B　カテゴリー 2 ページ目以降と、絞り込み：毎回、最初から作る（仮説）",
+              "t": "カテゴリー 2 ページ目以降と、絞り込み：毎回、最初から作る（仮説）",
               "c": [
                 {
                   "t": "とっておかないため、と考えている（Suki さんの説明と、牧野の推測）"
@@ -6400,7 +6400,7 @@
               ]
             },
             {
-              "t": "C　あまり見られないエリアの初回：2〜3 秒（仮説）",
+              "t": "あまり見られないエリアの初回：2〜3 秒（仮説）",
               "c": [
                 {
                   "t": "見る人が少なく、とっておいたものが、まだないため（牧野の推測）"
@@ -6411,7 +6411,7 @@
               ]
             },
             {
-              "t": "D　検索：初めてのキーワードが遅い（確認済み）",
+              "t": "検索：初めてのキーワードが遅い（確認済み）",
               "c": [
                 {
                   "t": "初めてのキーワード 5.3 秒、とっておいたものがあると約 0.2 秒（9/4 の牧野の実測）"
@@ -6419,7 +6419,7 @@
               ]
             },
             {
-              "t": "E　検索：API が速いのに、最初の応答が遅い（Suki さんの推測）",
+              "t": "検索：API が速いのに、最初の応答が遅い（Suki さんの推測）",
               "c": [
                 {
                   "t": "API は 3 秒未満。最初の応答は 5 秒超"
@@ -6443,7 +6443,7 @@
           ],
           "en": [
             {
-              "t": "A  Category page 1: the ring spins (confirmed)",
+              "t": "Category page 1: the ring spins (confirmed)",
               "c": [
                 {
                   "t": "Because the latest list is fetched after the page opens"
@@ -6454,7 +6454,7 @@
               ]
             },
             {
-              "t": "B  Category page 2 onward and filters: made from scratch every time (hypothesis)",
+              "t": "Category page 2 onward and filters: made from scratch every time (hypothesis)",
               "c": [
                 {
                   "t": "Because nothing is kept (Suki's description and Makino's inference)"
@@ -6462,7 +6462,7 @@
               ]
             },
             {
-              "t": "C  First view of a rarely visited area: 2-3 s (hypothesis)",
+              "t": "First view of a rarely visited area: 2-3 s (hypothesis)",
               "c": [
                 {
                   "t": "Because few people view it and nothing is kept yet (Makino's inference)"
@@ -6473,7 +6473,7 @@
               ]
             },
             {
-              "t": "D  Search: first-time keywords are slow (confirmed)",
+              "t": "Search: first-time keywords are slow (confirmed)",
               "c": [
                 {
                   "t": "First-time keyword 5.3 s, about 0.2 s when kept (Makino's 9/4 measurement)"
@@ -6481,7 +6481,7 @@
               ]
             },
             {
-              "t": "E  Search: slow first response although the API is fast (Suki's guess)",
+              "t": "Search: slow first response although the API is fast (Suki's guess)",
               "c": [
                 {
                   "t": "The API takes under 3 s. The first response takes over 5 s"
@@ -6507,16 +6507,16 @@
       },
       {
         "h": {
-          "ja": "今回改善すること",
-          "en": "What will be improved"
+          "ja": "今回改善すること（原因ごと）",
+          "en": "What will be improved (by cause)"
         },
         "items": {
           "ja": [
             {
-              "t": "A に対応：最新の一覧を取りにいくのを、やめる",
+              "t": "原因：カテゴリー 1 ページ目は、開いたあとに最新の一覧を取りにいく（確認済み）",
               "c": [
                 {
-                  "t": "① 1 ページ目を、24 時間のページキャッシュにする（リングを出さない）",
+                  "t": "改善：1 ページ目を、24 時間のページキャッシュにして、取りにいかない（リングを出さない）",
                   "c": [
                     {
                       "t": "状態：仕組みの確認待ち"
@@ -6526,10 +6526,10 @@
               ]
             },
             {
-              "t": "B に対応：毎回、最初から作るのを、減らす",
+              "t": "原因：カテゴリーの 2 ページ目以降と絞り込みは、キャッシュがなく、毎回、最初から作る（仮説）",
               "c": [
                 {
-                  "t": "② 2 ページ目以降も、30 分単位でとっておく",
+                  "t": "改善：2 ページ目以降も、30 分単位でキャッシュする",
                   "c": [
                     {
                       "t": "状態：容量の確認待ち"
@@ -6537,7 +6537,7 @@
                   ]
                 },
                 {
-                  "t": "③ 絞り込み結果も、30 分単位でとっておく（よく使われる絞り込みだけに絞る）",
+                  "t": "改善：絞り込み結果も、30 分単位でキャッシュする（よく使われる絞り込みだけに絞る）",
                   "c": [
                     {
                       "t": "状態：範囲を決める段階"
@@ -6547,10 +6547,13 @@
               ]
             },
             {
-              "t": "C に対応：Suki さんの案には、ない",
+              "t": "原因：あまり見られないエリアは、キャッシュがまだない（仮説）",
               "c": [
                 {
-                  "t": "既存の事前作成（ウォーミング）が効いているかの確認（[[UX_DESIGN-408]]）",
+                  "t": "Suki さんの案には、ない"
+                },
+                {
+                  "t": "既存の事前作成（ウォーミング）が効いているかを確認する（[[UX_DESIGN-408]]）",
                   "c": [
                     {
                       "t": "状態：未着手"
@@ -6560,10 +6563,10 @@
               ]
             },
             {
-              "t": "D に対応：よく検索されるキーワードを、先にとっておく",
+              "t": "原因：検索は、初めてのキーワードに、キャッシュがない（確認済み）",
               "c": [
                 {
-                  "t": "⑥ 定期実行で、よく検索されるキーワードを、先にキャッシュする",
+                  "t": "改善：よく検索されるキーワードを、定期実行で先にキャッシュする",
                   "c": [
                     {
                       "t": "状態：範囲を決める段階"
@@ -6573,10 +6576,10 @@
               ]
             },
             {
-              "t": "E に対応：検索ページ側の処理を調べる",
+              "t": "原因：検索は、API が速いのに、最初の応答が遅い（Suki さんの推測）",
               "c": [
                 {
-                  "t": "⑤ 検索ページと filter_kw() の処理を調べる（約 2 秒の原因の特定）",
+                  "t": "改善：検索ページと filter_kw() の処理を調べる（約 2 秒の原因の特定）",
                   "c": [
                     {
                       "t": "状態：実施をお願いする"
@@ -6584,7 +6587,7 @@
                   ]
                 },
                 {
-                  "t": "④ 枠を先に出し、結果は後から描画する",
+                  "t": "改善：枠を先に出し、結果は後から描画する",
                   "c": [
                     {
                       "t": "状態：あとで"
@@ -6594,10 +6597,10 @@
               ]
             },
             {
-              "t": "予約ステップ",
+              "t": "予約ステップ（できれば）",
               "c": [
                 {
-                  "t": "約 2 秒の待ちを、対象に入れられるか確認する（できれば）",
+                  "t": "約 2 秒の待ちを、対象に入れられるか確認する",
                   "c": [
                     {
                       "t": "状態：依頼済み（10/16）。回答なし"
@@ -6626,10 +6629,10 @@
           ],
           "en": [
             {
-              "t": "For A: stop fetching the latest list after the page opens",
+              "t": "Cause: category page 1 fetches the latest list after opening (confirmed)",
               "c": [
                 {
-                  "t": "① Make page 1 a 24-hour page cache (no loading ring)",
+                  "t": "Improvement: make page 1 a 24-hour page cache and stop fetching (no ring)",
                   "c": [
                     {
                       "t": "Status: waiting on how the cache works"
@@ -6639,10 +6642,10 @@
               ]
             },
             {
-              "t": "For B: reduce making things from scratch every time",
+              "t": "Cause: category page 2 onward and filters have no cache and are made from scratch every time (hypothesis)",
               "c": [
                 {
-                  "t": "② Keep page 2 onward in 30-minute slots",
+                  "t": "Improvement: cache page 2 onward in 30-minute slots",
                   "c": [
                     {
                       "t": "Status: waiting on capacity"
@@ -6650,7 +6653,7 @@
                   ]
                 },
                 {
-                  "t": "③ Keep filtered results in 30-minute slots (only the most-used filters)",
+                  "t": "Improvement: cache filtered results in 30-minute slots (only the most-used filters)",
                   "c": [
                     {
                       "t": "Status: scope to be decided"
@@ -6660,8 +6663,11 @@
               ]
             },
             {
-              "t": "For C: not covered by Suki's ideas",
+              "t": "Cause: rarely visited areas have no cache yet (hypothesis)",
               "c": [
+                {
+                  "t": "Not covered by Suki's ideas"
+                },
                 {
                   "t": "Check whether the existing warming works ([[UX_DESIGN-408]])",
                   "c": [
@@ -6673,10 +6679,10 @@
               ]
             },
             {
-              "t": "For D: keep popular keywords in advance",
+              "t": "Cause: Search has no cache for first-time keywords (confirmed)",
               "c": [
                 {
-                  "t": "⑥ Pre-cache popular keywords with a scheduled job",
+                  "t": "Improvement: pre-cache popular keywords with a scheduled job",
                   "c": [
                     {
                       "t": "Status: scope to be decided"
@@ -6686,10 +6692,10 @@
               ]
             },
             {
-              "t": "For E: investigate the search page",
+              "t": "Cause: Search is slow to respond although the API is fast (Suki's guess)",
               "c": [
                 {
-                  "t": "⑤ Investigate the search page and filter_kw() (find the cause of the 2 s)",
+                  "t": "Improvement: investigate the search page and filter_kw() (find the cause of the 2 s)",
                   "c": [
                     {
                       "t": "Status: to be requested"
@@ -6697,7 +6703,7 @@
                   ]
                 },
                 {
-                  "t": "④ Show the frame first and render results later",
+                  "t": "Improvement: show the frame first and render results later",
                   "c": [
                     {
                       "t": "Status: later"
@@ -6707,10 +6713,10 @@
               ]
             },
             {
-              "t": "Booking step",
+              "t": "Booking step (if possible)",
               "c": [
                 {
-                  "t": "Check whether the wait of about 2 s can be included (if possible)",
+                  "t": "Check whether the wait of about 2 s can be included",
                   "c": [
                     {
                       "t": "Status: requested 10/16. No reply"
@@ -6747,7 +6753,7 @@
         "items": {
           "ja": [
             {
-              "t": "① カテゴリー 1 ページ目を、24 時間のページキャッシュにする",
+              "t": "カテゴリー 1 ページ目を、24 時間のページキャッシュにする",
               "c": [
                 {
                   "t": "メリット",
@@ -6771,7 +6777,7 @@
               ]
             },
             {
-              "t": "② 2 ページ目以降を、30 分単位でキャッシュする",
+              "t": "2 ページ目以降を、30 分単位でキャッシュする",
               "c": [
                 {
                   "t": "メリット",
@@ -6795,7 +6801,7 @@
               ]
             },
             {
-              "t": "③ 絞り込み結果を、30 分単位でキャッシュする",
+              "t": "絞り込み結果を、30 分単位でキャッシュする",
               "c": [
                 {
                   "t": "メリット",
@@ -6819,7 +6825,7 @@
               ]
             },
             {
-              "t": "④ 枠を先に出し、結果は後から描画する",
+              "t": "枠を先に出し、結果は後から描画する",
               "c": [
                 {
                   "t": "メリット",
@@ -6843,7 +6849,7 @@
               ]
             },
             {
-              "t": "⑤ 検索ページと filter_kw() の処理を調べる",
+              "t": "検索ページと filter_kw() の処理を調べる",
               "c": [
                 {
                   "t": "メリット",
@@ -6864,7 +6870,7 @@
               ]
             },
             {
-              "t": "⑥ よく検索されるキーワードを、定期実行で先にキャッシュする",
+              "t": "よく検索されるキーワードを、定期実行で先にキャッシュする",
               "c": [
                 {
                   "t": "メリット",
@@ -6890,7 +6896,7 @@
           ],
           "en": [
             {
-              "t": "① Make category page 1 a 24-hour page cache",
+              "t": "Make category page 1 a 24-hour page cache",
               "c": [
                 {
                   "t": "Pros",
@@ -6914,7 +6920,7 @@
               ]
             },
             {
-              "t": "② Cache page 2 onward in 30-minute slots",
+              "t": "Cache page 2 onward in 30-minute slots",
               "c": [
                 {
                   "t": "Pros",
@@ -6938,7 +6944,7 @@
               ]
             },
             {
-              "t": "③ Cache filtered results in 30-minute slots",
+              "t": "Cache filtered results in 30-minute slots",
               "c": [
                 {
                   "t": "Pros",
@@ -6962,7 +6968,7 @@
               ]
             },
             {
-              "t": "④ Show the frame first and render results later",
+              "t": "Show the frame first and render results later",
               "c": [
                 {
                   "t": "Pros",
@@ -6986,7 +6992,7 @@
               ]
             },
             {
-              "t": "⑤ Investigate the search page and filter_kw()",
+              "t": "Investigate the search page and filter_kw()",
               "c": [
                 {
                   "t": "Pros",
@@ -7007,7 +7013,7 @@
               ]
             },
             {
-              "t": "⑥ Pre-cache popular keywords with a scheduled job",
+              "t": "Pre-cache popular keywords with a scheduled job",
               "c": [
                 {
                   "t": "Pros",
@@ -7024,7 +7030,7 @@
                       "t": "Does not help rare keywords"
                     },
                     {
-                      "t": "A scheduled job must be built"
+                      "t": "scheduled job must be built"
                     }
                   ]
                 }
@@ -7080,7 +7086,7 @@
               ]
             },
             {
-              "t": "公開した瞬間のキャッシュ更新（②③）",
+              "t": "公開した瞬間のキャッシュ更新（2 ページ目以降・絞り込み）",
               "c": [
                 {
                   "t": "内容：Redis なしでできるか（1 ページ目では、すでにある）"
@@ -7180,7 +7186,7 @@
               ]
             },
             {
-              "t": "Update-on-publish (② and ③)",
+              "t": "Update-on-publish (page 2 onward and filters)",
               "c": [
                 {
                   "t": "What: possible without Redis (already exists for page 1)"
@@ -7264,6 +7270,28 @@
           "en": "Wait (ring spins / slow)"
         }
       ],
+      "cols": [
+        {
+          "ja": "きっかけ",
+          "en": "Trigger"
+        },
+        {
+          "ja": "ページのキャッシュ",
+          "en": "Page cache"
+        },
+        {
+          "ja": "取りにいく処理",
+          "en": "Fetch step"
+        },
+        {
+          "ja": "その結果のキャッシュ",
+          "en": "Cache of its result"
+        },
+        {
+          "ja": "ユーザーの見え方",
+          "en": "What the user sees"
+        }
+      ],
       "groups": [
         {
           "h": {
@@ -7273,10 +7301,10 @@
           "rows": [
             {
               "l": {
-                "ja": "今",
-                "en": "Today"
+                "ja": "今のまま",
+                "en": "As it is today"
               },
-              "s": [
+              "c": [
                 {
                   "k": "step",
                   "ja": "ページを開く",
@@ -7284,37 +7312,32 @@
                 },
                 {
                   "k": "cache",
-                  "ja": "ページのキャッシュ（24 時間）",
-                  "en": "Page cache (24 h)"
-                },
-                {
-                  "k": "step",
-                  "ja": "ページが出る（古い可能性）",
-                  "en": "Page appears (may be stale)"
+                  "ja": "24 時間とっておく。古いページが、すぐ出る",
+                  "en": "Kept for 24 h. A possibly stale page appears at once"
                 },
                 {
                   "k": "wait",
-                  "ja": "最新の一覧を取りにいく",
-                  "en": "Fetch the latest list"
+                  "ja": "取りにいく。この間、リングが回る",
+                  "en": "Fetch. The ring spins meanwhile"
                 },
                 {
                   "k": "cache",
-                  "ja": "取りにいく結果のキャッシュ（30 分単位）あれば約 1 秒、なければ約 1.8 秒",
-                  "en": "Cache of the fetch (30-min slots): about 1 s if kept, about 1.8 s if not"
+                  "ja": "30 分単位。あれば約 1 秒、なければ約 1.8 秒",
+                  "en": "30-min slots. About 1 s if kept, about 1.8 s if not"
                 },
                 {
                   "k": "step",
-                  "ja": "一覧が更新される",
-                  "en": "List updates"
+                  "ja": "一覧が、最新に更新される",
+                  "en": "The list updates to the latest"
                 }
               ]
             },
             {
               "l": {
-                "ja": "①",
-                "en": "①"
+                "ja": "改善後<small>1 ページ目を 24 時間のページキャッシュにする</small>",
+                "en": "After<small>Make page 1 a 24-hour page cache</small>"
               },
-              "s": [
+              "c": [
                 {
                   "k": "step",
                   "ja": "ページを開く",
@@ -7322,18 +7345,23 @@
                 },
                 {
                   "k": "cache",
-                  "ja": "ページのキャッシュ（24 時間）",
-                  "en": "Page cache (24 h)"
+                  "ja": "24 時間とっておく。そのまま出る",
+                  "en": "Kept for 24 h. Shown as is"
+                },
+                {
+                  "k": "none",
+                  "ja": "取りにいかない",
+                  "en": "No fetch"
+                },
+                {
+                  "k": "none",
+                  "ja": "なし",
+                  "en": "None"
                 },
                 {
                   "k": "step",
-                  "ja": "ページが出る。取りにいかない",
-                  "en": "Page appears. No fetch"
-                },
-                {
-                  "k": "step",
-                  "ja": "終わり。リングが出ない（古さは最大 24 時間）",
-                  "en": "Done. No ring (up to 24 h stale)"
+                  "ja": "リングが出ない。古さは、最大 24 時間",
+                  "en": "No ring. Up to 24 h stale"
                 }
               ]
             }
@@ -7347,57 +7375,67 @@
           "rows": [
             {
               "l": {
-                "ja": "今",
-                "en": "Today"
+                "ja": "今のまま",
+                "en": "As it is today"
               },
-              "s": [
+              "c": [
                 {
                   "k": "step",
                   "ja": "ページ送り・絞り込み",
                   "en": "Next page or filter"
                 },
                 {
-                  "k": "wait",
-                  "ja": "最新の一覧を取りにいく",
-                  "en": "Fetch the latest list"
+                  "k": "none",
+                  "ja": "なし",
+                  "en": "None"
                 },
                 {
                   "k": "wait",
-                  "ja": "キャッシュなし。毎回、最初から作る",
-                  "en": "No cache. Made from scratch every time"
+                  "ja": "取りにいく。毎回、最初から作る",
+                  "en": "Fetch. Made from scratch every time"
                 },
                 {
-                  "k": "step",
-                  "ja": "一覧が出る",
-                  "en": "List appears"
+                  "k": "none",
+                  "ja": "なし",
+                  "en": "None"
+                },
+                {
+                  "k": "wait",
+                  "ja": "待たされる（時間は未計測）",
+                  "en": "The user waits (time not measured)"
                 }
               ]
             },
             {
               "l": {
-                "ja": "②③",
-                "en": "②③"
+                "ja": "改善後<small>30 分のキャッシュを足す</small>",
+                "en": "After<small>Add a 30-minute cache</small>"
               },
-              "s": [
+              "c": [
                 {
                   "k": "step",
                   "ja": "ページ送り・絞り込み",
                   "en": "Next page or filter"
                 },
                 {
+                  "k": "none",
+                  "ja": "なし",
+                  "en": "None"
+                },
+                {
                   "k": "step",
-                  "ja": "最新の一覧を取りにいく",
-                  "en": "Fetch the latest list"
+                  "ja": "取りにいく",
+                  "en": "Fetch"
                 },
                 {
                   "k": "cache",
-                  "ja": "結果のキャッシュ（30 分単位）あれば速い。なければ、今と同じ",
-                  "en": "Cache of the result (30-min slots): fast if kept, same as today if not"
+                  "ja": "30 分単位。あれば速い。なければ、今と同じ",
+                  "en": "30-min slots. Fast if kept, same as today if not"
                 },
                 {
                   "k": "step",
-                  "ja": "一覧が出る",
-                  "en": "List appears"
+                  "ja": "あれば、速く出る",
+                  "en": "Shown fast when kept"
                 }
               ]
             }
@@ -7411,10 +7449,10 @@
           "rows": [
             {
               "l": {
-                "ja": "今",
-                "en": "Today"
+                "ja": "今のまま",
+                "en": "As it is today"
               },
-              "s": [
+              "c": [
                 {
                   "k": "step",
                   "ja": "キーワードを入れる",
@@ -7422,41 +7460,56 @@
                 },
                 {
                   "k": "cache",
-                  "ja": "検索結果のキャッシュ（1 時間）初めてのキーワードは、ない",
-                  "en": "Search result cache (1 h): none for a first-time keyword"
+                  "ja": "1 時間とっておく。初めてのキーワードは、ない",
+                  "en": "Kept for 1 h. None for a first-time keyword"
                 },
                 {
                   "k": "wait",
-                  "ja": "最初から作る。最初の応答まで約 5.5 秒（API は 3 秒未満。残り約 2 秒は原因不明）",
-                  "en": "Made from scratch. About 5.5 s to the first response (API under 3 s; the other 2 s unexplained)"
+                  "ja": "最初から作る。API は 3 秒未満。残り約 2 秒は、原因不明",
+                  "en": "Made from scratch. API under 3 s; the other 2 s unexplained"
                 },
                 {
-                  "k": "step",
-                  "ja": "結果が出る",
-                  "en": "Results appear"
+                  "k": "none",
+                  "ja": "なし",
+                  "en": "None"
+                },
+                {
+                  "k": "wait",
+                  "ja": "最初の応答まで、約 5.5 秒",
+                  "en": "About 5.5 s to the first response"
                 }
               ]
             },
             {
               "l": {
-                "ja": "⑥",
-                "en": "⑥"
+                "ja": "改善後<small>よく検索されるキーワードを先に作る</small>",
+                "en": "After<small>Build popular keywords in advance</small>"
               },
-              "s": [
+              "c": [
                 {
                   "k": "step",
-                  "ja": "先に、よく検索されるキーワードを作っておく（定期実行）",
-                  "en": "Build popular keywords in advance (scheduled job)"
+                  "ja": "定期実行で、よく検索されるキーワードを先に作る",
+                  "en": "A scheduled job builds popular keywords in advance"
                 },
                 {
                   "k": "cache",
-                  "ja": "よく検索されるキーワードは、キャッシュがある",
-                  "en": "Popular keywords are kept"
+                  "ja": "よく検索されるキーワードは、常にある",
+                  "en": "Popular keywords are always kept"
+                },
+                {
+                  "k": "none",
+                  "ja": "作る必要がない",
+                  "en": "Nothing to build"
+                },
+                {
+                  "k": "none",
+                  "ja": "なし",
+                  "en": "None"
                 },
                 {
                   "k": "step",
-                  "ja": "検索すると、すぐ出る",
-                  "en": "Search returns right away"
+                  "ja": "よく検索されるキーワードは、すぐ出る",
+                  "en": "Popular keywords appear right away"
                 }
               ]
             }

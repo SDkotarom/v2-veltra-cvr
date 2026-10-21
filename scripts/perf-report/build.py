@@ -453,15 +453,15 @@ CP = D["cacheplan"]
 def _flow():
     F = CP["flow"]
     leg = "".join(f'<span class="fl-b {x["k"]}">{t(x["ja"], x["en"])}</span>' for x in F["legend"])
+    head = '<span class="fl-h"></span>' + "".join(f'<span class="fl-h">{t(c["ja"], c["en"])}</span>' for c in F["cols"])
     g = ""
     for grp in F["groups"]:
         rows = ""
         for r in grp["rows"]:
-            n = len(r["s"])
-            steps = "".join(f'<span class="fl-i"><span class="fl-b {x["k"]}">{t(x["ja"], x["en"])}</span>'
-                            + ('<span class="fl-a">→</span>' if i < n - 1 else "") + '</span>' for i, x in enumerate(r["s"]))
-            rows += f'<div class="fl-r"><span class="fl-l">{t(r["l"]["ja"], r["l"]["en"])}</span><div class="fl-s">{steps}</div></div>'
-        g += f'<div class="fl-g"><h4 class="fl-gh">{t(grp["h"]["ja"], grp["h"]["en"])}</h4>{rows}</div>'
+            cells = "".join(f'<span class="fl-b {x["k"]}">{t(x["ja"], x["en"])}</span>' for x in r["c"])
+            rows += f'<span class="fl-l">{t(r["l"]["ja"], r["l"]["en"])}</span>{cells}'
+        g += (f'<h4 class="fl-gh">{t(grp["h"]["ja"], grp["h"]["en"])}</h4>'
+              f'<div class="fl-wrap"><div class="fl-grid">{head}{rows}</div></div>')
     return (f'<div class="sec pl"><h3 class="sh">{t(F["h"]["ja"], F["h"]["en"])}</h3>'
             f'<div class="fl-leg">{leg}</div>{g}</div>')
 def _cp_sec(x):
