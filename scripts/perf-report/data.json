@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 67,
+    "version": 68,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -5619,7 +5619,7 @@
                     "t": "プロダクト：牧野が、Teppei さんと方針を確認した（10/21）"
                   },
                   {
-                    "t": "SRE：容量の確認を、Suki さん経由で依頼済み（10/21）"
+                    "t": "容量：足りる見込み（Suki さん、10/21。本番の空き 14GB）"
                   }
                 ]
               },
@@ -5627,7 +5627,7 @@
                 "t": "3. 案を、効果の見込み・担当・工数で並べて、優先度を決める：これから",
                 "c": [
                   {
-                    "t": "Suki さんと SRE の回答を待っている"
+                    "t": "Suki さんの回答がそろった（10/21）。優先度と実施を決める段階"
                   }
                 ]
               }
@@ -5692,7 +5692,7 @@
                     "t": "Product: Makino confirmed the direction with Teppei (10/21)"
                   },
                   {
-                    "t": "SRE: capacity check requested via Suki (10/21)"
+                    "t": "Capacity: expected to be enough (Suki, 10/21; 14 GB free in production)"
                   }
                 ]
               },
@@ -5700,7 +5700,7 @@
                 "t": "3. Line up ideas by expected effect, owner and effort and decide priority: not yet",
                 "c": [
                   {
-                    "t": "Waiting on replies from Suki and SRE"
+                    "t": "Suki's answers are in (10/21). Now deciding priority and go"
                   }
                 ]
               }
@@ -6291,7 +6291,7 @@
                       "t": "確認結果：1 日 1 回の定期実行で、作り直している（Suki さん、9/22）"
                     },
                     {
-                      "t": "確認結果：アクセスされたときに作る分があるか、未確認（Suki さんの回答待ち）。Teppei さんは、アクセスで作られるケースが多かった、という記憶"
+                      "t": "確認結果：30 分単位のキャッシュは、アクセスされたときに作る。保存期間が切れたあと、最初に来た人のアクセスで作られる。その人は遅く、そのあと 30 分間は、誰が来ても速い（Suki さん、10/21）"
                     },
                     {
                       "t": "確認結果：保存した 1 ページ目の上に、ページが出たあと、最新の一覧に入れ替える処理が走る。その結果は、30 分単位で保存している（[[UX_DESIGN-309]]）"
@@ -6340,7 +6340,7 @@
                       "t": "Findings: rebuilt by a scheduled job once a day (Suki, 9/22)"
                     },
                     {
-                      "t": "Findings: whether some are made on access is unconfirmed (awaiting Suki). Teppei recalls many cases where it was made on access"
+                      "t": "Findings: the 30-minute cache is made on access. After it expires, the first visitor's request builds it; that visitor is slow, and for the next 30 minutes everyone is fast (Suki, 10/21)"
                     },
                     {
                       "t": "Findings: on top of the saved page 1, a process swaps in the latest list after the page appears; its result is saved in 30-minute slots ([[UX_DESIGN-309]])"
@@ -6390,10 +6390,10 @@
               ]
             },
             {
-              "t": "あまり見られないエリア：初回表示が遅い（仮説）",
+              "t": "あまり見られないエリア：初回表示が遅い",
               "c": [
                 {
-                  "t": "見る人が少なく、保存がまだない可能性（牧野の推測。体感で 2〜3 秒）"
+                  "t": "保存期間が切れたあと、最初に来た人がキャッシュを作るため、その人は遅い（仕組みは Suki さん、10/21。2〜3 秒は牧野の体感）"
                 }
               ]
             }
@@ -6430,10 +6430,10 @@
               ]
             },
             {
-              "t": "Rarely visited areas: slow first view (hypothesis)",
+              "t": "Rarely visited areas: slow first view",
               "c": [
                 {
-                  "t": "Few people view them, so nothing may be saved yet (Makino's inference; about 2-3 s by feel)"
+                  "t": "After the cache expires, the first visitor's request builds it, so that visitor is slow (mechanism per Suki, 10/21; 2-3 s is Makino's impression)"
                 }
               ]
             }
@@ -6457,10 +6457,13 @@
                   "t": "狙い：組み立てる回数を、減らす"
                 },
                 {
-                  "t": "懸念：容量（1.6GB 超）。古さは、最大 30 分"
+                  "t": "懸念：30 分ごとに、最初に来た人は遅い。見る人が少ないページほど、効果が小さい。古さは、最大 30 分"
                 },
                 {
-                  "t": "状態：容量の確認待ち。絞り込みは、範囲を決める段階"
+                  "t": "容量：足りる見込み。本番の空きは 14GB、1.6GB は全カテゴリー・全ページ・全並び替えが見られた場合の最大（Suki さん、10/21）"
+                },
+                {
+                  "t": "状態：実施の判断待ち（牧野）。絞り込みは、範囲を決める段階"
                 }
               ]
             },
@@ -6497,7 +6500,7 @@
                   "t": "懸念：古さが、最大 24 時間（Teppei さんは、鮮度にこだわらない考え）"
                 },
                 {
-                  "t": "状態：仕組みの確認待ち"
+                  "t": "状態：仕組みは確認済み（10/21）。実施の判断待ち（牧野）"
                 }
               ]
             },
@@ -6543,10 +6546,13 @@
                   "t": "Aim: reduce how often it is assembled"
                 },
                 {
-                  "t": "Concerns: capacity (over 1.6 GB); up to 30 minutes stale"
+                  "t": "Concerns: every 30 minutes the first visitor is slow, so pages with few viewers benefit less; up to 30 minutes stale"
                 },
                 {
-                  "t": "Status: waiting on capacity. Filters: scope to be decided"
+                  "t": "Capacity: expected to be enough. 14 GB free in production; 1.6 GB is the worst case where every category, page and sort order is visited (Suki, 10/21)"
+                },
+                {
+                  "t": "Status: awaiting Makino's go decision. Filters: scope to be decided"
                 }
               ]
             },
@@ -6583,7 +6589,7 @@
                   "t": "Concern: up to 24 hours stale (Teppei does not insist on freshness)"
                 },
                 {
-                  "t": "Status: waiting on how the cache works"
+                  "t": "Status: mechanism confirmed (10/21). Awaiting Makino's go decision"
                 }
               ]
             },
@@ -6637,7 +6643,7 @@
                   "t": "確認先：Suki さん"
                 },
                 {
-                  "t": "状態：依頼済み（10/21）。回答待ち"
+                  "t": "状態：回答あり（10/21）。アクセスで作る。保存期間が切れたあと、最初に来た人のアクセスで作られる"
                 }
               ]
             },
@@ -6651,7 +6657,7 @@
                   "t": "確認先：Suki さん経由で SRE（Jeff さん）"
                 },
                 {
-                  "t": "状態：依頼済み（10/21）。回答待ち"
+                  "t": "状態：回答あり（10/21）。容量は足りる見込み（本番の空き 14GB。1.6GB は最大の場合）。費用への影響は、回答に書いていない"
                 }
               ]
             },
@@ -6737,7 +6743,7 @@
                   "t": "Who: Suki"
                 },
                 {
-                  "t": "Status: requested 10/21. Awaiting reply"
+                  "t": "Status: answered (10/21). Built on access; after expiry the first visitor's request builds it"
                 }
               ]
             },
@@ -6751,7 +6757,7 @@
                   "t": "Who: SRE (Jeff), via Suki"
                 },
                 {
-                  "t": "Status: requested 10/21. Awaiting reply"
+                  "t": "Status: answered (10/21). Capacity expected to be enough (14 GB free; 1.6 GB is the worst case). Cost impact was not mentioned"
                 }
               ]
             },
