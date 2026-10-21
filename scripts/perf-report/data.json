@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 65,
+    "version": 66,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6160,120 +6160,148 @@
     "sections": [
       {
         "h": {
-          "ja": "前提",
-          "en": "Premise"
+          "ja": "原理：こういう構造だから、こうなる",
+          "en": "Principle: because of this structure, this happens"
         },
         "items": {
           "ja": [
             {
-              "t": "一覧ページは、表示が遅くなりやすい",
+              "t": "構造：一覧ページは、見に来るたびに、サーバーが組み立てる",
               "c": [
                 {
-                  "t": "サーバーが、AC の情報を 1 件ずつ集めて、一覧ページを組み立てる必要があるため（1 ページ約 20 商品）"
+                  "t": "AC の情報を 1 件ずつ集めて、一覧ページにする（1 ページ約 20 商品）"
+                },
+                {
+                  "t": "なので：組み立てに、時間がかかる。AC が多いほど、長い"
                 }
               ]
             },
             {
-              "t": "そのため、キャッシュを作って、表示を速くしている",
+              "t": "対策の原理：同じ一覧ページを、何度も組み立てるのは、無駄",
               "c": [
                 {
-                  "t": "組み立て終わった一覧ページを、コピーして保存しておく（＝ キャッシュを作る）"
+                  "t": "組み立て終わった一覧ページを、コピーして保存する（＝ キャッシュを作る）"
                 },
                 {
-                  "t": "保存期間の間は、組み立て時間がかからない。同じページを見に来た人は、速く表示される"
+                  "t": "なので：保存してある間は、組み立てずに、コピーを見せられる。速い"
                 }
               ]
             },
             {
-              "t": "ただし、キャッシュには、デメリットもある",
+              "t": "条件1：コピーが使えるのは、保存してある間に、同じページが、また見られたとき",
               "c": [
                 {
-                  "t": "古くなる",
-                  "c": [
-                    {
-                      "t": "保存期間の間は、作り直されないため、情報が古くなる可能性がある"
-                    },
-                    {
-                      "t": "保存期間（例：30 分、1 時間、24 時間）が長いほど、古くなる可能性が高まる"
-                    },
-                    {
-                      "t": "ただし、すべての AC が毎分更新されるわけではないので、問題になるとは限らない（Teppei さん：更新は 1 日 100〜200 件ほど）"
-                    }
-                  ]
+                  "t": "なので：ページの種類が無限にある場合（検索）や、見る人が少ないページは、コピーが使われにくい"
                 },
                 {
-                  "t": "容量を食う",
-                  "c": [
-                    {
-                      "t": "キャッシュを作るページが多いほど、サーバーの容量を使う"
-                    },
-                    {
-                      "t": "例：カテゴリーの 2 ページ目以降を全部保存すると、1.6GB 超（Suki さんの見積もり）"
-                    },
-                    {
-                      "t": "容量が尽きると、障害の恐れがある（Suki さん）"
-                    },
-                    {
-                      "t": "同じページでも、端末・サブドメイン・通貨・国などで別々に保存するため、保存する数が増える（9/4 の調査）"
-                    }
-                  ]
+                  "t": "なので：同じページでも、端末・通貨・国などで別々に保存すると、コピーが使われにくくなる"
+                }
+              ]
+            },
+            {
+              "t": "条件2：コピーは、保存した時点の内容",
+              "c": [
+                {
+                  "t": "なので：保存期間（例：30 分、1 時間、24 時間）が長いほど、本物とずれる（古くなる）"
+                },
+                {
+                  "t": "ただし、すべての AC が毎分更新されるわけではないので、問題になるとは限らない（Teppei さん：更新は 1 日 100〜200 件ほど）"
+                },
+                {
+                  "t": "なので：古さを避けるために、コピーを出したあとに、最新の内容に入れ替える工夫をすると、その分、待つ"
+                }
+              ]
+            },
+            {
+              "t": "条件3：コピーは、保存する場所を使う",
+              "c": [
+                {
+                  "t": "なので：保存するページが多いほど、容量を使う（例：カテゴリーの 2 ページ目以降を全部保存すると、1.6GB 超。Suki さんの見積もり）"
+                },
+                {
+                  "t": "なので：容量が尽きると、障害の恐れがある（Suki さん）"
+                }
+              ]
+            },
+            {
+              "t": "まとめ：速くする方法は、2つ",
+              "c": [
+                {
+                  "t": "コピーが使える場面を、増やす（保存する対象を増やす、先に作っておく）。代わりに、古さと容量が、増える"
+                },
+                {
+                  "t": "組み立てそのものを、軽くする（処理の調査）。古さと容量は、増えない"
                 }
               ]
             }
           ],
           "en": [
             {
-              "t": "List pages tend to be slow",
+              "t": "Structure: the server assembles a list page every time someone visits",
               "c": [
                 {
-                  "t": "Because the server has to gather the information of each AC one by one and assemble the list page (about 20 products per page)"
+                  "t": "It gathers each AC's information one by one and turns it into the list page (about 20 products per page)"
+                },
+                {
+                  "t": "So: assembly takes time, and longer the more ACs there are"
                 }
               ]
             },
             {
-              "t": "So caches are made to speed up display",
+              "t": "Principle of the remedy: assembling the same list page over and over is wasteful",
               "c": [
                 {
-                  "t": "The assembled list page is copied and saved (= making a cache)"
+                  "t": "Copy and save the assembled list page (= make a cache)"
                 },
                 {
-                  "t": "While it is saved, no assembly time is needed. People who come to the same page see it quickly"
+                  "t": "So: while it is saved, the copy can be shown without assembling. It is fast"
                 }
               ]
             },
             {
-              "t": "But caches also have downsides",
+              "t": "Condition 1: a copy is used only if the same page is viewed again while it is saved",
               "c": [
                 {
-                  "t": "It can become stale",
-                  "c": [
-                    {
-                      "t": "It is not rebuilt during the saved period, so information may be out of date"
-                    },
-                    {
-                      "t": "The longer the saved period (e.g. 30 min, 1 h, 24 h), the likelier it is stale"
-                    },
-                    {
-                      "t": "But not every AC changes every minute, so it may not matter (Teppei: about 100-200 updates a day)"
-                    }
-                  ]
+                  "t": "So: where pages are endless (Search) or few people view them, copies are rarely used"
                 },
                 {
-                  "t": "It takes up capacity",
-                  "c": [
-                    {
-                      "t": "The more pages are cached, the more server capacity is used"
-                    },
-                    {
-                      "t": "Example: saving all category pages from page 2 onward takes over 1.6 GB (Suki's estimate)"
-                    },
-                    {
-                      "t": "If capacity runs out there is a risk of an outage (Suki)"
-                    },
-                    {
-                      "t": "Even the same page is saved separately by device, subdomain, currency, country and more, so the number of saved copies grows (9/4 investigation)"
-                    }
-                  ]
+                  "t": "So: if even the same page is saved separately by device, currency, country and so on, copies are used less often"
+                }
+              ]
+            },
+            {
+              "t": "Condition 2: a copy holds the content as of when it was saved",
+              "c": [
+                {
+                  "t": "So: the longer the saved period (e.g. 30 min, 1 h, 24 h), the further it drifts from the real content (stale)"
+                },
+                {
+                  "t": "But not every AC changes every minute, so it may not matter (Teppei: about 100-200 updates a day)"
+                },
+                {
+                  "t": "So: if, to avoid staleness, the page swaps in the latest content after showing the copy, the user waits for that"
+                }
+              ]
+            },
+            {
+              "t": "Condition 3: copies use storage",
+              "c": [
+                {
+                  "t": "So: the more pages are saved, the more capacity is used (e.g. saving all category pages from page 2 onward takes over 1.6 GB; Suki's estimate)"
+                },
+                {
+                  "t": "So: if capacity runs out there is a risk of an outage (Suki)"
+                }
+              ]
+            },
+            {
+              "t": "Summary: there are two ways to speed up",
+              "c": [
+                {
+                  "t": "Make copies usable in more situations (save more pages, build in advance). In exchange, staleness and capacity increase"
+                },
+                {
+                  "t": "Make the assembly itself lighter (investigate the processing). Staleness and capacity do not increase"
                 }
               ]
             }
@@ -6282,8 +6310,8 @@
       },
       {
         "h": {
-          "ja": "現状の実装状況",
-          "en": "How caching is implemented today"
+          "ja": "原理に照らした、現状の実装状況",
+          "en": "Current implementation, seen through the principle"
         },
         "items": {
           "ja": [
@@ -6452,14 +6480,17 @@
       },
       {
         "h": {
-          "ja": "現在の問題点",
-          "en": "Current problems"
+          "ja": "原理に照らした、現在の問題点",
+          "en": "Current problems, seen through the principle"
         },
         "items": {
           "ja": [
             {
               "t": "カテゴリーの 2 ページ目以降・絞り込み：毎回、組み立てるため、遅い",
               "c": [
+                {
+                  "t": "原理：キャッシュがなければ、サーバーが毎回、組み立てる"
+                },
                 {
                   "t": "絞り込みで、読み込み中のリングが回る（牧野の体感。測定ではない）"
                 }
@@ -6468,6 +6499,9 @@
             {
               "t": "検索：初めてのキーワードは、必ず組み立てるため、遅い",
               "c": [
+                {
+                  "t": "原理（条件1）：初めてのキーワードは、コピーがない"
+                },
                 {
                   "t": "最初の応答まで、約 5.5 秒（実ユーザー、10/3 の週）"
                 },
@@ -6480,6 +6514,9 @@
               "t": "カテゴリーの 1 ページ目：キャッシュがあるのに、リングが回る",
               "c": [
                 {
+                  "t": "原理（条件2）：古さ対策の入れ替えで、その分、待つ"
+                },
+                {
                   "t": "原因：ページが出たあとの、最新の一覧への入れ替え処理"
                 },
                 {
@@ -6491,6 +6528,9 @@
               "t": "あまり見られないエリア：初回表示が遅い（仮説）",
               "c": [
                 {
+                  "t": "原理（条件1）：見る人が少ないと、コピーが使われにくい"
+                },
+                {
                   "t": "見る人が少なく、保存がまだない可能性（牧野の推測。体感で 2〜3 秒）"
                 }
               ]
@@ -6501,6 +6541,9 @@
               "t": "Category page 2 onward and filters: assembled every time, so slow",
               "c": [
                 {
+                  "t": "Principle: with no cache, the server assembles every time"
+                },
+                {
                   "t": "Filtering spins the loading ring (Makino's impression; not a measurement)"
                 }
               ]
@@ -6508,6 +6551,9 @@
             {
               "t": "Search: a first-time keyword is always assembled, so slow",
               "c": [
+                {
+                  "t": "Principle (condition 1): a first-time keyword has no copy"
+                },
                 {
                   "t": "About 5.5 s to the first response (real users, week of 10/3)"
                 },
@@ -6520,6 +6566,9 @@
               "t": "Category page 1: the ring spins even though a cache exists",
               "c": [
                 {
+                  "t": "Principle (condition 2): the swap that guards against staleness adds waiting"
+                },
+                {
                   "t": "Cause: the process that swaps in the latest list after the page appears"
                 },
                 {
@@ -6531,6 +6580,9 @@
               "t": "Rarely visited areas: slow first view (hypothesis)",
               "c": [
                 {
+                  "t": "Principle (condition 1): with few viewers, copies are rarely used"
+                },
+                {
                   "t": "Few people view them, so nothing may be saved yet (Makino's inference; about 2-3 s by feel)"
                 }
               ]
@@ -6540,8 +6592,8 @@
       },
       {
         "h": {
-          "ja": "今回改善すること・狙い",
-          "en": "What will be improved and why"
+          "ja": "だから、今回改善すること・狙い",
+          "en": "So, what will be improved and why"
         },
         "items": {
           "ja": [
