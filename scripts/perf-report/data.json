@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 59,
+    "version": 60,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6006,8 +6006,8 @@
     "sections": [
       {
         "h": {
-          "ja": "今の問題",
-          "en": "Current problems"
+          "ja": "現状（背景）",
+          "en": "Background"
         },
         "items": {
           "ja": [
@@ -6019,9 +6019,6 @@
                 },
                 {
                   "t": "検索 API の処理は、3 秒未満"
-                },
-                {
-                  "t": "残りの約 2 秒の原因は、まだ分かっていない"
                 }
               ]
             },
@@ -6033,9 +6030,6 @@
                 },
                 {
                   "t": "あまり見られないエリアの初回表示は、2〜3 秒かかる（牧野の体感、10/16。測定ではない）"
-                },
-                {
-                  "t": "キャッシュがあるのは 1 ページ目だけ（2 ページ目以降と、絞り込み結果にはない）"
                 }
               ]
             },
@@ -6063,9 +6057,6 @@
                 },
                 {
                   "t": "The search API itself takes under 3 s"
-                },
-                {
-                  "t": "The cause of the remaining 2 s or so is not yet known"
                 }
               ]
             },
@@ -6077,9 +6068,6 @@
                 },
                 {
                   "t": "The first view of a rarely visited area takes 2-3 s (Makino's impression, 10/16; not a measurement)"
-                },
-                {
-                  "t": "Only page 1 is cached (not page 2 onward or filtered results)"
                 }
               ]
             },
@@ -6102,13 +6090,273 @@
       },
       {
         "h": {
+          "ja": "今のキャッシュの仕組み",
+          "en": "How caching works today"
+        },
+        "items": {
+          "ja": [
+            {
+              "t": "キャッシュとは",
+              "c": [
+                {
+                  "t": "一度作ったページや一覧を、とっておく仕組み"
+                },
+                {
+                  "t": "次に同じものを見る人には、とっておいたものをすぐ出せる"
+                },
+                {
+                  "t": "とっておいたものがないと、毎回、最初から作る。その分、待たされる"
+                }
+              ]
+            },
+            {
+              "t": "カテゴリーの 1 ページ目",
+              "c": [
+                {
+                  "t": "ページそのものを、24 時間とっておく"
+                },
+                {
+                  "t": "ページを開いたあと、最新の一覧を取りにいく。その間、リングが回る"
+                },
+                {
+                  "t": "取りにいった結果は、30 分単位でとっておく（[[UX_DESIGN-309]]）"
+                }
+              ]
+            },
+            {
+              "t": "カテゴリーの 2 ページ目以降と、絞り込み結果",
+              "c": [
+                {
+                  "t": "とっておかない。毎回、最初から作る"
+                }
+              ]
+            },
+            {
+              "t": "検索",
+              "c": [
+                {
+                  "t": "検索結果は、1 時間だけとっておく"
+                },
+                {
+                  "t": "検索のキーワードは、無数にある。初めてのキーワードは、とっておいたものがない"
+                }
+              ]
+            },
+            {
+              "t": "とっておく単位",
+              "c": [
+                {
+                  "t": "同じページでも、端末・サブドメイン・通貨・国などで、別々にとっておく（9/4 のソースコードの調査）"
+                },
+                {
+                  "t": "そのため、とっておいたものに、当たりにくくなる"
+                }
+              ]
+            }
+          ],
+          "en": [
+            {
+              "t": "What a cache is",
+              "c": [
+                {
+                  "t": "A way of keeping a page or list that was already made"
+                },
+                {
+                  "t": "The next person who looks at the same thing gets the kept copy right away"
+                },
+                {
+                  "t": "If nothing is kept, it is made from scratch every time, and the user waits"
+                }
+              ]
+            },
+            {
+              "t": "Category page 1",
+              "c": [
+                {
+                  "t": "The page itself is kept for 24 hours"
+                },
+                {
+                  "t": "After the page opens, the latest list is fetched. The loading ring spins meanwhile"
+                },
+                {
+                  "t": "The fetched result is kept in 30-minute slots ([[UX_DESIGN-309]])"
+                }
+              ]
+            },
+            {
+              "t": "Category page 2 onward and filtered results",
+              "c": [
+                {
+                  "t": "Not kept. Made from scratch every time"
+                }
+              ]
+            },
+            {
+              "t": "Search",
+              "c": [
+                {
+                  "t": "Search results are kept for 1 hour only"
+                },
+                {
+                  "t": "There are endless keywords. A first-time keyword has nothing kept"
+                }
+              ]
+            },
+            {
+              "t": "How copies are split",
+              "c": [
+                {
+                  "t": "Even for the same page, copies are kept separately by device, subdomain, currency, country and more (9/4 source-code investigation)"
+                },
+                {
+                  "t": "So a visitor is less likely to find a kept copy"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "h": {
+          "ja": "遅くなっている原因と仮説",
+          "en": "Why it is slow: causes and hypotheses"
+        },
+        "items": {
+          "ja": [
+            {
+              "t": "A　カテゴリー 1 ページ目：リングが回る（確認済み）",
+              "c": [
+                {
+                  "t": "ページを開いたあと、最新の一覧を取りにいくため"
+                },
+                {
+                  "t": "30 分単位でとっておくと 1.82 → 0.97 秒になった（[[UX_DESIGN-309]]）"
+                }
+              ]
+            },
+            {
+              "t": "B　カテゴリー 2 ページ目以降と、絞り込み：毎回、最初から作る（仮説）",
+              "c": [
+                {
+                  "t": "とっておかないため、と考えている（Suki さんの説明と、牧野の推測）"
+                }
+              ]
+            },
+            {
+              "t": "C　あまり見られないエリアの初回：2〜3 秒（仮説）",
+              "c": [
+                {
+                  "t": "見る人が少なく、とっておいたものが、まだないため（牧野の推測）"
+                },
+                {
+                  "t": "キャッシュが、アクセスで作られるのかは、未確認（Suki さんに質問中）"
+                }
+              ]
+            },
+            {
+              "t": "D　検索：初めてのキーワードが遅い（確認済み）",
+              "c": [
+                {
+                  "t": "初めてのキーワード 5.3 秒、とっておいたものがあると約 0.2 秒（9/4 の牧野の実測）"
+                }
+              ]
+            },
+            {
+              "t": "E　検索：API が速いのに、最初の応答が遅い（Suki さんの推測）",
+              "c": [
+                {
+                  "t": "API は 3 秒未満。最初の応答は 5 秒超"
+                },
+                {
+                  "t": "差の約 2 秒は、検索ページ側の余計な処理ではないか"
+                }
+              ]
+            },
+            {
+              "t": "注意",
+              "c": [
+                {
+                  "t": "30 分でとっておく方式は、見られる回数が少ないページには、効きにくい（仮説）"
+                },
+                {
+                  "t": "見られる回数は、まだ分かっていない"
+                }
+              ]
+            }
+          ],
+          "en": [
+            {
+              "t": "A  Category page 1: the ring spins (confirmed)",
+              "c": [
+                {
+                  "t": "Because the latest list is fetched after the page opens"
+                },
+                {
+                  "t": "Keeping it in 30-minute slots took it from 1.82 to 0.97 s ([[UX_DESIGN-309]])"
+                }
+              ]
+            },
+            {
+              "t": "B  Category page 2 onward and filters: made from scratch every time (hypothesis)",
+              "c": [
+                {
+                  "t": "Because nothing is kept (Suki's description and Makino's inference)"
+                }
+              ]
+            },
+            {
+              "t": "C  First view of a rarely visited area: 2-3 s (hypothesis)",
+              "c": [
+                {
+                  "t": "Because few people view it and nothing is kept yet (Makino's inference)"
+                },
+                {
+                  "t": "Whether the cache is built on access is unconfirmed (asked Suki)"
+                }
+              ]
+            },
+            {
+              "t": "D  Search: first-time keywords are slow (confirmed)",
+              "c": [
+                {
+                  "t": "First-time keyword 5.3 s, about 0.2 s when kept (Makino's 9/4 measurement)"
+                }
+              ]
+            },
+            {
+              "t": "E  Search: slow first response although the API is fast (Suki's guess)",
+              "c": [
+                {
+                  "t": "The API takes under 3 s. The first response takes over 5 s"
+                },
+                {
+                  "t": "The gap of about 2 s may come from extra work on the search page"
+                }
+              ]
+            },
+            {
+              "t": "Note",
+              "c": [
+                {
+                  "t": "Keeping for 30 minutes helps little on rarely viewed pages (hypothesis)"
+                },
+                {
+                  "t": "How often pages are viewed is not yet known"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "h": {
           "ja": "今回改善すること",
           "en": "What will be improved"
         },
         "items": {
           "ja": [
             {
-              "t": "カテゴリー",
+              "t": "A に対応：最新の一覧を取りにいくのを、やめる",
               "c": [
                 {
                   "t": "① 1 ページ目を、24 時間のページキャッシュにする（リングを出さない）",
@@ -6117,9 +6365,14 @@
                       "t": "状態：仕組みの確認待ち"
                     }
                   ]
-                },
+                }
+              ]
+            },
+            {
+              "t": "B に対応：毎回、最初から作るのを、減らす",
+              "c": [
                 {
-                  "t": "② 2 ページ目以降も、30 分単位でキャッシュする",
+                  "t": "② 2 ページ目以降も、30 分単位でとっておく",
                   "c": [
                     {
                       "t": "状態：容量の確認待ち"
@@ -6127,7 +6380,7 @@
                   ]
                 },
                 {
-                  "t": "③ 絞り込み結果も、30 分単位でキャッシュする（よく使われる絞り込みだけに絞る）",
+                  "t": "③ 絞り込み結果も、30 分単位でとっておく（よく使われる絞り込みだけに絞る）",
                   "c": [
                     {
                       "t": "状態：範囲を決める段階"
@@ -6137,21 +6390,39 @@
               ]
             },
             {
-              "t": "検索",
+              "t": "C に対応：Suki さんの案には、ない",
+              "c": [
+                {
+                  "t": "既存の事前作成（ウォーミング）が効いているかの確認（[[UX_DESIGN-408]]）",
+                  "c": [
+                    {
+                      "t": "状態：未着手"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "D に対応：よく検索されるキーワードを、先にとっておく",
+              "c": [
+                {
+                  "t": "⑥ 定期実行で、よく検索されるキーワードを、先にキャッシュする",
+                  "c": [
+                    {
+                      "t": "状態：範囲を決める段階"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "E に対応：検索ページ側の処理を調べる",
               "c": [
                 {
                   "t": "⑤ 検索ページと filter_kw() の処理を調べる（約 2 秒の原因の特定）",
                   "c": [
                     {
                       "t": "状態：実施をお願いする"
-                    }
-                  ]
-                },
-                {
-                  "t": "⑥ よく検索されるキーワードを、定期実行で先にキャッシュする",
-                  "c": [
-                    {
-                      "t": "状態：範囲を決める段階"
                     }
                   ]
                 },
@@ -6198,7 +6469,7 @@
           ],
           "en": [
             {
-              "t": "Category",
+              "t": "For A: stop fetching the latest list after the page opens",
               "c": [
                 {
                   "t": "① Make page 1 a 24-hour page cache (no loading ring)",
@@ -6207,9 +6478,14 @@
                       "t": "Status: waiting on how the cache works"
                     }
                   ]
-                },
+                }
+              ]
+            },
+            {
+              "t": "For B: reduce making things from scratch every time",
+              "c": [
                 {
-                  "t": "② Cache page 2 onward in 30-minute slots",
+                  "t": "② Keep page 2 onward in 30-minute slots",
                   "c": [
                     {
                       "t": "Status: waiting on capacity"
@@ -6217,7 +6493,7 @@
                   ]
                 },
                 {
-                  "t": "③ Cache filtered results in 30-minute slots (only the most-used filters)",
+                  "t": "③ Keep filtered results in 30-minute slots (only the most-used filters)",
                   "c": [
                     {
                       "t": "Status: scope to be decided"
@@ -6227,21 +6503,39 @@
               ]
             },
             {
-              "t": "Search",
+              "t": "For C: not covered by Suki's ideas",
+              "c": [
+                {
+                  "t": "Check whether the existing warming works ([[UX_DESIGN-408]])",
+                  "c": [
+                    {
+                      "t": "Status: not started"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "For D: keep popular keywords in advance",
+              "c": [
+                {
+                  "t": "⑥ Pre-cache popular keywords with a scheduled job",
+                  "c": [
+                    {
+                      "t": "Status: scope to be decided"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "For E: investigate the search page",
               "c": [
                 {
                   "t": "⑤ Investigate the search page and filter_kw() (find the cause of the 2 s)",
                   "c": [
                     {
                       "t": "Status: to be requested"
-                    }
-                  ]
-                },
-                {
-                  "t": "⑥ Pre-cache popular keywords with a scheduled job",
-                  "c": [
-                    {
-                      "t": "Status: scope to be decided"
                     }
                   ]
                 },
