@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 63,
+    "version": 64,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6160,82 +6160,74 @@
     "sections": [
       {
         "h": {
-          "ja": "現状（背景）",
-          "en": "Background"
+          "ja": "全体像",
+          "en": "Overview"
         },
         "items": {
           "ja": [
             {
-              "t": "検索",
+              "t": "今の問題",
               "c": [
                 {
-                  "t": "初めて検索するキーワードは、最初の応答まで約 5.5 秒かかる（実ユーザー、10/3 の週）"
-                },
-                {
-                  "t": "検索 API の処理は、3 秒未満"
+                  "t": "カテゴリーと検索の一覧ページが、遅い（検索の最初の応答は約 5.5 秒、カテゴリーはリングが回る）"
                 }
               ]
             },
             {
-              "t": "カテゴリー",
+              "t": "原因（前提）",
               "c": [
                 {
-                  "t": "エリアなどで絞り込むと、読み込み中のリングが回る"
-                },
-                {
-                  "t": "あまり見られないエリアの初回表示は、2〜3 秒かかる（牧野の体感、10/16。測定ではない）"
+                  "t": "キャッシュがないところで、サーバーが毎回、一覧を作っているため"
                 }
               ]
             },
             {
-              "t": "効果の確認",
+              "t": "改善",
               "c": [
                 {
-                  "t": "数字で改善を確認できた体感の待ちは、カテゴリーの絞り込み（1.82 → 0.97 秒）の 1 件だけ"
-                },
+                  "t": "キャッシュを増やす、使い方を変える。サーバーが一覧を作る回数を減らす"
+                }
+              ]
+            },
+            {
+              "t": "まだ分からないこと",
+              "c": [
                 {
-                  "t": "PSI の改善は、小さい"
-                },
-                {
-                  "t": "CVR への影響は、まだ測れていない"
+                  "t": "効果の大きさは、キャッシュがある状態で見られる回数しだい。Suki さんと SRE の回答を待っている"
                 }
               ]
             }
           ],
           "en": [
             {
-              "t": "Search",
+              "t": "The problem",
               "c": [
                 {
-                  "t": "A first-time keyword takes about 5.5 s to the first response (real users, week of 10/3)"
-                },
-                {
-                  "t": "The search API itself takes under 3 s"
+                  "t": "The Category and Search list pages are slow (Search takes about 5.5 s to the first response; Category spins the ring)"
                 }
               ]
             },
             {
-              "t": "Category",
+              "t": "Cause",
               "c": [
                 {
-                  "t": "Narrowing by area and similar actions spins the loading ring"
-                },
-                {
-                  "t": "The first view of a rarely visited area takes 2-3 s (Makino's impression, 10/16; not a measurement)"
+                  "t": "The server builds the list every time where there is no cache"
                 }
               ]
             },
             {
-              "t": "Checking the effect",
+              "t": "Improvement",
               "c": [
                 {
-                  "t": "The only felt wait with a confirmed improvement in numbers is the category filter (1.82 to 0.97 s)"
-                },
+                  "t": "Add caches or change how they are used, so the server builds the list less often"
+                }
+              ]
+            },
+            {
+              "t": "Still unknown",
+              "c": [
                 {
-                  "t": "PSI gains are small"
-                },
-                {
-                  "t": "The effect on CVR has not been measured"
+                  "t": "The size of the effect depends on how often the cache is hit. Waiting on Suki and SRE"
                 }
               ]
             }
@@ -6244,58 +6236,81 @@
       },
       {
         "h": {
-          "ja": "今のキャッシュの仕組み",
-          "en": "How caching works today"
+          "ja": "この資料で使う言葉",
+          "en": "Terms used in this document"
         },
         "items": {
           "ja": [
             {
-              "t": "キャッシュとは",
+              "t": "キャッシュ：一度作ったページや一覧を、保存したもの"
+            },
+            {
+              "t": "ページのキャッシュ：ページ全体のキャッシュ（カテゴリーは 24 時間保存）"
+            },
+            {
+              "t": "一覧の更新：ページが出たあと、画面が、サーバーに最新の一覧を問い合わせて、一覧を入れ替えること（技術名は filter()）"
+            },
+            {
+              "t": "一覧のキャッシュ：一覧の更新の結果のキャッシュ（30 分単位で保存）"
+            },
+            {
+              "t": "キャッシュがない：保存したものがなく、サーバーが毎回、一覧を作る。時間がかかる"
+            },
+            {
+              "t": "リング：読み込み中に回る、丸い表示"
+            }
+          ],
+          "en": [
+            {
+              "t": "Cache: a page or list that was made once and saved"
+            },
+            {
+              "t": "Page cache: the cache of the whole page (Category: kept for 24 hours)"
+            },
+            {
+              "t": "List update: after the page appears, the screen asks the server for the latest list and swaps it in (technical name: filter())"
+            },
+            {
+              "t": "List cache: the cache of the result of a list update (kept in 30-minute slots)"
+            },
+            {
+              "t": "No cache: nothing is saved, so the server builds the list every time, which takes time"
+            },
+            {
+              "t": "Ring: the round indicator that spins while loading"
+            }
+          ]
+        }
+      },
+      {
+        "h": {
+          "ja": "前提：今のキャッシュ",
+          "en": "Premise: caches today"
+        },
+        "items": {
+          "ja": [
+            {
+              "t": "カテゴリー 1 ページ目",
               "c": [
                 {
-                  "t": "一度作ったページや一覧を、保存する仕組み"
+                  "t": "ページのキャッシュ：24 時間保存する"
                 },
                 {
-                  "t": "次に同じものを見る人には、保存したものをすぐ出せる"
+                  "t": "一覧の更新：ページが出たあとに、行う"
                 },
                 {
-                  "t": "保存したものがないと、毎回、最初から作る。その分、待たされる"
+                  "t": "一覧のキャッシュ：30 分単位で保存する（[[UX_DESIGN-309]]）"
                 }
               ]
             },
             {
-              "t": "「更新する」とは",
+              "t": "カテゴリー 2 ページ目以降・絞り込み",
               "c": [
                 {
-                  "t": "ページが出たあと、画面が、サーバーに最新の一覧を問い合わせて、一覧を最新のものに入れ替えること"
+                  "t": "ページのキャッシュ：ない"
                 },
                 {
-                  "t": "サーバーは、一覧を作って返す。作るのに時間がかかり、その間、リングが回る"
-                },
-                {
-                  "t": "技術の名前は、filter() という処理"
-                }
-              ]
-            },
-            {
-              "t": "カテゴリーの 1 ページ目",
-              "c": [
-                {
-                  "t": "ページそのものを、24 時間保存する"
-                },
-                {
-                  "t": "ページを開いたあと、一覧を最新に更新する。その間、リングが回る"
-                },
-                {
-                  "t": "更新結果は、30 分単位で保存する（[[UX_DESIGN-309]]）"
-                }
-              ]
-            },
-            {
-              "t": "カテゴリーの 2 ページ目以降と、絞り込み結果",
-              "c": [
-                {
-                  "t": "保存しない。毎回、最初から作る"
+                  "t": "一覧のキャッシュ：ない"
                 }
               ]
             },
@@ -6303,73 +6318,48 @@
               "t": "検索",
               "c": [
                 {
-                  "t": "検索結果は、1 時間だけ保存する"
+                  "t": "検索結果のキャッシュ：1 時間保存する"
                 },
                 {
-                  "t": "検索のキーワードは、無数にある。初めてのキーワードは、保存したものがない"
+                  "t": "キーワードは無数にあり、初めてのキーワードは、キャッシュがない"
                 }
               ]
             },
             {
-              "t": "保存する単位",
+              "t": "キャッシュの分かれ方",
               "c": [
                 {
                   "t": "同じページでも、端末・サブドメイン・通貨・国などで、別々に保存する（9/4 のソースコードの調査）"
                 },
                 {
-                  "t": "そのため、保存したものに、当たりにくくなる"
+                  "t": "そのため、キャッシュに当たりにくい"
                 }
               ]
             }
           ],
           "en": [
             {
-              "t": "What a cache is",
-              "c": [
-                {
-                  "t": "A way of keeping a page or list that was already made"
-                },
-                {
-                  "t": "The next person who looks at the same thing gets the kept copy right away"
-                },
-                {
-                  "t": "If nothing is kept, it is made from scratch every time, and the user waits"
-                }
-              ]
-            },
-            {
-              "t": "What 'update' means",
-              "c": [
-                {
-                  "t": "After the page appears, the screen asks the server for the latest list and swaps it in"
-                },
-                {
-                  "t": "The server builds the list and returns it. Building takes time, and the ring spins meanwhile"
-                },
-                {
-                  "t": "The technical name is the filter() call"
-                }
-              ]
-            },
-            {
               "t": "Category page 1",
               "c": [
                 {
-                  "t": "The page itself is kept for 24 hours"
+                  "t": "Page cache: kept for 24 hours"
                 },
                 {
-                  "t": "After the page opens, the latest list is fetched. The loading ring spins meanwhile"
+                  "t": "List update: done after the page appears"
                 },
                 {
-                  "t": "The fetched result is kept in 30-minute slots ([[UX_DESIGN-309]])"
+                  "t": "List cache: kept in 30-minute slots ([[UX_DESIGN-309]])"
                 }
               ]
             },
             {
-              "t": "Category page 2 onward and filtered results",
+              "t": "Category page 2 onward and filters",
               "c": [
                 {
-                  "t": "Not kept. Made from scratch every time"
+                  "t": "Page cache: none"
+                },
+                {
+                  "t": "List cache: none"
                 }
               ]
             },
@@ -6377,21 +6367,199 @@
               "t": "Search",
               "c": [
                 {
-                  "t": "Search results are kept for 1 hour only"
+                  "t": "Search result cache: kept for 1 hour"
                 },
                 {
-                  "t": "There are endless keywords. A first-time keyword has nothing kept"
+                  "t": "Keywords are endless; a first-time keyword has no cache"
                 }
               ]
             },
             {
-              "t": "How copies are split",
+              "t": "How caches are split",
               "c": [
                 {
-                  "t": "Even for the same page, copies are kept separately by device, subdomain, currency, country and more (9/4 source-code investigation)"
+                  "t": "Even for the same page, caches are kept separately by device, subdomain, currency, country and more (9/4 source-code investigation)"
                 },
                 {
-                  "t": "So a visitor is less likely to find a kept copy"
+                  "t": "So a visitor is less likely to hit a cache"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "h": {
+          "ja": "なので、起きていること",
+          "en": "So, what happens"
+        },
+        "items": {
+          "ja": [
+            {
+              "t": "カテゴリー 1 ページ目",
+              "c": [
+                {
+                  "t": "前提：ページのキャッシュは 24 時間で、古くなる",
+                  "c": [
+                    {
+                      "t": "なので：ページが出たあとに、一覧の更新が必要（商品の編集・公開、開始時刻の経過を反映するため。Suki さんの説明）",
+                      "c": [
+                        {
+                          "t": "なので：一覧の更新の間、リングが回る（確認済み）",
+                          "c": [
+                            {
+                              "t": "一覧のキャッシュがあれば、約 1 秒"
+                            },
+                            {
+                              "t": "一覧のキャッシュがなければ、サーバーが一覧を作る。約 1.8 秒"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "カテゴリー 2 ページ目以降・絞り込み",
+              "c": [
+                {
+                  "t": "前提：ページのキャッシュも、一覧のキャッシュも、ない",
+                  "c": [
+                    {
+                      "t": "なので：キャッシュがなく、サーバーが毎回、一覧を作る（仮説）",
+                      "c": [
+                        {
+                          "t": "なので：待たされる（時間は未計測）"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "カテゴリーの、あまり見られないエリア",
+              "c": [
+                {
+                  "t": "前提：見る人が少ない",
+                  "c": [
+                    {
+                      "t": "なので：キャッシュが、まだない可能性がある（仮説）",
+                      "c": [
+                        {
+                          "t": "なので：初回表示が、2〜3 秒かかる（牧野の体感。測定ではない）"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "検索",
+              "c": [
+                {
+                  "t": "前提：初めてのキーワードは、キャッシュがない",
+                  "c": [
+                    {
+                      "t": "なので：サーバーが結果を作る（確認済み）",
+                      "c": [
+                        {
+                          "t": "なので：最初の応答まで、約 5.5 秒かかる（実ユーザー、10/3 の週）"
+                        },
+                        {
+                          "t": "API は 3 秒未満。残りの約 2 秒は、検索ページ側の余計な処理ではないか（Suki さんの推測）"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "en": [
+            {
+              "t": "Category page 1",
+              "c": [
+                {
+                  "t": "Premise: the page cache lasts 24 hours and becomes stale",
+                  "c": [
+                    {
+                      "t": "So: a list update is needed after the page appears (to reflect edits, publishing and start times passing; Suki's explanation)",
+                      "c": [
+                        {
+                          "t": "So: the ring spins during the list update (confirmed)",
+                          "c": [
+                            {
+                              "t": "With a list cache: about 1 s"
+                            },
+                            {
+                              "t": "Without a list cache the server builds the list: about 1.8 s"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "Category page 2 onward and filters",
+              "c": [
+                {
+                  "t": "Premise: neither a page cache nor a list cache exists",
+                  "c": [
+                    {
+                      "t": "So: no cache, and the server builds the list every time (hypothesis)",
+                      "c": [
+                        {
+                          "t": "So: the user waits (time not measured)"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "Rarely visited areas in Category",
+              "c": [
+                {
+                  "t": "Premise: few people view them",
+                  "c": [
+                    {
+                      "t": "So: the cache may not exist yet (hypothesis)",
+                      "c": [
+                        {
+                          "t": "So: the first view takes 2-3 s (Makino's impression; not a measurement)"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "Search",
+              "c": [
+                {
+                  "t": "Premise: a first-time keyword has no cache",
+                  "c": [
+                    {
+                      "t": "So: the server builds the results (confirmed)",
+                      "c": [
+                        {
+                          "t": "So: it takes about 5.5 s to the first response (real users, week of 10/3)"
+                        },
+                        {
+                          "t": "The API takes under 3 s. The other 2 s may be extra work on the search page (Suki's guess)"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -6403,148 +6571,16 @@
       },
       {
         "h": {
-          "ja": "遅くなっている原因と仮説",
-          "en": "Why it is slow: causes and hypotheses"
+          "ja": "だから、今回改善すること",
+          "en": "So, what will be improved"
         },
         "items": {
           "ja": [
             {
-              "t": "カテゴリー 1 ページ目：リングが回る（確認済み）",
+              "t": "カテゴリー 1 ページ目：リングが回る",
               "c": [
                 {
-                  "t": "ページを開いたあと、一覧を最新に更新するため"
-                },
-                {
-                  "t": "30 分単位で保存すると 1.82 → 0.97 秒になった（[[UX_DESIGN-309]]）"
-                }
-              ]
-            },
-            {
-              "t": "カテゴリー 2 ページ目以降と、絞り込み：毎回、最初から作る（仮説）",
-              "c": [
-                {
-                  "t": "保存しないため、と考えている（Suki さんの説明と、牧野の推測）"
-                }
-              ]
-            },
-            {
-              "t": "あまり見られないエリアの初回：2〜3 秒（仮説）",
-              "c": [
-                {
-                  "t": "見る人が少なく、保存したものが、まだないため（牧野の推測）"
-                },
-                {
-                  "t": "キャッシュが、アクセスで作られるのかは、未確認（Suki さんに質問中）"
-                }
-              ]
-            },
-            {
-              "t": "検索：初めてのキーワードが遅い（確認済み）",
-              "c": [
-                {
-                  "t": "初めてのキーワード 5.3 秒、保存したものがあると約 0.2 秒（9/4 の牧野の実測）"
-                }
-              ]
-            },
-            {
-              "t": "検索：API が速いのに、最初の応答が遅い（Suki さんの推測）",
-              "c": [
-                {
-                  "t": "API は 3 秒未満。最初の応答は 5 秒超"
-                },
-                {
-                  "t": "差の約 2 秒は、検索ページ側の余計な処理ではないか"
-                }
-              ]
-            },
-            {
-              "t": "注意",
-              "c": [
-                {
-                  "t": "30 分で保存する方式は、見られる回数が少ないページには、効きにくい（仮説）"
-                },
-                {
-                  "t": "見られる回数は、まだ分かっていない"
-                }
-              ]
-            }
-          ],
-          "en": [
-            {
-              "t": "Category page 1: the ring spins (confirmed)",
-              "c": [
-                {
-                  "t": "Because the latest list is fetched after the page opens"
-                },
-                {
-                  "t": "Keeping it in 30-minute slots took it from 1.82 to 0.97 s ([[UX_DESIGN-309]])"
-                }
-              ]
-            },
-            {
-              "t": "Category page 2 onward and filters: made from scratch every time (hypothesis)",
-              "c": [
-                {
-                  "t": "Because nothing is kept (Suki's description and Makino's inference)"
-                }
-              ]
-            },
-            {
-              "t": "First view of a rarely visited area: 2-3 s (hypothesis)",
-              "c": [
-                {
-                  "t": "Because few people view it and nothing is kept yet (Makino's inference)"
-                },
-                {
-                  "t": "Whether the cache is built on access is unconfirmed (asked Suki)"
-                }
-              ]
-            },
-            {
-              "t": "Search: first-time keywords are slow (confirmed)",
-              "c": [
-                {
-                  "t": "First-time keyword 5.3 s, about 0.2 s when kept (Makino's 9/4 measurement)"
-                }
-              ]
-            },
-            {
-              "t": "Search: slow first response although the API is fast (Suki's guess)",
-              "c": [
-                {
-                  "t": "The API takes under 3 s. The first response takes over 5 s"
-                },
-                {
-                  "t": "The gap of about 2 s may come from extra work on the search page"
-                }
-              ]
-            },
-            {
-              "t": "Note",
-              "c": [
-                {
-                  "t": "Keeping for 30 minutes helps little on rarely viewed pages (hypothesis)"
-                },
-                {
-                  "t": "How often pages are viewed is not yet known"
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "h": {
-          "ja": "今回改善すること（原因ごと）",
-          "en": "What will be improved (by cause)"
-        },
-        "items": {
-          "ja": [
-            {
-              "t": "原因：カテゴリー 1 ページ目は、開いたあとに一覧を最新に更新する（確認済み）",
-              "c": [
-                {
-                  "t": "改善：1 ページ目を、24 時間のページキャッシュにして、更新しない（リングを出さない）",
+                  "t": "改善：一覧の更新を、やめる。24 時間のページキャッシュを、そのまま見せる",
                   "c": [
                     {
                       "t": "状態：仕組みの確認待ち"
@@ -6554,10 +6590,10 @@
               ]
             },
             {
-              "t": "原因：カテゴリーの 2 ページ目以降と絞り込みは、キャッシュがなく、毎回、最初から作る（仮説）",
+              "t": "カテゴリー 2 ページ目以降・絞り込み：サーバーが毎回、一覧を作る",
               "c": [
                 {
-                  "t": "改善：2 ページ目以降も、30 分単位でキャッシュする",
+                  "t": "改善：2 ページ目以降の一覧のキャッシュを、30 分単位で足す",
                   "c": [
                     {
                       "t": "状態：容量の確認待ち"
@@ -6565,7 +6601,7 @@
                   ]
                 },
                 {
-                  "t": "改善：絞り込み結果も、30 分単位でキャッシュする（よく使われる絞り込みだけに絞る）",
+                  "t": "改善：絞り込み結果の一覧のキャッシュを、30 分単位で足す（よく使われる絞り込みだけに絞る）",
                   "c": [
                     {
                       "t": "状態：範囲を決める段階"
@@ -6575,13 +6611,13 @@
               ]
             },
             {
-              "t": "原因：あまり見られないエリアは、キャッシュがまだない（仮説）",
+              "t": "カテゴリーの、あまり見られないエリア：キャッシュがまだない",
               "c": [
                 {
                   "t": "Suki さんの案には、ない"
                 },
                 {
-                  "t": "既存の事前作成（ウォーミング）が効いているかを確認する（[[UX_DESIGN-408]]）",
+                  "t": "既存の、キャッシュの事前作成（ウォーミング）が効いているかを確認する（[[UX_DESIGN-408]]）",
                   "c": [
                     {
                       "t": "状態：未着手"
@@ -6591,10 +6627,10 @@
               ]
             },
             {
-              "t": "原因：検索は、初めてのキーワードに、キャッシュがない（確認済み）",
+              "t": "検索：初めてのキーワードは、キャッシュがない",
               "c": [
                 {
-                  "t": "改善：よく検索されるキーワードを、定期実行で先にキャッシュする",
+                  "t": "改善：よく検索されるキーワードの検索結果を、定期実行で先に作っておく",
                   "c": [
                     {
                       "t": "状態：範囲を決める段階"
@@ -6604,7 +6640,7 @@
               ]
             },
             {
-              "t": "原因：検索は、API が速いのに、最初の応答が遅い（Suki さんの推測）",
+              "t": "検索：API が速いのに、最初の応答が遅い",
               "c": [
                 {
                   "t": "改善：検索ページと filter_kw() の処理を調べる（約 2 秒の原因の特定）",
@@ -6615,7 +6651,7 @@
                   ]
                 },
                 {
-                  "t": "改善：枠を先に出し、結果は後から描画する",
+                  "t": "改善：枠を先に出し、結果は後から表示する",
                   "c": [
                     {
                       "t": "状態：あとで"
@@ -6657,10 +6693,10 @@
           ],
           "en": [
             {
-              "t": "Cause: category page 1 updates the list to the latest after opening (confirmed)",
+              "t": "Category page 1: the ring spins",
               "c": [
                 {
-                  "t": "Improvement: make page 1 a 24-hour page cache and stop updating (no ring)",
+                  "t": "Improvement: stop the list update; show the 24-hour page cache as is",
                   "c": [
                     {
                       "t": "Status: waiting on how the cache works"
@@ -6670,10 +6706,10 @@
               ]
             },
             {
-              "t": "Cause: category page 2 onward and filters have no cache and are made from scratch every time (hypothesis)",
+              "t": "Category page 2 onward and filters: the server builds the list every time",
               "c": [
                 {
-                  "t": "Improvement: cache page 2 onward in 30-minute slots",
+                  "t": "Improvement: add a list cache for page 2 onward in 30-minute slots",
                   "c": [
                     {
                       "t": "Status: waiting on capacity"
@@ -6681,7 +6717,7 @@
                   ]
                 },
                 {
-                  "t": "Improvement: cache filtered results in 30-minute slots (only the most-used filters)",
+                  "t": "Improvement: add a list cache for filtered results in 30-minute slots (only the most-used filters)",
                   "c": [
                     {
                       "t": "Status: scope to be decided"
@@ -6691,13 +6727,13 @@
               ]
             },
             {
-              "t": "Cause: rarely visited areas have no cache yet (hypothesis)",
+              "t": "Rarely visited areas: no cache yet",
               "c": [
                 {
                   "t": "Not covered by Suki's ideas"
                 },
                 {
-                  "t": "Check whether the existing warming works ([[UX_DESIGN-408]])",
+                  "t": "Check whether the existing cache pre-building (warming) works ([[UX_DESIGN-408]])",
                   "c": [
                     {
                       "t": "Status: not started"
@@ -6707,10 +6743,10 @@
               ]
             },
             {
-              "t": "Cause: Search has no cache for first-time keywords (confirmed)",
+              "t": "Search: no cache for first-time keywords",
               "c": [
                 {
-                  "t": "Improvement: pre-cache popular keywords with a scheduled job",
+                  "t": "Improvement: build the results of popular keywords in advance with a scheduled job",
                   "c": [
                     {
                       "t": "Status: scope to be decided"
@@ -6720,7 +6756,7 @@
               ]
             },
             {
-              "t": "Cause: Search is slow to respond although the API is fast (Suki's guess)",
+              "t": "Search: slow first response although the API is fast",
               "c": [
                 {
                   "t": "Improvement: investigate the search page and filter_kw() (find the cause of the 2 s)",
@@ -6731,7 +6767,7 @@
                   ]
                 },
                 {
-                  "t": "Improvement: show the frame first and render results later",
+                  "t": "Improvement: show the frame first and the results later",
                   "c": [
                     {
                       "t": "Status: later"
@@ -7114,7 +7150,7 @@
               ]
             },
             {
-              "t": "公開した瞬間のキャッシュ更新（2 ページ目以降・絞り込み）",
+              "t": "公開した瞬間の、キャッシュの作り直し（2 ページ目以降・絞り込み）",
               "c": [
                 {
                   "t": "内容：Redis なしでできるか（1 ページ目では、すでにある）"
@@ -7214,7 +7250,7 @@
               ]
             },
             {
-              "t": "Update-on-publish (page 2 onward and filters)",
+              "t": "Rebuilding the cache the moment something is published (page 2 onward and filters)",
               "c": [
                 {
                   "t": "What: possible without Redis (already exists for page 1)"
@@ -7289,8 +7325,8 @@
         },
         {
           "k": "cache",
-          "ja": "キャッシュ（保存したコピー）",
-          "en": "Cache (kept copy)"
+          "ja": "キャッシュ（保存したもの）",
+          "en": "Cache (saved copy)"
         },
         {
           "k": "wait",
@@ -7308,12 +7344,12 @@
           "en": "Page cache"
         },
         {
-          "ja": "更新する処理",
-          "en": "Update step"
+          "ja": "一覧の更新",
+          "en": "List update"
         },
         {
-          "ja": "その結果のキャッシュ",
-          "en": "Cache of the update result"
+          "ja": "一覧のキャッシュ",
+          "en": "List cache"
         },
         {
           "ja": "ユーザーの見え方",
@@ -7340,13 +7376,13 @@
                 },
                 {
                   "k": "cache",
-                  "ja": "24 時間保存する。ページが、すぐ出る（古い可能性あり）",
+                  "ja": "24 時間保存する。ページがすぐ出る（古い可能性あり）",
                   "en": "Kept for 24 h. The page appears at once (may be stale)"
                 },
                 {
                   "k": "wait",
-                  "ja": "更新する。この間、リングが回る",
-                  "en": "Update. The ring spins meanwhile"
+                  "ja": "行う。この間、リングが回る",
+                  "en": "Done. The ring spins meanwhile"
                 },
                 {
                   "k": "cache",
@@ -7355,8 +7391,8 @@
                 },
                 {
                   "k": "step",
-                  "ja": "一覧が、最新に更新される",
-                  "en": "The list updates to the latest"
+                  "ja": "一覧が、最新に入れ替わる",
+                  "en": "The list is swapped for the latest"
                 }
               ]
             },
@@ -7380,8 +7416,8 @@
                 },
                 {
                   "k": "none",
-                  "ja": "更新しない",
-                  "en": "No update",
+                  "ja": "行わない",
+                  "en": "Not done",
                   "chg": true
                 },
                 {
@@ -7424,8 +7460,8 @@
                 },
                 {
                   "k": "wait",
-                  "ja": "更新する。毎回、最初から作る",
-                  "en": "Update. Made from scratch every time"
+                  "ja": "行う。キャッシュがなく、サーバーが毎回、一覧を作る",
+                  "en": "Done. No cache, so the server builds the list every time"
                 },
                 {
                   "k": "none",
@@ -7459,8 +7495,8 @@
                 },
                 {
                   "k": "step",
-                  "ja": "変わらない：更新する",
-                  "en": "Unchanged: update",
+                  "ja": "変わらない：行う",
+                  "en": "Unchanged: done",
                   "same": true
                 },
                 {
@@ -7503,8 +7539,8 @@
                 },
                 {
                   "k": "wait",
-                  "ja": "最初から作る。API は 3 秒未満。残り約 2 秒は、原因不明",
-                  "en": "Made from scratch. API under 3 s; the other 2 s unexplained"
+                  "ja": "サーバーが作る。API は 3 秒未満。残り約 2 秒は、原因不明",
+                  "en": "Built by the server. API under 3 s; the other 2 s unexplained"
                 },
                 {
                   "k": "none",
@@ -7567,8 +7603,8 @@
               "en": "Search result cache"
             },
             {
-              "ja": "結果を作る処理",
-              "en": "Build step"
+              "ja": "サーバーが作る処理",
+              "en": "Server build"
             },
             {
               "ja": "その結果のキャッシュ",
