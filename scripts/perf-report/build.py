@@ -44,6 +44,11 @@ def expand(x):
     return GL_RE.sub(rep, x)
 
 
+def _nest(items):
+    return "<ul>" + "".join(
+        f"<li>{expand(i['t'])}" + (_nest(i["c"]) if i.get("c") else "") + "</li>" for i in items) + "</ul>"
+
+
 def t(ja, en):
     return f'<span class="ja">{expand(ja)}</span><span class="en">{expand(en)}</span>'
 
@@ -445,15 +450,30 @@ def _waits(key="waits", cls="wt"):
 
 
 CP = D["cacheplan"]
-def _nest(items):
-    return "<ul>" + "".join(
-        f"<li>{expand(i['t'])}" + (_nest(i["c"]) if i.get("c") else "") + "</li>" for i in items) + "</ul>"
+def _flow():
+    F = CP["flow"]
+    leg = "".join(f'<span class="fl-b {x["k"]}">{t(x["ja"], x["en"])}</span>' for x in F["legend"])
+    g = ""
+    for grp in F["groups"]:
+        rows = ""
+        for r in grp["rows"]:
+            n = len(r["s"])
+            steps = "".join(f'<span class="fl-i"><span class="fl-b {x["k"]}">{t(x["ja"], x["en"])}</span>'
+                            + ('<span class="fl-a">→</span>' if i < n - 1 else "") + '</span>' for i, x in enumerate(r["s"]))
+            rows += f'<div class="fl-r"><span class="fl-l">{t(r["l"]["ja"], r["l"]["en"])}</span><div class="fl-s">{steps}</div></div>'
+        g += f'<div class="fl-g"><h4 class="fl-gh">{t(grp["h"]["ja"], grp["h"]["en"])}</h4>{rows}</div>'
+    return (f'<div class="sec pl"><h3 class="sh">{t(F["h"]["ja"], F["h"]["en"])}</h3>'
+            f'<div class="fl-leg">{leg}</div>{g}</div>')
+def _cp_sec(x):
+    if x.get("flow"):
+        return _flow()
+    return (f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>'
+            f'<div class="rv-l cp-n"><span class="ja">{_nest(x["items"]["ja"])}</span>'
+            f'<span class="en">{_nest(x["items"]["en"])}</span></div></div>')
 CACHE = (f'<div class="rv-h"><h2>{t(CP["h"]["ja"], CP["h"]["en"])}</h2>'
          f'<span class="rv-m">{t(CP["meta"]["ja"], CP["meta"]["en"])}</span></div>'
-         + "".join(
-             f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>'
-             f'<div class="rv-l cp-n"><span class="ja">{_nest(x["items"]["ja"])}</span>'
-             f'<span class="en">{_nest(x["items"]["en"])}</span></div></div>' for x in CP["sections"]))
+         + '<p class="mut">' + t('「<a href="#plan" data-goto="plan">後半の方針</a>」の、一覧ページの具体案。方針と進め方は、そちら', 'The concrete plan for list pages under the <a href="#plan" data-goto="plan">Second-half plan</a>. Policy and steps are there') + '</p>'
+         + "".join(_cp_sec(x) for x in CP["sections"]))
 
 def _classify():
     x = SG["classify"]
@@ -465,12 +485,14 @@ def _classify():
             f'<h4 class="sh">{t(x["add"]["h"]["ja"], x["add"]["h"]["en"])}</h4>'
             f'<div class="rv-l">{_bil(x["add"]["items"])}</div></div>')
 
+_SGH = SG["head"]
+_REF = (f'{_sec("extra")}' )
 PLAN = f'''<div class="rv-h"><h2>{t(SG["title"]["ja"], SG["title"]["en"])}</h2><span class="rv-m">{t(SG["meta"]["ja"], SG["meta"]["en"])}</span></div>
-{_sec("process")}
+<div class="sec pl"><h3 class="sh">{t(_SGH["h"]["ja"], _SGH["h"]["en"])}</h3><div class="rv-l cp-n"><span class="ja">{_nest(_SGH["items"]["ja"])}</span><span class="en">{_nest(_SGH["items"]["en"])}</span></div></div>
 {_waits()}
-{_waits("policy", "wt")}
 {_sec("status")}
 {_classify()}
+<details class="ms"><summary><span class="ms-t">{t("参考：10/6 時点の整理（見立て・施策候補・目標の案など）", "Reference: notes as of 10/6 (views, candidates, goals and more)")}</span></summary><div class="ms-b">
 <div class="sec pl"><h3 class="sh">{t(SG["views"]["h"]["ja"], SG["views"]["h"]["en"])}</h3>{_views}</div>
 <div class="sec pl"><h3 class="sh">{t(SG["cands"]["h"]["ja"], SG["cands"]["h"]["en"])}</h3>
 <div class="tw"><table><tr><th>{t("順","No.")}</th><th>{t("チケット","Ticket")}</th><th>{t("内容","What")}</th><th>{t("なぜ先か","Why first")}</th></tr>{_crows}</table></div>
@@ -478,7 +500,7 @@ PLAN = f'''<div class="rv-h"><h2>{t(SG["title"]["ja"], SG["title"]["en"])}</h2><
 {_sec("extra")}
 {_sec("ideas")}
 {_sec("goals")}
-{_sec("asks")}'''
+</div></details>'''
 
 PAYLOAD = json.dumps({
     "weeks": weekly["weeks"], "metrics": weekly["metrics"],
@@ -509,8 +531,8 @@ html = f'''<title>表示速度モニタリング</title>
 <nav class="ptabs" role="tablist">
 <button class="pt" data-tab="report" aria-selected="true">{t("レポート", "Report")}</button>
 <button class="pt" data-tab="plan" aria-selected="false">{t("後半の方針", "Second-half plan")}</button>
-<button class="pt" data-tab="measures" aria-selected="false">{t("主な対応事項", "Main changes")}</button>
 <button class="pt" data-tab="cache" aria-selected="false">{t("一覧のキャッシュ改善", "List caching")}</button>
+<button class="pt" data-tab="measures" aria-selected="false">{t("主な対応事項", "Main changes")}</button>
 </nav>
 <div class="pane" data-pane="measures" hidden><div class="rv">{MEASURES}</div></div>
 <div class="pane" data-pane="cache" hidden><div class="rv">{CACHE}</div></div>

@@ -516,6 +516,15 @@
     });
   });
 
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("[data-goto]");
+    if (!a) return;
+    e.preventDefault();
+    showTab(a.dataset.goto);
+    try { history.replaceState(null, "", "#" + a.dataset.goto); } catch (x) {}
+    window.scrollTo(0, 0);
+  });
+
   redrawAll();
   if (location.hash === "#plan") showTab("plan");
   if (location.hash === "#measures") showTab("measures");
