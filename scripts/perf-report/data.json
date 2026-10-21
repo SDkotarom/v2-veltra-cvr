@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 62,
+    "version": 63,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6253,13 +6253,27 @@
               "t": "キャッシュとは",
               "c": [
                 {
-                  "t": "一度作ったページや一覧を、とっておく仕組み"
+                  "t": "一度作ったページや一覧を、保存する仕組み"
                 },
                 {
-                  "t": "次に同じものを見る人には、とっておいたものをすぐ出せる"
+                  "t": "次に同じものを見る人には、保存したものをすぐ出せる"
                 },
                 {
-                  "t": "とっておいたものがないと、毎回、最初から作る。その分、待たされる"
+                  "t": "保存したものがないと、毎回、最初から作る。その分、待たされる"
+                }
+              ]
+            },
+            {
+              "t": "「更新する」とは",
+              "c": [
+                {
+                  "t": "ページが出たあと、画面が、サーバーに最新の一覧を問い合わせて、一覧を最新のものに入れ替えること"
+                },
+                {
+                  "t": "サーバーは、一覧を作って返す。作るのに時間がかかり、その間、リングが回る"
+                },
+                {
+                  "t": "技術の名前は、filter() という処理"
                 }
               ]
             },
@@ -6267,13 +6281,13 @@
               "t": "カテゴリーの 1 ページ目",
               "c": [
                 {
-                  "t": "ページそのものを、24 時間とっておく"
+                  "t": "ページそのものを、24 時間保存する"
                 },
                 {
-                  "t": "ページを開いたあと、最新の一覧を取りにいく。その間、リングが回る"
+                  "t": "ページを開いたあと、一覧を最新に更新する。その間、リングが回る"
                 },
                 {
-                  "t": "取りにいった結果は、30 分単位でとっておく（[[UX_DESIGN-309]]）"
+                  "t": "更新結果は、30 分単位で保存する（[[UX_DESIGN-309]]）"
                 }
               ]
             },
@@ -6281,7 +6295,7 @@
               "t": "カテゴリーの 2 ページ目以降と、絞り込み結果",
               "c": [
                 {
-                  "t": "とっておかない。毎回、最初から作る"
+                  "t": "保存しない。毎回、最初から作る"
                 }
               ]
             },
@@ -6289,21 +6303,21 @@
               "t": "検索",
               "c": [
                 {
-                  "t": "検索結果は、1 時間だけとっておく"
+                  "t": "検索結果は、1 時間だけ保存する"
                 },
                 {
-                  "t": "検索のキーワードは、無数にある。初めてのキーワードは、とっておいたものがない"
+                  "t": "検索のキーワードは、無数にある。初めてのキーワードは、保存したものがない"
                 }
               ]
             },
             {
-              "t": "とっておく単位",
+              "t": "保存する単位",
               "c": [
                 {
-                  "t": "同じページでも、端末・サブドメイン・通貨・国などで、別々にとっておく（9/4 のソースコードの調査）"
+                  "t": "同じページでも、端末・サブドメイン・通貨・国などで、別々に保存する（9/4 のソースコードの調査）"
                 },
                 {
-                  "t": "そのため、とっておいたものに、当たりにくくなる"
+                  "t": "そのため、保存したものに、当たりにくくなる"
                 }
               ]
             }
@@ -6320,6 +6334,20 @@
                 },
                 {
                   "t": "If nothing is kept, it is made from scratch every time, and the user waits"
+                }
+              ]
+            },
+            {
+              "t": "What 'update' means",
+              "c": [
+                {
+                  "t": "After the page appears, the screen asks the server for the latest list and swaps it in"
+                },
+                {
+                  "t": "The server builds the list and returns it. Building takes time, and the ring spins meanwhile"
+                },
+                {
+                  "t": "The technical name is the filter() call"
                 }
               ]
             },
@@ -6384,10 +6412,10 @@
               "t": "カテゴリー 1 ページ目：リングが回る（確認済み）",
               "c": [
                 {
-                  "t": "ページを開いたあと、最新の一覧を取りにいくため"
+                  "t": "ページを開いたあと、一覧を最新に更新するため"
                 },
                 {
-                  "t": "30 分単位でとっておくと 1.82 → 0.97 秒になった（[[UX_DESIGN-309]]）"
+                  "t": "30 分単位で保存すると 1.82 → 0.97 秒になった（[[UX_DESIGN-309]]）"
                 }
               ]
             },
@@ -6395,7 +6423,7 @@
               "t": "カテゴリー 2 ページ目以降と、絞り込み：毎回、最初から作る（仮説）",
               "c": [
                 {
-                  "t": "とっておかないため、と考えている（Suki さんの説明と、牧野の推測）"
+                  "t": "保存しないため、と考えている（Suki さんの説明と、牧野の推測）"
                 }
               ]
             },
@@ -6403,7 +6431,7 @@
               "t": "あまり見られないエリアの初回：2〜3 秒（仮説）",
               "c": [
                 {
-                  "t": "見る人が少なく、とっておいたものが、まだないため（牧野の推測）"
+                  "t": "見る人が少なく、保存したものが、まだないため（牧野の推測）"
                 },
                 {
                   "t": "キャッシュが、アクセスで作られるのかは、未確認（Suki さんに質問中）"
@@ -6414,7 +6442,7 @@
               "t": "検索：初めてのキーワードが遅い（確認済み）",
               "c": [
                 {
-                  "t": "初めてのキーワード 5.3 秒、とっておいたものがあると約 0.2 秒（9/4 の牧野の実測）"
+                  "t": "初めてのキーワード 5.3 秒、保存したものがあると約 0.2 秒（9/4 の牧野の実測）"
                 }
               ]
             },
@@ -6433,7 +6461,7 @@
               "t": "注意",
               "c": [
                 {
-                  "t": "30 分でとっておく方式は、見られる回数が少ないページには、効きにくい（仮説）"
+                  "t": "30 分で保存する方式は、見られる回数が少ないページには、効きにくい（仮説）"
                 },
                 {
                   "t": "見られる回数は、まだ分かっていない"
@@ -6513,10 +6541,10 @@
         "items": {
           "ja": [
             {
-              "t": "原因：カテゴリー 1 ページ目は、開いたあとに最新の一覧を取りにいく（確認済み）",
+              "t": "原因：カテゴリー 1 ページ目は、開いたあとに一覧を最新に更新する（確認済み）",
               "c": [
                 {
-                  "t": "改善：1 ページ目を、24 時間のページキャッシュにして、取りにいかない（リングを出さない）",
+                  "t": "改善：1 ページ目を、24 時間のページキャッシュにして、更新しない（リングを出さない）",
                   "c": [
                     {
                       "t": "状態：仕組みの確認待ち"
@@ -6629,10 +6657,10 @@
           ],
           "en": [
             {
-              "t": "Cause: category page 1 fetches the latest list after opening (confirmed)",
+              "t": "Cause: category page 1 updates the list to the latest after opening (confirmed)",
               "c": [
                 {
-                  "t": "Improvement: make page 1 a 24-hour page cache and stop fetching (no ring)",
+                  "t": "Improvement: make page 1 a 24-hour page cache and stop updating (no ring)",
                   "c": [
                     {
                       "t": "Status: waiting on how the cache works"
@@ -7261,7 +7289,7 @@
         },
         {
           "k": "cache",
-          "ja": "キャッシュ（とっておく）",
+          "ja": "キャッシュ（保存したコピー）",
           "en": "Cache (kept copy)"
         },
         {
@@ -7280,12 +7308,12 @@
           "en": "Page cache"
         },
         {
-          "ja": "取りにいく処理",
-          "en": "Fetch step"
+          "ja": "更新する処理",
+          "en": "Update step"
         },
         {
           "ja": "その結果のキャッシュ",
-          "en": "Cache of its result"
+          "en": "Cache of the update result"
         },
         {
           "ja": "ユーザーの見え方",
@@ -7312,13 +7340,13 @@
                 },
                 {
                   "k": "cache",
-                  "ja": "24 時間とっておく。古いページが、すぐ出る",
-                  "en": "Kept for 24 h. A possibly stale page appears at once"
+                  "ja": "24 時間保存する。ページが、すぐ出る（古い可能性あり）",
+                  "en": "Kept for 24 h. The page appears at once (may be stale)"
                 },
                 {
                   "k": "wait",
-                  "ja": "取りにいく。この間、リングが回る",
-                  "en": "Fetch. The ring spins meanwhile"
+                  "ja": "更新する。この間、リングが回る",
+                  "en": "Update. The ring spins meanwhile"
                 },
                 {
                   "k": "cache",
@@ -7340,28 +7368,33 @@
               "c": [
                 {
                   "k": "step",
-                  "ja": "ページを開く",
-                  "en": "Open the page"
+                  "ja": "変わらない：ページを開く",
+                  "en": "Unchanged: open the page",
+                  "same": true
                 },
                 {
                   "k": "cache",
-                  "ja": "24 時間とっておく。そのまま出る",
-                  "en": "Kept for 24 h. Shown as is"
+                  "ja": "変わらない：24 時間保存する",
+                  "en": "Unchanged: kept for 24 h",
+                  "same": true
                 },
                 {
                   "k": "none",
-                  "ja": "取りにいかない",
-                  "en": "No fetch"
+                  "ja": "更新しない",
+                  "en": "No update",
+                  "chg": true
                 },
                 {
                   "k": "none",
-                  "ja": "なし",
-                  "en": "None"
+                  "ja": "不要になる",
+                  "en": "No longer needed",
+                  "chg": true
                 },
                 {
                   "k": "step",
                   "ja": "リングが出ない。古さは、最大 24 時間",
-                  "en": "No ring. Up to 24 h stale"
+                  "en": "No ring. Up to 24 h stale",
+                  "chg": true
                 }
               ]
             }
@@ -7391,8 +7424,8 @@
                 },
                 {
                   "k": "wait",
-                  "ja": "取りにいく。毎回、最初から作る",
-                  "en": "Fetch. Made from scratch every time"
+                  "ja": "更新する。毎回、最初から作る",
+                  "en": "Update. Made from scratch every time"
                 },
                 {
                   "k": "none",
@@ -7414,28 +7447,33 @@
               "c": [
                 {
                   "k": "step",
-                  "ja": "ページ送り・絞り込み",
-                  "en": "Next page or filter"
+                  "ja": "変わらない：ページ送り・絞り込み",
+                  "en": "Unchanged: next page or filter",
+                  "same": true
                 },
                 {
                   "k": "none",
-                  "ja": "なし",
-                  "en": "None"
+                  "ja": "変わらない：なし",
+                  "en": "Unchanged: none",
+                  "same": true
                 },
                 {
                   "k": "step",
-                  "ja": "取りにいく",
-                  "en": "Fetch"
+                  "ja": "変わらない：更新する",
+                  "en": "Unchanged: update",
+                  "same": true
                 },
                 {
                   "k": "cache",
                   "ja": "30 分単位。あれば速い。なければ、今と同じ",
-                  "en": "30-min slots. Fast if kept, same as today if not"
+                  "en": "30-min slots. Fast if kept, same as today if not",
+                  "chg": true
                 },
                 {
                   "k": "step",
                   "ja": "あれば、速く出る",
-                  "en": "Shown fast when kept"
+                  "en": "Shown fast when kept",
+                  "chg": true
                 }
               ]
             }
@@ -7460,7 +7498,7 @@
                 },
                 {
                   "k": "cache",
-                  "ja": "1 時間とっておく。初めてのキーワードは、ない",
+                  "ja": "1 時間保存する。初めてのキーワードは、ない",
                   "en": "Kept for 1 h. None for a first-time keyword"
                 },
                 {
@@ -7489,29 +7527,56 @@
                 {
                   "k": "step",
                   "ja": "定期実行で、よく検索されるキーワードを先に作る",
-                  "en": "A scheduled job builds popular keywords in advance"
+                  "en": "A scheduled job builds popular keywords in advance",
+                  "chg": true
                 },
                 {
                   "k": "cache",
                   "ja": "よく検索されるキーワードは、常にある",
-                  "en": "Popular keywords are always kept"
+                  "en": "Popular keywords are always kept",
+                  "chg": true
                 },
                 {
                   "k": "none",
                   "ja": "作る必要がない",
-                  "en": "Nothing to build"
+                  "en": "Nothing to build",
+                  "chg": true
                 },
                 {
                   "k": "none",
-                  "ja": "なし",
-                  "en": "None"
+                  "ja": "変わらない：なし",
+                  "en": "Unchanged: none",
+                  "same": true
                 },
                 {
                   "k": "step",
                   "ja": "よく検索されるキーワードは、すぐ出る",
-                  "en": "Popular keywords appear right away"
+                  "en": "Popular keywords appear right away",
+                  "chg": true
                 }
               ]
+            }
+          ],
+          "cols": [
+            {
+              "ja": "きっかけ",
+              "en": "Trigger"
+            },
+            {
+              "ja": "検索結果のキャッシュ",
+              "en": "Search result cache"
+            },
+            {
+              "ja": "結果を作る処理",
+              "en": "Build step"
+            },
+            {
+              "ja": "その結果のキャッシュ",
+              "en": "Cache of its result"
+            },
+            {
+              "ja": "ユーザーの見え方",
+              "en": "What the user sees"
             }
           ]
         }

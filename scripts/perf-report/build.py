@@ -453,12 +453,15 @@ CP = D["cacheplan"]
 def _flow():
     F = CP["flow"]
     leg = "".join(f'<span class="fl-b {x["k"]}">{t(x["ja"], x["en"])}</span>' for x in F["legend"])
-    head = '<span class="fl-h"></span>' + "".join(f'<span class="fl-h">{t(c["ja"], c["en"])}</span>' for c in F["cols"])
     g = ""
     for grp in F["groups"]:
+        head = '<span class="fl-h"></span>' + "".join(f'<span class="fl-h">{t(c["ja"], c["en"])}</span>' for c in grp.get("cols", F["cols"]))
         rows = ""
         for r in grp["rows"]:
-            cells = "".join(f'<span class="fl-b {x["k"]}">{t(x["ja"], x["en"])}</span>' for x in r["c"])
+            cells = "".join(
+                f'<span class="fl-b {x["k"]}{" same" if x.get("same") else ""}">'
+                + ('<b class="fl-chg">' + t("変更", "Changed") + '</b>' if x.get("chg") else "")
+                + t(x["ja"], x["en"]) + '</span>' for x in r["c"])
             rows += f'<span class="fl-l">{t(r["l"]["ja"], r["l"]["en"])}</span>{cells}'
         g += (f'<h4 class="fl-gh">{t(grp["h"]["ja"], grp["h"]["en"])}</h4>'
               f'<div class="fl-wrap"><div class="fl-grid">{head}{rows}</div></div>')
