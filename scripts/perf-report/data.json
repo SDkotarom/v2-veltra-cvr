@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 66,
+    "version": 67,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6160,148 +6160,86 @@
     "sections": [
       {
         "h": {
-          "ja": "原理：こういう構造だから、こうなる",
-          "en": "Principle: because of this structure, this happens"
+          "ja": "前提",
+          "en": "Premise"
         },
         "items": {
           "ja": [
             {
-              "t": "構造：一覧ページは、見に来るたびに、サーバーが組み立てる",
+              "t": "一覧ページは表示が遅くなる",
               "c": [
                 {
-                  "t": "AC の情報を 1 件ずつ集めて、一覧ページにする（1 ページ約 20 商品）"
-                },
-                {
-                  "t": "なので：組み立てに、時間がかかる。AC が多いほど、長い"
+                  "t": "サーバーでAC の情報を1件ずつ集めに行って、一覧ページを組み立てて表示する必要があるため"
                 }
               ]
             },
             {
-              "t": "対策の原理：同じ一覧ページを、何度も組み立てるのは、無駄",
+              "t": "そのため、キャッシュを作って表示を早くしている",
               "c": [
                 {
-                  "t": "組み立て終わった一覧ページを、コピーして保存する（＝ キャッシュを作る）"
+                  "t": "組み立て終わった一覧ページを、コピーして保存しておく（＝ キャッシュを作る）"
                 },
                 {
-                  "t": "なので：保存してある間は、組み立てずに、コピーを見せられる。速い"
+                  "t": "キャッシュがあれば、組み立て時間がかからないので同じページを見にきた人は早く表示される"
                 }
               ]
             },
             {
-              "t": "条件1：コピーが使えるのは、保存してある間に、同じページが、また見られたとき",
+              "t": "ただしキャッシュを作ると下記のデメリットも発生する",
               "c": [
                 {
-                  "t": "なので：ページの種類が無限にある場合（検索）や、見る人が少ないページは、コピーが使われにくい"
+                  "t": "キャッシュしたページは更新されないので情報が一部古くなっている可能性がある"
                 },
                 {
-                  "t": "なので：同じページでも、端末・通貨・国などで別々に保存すると、コピーが使われにくくなる"
-                }
-              ]
-            },
-            {
-              "t": "条件2：コピーは、保存した時点の内容",
-              "c": [
-                {
-                  "t": "なので：保存期間（例：30 分、1 時間、24 時間）が長いほど、本物とずれる（古くなる）"
+                  "t": "キャッシュの有効期間（ex. 30分、1時間、24時間...）が長いほどAC情報が古くなる可能性が高まる",
+                  "c": [
+                    {
+                      "t": "※といっても、すべてのACが毎分更新されているわけではないので問題になるとも限らない"
+                    }
+                  ]
                 },
                 {
-                  "t": "ただし、すべての AC が毎分更新されるわけではないので、問題になるとは限らない（Teppei さん：更新は 1 日 100〜200 件ほど）"
-                },
-                {
-                  "t": "なので：古さを避けるために、コピーを出したあとに、最新の内容に入れ替える工夫をすると、その分、待つ"
-                }
-              ]
-            },
-            {
-              "t": "条件3：コピーは、保存する場所を使う",
-              "c": [
-                {
-                  "t": "なので：保存するページが多いほど、容量を使う（例：カテゴリーの 2 ページ目以降を全部保存すると、1.6GB 超。Suki さんの見積もり）"
-                },
-                {
-                  "t": "なので：容量が尽きると、障害の恐れがある（Suki さん）"
-                }
-              ]
-            },
-            {
-              "t": "まとめ：速くする方法は、2つ",
-              "c": [
-                {
-                  "t": "コピーが使える場面を、増やす（保存する対象を増やす、先に作っておく）。代わりに、古さと容量が、増える"
-                },
-                {
-                  "t": "組み立てそのものを、軽くする（処理の調査）。古さと容量は、増えない"
+                  "t": "さらに、キャッシュを作るページが多くなる程、サーバー容量を食う（全カテゴリーページ分つくったら1〜数GB必要）"
                 }
               ]
             }
           ],
           "en": [
             {
-              "t": "Structure: the server assembles a list page every time someone visits",
+              "t": "List pages are slow to display",
               "c": [
                 {
-                  "t": "It gathers each AC's information one by one and turns it into the list page (about 20 products per page)"
-                },
-                {
-                  "t": "So: assembly takes time, and longer the more ACs there are"
+                  "t": "Because the server has to go and gather each AC's information one by one, assemble the list page and display it"
                 }
               ]
             },
             {
-              "t": "Principle of the remedy: assembling the same list page over and over is wasteful",
+              "t": "So a cache is made to speed up display",
               "c": [
                 {
-                  "t": "Copy and save the assembled list page (= make a cache)"
+                  "t": "The assembled list page is copied and saved (= making a cache)"
                 },
                 {
-                  "t": "So: while it is saved, the copy can be shown without assembling. It is fast"
+                  "t": "If a cache exists no assembly time is needed, so people who come to the same page see it quickly"
                 }
               ]
             },
             {
-              "t": "Condition 1: a copy is used only if the same page is viewed again while it is saved",
+              "t": "But making a cache also brings the following downsides",
               "c": [
                 {
-                  "t": "So: where pages are endless (Search) or few people view them, copies are rarely used"
+                  "t": "A cached page is not updated, so some information may be out of date"
                 },
                 {
-                  "t": "So: if even the same page is saved separately by device, currency, country and so on, copies are used less often"
-                }
-              ]
-            },
-            {
-              "t": "Condition 2: a copy holds the content as of when it was saved",
-              "c": [
-                {
-                  "t": "So: the longer the saved period (e.g. 30 min, 1 h, 24 h), the further it drifts from the real content (stale)"
+                  "t": "The longer the cache's validity period (e.g. 30 min, 1 hour, 24 hours...), the likelier the AC information is out of date",
+                  "c": [
+                    {
+                      "t": "*That said, not every AC is updated every minute, so it may not be a problem"
+                    }
+                  ]
                 },
                 {
-                  "t": "But not every AC changes every minute, so it may not matter (Teppei: about 100-200 updates a day)"
-                },
-                {
-                  "t": "So: if, to avoid staleness, the page swaps in the latest content after showing the copy, the user waits for that"
-                }
-              ]
-            },
-            {
-              "t": "Condition 3: copies use storage",
-              "c": [
-                {
-                  "t": "So: the more pages are saved, the more capacity is used (e.g. saving all category pages from page 2 onward takes over 1.6 GB; Suki's estimate)"
-                },
-                {
-                  "t": "So: if capacity runs out there is a risk of an outage (Suki)"
-                }
-              ]
-            },
-            {
-              "t": "Summary: there are two ways to speed up",
-              "c": [
-                {
-                  "t": "Make copies usable in more situations (save more pages, build in advance). In exchange, staleness and capacity increase"
-                },
-                {
-                  "t": "Make the assembly itself lighter (investigate the processing). Staleness and capacity do not increase"
+                  "t": "Furthermore, the more pages are cached, the more server capacity is used (1 to several GB if every category page is made)"
                 }
               ]
             }
@@ -6310,85 +6248,53 @@
       },
       {
         "h": {
-          "ja": "原理に照らした、現状の実装状況",
-          "en": "Current implementation, seen through the principle"
+          "ja": "現状の実装状況",
+          "en": "Current implementation"
         },
         "items": {
           "ja": [
             {
-              "t": "キャッシュの仕組みは、ページにより、まちまち",
+              "t": "キャッシュの仕組みはページによりまちまちである",
               "c": [
                 {
-                  "t": "① キャッシュしていない",
+                  "t": "①キャッシュしていない：カテゴリーページ等でAC数が少なく、表示時間がさほどかからないページ（仮説）",
                   "c": [
                     {
-                      "t": "カテゴリーの 2 ページ目以降と、絞り込み結果",
-                      "c": [
-                        {
-                          "t": "理由：容量と、組み合わせの多さ（Suki さん、9/22）"
-                        }
-                      ]
+                      "t": "確認結果：「AC 数が少ないから」という記録は、見つけていない。2 ページ目があるカテゴリーは、20 商品を超えている"
                     },
                     {
-                      "t": "「日程から探す」、ブラウザの「戻る」",
-                      "c": [
-                        {
-                          "t": "理由の記録は、見つけていない。設定漏れの可能性がある（未確認）。[[UX_DESIGN-415]]・[[UX_DESIGN-419]]"
-                        }
-                      ]
+                      "t": "確認結果：カテゴリーの 2 ページ目以降と絞り込み結果は、容量と、組み合わせの多さのため、していない（Suki さん、9/22）。保存先は、容量が尽きると、障害の恐れがある"
                     },
                     {
-                      "t": "ログイン・決済・マイページなど",
-                      "c": [
-                        {
-                          "t": "個人情報を含むため、してはいけない（9/4 の調査）"
-                        }
-                      ]
+                      "t": "確認結果：「日程から探す」、ブラウザの「戻る」は、理由の記録がない。設定漏れの可能性がある（未確認。[[UX_DESIGN-415]]・[[UX_DESIGN-419]]）"
                     },
                     {
-                      "t": "「AC 数が少ないから、していない」という仮説は、記録で確認できていない",
-                      "c": [
-                        {
-                          "t": "2 ページ目があるカテゴリーは、20 商品を超えている"
-                        }
-                      ]
+                      "t": "確認結果：ログイン・決済・マイページなどは、個人情報を含むため、してはいけない（9/4 の調査）"
                     }
                   ]
                 },
                 {
-                  "t": "② キャッシュありなし、混在",
+                  "t": "②キャッシュありなし混在：フリーワード検索結果ページのように、一覧ページが無限に生まれるような場合は、過去に検索されたキーワード分のキャッシュしかない。",
                   "c": [
                     {
-                      "t": "対象：検索結果ページ"
-                    },
-                    {
-                      "t": "キーワードごとに、別のページになる。キーワードは、無数にある"
-                    },
-                    {
-                      "t": "過去に検索されたキーワードの分だけ、保存している（保存期間は 1 時間）"
-                    },
-                    {
-                      "t": "初めてのキーワードは、保存がない（9/4 の実測：初めて 5.3 秒、保存後は約 0.2 秒）"
+                      "t": "確認結果：保存期間は 1 時間。初めてのキーワードは 5.3 秒、保存後は約 0.2 秒（9/4 の実測）"
                     }
                   ]
                 },
                 {
-                  "t": "③ キャッシュしている",
+                  "t": "③キャッシュをしている：キャッシュしているが、現状は「ページアクセスがあったら」その時点でキャッシュを作っている？（仮説）",
                   "c": [
                     {
-                      "t": "対象：カテゴリーの 1 ページ目など"
+                      "t": "確認結果：対象は、カテゴリーの 1 ページ目など。保存期間は 24 時間"
                     },
                     {
-                      "t": "保存期間：24 時間"
+                      "t": "確認結果：1 日 1 回の定期実行で、作り直している（Suki さん、9/22）"
                     },
                     {
-                      "t": "作り方：1 日 1 回の定期実行で、作り直している（Suki さん、9/22）"
+                      "t": "確認結果：アクセスされたときに作る分があるか、未確認（Suki さんの回答待ち）。Teppei さんは、アクセスで作られるケースが多かった、という記憶"
                     },
                     {
-                      "t": "アクセスされたときに作る分があるか：未確認（Suki さんの回答待ち）。Teppei さんは、アクセスで作られるケースが多かった、という記憶"
-                    },
-                    {
-                      "t": "古さ対策：ページが出たあと、最新の一覧への入れ替え処理が走る。その結果は、30 分単位で保存している（[[UX_DESIGN-309]]）"
+                      "t": "確認結果：保存した 1 ページ目の上に、ページが出たあと、最新の一覧に入れ替える処理が走る。その結果は、30 分単位で保存している（[[UX_DESIGN-309]]）"
                     }
                   ]
                 }
@@ -6397,79 +6303,47 @@
           ],
           "en": [
             {
-              "t": "The setup differs from page to page",
+              "t": "The caching setup differs from page to page",
               "c": [
                 {
-                  "t": "① Not cached",
+                  "t": "① Not cached: pages such as category pages with few ACs, where display time is not long (hypothesis)",
                   "c": [
                     {
-                      "t": "Category page 2 onward and filtered results",
-                      "c": [
-                        {
-                          "t": "Reason: capacity and the number of combinations (Suki, 9/22)"
-                        }
-                      ]
+                      "t": "Findings: no record says 'because there are few ACs'. A category with a page 2 has more than 20 products"
                     },
                     {
-                      "t": "'Search by date' and the browser back button",
-                      "c": [
-                        {
-                          "t": "No record of a reason found; possibly just not set up (unconfirmed). [[UX_DESIGN-415]], [[UX_DESIGN-419]]"
-                        }
-                      ]
+                      "t": "Findings: category page 2 onward and filtered results are not cached because of capacity and the number of combinations (Suki, 9/22). If the storage runs out there is a risk of an outage"
                     },
                     {
-                      "t": "Login, checkout, My Page and similar",
-                      "c": [
-                        {
-                          "t": "Must not be cached because they contain personal information (9/4 investigation)"
-                        }
-                      ]
+                      "t": "Findings: no reason is recorded for 'search by date' and the browser back button; possibly just not set up (unconfirmed; [[UX_DESIGN-415]], [[UX_DESIGN-419]])"
                     },
                     {
-                      "t": "The hypothesis 'not cached because there are few ACs' is not confirmed in the records",
-                      "c": [
-                        {
-                          "t": "A category with a page 2 has more than 20 products"
-                        }
-                      ]
+                      "t": "Findings: login, checkout, My Page and similar must not be cached because they contain personal information (9/4 investigation)"
                     }
                   ]
                 },
                 {
-                  "t": "② A mix of cached and not cached",
+                  "t": "② A mix of cached and not cached: where list pages are endlessly generated, as with free-word search results, only keywords searched in the past have a cache.",
                   "c": [
                     {
-                      "t": "Target: search result pages"
-                    },
-                    {
-                      "t": "Each keyword is a separate page, and keywords are endless"
-                    },
-                    {
-                      "t": "Only keywords searched in the past are saved (for 1 hour)"
-                    },
-                    {
-                      "t": "A first-time keyword has no saved copy (9/4 measurement: 5.3 s the first time, about 0.2 s once saved)"
+                      "t": "Findings: saved for 1 hour. 5.3 s for a first-time keyword, about 0.2 s once saved (9/4 measurement)"
                     }
                   ]
                 },
                 {
-                  "t": "③ Cached",
+                  "t": "③ Cached: it is cached, but currently is the cache made at the moment 'a page is accessed'? (hypothesis)",
                   "c": [
                     {
-                      "t": "Target: category page 1 and similar"
+                      "t": "Findings: applies to category page 1 and similar. Saved for 24 hours"
                     },
                     {
-                      "t": "Saved period: 24 hours"
+                      "t": "Findings: rebuilt by a scheduled job once a day (Suki, 9/22)"
                     },
                     {
-                      "t": "How it is built: rebuilt by a scheduled job once a day (Suki, 9/22)"
+                      "t": "Findings: whether some are made on access is unconfirmed (awaiting Suki). Teppei recalls many cases where it was made on access"
                     },
                     {
-                      "t": "Whether some are built when accessed: unconfirmed (awaiting Suki). Teppei recalls that many were built on access"
-                    },
-                    {
-                      "t": "Against staleness: after the page appears, a process swaps in the latest list, and its result is saved in 30-minute slots ([[UX_DESIGN-309]])"
+                      "t": "Findings: on top of the saved page 1, a process swaps in the latest list after the page appears; its result is saved in 30-minute slots ([[UX_DESIGN-309]])"
                     }
                   ]
                 }
@@ -6480,17 +6354,14 @@
       },
       {
         "h": {
-          "ja": "原理に照らした、現在の問題点",
-          "en": "Current problems, seen through the principle"
+          "ja": "現在の問題点",
+          "en": "Current problems"
         },
         "items": {
           "ja": [
             {
               "t": "カテゴリーの 2 ページ目以降・絞り込み：毎回、組み立てるため、遅い",
               "c": [
-                {
-                  "t": "原理：キャッシュがなければ、サーバーが毎回、組み立てる"
-                },
                 {
                   "t": "絞り込みで、読み込み中のリングが回る（牧野の体感。測定ではない）"
                 }
@@ -6499,9 +6370,6 @@
             {
               "t": "検索：初めてのキーワードは、必ず組み立てるため、遅い",
               "c": [
-                {
-                  "t": "原理（条件1）：初めてのキーワードは、コピーがない"
-                },
                 {
                   "t": "最初の応答まで、約 5.5 秒（実ユーザー、10/3 の週）"
                 },
@@ -6514,9 +6382,6 @@
               "t": "カテゴリーの 1 ページ目：キャッシュがあるのに、リングが回る",
               "c": [
                 {
-                  "t": "原理（条件2）：古さ対策の入れ替えで、その分、待つ"
-                },
-                {
                   "t": "原因：ページが出たあとの、最新の一覧への入れ替え処理"
                 },
                 {
@@ -6528,9 +6393,6 @@
               "t": "あまり見られないエリア：初回表示が遅い（仮説）",
               "c": [
                 {
-                  "t": "原理（条件1）：見る人が少ないと、コピーが使われにくい"
-                },
-                {
                   "t": "見る人が少なく、保存がまだない可能性（牧野の推測。体感で 2〜3 秒）"
                 }
               ]
@@ -6541,9 +6403,6 @@
               "t": "Category page 2 onward and filters: assembled every time, so slow",
               "c": [
                 {
-                  "t": "Principle: with no cache, the server assembles every time"
-                },
-                {
                   "t": "Filtering spins the loading ring (Makino's impression; not a measurement)"
                 }
               ]
@@ -6551,9 +6410,6 @@
             {
               "t": "Search: a first-time keyword is always assembled, so slow",
               "c": [
-                {
-                  "t": "Principle (condition 1): a first-time keyword has no copy"
-                },
                 {
                   "t": "About 5.5 s to the first response (real users, week of 10/3)"
                 },
@@ -6566,9 +6422,6 @@
               "t": "Category page 1: the ring spins even though a cache exists",
               "c": [
                 {
-                  "t": "Principle (condition 2): the swap that guards against staleness adds waiting"
-                },
-                {
                   "t": "Cause: the process that swaps in the latest list after the page appears"
                 },
                 {
@@ -6580,9 +6433,6 @@
               "t": "Rarely visited areas: slow first view (hypothesis)",
               "c": [
                 {
-                  "t": "Principle (condition 1): with few viewers, copies are rarely used"
-                },
-                {
                   "t": "Few people view them, so nothing may be saved yet (Makino's inference; about 2-3 s by feel)"
                 }
               ]
@@ -6592,8 +6442,8 @@
       },
       {
         "h": {
-          "ja": "だから、今回改善すること・狙い",
-          "en": "So, what will be improved and why"
+          "ja": "今回改善すること・狙い",
+          "en": "What will be improved and why"
         },
         "items": {
           "ja": [
