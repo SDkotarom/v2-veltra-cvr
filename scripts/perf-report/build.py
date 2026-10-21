@@ -454,10 +454,10 @@ def _cp_list(x):
     return f'<div class="rv-l">{_bil(x["items"])}</div>'
 CACHE = (f'<div class="rv-h"><h2>{t(CP["h"]["ja"], CP["h"]["en"])}</h2>'
          f'<span class="rv-m">{t(CP["meta"]["ja"], CP["meta"]["en"])}</span></div>'
-         f'<div class="sec pl"><h3 class="sh">{t(CP["policy"]["h"]["ja"], CP["policy"]["h"]["en"])}</h3>{_cp_list(CP["policy"])}</div>'
-         f'<div class="sec pl"><h3 class="sh">{t(CP["ideas"]["h"]["ja"], CP["ideas"]["h"]["en"])}</h3>{_cp_tbl(CP["ideas"], "wt cp1")}</div>'
-         f'<div class="sec pl"><h3 class="sh">{t(CP["asks"]["h"]["ja"], CP["asks"]["h"]["en"])}</h3>{_cp_tbl(CP["asks"], "wt cp2")}</div>'
-         f'<div class="sec pl"><h3 class="sh">{t(CP["metrics"]["h"]["ja"], CP["metrics"]["h"]["en"])}</h3>{_cp_list(CP["metrics"])}</div>')
+         f'<div class="sec pl"><h3 class="sh">{t(CP["problem"]["h"]["ja"], CP["problem"]["h"]["en"])}</h3>{_cp_list(CP["problem"])}</div>'
+         f'<div class="sec pl"><h3 class="sh">{t(CP["scope"]["h"]["ja"], CP["scope"]["h"]["en"])}</h3>{_cp_tbl(CP["scope"], "wt cp3")}</div>'
+         f'<div class="sec pl"><h3 class="sh">{t(CP["pros"]["h"]["ja"], CP["pros"]["h"]["en"])}</h3>{_cp_tbl(CP["pros"], "wt cp1")}</div>'
+         f'<div class="sec pl"><h3 class="sh">{t(CP["asks"]["h"]["ja"], CP["asks"]["h"]["en"])}</h3>{_cp_tbl(CP["asks"], "wt cp2")}</div>')
 
 def _classify():
     x = SG["classify"]
