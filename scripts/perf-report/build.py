@@ -444,6 +444,21 @@ def _waits(key="waits", cls="wt"):
             f'<p class="mut">{t(x["note"]["ja"], x["note"]["en"])}</p></div>')
 
 
+CP = D["cacheplan"]
+def _cp_tbl(x, cls="wt"):
+    head, *body = x["table"]
+    return ('<div class="tw"><table class="' + cls + '"><tr>' + "".join(f"<th>{_cell(c)}</th>" for c in head) + "</tr>"
+            + "".join("<tr>" + "".join(f"<td>{_cell(c)}</td>" for c in r) + "</tr>" for r in body) + "</table></div>"
+            + (f'<p class="mut">{t(x["note"]["ja"], x["note"]["en"])}</p>' if x.get("note") else ""))
+def _cp_list(x):
+    return f'<div class="rv-l">{_bil(x["items"])}</div>'
+CACHE = (f'<div class="rv-h"><h2>{t(CP["h"]["ja"], CP["h"]["en"])}</h2>'
+         f'<span class="rv-m">{t(CP["meta"]["ja"], CP["meta"]["en"])}</span></div>'
+         f'<div class="sec pl"><h3 class="sh">{t(CP["policy"]["h"]["ja"], CP["policy"]["h"]["en"])}</h3>{_cp_list(CP["policy"])}</div>'
+         f'<div class="sec pl"><h3 class="sh">{t(CP["ideas"]["h"]["ja"], CP["ideas"]["h"]["en"])}</h3>{_cp_tbl(CP["ideas"], "wt cp1")}</div>'
+         f'<div class="sec pl"><h3 class="sh">{t(CP["asks"]["h"]["ja"], CP["asks"]["h"]["en"])}</h3>{_cp_tbl(CP["asks"], "wt cp2")}</div>'
+         f'<div class="sec pl"><h3 class="sh">{t(CP["metrics"]["h"]["ja"], CP["metrics"]["h"]["en"])}</h3>{_cp_list(CP["metrics"])}</div>')
+
 def _classify():
     x = SG["classify"]
     head, *body = x["table"]
@@ -499,8 +514,10 @@ html = f'''<title>表示速度モニタリング</title>
 <button class="pt" data-tab="report" aria-selected="true">{t("レポート", "Report")}</button>
 <button class="pt" data-tab="plan" aria-selected="false">{t("後半の方針", "Second-half plan")}</button>
 <button class="pt" data-tab="measures" aria-selected="false">{t("主な対応事項", "Main changes")}</button>
+<button class="pt" data-tab="cache" aria-selected="false">{t("一覧のキャッシュ改善", "List caching")}</button>
 </nav>
 <div class="pane" data-pane="measures" hidden><div class="rv">{MEASURES}</div></div>
+<div class="pane" data-pane="cache" hidden><div class="rv">{CACHE}</div></div>
 <div class="pane" data-pane="plan" hidden><div class="rv">{PLAN}</div></div>
 <div class="pane" data-pane="report">
 <div class="rv">

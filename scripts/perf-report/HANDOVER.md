@@ -8,11 +8,11 @@
 
 | 項目 | 値 |
 |---|---|
-| レポート | https://claude.ai/artifact/PdRrX84rA8hhBCxZ6Vq8WC （組織内公開・V53、2026-10-16 公開） |
+| レポート | https://claude.ai/artifact/PdRrX84rA8hhBCxZ6Vq8WC （組織内公開・V54、2026-10-21 公開） |
 | タブ | 「レポート」／「後半の方針」／「主な対応事項」（URL 末尾 `#plan`・`#measures` で直接開ける） |
 | データの範囲 | PSI 日次 9/4〜9/30、CrUX 週次 〜9/26 締めの週（9月末で中締め） |
 | 冒頭ブロック | 「9月の中締め」（実施内容／結果／要因／10月にやること） |
-| 版数表示 | `defs.version` = 54（次に公開すると Artifact も Version 54 になり一致する） |
+| 版数表示 | `defs.version` = 55（次に公開すると Artifact も Version 55 になり一致する） |
 | ブランチ | `claude/charming-albattani-mc5puq`（push 済み・PR は未作成） |
 | 計測スプレッドシート | fileId `1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM` |
 | Slack 投稿先の候補 | #proj-web-performance（C0BN961QQA1） |

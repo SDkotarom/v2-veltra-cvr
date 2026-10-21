@@ -503,7 +503,7 @@
   };
   try { var s = localStorage.getItem("perf-report-lang"); if (s) window.setLang(s); } catch (e) {}
 
-  /* ページ上部のタブ。URL の #plan・#measures でタブを直接開ける */
+  /* ページ上部のタブ。URL の #plan・#measures・#cache でタブを直接開ける */
   function showTab(name) {
     document.querySelectorAll(".pt").forEach(function (b) { b.setAttribute("aria-selected", String(b.dataset.tab === name)); });
     document.querySelectorAll(".pane").forEach(function (p) { p.hidden = p.dataset.pane !== name; });
@@ -519,5 +519,6 @@
   redrawAll();
   if (location.hash === "#plan") showTab("plan");
   if (location.hash === "#measures") showTab("measures");
+  if (location.hash === "#cache") showTab("cache");
   addEventListener("resize", redrawCharts);
 })();

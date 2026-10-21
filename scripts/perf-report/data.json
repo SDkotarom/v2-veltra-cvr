@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 54,
+    "version": 55,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -5993,5 +5993,311 @@
         ]
       }
     ]
+  },
+  "cacheplan": {
+    "h": {
+      "ja": "一覧ページのキャッシュ改善",
+      "en": "Caching for list pages"
+    },
+    "meta": {
+      "ja": "2026-10-21 時点",
+      "en": "As of 2026-10-21"
+    },
+    "policy": {
+      "h": {
+        "ja": "現状の方針",
+        "en": "Current policy"
+      },
+      "items": {
+        "ja": [
+          "カテゴリー・検索の一覧ページを、キャッシュの工夫で速くする。Suki さんの6案を、費用などの問題が小さければ実施する（10/21、Teppei さんと確認）",
+          "UX の判断は牧野。問題が出たら戻せる状態にして進める",
+          "ページ送りを、スクロールで続きを読み込む方式に変える方向も、合意（別途検討。②の設計に影響する可能性）",
+          "効果は、CVR ではなく、手前の指標で見る（下の「効果の見方」）"
+        ],
+        "en": [
+          "Speed up the Category and Search list pages with caching. Suki's six ideas will be done if cost and other concerns are small (confirmed with Teppei on 10/21)",
+          "UX decisions are Makino's. Proceed in a way that can be reverted if a problem appears",
+          "Also agreed in direction: replace page-by-page navigation with loading the next items on scroll (to be studied separately; it may affect ②)",
+          "Judge the effect by earlier-stage indicators, not CVR (see 'How the effect is judged' below)"
+        ]
+      }
+    },
+    "ideas": {
+      "h": {
+        "ja": "案と状態",
+        "en": "Ideas and status"
+      },
+      "note": {
+        "ja": "案は Suki さんが 10/20 に Slack で出したもの。①〜⑥は、この表の番号",
+        "en": "Ideas were posted by Suki on Slack on 10/20. ①-⑥ are numbers used in this table"
+      },
+      "table": [
+        [
+          {
+            "ja": "番号",
+            "en": "No."
+          },
+          {
+            "ja": "対象",
+            "en": "Page"
+          },
+          {
+            "ja": "やること",
+            "en": "What"
+          },
+          {
+            "ja": "状態",
+            "en": "Status"
+          },
+          {
+            "ja": "確認が必要なこと",
+            "en": "To confirm"
+          }
+        ],
+        [
+          "①",
+          {
+            "ja": "カテゴリー",
+            "en": "Category"
+          },
+          {
+            "ja": "1ページ目を、24 時間のページキャッシュにする（リングが出なくなる）",
+            "en": "Make page 1 a 24-hour page cache (no loading ring)"
+          },
+          {
+            "ja": "仕組みの確認待ち",
+            "en": "Waiting on how the cache works"
+          },
+          {
+            "ja": "最大 24 時間の古さを許容できるか（Teppei さんは、鮮度にこだわらない考え）。公開時の更新が効くか",
+            "en": "Whether up to 24 hours of staleness is acceptable (Teppei does not insist on freshness). Whether update-on-publish works"
+          }
+        ],
+        [
+          "②",
+          {
+            "ja": "カテゴリー",
+            "en": "Category"
+          },
+          {
+            "ja": "2ページ目以降を、30 分単位でキャッシュする",
+            "en": "Cache page 2 onward in 30-minute slots"
+          },
+          {
+            "ja": "容量の確認待ち",
+            "en": "Waiting on capacity check"
+          },
+          {
+            "ja": "全部で 1.6GB 超の見積もり。スクロール方式の設計との順番",
+            "en": "Estimated at over 1.6 GB in total. Order relative to the scroll-based design"
+          }
+        ],
+        [
+          "③",
+          {
+            "ja": "カテゴリー",
+            "en": "Category"
+          },
+          {
+            "ja": "絞り込み結果を、30 分単位でキャッシュする",
+            "en": "Cache filtered results in 30-minute slots"
+          },
+          {
+            "ja": "範囲を決める段階",
+            "en": "Scope to be decided"
+          },
+          {
+            "ja": "組み合わせが多い。よく使われる絞り込みだけに絞る案（GA4 で調べる）",
+            "en": "Many combinations. Idea: only the most-used filters (check in GA4)"
+          }
+        ],
+        [
+          "④",
+          {
+            "ja": "検索",
+            "en": "Search"
+          },
+          {
+            "ja": "枠を先に出し、結果は後から描画する",
+            "en": "Show the frame first and render results later"
+          },
+          {
+            "ja": "あとで",
+            "en": "Later"
+          },
+          {
+            "ja": "検索 API の改修が要る。仮の枠のデザイン",
+            "en": "Needs a search API change. Placeholder design"
+          }
+        ],
+        [
+          "⑤",
+          {
+            "ja": "検索",
+            "en": "Search"
+          },
+          {
+            "ja": "検索ページと filter_kw() の処理を調べる（API は 3 秒未満、最初の応答は 5 秒超）",
+            "en": "Investigate the search page and filter_kw() (API under 3 s, first response over 5 s)"
+          },
+          {
+            "ja": "実施をお願いする",
+            "en": "To be requested"
+          },
+          {
+            "ja": "原因が未特定。[[UX_DESIGN-406]]・[[UX_DESIGN-413]] と合わせる",
+            "en": "Cause not identified. Combine with [[UX_DESIGN-406]] and [[UX_DESIGN-413]]"
+          }
+        ],
+        [
+          "⑥",
+          {
+            "ja": "検索",
+            "en": "Search"
+          },
+          {
+            "ja": "よく検索されるキーワードを、定期実行で先にキャッシュする",
+            "en": "Pre-cache popular keywords with a scheduled job"
+          },
+          {
+            "ja": "範囲を決める段階",
+            "en": "Scope to be decided"
+          },
+          {
+            "ja": "珍しいキーワードには効かない。GA4 で上位を調べる",
+            "en": "Does not help rare keywords. Check the top keywords in GA4"
+          }
+        ]
+      ]
+    },
+    "asks": {
+      "h": {
+        "ja": "確認してもらうこと（依頼済みを含む）",
+        "en": "Items to confirm (including already requested)"
+      },
+      "note": {
+        "ja": "依頼は、10/14 の Slack スレッドで Suki さんに出している",
+        "en": "Requests were made to Suki in the 10/14 Slack thread"
+      },
+      "table": [
+        [
+          {
+            "ja": "事項",
+            "en": "Item"
+          },
+          {
+            "ja": "確認先",
+            "en": "Who"
+          },
+          {
+            "ja": "状態",
+            "en": "Status"
+          }
+        ],
+        [
+          {
+            "ja": "キャッシュは、アクセスで作られるのか、30 分ごとに自動で作られるのか。30 分の枠が切り替わった直後の挙動",
+            "en": "Is the cache built on access or automatically every 30 minutes? What happens right after a slot changes"
+          },
+          {
+            "ja": "Suki さん",
+            "en": "Suki"
+          },
+          {
+            "ja": "依頼済み（10/21）。回答待ち",
+            "en": "Requested 10/21. Awaiting reply"
+          }
+        ],
+        [
+          {
+            "ja": "キャッシュが約 1.6GB 増えたときの、コスト・性能への影響",
+            "en": "Cost and performance impact of about 1.6 GB more cache"
+          },
+          {
+            "ja": "Suki さん経由で SRE（Jeff さん）",
+            "en": "SRE (Jeff), via Suki"
+          },
+          {
+            "ja": "依頼済み（10/21）。回答待ち",
+            "en": "Requested 10/21. Awaiting reply"
+          }
+        ],
+        [
+          {
+            "ja": "予約ステップ（約 2 秒）を対象に入れられるか",
+            "en": "Whether the booking step (about 2 s) can be included"
+          },
+          {
+            "ja": "Suki さん",
+            "en": "Suki"
+          },
+          {
+            "ja": "依頼済み（10/16）。回答なし",
+            "en": "Requested 10/16. No reply"
+          }
+        ],
+        [
+          {
+            "ja": "公開した瞬間にキャッシュを更新する仕組み。②③で、Redis なしでできるか（1ページ目では、すでにある）",
+            "en": "Update-on-publish for ② and ③ without Redis (already exists for page 1)"
+          },
+          {
+            "ja": "Suki さん",
+            "en": "Suki"
+          },
+          {
+            "ja": "未依頼",
+            "en": "Not yet requested"
+          }
+        ],
+        [
+          {
+            "ja": "戻し方（再リリースか、設定の切り替えか）",
+            "en": "How to revert (re-release or a setting)"
+          },
+          {
+            "ja": "Suki さん",
+            "en": "Suki"
+          },
+          {
+            "ja": "未依頼",
+            "en": "Not yet requested"
+          }
+        ],
+        [
+          {
+            "ja": "カテゴリー1ページ目の表示項目（在庫・価格・セール）が、24 時間古くなってよいか",
+            "en": "Whether stock, price and sale labels on category page 1 may be up to 24 hours old"
+          },
+          {
+            "ja": "牧野（SYS に表示項目を確認できる）",
+            "en": "Makino (display items can be checked with SYS)"
+          },
+          {
+            "ja": "方針は確認済み。表示項目は未確認",
+            "en": "Policy confirmed. Display items not checked"
+          }
+        ]
+      ]
+    },
+    "metrics": {
+      "h": {
+        "ja": "効果の見方",
+        "en": "How the effect is judged"
+      },
+      "items": {
+        "ja": [
+          "CVR ではなく、手前の指標で見る：一覧に着地したセッションの離脱（エンゲージメント率）、一覧から商品ページへの到達率、1セッションあたりの商品ページ閲覧数",
+          "戻す条件：変更前の日ごとのばらつきを超えて、商品ページへの到達率が下がり続けたら戻す（牧野の案。まだ誰とも合意していない）",
+          "変更前の値は、リリース前に GA4 で取る（まだ取っていない）"
+        ],
+        "en": [
+          "Judge by earlier-stage indicators, not CVR: engagement rate of sessions that land on a list, rate of reaching product pages from the list, product pages viewed per session",
+          "Revert condition: revert if the rate of reaching product pages keeps falling beyond its normal daily variation (Makino's proposal; not yet agreed with anyone)",
+          "Take baseline values in GA4 before release (not yet taken)"
+        ]
+      }
+    }
   }
 }
