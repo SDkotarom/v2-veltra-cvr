@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 116,
+    "version": 117,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6220,8 +6220,8 @@
               "en": "Category, area, page 1<br><small>/jp/japan/tokyo/ctg/…</small>"
             },
             {
-              "ja": "ページキャッシュ 24 時間でページを出したあと、一覧部分だけを最新にするためにフェッチする<br>・フェッチで取るもの：条件に合う AC の一覧（並ぶ AC そのものと、各 AC の情報）<br>・目的：編集・公開された AC を古いまま出さないため<br>・フェッチの結果は memcache に 30 分保存。AC を更新すると消え、次のアクセスで作り直される<br>・スピナーあり（約 1 秒）<br>・全国版にこの処理がない理由：未確認",
-              "en": "After the 24-hour page cache shows the page, a fetch refreshes only the list part<br>- What is fetched: the list of matching ACs (which ACs appear, and each AC's information)<br>- Why: so edited or republished ACs are not shown out of date<br>- The fetch result is kept in memcache for 30 minutes; updating an AC clears it and the next visit rebuilds it<br>- Spinner (about 1 s)<br>- Why the nationwide page has no such fetch: not confirmed"
+              "ja": "ページキャッシュ 24 時間でページを出したあと、AC 一覧だけを最新にするためにフェッチ（古い AC を出さないため）<br>・フェッチ結果は memcache に 30 分保存。AC 更新で作り直し<br>・スピナー約 1 秒",
+              "en": "After the 24-hour page cache shows the page, a fetch refreshes only the AC list (so old ACs are not shown)<br>- The fetch result is kept in memcache for 30 minutes and rebuilt when an AC is updated<br>- Spinner about 1 s"
             },
             {
               "ja": "全国版と同じ。ページキャッシュ 24 時間、フェッチなし、スピナーなし",
@@ -6302,11 +6302,11 @@
         "notes": {
           "ja": [
             "2案の未決定：No. 2 で、時刻で切り替わるもの（PR 枠の掲載開始・終了、特別セールの開始）は更新ではないため作り直しのきっかけにならない。設定時刻に作り直すか、最大 24 時間の遅れを受け入れるか",
-            "未確認：No. 2 のページキャッシュを更新をきっかけに作り直せるか／No. 3・4 を常にウォームにしたときの作り直しの負荷と容量／No. 5 の 3 で対象にするキーワードの決め方"
+            "未確認：No. 2 だけフェッチしている理由（全国版にはない）／No. 2 のページキャッシュを更新をきっかけに作り直せるか／No. 3・4 を常にウォームにしたときの作り直しの負荷と容量／No. 5 の 3 で対象にするキーワードの決め方"
           ],
           "en": [
             "Undecided for option 2: in No. 2, time-based switches (PR slot start/end, special-sale start) are not updates, so they trigger no rebuild. Rebuild at the set time, or accept up to 24 hours of delay",
-            "Not confirmed: whether No. 2 page caches can be rebuilt on update / rebuild load and capacity if No. 3-4 are always warm / how No. 5-3 chooses keywords"
+            "Not confirmed: why only No. 2 fetches (the nationwide page does not) / whether No. 2 page caches can be rebuilt on update / rebuild load and capacity if No. 3-4 are always warm / how No. 5-3 chooses keywords"
           ]
         }
       },
