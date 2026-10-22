@@ -7,6 +7,7 @@ data.json を読み、固定テンプレートで HTML を書き出す。
 usage: python3 scripts/perf-report/build.py [data.json] [out.html]
 """
 import json, re, sys, datetime
+from itertools import groupby
 from pathlib import Path
 
 BASE = Path(__file__).parent
@@ -505,7 +506,8 @@ def _cp_sec(x):
 CACHE = (f'<div class="rv-h"><h2>{t(CP["h"]["ja"], CP["h"]["en"])}</h2>'
          f'<span class="rv-m">{t(CP["meta"]["ja"], CP["meta"]["en"])}</span></div>'
          + '<p class="mut">' + t('「<a href="#plan" data-goto="plan">後半の方針</a>」の、一覧ページの具体案。方針と進め方は、そちら', 'The concrete plan for list pages under the <a href="#plan" data-goto="plan">Second-half plan</a>. Policy and steps are there') + '</p>'
-         + "".join(_cp_sec(x) for x in CP["sections"]))
+         + "".join('<section class="cp-grp">' + "".join(_cp_sec(x) for x in grp) + '</section>'
+                   for _, grp in groupby(CP["sections"], key=lambda x: x.get("g"))))
 
 def _classify():
     x = SG["classify"]
