@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 90,
+    "version": 91,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -1348,13 +1348,13 @@
       "key": "ttfb",
       "ja": "TTFB",
       "en": "TTFB",
-      "sub_ja": "サーバーから最初の応答が届くまで",
+      "sub_ja": "サーバから最初の応答が届くまで",
       "sub_en": "Time until the server starts sending the page",
       "unit": "ms",
       "good": 800,
       "ni": 1800,
       "dec": 0,
-      "tip_ja": "ページを開いた瞬間から、サーバーが返事を出し始めるまでの時間。ここが遅いと、あとの全部が遅れる。",
+      "tip_ja": "ページを開いた瞬間から、サーバが返事を出し始めるまでの時間。ここが遅いと、あとの全部が遅れる。",
       "tip_en": "The gap between opening the page and the server starting to answer. Everything else waits behind this."
     }
   ],
@@ -3302,7 +3302,7 @@
       },
       {
         "t": "UX_DESIGN-418",
-        "ja": "検索結果: サーバー描画済みの結果を無条件に再取得している",
+        "ja": "検索結果: サーバ描画済みの結果を無条件に再取得している",
         "en": "Search: server-rendered results are refetched unconditionally",
         "gain": ""
       },
@@ -4503,7 +4503,7 @@
       "blocks": [
         {
           "h": {
-            "ja": "1. 実ユーザーは、サーバーの返事を待たされている（推定）",
+            "ja": "1. 実ユーザーは、サーバの返事を待たされている（推定）",
             "en": "1. Real users are waiting on the server (inference)"
           },
           "table": [
@@ -4524,7 +4524,7 @@
             ],
             [
               {
-                "ja": "サーバーの返事（TTFB）",
+                "ja": "サーバの返事（TTFB）",
                 "en": "Server response (TTFB)"
               },
               "2〜184ms",
@@ -4540,10 +4540,10 @@
           ],
           "items": {
             "ja": [
-              "PSI ではサーバーの返事が速いのに、実ユーザーでは何倍も遅い。8/22 の週から3ページとも悪くなっている",
+              "PSI ではサーバの返事が速いのに、実ユーザーでは何倍も遅い。8/22 の週から3ページとも悪くなっている",
               "PSI はキャッシュが効いた状態で測れていて、実ユーザーはキャッシュを外していることが多いと見ている（推定）。9/4 の調査の「キャッシュが通貨・端末・国などで細かく分かれすぎている」「絞り込み条件が付くとキャッシュを読まない」と合う",
-              "PSI を上げる施策では、実ユーザーの一番大きな待ちに届かない。サーバーの返事を速くすれば、①表示の速さと②ローディング中のリング回転の時間の、<b>両方に効く</b>",
-              "地域・カテゴリーは事情が違う。PSI 上のサーバーの返事は速く、重いのはブラウザ側（画像・JS）。ここは別の見立てが要る"
+              "PSI を上げる施策では、実ユーザーの一番大きな待ちに届かない。サーバの返事を速くすれば、①表示の速さと②ローディング中のリング回転の時間の、<b>両方に効く</b>",
+              "地域・カテゴリーは事情が違う。PSI 上のサーバの返事は速く、重いのはブラウザ側（画像・JS）。ここは別の見立てが要る"
             ],
             "en": [
               "Server response is fast in PSI but several times slower for real users, and it has worsened on all three pages since the 8/22 week",
@@ -4576,7 +4576,7 @@
           },
           "items": {
             "ja": [
-              "[[TBT]] は「読み込み中に画面が固まっていた時間」。ローディング中のリング回転が出ている間は「サーバーの返事待ち」なので TBT には出ない",
+              "[[TBT]] は「読み込み中に画面が固まっていた時間」。ローディング中のリング回転が出ている間は「サーバの返事待ち」なので TBT には出ない",
               "[[UX_DESIGN-309]] の効果が見えたのは、Suki さんが手で測ったから。手計測に頼る限り、②は「やってもやらなくても同じ」に見える",
               "ローディング中のリング回転が出てから消えるまでの時間を、実ユーザーで直接測る（[[UX_DESIGN-425]]）"
             ],
@@ -4602,7 +4602,7 @@
         {
           "t": "UX_DESIGN-418",
           "d": {
-            "ja": "初期表示で、サーバーが描画した検索結果を取り直している（全画面の「処理中です」が出る）",
+            "ja": "初期表示で、サーバが描画した検索結果を取り直している（全画面の「処理中です」が出る）",
             "en": "The search page re-fetches results the server already drew (full-screen loading shows)"
           },
           "why": {
@@ -4710,7 +4710,7 @@
       },
       "items": {
         "ja": [
-          "① 主要ページの PSI を「低」から「普通」（50点以上）へ。実ユーザーのサーバーの返事を 0.8秒に近づける",
+          "① 主要ページの PSI を「低」から「普通」（50点以上）へ。実ユーザーのサーバの返事を 0.8秒に近づける",
           "② 主要なローディング中のリング回転（カテゴリー・検索の絞り込み、AC詳細への遷移）を1秒以内",
           "どちらも私の案で、根拠のある数字ではない。Suki さんと決める"
         ],
@@ -4749,7 +4749,7 @@
           "本番に出た4施策は、① 3件・②リング 1件・②TBT 0件。<b>②TBT に効く施策は、まだ1件も本番に出ていない</b>",
           "②TBT の候補は少ない。着手中は GTM の整理、未着手は調査（UX_DESIGN-388）と第三者タグ（UX_DESIGN-422）だけ",
           "PSI のスコアは、TBT が30点分を占める（PSI が使う Lighthouse の配点：TBT 30・LCP 25・CLS 25・FCP 10・SI 10）。TBT の改善は、PSI のスコアに大きく効く",
-          "一方、実ユーザーの INP は、TOP が 218ms（合格ライン 200ms）、エリア 162ms、検索結果 158ms（9/26 締めの週）。実ユーザーが待たされているのは、サーバーの返事（検索 5.1秒）とローディング中のリング回転"
+          "一方、実ユーザーの INP は、TOP が 218ms（合格ライン 200ms）、エリア 162ms、検索結果 158ms（9/26 締めの週）。実ユーザーが待たされているのは、サーバの返事（検索 5.1秒）とローディング中のリング回転"
         ],
         "en": [
           "Of the four changes in production: ① three, ② loading indicator one, ② TBT none. <b>No change that helps ② TBT has reached production yet</b>",
@@ -4995,7 +4995,7 @@
         ],
         [
           {
-            "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-405\">UX_DESIGN-405</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-417\">UX_DESIGN-417</a> 一覧 API のサーバー処理を減らす",
+            "ja": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-405\">UX_DESIGN-405</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-417\">UX_DESIGN-417</a> 一覧 API のサーバ処理を減らす",
             "en": "<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-405\">UX_DESIGN-405</a>・<a href=\"https://app.clickup.com/t/31108037/UX_DESIGN-417\">UX_DESIGN-417</a> Reduce server work in the list API"
           },
           {
@@ -5151,7 +5151,7 @@
           "PSI の改善は積み上げで小さく、CVR に影響が出るほどにはなっていなさそうに感じている（CVR への影響は、まだ測れていない）。後半は、ユーザーが体感で変わったと感じる待ち時間に、重心を置く",
           "10/14：Suki さんから回答。進め方に賛成。取り組める対象は、カテゴリーと検索ページで、キャッシュの仕組みと保持時間を見直すことで、応答時間を縮められると考えている",
           "1. 対象を絞る：どのページの、どの動きを良くしたいか（牧野）",
-          "2. 対象ごとに、やり方の案を、3つの立場から出す：牧野（プロダクト）、エンジニア、SRE（サーバー・キャッシュの面）",
+          "2. 対象ごとに、やり方の案を、3つの立場から出す：牧野（プロダクト）、エンジニア、SRE（サーバ・キャッシュの面）",
           "3. 案を、効果の見込み・担当・工数で並べて、優先度を決める",
           "下の「待ち時間の整理」は、1 の材料。対象は、これから絞る"
         ],
@@ -5874,7 +5874,7 @@
             },
             "ja": [
               "カテゴリーページを開くと、保存済みのページ（24時間キャッシュ）がすぐ出る。その直後に、最新の一覧を取り直す通信が走り、その間は全画面のローディング（リング回転）が出る。待ち時間は平均 1.82 秒（1.21〜3.55 秒、10回の手計測）",
-              "古いデータを出さないための取り直しなので、なくせない。取り直す通信は、条件に合う AC の一覧をサーバーが探して返すもので、変わる項目だけを返すことはできない"
+              "古いデータを出さないための取り直しなので、なくせない。取り直す通信は、条件に合う AC の一覧をサーバが探して返すもので、変わる項目だけを返すことはできない"
             ],
             "en": [
               "Opening a category page shows the saved page (24-hour cache) at once, then a request fetches the latest list and a full-screen loading ring shows meanwhile. The wait averaged 1.82 s (1.21-3.55 s, 10 hand-timed runs)",
@@ -6169,7 +6169,7 @@
               "t": "一覧ページは表示が遅くなる",
               "c": [
                 {
-                  "t": "サーバーでAC の情報を1件ずつ集めに行って、一覧ページを組み立てて表示する必要があるため"
+                  "t": "サーバでAC の情報を1件ずつ集めに行って、一覧ページを組み立てて表示する必要があるため"
                 }
               ]
             },
@@ -6199,7 +6199,7 @@
                   ]
                 },
                 {
-                  "t": "さらに、キャッシュを作るページが多くなる程、サーバー容量を食う",
+                  "t": "さらに、キャッシュを作るページが多くなる程、サーバ容量を食う",
                   "c": [
                     {
                       "t": "（全カテゴリーページ分つくったらざっと1〜数GB必要）"
@@ -6927,7 +6927,7 @@
                 },
                 {
                   "k": "wait",
-                  "ja": "行う。キャッシュがなく、サーバーが毎回、一覧を作る",
+                  "ja": "行う。キャッシュがなく、サーバが毎回、一覧を作る",
                   "en": "Done. No cache, so the server builds the list every time"
                 },
                 {
@@ -7006,7 +7006,7 @@
                 },
                 {
                   "k": "wait",
-                  "ja": "サーバーが作る。API は 3 秒未満。残り約 2 秒は、原因不明",
+                  "ja": "サーバが作る。API は 3 秒未満。残り約 2 秒は、原因不明",
                   "en": "Built by the server. API under 3 s; the other 2 s unexplained"
                 },
                 {
@@ -7070,7 +7070,7 @@
               "en": "Search result cache"
             },
             {
-              "ja": "サーバーが作る処理",
+              "ja": "サーバが作る処理",
               "en": "Server build"
             },
             {
