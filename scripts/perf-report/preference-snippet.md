@@ -1,6 +1,7 @@
 # claude.ai の個人設定に追加する文面
 
-貼り付け先：claude.ai → 設定 → 一般 →「Claude にどのような対応を求めますか？」（個人の設定欄）。既存の「回答ルール」の後ろに追記する。
+貼り付け先：claude.ai の設定にある、アカウント全体に効く個人の指示欄（公式ヘルプでの名称は「Instructions for Claude」）。既存の「回答ルール」の後ろに追記する。
+出典：https://support.claude.com/en/articles/10185728-understanding-claude-s-personalization-features （画面上のメニュー名・場所は公式に記載なし）
 
 ---
 
