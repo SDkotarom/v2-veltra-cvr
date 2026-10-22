@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 92,
+    "version": 93,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6270,7 +6270,7 @@
                   "t": "①キャッシュしていないケース",
                   "c": [
                     {
-                      "t": "一覧の2ページ目以降と絞り込み結果は、ページや絞り込みの組み合わせが多く、キャッシュデータが多くなりすぎるため、未実装（Suki さん）"
+                      "t": "一覧の2ページ目以降と絞り込み結果は、組み合わせが多く、キャッシュデータが多くなりすぎるため、未実装（Suki さん）"
                     },
                     {
                       "t": "「日程から探す」とブラウザの「戻る」は、未実装の理由が分からない（[[UX_DESIGN-415]]・[[UX_DESIGN-419]]）"
@@ -6308,7 +6308,7 @@
                   "t": "① Cases not cached",
                   "c": [
                     {
-                      "t": "List page 2 onward and filtered results are not implemented because the many page and filter combinations would make the cache data too large (Suki)"
+                      "t": "List page 2 onward and filtered results are not implemented because the many combinations would make the cache data too large (Suki)"
                     },
                     {
                       "t": "'Search by date' and the browser back button: the reason they are not implemented is unknown ([[UX_DESIGN-415]], [[UX_DESIGN-419]])"
@@ -6476,16 +6476,10 @@
                   "t": "1 ページ目",
                   "c": [
                     {
-                      "t": "対策：入れ替えをやめ、24 時間キャッシュをそのまま表示"
-                    },
-                    {
-                      "t": "狙い：リングをなくす"
+                      "t": "対策：表示後に最新の一覧へ入れ替える処理をやめ、24 時間キャッシュをそのまま表示"
                     },
                     {
                       "t": "懸念：古さ 最大 24 時間"
-                    },
-                    {
-                      "t": "状態：実施の判断待ち（牧野）"
                     }
                   ]
                 },
@@ -6496,16 +6490,10 @@
                       "t": "対策：30 分キャッシュを追加（絞り込みは主要なものだけ）"
                     },
                     {
-                      "t": "狙い：組み立て回数を減らす"
-                    },
-                    {
                       "t": "懸念：期限切れ直後の 1 人目は遅い。古さ 最大 30 分"
                     },
                     {
-                      "t": "容量：問題なし（空き 14GB、最大 1.6GB）"
-                    },
-                    {
-                      "t": "状態：実施の判断待ち（牧野）"
+                      "t": "容量：空き 14GB に対し最大 1.6GB。Suki さんは許容範囲との見解（コストは未回答）"
                     }
                   ]
                 },
@@ -6570,16 +6558,10 @@
                   "t": "Page 1",
                   "c": [
                     {
-                      "t": "Measure: Stop the swap; show the 24-hour cache as is"
-                    },
-                    {
-                      "t": "Aim: Remove the ring"
+                      "t": "Measure: Stop the process that swaps in the latest list after display; show the 24-hour cache as is"
                     },
                     {
                       "t": "Concern: Up to 24 h stale"
-                    },
-                    {
-                      "t": "Status: Awaiting go (Makino)"
                     }
                   ]
                 },
@@ -6590,16 +6572,10 @@
                       "t": "Measure: Add a 30-minute cache (main filters only)"
                     },
                     {
-                      "t": "Aim: Assemble less often"
-                    },
-                    {
                       "t": "Concern: The first visitor after expiry is slow; up to 30 min stale"
                     },
                     {
-                      "t": "Capacity: OK (14 GB free; 1.6 GB at most)"
-                    },
-                    {
-                      "t": "Status: Awaiting go (Makino)"
+                      "t": "Capacity: 1.6 GB at most against 14 GB free. Suki considers it acceptable (cost not answered)"
                     }
                   ]
                 },
