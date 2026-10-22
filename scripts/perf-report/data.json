@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 108,
+    "version": 109,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6344,13 +6344,7 @@
                   "t": "1 ページ目",
                   "c": [
                     {
-                      "t": "症状：保存済みのページはすぐ出るが、続けて全画面のリングが回る"
-                    },
-                    {
-                      "t": "原因：古い表示を避けるため、表示のたびに最新の一覧をサーバから取り直す作り。取り直しの間、リングが出る"
-                    },
-                    {
-                      "t": "待ち：約 1.8 秒（Suki さんが同じカテゴリーページで 10 回手計測した平均。1.2〜3.6 秒。ほかのページは未計測）。取り直した結果の保存（[[UX_DESIGN-309]]）後は約 1 秒"
+                      "t": "保存済みのページはすぐ出るが、表示のたびに最新の一覧を取り直すため、リングが回る（約 1 秒。[[UX_DESIGN-309]] 前は約 1.8 秒。1 ページで手計測）"
                     }
                   ]
                 },
@@ -6366,10 +6360,7 @@
                   "t": "あまり見られないエリア",
                   "c": [
                     {
-                      "t": "症状：キャッシュがないと最初の応答 約 1.4 秒。あれば約 0.3 秒（9/4 の実測、カテゴリーページ）"
-                    },
-                    {
-                      "t": "原因：事前にキャッシュを作る仕組みはあるが、9/4 の実測ではキャッシュがなかった。理由は未確認（[[UX_DESIGN-408]]）"
+                      "t": "キャッシュがないと、最初の応答が約 1.4 秒（あれば約 0.3 秒）。事前に作る仕組みはあるが、9/4 の実測ではキャッシュがなかった（理由は未確認、[[UX_DESIGN-408]]）"
                     }
                   ]
                 }
@@ -6398,13 +6389,7 @@
                   "t": "Page 1",
                   "c": [
                     {
-                      "t": "Symptom: The saved page shows at once, then a full-screen ring spins"
-                    },
-                    {
-                      "t": "Cause: To avoid stale display, the page refetches the latest list from the server on every view; the ring shows during the refetch"
-                    },
-                    {
-                      "t": "Wait: About 1.8 s (mean of 10 hand-timed runs by Suki on one category page; 1.2-3.6 s; other pages not measured). About 1 s after the refetched result is saved ([[UX_DESIGN-309]])"
+                      "t": "The saved page shows at once, but the latest list is refetched on every view, so the ring spins (about 1 s; about 1.8 s before [[UX_DESIGN-309]]; hand-timed on one page)"
                     }
                   ]
                 },
@@ -6420,10 +6405,7 @@
                   "t": "Rarely visited areas",
                   "c": [
                     {
-                      "t": "Symptom: First response about 1.4 s without a cache, about 0.3 s with one (measured 9/4, category page)"
-                    },
-                    {
-                      "t": "Cause: A pre-building job exists, but there was no cache in the 9/4 measurement. Reason not confirmed ([[UX_DESIGN-408]])"
+                      "t": "Without a cache the first response takes about 1.4 s (about 0.3 s with one). A pre-building job exists, but there was no cache in the 9/4 measurement (reason not confirmed, [[UX_DESIGN-408]])"
                     }
                   ]
                 }
