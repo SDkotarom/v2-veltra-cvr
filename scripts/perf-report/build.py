@@ -467,12 +467,41 @@ def _flow():
               f'<div class="fl-wrap"><div class="fl-grid">{head}{rows}</div></div>')
     return (f'<div class="sec pl"><h3 class="sh">{t(F["h"]["ja"], F["h"]["en"])}</h3>'
             f'<div class="fl-leg">{leg}</div>{g}</div>')
+import re as _re
+_KV = _re.compile(r"^([^：]{1,6})：(.+)$")
+_KVE = _re.compile(r"^([A-Za-z ]{1,14}): (.+)$")
+def _kv_or_nest(items):
+    """「ラベル：値」だけの並びは、ラベルと値の2列にする"""
+    ms = [(_KV.match(i["t"]) or _KVE.match(i["t"])) for i in items]
+    if items and all(ms) and not any(i.get("c") for i in items):
+        return '<dl class="kv">' + "".join(f'<dt>{m.group(1)}</dt><dd>{expand(m.group(2))}</dd>' for m in ms) + '</dl>'
+    return _nest(items)
+def _cards(items):
+    """いちばん上の項目をカードに、その下に子をもつ項目があれば横並びのブロックにする"""
+    out = ""
+    for it in items:
+        kids = it.get("c", [])
+        body = ""
+        if any(k.get("c") for k in kids):
+            body = '<div class="pc-g">' + "".join(
+                f'<div class="pc-b"><div class="pc-bt">{expand(k["t"].split("<br>",1)[0])}</div>'
+                + (f'<div class="pc-bd">{expand(k["t"].split("<br>",1)[1])}</div>' if "<br>" in k["t"] else "")
+                + (_kv_or_nest(k["c"]) if k.get("c") else "") + '</div>' for k in kids) + '</div>'
+        elif kids:
+            body = _kv_or_nest(kids)
+        out += f'<div class="pc"><div class="pc-t">{expand(it["t"])}</div>{body}</div>'
+    return f'<div class="pcs">{out}</div>'
 def _cp_sec(x):
     if x.get("flow"):
         return _flow()
+    if x.get("table"):
+        head, *body = x["table"]
+        tb = ('<div class="tw"><table class="wt cpa"><tr>' + "".join(f'<th>{t(c["ja"], c["en"])}</th>' for c in head) + "</tr>"
+              + "".join("<tr>" + "".join(f'<td>{t(c["ja"], c["en"])}</td>' for c in r) + "</tr>" for r in body) + "</table></div>")
+        return f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>{tb}</div>'
     return (f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>'
-            f'<div class="rv-l cp-n"><span class="ja">{_nest(x["items"]["ja"])}</span>'
-            f'<span class="en">{_nest(x["items"]["en"])}</span></div></div>')
+            f'<div class="cp-c"><div class="ja">{_cards(x["items"]["ja"])}</div>'
+            f'<div class="en">{_cards(x["items"]["en"])}</div></div></div>')
 CACHE = (f'<div class="rv-h"><h2>{t(CP["h"]["ja"], CP["h"]["en"])}</h2>'
          f'<span class="rv-m">{t(CP["meta"]["ja"], CP["meta"]["en"])}</span></div>'
          + '<p class="mut">' + t('「<a href="#plan" data-goto="plan">後半の方針</a>」の、一覧ページの具体案。方針と進め方は、そちら', 'The concrete plan for list pages under the <a href="#plan" data-goto="plan">Second-half plan</a>. Policy and steps are there') + '</p>'

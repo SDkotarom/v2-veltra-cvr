@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 87,
+    "version": 88,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6354,13 +6354,13 @@
                   "t": "1 ページ目",
                   "c": [
                     {
-                      "t": "キャッシュがあるのに、リングが回る"
+                      "t": "症状：キャッシュがあるのに、リングが回る"
                     },
                     {
-                      "t": "原因：ページが出たあとの、最新の一覧への入れ替え処理"
+                      "t": "原因：表示後の、最新の一覧への入れ替え"
                     },
                     {
-                      "t": "入れ替えの結果の保存がなければ約 1.8 秒、あれば約 1 秒（[[UX_DESIGN-309]]、手計測）"
+                      "t": "待ち：約 1.8 秒（入れ替え結果の保存あり：約 1 秒）"
                     }
                   ]
                 },
@@ -6368,10 +6368,10 @@
                   "t": "2 ページ目以降・絞り込み",
                   "c": [
                     {
-                      "t": "毎回ページを組み立てるため、遅い"
+                      "t": "症状：リングが回る（体感）"
                     },
                     {
-                      "t": "絞り込みで、読み込み中のリングが回る（牧野の体感。測定ではない）"
+                      "t": "原因：キャッシュなし。毎回ページを組み立てる"
                     }
                   ]
                 },
@@ -6379,10 +6379,10 @@
                   "t": "あまり見られないエリア",
                   "c": [
                     {
-                      "t": "初回表示が遅い"
+                      "t": "症状：初回表示が遅い（体感 2〜3 秒）"
                     },
                     {
-                      "t": "保存期間が切れたあと、最初に来た人がキャッシュを作るため、その人は遅い（仕組みは Suki さん、10/21。2〜3 秒は牧野の体感）"
+                      "t": "原因：期限切れ後、最初に来た人がキャッシュを作る"
                     }
                   ]
                 }
@@ -6392,13 +6392,13 @@
               "t": "検索結果ページ",
               "c": [
                 {
-                  "t": "初めてのキーワードは、必ず組み立てるため、遅い"
+                  "t": "症状：最初の応答まで約 5.5 秒（実ユーザー）"
                 },
                 {
-                  "t": "最初の応答まで、約 5.5 秒（実ユーザー、10/3 の週）"
+                  "t": "原因：初めてのキーワードは、キャッシュなし"
                 },
                 {
-                  "t": "検索 API は、3 秒未満。残りの約 2 秒の原因は、まだ分かっていない"
+                  "t": "不明点：API は 3 秒未満。残り約 2 秒の原因"
                 }
               ]
             }
@@ -6411,13 +6411,13 @@
                   "t": "Page 1",
                   "c": [
                     {
-                      "t": "The ring spins even though a cache exists"
+                      "t": "Symptom: The ring spins despite the cache"
                     },
                     {
-                      "t": "Cause: the process that swaps in the latest list after the page appears"
+                      "t": "Cause: Swapping in the latest list after display"
                     },
                     {
-                      "t": "About 1.8 s without a saved result of the swap, about 1 s with it ([[UX_DESIGN-309]], hand-timed)"
+                      "t": "Wait: About 1.8 s (about 1 s when its result is saved)"
                     }
                   ]
                 },
@@ -6425,10 +6425,10 @@
                   "t": "Page 2 onward and filters",
                   "c": [
                     {
-                      "t": "The page is assembled every time, so slow"
+                      "t": "Symptom: The ring spins (by feel)"
                     },
                     {
-                      "t": "Filtering spins the loading ring (Makino's impression; not a measurement)"
+                      "t": "Cause: No cache; the page is assembled every time"
                     }
                   ]
                 },
@@ -6436,10 +6436,10 @@
                   "t": "Rarely visited areas",
                   "c": [
                     {
-                      "t": "Slow first view"
+                      "t": "Symptom: Slow first view (2-3 s by feel)"
                     },
                     {
-                      "t": "After the cache expires, the first visitor's request builds it, so that visitor is slow (mechanism per Suki, 10/21; 2-3 s is Makino's impression)"
+                      "t": "Cause: After expiry, the first visitor builds the cache"
                     }
                   ]
                 }
@@ -6449,13 +6449,13 @@
               "t": "Search result pages",
               "c": [
                 {
-                  "t": "A first-time keyword is always assembled, so slow"
+                  "t": "Symptom: About 5.5 s to the first response (real users)"
                 },
                 {
-                  "t": "About 5.5 s to the first response (real users, week of 10/3)"
+                  "t": "Cause: No cache for a first-time keyword"
                 },
                 {
-                  "t": "The search API takes under 3 s; the cause of the other 2 s or so is unknown"
+                  "t": "Unknown: API under 3 s; the cause of the other 2 s"
                 }
               ]
             }
@@ -6476,16 +6476,16 @@
                   "t": "1 ページ目",
                   "c": [
                     {
-                      "t": "対策：最新の一覧への入れ替えをやめて、24 時間のキャッシュを、そのまま見せる"
+                      "t": "対策：入れ替えをやめ、24 時間キャッシュをそのまま表示"
                     },
                     {
-                      "t": "狙い：リングを、なくす"
+                      "t": "狙い：リングをなくす"
                     },
                     {
-                      "t": "懸念：古さが、最大 24 時間（Teppei さんは、鮮度にこだわらない考え）"
+                      "t": "懸念：古さ 最大 24 時間"
                     },
                     {
-                      "t": "状態：仕組みは確認済み（10/21）。実施の判断待ち（牧野）"
+                      "t": "状態：実施の判断待ち（牧野）"
                     }
                   ]
                 },
@@ -6493,19 +6493,19 @@
                   "t": "2 ページ目以降・絞り込み",
                   "c": [
                     {
-                      "t": "対策：30 分単位の、キャッシュを足す（絞り込みは、よく使われるものだけに絞る）"
+                      "t": "対策：30 分キャッシュを追加（絞り込みは主要なものだけ）"
                     },
                     {
-                      "t": "狙い：組み立てる回数を、減らす"
+                      "t": "狙い：組み立て回数を減らす"
                     },
                     {
-                      "t": "懸念：30 分ごとに、最初に来た人は遅い。見る人が少ないページほど、効果が小さい。古さは、最大 30 分"
+                      "t": "懸念：期限切れ直後の 1 人目は遅い。古さ 最大 30 分"
                     },
                     {
-                      "t": "容量：足りる見込み。本番の空きは 14GB、1.6GB は全カテゴリー・全ページ・全並び替えが見られた場合の最大（Suki さん、10/21）"
+                      "t": "容量：問題なし（空き 14GB、最大 1.6GB）"
                     },
                     {
-                      "t": "状態：実施の判断待ち（牧野）。絞り込みは、範囲を決める段階"
+                      "t": "状態：実施の判断待ち（牧野）"
                     }
                   ]
                 },
@@ -6513,10 +6513,10 @@
                   "t": "あまり見られないエリア",
                   "c": [
                     {
-                      "t": "対策：既存の、キャッシュの事前作成が、効いているかを確認する（[[UX_DESIGN-408]]）"
+                      "t": "対策：既存の事前作成が効いているか確認（[[UX_DESIGN-408]]）"
                     },
                     {
-                      "t": "状態：未着手。Suki さんの案には、ない"
+                      "t": "状態：未着手（Suki さんの案にない）"
                     }
                   ]
                 }
@@ -6526,19 +6526,19 @@
               "t": "検索結果ページ",
               "c": [
                 {
-                  "t": "対策：よく検索されるキーワードを、定期実行で、先に保存しておく"
+                  "t": "対策：人気キーワードを、定期実行で先に保存"
                 },
                 {
-                  "t": "狙い：無数にあるキーワードのうち、よく検索される分を、確実に速くする"
+                  "t": "狙い：よく検索される語を、確実に速く"
                 },
                 {
-                  "t": "懸念：珍しいキーワードには、効かない"
+                  "t": "懸念：珍しい語には効かない"
                 },
                 {
-                  "t": "あわせて：約 2 秒の原因を、調べる（検索ページと filter_kw() の処理）"
+                  "t": "調査：約 2 秒の原因（検索ページ・filter_kw()）"
                 },
                 {
-                  "t": "状態：キーワードの範囲を決める段階。調査は、実施をお願いする"
+                  "t": "状態：範囲決め・調査の依頼"
                 }
               ]
             },
@@ -6546,7 +6546,7 @@
               "t": "予約ステップ（できれば）",
               "c": [
                 {
-                  "t": "約 2 秒の待ちを、対象に入れられるか確認する。依頼済み（10/16）。回答なし"
+                  "t": "状態：Suki さんに可否を確認中（回答なし）"
                 }
               ]
             },
@@ -6554,10 +6554,10 @@
               "t": "共通",
               "c": [
                 {
-                  "t": "効果を、CVR だけでなく、手前の指標でも見る"
+                  "t": "効果：CVR に加え、手前の指標でも見る"
                 },
                 {
-                  "t": "問題が出たら戻せる状態で進める。UX の判断は牧野（10/21、Teppei さんと確認）"
+                  "t": "進め方：戻せる状態で実施。判断は牧野"
                 }
               ]
             }
@@ -6570,16 +6570,16 @@
                   "t": "Page 1",
                   "c": [
                     {
-                      "t": "Measure: stop swapping in the latest list and show the 24-hour cache as is"
+                      "t": "Measure: Stop the swap; show the 24-hour cache as is"
                     },
                     {
-                      "t": "Aim: remove the ring"
+                      "t": "Aim: Remove the ring"
                     },
                     {
-                      "t": "Concern: up to 24 hours stale (Teppei does not insist on freshness)"
+                      "t": "Concern: Up to 24 h stale"
                     },
                     {
-                      "t": "Status: mechanism confirmed (10/21). Awaiting Makino's go decision"
+                      "t": "Status: Awaiting go (Makino)"
                     }
                   ]
                 },
@@ -6587,19 +6587,19 @@
                   "t": "Page 2 onward and filters",
                   "c": [
                     {
-                      "t": "Measure: add a cache in 30-minute slots (for filters, only the most-used ones)"
+                      "t": "Measure: Add a 30-minute cache (main filters only)"
                     },
                     {
-                      "t": "Aim: reduce how often it is assembled"
+                      "t": "Aim: Assemble less often"
                     },
                     {
-                      "t": "Concerns: every 30 minutes the first visitor is slow, so pages with few viewers benefit less; up to 30 minutes stale"
+                      "t": "Concern: The first visitor after expiry is slow; up to 30 min stale"
                     },
                     {
-                      "t": "Capacity: expected to be enough. 14 GB free in production; 1.6 GB is the worst case where every category, page and sort order is visited (Suki, 10/21)"
+                      "t": "Capacity: OK (14 GB free; 1.6 GB at most)"
                     },
                     {
-                      "t": "Status: awaiting Makino's go decision. Filters: scope to be decided"
+                      "t": "Status: Awaiting go (Makino)"
                     }
                   ]
                 },
@@ -6607,10 +6607,10 @@
                   "t": "Rarely visited areas",
                   "c": [
                     {
-                      "t": "Measure: check whether the existing cache pre-building works ([[UX_DESIGN-408]])"
+                      "t": "Measure: Check the existing pre-building ([[UX_DESIGN-408]])"
                     },
                     {
-                      "t": "Status: not started; not covered by Suki's ideas"
+                      "t": "Status: Not started (not in Suki's ideas)"
                     }
                   ]
                 }
@@ -6620,19 +6620,19 @@
               "t": "Search result pages",
               "c": [
                 {
-                  "t": "Measure: save popular keywords in advance with a scheduled job"
+                  "t": "Measure: Pre-save popular keywords with a scheduled job"
                 },
                 {
-                  "t": "Aim: reliably speed up the popular ones among endless keywords"
+                  "t": "Aim: Reliably speed up common keywords"
                 },
                 {
-                  "t": "Concern: does not help rare keywords"
+                  "t": "Concern: No help for rare keywords"
                 },
                 {
-                  "t": "Also: investigate the cause of the 2 s (the search page and filter_kw())"
+                  "t": "Investigate: The 2 s gap (search page, filter_kw())"
                 },
                 {
-                  "t": "Status: keyword scope to be decided; the investigation is to be requested"
+                  "t": "Status: Deciding scope; investigation to be requested"
                 }
               ]
             },
@@ -6640,7 +6640,7 @@
               "t": "Booking step (if possible)",
               "c": [
                 {
-                  "t": "Check whether the wait of about 2 s can be included. Requested 10/16; no reply"
+                  "t": "Status: Feasibility asked of Suki (no reply)"
                 }
               ]
             },
@@ -6648,10 +6648,10 @@
               "t": "Common",
               "c": [
                 {
-                  "t": "Judge the effect not only by CVR but also by earlier-stage indicators"
+                  "t": "Effect: Judge by earlier-stage indicators as well as CVR"
                 },
                 {
-                  "t": "Proceed so that changes can be reverted. UX decisions are Makino's (confirmed with Teppei on 10/21)"
+                  "t": "Approach: Ship so it can be reverted; Makino decides"
                 }
               ]
             }
@@ -6663,208 +6663,120 @@
           "ja": "要確認・検討事項",
           "en": "To confirm and to decide"
         },
-        "items": {
-          "ja": [
+        "table": [
+          [
             {
-              "t": "キャッシュの作られ方",
-              "c": [
-                {
-                  "t": "内容：アクセスで作られるのか、30 分ごとに自動で作られるのか。30 分の枠が切り替わった直後は、どうなるか"
-                },
-                {
-                  "t": "確認先：Suki さん"
-                },
-                {
-                  "t": "状態：回答あり（10/21）。アクセスで作る。保存期間が切れたあと、最初に来た人のアクセスで作られる"
-                }
-              ]
+              "ja": "事項",
+              "en": "Item"
             },
             {
-              "t": "キャッシュが約 1.6GB 増えたときの影響",
-              "c": [
-                {
-                  "t": "内容：コスト・性能への影響"
-                },
-                {
-                  "t": "確認先：Suki さん経由で SRE（Jeff さん）"
-                },
-                {
-                  "t": "状態：回答あり（10/21）。容量は足りる見込み（本番の空き 14GB。1.6GB は最大の場合）。費用への影響は、回答に書いていない"
-                }
-              ]
+              "ja": "確認先",
+              "en": "Who"
             },
             {
-              "t": "予約ステップを対象に入れられるか",
-              "c": [
-                {
-                  "t": "確認先：Suki さん"
-                },
-                {
-                  "t": "状態：依頼済み（10/16）。回答なし"
-                }
-              ]
-            },
-            {
-              "t": "公開した瞬間の、キャッシュの作り直し（2 ページ目以降・絞り込み）",
-              "c": [
-                {
-                  "t": "内容：Redis なしでできるか（1 ページ目では、すでにある）"
-                },
-                {
-                  "t": "確認先：Suki さん"
-                },
-                {
-                  "t": "状態：未依頼"
-                }
-              ]
-            },
-            {
-              "t": "戻し方",
-              "c": [
-                {
-                  "t": "内容：再リリースか、設定の切り替えか"
-                },
-                {
-                  "t": "確認先：Suki さん"
-                },
-                {
-                  "t": "状態：未依頼"
-                }
-              ]
-            },
-            {
-              "t": "1 ページ目の表示項目の古さ",
-              "c": [
-                {
-                  "t": "内容：在庫・価格・セールの表示が、24 時間古くなってよいか"
-                },
-                {
-                  "t": "確認先：牧野（SYS に表示項目を確認できる）"
-                },
-                {
-                  "t": "状態：方針は確認済み。表示項目は未確認"
-                }
-              ]
-            },
-            {
-              "t": "効果の見方と、戻す条件",
-              "c": [
-                {
-                  "t": "手前の指標：一覧に着地したセッションの離脱、商品ページへの到達率、1 セッションあたりの商品ページ閲覧数"
-                },
-                {
-                  "t": "戻す条件の案：商品ページへの到達率が、変更前のばらつきを超えて下がり続けたら戻す"
-                },
-                {
-                  "t": "確認先：牧野（Teppei さんと）"
-                },
-                {
-                  "t": "状態：未決。変更前の値も未取得"
-                }
-              ]
+              "ja": "状態",
+              "en": "Status"
             }
           ],
-          "en": [
+          [
             {
-              "t": "How the cache is built",
-              "c": [
-                {
-                  "t": "What: built on access, or automatically every 30 minutes? What happens right after a slot changes"
-                },
-                {
-                  "t": "Who: Suki"
-                },
-                {
-                  "t": "Status: answered (10/21). Built on access; after expiry the first visitor's request builds it"
-                }
-              ]
+              "ja": "キャッシュの作られ方",
+              "en": "How the cache is built"
             },
             {
-              "t": "Impact of about 1.6 GB more cache",
-              "c": [
-                {
-                  "t": "What: cost and performance impact"
-                },
-                {
-                  "t": "Who: SRE (Jeff), via Suki"
-                },
-                {
-                  "t": "Status: answered (10/21). Capacity expected to be enough (14 GB free; 1.6 GB is the worst case). Cost impact was not mentioned"
-                }
-              ]
+              "ja": "Suki さん",
+              "en": "Suki"
             },
             {
-              "t": "Whether the booking step can be included",
-              "c": [
-                {
-                  "t": "Who: Suki"
-                },
-                {
-                  "t": "Status: requested 10/16. No reply"
-                }
-              ]
+              "ja": "回答済み（10/21）：アクセスで作る",
+              "en": "Answered (10/21): built on access"
+            }
+          ],
+          [
+            {
+              "ja": "容量（約 1.6GB 増）の影響",
+              "en": "Impact of about 1.6 GB more"
             },
             {
-              "t": "Rebuilding the cache the moment something is published (page 2 onward and filters)",
-              "c": [
-                {
-                  "t": "What: possible without Redis (already exists for page 1)"
-                },
-                {
-                  "t": "Who: Suki"
-                },
-                {
-                  "t": "Status: not yet requested"
-                }
-              ]
+              "ja": "Suki さん経由で SRE",
+              "en": "SRE via Suki"
             },
             {
-              "t": "How to revert",
-              "c": [
-                {
-                  "t": "What: re-release or a setting change"
-                },
-                {
-                  "t": "Who: Suki"
-                },
-                {
-                  "t": "Status: not yet requested"
-                }
-              ]
+              "ja": "回答済み（10/21）：容量は問題なし。費用は未回答",
+              "en": "Answered (10/21): capacity OK; cost not answered"
+            }
+          ],
+          [
+            {
+              "ja": "予約ステップを対象にできるか",
+              "en": "Can the booking step be included"
             },
             {
-              "t": "Staleness of page 1 display items",
-              "c": [
-                {
-                  "t": "What: whether stock, price and sale labels may be up to 24 hours old"
-                },
-                {
-                  "t": "Who: Makino (display items can be checked with SYS)"
-                },
-                {
-                  "t": "Status: policy confirmed. Display items not checked"
-                }
-              ]
+              "ja": "Suki さん",
+              "en": "Suki"
             },
             {
-              "t": "Indicators and revert condition",
-              "c": [
-                {
-                  "t": "Earlier-stage indicators: engagement of sessions landing on a list, rate of reaching product pages, product pages per session"
-                },
-                {
-                  "t": "Revert proposal: revert if the rate of reaching product pages keeps falling beyond its normal variation"
-                },
-                {
-                  "t": "Who: Makino (with Teppei)"
-                },
-                {
-                  "t": "Status: undecided. Baseline values not yet taken"
-                }
-              ]
+              "ja": "回答なし（10/16 依頼）",
+              "en": "No reply (asked 10/16)"
+            }
+          ],
+          [
+            {
+              "ja": "公開時のキャッシュ作り直し<small>2 ページ目以降・絞り込みで、Redis なしで可能か</small>",
+              "en": "Rebuild the cache on publish<small>For page 2 onward and filters, without Redis?</small>"
+            },
+            {
+              "ja": "Suki さん",
+              "en": "Suki"
+            },
+            {
+              "ja": "未依頼",
+              "en": "Not asked"
+            }
+          ],
+          [
+            {
+              "ja": "戻し方<small>再リリースか、設定の切り替えか</small>",
+              "en": "How to revert<small>Re-release or a setting?</small>"
+            },
+            {
+              "ja": "Suki さん",
+              "en": "Suki"
+            },
+            {
+              "ja": "未依頼",
+              "en": "Not asked"
+            }
+          ],
+          [
+            {
+              "ja": "1 ページ目の表示の古さ<small>在庫・価格・セールが最大 24 時間古くてよいか</small>",
+              "en": "Staleness on page 1<small>May stock, price and sale labels be up to 24 h old?</small>"
+            },
+            {
+              "ja": "牧野（SYS に確認可）",
+              "en": "Makino (can check with SYS)"
+            },
+            {
+              "ja": "表示項目は未確認",
+              "en": "Display items not checked"
+            }
+          ],
+          [
+            {
+              "ja": "効果の見方と、戻す条件<small>指標：離脱・商品ページ到達率・閲覧数。戻す条件の案：到達率が、ばらつきを超えて下がり続けたら</small>",
+              "en": "Indicators and revert condition<small>Indicators: exits, product-page reach, views. Revert proposal: reach keeps falling beyond normal variation</small>"
+            },
+            {
+              "ja": "牧野・Teppei さん",
+              "en": "Makino and Teppei"
+            },
+            {
+              "ja": "未決。変更前の値も未取得",
+              "en": "Undecided; no baseline yet"
             }
           ]
-        }
+        ]
       }
     ],
     "flow": {

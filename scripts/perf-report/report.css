@@ -497,3 +497,32 @@ table.cp3 th:nth-child(3){width:32%}
 .sec.pl>.tw{margin-top:6px}
 /* いちばん上の階層の箇条書きどうしの間を、少しあける */
 .cp-n>span>ul>li+li{margin-top:12px}
+
+/* 一覧のキャッシュ改善タブ：箇条書きの木を、カードとブロックで見せる */
+.cp-c>.ja,.cp-c>.en{display:block}
+[data-lang="en"] .cp-c>.ja{display:none}
+.cp-c>.en{display:none}
+[data-lang="en"] .cp-c>.en{display:block}
+.pcs{display:flex;flex-direction:column;gap:12px;margin-top:4px}
+.pc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;box-shadow:var(--shadow)}
+.pc-t{font-size:15.5px;font-weight:700;line-height:1.6}
+.pc>ul{margin:6px 0 0;padding-left:1.2em}
+.pc li{line-height:1.75;margin:3px 0;font-size:14.5px}
+.pc li ul{margin:2px 0;padding-left:1.1em}
+.pc li li{font-size:13.5px;color:var(--ink-2)}
+.pc-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:10px}
+.pc-b{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.pc-bt{font-size:14px;font-weight:700;line-height:1.6}
+.pc-b>ul{margin:6px 0 0;padding-left:1.1em}
+.pc-b li{font-size:13.5px}
+.pc-bd{font-size:13.5px;line-height:1.7;color:var(--ink-2);margin-top:2px}
+
+/* ラベルと値の2列 */
+.kv{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;margin:8px 0 0;font-size:13.5px;line-height:1.6}
+.kv dt{font-size:12px;font-weight:700;color:var(--ink-3);white-space:nowrap;padding-top:1px}
+.kv dd{margin:0;color:var(--ink)}
+.pc>.kv{font-size:14px}
+/* 要確認の表 */
+table.cpa th:nth-child(1){width:50%} table.cpa th:nth-child(2){width:20%} table.cpa th:nth-child(3){width:30%}
+table.cpa td small{display:block;font-size:12.5px;color:var(--ink-3);margin-top:2px;line-height:1.55}
+@media (max-width:560px){table.cpa{min-width:620px}}
