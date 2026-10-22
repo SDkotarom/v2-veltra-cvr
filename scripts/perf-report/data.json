@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 118,
+    "version": 119,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6220,8 +6220,8 @@
               "en": "Category, area, page 1<br><small>/jp/japan/tokyo/ctg/…</small>"
             },
             {
-              "ja": "ページキャッシュ 24 時間でページを出したあと、AC 一覧だけを最新にするためにフェッチ（古い AC を出さないため）<br>・フェッチ結果は memcache に 30 分保存。AC 更新で作り直し<br>・スピナー約 1 秒",
-              "en": "After the 24-hour page cache shows the page, a fetch refreshes only the AC list (so old ACs are not shown)<br>- The fetch result is kept in memcache for 30 minutes and rebuilt when an AC is updated<br>- Spinner about 1 s"
+              "ja": "ページキャッシュ24時間+表示後AC一覧だけフェッチして最新化（→memcacheに30分保存・次からキャッシュ表示、AC更新でmemcache作り直し）",
+              "en": "24-hour page cache + fetch only the AC list after display to refresh it (→ kept in memcache for 30 minutes and shown from cache from then on; rebuilt on AC update)"
             },
             {
               "ja": "全国版と同じ。ページキャッシュ 24 時間、フェッチなし、スピナーなし",
