@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 85,
+    "version": 86,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6348,18 +6348,48 @@
         "items": {
           "ja": [
             {
-              "t": "カテゴリーの 2 ページ目以降・絞り込み",
+              "t": "カテゴリーページ",
               "c": [
                 {
-                  "t": "毎回ページを組み立てるため、遅い"
+                  "t": "1 ページ目",
+                  "c": [
+                    {
+                      "t": "キャッシュがあるのに、リングが回る"
+                    },
+                    {
+                      "t": "原因：ページが出たあとの、最新の一覧への入れ替え処理"
+                    },
+                    {
+                      "t": "入れ替えの結果の保存がなければ約 1.8 秒、あれば約 1 秒（[[UX_DESIGN-309]]、手計測）"
+                    }
+                  ]
                 },
                 {
-                  "t": "絞り込みで、読み込み中のリングが回る（牧野の体感。測定ではない）"
+                  "t": "2 ページ目以降・絞り込み",
+                  "c": [
+                    {
+                      "t": "毎回ページを組み立てるため、遅い"
+                    },
+                    {
+                      "t": "絞り込みで、読み込み中のリングが回る（牧野の体感。測定ではない）"
+                    }
+                  ]
+                },
+                {
+                  "t": "あまり見られないエリア",
+                  "c": [
+                    {
+                      "t": "初回表示が遅い"
+                    },
+                    {
+                      "t": "保存期間が切れたあと、最初に来た人がキャッシュを作るため、その人は遅い（仕組みは Suki さん、10/21。2〜3 秒は牧野の体感）"
+                    }
+                  ]
                 }
               ]
             },
             {
-              "t": "検索",
+              "t": "検索結果ページ",
               "c": [
                 {
                   "t": "初めてのキーワードは、必ず組み立てるため、遅い"
@@ -6371,47 +6401,52 @@
                   "t": "検索 API は、3 秒未満。残りの約 2 秒の原因は、まだ分かっていない"
                 }
               ]
-            },
-            {
-              "t": "カテゴリーの 1 ページ目",
-              "c": [
-                {
-                  "t": "キャッシュがあるのに、リングが回る"
-                },
-                {
-                  "t": "原因：ページが出たあとの、最新の一覧への入れ替え処理"
-                },
-                {
-                  "t": "入れ替えの結果の保存がなければ約 1.8 秒、あれば約 1 秒（[[UX_DESIGN-309]]、手計測）"
-                }
-              ]
-            },
-            {
-              "t": "あまり見られないエリア",
-              "c": [
-                {
-                  "t": "初回表示が遅い"
-                },
-                {
-                  "t": "保存期間が切れたあと、最初に来た人がキャッシュを作るため、その人は遅い（仕組みは Suki さん、10/21。2〜3 秒は牧野の体感）"
-                }
-              ]
             }
           ],
           "en": [
             {
-              "t": "Category page 2 onward and filters",
+              "t": "Category pages",
               "c": [
                 {
-                  "t": "The page is assembled every time, so slow"
+                  "t": "Page 1",
+                  "c": [
+                    {
+                      "t": "The ring spins even though a cache exists"
+                    },
+                    {
+                      "t": "Cause: the process that swaps in the latest list after the page appears"
+                    },
+                    {
+                      "t": "About 1.8 s without a saved result of the swap, about 1 s with it ([[UX_DESIGN-309]], hand-timed)"
+                    }
+                  ]
                 },
                 {
-                  "t": "Filtering spins the loading ring (Makino's impression; not a measurement)"
+                  "t": "Page 2 onward and filters",
+                  "c": [
+                    {
+                      "t": "The page is assembled every time, so slow"
+                    },
+                    {
+                      "t": "Filtering spins the loading ring (Makino's impression; not a measurement)"
+                    }
+                  ]
+                },
+                {
+                  "t": "Rarely visited areas",
+                  "c": [
+                    {
+                      "t": "Slow first view"
+                    },
+                    {
+                      "t": "After the cache expires, the first visitor's request builds it, so that visitor is slow (mechanism per Suki, 10/21; 2-3 s is Makino's impression)"
+                    }
+                  ]
                 }
               ]
             },
             {
-              "t": "Search",
+              "t": "Search result pages",
               "c": [
                 {
                   "t": "A first-time keyword is always assembled, so slow"
@@ -6421,31 +6456,6 @@
                 },
                 {
                   "t": "The search API takes under 3 s; the cause of the other 2 s or so is unknown"
-                }
-              ]
-            },
-            {
-              "t": "Category page 1",
-              "c": [
-                {
-                  "t": "The ring spins even though a cache exists"
-                },
-                {
-                  "t": "Cause: the process that swaps in the latest list after the page appears"
-                },
-                {
-                  "t": "About 1.8 s without a saved result of the swap, about 1 s with it ([[UX_DESIGN-309]], hand-timed)"
-                }
-              ]
-            },
-            {
-              "t": "Rarely visited areas",
-              "c": [
-                {
-                  "t": "Slow first view"
-                },
-                {
-                  "t": "After the cache expires, the first visitor's request builds it, so that visitor is slow (mechanism per Suki, 10/21; 2-3 s is Makino's impression)"
                 }
               ]
             }
