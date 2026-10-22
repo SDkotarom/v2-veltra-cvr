@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 113,
+    "version": 114,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6413,27 +6413,53 @@
               "t": "①カテゴリーページ",
               "c": [
                 {
-                  "t": "1 ページ目",
+                  "t": "1. 1ページ目をページキャッシュに変更する",
                   "c": [
                     {
-                      "t": "表示後の取り直しをやめ、24 時間キャッシュをそのまま表示する"
+                      "t": "現行：1ページ目の最新データを取得し、30分単位でキャッシュする"
                     },
                     {
-                      "t": "その代わり、AC の編集・公開や、開始時刻を過ぎた AC が、最大 24 時間反映されない"
+                      "t": "提案：Sightseeing_Tour と同様に、ページキャッシュを24時間にする"
+                    },
+                    {
+                      "t": "メリット：スピナーがなくなり、ページの読み込みが速くなる"
+                    },
+                    {
+                      "t": "デメリット：（特別セールなどで）古いデータが表示される可能性がある。ただし Sightseeing_Tour ではすでに同様の対応を行っている"
                     }
                   ]
                 },
                 {
-                  "t": "2 ページ目以降・絞り込み",
+                  "t": "2. 2ページ目以降を30分単位でキャッシュする",
                   "c": [
                     {
-                      "t": "30 分キャッシュを追加する（絞り込みは主要なものだけ）"
+                      "t": "現行：2ページ目以降はキャッシュなし"
                     },
                     {
-                      "t": "期限切れ直後に最初に来た人は遅い。表示は最大 30 分古くなる"
+                      "t": "提案：2ページ目以降を30分単位でキャッシュする"
                     },
                     {
-                      "t": "サーバ容量は、空き 14GB に対して小さくはないが、ざっと 1.6GB 程度増える見込み（コストは未回答）"
+                      "t": "メリット：ウォームキャッシュヒット時の読み込みが速くなる"
+                    },
+                    {
+                      "t": "デメリット：容量を圧迫する。すべてのカテゴリーページをキャッシュした場合、本番環境で1.6GB以上を消費する可能性がある"
+                    }
+                  ]
+                },
+                {
+                  "t": "3. フィルター結果をキャッシュする",
+                  "c": [
+                    {
+                      "t": "現行：フィルター結果はキャッシュされない"
+                    },
+                    {
+                      "t": "提案：フィルター結果を30分単位でキャッシュする"
+                    },
+                    {
+                      "t": "メリット：ウォームキャッシュヒット時の読み込みが速くなる"
+                    },
+                    {
+                      "t": "デメリット：組み合わせが膨大で、キャッシュヒット率が不明。memcache の容量も大量に使う。対象を絞るとよいかもしれない（GA で最も使われるフィルターだけ、単一日付のクエリだけ、など）"
                     }
                   ]
                 }
@@ -6443,13 +6469,40 @@
               "t": "②検索結果ページ",
               "c": [
                 {
-                  "t": "人気キーワードを、定期実行で先に保存する"
+                  "t": "1. プレースホルダー付きのページを先に読み込み、結果は準備ができたら描画する",
+                  "c": [
+                    {
+                      "t": "現行：ページキャッシュがあればそれを読み込む。なければ、サーバが結果を取得するまで待つ"
+                    },
+                    {
+                      "t": "提案：カードのプレースホルダーを含むページを先に読み込み、準備ができたら描画する"
+                    },
+                    {
+                      "t": "メリット：TTFB を削減する"
+                    },
+                    {
+                      "t": "デメリット：CLP に影響する可能性があり、プレースホルダーのデザイン検討が必要"
+                    }
+                  ]
                 },
                 {
-                  "t": "珍しいキーワードには効かない"
+                  "t": "2. 検索ページと filter_kw() の ajax を最適化する",
+                  "c": [
+                    {
+                      "t": "現行：検索 API は3秒未満で返しているのに、TTFB が5秒を超えている。検索ページと filter_kw() での追加処理が疑われる"
+                    }
+                  ]
                 },
                 {
-                  "t": "あわせて、検索ページの処理（filter_kw()）のどこで時間がかかっているかを調べる"
+                  "t": "3. よく検索されるキーワードをキャッシュする",
+                  "c": [
+                    {
+                      "t": "現行：検索 API は検索結果を1時間しかキャッシュしない"
+                    },
+                    {
+                      "t": "提案：定期実行でよく検索されるキーワードをキャッシュし、常にウォームな状態にする"
+                    }
+                  ]
                 }
               ]
             }
@@ -6459,27 +6512,53 @@
               "t": "① Category pages",
               "c": [
                 {
-                  "t": "Page 1",
+                  "t": "1. Change page 1 to a page cache",
                   "c": [
                     {
-                      "t": "Stop the refetch after display and show the 24-hour cache as is"
+                      "t": "Now：Fetch the latest data for page 1 and cache it in 30-minute buckets"
                     },
                     {
-                      "t": "In exchange, AC edits and publications, and ACs past their start time, may not show for up to 24 hours"
+                      "t": "Proposal：Use a 24-hour page cache, as on Sightseeing_Tour"
+                    },
+                    {
+                      "t": "Pros：No spinner; the page loads faster"
+                    },
+                    {
+                      "t": "Cons：Old data may show (e.g. special sales); Sightseeing_Tour already works this way"
                     }
                   ]
                 },
                 {
-                  "t": "Page 2 onward and filters",
+                  "t": "2. Cache page 2 onward in 30-minute buckets",
                   "c": [
                     {
-                      "t": "Add a 30-minute cache (main filters only)"
+                      "t": "Now：No cache for page 2 onward"
                     },
                     {
-                      "t": "The first visitor after expiry is slow; display can be up to 30 minutes old"
+                      "t": "Proposal：Cache page 2 onward in 30-minute buckets"
                     },
                     {
-                      "t": "Server capacity: not small against the 14 GB free, roughly 1.6 GB more expected (cost not answered)"
+                      "t": "Pros：Faster load on a warm cache hit"
+                    },
+                    {
+                      "t": "Cons：Uses capacity; could exceed 1.6 GB in production if every category page is cached"
+                    }
+                  ]
+                },
+                {
+                  "t": "3. Cache filter results",
+                  "c": [
+                    {
+                      "t": "Now：Filter results are not cached"
+                    },
+                    {
+                      "t": "Proposal：Cache filter results in 30-minute buckets"
+                    },
+                    {
+                      "t": "Pros：Faster load on a warm cache hit"
+                    },
+                    {
+                      "t": "Cons：Huge number of combinations, unknown hit rate, heavy memcache use. Could narrow the scope (most-used filters from GA, single-date queries only)"
                     }
                   ]
                 }
@@ -6489,13 +6568,40 @@
               "t": "② Search result pages",
               "c": [
                 {
-                  "t": "Pre-save popular keywords with a scheduled job"
+                  "t": "1. Load a page with placeholders first, render results when ready",
+                  "c": [
+                    {
+                      "t": "Now：Serve the page cache if it exists; otherwise wait until the server fetches results"
+                    },
+                    {
+                      "t": "Proposal：Load the page with card placeholders first and render when ready"
+                    },
+                    {
+                      "t": "Pros：Reduces TTFB"
+                    },
+                    {
+                      "t": "Cons：May affect CLP; placeholder design needed"
+                    }
+                  ]
                 },
                 {
-                  "t": "No help for rare keywords"
+                  "t": "2. Optimize the search page and the filter_kw() ajax",
+                  "c": [
+                    {
+                      "t": "Now：The search API returns in under 3 s, but TTFB exceeds 5 s; extra processing in the search page and filter_kw() is suspected"
+                    }
+                  ]
                 },
                 {
-                  "t": "Also find where the search page processing (filter_kw()) spends time"
+                  "t": "3. Cache popular search keywords",
+                  "c": [
+                    {
+                      "t": "Now：The search API caches results for only 1 hour"
+                    },
+                    {
+                      "t": "Proposal：Use a scheduled job to cache popular keywords so they are always warm"
+                    }
+                  ]
                 }
               ]
             }
