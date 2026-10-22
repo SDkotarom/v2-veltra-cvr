@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 114,
+    "version": 115,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6160,6 +6160,158 @@
     "sections": [
       {
         "h": {
+          "ja": "キャッシュ改善案の比較",
+          "en": "Cache improvement options"
+        },
+        "g": 0,
+        "cls": "cmp",
+        "table": [
+          [
+            {
+              "ja": "No.",
+              "en": "No."
+            },
+            {
+              "ja": "ページ",
+              "en": "Page"
+            },
+            {
+              "ja": "As-Is",
+              "en": "As-Is"
+            },
+            {
+              "ja": "To-Be 1案（Suki さん）",
+              "en": "To-Be option 1 (Suki)"
+            },
+            {
+              "ja": "To-Be 2案（牧野）",
+              "en": "To-Be option 2 (Makino)"
+            }
+          ],
+          [
+            {
+              "ja": "1",
+              "en": "1"
+            },
+            {
+              "ja": "カテゴリー・全国版<br><small>/jp/ctg/…</small>",
+              "en": "Category, nationwide<br><small>/jp/ctg/…</small>"
+            },
+            {
+              "ja": "ページキャッシュ 24 時間（1日1回作り直し）。フェッチなし。スピナーなし",
+              "en": "24-hour page cache (rebuilt once a day). No fetch. No spinner"
+            },
+            {
+              "ja": "変更なし",
+              "en": "No change"
+            },
+            {
+              "ja": "変更なし",
+              "en": "No change"
+            }
+          ],
+          [
+            {
+              "ja": "2",
+              "en": "2"
+            },
+            {
+              "ja": "カテゴリー・エリア版 1ページ目<br><small>/jp/japan/tokyo/ctg/…</small>",
+              "en": "Category, area, page 1<br><small>/jp/japan/tokyo/ctg/…</small>"
+            },
+            {
+              "ja": "ページキャッシュ 24 時間 ＋ 表示後にフェッチ。フェッチの結果は memcache に 30 分保存。AC を更新すると memcache が消え、次のアクセスで作り直される。スピナーあり（約 1 秒）",
+              "en": "24-hour page cache plus a fetch after display. The fetch result is kept in memcache for 30 minutes; updating an AC clears it and the next visit rebuilds it. Spinner (about 1 s)"
+            },
+            {
+              "ja": "全国版と同じ。ページキャッシュ 24 時間、フェッチなし、スピナーなし",
+              "en": "Same as nationwide: 24-hour page cache, no fetch, no spinner"
+            },
+            {
+              "ja": "1案と同じ。加えて、更新（AC・パッケージ・PR 枠・カテゴリー公開）をきっかけに、そのページのキャッシュをすぐ作り直す",
+              "en": "Same as option 1. In addition, rebuild that page's cache immediately when something is updated (AC, package, PR slot, category publish)"
+            }
+          ],
+          [
+            {
+              "ja": "3",
+              "en": "3"
+            },
+            {
+              "ja": "カテゴリー 2ページ目以降",
+              "en": "Category, page 2 onward"
+            },
+            {
+              "ja": "キャッシュなし",
+              "en": "No cache"
+            },
+            {
+              "ja": "30 分単位でキャッシュ（全部で最大 1.6GB 以上）",
+              "en": "Cache in 30-minute buckets (up to 1.6 GB or more in total)"
+            },
+            {
+              "ja": "1案と同じ。加えて、期限切れ前に自動で作り直し、常にウォームにする",
+              "en": "Same as option 1. In addition, rebuild automatically before expiry so it is always warm"
+            }
+          ],
+          [
+            {
+              "ja": "4",
+              "en": "4"
+            },
+            {
+              "ja": "カテゴリーの絞り込み結果",
+              "en": "Category filter results"
+            },
+            {
+              "ja": "キャッシュなし",
+              "en": "No cache"
+            },
+            {
+              "ja": "30 分単位でキャッシュ（よく使われる絞り込み・単一日付などに範囲を絞る）",
+              "en": "Cache in 30-minute buckets (limited to popular filters, single dates, etc.)"
+            },
+            {
+              "ja": "1案と同じ。加えて、対象にした絞り込みは常にウォームにする",
+              "en": "Same as option 1. In addition, keep the targeted filters always warm"
+            }
+          ],
+          [
+            {
+              "ja": "5",
+              "en": "5"
+            },
+            {
+              "ja": "検索結果",
+              "en": "Search results"
+            },
+            {
+              "ja": "ページキャッシュ 1 時間 ＋ 表示後にフェッチ。初めてのキーワードはキャッシュがなく、サーバが結果を取得するまで待つ",
+              "en": "1-hour page cache plus a fetch after display. A first-time keyword has no cache and waits until the server gets results"
+            },
+            {
+              "ja": "1. 先にカードのプレースホルダーを出し、結果は後から描画する<br>2. 検索ページと filter_kw() の処理を速くする<br>3. よく検索されるキーワードを、定期実行で前もってキャッシュする",
+              "en": "1. Show card placeholders first and render results later<br>2. Speed up the search page and filter_kw()<br>3. Pre-cache popular keywords with a scheduled job"
+            },
+            {
+              "ja": "1案と同じ",
+              "en": "Same as option 1"
+            }
+          ]
+        ],
+        "notes": {
+          "ja": [
+            "2案の未決定：No. 2 で、時刻で切り替わるもの（PR 枠の掲載開始・終了、特別セールの開始）は更新ではないため作り直しのきっかけにならない。設定時刻に作り直すか、最大 24 時間の遅れを受け入れるか",
+            "未確認：No. 2 のページキャッシュを更新をきっかけに作り直せるか／No. 3・4 を常にウォームにしたときの作り直しの負荷と容量／No. 5 の 3 で対象にするキーワードの決め方"
+          ],
+          "en": [
+            "Undecided for option 2: in No. 2, time-based switches (PR slot start/end, special-sale start) are not updates, so they trigger no rebuild. Rebuild at the set time, or accept up to 24 hours of delay",
+            "Not confirmed: whether No. 2 page caches can be rebuilt on update / rebuild load and capacity if No. 3-4 are always warm / how No. 5-3 chooses keywords"
+          ]
+        }
+      },
+      {
+        "h": {
           "ja": "前提①（キャッシュ化について）",
           "en": "Premise 1 (about caching)"
         },
@@ -6249,7 +6401,7 @@
             }
           ]
         },
-        "g": 0
+        "g": 1
       },
       {
         "h": {
@@ -6328,346 +6480,7 @@
             }
           ]
         },
-        "g": 0
-      },
-      {
-        "h": {
-          "ja": "現在の問題点",
-          "en": "Current problems"
-        },
-        "items": {
-          "ja": [
-            {
-              "t": "①カテゴリーページ",
-              "c": [
-                {
-                  "t": "1 ページ目",
-                  "c": [
-                    {
-                      "t": "保存済みのページはすぐ出るが、表示のたびに最新の一覧を取り直すため、リングが回る（約 1 秒。[[UX_DESIGN-309]] 前は約 1.8 秒。1 ページで手計測）"
-                    }
-                  ]
-                },
-                {
-                  "t": "2 ページ目以降・絞り込み",
-                  "c": [
-                    {
-                      "t": "キャッシュがなく毎回ページを組み立てるため、リングが回る（時間は未計測）"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "t": "②検索結果ページ",
-              "c": [
-                {
-                  "t": "初めてのキーワードはキャッシュがないため遅い。キャッシュの保存期間は 1 時間"
-                }
-              ]
-            }
-          ],
-          "en": [
-            {
-              "t": "① Category pages",
-              "c": [
-                {
-                  "t": "Page 1",
-                  "c": [
-                    {
-                      "t": "The saved page shows at once, but the latest list is refetched on every view, so the ring spins (about 1 s; about 1.8 s before [[UX_DESIGN-309]]; hand-timed on one page)"
-                    }
-                  ]
-                },
-                {
-                  "t": "Page 2 onward and filters",
-                  "c": [
-                    {
-                      "t": "No cache, so the page is assembled every time and the ring spins (time not measured)"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "t": "② Search result pages",
-              "c": [
-                {
-                  "t": "A first-time keyword has no cache, so it is slow. The cache is kept for 1 hour"
-                }
-              ]
-            }
-          ]
-        },
-        "g": 1,
-        "stack": true
-      },
-      {
-        "h": {
-          "ja": "今回改善すること・狙い",
-          "en": "What will be improved and why"
-        },
-        "items": {
-          "ja": [
-            {
-              "t": "①カテゴリーページ",
-              "c": [
-                {
-                  "t": "1. 1ページ目をページキャッシュに変更する",
-                  "c": [
-                    {
-                      "t": "現行：1ページ目の最新データを取得し、30分単位でキャッシュする"
-                    },
-                    {
-                      "t": "提案：Sightseeing_Tour と同様に、ページキャッシュを24時間にする"
-                    },
-                    {
-                      "t": "メリット：スピナーがなくなり、ページの読み込みが速くなる"
-                    },
-                    {
-                      "t": "デメリット：（特別セールなどで）古いデータが表示される可能性がある。ただし Sightseeing_Tour ではすでに同様の対応を行っている"
-                    }
-                  ]
-                },
-                {
-                  "t": "2. 2ページ目以降を30分単位でキャッシュする",
-                  "c": [
-                    {
-                      "t": "現行：2ページ目以降はキャッシュなし"
-                    },
-                    {
-                      "t": "提案：2ページ目以降を30分単位でキャッシュする"
-                    },
-                    {
-                      "t": "メリット：ウォームキャッシュヒット時の読み込みが速くなる"
-                    },
-                    {
-                      "t": "デメリット：容量を圧迫する。すべてのカテゴリーページをキャッシュした場合、本番環境で1.6GB以上を消費する可能性がある"
-                    }
-                  ]
-                },
-                {
-                  "t": "3. フィルター結果をキャッシュする",
-                  "c": [
-                    {
-                      "t": "現行：フィルター結果はキャッシュされない"
-                    },
-                    {
-                      "t": "提案：フィルター結果を30分単位でキャッシュする"
-                    },
-                    {
-                      "t": "メリット：ウォームキャッシュヒット時の読み込みが速くなる"
-                    },
-                    {
-                      "t": "デメリット：組み合わせが膨大で、キャッシュヒット率が不明。memcache の容量も大量に使う。対象を絞るとよいかもしれない（GA で最も使われるフィルターだけ、単一日付のクエリだけ、など）"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "t": "②検索結果ページ",
-              "c": [
-                {
-                  "t": "1. プレースホルダー付きのページを先に読み込み、結果は準備ができたら描画する",
-                  "c": [
-                    {
-                      "t": "現行：ページキャッシュがあればそれを読み込む。なければ、サーバが結果を取得するまで待つ"
-                    },
-                    {
-                      "t": "提案：カードのプレースホルダーを含むページを先に読み込み、準備ができたら描画する"
-                    },
-                    {
-                      "t": "メリット：TTFB を削減する"
-                    },
-                    {
-                      "t": "デメリット：CLP に影響する可能性があり、プレースホルダーのデザイン検討が必要"
-                    }
-                  ]
-                },
-                {
-                  "t": "2. 検索ページと filter_kw() の ajax を最適化する",
-                  "c": [
-                    {
-                      "t": "現行：検索 API は3秒未満で返しているのに、TTFB が5秒を超えている。検索ページと filter_kw() での追加処理が疑われる"
-                    }
-                  ]
-                },
-                {
-                  "t": "3. よく検索されるキーワードをキャッシュする",
-                  "c": [
-                    {
-                      "t": "現行：検索 API は検索結果を1時間しかキャッシュしない"
-                    },
-                    {
-                      "t": "提案：定期実行でよく検索されるキーワードをキャッシュし、常にウォームな状態にする"
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "en": [
-            {
-              "t": "① Category pages",
-              "c": [
-                {
-                  "t": "1. Change page 1 to a page cache",
-                  "c": [
-                    {
-                      "t": "Now：Fetch the latest data for page 1 and cache it in 30-minute buckets"
-                    },
-                    {
-                      "t": "Proposal：Use a 24-hour page cache, as on Sightseeing_Tour"
-                    },
-                    {
-                      "t": "Pros：No spinner; the page loads faster"
-                    },
-                    {
-                      "t": "Cons：Old data may show (e.g. special sales); Sightseeing_Tour already works this way"
-                    }
-                  ]
-                },
-                {
-                  "t": "2. Cache page 2 onward in 30-minute buckets",
-                  "c": [
-                    {
-                      "t": "Now：No cache for page 2 onward"
-                    },
-                    {
-                      "t": "Proposal：Cache page 2 onward in 30-minute buckets"
-                    },
-                    {
-                      "t": "Pros：Faster load on a warm cache hit"
-                    },
-                    {
-                      "t": "Cons：Uses capacity; could exceed 1.6 GB in production if every category page is cached"
-                    }
-                  ]
-                },
-                {
-                  "t": "3. Cache filter results",
-                  "c": [
-                    {
-                      "t": "Now：Filter results are not cached"
-                    },
-                    {
-                      "t": "Proposal：Cache filter results in 30-minute buckets"
-                    },
-                    {
-                      "t": "Pros：Faster load on a warm cache hit"
-                    },
-                    {
-                      "t": "Cons：Huge number of combinations, unknown hit rate, heavy memcache use. Could narrow the scope (most-used filters from GA, single-date queries only)"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "t": "② Search result pages",
-              "c": [
-                {
-                  "t": "1. Load a page with placeholders first, render results when ready",
-                  "c": [
-                    {
-                      "t": "Now：Serve the page cache if it exists; otherwise wait until the server fetches results"
-                    },
-                    {
-                      "t": "Proposal：Load the page with card placeholders first and render when ready"
-                    },
-                    {
-                      "t": "Pros：Reduces TTFB"
-                    },
-                    {
-                      "t": "Cons：May affect CLP; placeholder design needed"
-                    }
-                  ]
-                },
-                {
-                  "t": "2. Optimize the search page and the filter_kw() ajax",
-                  "c": [
-                    {
-                      "t": "Now：The search API returns in under 3 s, but TTFB exceeds 5 s; extra processing in the search page and filter_kw() is suspected"
-                    }
-                  ]
-                },
-                {
-                  "t": "3. Cache popular search keywords",
-                  "c": [
-                    {
-                      "t": "Now：The search API caches results for only 1 hour"
-                    },
-                    {
-                      "t": "Proposal：Use a scheduled job to cache popular keywords so they are always warm"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "g": 2,
-        "stack": true
-      },
-      {
-        "h": {
-          "ja": "要確認・検討事項",
-          "en": "To confirm and to decide"
-        },
-        "table": [
-          [
-            {
-              "ja": "事項",
-              "en": "Item"
-            },
-            {
-              "ja": "状態",
-              "en": "Status"
-            }
-          ],
-          [
-            {
-              "ja": "容量（約 1.6GB 増）の影響",
-              "en": "Impact of about 1.6 GB more"
-            },
-            {
-              "ja": "回答済み（10/21）：空き 14GB に対して小さくはないが、ざっと 1.6GB 程度増える見込み。費用は未回答",
-              "en": "Answered (10/21): not small against the 14 GB free, roughly 1.6 GB more expected; cost not answered"
-            }
-          ],
-          [
-            {
-              "ja": "戻し方<small>再リリースか、設定の切り替えか</small>",
-              "en": "How to revert<small>Re-release or a setting?</small>"
-            },
-            {
-              "ja": "未依頼",
-              "en": "Not asked"
-            }
-          ],
-          [
-            {
-              "ja": "1 ページ目の表示の古さ<small>在庫・価格・セールが最大 24 時間古くてよいか</small>",
-              "en": "Staleness on page 1<small>May stock, price and sale labels be up to 24 h old?</small>"
-            },
-            {
-              "ja": "表示項目は未確認",
-              "en": "Display items not checked"
-            }
-          ],
-          [
-            {
-              "ja": "効果の見方と、戻す条件<small>指標：離脱・商品ページ到達率・閲覧数。戻す条件の案：到達率が、ばらつきを超えて下がり続けたら</small>",
-              "en": "Indicators and revert condition<small>Indicators: exits, product-page reach, views. Revert proposal: reach keeps falling beyond normal variation</small>"
-            },
-            {
-              "ja": "未決。変更前の値も未取得",
-              "en": "Undecided; no baseline yet"
-            }
-          ]
-        ],
-        "g": 3
+        "g": 1
       }
     ],
     "flow": {

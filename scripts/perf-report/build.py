@@ -497,8 +497,11 @@ def _cp_sec(x):
         return _flow()
     if x.get("table"):
         head, *body = x["table"]
-        tb = ('<div class="tw"><table class="wt cpa"><tr>' + "".join(f'<th>{t(c["ja"], c["en"])}</th>' for c in head) + "</tr>"
+        tb = ('<div class="tw"><table class="wt cpa ' + x.get("cls", "") + '"><tr>' + "".join(f'<th>{t(c["ja"], c["en"])}</th>' for c in head) + "</tr>"
               + "".join("<tr>" + "".join(f'<td>{t(c["ja"], c["en"])}</td>' for c in r) + "</tr>" for r in body) + "</table></div>")
+        nt = x.get("notes")
+        if nt:
+            tb += ('<ul class="cp-nt">' + "".join(f'<li>{t(a, e)}</li>' for a, e in zip(nt["ja"], nt["en"])) + '</ul>')
         return f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>{tb}</div>'
     return (f'<div class="sec pl{" cp-stack" if x.get("stack") else ""}"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>'
             f'<div class="cp-c"><div class="ja">{_cards(x["items"]["ja"])}</div>'
