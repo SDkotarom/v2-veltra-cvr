@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 99,
+    "version": 100,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6294,7 +6294,7 @@
                       "t": "30 分単位のキャッシュは、期限切れ後の最初のアクセスで作られる（Suki さん、10/21）"
                     },
                     {
-                      "t": "表示後に、最新の一覧へ入れ替える処理あり。その結果も 30 分保存（[[UX_DESIGN-309]]）"
+                      "t": "表示後に、最新の一覧をサーバから取り直す処理あり。取り直した結果も 30 分保存（[[UX_DESIGN-309]]）"
                     }
                   ]
                 }
@@ -6332,7 +6332,7 @@
                       "t": "The 30-minute cache is built by the first visit after it expires (Suki, 10/21)"
                     },
                     {
-                      "t": "After display, a process swaps in the latest list; its result is also kept for 30 minutes ([[UX_DESIGN-309]])"
+                      "t": "After display, a process refetches the latest list from the server; the refetched result is also kept for 30 minutes ([[UX_DESIGN-309]])"
                     }
                   ]
                 }
@@ -6356,13 +6356,13 @@
                   "t": "1 ページ目",
                   "c": [
                     {
-                      "t": "症状：キャッシュがあるのに、リングが回る"
+                      "t": "症状：保存済みのページはすぐ出るが、続けて全画面のリングが回る"
                     },
                     {
-                      "t": "原因：表示後の、最新の一覧への入れ替え"
+                      "t": "原因：古い表示を避けるため、表示のたびに最新の一覧をサーバから取り直す作り。取り直しの間、リングが出る"
                     },
                     {
-                      "t": "待ち：約 1.8 秒（入れ替え結果の保存あり：約 1 秒）"
+                      "t": "待ち：約 1.8 秒（Suki さんが同じカテゴリーページで 10 回手計測した平均。1.2〜3.6 秒。ほかのページは未計測）。取り直した結果の保存（[[UX_DESIGN-309]]）後は約 1 秒"
                     }
                   ]
                 },
@@ -6413,13 +6413,13 @@
                   "t": "Page 1",
                   "c": [
                     {
-                      "t": "Symptom: The ring spins despite the cache"
+                      "t": "Symptom: The saved page shows at once, then a full-screen ring spins"
                     },
                     {
-                      "t": "Cause: Swapping in the latest list after display"
+                      "t": "Cause: To avoid stale display, the page refetches the latest list from the server on every view; the ring shows during the refetch"
                     },
                     {
-                      "t": "Wait: About 1.8 s (about 1 s when its result is saved)"
+                      "t": "Wait: About 1.8 s (mean of 10 hand-timed runs by Suki on one category page; 1.2-3.6 s; other pages not measured). About 1 s after the refetched result is saved ([[UX_DESIGN-309]])"
                     }
                   ]
                 },
@@ -6479,7 +6479,7 @@
                   "t": "1 ページ目",
                   "c": [
                     {
-                      "t": "対策：表示後に最新の一覧へ入れ替える処理をやめ、24 時間キャッシュをそのまま表示"
+                      "t": "対策：表示後の取り直しをやめ、24 時間キャッシュをそのまま表示"
                     },
                     {
                       "t": "懸念：古さ 最大 24 時間"
@@ -6542,7 +6542,7 @@
                   "t": "Page 1",
                   "c": [
                     {
-                      "t": "Measure: Stop the process that swaps in the latest list after display; show the 24-hour cache as is"
+                      "t": "Measure: Stop the refetch after display; show the 24-hour cache as is"
                     },
                     {
                       "t": "Concern: Up to 24 h stale"
