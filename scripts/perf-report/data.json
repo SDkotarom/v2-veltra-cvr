@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 100,
+    "version": 101,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6285,16 +6285,13 @@
                   "t": "②キャッシュ有無混在ケース<br>フリーワード検索結果ページのように、一覧ページが無限に生まれるような場合は、過去に検索されたキーワード分のキャッシュしかない。"
                 },
                 {
-                  "t": "③キャッシュしているケース<br>キャッシュしているが、現状は「ページアクセスがあったら」その時点でキャッシュを作っている？（仮説）",
+                  "t": "③キャッシュしているケース<br>カテゴリー1ページ目は、2段階でキャッシュしている",
                   "c": [
                     {
-                      "t": "カテゴリー 1 ページ目など。保存期間 24 時間、1 日 1 回作り直し（Suki さん）"
+                      "t": "ページ本体：24 時間保存。1 日 1 回、自動で作り直す"
                     },
                     {
-                      "t": "30 分単位のキャッシュは、期限切れ後の最初のアクセスで作られる（Suki さん、10/21）"
-                    },
-                    {
-                      "t": "表示後に、最新の一覧をサーバから取り直す処理あり。取り直した結果も 30 分保存（[[UX_DESIGN-309]]）"
+                      "t": "表示後に取り直す最新の一覧：30 分保存。期限切れ後に最初に来た人のアクセスで作るため、その人だけ遅い"
                     }
                   ]
                 }
@@ -6323,16 +6320,13 @@
                   "t": "② Cases with a mix of cached and not cached<br>where list pages are endlessly generated, as with free-word search results, only keywords searched in the past have a cache."
                 },
                 {
-                  "t": "③ Cases that are cached<br>it is cached, but currently is the cache made at the moment 'a page is accessed'? (hypothesis)",
+                  "t": "③ Cases that are cached<br>Category page 1 is cached in two stages",
                   "c": [
                     {
-                      "t": "Category page 1 and similar. Saved for 24 hours, rebuilt once a day (Suki)"
+                      "t": "The page itself: kept 24 hours, rebuilt automatically once a day"
                     },
                     {
-                      "t": "The 30-minute cache is built by the first visit after it expires (Suki, 10/21)"
-                    },
-                    {
-                      "t": "After display, a process refetches the latest list from the server; the refetched result is also kept for 30 minutes ([[UX_DESIGN-309]])"
+                      "t": "The latest list refetched after display: kept 30 minutes; built by the first visitor after expiry, so only that visitor waits"
                     }
                   ]
                 }
