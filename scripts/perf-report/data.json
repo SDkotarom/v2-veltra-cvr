@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 101,
+    "version": 102,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6364,7 +6364,7 @@
                   "t": "2 ページ目以降・絞り込み",
                   "c": [
                     {
-                      "t": "症状：リングが回る（体感）"
+                      "t": "症状：リングが回る（体感。時間は未計測）"
                     },
                     {
                       "t": "原因：キャッシュなし。毎回ページを組み立てる"
@@ -6375,10 +6375,10 @@
                   "t": "あまり見られないエリア",
                   "c": [
                     {
-                      "t": "症状：初回表示が遅い（体感 2〜3 秒）"
+                      "t": "症状：キャッシュがないと最初の応答 約 1.4 秒。あれば約 0.3 秒（9/4 の実測、カテゴリーページ）"
                     },
                     {
-                      "t": "原因：期限切れ後、最初に来た人がキャッシュを作る"
+                      "t": "原因：事前にキャッシュを作る仕組みはあるが、9/4 の実測ではキャッシュがなかった。理由は未確認（[[UX_DESIGN-408]]）"
                     }
                   ]
                 }
@@ -6388,7 +6388,7 @@
               "t": "検索結果ページ",
               "c": [
                 {
-                  "t": "症状：最初の応答まで約 5.5 秒（実ユーザー）"
+                  "t": "症状：最初の応答まで約 5.5 秒（実ユーザー、10/3 締めの週）"
                 },
                 {
                   "t": "原因：初めてのキーワードは、キャッシュなし"
@@ -6421,7 +6421,7 @@
                   "t": "Page 2 onward and filters",
                   "c": [
                     {
-                      "t": "Symptom: The ring spins (by feel)"
+                      "t": "Symptom: The ring spins (felt; time not measured)"
                     },
                     {
                       "t": "Cause: No cache; the page is assembled every time"
@@ -6432,10 +6432,10 @@
                   "t": "Rarely visited areas",
                   "c": [
                     {
-                      "t": "Symptom: Slow first view (2-3 s by feel)"
+                      "t": "Symptom: First response about 1.4 s without a cache, about 0.3 s with one (measured 9/4, category page)"
                     },
                     {
-                      "t": "Cause: After expiry, the first visitor builds the cache"
+                      "t": "Cause: A pre-building job exists, but there was no cache in the 9/4 measurement. Reason not confirmed ([[UX_DESIGN-408]])"
                     }
                   ]
                 }
@@ -6445,7 +6445,7 @@
               "t": "Search result pages",
               "c": [
                 {
-                  "t": "Symptom: About 5.5 s to the first response (real users)"
+                  "t": "Symptom: About 5.5 s to first response (real users, week ending 10/3)"
                 },
                 {
                   "t": "Cause: No cache for a first-time keyword"
@@ -6457,7 +6457,8 @@
             }
           ]
         },
-        "g": 1
+        "g": 1,
+        "stack": true
       },
       {
         "h": {

@@ -500,7 +500,7 @@ def _cp_sec(x):
         tb = ('<div class="tw"><table class="wt cpa"><tr>' + "".join(f'<th>{t(c["ja"], c["en"])}</th>' for c in head) + "</tr>"
               + "".join("<tr>" + "".join(f'<td>{t(c["ja"], c["en"])}</td>' for c in r) + "</tr>" for r in body) + "</table></div>")
         return f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>{tb}</div>'
-    return (f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>'
+    return (f'<div class="sec pl{" cp-stack" if x.get("stack") else ""}"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>'
             f'<div class="cp-c"><div class="ja">{_cards(x["items"]["ja"])}</div>'
             f'<div class="en">{_cards(x["items"]["en"])}</div></div></div>')
 CACHE = (f'<div class="rv-h"><h2>{t(CP["h"]["ja"], CP["h"]["en"])}</h2>'
@@ -514,7 +514,7 @@ def _classify():
     head, *body = x["table"]
     tb = ('<div class="tw"><table class="cls"><tr>' + "".join(f"<th>{_cell(c)}</th>" for c in head) + "</tr>"
           + "".join("<tr>" + "".join(f"<td>{_cell(c)}</td>" for c in r) + "</tr>" for r in body) + "</table></div>")
-    return (f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>'
+    return (f'<div class="sec pl{" cp-stack" if x.get("stack") else ""}"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>'
             f'<div class="rv-l">{_bil(x["items"])}</div>{tb}'
             f'<h4 class="sh">{t(x["add"]["h"]["ja"], x["add"]["h"]["en"])}</h4>'
             f'<div class="rv-l">{_bil(x["add"]["items"])}</div></div>')
