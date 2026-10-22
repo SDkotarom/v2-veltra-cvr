@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 111,
+    "version": 113,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6362,7 +6362,7 @@
               "t": "②検索結果ページ",
               "c": [
                 {
-                  "t": "初めてのキーワードはキャッシュがないため遅い。1 時間以内に同じキーワードで検索されていれば、キャッシュがあり速い"
+                  "t": "初めてのキーワードはキャッシュがないため遅い。キャッシュの保存期間は 1 時間"
                 }
               ]
             }
@@ -6393,7 +6393,7 @@
               "t": "② Search result pages",
               "c": [
                 {
-                  "t": "A first-time keyword has no cache, so it is slow. If the same keyword was searched within the last hour, the cache exists and it is fast"
+                  "t": "A first-time keyword has no cache, so it is slow. The cache is kept for 1 hour"
                 }
               ]
             }
@@ -6416,10 +6416,10 @@
                   "t": "1 ページ目",
                   "c": [
                     {
-                      "t": "対策：表示後の取り直しをやめ、24 時間キャッシュをそのまま表示"
+                      "t": "表示後の取り直しをやめ、24 時間キャッシュをそのまま表示する"
                     },
                     {
-                      "t": "懸念：古さ 最大 24 時間"
+                      "t": "その代わり、AC の編集・公開や、開始時刻を過ぎた AC が、最大 24 時間反映されない"
                     }
                   ]
                 },
@@ -6427,13 +6427,13 @@
                   "t": "2 ページ目以降・絞り込み",
                   "c": [
                     {
-                      "t": "対策：30 分キャッシュを追加（絞り込みは主要なものだけ）"
+                      "t": "30 分キャッシュを追加する（絞り込みは主要なものだけ）"
                     },
                     {
-                      "t": "懸念：期限切れ直後の 1 人目は遅い。古さ 最大 30 分"
+                      "t": "期限切れ直後に最初に来た人は遅い。表示は最大 30 分古くなる"
                     },
                     {
-                      "t": "容量：空き 14GB に対して小さくはないが、ざっと 1.6GB 程度増える見込み（コストは未回答）"
+                      "t": "サーバ容量は、空き 14GB に対して小さくはないが、ざっと 1.6GB 程度増える見込み（コストは未回答）"
                     }
                   ]
                 }
@@ -6443,13 +6443,13 @@
               "t": "②検索結果ページ",
               "c": [
                 {
-                  "t": "対策：人気キーワードを、定期実行で先に保存"
+                  "t": "人気キーワードを、定期実行で先に保存する"
                 },
                 {
-                  "t": "懸念：珍しい語には効かない"
+                  "t": "珍しいキーワードには効かない"
                 },
                 {
-                  "t": "調査：約 2 秒の原因（検索ページ・filter_kw()）"
+                  "t": "あわせて、検索ページの処理（filter_kw()）のどこで時間がかかっているかを調べる"
                 }
               ]
             }
@@ -6462,10 +6462,10 @@
                   "t": "Page 1",
                   "c": [
                     {
-                      "t": "Measure: Stop the refetch after display; show the 24-hour cache as is"
+                      "t": "Stop the refetch after display and show the 24-hour cache as is"
                     },
                     {
-                      "t": "Concern: Up to 24 h stale"
+                      "t": "In exchange, AC edits and publications, and ACs past their start time, may not show for up to 24 hours"
                     }
                   ]
                 },
@@ -6473,13 +6473,13 @@
                   "t": "Page 2 onward and filters",
                   "c": [
                     {
-                      "t": "Measure: Add a 30-minute cache (main filters only)"
+                      "t": "Add a 30-minute cache (main filters only)"
                     },
                     {
-                      "t": "Concern: The first visitor after expiry is slow; up to 30 min stale"
+                      "t": "The first visitor after expiry is slow; display can be up to 30 minutes old"
                     },
                     {
-                      "t": "Capacity: not small against the 14 GB free, roughly 1.6 GB more expected (cost not answered)"
+                      "t": "Server capacity: not small against the 14 GB free, roughly 1.6 GB more expected (cost not answered)"
                     }
                   ]
                 }
@@ -6489,13 +6489,13 @@
               "t": "② Search result pages",
               "c": [
                 {
-                  "t": "Measure: Pre-save popular keywords with a scheduled job"
+                  "t": "Pre-save popular keywords with a scheduled job"
                 },
                 {
-                  "t": "Concern: No help for rare keywords"
+                  "t": "No help for rare keywords"
                 },
                 {
-                  "t": "Investigate: The 2 s gap (search page, filter_kw())"
+                  "t": "Also find where the search page processing (filter_kw()) spends time"
                 }
               ]
             }
