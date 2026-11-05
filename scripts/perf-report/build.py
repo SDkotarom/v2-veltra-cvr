@@ -492,16 +492,24 @@ def _cards(items):
             body = _kv_or_nest(kids)
         out += f'<div class="pc"><div class="pc-t">{expand(it["t"])}</div>{body}</div>'
     return f'<div class="pcs">{out}</div>'
+def _cp_td(c):
+    # rs / cs で縦・横の結合（比較表のページ名・「1案と同じ」用）
+    a = (f' rowspan="{c["rs"]}"' if c.get("rs") else "") + (f' colspan="{c["cs"]}"' if c.get("cs") else "")
+    return f'<td{a}>{t(c["ja"], c["en"])}</td>'
+
+
 def _cp_sec(x):
     if x.get("flow"):
         return _flow()
     if x.get("table"):
         head, *body = x["table"]
         tb = ('<div class="tw"><table class="wt cpa ' + x.get("cls", "") + '"><tr>' + "".join(f'<th>{t(c["ja"], c["en"])}</th>' for c in head) + "</tr>"
-              + "".join("<tr>" + "".join(f'<td>{t(c["ja"], c["en"])}</td>' for c in r) + "</tr>" for r in body) + "</table></div>")
+              + "".join("<tr>" + "".join(_cp_td(c) for c in r) + "</tr>" for r in body) + "</table></div>")
         nt = x.get("notes")
         if nt:
             tb += ('<ul class="cp-nt">' + "".join(f'<li>{t(a, e)}</li>' for a, e in zip(nt["ja"], nt["en"])) + '</ul>')
+        if x.get("archive"):
+            return f'<details class="sec pl cp-arc"><summary class="sh">{t(x["h"]["ja"], x["h"]["en"])}</summary>{tb}</details>'
         return f'<div class="sec pl"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>{tb}</div>'
     return (f'<div class="sec pl{" cp-stack" if x.get("stack") else ""}"><h3 class="sh">{t(x["h"]["ja"], x["h"]["en"])}</h3>'
             f'<div class="cp-c"><div class="ja">{_cards(x["items"]["ja"])}</div>'

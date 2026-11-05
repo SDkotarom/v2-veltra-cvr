@@ -13,7 +13,7 @@
     "cls_good": 0.1,
     "ttfb_good": 800,
     "sheet_url": "https://docs.google.com/spreadsheets/d/1QPDTDPxCLqYQqCUAARHshpvYOJ4rcHvsF05X4AgWpLM/edit",
-    "version": 132,
+    "version": 133,
     "baseline_period_end": "2026-08-22",
     "baseline_note": "2026-08-19",
     "glossary": {
@@ -6154,8 +6154,8 @@
       "en": "Caching for list pages"
     },
     "meta": {
-      "ja": "2026-10-21 時点",
-      "en": "As of 2026-10-21"
+      "ja": "2026-11-05 時点",
+      "en": "As of 2026-11-05"
     },
     "sections": [
       {
@@ -6164,138 +6164,332 @@
           "en": "Cache improvement options"
         },
         "g": 0,
-        "cls": "cmp",
+        "cls": "cmp2",
         "table": [
           [
             {
-              "ja": "No.",
-              "en": "No."
-            },
-            {
               "ja": "ページ",
               "en": "Page"
+            },
+            {
+              "ja": "区分",
+              "en": "Stage"
+            },
+            {
+              "ja": "キャッシュ",
+              "en": "Cache"
+            },
+            {
+              "ja": "期間",
+              "en": "Duration"
+            },
+            {
+              "ja": "作られる時",
+              "en": "When it is built"
+            },
+            {
+              "ja": "AC などを更新した時",
+              "en": "When an AC etc. is updated"
+            },
+            {
+              "ja": "スピナー",
+              "en": "Spinner"
+            }
+          ],
+          [
+            {
+              "ja": "カテゴリー・全国版 1ページ目<br><small>type A</small>",
+              "en": "Category, nationwide, page 1<br><small>type A</small>",
+              "rs": 2
             },
             {
               "ja": "As-Is",
               "en": "As-Is"
             },
             {
-              "ja": "To-Be 1案（Suki さん）",
-              "en": "To-Be option 1 (Suki)"
+              "ja": "ページキャッシュ",
+              "en": "Page cache"
             },
             {
-              "ja": "To-Be 2案（牧野）",
-              "en": "To-Be option 2 (Makino)"
+              "ja": "24時間",
+              "en": "24 hours"
+            },
+            {
+              "ja": "毎日20時（現地時間）に自動で作り直し",
+              "en": "Rebuilt automatically daily at 8 PM (local time)"
+            },
+            {
+              "ja": "次の作り直しまで出ない（最大24時間）※未確認",
+              "en": "Not shown until the next rebuild (up to 24 h) *not confirmed"
+            },
+            {
+              "ja": "なし",
+              "en": "None"
             }
           ],
           [
             {
-              "ja": "1",
-              "en": "1"
-            },
-            {
-              "ja": "カテゴリー・全国版<br><small>/jp/ctg/…</small>",
-              "en": "Category, nationwide<br><small>/jp/ctg/…</small>"
-            },
-            {
-              "ja": "ページキャッシュ 24 時間（1日1回作り直し）。フェッチなし。スピナーなし（※type A）",
-              "en": "24-hour page cache (rebuilt once a day). No fetch. No spinner (*type A)"
+              "ja": "To-Be",
+              "en": "To-Be"
             },
             {
               "ja": "変更なし",
-              "en": "No change"
-            },
-            {
-              "ja": "変更なし",
-              "en": "No change"
+              "en": "No change",
+              "cs": 5
             }
           ],
           [
             {
-              "ja": "2",
-              "en": "2"
+              "ja": "カテゴリー・エリア版 1ページ目<br><small>type B</small>",
+              "en": "Category, area, page 1<br><small>type B</small>",
+              "rs": 2
             },
             {
-              "ja": "カテゴリー・エリア版 1ページ目<br><small>/jp/japan/tokyo/ctg/…</small>",
-              "en": "Category, area, page 1<br><small>/jp/japan/tokyo/ctg/…</small>"
+              "ja": "As-Is",
+              "en": "As-Is"
             },
             {
-              "ja": "ページキャッシュ24時間+表示後AC一覧だけフェッチして最新化（→memcacheに30分保存・次からキャッシュ表示、AC更新でmemcache作り直し）（※type B）",
-              "en": "24-hour page cache + fetch only the AC list after display to refresh it (→ kept in memcache for 30 minutes and shown from cache from then on; rebuilt on AC update) (*type B)"
+              "ja": "ページキャッシュ＋一覧部分は memcache",
+              "en": "Page cache + memcache for the list"
             },
             {
-              "ja": "全国版（※type A）と同様に変更<span class=\"cp-warn\">懸念：PR 枠の掲載開始・終了、AC 更新、カテゴリー公開の反映が最大 24 時間遅れる<br>・PR 枠は「1 時間ごとのキャッシュ更新」前提で、1 時間前に設定する運用（広告営業と合意済み）<br>・カテゴリー公開の反映遅れには、過去にマーケから毎週キャッシュクリアの依頼が出ていた</span>",
-              "en": "Change to match the nationwide page (*type A)<span class=\"cp-warn\">Concern: PR slot start/end, AC updates and category publishes may take up to 24 hours to show<br>- PR slots are run on the assumption of an hourly cache refresh, set one hour early (agreed with ad sales)<br>- Slow category-publish reflection previously led to weekly cache-clear requests from marketing</span>"
+              "ja": "ページ 24時間<br>一覧 30分（:00・:30 区切り）",
+              "en": "Page 24 h<br>List 30 min (:00/:30 slots)"
             },
             {
-              "ja": "全国版（※type A）と同様に変更<br>加えて、AC に変更があったときにページキャッシュを作り直す（毎回フェッチしない）<small>※「AC に変更があったとき」＝ AC 更新、PR 枠の掲載開始・終了、カテゴリー公開</small>",
-              "en": "Change to match the nationwide page (*type A)<br>In addition, rebuild the page cache when an AC changes (no fetch on every view)<small>* \"When an AC changes\" = AC update, PR slot start/end, category publish</small>"
+              "ja": "ページ：毎日自動<br>一覧：期限切れ後、最初に来た人",
+              "en": "Page: daily, automatic<br>List: first visitor after expiry"
+            },
+            {
+              "ja": "すぐ出る（memcache が消える）",
+              "en": "Shown at once (memcache is cleared)"
+            },
+            {
+              "ja": "あり（約1秒）",
+              "en": "Yes (about 1 s)"
             }
           ],
           [
             {
-              "ja": "3",
-              "en": "3"
+              "ja": "To-Be",
+              "en": "To-Be"
             },
+            {
+              "ja": "ページキャッシュだけ（フェッチしない）",
+              "en": "Page cache only (no fetch)"
+            },
+            {
+              "ja": "24時間",
+              "en": "24 hours"
+            },
+            {
+              "ja": "毎日自動＋AC 更新・PR 枠の変更・カテゴリー公開のときにすぐ作り直す",
+              "en": "Daily, automatic + rebuilt at once on AC update, PR slot change or category publish"
+            },
+            {
+              "ja": "すぐ出る",
+              "en": "Shown at once"
+            },
+            {
+              "ja": "なし",
+              "en": "None"
+            }
+          ],
+          [
             {
               "ja": "カテゴリー 2ページ目以降",
-              "en": "Category, page 2 onward"
+              "en": "Category, page 2 onward",
+              "rs": 3
             },
             {
-              "ja": "全国版（※type A）：ページキャッシュ 24 時間（アクセス時に作成）<br>エリア版（※type B）：キャッシュなし（毎回フェッチ）",
-              "en": "Nationwide (*type A): 24-hour page cache (built on access)<br>Area (*type B): no cache (fetch every time)"
+              "ja": "As-Is<br><small>type A</small>",
+              "en": "As-Is<br><small>type A</small>"
             },
             {
-              "ja": "エリア版（※type B）のフェッチ結果を memcache に 30 分保存",
-              "en": "Keep the area version's (*type B) fetch result in memcache for 30 minutes"
+              "ja": "ページキャッシュ",
+              "en": "Page cache"
             },
             {
-              "ja": "1案と同じ。<br>加えて、期限切れ前に自動で作り直し、常にウォームキャッシュにする",
-              "en": "Same as option 1.<br>In addition, rebuild automatically before expiry so the cache is always warm"
+              "ja": "24時間",
+              "en": "24 hours"
+            },
+            {
+              "ja": "アクセスがあった時（自動の作り直しはなし）",
+              "en": "On access (no automatic rebuild)"
+            },
+            {
+              "ja": "※未確認",
+              "en": "*not confirmed"
+            },
+            {
+              "ja": "なし",
+              "en": "None"
             }
           ],
           [
             {
-              "ja": "4",
-              "en": "4"
+              "ja": "As-Is<br><small>type B</small>",
+              "en": "As-Is<br><small>type B</small>"
             },
             {
-              "ja": "カテゴリーの絞り込み結果",
-              "en": "Category filter results"
+              "ja": "なし",
+              "en": "None"
             },
             {
-              "ja": "キャッシュなし",
-              "en": "No cache"
+              "ja": "―",
+              "en": "―"
             },
             {
-              "ja": "30 分単位でキャッシュ（よく使われる絞り込み・単一日付などに範囲を絞る）",
-              "en": "Cache in 30-minute buckets (limited to popular filters, single dates, etc.)"
+              "ja": "―",
+              "en": "―"
             },
             {
-              "ja": "1案と同じ。<br>加えて、対象にした絞り込みは常にウォームキャッシュにする",
-              "en": "Same as option 1.<br>In addition, keep the targeted filters' cache always warm"
+              "ja": "すぐ出る（毎回最新を取る）",
+              "en": "Shown at once (latest fetched every time)"
+            },
+            {
+              "ja": "あり",
+              "en": "Yes"
             }
           ],
           [
             {
-              "ja": "5",
-              "en": "5"
+              "ja": "To-Be",
+              "en": "To-Be"
             },
+            {
+              "ja": "memcache（type B）",
+              "en": "memcache (type B)"
+            },
+            {
+              "ja": "30分（:00・:30 区切り）",
+              "en": "30 min (:00/:30 slots)"
+            },
+            {
+              "ja": "期限切れ後、最初に来た人",
+              "en": "First visitor after expiry"
+            },
+            {
+              "ja": "※未確認",
+              "en": "*not confirmed"
+            },
+            {
+              "ja": "あり（短くなる見込み）",
+              "en": "Yes (expected to be shorter)"
+            }
+          ],
+          [
+            {
+              "ja": "絞り込み結果",
+              "en": "Filter results",
+              "rs": 2
+            },
+            {
+              "ja": "As-Is",
+              "en": "As-Is"
+            },
+            {
+              "ja": "なし",
+              "en": "None"
+            },
+            {
+              "ja": "―",
+              "en": "―"
+            },
+            {
+              "ja": "―",
+              "en": "―"
+            },
+            {
+              "ja": "すぐ出る",
+              "en": "Shown at once"
+            },
+            {
+              "ja": "あり",
+              "en": "Yes"
+            }
+          ],
+          [
+            {
+              "ja": "To-Be",
+              "en": "To-Be"
+            },
+            {
+              "ja": "memcache（よく使われる絞り込みだけ）",
+              "en": "memcache (popular filters only)"
+            },
+            {
+              "ja": "30分",
+              "en": "30 min"
+            },
+            {
+              "ja": "期限切れ後、最初に来た人",
+              "en": "First visitor after expiry"
+            },
+            {
+              "ja": "※未確認",
+              "en": "*not confirmed"
+            },
+            {
+              "ja": "あり（短くなる見込み）",
+              "en": "Yes (expected to be shorter)"
+            }
+          ],
+          [
             {
               "ja": "検索結果",
-              "en": "Search results"
+              "en": "Search results",
+              "rs": 2
             },
             {
-              "ja": "ページキャッシュ 1 時間 ＋ 表示後にフェッチ。初めてのキーワードはキャッシュがなく、サーバが結果を取得するまで待つ",
-              "en": "1-hour page cache plus a fetch after display. A first-time keyword has no cache and waits until the server gets results"
+              "ja": "As-Is",
+              "en": "As-Is"
             },
             {
-              "ja": "1. 先にカードのプレースホルダーを出し、結果は後から描画する<br>2. 検索ページと filter_kw() の処理を速くする<br>3. よく検索されるキーワードを、定期実行で前もってキャッシュする",
-              "en": "1. Show card placeholders first and render results later<br>2. Speed up the search page and filter_kw()<br>3. Pre-cache popular keywords with a scheduled job"
+              "ja": "ページキャッシュ＋表示後にフェッチ",
+              "en": "Page cache + fetch after display"
             },
             {
-              "ja": "1案と同じ",
-              "en": "Same as option 1"
+              "ja": "1時間",
+              "en": "1 hour"
+            },
+            {
+              "ja": "誰かが検索した時（初めてのキーワードはキャッシュなし）",
+              "en": "When someone searches (first-time keywords have no cache)"
+            },
+            {
+              "ja": "※未確認",
+              "en": "*not confirmed"
+            },
+            {
+              "ja": "あり",
+              "en": "Yes"
+            }
+          ],
+          [
+            {
+              "ja": "To-Be",
+              "en": "To-Be"
+            },
+            {
+              "ja": "人気キーワードを定期実行で前もってキャッシュ<br><small>ほかに、プレースホルダーを先に出す案と、処理を速くする案</small>",
+              "en": "Pre-cache popular keywords with a scheduled job<br><small>Also: show placeholders first, and speed up processing</small>"
+            },
+            {
+              "ja": "1時間",
+              "en": "1 hour"
+            },
+            {
+              "ja": "定期実行",
+              "en": "Scheduled job"
+            },
+            {
+              "ja": "※未確認",
+              "en": "*not confirmed"
+            },
+            {
+              "ja": "※未確認",
+              "en": "*not confirmed"
             }
           ]
         ]
@@ -6471,6 +6665,149 @@
           ]
         },
         "g": 1
+      },
+      {
+        "h": {
+          "ja": "旧版：キャッシュ改善案の比較（2026-11-05 まで）",
+          "en": "Archived: cache improvement options (until 2026-11-05)"
+        },
+        "g": 9,
+        "cls": "cmp",
+        "table": [
+          [
+            {
+              "ja": "No.",
+              "en": "No."
+            },
+            {
+              "ja": "ページ",
+              "en": "Page"
+            },
+            {
+              "ja": "As-Is",
+              "en": "As-Is"
+            },
+            {
+              "ja": "To-Be 1案（Suki さん）",
+              "en": "To-Be option 1 (Suki)"
+            },
+            {
+              "ja": "To-Be 2案（牧野）",
+              "en": "To-Be option 2 (Makino)"
+            }
+          ],
+          [
+            {
+              "ja": "1",
+              "en": "1"
+            },
+            {
+              "ja": "カテゴリー・全国版<br><small>/jp/ctg/…</small>",
+              "en": "Category, nationwide<br><small>/jp/ctg/…</small>"
+            },
+            {
+              "ja": "ページキャッシュ 24 時間（1日1回作り直し）。フェッチなし。スピナーなし（※type A）",
+              "en": "24-hour page cache (rebuilt once a day). No fetch. No spinner (*type A)"
+            },
+            {
+              "ja": "変更なし",
+              "en": "No change"
+            },
+            {
+              "ja": "変更なし",
+              "en": "No change"
+            }
+          ],
+          [
+            {
+              "ja": "2",
+              "en": "2"
+            },
+            {
+              "ja": "カテゴリー・エリア版 1ページ目<br><small>/jp/japan/tokyo/ctg/…</small>",
+              "en": "Category, area, page 1<br><small>/jp/japan/tokyo/ctg/…</small>"
+            },
+            {
+              "ja": "ページキャッシュ24時間+表示後AC一覧だけフェッチして最新化（→memcacheに30分保存・次からキャッシュ表示、AC更新でmemcache作り直し）（※type B）",
+              "en": "24-hour page cache + fetch only the AC list after display to refresh it (→ kept in memcache for 30 minutes and shown from cache from then on; rebuilt on AC update) (*type B)"
+            },
+            {
+              "ja": "全国版（※type A）と同様に変更<span class=\"cp-warn\">懸念：PR 枠の掲載開始・終了、AC 更新、カテゴリー公開の反映が最大 24 時間遅れる<br>・PR 枠は「1 時間ごとのキャッシュ更新」前提で、1 時間前に設定する運用（広告営業と合意済み）<br>・カテゴリー公開の反映遅れには、過去にマーケから毎週キャッシュクリアの依頼が出ていた</span>",
+              "en": "Change to match the nationwide page (*type A)<span class=\"cp-warn\">Concern: PR slot start/end, AC updates and category publishes may take up to 24 hours to show<br>- PR slots are run on the assumption of an hourly cache refresh, set one hour early (agreed with ad sales)<br>- Slow category-publish reflection previously led to weekly cache-clear requests from marketing</span>"
+            },
+            {
+              "ja": "全国版（※type A）と同様に変更<br>加えて、AC に変更があったときにページキャッシュを作り直す（毎回フェッチしない）<small>※「AC に変更があったとき」＝ AC 更新、PR 枠の掲載開始・終了、カテゴリー公開</small>",
+              "en": "Change to match the nationwide page (*type A)<br>In addition, rebuild the page cache when an AC changes (no fetch on every view)<small>* \"When an AC changes\" = AC update, PR slot start/end, category publish</small>"
+            }
+          ],
+          [
+            {
+              "ja": "3",
+              "en": "3"
+            },
+            {
+              "ja": "カテゴリー 2ページ目以降",
+              "en": "Category, page 2 onward"
+            },
+            {
+              "ja": "全国版（※type A）：ページキャッシュ 24 時間（アクセス時に作成）<br>エリア版（※type B）：キャッシュなし（毎回フェッチ）",
+              "en": "Nationwide (*type A): 24-hour page cache (built on access)<br>Area (*type B): no cache (fetch every time)"
+            },
+            {
+              "ja": "エリア版（※type B）のフェッチ結果を memcache に 30 分保存",
+              "en": "Keep the area version's (*type B) fetch result in memcache for 30 minutes"
+            },
+            {
+              "ja": "1案と同じ。<br>加えて、期限切れ前に自動で作り直し、常にウォームキャッシュにする",
+              "en": "Same as option 1.<br>In addition, rebuild automatically before expiry so the cache is always warm"
+            }
+          ],
+          [
+            {
+              "ja": "4",
+              "en": "4"
+            },
+            {
+              "ja": "カテゴリーの絞り込み結果",
+              "en": "Category filter results"
+            },
+            {
+              "ja": "キャッシュなし",
+              "en": "No cache"
+            },
+            {
+              "ja": "30 分単位でキャッシュ（よく使われる絞り込み・単一日付などに範囲を絞る）",
+              "en": "Cache in 30-minute buckets (limited to popular filters, single dates, etc.)"
+            },
+            {
+              "ja": "1案と同じ。<br>加えて、対象にした絞り込みは常にウォームキャッシュにする",
+              "en": "Same as option 1.<br>In addition, keep the targeted filters' cache always warm"
+            }
+          ],
+          [
+            {
+              "ja": "5",
+              "en": "5"
+            },
+            {
+              "ja": "検索結果",
+              "en": "Search results"
+            },
+            {
+              "ja": "ページキャッシュ 1 時間 ＋ 表示後にフェッチ。初めてのキーワードはキャッシュがなく、サーバが結果を取得するまで待つ",
+              "en": "1-hour page cache plus a fetch after display. A first-time keyword has no cache and waits until the server gets results"
+            },
+            {
+              "ja": "1. 先にカードのプレースホルダーを出し、結果は後から描画する<br>2. 検索ページと filter_kw() の処理を速くする<br>3. よく検索されるキーワードを、定期実行で前もってキャッシュする",
+              "en": "1. Show card placeholders first and render results later<br>2. Speed up the search page and filter_kw()<br>3. Pre-cache popular keywords with a scheduled job"
+            },
+            {
+              "ja": "1案と同じ",
+              "en": "Same as option 1"
+            }
+          ]
+        ],
+        "archive": true
       }
     ],
     "flow": {
