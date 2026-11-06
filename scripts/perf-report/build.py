@@ -498,13 +498,19 @@ def _cp_td(c):
     return f'<td{a}>{t(c["ja"], c["en"])}</td>'
 
 
+def _cp_tr(r):
+    # trc を持つセルがあれば、その行にクラスを付ける（変更点の強調用）
+    trc = next((c["trc"] for c in r if c.get("trc")), "")
+    return (f'<tr class="{trc}">' if trc else "<tr>") + "".join(_cp_td(c) for c in r) + "</tr>"
+
+
 def _cp_sec(x):
     if x.get("flow"):
         return _flow()
     if x.get("table"):
         head, *body = x["table"]
         tb = ('<div class="tw"><table class="wt cpa ' + x.get("cls", "") + '"><tr>' + "".join(f'<th>{t(c["ja"], c["en"])}</th>' for c in head) + "</tr>"
-              + "".join("<tr>" + "".join(_cp_td(c) for c in r) + "</tr>" for r in body) + "</table></div>")
+              + "".join(_cp_tr(r) for r in body) + "</table></div>")
         nt = x.get("notes")
         if nt:
             tb += ('<ul class="cp-nt">' + "".join(f'<li>{t(a, e)}</li>' for a, e in zip(nt["ja"], nt["en"])) + '</ul>')

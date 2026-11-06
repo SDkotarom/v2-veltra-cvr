@@ -561,3 +561,9 @@ table.cpa.cmp2 th+th{border-left:1px solid var(--line)}
 /* 旧版（折りたたみ） */
 details.cp-arc>summary{cursor:pointer;color:var(--ink-3)}
 details.cp-arc[open]>summary{margin-bottom:8px}
+/* 比較表：今回の変更点の行を強調（全周の枠＋薄い青。左罫線だけの強調はしない） */
+table.cpa.cmp2 tr.cp-focus td{box-shadow:inset 0 2px 0 var(--brand),inset 0 -2px 0 var(--brand)}
+table.cpa.cmp2 tr.cp-focus td:first-child{box-shadow:inset 2px 0 0 var(--brand),inset 0 2px 0 var(--brand),inset 0 -2px 0 var(--brand)}
+table.cpa.cmp2 tr.cp-focus td:last-child{box-shadow:inset -2px 0 0 var(--brand),inset 0 2px 0 var(--brand),inset 0 -2px 0 var(--brand)}
+table.cpa.cmp2 tr.cp-focus td{background:color-mix(in srgb,var(--brand) 12%,var(--surface))}
+.cp-tag{display:inline-block;margin-top:6px;padding:2px 6px;white-space:nowrap;border-radius:999px;background:var(--brand-ink);color:#fff;font-size:11.5px;font-weight:700}
