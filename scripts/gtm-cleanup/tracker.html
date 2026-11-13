@@ -204,13 +204,13 @@ const STEPS = [
 <ul><li>列：タグ名／目的／発火トリガー／送信先／最終更新日</li><li>停止候補として抜き出すもの：一時停止中のタグ、トリガーが付いていないタグ、旧 GA（ユニバーサル アナリティクス）のタグ、同じ測定 ID への重複送信</li></ul>`},
   {id:"s03", title:"本番の代表3ページを計測する", owner:"牧野（ローカルで実行）", tickets:["UX_DESIGN-301","UX_DESIGN-303"],
    how:`<p>タグを止める前の基準値になる。止めた後（手順7）も同じ条件で測る。</p>
-<p class="lbl">前提</p>
-<p>ローカルの PC に Node.js が入っていること。</p>
-<p class="lbl">実行するコマンド（ページごと）</p>
-<pre>npx lighthouse https://www.veltra.com/jp/ --only-categories=performance --output=json --output-path=./lh-top.json --chrome-flags="--headless"
-npx lighthouse https://www.veltra.com/jp/japan/tokyo/a/160690 --only-categories=performance --output=json --output-path=./lh-ac.json --chrome-flags="--headless"
-npx lighthouse "https://www.veltra.com/jp/search?kw=tokyo" --only-categories=performance --output=json --output-path=./lh-search.json --chrome-flags="--headless"</pre>
-<p>できた3つの JSON を手順1と同じフォルダーに置く。</p>`},
+<p class="lbl">方法</p>
+<p>Chrome に入っている Lighthouse（デベロッパー ツール）で測る。追加のインストールはいらない。</p>
+<p class="lbl">対象の3ページ</p>
+<ul><li>https://www.veltra.com/jp/</li><li>https://www.veltra.com/jp/japan/tokyo/a/160690</li><li>https://www.veltra.com/jp/search?kw=tokyo</li></ul>
+<p class="lbl">1ページごとの手順</p>
+<ol><li>Chrome で対象のページを開く</li><li>Command + Option + I を1回押して、デベロッパー ツールを開く</li><li>ツール上部の「Lighthouse」タブをクリックする</li><li>「モード」は「ナビゲーション」、「デバイス」は「モバイル」、「カテゴリ」は「パフォーマンス」だけにチェックを入れる</li><li>「ページ読み込みを分析」ボタンを1回押す</li><li>結果が表示されたら、右上の縦三点メニューから JSON で保存する</li></ol>
+<p>3つの JSON を手順1と同じフォルダーに置く。</p>`},
   {id:"s04", title:"ソースからタグの読み込み箇所を洗い出す", owner:"牧野（ローカルで実行）", tickets:["UX_DESIGN-399","UX_DESIGN-422","UX_DESIGN-398"],
    how:`<p>veltra.com のソースのいちばん上のフォルダーで実行する。GTM を通さずに直接読み込んでいるタグを見つけるため。</p>
 <pre>grep -rnE "googletagmanager|GTM-[A-Z0-9]+" --exclude-dir=node_modules --exclude-dir=vendor --exclude-dir=.git . > tags-gtm.txt
