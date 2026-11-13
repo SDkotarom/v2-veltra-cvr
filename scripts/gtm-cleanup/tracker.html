@@ -9,7 +9,7 @@
   --accent:#2f5d9e; --accent-soft:#e8eef8;
   --done:#1f7a4d; --done-bg:#e3f3ea; --doing:#2f5d9e; --doing-bg:#e8eef8;
   --wait:#9a5b00; --wait-bg:#fbf0dc; --todo:#5b6475; --todo-bg:#eef0f4;
-  --code-bg:#f0f2f6;
+  --code-bg:#f0f2f6; --stop:#b3362f; --stop-bg:#fbe7e5;
   --f-body:"Noto Sans JP","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
 }
@@ -18,13 +18,13 @@
   --accent:#8db4ef; --accent-soft:#1f2b3d;
   --done:#6fd3a0; --done-bg:#183326; --doing:#8db4ef; --doing-bg:#1f2b3d;
   --wait:#f0b45a; --wait-bg:#3a2a12; --todo:#9aa3b2; --todo-bg:#232a35;
-  --code-bg:#222935; color-scheme:dark}}
+  --code-bg:#222935; --stop:#f19a92; --stop-bg:#3d1d1a; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#12161d; --surface:#1a2029; --fg:#e4e8ef; --muted:#9aa3b2; --line:#2e3644;
   --accent:#8db4ef; --accent-soft:#1f2b3d;
   --done:#6fd3a0; --done-bg:#183326; --doing:#8db4ef; --doing-bg:#1f2b3d;
   --wait:#f0b45a; --wait-bg:#3a2a12; --todo:#9aa3b2; --todo-bg:#232a35;
-  --code-bg:#222935; color-scheme:dark}
+  --code-bg:#222935; --stop:#f19a92; --stop-bg:#3d1d1a; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.7}
 .wrap{max-width:980px;margin:0 auto;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:28px}
 h1{font-size:26px;line-height:1.35;margin:0;text-wrap:balance}
@@ -71,6 +71,19 @@ th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);verti
 th{font-size:13px;color:var(--muted);font-weight:700;white-space:nowrap}
 td.d{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--muted)}
 .empty{color:var(--muted);font-size:14px}
+.inv{display:grid;gap:12px}
+.inv h2{margin:0}
+.b-stop{color:var(--stop);background:var(--stop-bg)}
+.b-check{color:var(--wait);background:var(--wait-bg)}
+.b-keep{color:var(--done);background:var(--done-bg)}
+td.g{min-width:16em}
+td.n{white-space:nowrap;font-variant-numeric:tabular-nums;text-align:right}
+.all>summary{cursor:pointer;font-weight:700}
+.all-in{display:grid;gap:10px;margin-top:12px}
+.srch{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14px}
+.srch input{flex:1 1 240px;min-width:0;font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--fg)}
+.all .tbl{max-height:70vh;overflow:auto}
+.all table{font-size:13px}
 @media (max-width:560px){
   .step>summary{grid-template-columns:1.8em 1fr;}
   .step>summary .badge{grid-column:2;justify-self:start}
@@ -109,6 +122,34 @@ td.d{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--muted)}
       </div>
     </div>
     <p class="notice" id="notice" hidden></p>
+  </section>
+
+  <section aria-labelledby="h-inv" class="inv">
+    <h2 id="h-inv">タグの現状</h2>
+    <p class="sub" id="inv-src">GTM コンテナの書き出しから集計</p>
+    <div class="box summary" id="inv-sum">
+      <div class="stat"><span class="k">タグ数</span><span class="v" id="inv-total">–</span></div>
+      <div class="stat"><span class="k">停止候補（推定）</span><span class="v" id="inv-stop">–</span></div>
+      <div class="stat"><span class="k">要確認</span><span class="v" id="inv-check">–</span></div>
+      <div class="stat"><span class="k">維持の見込み</span><span class="v" id="inv-keep">–</span></div>
+    </div>
+    <p class="notice">「推定」はタグ名・フォルダ名・最終更新日からの推定で、用途は確認していない。止める前に、手順6で担当者に確認する。</p>
+    <div class="box tbl">
+      <table>
+        <thead><tr><th>サービス</th><th>分類</th><th>件数</th><th>一時停止</th><th>最終更新</th><th>推定</th><th>見立て</th></tr></thead>
+        <tbody id="inv-groups"><tr><td colspan="7" class="empty">読み込み中</td></tr></tbody>
+      </table>
+    </div>
+    <details class="box all">
+      <summary>全タグの一覧を開く</summary>
+      <div class="all-in">
+        <label class="srch"><span>絞り込み</span><input id="inv-q" type="search" placeholder="タグ名・サービス・送信先で絞り込む"></label>
+        <div class="tbl"><table>
+          <thead><tr><th>タグ名</th><th>サービス</th><th>種類</th><th>送信先</th><th>発火トリガー</th><th>状態</th><th>最終更新</th></tr></thead>
+          <tbody id="inv-tags"><tr><td colspan="7" class="empty">読み込み中</td></tr></tbody>
+        </table></div>
+      </div>
+    </details>
   </section>
 
   <section aria-labelledby="h-steps">
@@ -216,6 +257,27 @@ function render(){
   lb.innerHTML = logRows.length ? logRows.map(r => `<tr><td class="d">${esc(r.date)}</td><td>${esc(r.text)}</td></tr>`).join("")
     : `<tr><td colspan="2" class="empty">まだ記録はありません</td></tr>`;
 }
+const VD = {stop:"停止候補（推定）", check:"要確認", keep:"維持の見込み"};
+let inv = null, invRows = null, label = {};
+function renderInv(){
+  if (inv) {
+    const gs = inv.groups || [];
+    label = {}; gs.forEach(g => label[g.key] = g.label);
+    const sum = v => gs.filter(g => g.verdict === v).reduce((a,g) => a + g.count, 0);
+    document.getElementById("inv-total").textContent = gs.reduce((a,g) => a + g.count, 0);
+    document.getElementById("inv-stop").textContent = sum("stop");
+    document.getElementById("inv-check").textContent = sum("check");
+    document.getElementById("inv-keep").textContent = sum("keep");
+    document.getElementById("inv-groups").innerHTML = gs.map(g => `<tr><td class="g"><b>${esc(g.label)}</b></td><td>${esc(g.category)}</td><td class="n">${g.count}</td><td class="n">${g.paused||"–"}</td><td class="d">${esc(g.last)}</td><td>${esc(g.guess)}</td><td><span class="badge b-${esc(g.verdict)}">${VD[g.verdict]||""}</span></td></tr>`).join("");
+  }
+  if (invRows) {
+    document.getElementById("inv-src").textContent = `GTM コンテナ ${invRows.container}（バージョン ${invRows.version}、${invRows.exported} 書き出し）から集計`;
+    const q = (document.getElementById("inv-q").value || "").trim().toLowerCase();
+    const rs = (invRows.rows || []).filter(r => !q || [r[0], label[r[8]]||"", r[3], r[1]].join(" ").toLowerCase().includes(q));
+    document.getElementById("inv-tags").innerHTML = rs.length ? rs.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(label[r[8]]||"")}</td><td>${esc(r[1])}</td><td>${esc(r[3])}</td><td>${esc(r[4])}</td><td>${esc(r[5])}</td><td class="d">${esc(r[6])}</td></tr>`).join("") : `<tr><td colspan="7" class="empty">該当するタグはありません</td></tr>`;
+  }
+}
+document.getElementById("inv-q").addEventListener("input", renderInv);
 function note(t){ const n=document.getElementById("notice"); n.textContent=t; n.hidden=!t; }
 render();
 
@@ -228,6 +290,8 @@ render();
   const fail = () => { clearTimeout(timer); note("進捗データを読み込めませんでした。手順の内容はこのまま参照できます。"); };
   db.collection("steps").onSnapshot(s => { state = {}; s.docs.forEach(d => state[d.id] = d.data()); ok(s); render(); }, fail);
   db.doc("meta/summary").onSnapshot(d => { meta = d.exists ? d.data() : null; render(); }, fail);
+  db.doc("inventory/groups").onSnapshot(d => { inv = d.exists ? d.data() : null; renderInv(); }, fail);
+  db.doc("inventory/tags").onSnapshot(d => { invRows = d.exists ? d.data() : null; renderInv(); }, fail);
   db.collection("log").orderBy("order","desc").limit(200).onSnapshot(s => { logRows = s.docs.map(d => d.data()); render(); }, fail);
 })();
 })();
