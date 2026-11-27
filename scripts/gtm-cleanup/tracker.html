@@ -1,0 +1,298 @@
+<title>GTM タグ整理 進捗</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column; summary band, then step list (each step expands to its procedure), then tickets and log */
+:root{
+  --bg:#f7f8fa; --surface:#ffffff; --fg:#1d2433; --muted:#5b6475; --line:#d9dee7;
+  --accent:#2f5d9e; --accent-soft:#e8eef8;
+  --done:#1f7a4d; --done-bg:#e3f3ea; --doing:#2f5d9e; --doing-bg:#e8eef8;
+  --wait:#9a5b00; --wait-bg:#fbf0dc; --todo:#5b6475; --todo-bg:#eef0f4;
+  --code-bg:#f0f2f6; --stop:#b3362f; --stop-bg:#fbe7e5;
+  --f-body:"Noto Sans JP","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12161d; --surface:#1a2029; --fg:#e4e8ef; --muted:#9aa3b2; --line:#2e3644;
+  --accent:#8db4ef; --accent-soft:#1f2b3d;
+  --done:#6fd3a0; --done-bg:#183326; --doing:#8db4ef; --doing-bg:#1f2b3d;
+  --wait:#f0b45a; --wait-bg:#3a2a12; --todo:#9aa3b2; --todo-bg:#232a35;
+  --code-bg:#222935; --stop:#f19a92; --stop-bg:#3d1d1a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161d; --surface:#1a2029; --fg:#e4e8ef; --muted:#9aa3b2; --line:#2e3644;
+  --accent:#8db4ef; --accent-soft:#1f2b3d;
+  --done:#6fd3a0; --done-bg:#183326; --doing:#8db4ef; --doing-bg:#1f2b3d;
+  --wait:#f0b45a; --wait-bg:#3a2a12; --todo:#9aa3b2; --todo-bg:#232a35;
+  --code-bg:#222935; --stop:#f19a92; --stop-bg:#3d1d1a; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.7}
+.wrap{max-width:980px;margin:0 auto;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:28px}
+h1{font-size:26px;line-height:1.35;margin:0;text-wrap:balance}
+h2{font-size:18px;margin:0 0 12px;text-wrap:balance}
+p{margin:0}
+a{color:var(--accent)}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.sub{color:var(--muted);font-size:14px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.head{display:grid;gap:10px}
+.purpose{display:grid;gap:8px;max-width:68ch}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.stat{display:grid;gap:4px}
+.stat .k{font-size:13px;color:var(--muted);letter-spacing:.04em}
+.stat .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.stat .v small{font-size:14px;font-weight:500;color:var(--muted)}
+.bar{height:8px;background:var(--todo-bg);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--done);width:0}
+.next{display:grid;gap:4px}
+.next .k{font-size:13px;color:var(--muted);letter-spacing:.04em}
+.notice{font-size:13px;color:var(--muted)}
+.steps{display:grid;gap:10px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.step>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:2.2em 1fr auto;gap:12px;align-items:start;padding:14px 16px}
+.step>summary::-webkit-details-marker{display:none}
+.no{font-family:var(--f-mono);font-size:14px;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+.st-main{display:grid;gap:4px;min-width:0}
+.st-title{font-weight:700}
+.st-meta{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
+.st-note{font-size:14px}
+.badge{font-size:13px;font-weight:700;padding:2px 10px;border-radius:999px;white-space:nowrap}
+.b-done{color:var(--done);background:var(--done-bg)}
+.b-doing{color:var(--doing);background:var(--doing-bg)}
+.b-wait{color:var(--wait);background:var(--wait-bg)}
+.b-todo{color:var(--todo);background:var(--todo-bg)}
+.how{border-top:1px solid var(--line);padding:14px 16px 16px calc(16px + 2.2em + 12px);display:grid;gap:10px;min-width:0}
+.how ol,.how ul{margin:0;padding-left:1.4em;display:grid;gap:4px}
+.how .lbl{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+pre{margin:0;background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow-x:auto;font-family:var(--f-mono);font-size:13px;line-height:1.6;white-space:pre}
+code{font-family:var(--f-mono);font-size:13px;background:var(--code-bg);padding:0 4px;border-radius:4px}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;color:var(--muted);font-weight:700;white-space:nowrap}
+td.d{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--muted)}
+.empty{color:var(--muted);font-size:14px}
+.inv{display:grid;gap:12px}
+.inv h2{margin:0}
+.b-stop{color:var(--stop);background:var(--stop-bg)}
+.b-check{color:var(--wait);background:var(--wait-bg)}
+.b-keep{color:var(--done);background:var(--done-bg)}
+td.g{min-width:16em}
+td.n{white-space:nowrap;font-variant-numeric:tabular-nums;text-align:right}
+.all>summary{cursor:pointer;font-weight:700}
+.all-in{display:grid;gap:10px;margin-top:12px}
+.srch{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14px}
+.srch input{flex:1 1 240px;min-width:0;font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--fg)}
+.all .tbl{max-height:70vh;overflow:auto}
+.all table{font-size:13px}
+@media (max-width:560px){
+  .step>summary{grid-template-columns:1.8em 1fr;}
+  .step>summary .badge{grid-column:2;justify-self:start}
+  .how{padding-left:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="head">
+    <h1>GTM タグ整理 進捗</h1>
+    <p class="sub">親チケット <a href="https://app.clickup.com/t/31108037/UX_DESIGN-305" target="_blank" rel="noopener">UX_DESIGN-305 GTMダイエット本格実施</a>　/　ClickUp：UX Design Squad ＞ web-performance</p>
+  </header>
+
+  <section class="box purpose" aria-labelledby="h-purpose">
+    <h2 id="h-purpose">目的</h2>
+    <p>Veltra のサイトには、GTM（Google タグマネージャー）経由で広告・計測のタグが多数読み込まれている。用途が分からないまま残っているタグもあり、表示や操作の重さにつながっている。</p>
+    <p>タグを棚卸しし、不要なものを止め、残すものは読み込み方を見直す。どのタグが何の情報をどこへ送っているかを一覧にすることは、個人情報の取り扱いと規約対応の確認にも使える。</p>
+  </section>
+
+  <section aria-labelledby="h-sum">
+    <h2 id="h-sum" class="sr">現在の状況</h2>
+    <div class="box summary">
+      <div class="stat">
+        <span class="k">完了した手順</span>
+        <span class="v" id="sum-done">– <small>/ 9</small></span>
+        <div class="bar" aria-hidden="true"><i id="sum-bar"></i></div>
+      </div>
+      <div class="next">
+        <span class="k">次にやること</span>
+        <span id="sum-next">読み込み中</span>
+      </div>
+      <div class="next">
+        <span class="k">最終更新</span>
+        <span id="sum-updated">–</span>
+      </div>
+    </div>
+    <p class="notice" id="notice" hidden></p>
+  </section>
+
+  <section aria-labelledby="h-inv" class="inv">
+    <h2 id="h-inv">タグの現状</h2>
+    <p class="sub" id="inv-src">GTM コンテナの書き出しから集計</p>
+    <div class="box summary" id="inv-sum">
+      <div class="stat"><span class="k">タグ数</span><span class="v" id="inv-total">–</span></div>
+      <div class="stat"><span class="k">停止候補（推定）</span><span class="v" id="inv-stop">–</span></div>
+      <div class="stat"><span class="k">要確認</span><span class="v" id="inv-check">–</span></div>
+      <div class="stat"><span class="k">維持の見込み</span><span class="v" id="inv-keep">–</span></div>
+    </div>
+    <p class="notice">「推定」はタグ名・フォルダ名・最終更新日からの推定で、用途は確認していない。止める前に、手順6で担当者に確認する。</p>
+    <div class="box tbl">
+      <table>
+        <thead><tr><th>サービス</th><th>分類</th><th>件数</th><th>一時停止</th><th>最終更新</th><th>推定</th><th>見立て</th></tr></thead>
+        <tbody id="inv-groups"><tr><td colspan="7" class="empty">読み込み中</td></tr></tbody>
+      </table>
+    </div>
+    <details class="box all">
+      <summary>全タグの一覧を開く</summary>
+      <div class="all-in">
+        <label class="srch"><span>絞り込み</span><input id="inv-q" type="search" placeholder="タグ名・サービス・送信先で絞り込む"></label>
+        <div class="tbl"><table>
+          <thead><tr><th>タグ名</th><th>サービス</th><th>種類</th><th>送信先</th><th>発火トリガー</th><th>状態</th><th>最終更新</th></tr></thead>
+          <tbody id="inv-tags"><tr><td colspan="7" class="empty">読み込み中</td></tr></tbody>
+        </table></div>
+      </div>
+    </details>
+  </section>
+
+  <section aria-labelledby="h-steps">
+    <h2 id="h-steps">手順</h2>
+    <div class="steps" id="steps"></div>
+  </section>
+
+  <section aria-labelledby="h-tickets">
+    <h2 id="h-tickets">対象チケット</h2>
+    <div class="box tbl">
+      <table>
+        <thead><tr><th>チケット</th><th>内容</th><th>関係する手順</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-305" target="_blank" rel="noopener">UX_DESIGN-305</a>（親）</td><td>GTMダイエット本格実施（未使用整理・統合）</td><td>9</td></tr>
+          <tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-301" target="_blank" rel="noopener">UX_DESIGN-301</a></td><td>GTMタグ別 処理時間の棚卸し</td><td>1・2・3・5</td></tr>
+          <tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-303" target="_blank" rel="noopener">UX_DESIGN-303</a></td><td>明らかに不要なGTMタグの停止</td><td>6・7</td></tr>
+          <tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-399" target="_blank" rel="noopener">UX_DESIGN-399</a></td><td>共通: i-mobile 同期スクリプトの async 化</td><td>4・8</td></tr>
+          <tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-422" target="_blank" rel="noopener">UX_DESIGN-422</a></td><td>第三者タグの条件付き読み込み</td><td>4・8</td></tr>
+          <tr><td><a href="https://app.clickup.com/t/31108037/UX_DESIGN-398" target="_blank" rel="noopener">UX_DESIGN-398</a></td><td>共通: VWOアンチフリッカーの縮小（VWO は継続利用）</td><td>4・6・8</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-log">
+    <h2 id="h-log">更新履歴</h2>
+    <div class="box tbl">
+      <table>
+        <thead><tr><th>日付</th><th>内容</th></tr></thead>
+        <tbody id="log"><tr><td colspan="2" class="empty">読み込み中</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<style>.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}</style>
+
+<script>
+(function(){
+const STEPS = [
+  {id:"s01", title:"GTM コンテナを書き出す", owner:"牧野", tickets:["UX_DESIGN-301"],
+   how:`<p class="lbl">手順（Google の公式ヘルプの流れ）</p>
+<ol><li>GTM で対象のコンテナを開く</li><li>上部メニューの「管理」を開く</li><li>「コンテナ」欄の「コンテナをエクスポート」を選ぶ</li><li>書き出す対象に「公開中のバージョン」を選び、JSON をダウンロードする</li></ol>
+<p class="lbl">対象のコンテナ</p>
+<p>2024年11月の調査では GTM-PR9DFLL・GTM-T7BBZVFM・GTM-5KFX5VX の3つ。今も3つかは GTM のアカウント一覧で確認する。</p>
+<p class="lbl">置き場所</p>
+<p>ファイルにはタグの設定と各サービスの ID が入る。共有範囲を絞ったドライブのフォルダーに置く。Slack やチャットには貼らない。</p>
+<p class="lbl">参考</p>
+<p><a href="https://support.google.com/tagmanager/answer/6106997?hl=ja" target="_blank" rel="noopener">コンテナのエクスポートとインポート（Tag Manager ヘルプ）</a></p>`},
+  {id:"s02", title:"「GTM棚卸し」タブの下書きを作る", owner:"Claude", tickets:["UX_DESIGN-301"],
+   how:`<p>手順1の JSON からタグを一覧にし、計測シートに「GTM棚卸し」タブを作る。</p>
+<ul><li>列：タグ名／目的／発火トリガー／送信先／最終更新日</li><li>停止候補として抜き出すもの：一時停止中のタグ、トリガーが付いていないタグ、旧 GA（ユニバーサル アナリティクス）のタグ、同じ測定 ID への重複送信</li></ul>`},
+  {id:"s03", title:"本番の代表3ページを計測する", owner:"牧野（ローカルで実行）", tickets:["UX_DESIGN-301","UX_DESIGN-303"],
+   how:`<p>タグを止める前の基準値になる。止めた後（手順7）も同じ条件で測る。</p>
+<p class="lbl">方法</p>
+<p>Chrome に入っている Lighthouse（デベロッパー ツール）で測る。追加のインストールはいらない。</p>
+<p class="lbl">対象の3ページ</p>
+<ul><li>https://www.veltra.com/jp/</li><li>https://www.veltra.com/jp/japan/tokyo/a/160690</li><li>https://www.veltra.com/jp/search?kw=tokyo</li></ul>
+<p class="lbl">1ページごとの手順</p>
+<ol><li>Chrome で対象のページを開く</li><li>Command + Option + I を1回押して、デベロッパー ツールを開く</li><li>ツール上部の「Lighthouse」タブをクリックする</li><li>「モード」は「ナビゲーション」、「デバイス」は「モバイル」、「カテゴリ」は「パフォーマンス」だけにチェックを入れる</li><li>「ページ読み込みを分析」ボタンを1回押す</li><li>結果が表示されたら、右上の縦三点メニューから JSON で保存する</li></ol>
+<p>3つの JSON を手順1と同じフォルダーに置く。</p>`},
+  {id:"s04", title:"ソースからタグの読み込み箇所を洗い出す", owner:"牧野（ローカルで実行）", tickets:["UX_DESIGN-399","UX_DESIGN-422","UX_DESIGN-398"],
+   how:`<p>veltra.com のソースのいちばん上のフォルダーで実行する。GTM を通さずに直接読み込んでいるタグを見つけるため。</p>
+<pre>grep -rnE "googletagmanager|GTM-[A-Z0-9]+" --exclude-dir=node_modules --exclude-dir=vendor --exclude-dir=.git . > tags-gtm.txt
+grep -rnE "i-mobile|im-apps|imobile" --exclude-dir=node_modules --exclude-dir=vendor --exclude-dir=.git . > tags-imobile.txt
+grep -rnE "visualwebsiteoptimizer|_vwo_code|_vwo" --exclude-dir=node_modules --exclude-dir=vendor --exclude-dir=.git . > tags-vwo.txt</pre>
+<p>できた3つのテキストファイルを手順1と同じフォルダーに置く。</p>`},
+  {id:"s05", title:"「GTM棚卸し」タブを仕上げて分類する", owner:"Claude", tickets:["UX_DESIGN-301"],
+   how:`<p>手順2・3・4を合わせて、各タグを「停止／統合／遅延読込／維持」に分け、理由を書く。ここで UX_DESIGN-301 の完了条件を満たす。</p>`},
+  {id:"s06", title:"止めてよいかを担当者に確認する", owner:"牧野（質問文は Claude）", tickets:["UX_DESIGN-303","UX_DESIGN-398"],
+   how:`<ul><li>用途が分からないタグ：広告運用の担当者に、使っているかどうかを確認する</li><li>VWO：利用は続ける。アンチフリッカー（ページを最大2秒隠す設定）をどこまで縮めるかをマーケと決める</li></ul>`},
+  {id:"s07", title:"不要なタグを止めて、前後を比べる", owner:"GTM の公開権限を持つ人", tickets:["UX_DESIGN-303"],
+   how:`<ul><li>止める前に、手順1の JSON を戻し用の控えとして残しておく</li><li>止めてよいと分かったタグを GTM で一時停止し、公開する</li><li>手順3と同じ条件で計測し直し、比べる。GA4 で主要な計測イベントが減っていないかも確認する</li></ul>`},
+  {id:"s08", title:"コード側の修正を依頼する", owner:"エンジニア（依頼文は Claude）", tickets:["UX_DESIGN-399","UX_DESIGN-422","UX_DESIGN-398"],
+   how:`<p>手順4の結果をもとに、どのファイルのどの読み込みをどう変えるかを書いて依頼する。</p>`},
+  {id:"s09", title:"コンテナを1つにまとめられるか判断する", owner:"未定", tickets:["UX_DESIGN-305"],
+   how:`<p>過去の調査 SEO-178（GTM スクリプトの統合、クローズ済み）の結論を読むところから始める。</p>`}
+];
+const LABEL = {done:"完了", doing:"進行中", wait:"確認待ち", todo:"未着手"};
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const link = id => `<a href="https://app.clickup.com/t/31108037/${id}" target="_blank" rel="noopener">${id}</a>`;
+let state = {}, meta = null, logRows = null;
+
+function render(){
+  const box = document.getElementById("steps");
+  box.innerHTML = STEPS.map((s,i) => {
+    const st = state[s.id] || {};
+    const k = LABEL[st.status] ? st.status : "todo";
+    return `<details class="step" id="${s.id}"><summary>
+      <span class="no">${i+1}</span>
+      <span class="st-main"><span class="st-title">${esc(s.title)}</span>
+        <span class="st-meta"><span>担当：${esc(s.owner)}</span><span>${s.tickets.map(link).join("・")}</span>${st.updated?`<span>更新：${esc(st.updated)}</span>`:""}</span>
+        ${st.note?`<span class="st-note">${esc(st.note)}</span>`:""}</span>
+      <span class="badge b-${k}">${LABEL[k]}</span></summary>
+      <div class="how">${s.how}</div></details>`;
+  }).join("");
+  const done = STEPS.filter(s => (state[s.id]||{}).status === "done").length;
+  document.getElementById("sum-done").innerHTML = `${done} <small>/ ${STEPS.length}</small>`;
+  document.getElementById("sum-bar").style.width = (done/STEPS.length*100)+"%";
+  const nxt = STEPS.findIndex(s => (state[s.id]||{}).status !== "done");
+  document.getElementById("sum-next").textContent = meta && meta.next ? meta.next : (nxt>=0 ? `${nxt+1}. ${STEPS[nxt].title}` : "すべて完了");
+  document.getElementById("sum-updated").textContent = meta && meta.updated ? meta.updated : "–";
+  const lb = document.getElementById("log");
+  if (logRows === null) return;
+  lb.innerHTML = logRows.length ? logRows.map(r => `<tr><td class="d">${esc(r.date)}</td><td>${esc(r.text)}</td></tr>`).join("")
+    : `<tr><td colspan="2" class="empty">まだ記録はありません</td></tr>`;
+}
+const VD = {stop:"停止候補（推定）", check:"要確認", keep:"維持の見込み"};
+let inv = null, invRows = null, label = {};
+function renderInv(){
+  if (inv) {
+    const gs = inv.groups || [];
+    label = {}; gs.forEach(g => label[g.key] = g.label);
+    const sum = v => gs.filter(g => g.verdict === v).reduce((a,g) => a + g.count, 0);
+    document.getElementById("inv-total").textContent = gs.reduce((a,g) => a + g.count, 0);
+    document.getElementById("inv-stop").textContent = sum("stop");
+    document.getElementById("inv-check").textContent = sum("check");
+    document.getElementById("inv-keep").textContent = sum("keep");
+    document.getElementById("inv-groups").innerHTML = gs.map(g => `<tr><td class="g"><b>${esc(g.label)}</b></td><td>${esc(g.category)}</td><td class="n">${g.count}</td><td class="n">${g.paused||"–"}</td><td class="d">${esc(g.last)}</td><td>${esc(g.guess)}</td><td><span class="badge b-${esc(g.verdict)}">${VD[g.verdict]||""}</span></td></tr>`).join("");
+  }
+  if (invRows) {
+    document.getElementById("inv-src").textContent = `GTM コンテナ ${invRows.container}（バージョン ${invRows.version}、${invRows.exported} 書き出し）から集計`;
+    const q = (document.getElementById("inv-q").value || "").trim().toLowerCase();
+    const rs = (invRows.rows || []).filter(r => !q || [r[0], label[r[8]]||"", r[3], r[1]].join(" ").toLowerCase().includes(q));
+    document.getElementById("inv-tags").innerHTML = rs.length ? rs.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(label[r[8]]||"")}</td><td>${esc(r[1])}</td><td>${esc(r[3])}</td><td>${esc(r[4])}</td><td>${esc(r[5])}</td><td class="d">${esc(r[6])}</td></tr>`).join("") : `<tr><td colspan="7" class="empty">該当するタグはありません</td></tr>`;
+  }
+}
+document.getElementById("inv-q").addEventListener("input", renderInv);
+function note(t){ const n=document.getElementById("notice"); n.textContent=t; n.hidden=!t; }
+render();
+
+(async () => {
+  const db = window.claude && window.claude.use ? await window.claude.use("db") : null;
+  if (!db) { note("進捗データを読み込めませんでした。手順の内容はこのまま参照できます。"); logRows=[]; render(); return; }
+  let got = false;
+  const timer = setTimeout(() => { if (!got) note("進捗データにまだ接続できていません。表示が古い可能性があります。"); }, 10000);
+  const ok = s => { if (!s.metadata.fromCache) { got = true; clearTimeout(timer); note(""); } };
+  const fail = () => { clearTimeout(timer); note("進捗データを読み込めませんでした。手順の内容はこのまま参照できます。"); };
+  db.collection("steps").onSnapshot(s => { state = {}; s.docs.forEach(d => state[d.id] = d.data()); ok(s); render(); }, fail);
+  db.doc("meta/summary").onSnapshot(d => { meta = d.exists ? d.data() : null; render(); }, fail);
+  db.doc("inventory/groups").onSnapshot(d => { inv = d.exists ? d.data() : null; renderInv(); }, fail);
+  db.doc("inventory/tags").onSnapshot(d => { invRows = d.exists ? d.data() : null; renderInv(); }, fail);
+  db.collection("log").orderBy("order","desc").limit(200).onSnapshot(s => { logRows = s.docs.map(d => d.data()); render(); }, fail);
+})();
+})();
+</script>

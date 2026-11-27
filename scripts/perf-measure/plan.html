@@ -1,0 +1,144 @@
+<title>キャッシュ改善 効果計測</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column; summary, then sections in the order the work happens (before release -> after release -> evaluation) */
+:root{
+  --bg:#f7f8fa; --surface:#fff; --fg:#1d2433; --muted:#5b6475; --line:#d9dee7;
+  --accent:#2f5d9e; --ok:#1f7a4d; --ok-bg:#e3f3ea; --warn:#9a5b00; --warn-bg:#fbf0dc; --todo:#5b6475; --todo-bg:#eef0f4;
+  --code-bg:#f0f2f6;
+  --f-body:"Noto Sans JP","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12161d; --surface:#1a2029; --fg:#e4e8ef; --muted:#9aa3b2; --line:#2e3644;
+  --accent:#8db4ef; --ok:#6fd3a0; --ok-bg:#183326; --warn:#f0b45a; --warn-bg:#3a2a12; --todo:#9aa3b2; --todo-bg:#232a35;
+  --code-bg:#222935; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161d; --surface:#1a2029; --fg:#e4e8ef; --muted:#9aa3b2; --line:#2e3644;
+  --accent:#8db4ef; --ok:#6fd3a0; --ok-bg:#183326; --warn:#f0b45a; --warn-bg:#3a2a12; --todo:#9aa3b2; --todo-bg:#232a35;
+  --code-bg:#222935; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.7}
+.wrap{max-width:980px;margin:0 auto;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:28px}
+h1{font-size:26px;line-height:1.35;margin:0;text-wrap:balance}
+h2{font-size:18px;margin:0 0 10px}
+h3{font-size:15px;margin:0 0 6px}
+p{margin:0}
+a{color:var(--accent)}
+.sub{color:var(--muted);font-size:14px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:grid;gap:10px;min-width:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+ul,ol{margin:0;padding-left:1.4em;display:grid;gap:4px}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;color:var(--muted);white-space:nowrap}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.badge{font-size:13px;font-weight:700;padding:2px 10px;border-radius:999px;white-space:nowrap;display:inline-block}
+.b-ok{color:var(--ok);background:var(--ok-bg)}
+.b-warn{color:var(--warn);background:var(--warn-bg)}
+.b-todo{color:var(--todo);background:var(--todo-bg)}
+code{font-family:var(--f-mono);font-size:13px;background:var(--code-bg);padding:0 4px;border-radius:4px}
+.note{font-size:13px;color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:8px">
+    <h1>キャッシュ改善 効果計測</h1>
+    <p class="sub">対象リリース：カテゴリー・検索のキャッシュ改善（本番 12/2（水）予定）　/　関連チケット <a href="https://app.clickup.com/t/31108037/UX_DESIGN-390" target="_blank" rel="noopener">UX_DESIGN-390</a></p>
+  </header>
+
+  <section class="box">
+    <h2>目的</h2>
+    <ul>
+      <li>リリースで「速くなった」ことを、動画と数字の両方で示す</li>
+      <li>速くなった結果、Traveler の動きがどう変わったかを、CVR より手前の指標で見る（一覧からAC詳細へ進む割合、2ページ目へ進む割合など）</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>比べ方</h2>
+    <div class="grid">
+      <div class="box"><h3>前後比較</h3><p>リリース前（11/4〜12/1）とリリース後（12/3〜12/30）を、曜日をそろえて比べる。</p></div>
+      <div class="box"><h3>変えていないページとの比較</h3><p>今回変わるのはエリア版カテゴリー（type B）。全国版カテゴリー（type A）は変わらないので、同じ期間の動きと比べる。12月は繁忙期で数字が全体に動くため、その影響をここで差し引く。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>対象ページ</h2>
+    <div class="box tbl">
+      <table>
+        <thead><tr><th>ページ</th><th>区分</th><th>PV（28日）</th><th>使い方</th></tr></thead>
+        <tbody>
+          <tr><td>京都 バスツアー<br><code>/jp/japan/kyoto/ctg/7185:Bus_Tours/</code></td><td>エリア版（変わる）</td><td class="n">23,668</td><td>動画・数値・行動</td></tr>
+          <tr><td>東京 屋形船<br><code>/jp/japan/tokyo/ctg/183551:Yakatabune/</code></td><td>エリア版（変わる）</td><td class="n">7,981</td><td>動画・数値（毎日の PSI 計測と同じページ）</td></tr>
+          <tr><td>京都 バスツアー 2ページ目<br><code>/jp/japan/kyoto/ctg/7185:Bus_Tours/page:2/</code></td><td>エリア版 2ページ目（変わる）</td><td class="n">225 以上</td><td>動画・数値</td></tr>
+          <tr><td>観光ツアー（全国版）<br><code>/jp/ctg/160126:Sightseeing_Tour/</code></td><td>全国版（変わらない）</td><td class="n">5,554</td><td>比較用</td></tr>
+          <tr><td>検索結果<br><code>/jp/search?kw=tokyo</code></td><td>検索（変わる）</td><td class="n">–</td><td>動画・数値（毎日の PSI 計測と同じページ）</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">PV：GA4（Property 347074845）、直近28日（11/26 時点）。エリア版の上位は京都バス、大阪バス、京都トロッコ、八重山の順。</p>
+  </section>
+
+  <section>
+    <h2>見るもの</h2>
+    <div class="box tbl">
+      <table>
+        <thead><tr><th>種類</th><th>指標</th><th>取り方</th><th>状態</th></tr></thead>
+        <tbody>
+          <tr><td>見た目</td><td>同じ操作の画面録画（リリース前と後）</td><td>Mac の画面収録。手順は下</td><td><span class="badge b-warn">12/1までに撮影</span></td></tr>
+          <tr><td>速さ</td><td>一覧のデータが返ってくるまでの時間（1ページ目・2ページ目・検索）</td><td>計測シートの Apps Script で1時間ごとに記録（新規）</td><td><span class="badge b-todo">準備中</span></td></tr>
+          <tr><td>速さ</td><td>LCP・TBT（1ページ目・検索）</td><td>既存の毎日の PSI 計測。2ページ目を追加</td><td><span class="badge b-todo">追加待ち</span></td></tr>
+          <tr><td>行動</td><td>カテゴリーページから AC詳細へ進んだ割合</td><td>GA4 の既存イベント <code>ac_page_reach</code> ÷ カテゴリーの <code>page_view</code></td><td><span class="badge b-ok">計測済み</span></td></tr>
+          <tr><td>行動</td><td>2ページ目以降へ進んだ割合</td><td>GA4 の <code>page_view</code>（URL に <code>/page:2/</code> を含む）</td><td><span class="badge b-ok">計測済み</span></td></tr>
+          <tr><td>行動</td><td>エンゲージメント率・平均エンゲージメント時間・スクロール</td><td>GA4 の標準指標と <code>scroll</code></td><td><span class="badge b-ok">計測済み</span></td></tr>
+          <tr><td>行動</td><td>検索結果から AC詳細へ進んだ割合</td><td>GA4（検索ページの <code>ac_page_reach</code>）</td><td><span class="badge b-ok">計測済み</span></td></tr>
+          <tr><td>行動</td><td>一覧が表示されるまで待った時間（実ユーザー）</td><td>GTM で計測タグを追加（下の「追加の仕込み」）</td><td><span class="badge b-todo">設計中</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2>録画の手順（リリース前と後で同じ条件）</h2>
+    <ol>
+      <li>Chrome で新しいシークレットウィンドウを1つ開く</li>
+      <li>Command + Option + I を1回押して、開発ツールを開く</li>
+      <li>開発ツール左上の端末アイコンを1回押して、スマホ表示にする（機種は毎回同じものを選ぶ）</li>
+      <li>「ネットワーク」タブの「キャッシュを無効化」に1回チェックを入れる（ブラウザ側の保存を使わず、サーバー側の効果だけを見るため）</li>
+      <li>Command + Shift + 5 を1回押して、画面収録を始める</li>
+      <li>京都バスツアーの1ページ目を開き、一覧が出るまで待つ</li>
+      <li>画面下のページ番号「2」を1回押し、一覧が出るまで待つ</li>
+      <li>検索結果ページ（tokyo）を開き、一覧が出るまで待つ</li>
+      <li>収録を止め、ファイル名に日付を入れて GTM 書き出しと同じドライブのフォルダーに置く</li>
+    </ol>
+    <p class="note">同じページを2回続けて撮ると、2回目はキャッシュが効いた状態になる。リリース前・後ともに「1回目」と「2回目」を両方撮っておく。</p>
+  </section>
+
+  <section class="box">
+    <h2>追加の仕込み（GTM）</h2>
+    <p>一覧が表示されるまで待った時間を、実ユーザーの数字として GA4 に送る。くるくるが出ていた時間がそのまま数字になる。</p>
+    <ul>
+      <li>イベント名：<code>list_ready</code>　パラメータ：<code>wait_ms</code>（ページを開いてから一覧の商品カードが出るまでのミリ秒）、<code>page_type</code>（category_area / category_nationwide / search）、<code>page_no</code></li>
+      <li>仕組み：GTM のカスタム HTML で、一覧の商品カードが画面に入った時刻を記録して送る</li>
+      <li>必要なもの：一覧の商品カードを指す HTML の目印（class 名など）。本番ページのソースで確認が必要</li>
+      <li>公開：GTM の公開権限を持つ人が行う</li>
+    </ul>
+    <p class="note">リリース前のデータを取るため、12/1 までに公開できるのが望ましい。間に合わない場合も、リリース後の数字を全国版（変わらないページ）と比べることはできる。</p>
+  </section>
+
+  <section class="box">
+    <h2>予定</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>日付</th><th>やること</th></tr></thead>
+      <tbody>
+        <tr><td>11/27〜12/1</td><td>リリース前の録画。通信時間の自動記録を開始。GTM の計測タグを公開（間に合えば）</td></tr>
+        <tr><td>12/2（水）</td><td>本番リリース</td></tr>
+        <tr><td>12/2〜12/3</td><td>リリース後の録画（同じ条件）</td></tr>
+        <tr><td>12/3〜12/30</td><td>数値の記録を続ける</td></tr>
+        <tr><td>12/17 ごろ</td><td>2週間分で中間の評価。年末の繁忙期は全国版との比較で影響を差し引く</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</div>
